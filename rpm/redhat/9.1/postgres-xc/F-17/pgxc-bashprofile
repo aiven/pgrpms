@@ -1,0 +1,4 @@
+[ -f /etc/profile ] && source /etc/profile
+
+PGDATA=/var/lib/pgxc/1.0/data
+export PGDATA

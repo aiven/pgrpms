@@ -1,0 +1,36 @@
+--- sql/pgpool-regclass/Makefile.old	2011-11-25 03:19:25.812124122 +0200
++++ sql/pgpool-regclass/Makefile	2011-11-25 03:19:35.537124344 +0200
+@@ -11,7 +11,8 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PGXS = $(shell pg_config --pgxs)
++PG_CONFIG=/usr/pgsql-9.1/bin/pg_config
++PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+ subdir = contrib/pgpool-regclass
+--- sql/pgpool-recovery/Makefile.old	2011-11-25 03:19:06.273123676 +0200
++++ sql/pgpool-recovery/Makefile	2011-11-25 03:19:15.377123881 +0200
+@@ -11,7 +11,8 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PGXS = $(shell pg_config --pgxs)
++PG_CONFIG=/usr/pgsql-9.1/bin/pg_config
++PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+ subdir = contrib/pgpool-recovery
+--- sql/pgpool-walrecrunning/Makefile.old	2011-11-25 03:21:09.005126478 +0200
++++ sql/pgpool-walrecrunning/Makefile	2011-11-25 03:21:29.825126952 +0200
+@@ -11,7 +11,8 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PGXS = $(shell pg_config --pgxs)
++PG_CONFIG=/usr/pgsql-9.1/bin/pg_config
++PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+ subdir = contrib/pgpool-walrecrunning
