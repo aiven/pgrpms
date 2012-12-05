@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	8.4.14
+Version:	8.4.15
 Release:	1PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -804,6 +804,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Dec 5 2012 Devrim GUNDUZ <devrim@gunduz.org> 8.4.15-1PGDG
+- Update to 8.4.15, for various fixes described at
+  http://www.postgresql.org/docs/8.3/static/release-8-4-15.html
+
 * Sun Sep 23 2012 Devrim GUNDUZ <devrim@gunduz.org> 8.4.14-1PGDG
 - Update to 8.4.14, for various fixes described at
   http://www.postgresql.org/docs/8.4/static/release-8-4-14.html
