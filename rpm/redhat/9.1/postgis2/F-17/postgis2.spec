@@ -1,24 +1,24 @@
 %global postgismajorversion 2.0
-%global pgmajorversion 91
-%global pginstdir /usr/pgsql-9.1
+%global pgmajorversion 92
+%global pginstdir /usr/pgsql-9.2
 %global sname	postgis
 %{!?utils:%define	utils 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.1
-Release:	2%{?dist}
+Version:	2.0.2
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://postgis.refractions.net/download/%{sname}-%{version}.tar.gz
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://www.postgis.org/download/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, gdal-devel gtk2-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, gdal-devel, json-c-devel
 
-Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5
+Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Conflicts:	%{sname} <= 2.0.0
@@ -69,7 +69,7 @@ cp -p %{SOURCE2} .
 # We need the below for GDAL:
 export LD_LIBRARY_PATH=%{pginstdir}/lib
 
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath --with-gui
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %if %utils
@@ -87,8 +87,8 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 
 # Create alternatives entries for common binaries
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 910
-%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql 910
+%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 920
+%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql 920
 
 # Drop alternatives entries for common binaries and man files
 %postun
@@ -134,15 +134,17 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
+- Update to 2.0.2.
+- Update download URL.
+- Add deps for JSON-C support.
+
 * Wed Nov 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
 
 * Wed Jul 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.1, for changes described at:
   http://postgis.org/news/20120622/
-
-* Thu Apr 12 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-2
-- Build with --with-gui
 
 * Tue Apr 3 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-1
 - Initial packaging with PostGIS 2.0.0.
