@@ -10,7 +10,7 @@ Version:	2.0.2
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://postgis.refractions.net/download/%{sname}-%{version}.tar.gz
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://www.postgis.org/download/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
@@ -136,6 +136,7 @@ rm -rf %{buildroot}
 %changelog
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2.
+- Update download URL.
 
 * Wed Nov 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
