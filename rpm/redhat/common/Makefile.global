@@ -22,7 +22,7 @@ prep:
 	# svn up ../../../common/
 
 	# Update spec file, patches, etc, before running spectool:
-	#svn up
+	svn up
 
 	# Use spectool to download source files, especially tarballs.
 	spectool -g -S $(SPECFILE)
