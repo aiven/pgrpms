@@ -1,5 +1,5 @@
 Name:		geos
-Version:	3.3.5
+Version:	3.3.6
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -138,6 +138,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.6-1
+- Update to 3.3.6, per changes described at:
+  http://trac.osgeo.org/geos/browser/tags/3.3.6/NEWS
+
 * Tue Jul 3 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.5-1
 - Update to 3.3.5, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.5/NEWS
