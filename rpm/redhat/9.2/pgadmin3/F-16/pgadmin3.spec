@@ -4,7 +4,7 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.16.0
+Version:	1.16.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -97,6 +97,9 @@ unlink %{_bindir}/%{sname}
 %doc docs/*
 
 %changelog
+* Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.1-1
+- Update to 1.16.1     
+
 * Thu Sep 6 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.0-1
 - Update to 1.16.0 Gold
 
