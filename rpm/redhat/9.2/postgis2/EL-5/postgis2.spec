@@ -16,9 +16,9 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, json-c-devel
 
-Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5
+Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Conflicts:	%{sname} <= 2.0.0
@@ -133,6 +133,7 @@ rm -rf %{buildroot}
 - Update to 2.0.2.
 - Remove raster support for RHEL 5, due to missing deps.
 - Update download URL.
+- Add deps for JSON-C support.
 
 * Wed Nov 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
