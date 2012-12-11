@@ -59,7 +59,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,0755)
 %doc README
-%{_bindir}/event_rpcgen.py
+%{_bindir}/event_rpcgen.py*
 %{_libdir}/libevent*.so.*
 %{_libdir}/libevent_core.a
 %{_libdir}/libevent_core.so
@@ -78,8 +78,6 @@ rm -rf %{buildroot}
 %{_libdir}/libevent.so
 %{_libdir}/libevent.a
 %{_mandir}/man3/*
-
-
 
 %changelog
 * Tue Dec 11 2011 Devrim Gunduz <devrim@gunduz.org> 1.4.13-1
