@@ -8,14 +8,14 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.5.5
+Version:	1.5.8
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://postgis.refractions.net/download/%{sname}-%{version}.tar.gz
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://www.postgis.org/download/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-URL:		http://postgis.refractions.net/
+URL:		http://www.postgis.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel, byacc, proj-devel, flex, java-devel, java, ant
@@ -170,6 +170,12 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Dec 11 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.8-1
+- Update to 1.5.8, per changes described here:
+  http://svn.osgeo.org/postgis/tags/1.5.8/NEWS
+- Update download URL
+- Update project URL
+
 * Mon Jul 30 2012 Devrim GUNDUZ <devrim@gunduz.org> - 1.5.5-1
 - Update to 1.5.5 
 
