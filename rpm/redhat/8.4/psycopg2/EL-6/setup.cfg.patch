@@ -5,7 +5,7 @@
  # is installed under a different name uncomment the following option and
  # set it to the pg_config full path.
 -#pg_config=
-+pg_config=/usr/pgsql-9.1/bin/pg_config
++pg_config=/usr/pgsql-8.4/bin/pg_config
  
  # If "pg_config" is not available, "include_dirs" can be used to locate
  # postgresql headers and libraries. Some extra checks on sys.platform will
