@@ -2,8 +2,8 @@
 %global pginstdir /usr/pgsql-9.0
 
 Name:           repmgr
-Version:        1.1.0
-Release:        2%{?dist}
+Version:        1.2.0
+Release:        1%{?dist}
 Summary:        Replication Manager for	PostgreSQL Clusters
 Group:		Applications/Databases
 License:        GPLv3
@@ -54,6 +54,9 @@ make USE_PGXS=1 clean
 %{pginstdir}/share/contrib/uninstall_repmgr.sql
 
 %changelog
+* Fri Jul 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+
 * Tue Apr 3 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.0-2
 - Spec file fixes by Satoshi Nagayasu
 - Updated patch0 and renamed it for better convenience.
