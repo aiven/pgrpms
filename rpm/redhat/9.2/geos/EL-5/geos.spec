@@ -1,6 +1,6 @@
 Name:		geos
 Version:	3.3.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -73,8 +73,10 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-CFLAGS="${CFLAGS: -01}" ; export CFLAGS
-CXXFLAGS="${CXXFLAGS: -01}" ; export CXXFLAGS
+CFLAGS="${CFLAGS: -m64}" ; export CFLAGS
+CXXFLAGS="${CXXFLAGS: -m64}" ; export CXXFLAGS
+LDFLAGS="${LDFLAGS: -m64}" ; export LDFLAGS
+FFLAGS="${FFFLAGS: -m64}" ; export FFLAGS
 
 %configure --disable-static --disable-dependency-tracking \
 %if "%{?dist}" != ".el4"
@@ -140,6 +142,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 07 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-3
+- Apply a better fix for SIGABRT, per
+  http://trac.osgeo.org/geos/ticket/377#comment:4.
+
 * Sun Jan 06 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-2
 - Fix SIGABRT with GEOSDistance_r, per http://trac.osgeo.org/geos/ticket/377.
 
