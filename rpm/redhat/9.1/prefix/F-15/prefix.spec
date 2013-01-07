@@ -1,13 +1,18 @@
+%global pgmajorversion 91
+%global pginstdir /usr/pgsql-9.1
+%global sname prefix
+
 Summary:	Prefix Opclass for PostgreSQL
-Name:		prefix
-Version:	1.1.0
+Name:		%{sname}%{pgmajorversion}
+Version:	1.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/2477/%{name}-%{version}.tar.gz
+Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
+Patch0:		prefix-makefile-pgconfig.patch
 URL:		http://pgfoundry.org/projects/prefix
-BuildRequires:	postgresql-devel >= 8.2
-Requires:	postgresql-server >= 8.2
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -16,36 +21,31 @@ text) and provide a GiST opclass for indexing support of prefix
 searches.
 
 %prep
-%setup -q
+%setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
-make %{?_smp_mflags} 
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-install -d %{buildroot}%{_libdir}/pgsql/
-install -d %{buildroot}%{_datadir}/%{name}
-install -d %{buildroot}%{_docdir}/%{name}-%{version}
-
-install -m 755 prefix.so %{buildroot}%{_libdir}/pgsql
-install -m 644 *.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 *.csv %{buildroot}%{_datadir}/%{name}/
-install -m 644 *.txt %{buildroot}%{_docdir}/%{name}-%{version}/
+make %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %files
 %defattr(-,root,root,-)
-%doc README.txt TESTS.txt
-%{_datadir}/%{name}/*.sql
-%{_datadir}/%{name}/*.csv
-%{_libdir}/pgsql/prefix.so
+%doc %{_docdir}/pgsql/extension/README.md 
+%doc %{_docdir}/pgsql/extension/TESTS.md
+%{pginstdir}/lib/%{sname}.so
+%{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Jan 7 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+- Fix for PostgreSQL 9.0+ RPM layout.
+
 * Fri Dec 11 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 
