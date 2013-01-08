@@ -9,7 +9,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgfoundry.org/projects/pgloader/
-Source0:	http://pgfoundry.org/frs/download.php/2294/%{name}-%{version}.tar.gz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 Patch1:		pgloader-makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
