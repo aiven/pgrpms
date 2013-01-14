@@ -76,6 +76,10 @@ find -name "*.jar" -or -name "*.class" | xargs rm -f
 %build
 export OPT_JAR_LIST="ant/ant-junit junit"
 export CLASSPATH=
+
+# Temporary solution for build 1002 -- tarball is incorrect:
+mv postgresql-jdbc-9.2-1002.src/* .
+
 sh update-translations.sh
 ant
 
