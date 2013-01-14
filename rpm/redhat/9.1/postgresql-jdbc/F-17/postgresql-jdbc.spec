@@ -19,11 +19,11 @@
 %global pginstdir /usr/pgsql-9.1
 %global sname postgresql-jdbc
 %global section		devel
-%global upstreamver	9.1-902
+%global upstreamver	9.1-903
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.1.902
+Version:	9.1.903
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -138,6 +138,9 @@ rm -rf %{buildroot}
 %{_mavenpomdir}/JPP-postgresql%{pgmajorversion}-jdbc.pom
 
 %changelog
+* Mon Jan 14 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.903-1PGDG
+- Update to 9.1 build 903
+
 * Thu Jul 5 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.902-1PGDG
 - Update to 9.1 build 902
 

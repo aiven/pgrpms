@@ -23,7 +23,7 @@
 # on the rpm command line
 
 %{!?gcj_support:%define gcj_support	1}
-%{!?upstreamserver:%define upstreamver	9.1-902}
+%{!?upstreamserver:%define upstreamver	9.1-903}
 %global pgmajorversion 91
 %global pginstdir /usr/pgsql-9.1
 %global sname postgresql-jdbc
@@ -33,7 +33,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.1.902
+Version:	9.1.903
 Release:	1PGDG%{?dist}
 Epoch:		0
 License:	BSD
@@ -117,6 +117,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 14 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.903-1PGDG
+- Update to 9.1 build 903
+
 * Thu Jul 5 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.902-1PGDG
 - Update to 9.1 build 902
 
