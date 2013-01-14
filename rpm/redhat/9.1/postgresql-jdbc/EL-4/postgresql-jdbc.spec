@@ -70,7 +70,7 @@ rm -rf %{buildroot}
 %{_javadir}/postgresql-%{upstreamver}.jdbc4.jar
 
 %changelog
-* Mon Jan 14 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.903-1PGDG
+* Mon Jan 14 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.1.903-1PGDG
 - Update to 9.1 build 903
 
 * Thu Jul 5 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.902-1PGDG
