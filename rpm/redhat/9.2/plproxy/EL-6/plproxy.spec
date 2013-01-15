@@ -4,12 +4,12 @@
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:           %{sname}%{pgmajorversion}
-Version:	2.4
+Version:	2.5
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	BSD
 URL:		http://pgfoundry.org/projects/plproxy/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -37,11 +37,16 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc README NEWS AUTHORS COPYRIGHT 
 %{pginstdir}/lib/plproxy.so
-%{pginstdir}/share/extension/plproxy--2.4.0.sql
-%{pginstdir}/share/extension/plproxy--unpackaged--2.3.0.sql
+%{pginstdir}/share/extension/plproxy--2.3.0--2.5.0.sql
+%{pginstdir}/share/extension/plproxy--2.4.0--2.5.0.sql
+%{pginstdir}/share/extension/plproxy--2.5.0.sql
+%{pginstdir}/share/extension/plproxy--unpackaged--2.5.0.sql
 %{pginstdir}/share/extension/plproxy.control
 
 %changelog
+* Tue Jan 15 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.5-1
+- Update to 2.5
+
 * Fri Jul 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.4-1
 - Update to 2.4
 - Update download URL.
