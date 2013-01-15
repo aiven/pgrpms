@@ -1,6 +1,6 @@
 Name:		geos
 Version:	3.3.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -10,10 +10,9 @@ Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
-%if "%{?dist}" != ".el4"
 BuildRequires:	swig ruby
 BuildRequires:	python-devel ruby-devel
-%endif
+BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"]')}
@@ -73,17 +72,9 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-CFLAGS="${CFLAGS: -m64}" ; export CFLAGS
-CXXFLAGS="${CXXFLAGS: -m64}" ; export CXXFLAGS
-LDFLAGS="${LDFLAGS: -m64}" ; export LDFLAGS
-FFLAGS="${FFFLAGS: -m64}" ; export FFLAGS
-
-%configure --disable-static --disable-dependency-tracking \
-%if "%{?dist}" != ".el4"
+CFLAGS="-01" CXXFLAGS="-01" %configure --disable-static --disable-dependency-tracking \
            --enable-python \
            --enable-ruby
-%endif
-
 make %{?_smp_mflags}
 
 # Make doxygen documentation files
@@ -142,6 +133,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-4
+- Final attempt to fix SIGABRT, per testing and patch by Klynton Jessup.
+- Remove RHEL4 conditionals from spec file.
+
 * Mon Jan 07 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-3
 - Apply a better fix for SIGABRT, per
   http://trac.osgeo.org/geos/ticket/377#comment:4.

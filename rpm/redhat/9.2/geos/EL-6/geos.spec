@@ -1,6 +1,6 @@
 Name:		geos
 Version:	3.3.6
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -12,6 +12,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	swig ruby
 BuildRequires:	python-devel
+BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
@@ -60,13 +61,8 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-CFLAGS="${CFLAGS: -m64}" ; export CFLAGS
-CXXFLAGS="${CXXFLAGS: -m64}" ; export CXXFLAGS
-LDFLAGS="${LDFLAGS: -m64}" ; export LDFLAGS
-FFLAGS="${FFFLAGS: -m64}" ; export FFLAGS
-
-%configure --disable-static --disable-dependency-tracking \
-           --enable-python
+CFLAGS="-01" CXXFLAGS="-01" %configure --disable-static \
+	--disable-dependency-tracking --enable-python
 make %{?_smp_mflags}
 
 # Make doxygen documentation files
@@ -117,6 +113,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/_%{name}.so
 
 %changelog
+* Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-4
+- Final attempt to fix SIGABRT, per testing and patch by Klynton Jessup.
+
 * Mon Jan 07 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-3
 - Apply a better fix for SIGABRT, per
   http://trac.osgeo.org/geos/ticket/377#comment:4.
