@@ -24,6 +24,7 @@
 %{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
 %{expand: %%define pynextver %(python -c 'import sys;print(float(sys.version[0:3])+0.1)')}
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %global pgmajorversion 92
 %global pginstdir /usr/pgsql-9.2
@@ -31,15 +32,15 @@
 
 Summary:	Development module for Python code to access a PostgreSQL DB
 Name:		postgresql%{pgmajorversion}-python
-Version:	4.0
-Release:	2PGDG%{?dist}
+Version:	4.1.1
+Release:	1PGDG%{?dist}
 Epoch:		0
 License:	BSD
 Group:		Applications/Databases
-URL:		ftp://www.pygresql.org
+URL:		http://www.pygresql.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0:	ftp://ftp.pygresql.org/pub/distrib/%{sname}-%{version}.tgz
+Source0:	http://pygresql.org/files/%{sname}-%{version}.tgz
 Patch0:		setup.py-rpm.patch
 
 BuildRequires:	python-devel, postgresql%{pgmajorversion}-devel
@@ -53,7 +54,7 @@ database.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p1
+%patch0 -p0
 
 # Some versions of PyGreSQL.tgz contain wrong file permissions
 chmod 755 tutorial
@@ -80,8 +81,13 @@ rm -rf %{buildroot}
 %{python_sitearch}/*.py
 %{python_sitearch}/*.pyc
 %{python_sitearch}/*.pyo
+%dir %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
+%{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Tue Jan 15 2013 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-1PGDG
+- Update to 4.1.1
+
 * Tue Oct 12 2010 Devrim Gunduz <devrim@gunduz.org> 0:4.0-2PGDG
 - Apply 9.0 specific changes to spec file
 
