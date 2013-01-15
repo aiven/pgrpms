@@ -8,11 +8,11 @@
 
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.1
+Version:	3.1.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
 URL:		http://pgfoundry.org/projects/skytools
 BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
@@ -93,20 +93,27 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/pgq_node.upgrade.sql
 %{pginstdir}/share/contrib/txid.sql
 %{pginstdir}/share/contrib/uninstall_pgq.sql
-%{pginstdir}/share/extension/londiste--3.1.sql
-%{pginstdir}/share/extension/londiste--unpackaged--3.1.sql
+%{pginstdir}/share/extension/londiste--3.1--3.1.3.sql
+%{pginstdir}/share/extension/londiste--3.1.1--3.1.3.sql
+%{pginstdir}/share/extension/londiste--3.1.3.sql
+%{pginstdir}/share/extension/londiste--unpackaged--3.1.3.sql
 %{pginstdir}/share/extension/londiste.control
-%{pginstdir}/share/extension/pgq--3.1.sql
-%{pginstdir}/share/extension/pgq--unpackaged--3.1.sql
+%{pginstdir}/share/extension/pgq--3.1--3.1.3.sql
+%{pginstdir}/share/extension/pgq--3.1.1--3.1.3.sql
+%{pginstdir}/share/extension/pgq--3.1.2--3.1.3.sql
+%{pginstdir}/share/extension/pgq--3.1.3.sql
+%{pginstdir}/share/extension/pgq--unpackaged--3.1.3.sql
 %{pginstdir}/share/extension/pgq.control
-%{pginstdir}/share/extension/pgq_coop--3.1.sql
-%{pginstdir}/share/extension/pgq_coop--unpackaged--3.1.sql
+%{pginstdir}/share/extension/pgq_coop--3.1--3.1.1.sql
+%{pginstdir}/share/extension/pgq_coop--3.1.1.sql
+%{pginstdir}/share/extension/pgq_coop--unpackaged--3.1.1.sql
 %{pginstdir}/share/extension/pgq_coop.control
 %{pginstdir}/share/extension/pgq_ext--3.1.sql
 %{pginstdir}/share/extension/pgq_ext--unpackaged--3.1.sql
 %{pginstdir}/share/extension/pgq_ext.control
-%{pginstdir}/share/extension/pgq_node--3.1.sql
-%{pginstdir}/share/extension/pgq_node--unpackaged--3.1.sql
+%{pginstdir}/share/extension/pgq_node--3.1--3.1.3.sql
+%{pginstdir}/share/extension/pgq_node--3.1.3.sql
+%{pginstdir}/share/extension/pgq_node--unpackaged--3.1.3.sql
 %{pginstdir}/share/extension/pgq_node.control
 %{_docdir}/skytools3/conf/pgqd.ini.templ
 %{_docdir}/skytools3/conf/wal-master.ini
@@ -123,7 +130,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/simple_local_consumer3.1.gz
 %{_mandir}/man1/skytools_upgrade3.1.gz
 %{_mandir}/man1/walmgr3.1.gz
-%{_datadir}/skytools3/extra/v3.0_pgq_core.sql
+%{_datadir}/skytools3/londiste.upgrade_2.1_to_3.1.sql
+%{_datadir}/skytools3/pgq.upgrade_2.1_to_3.0.sql
+
 %{_datadir}/skytools3/londiste.sql
 %{_datadir}/skytools3/londiste.upgrade.sql
 %{_datadir}/skytools3/pgq.sql
@@ -142,6 +151,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
+* Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.3-1
+- Update to 3.1.3
+
 * Fri Jul 27 2012 - Devrim Gunduz <devrim@gunduz.org> - 3.1-1
 - Update to 3.1
 - Re-add mistakenly removed modules subpackage
