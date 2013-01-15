@@ -61,8 +61,7 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-CFLAGS="-01" CXXFLAGS="-01" %configure --disable-static \
-	--disable-dependency-tracking --enable-python
+%configure --disable-static --disable-dependency-tracking --enable-python --enable-ruby
 make %{?_smp_mflags}
 
 # Make doxygen documentation files
