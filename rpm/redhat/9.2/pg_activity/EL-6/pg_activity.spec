@@ -14,6 +14,7 @@ Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python > 2.6, python-psutil >= 0.4.1, python-psycopg2 > 2.2.1
+BuildRequires:	python-setuptools
 
 %description
 htop like application for PostgreSQL server activity monitoring.
