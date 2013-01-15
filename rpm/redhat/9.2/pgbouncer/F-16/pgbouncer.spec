@@ -7,7 +7,7 @@ Summary:	Lightweight connection pooler for PostgreSQL
 Group:		Applications/Databases
 License:	MIT and BSD
 URL:		http://pgfoundry.org/projects/pgbouncer/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Patch0:		%{name}-ini.patch
