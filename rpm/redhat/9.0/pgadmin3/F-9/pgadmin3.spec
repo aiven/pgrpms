@@ -5,7 +5,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.14.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
@@ -76,13 +76,10 @@ desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications
 rm -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/%{name} pgadmin3 %{pginstdir}/bin/%{sname} 910
-ln -s %{_bindir}/%{name} %{_bindir}/%{sname}
+%{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 900
 
 %preun
 %{_sbindir}/update-alternatives --remove pgadmin3 %{pginstdir}/bin/%{sname}
-%postun
-unlink %{_bindir}/%{sname}
 
 %files
 %defattr(-, root, root)
@@ -97,6 +94,9 @@ unlink %{_bindir}/%{sname}
 %doc docs/*
 
 %changelog
+* Wed Jan 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.14.2-2
+- Fix %%post and %%postin issues.
+
 * Sun Feb 26 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.14.2-1
 - Update to 1.14.2
 
