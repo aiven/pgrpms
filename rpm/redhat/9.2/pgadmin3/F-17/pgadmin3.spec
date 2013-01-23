@@ -94,7 +94,7 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
-* Tue Jan 22 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.16.2-1
+* Wed Jan 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-2
 - Fix %%post and %%postin issues.
 
 * Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.1-1

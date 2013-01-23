@@ -5,7 +5,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.16.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
@@ -94,6 +94,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Wed Jan 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-2
+- Fix %%post and %%postin issues.
+
 * Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.1-1
 - Update to 1.16.1     
 
