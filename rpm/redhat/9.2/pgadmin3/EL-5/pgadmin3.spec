@@ -76,13 +76,10 @@ desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications
 rm -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/%{name} pgadmin3 %{pginstdir}/bin/%{sname} 920
-ln -s %{_bindir}/%{name} %{_bindir}/%{sname}
+{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 920
 
 %preun
 %{_sbindir}/update-alternatives --remove pgadmin3 %{pginstdir}/bin/%{sname}
-%postun
-unlink %{_bindir}/%{sname}
 
 %files
 %defattr(-, root, root)
