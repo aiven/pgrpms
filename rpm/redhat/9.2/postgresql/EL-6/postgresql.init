@@ -28,6 +28,12 @@
 # Add new functionality: Upgrade from previous version.
 # Usage: service postgresql-9.2 upgrade
 
+# Version 9.2.3 Devrim Gunduz <devrim@gunduz.org>
+# Fix longstanding bug: Enable pidfile and lockfile variables to be defined
+# in sysconfig file.
+
+# TODO: Check sysconfig files for variables, if they exist.
+
 # PGVERSION is the full package version, e.g., 9.2.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
@@ -71,14 +77,14 @@ PGLOG=/var/lib/pgsql/9.2/pgstartup.log
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
+lockfile="/var/lock/subsys/${NAME}"
+pidfile="/var/run/postmaster-9.2.pid"
+
 # Override defaults from /etc/sysconfig/pgsql if file is present
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
 
 export PGDATA
 export PGPORT
-
-lockfile="/var/lock/subsys/${NAME}"
-pidfile="/var/run/postmaster-9.2.pid"
 
 [ -f "$PGENGINE/postmaster" ] || exit 1
 
@@ -232,7 +238,6 @@ initdb(){
 
 upgrade(){
 
-## Absorb configuration settings from the specified systemd service files.
 # The second parameter is the new database version, i.e. $PGMAJORVERSION in this case.
 # Use  "postgresql-$PGMAJORVERSION" service, if not specified.
 INIT_SCRIPT="$2"
@@ -336,7 +341,7 @@ case "$1" in
 	stop
 	;;
   status)
-	status -p /var/run/postmaster-9.2.pid
+	status -p $pidfile
 	script_result=$?
 	;;
   restart)
