@@ -73,7 +73,7 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 
 %changelog
 * Fri Feb 1 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
-- Update to 1.1.2, per changes described in this page:
+- Update to 1.2.0, per changes described in this page:
    http://sourceforge.net/projects/pgbarman/files/1.2.0/
 
 * Tue Dec 11 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.2-1
