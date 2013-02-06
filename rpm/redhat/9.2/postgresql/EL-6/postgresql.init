@@ -31,6 +31,7 @@
 # Version 9.2.3 Devrim Gunduz <devrim@gunduz.org>
 # Fix longstanding bug: Enable pidfile and lockfile variables to be defined
 # in sysconfig file.
+# Use $pidfile in status().
 
 # TODO: Check sysconfig files for variables, if they exist.
 
