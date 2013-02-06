@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.2
+Version:	9.2.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -915,13 +915,17 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Dec 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.2-1PGDG
-- Update to 9.2.2, per changes described at:
-  http://www.postgresql.org/docs/9.2/static/release-9-2-2.html
+* Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-1PGDG
+- Update to 9.2.3, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-3.html
 - Fix -libs issue while installing 9.1+ in parallel. Per various
   bug reports. Install ld.so.conf.d file with -libs subpackage.
 - Move $pidfile and $lockfile definitions before sysconfig call,
   so that they can be included in sysconfig file.
+
+* Thu Dec 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.2-1PGDG
+- Update to 9.2.2, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-2.html
 
 * Thu Sep 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.1-1PGDG
 - Update to 9.2.1, per changes described at:
