@@ -519,9 +519,6 @@ cat pg_config-%{majorversion}.lang ecpg-%{majorversion}.lang ecpglib6-%{majorver
 cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pg_basebackup-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
 cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
 
-%post libs -p /sbin/ldconfig 
-%postun libs -p /sbin/ldconfig 
-
 %pre server
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
@@ -601,7 +598,13 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 920
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 920
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 920
-%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.2-libs.conf 920
+
+%post libs
+if [ "$1" -eq 0 ]
+  then
+	%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.2-libs.conf 920
+	/sbin/ldconfig
+fi
 
 # Drop alternatives entries for common binaries and man files
 %postun
@@ -634,8 +637,14 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdbman	%{pgbaseinstdir}/share/man/man1/reindexdb.1
 	%{_sbindir}/update-alternatives --remove pgsql-vacuumdb		%{pgbaseinstdir}/bin/vacuumdb
 	%{_sbindir}/update-alternatives --remove pgsql-vacuumdbman	%{pgbaseinstdir}/share/man/man1/vacuumdb.1
-	%{_sbindir}/update-alternatives --remove pgsql-ld-conf		%{pgbaseinstdir}/share/postgresql-9.2-libs.conf
   fi
+
+%postun libs
+if [ "$1" -eq 0 ]
+  then
+	%{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-9.2-libs.conf
+	/sbin/ldconfig
+fi
 
 %clean
 rm -rf %{buildroot}
@@ -909,6 +918,10 @@ rm -rf %{buildroot}
 * Thu Dec 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.2-1PGDG
 - Update to 9.2.2, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-2.html
+- Fix -libs issue while installing 9.1+ in parallel. Per various
+  bug reports. Install ld.so.conf.d file with -libs subpackage.
+- Move $pidfile and $lockfile definitions before sysconfig call,
+  so that they can be included in sysconfig file.
 
 * Thu Sep 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.1-1PGDG
 - Update to 9.2.1, per changes described at:
