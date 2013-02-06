@@ -20,6 +20,11 @@
 # Add an option to initdb to specify locale (default is $LANG):
 # service postgresql initdb tr_TR.UTF-8
 
+# Version 9.1.8
+# Use $pidfile in status(), per PostgreSQL bug #7750 and pgrpms #87.
+# Move $pidfile and $lockfile definitions before sysconfig call, so that
+# they can be included in sysconfig file.
+
 # PGVERSION is the full package version, e.g., 9.1.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
@@ -59,15 +64,14 @@ PGENGINE=/usr/pgsql-9.1/bin
 PGPORT=5432
 PGDATA=/var/lib/pgsql/9.1/data
 PGLOG=/var/lib/pgsql/9.1/pgstartup.log
+lockfile="/var/lock/subsys/${NAME}"
+pidfile="/var/run/postmaster-9.1.pid"
 
 # Override defaults from /etc/sysconfig/pgsql if file is present
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
 
 export PGDATA
 export PGPORT
-
-lockfile="/var/lock/subsys/${NAME}"
-pidfile="/var/run/postmaster-9.1.pid"
 
 [ -f "$PGENGINE/postmaster" ] || exit 1
 
@@ -235,7 +239,7 @@ case "$1" in
 	stop
 	;;
   status)
-	status -p /var/run/postmaster-9.1.pid
+	status -p $pidfile
 	script_result=$?
 	;;
   restart)
