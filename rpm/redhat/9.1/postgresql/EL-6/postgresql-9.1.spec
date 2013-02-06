@@ -903,9 +903,8 @@ rm -rf %{buildroot}
 * Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.8-1PGDG
 - Update to 9.1.8, per the changes described at
   http://www.postgresql.org/docs/9.1/static/release-9-1-8.html
-- Fix -libs issue while	installing 9.1+	in parallel. Per various
-  bug reports. Move installing ld.so.conf.d file with -libs      
-  subpackage.
+- Fix -libs issue while installing 9.1+ in parallel. Per various
+  bug reports. Install ld.so.conf.d file with -libs subpackage.
 - In init script, use $pidfile in status(), per PostgreSQL bug 
   #7750 and pgrpms #87.
 - Move $pidfile and $lockfile definitions before sysconfig call, 
