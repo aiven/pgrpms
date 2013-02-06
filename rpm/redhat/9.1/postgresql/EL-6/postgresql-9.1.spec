@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.1.7
+Version:	9.1.8
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -891,6 +891,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.8-1PGDG
+- Update to 9.1.8, per the changes described at
+  http://www.postgresql.org/docs/9.1/static/release-9-1-8.html
+- In init script, use $pidfile in status(), per PostgreSQL bug 
+  #7750 and pgrpms #87.
+- Move $pidfile and $lockfile definitions before sysconfig call, 
+  so that they can be included in sysconfig file.
+
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.7-1PGDG
 - Update to 9.1.7, per the changes described at
   http://www.postgresql.org/docs/9.1/static/release-9-1-7.html
