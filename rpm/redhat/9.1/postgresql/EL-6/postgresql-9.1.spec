@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.1.8
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -600,11 +600,8 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 910
 
 %post libs
-if [ "$1" -eq 0 ]
-  then
-	%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.1-libs.conf 910
-	/sbin/ldconfig
-fi
+%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.1-libs.conf 910
+/sbin/ldconfig
 
 # Drop alternatives entries for common binaries and man files
 %postun
@@ -900,6 +897,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Feb 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.8-2PGDG
+- Fix bug in new installations, that prevents ld.so.conf.d file
+  to be installed.
+
 * Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.8-1PGDG
 - Update to 9.1.8, per the changes described at
   http://www.postgresql.org/docs/9.1/static/release-9-1-8.html
