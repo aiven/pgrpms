@@ -33,8 +33,6 @@
 # in sysconfig file.
 # Use $pidfile in status().
 
-# TODO: Check sysconfig files for variables, if they exist.
-
 # PGVERSION is the full package version, e.g., 9.2.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
