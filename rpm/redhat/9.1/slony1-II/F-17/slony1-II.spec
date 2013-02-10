@@ -6,7 +6,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
 Version:	2.1.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -125,6 +125,9 @@ fi
 %endif
 
 %changelog
+* Sun Feb 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-4
+- Rebuilt.
+
 * Fri Sep 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-3
 - Patch init script to match PGDG RPM layout. Fixes Slony bugzilla #267.
 
