@@ -5,7 +5,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.16.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
@@ -79,7 +79,9 @@ rm -rf %{buildroot}
 %{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 920
 
 %preun
-%{_sbindir}/update-alternatives --remove pgadmin3 %{pginstdir}/bin/%{sname}
+if [ $1 = 0 ] ; then
+	%{_sbindir}/update-alternatives --remove pgadmin3 %{pginstdir}/bin/%{sname}
+fi
 
 %files
 %defattr(-, root, root)
@@ -94,6 +96,9 @@ rm -rf %{buildroot}
 %doc docs/*
 
 %changelog
+* Mon Feb 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-4
+- More fixes to the %%preun section.
+
 * Fri Jan 25 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-3
 - Fix typo in init script.
 
