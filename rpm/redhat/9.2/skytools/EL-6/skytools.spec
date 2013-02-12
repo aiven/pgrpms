@@ -9,7 +9,7 @@
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
 Version:	3.1.3
-Release:	%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
@@ -65,6 +65,7 @@ rm -rf %{buildroot}
 %{_libdir}/python%{pyver}/site-packages/londiste/*.py*
 %{_libdir}/python%{pyver}/site-packages/londiste/handlers/*.py*
 %{_libdir}/python%{pyver}/site-packages/pgq/*.py*
+%{_libdir}/python%{pyver}/site-packages/pkgloader/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.so
 %{_libdir}/python%{pyver}/site-packages/pgq/cascade/*.py*
