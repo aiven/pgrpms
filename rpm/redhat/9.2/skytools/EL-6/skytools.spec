@@ -62,14 +62,13 @@ rm -rf %{buildroot}
 %attr(755,root,root) %{_bindir}/skytools_upgrade3
 %attr(755,root,root) %{_bindir}/walmgr3
 %dir %{_libdir}/python%{pyver}/site-packages/londiste
+/usr/lib//python%{pyver}/site-packages/pkgloader.py*
 %{_libdir}/python%{pyver}/site-packages/londiste/*.py*
 %{_libdir}/python%{pyver}/site-packages/londiste/handlers/*.py*
 %{_libdir}/python%{pyver}/site-packages/pgq/*.py*
-%{_libdir}/python%{pyver}/site-packages/pkgloader/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.so
 %{_libdir}/python%{pyver}/site-packages/pgq/cascade/*.py*
-%{_libdir}/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}.egg-info
 %{pginstdir}/share/contrib/londiste.sql
 %{pginstdir}/share/contrib/londiste.upgrade.sql
 %{pginstdir}/share/contrib/newgrants_londiste.sql
