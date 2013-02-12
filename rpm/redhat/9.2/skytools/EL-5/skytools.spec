@@ -65,6 +65,7 @@ rm -rf %{buildroot}
 %{_libdir}/python%{pyver}/site-packages/londiste/*.py*
 %{_libdir}/python%{pyver}/site-packages/londiste/handlers/*.py*
 %{_libdir}/python%{pyver}/site-packages/pgq/*.py*
+%{_libdir}/python%{pyver}/site-packages/pkgloader/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.so
 %{_libdir}/python%{pyver}/site-packages/pgq/cascade/*.py*
