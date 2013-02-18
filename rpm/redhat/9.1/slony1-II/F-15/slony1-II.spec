@@ -5,8 +5,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
-Version:	2.1.2
-Release:	4%{?dist}
+Version:	2.1.3
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -77,7 +77,7 @@ install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
-install -m 755 redhat/slony1.init %{buildroot}%{_initrddir}/%{name}
+install -m 755 redhat/slony1.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
@@ -90,7 +90,7 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %post
-chkconfig --add slony1-91-II
+chkconfig --add %{sname}-%{pgmajorversion}
 if [ ! -e "/var/log/slony1-II-91" -a ! -h "/var/log/slony1-II-91" ]
 then
         mkdir /var/log/slony1-II-91
@@ -99,13 +99,13 @@ fi
 
 %preun
 if [ $1 = 0 ] ; then
-	/sbin/service slony1-91-II condstop >/dev/null 2>&1
-	chkconfig --del slony1-II-91
+	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
+	chkconfig --del %{sname}-%{pgmajorversion}
 fi
 
 %postun
 if [ $1 -ge 1 ]; then
-	/sbin/service slony1-91-II condrestart >/dev/null 2>&1
+	/sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
 fi
 
 %files
@@ -125,6 +125,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 19 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-1
+- Update to 2.1.3
+- Fix init script names in %%postun and %%preun.
+
 * Sun Feb 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-4
 - Rebuilt.
 
@@ -138,9 +142,9 @@ fi
 - Update to 2.1.2
 
 * Mon Feb 13 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
-- Update to 2.1.1         
+- Update to 2.1.1
 
-* Wed Oct 05 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0
+* Wed Oct 05 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-1
 - Initial 2.1.0 packaging.
 - Trim changelog.
 - Install only PDF docs, don't build HTML anymore.
