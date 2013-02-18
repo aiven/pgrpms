@@ -5,8 +5,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.1.2
-Release:	2%{?dist}
+Version:	2.1.3
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -105,7 +105,7 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %post
-chkconfig --add slony1-92
+chkconfig --add %{sname}-%{pgmajorversion}
 if [ ! -e "/var/log/slony1-92" -a ! -h "/var/log/slony1-92" ]
 then
         mkdir /var/log/slony1-92
@@ -114,13 +114,13 @@ fi
 
 %preun
 if [ $1 = 0 ] ; then
-	/sbin/service slony1-92 condstop >/dev/null 2>&1
-	chkconfig --del slony1-92
+	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
+	chkconfig --del %{sname}-%{pgmajorversion}
 fi
 
 %postun
 if [ $1 -ge 1 ]; then
-	/sbin/service slony1-92 condrestart >/dev/null 2>&1
+	/sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
 fi
 
 %files
@@ -139,14 +139,18 @@ fi
 %endif
 
 %changelog
+* Tue Feb 19 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-1
+- Update to 2.1.3
+- Fix init script names in %%postun and %%preun.
+
 * Sat Feb 09 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
 - Rebuilt.
 
 * Sat Sep 1 2012 Devrim Gunduz <devrim@gunduz.org> 2.1.2-1
 - Update to 2.1.2
 
-* Fri Oct 21 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-1
-- Update to 2.1.0
+* Fri Jun 8 2012 Devrim Gunduz <devrim@gunduz.org> 2.1.1-1
+- Update to 2.1.1
 
 * Wed Oct 05 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.7-2
 - Use correct pgmajorversion number, per report from Ger Timmens. .
