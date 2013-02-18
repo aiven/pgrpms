@@ -117,7 +117,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{name}/slon_tools.conf
 %config(noreplace) %{_sysconfdir}/%{name}/slon_tools.conf-sample
-%attr(755,root,root) %{_initrddir}/%{name}
+%attr(755,root,root) %{_initrddir}/%{sname}-%{pgmajorversion}
 
 %if %docs
 %files docs
