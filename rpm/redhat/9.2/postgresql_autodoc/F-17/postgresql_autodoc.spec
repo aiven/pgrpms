@@ -1,5 +1,5 @@
 Name:		postgresql_autodoc
-Version:	1.40
+Version:	1.41
 Release:	1%{?dist}
 Summary:	PostgreSQL AutoDoc Utility
 Group:		Applications/Databases
@@ -26,13 +26,12 @@ describes the database.
 %patch0 -p0
 
 %build
+# Temp fix.
+mv %{name}.1 %{name}.1.in
 PREFIX=%{_usr} make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-install -d %{buildroot}/%{_bindir}/
-install -d %{buildroot}/%{_datadir}/ı
-install -d %{buildroot}/%{_datadir}/%{name}
 DESTDIR=%{buildroot} PREFIX=%{_usr} make install %{?_smp_mflags} 
 
 %clean
@@ -42,8 +41,12 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
 %{_datadir}/%{name}
+%{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Feb 26 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.41-1
+- Update to 1.41
+
 * Tue Oct 13 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.40-1
 - Update to 1.40
 
