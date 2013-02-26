@@ -5,7 +5,7 @@
 
 Summary: 	A simple argparse wrapper
 Name: 		python-argh
-Version: 	0.15.0
+Version: 	0.23.0
 Release: 	1%{?dist}
 License: 	LGPLv3
 Group: 		Development/Libraries
@@ -45,6 +45,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/argh/
 
 %changelog
+* Tue Feb 26 2013 - Devrim Gündüz <devrim@gunduz.org> 0.23.0-1
+- Update to version 0.23.0
+
 * Wed May 9 2012 - Marco Neciarini <marco.nenciarini@2ndquadrant.it> 0.15.0-1
 - Update to version 0.15.0
 
