@@ -6,7 +6,7 @@
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	1.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
@@ -15,7 +15,8 @@ Source1:	%{name}.cron
 Source2:	%{name}.logrotate
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	python-abi = %{pybasever}, python-argh, python-psycopg2, python-dateutil
+Requires:	python-abi = %{pybasever}, python-argh  => 0.21.2, python-psycopg2, 
+Requires:	python-argcomplete, python-dateutil
 Requires:	/usr/sbin/useradd
 
 %description
@@ -72,6 +73,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Tue Feb 26 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-2
+- Add dependency for argcomplete, also add dependency for 
+  specific version of python-argh.
+
 * Fri Feb 1 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
 - Update to 1.2.0, per changes described in this page:
    http://sourceforge.net/projects/pgbarman/files/1.2.0/
