@@ -10,8 +10,8 @@ Version:	2.0.3
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://postgis.refractions.net/download/%{sname}-%{version}.tar.gz
-Source2:	http://www.postgis.org/download/%{sname}-%{version}.pdf
+Source0:	http://download.osgeo.org/%{name}/source/%{name}-%{version}.tar.gz
+Source2:	http://download.osgeo.org/%{name}/docs/%{name}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -136,6 +136,7 @@ rm -rf %{buildroot}
 %changelog
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
+- Update all URLs
 
 * Wed Nov 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
