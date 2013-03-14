@@ -1,3 +1,5 @@
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
+
 Name:		geos
 Version:	3.3.8
 Release:        1%{?dist}
@@ -45,6 +47,14 @@ Requires:	%{name} = %{version}-%{release}
 
 %description python
 Python module to build applications using GEOS and python
+
+%package ruby
+Summary:	Ruby modules for GEOS
+Group:		Development/Libraries
+Requires:	%{name} = %{version}-%{release}
+
+%description ruby
+Ruby module to build applications using GEOS and ruby
 
 %prep
 %setup -q
@@ -111,10 +121,17 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/*.py?
 %{python_sitearch}/%{name}/_%{name}.so
 
+%files ruby
+%defattr(-,root,root,-)
+%{ruby_sitearch}/%{name}.a
+%{ruby_sitearch}/%{name}.la
+%{ruby_sitearch}/%{name}.so
+
 %changelog
 * Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
 - Update to 3.3.8, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.8/NEWS
+- Add new subpackage: ruby
 
 * Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-4
 - Final attempt to fix SIGABRT, per testing and patch by Klynton Jessup.
