@@ -5,7 +5,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
-Version:	2.1.2
+Version:	2.1.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -97,13 +97,13 @@ fi
 
 %preun
 if [ $1 = 0 ] ; then
-	/sbin/service slony1-II-90 condstop >/dev/null 2>&1
-	chkconfig --del slony1-II-90
+	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
+	chkconfig --del %{sname}-%{pgmajorversion}
 fi
 
 %postun
 if [ $1 -ge 1 ]; then
-	/sbin/service slony1-II-90 condrestart >/dev/null 2>&1
+	/sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
 fi
 
 %files
@@ -123,6 +123,10 @@ fi
 %endif
 
 %changelog
+* Thu Mar 14 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-1
+- Update to 2.1.3
+- Fix init script names in %%postun and %%preun.
+
 * Sat Sep 1 2012 Devrim Gunduz <devrim@gunduz.org> 2.1.2-1
 - Update to 2.1.2
 
