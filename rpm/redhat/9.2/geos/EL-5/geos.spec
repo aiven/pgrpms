@@ -15,7 +15,7 @@ BuildRequires:	python-devel ruby-devel
 BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"]')}
+%{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitearchdir"]')}
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
