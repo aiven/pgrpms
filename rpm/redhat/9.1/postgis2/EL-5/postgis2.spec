@@ -10,8 +10,8 @@ Version:	2.0.3
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://download.osgeo.org/%{name}/source/%{name}-%{version}.tar.gz
-Source2:	http://download.osgeo.org/%{name}/docs/%{name}-%{version}.pdf
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
+Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
