@@ -1,5 +1,3 @@
-%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ')}
-
 Name:		geos
 Version:	3.3.8
 Release:        1%{?dist}
@@ -17,6 +15,7 @@ BuildRequires:	python-devel
 BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitearchdir"]')}
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
@@ -123,9 +122,9 @@ rm -rf %{buildroot}
 
 %files ruby
 %defattr(-,root,root,-)
-%{ruby_sitearch}/%{name}.a
-%{ruby_sitearch}/%{name}.la
 %{ruby_sitearch}/%{name}.so
+%exclude %{ruby_sitearch}/%{name}.a
+%exclude %{ruby_sitearch}/%{name}.la
 
 %changelog
 * Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
