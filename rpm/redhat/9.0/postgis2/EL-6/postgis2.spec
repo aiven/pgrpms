@@ -111,10 +111,6 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}_topology-*.sql
-%{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/extension/%{sname}_topology.control
 
 %files devel
 %defattr(644,root,root)
