@@ -11,7 +11,7 @@ Patch0:		geos-gcc43.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	swig ruby
-BuildRequires:	python-devel
+BuildRequires:	python-devel ruby-devel
 BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
