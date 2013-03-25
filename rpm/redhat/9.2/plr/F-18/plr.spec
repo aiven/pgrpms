@@ -21,7 +21,6 @@ statistical computing and graphics".
 %prep
 %setup -q -n %{sname}
 %patch0 -p1
-%patch1 -p0
 
 %build
 make USE_PGXS=1 %{?_smp_mflags} 
