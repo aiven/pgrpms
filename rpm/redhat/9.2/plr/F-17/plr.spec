@@ -3,13 +3,12 @@
 %global sname	plr
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.13
-Release:	2%{?dist}
+Version:	8.3.0.14
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://www.joeconway.com/%{sname}/%{sname}-%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
-Patch1:		plr-pg92.patch
 URL:		http://www.joeconway.com/plr/
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -44,6 +43,10 @@ rm -rf %{buildroot}
 %{_docdir}/pgsql/extension/README.plr
 
 %changelog
+* Mon Mar 25 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-14-1
+- Update to 8.3.0.14
+- Remove patch that I added in 8.3.0.13-2, now it is upstream.
+
 * Tue Oct 09 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.3.0.13-2
 - Add a patch for plr extension to be installed on PostgreSQL 9.2. Per report
   from Jose Pedro Oliveira
