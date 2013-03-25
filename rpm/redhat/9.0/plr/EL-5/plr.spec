@@ -38,8 +38,8 @@ rm -rf %{buildroot}
 %files
 %defattr(644,root,root,755)
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/contrib/%{sname}.sql
-%doc %{_docdir}/%{name}/README.plr
+%{pginstdir}/share/contrib/%{sname}*.sql
+%doc %{_docdir}/pgsql/contrib/README.plr
 
 %changelog
 * Mon Mar 25 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-14-1
