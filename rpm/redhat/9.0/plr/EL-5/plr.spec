@@ -1,9 +1,9 @@
-%global pginstdir	/usr/pgsql-9.0
-%global pgmajorversion	90
+%global pginstdir	/usr/pgsql-9.1
+%global pgmajorversion	91
 %global sname	plr
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.11
+Version:	8.3.0.14
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -23,14 +23,11 @@ statistical computing and graphics".
 %patch0 -p1
 
 %build
-#make R_HOME=/usr USE_PGXS=1 %{?_smp_mflags} 
 make USE_PGXS=1 %{?_smp_mflags} 
 
 %install
 rm -rf %{buildroot}
 make USE_PGXS=1 DESTDIR=%{buildroot}/ install
-install -d %{buildroot}%{_docdir}/%{name}
-mv %{buildroot}%{_docdir}/pgsql/contrib/README.plr %{buildroot}%{_docdir}/%{name}/
 
 %clean
 rm -rf %{buildroot}
@@ -45,5 +42,11 @@ rm -rf %{buildroot}
 %doc %{_docdir}/%{name}/README.plr
 
 %changelog
+* Mon Mar 25 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-14-1
+- Update to 8.3.0.14
+
+* Tue Sep 11 2012 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-13-1
+- Update to 8.3.0.13
+
 * Fri Oct 8 2010 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-11-1
 - Initial packaging for 9.0, which also suits new PostgreSQL RPM layout.
