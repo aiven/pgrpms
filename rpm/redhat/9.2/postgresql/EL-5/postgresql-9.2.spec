@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.3
-Release:	2PGDG%{?dist}
+Version:	9.2.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -907,6 +907,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 9.2.4-1PGDG
+- Update to 9.2.4, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-4.html
+  which also includes fixes for CVE-2013-1899, CVE-2013-1900, and
+  CVE-2013-1901.
+
 * Fri Feb 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-2PGDG
 - Fix bug in new installations, that prevents ld.so.conf.d file
   to be installed.
