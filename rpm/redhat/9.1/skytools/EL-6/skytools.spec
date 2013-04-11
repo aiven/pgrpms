@@ -69,7 +69,7 @@ rm -rf %{buildroot}
 %{_libdir}/python%{pyver}/site-packages/skytools/*.py*
 %{_libdir}/python%{pyver}/site-packages/skytools/*.so
 %{_libdir}/python%{pyver}/site-packages/pgq/cascade/*.py*
-/usr/lib//python%{pyver}/site-packages/pkgloader-1.0-py%{pyver}.egg-info
+/usr/lib/python%{pyver}/site-packages/pkgloader-1.0-py%{pyver}.egg-info
 %{_libdir}/python%{pyver}/site-packages/skytools-%{version}-py%{pyver}.egg-info
 %{pginstdir}/share/contrib/londiste.sql
 %{pginstdir}/share/contrib/londiste.upgrade.sql
