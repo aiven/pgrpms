@@ -1,10 +1,11 @@
 Summary:	a fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	3.1
+Version:	3.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://downloads.sourceforge.net/project/%{name}/%{version}/%{name}-%{version}.tar.gz
+Patch0:		%{name}-rhel5.patch
 URL:		http://dalibo.github.com/pgbadger/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -26,6 +27,7 @@ compressed file.
 
 %prep
 %setup -q 
+%patch0 -p0
 
 %{__perl} Makefile.PL INSTALLDIRS=vendor
 
@@ -45,6 +47,10 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Thu Apr 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.2-1
+- Update to 3.2
+- Add a patch so that pgbadger works with Perl 5.8. Per #98.
+
 * Tue Feb 26 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.1-1
 - Update to 3.1
 

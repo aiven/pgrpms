@@ -1,10 +1,10 @@
 Summary:	a fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	2.2
+Version:	3.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/downloads/dalibo/pgbadger/%{name}-%{version}-1.tar.gz
+Source0:	http://downloads.sourceforge.net/project/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL:		http://dalibo.github.com/pgbadger/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
@@ -45,6 +45,16 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Thu Apr 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.2-1
+- Update to 3.2
+
+* Tue Feb 26 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.1-1
+- Update to 3.1
+
+* Mon Jan 21 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.3-1
+- Update to 2.3
+- Update download URL.
+
 * Wed Nov 14 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 
