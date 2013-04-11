@@ -7,7 +7,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -16,12 +16,13 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, json-c-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, gdal-devel, json-c-devel
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Conflicts:	%{sname} <= 2.0.0
+Provides:	%{sname}
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
@@ -35,6 +36,7 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Provides:	%{sname}-devel
 
 %description devel
 The postgis-devel package contains the header files and libraries
@@ -53,6 +55,7 @@ The postgis-docs package includes PDF documentation of PostGIS.
 Summary:	The utils for PostGIS
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
+Provides:	%{sname}-utils
 
 %description utils
 The postgis-utils package provides the utilities for PostGIS.
@@ -69,7 +72,7 @@ cp -p %{SOURCE2} .
 # We need the below for GDAL:
 export LD_LIBRARY_PATH=%{pginstdir}/lib
 
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster --disable-rpath
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %if %utils
@@ -110,6 +113,11 @@ rm -rf %{buildroot}
 %{_libdir}/liblwgeom*.so
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
+%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/extension/%{sname}-*.sql
+%{pginstdir}/share/extension/%{sname}_topology-*.sql
+%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}_topology.control
 
 %files devel
 %defattr(644,root,root)
@@ -129,12 +137,14 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
+- Provide postgis, to satisfy OS dependencies. Per #79.
+
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
-- Update to 2.0.3
+- Update to 2.0.3 
 
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2.
-- Remove raster support for RHEL 5, due to missing deps.
 - Update download URL.
 - Add deps for JSON-C support.
 

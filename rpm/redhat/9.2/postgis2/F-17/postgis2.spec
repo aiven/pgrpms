@@ -7,7 +7,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -22,6 +22,7 @@ Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Conflicts:	%{sname} <= 2.0.0
+Provides:	%{sname}
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
@@ -35,6 +36,7 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
+Provides:	%{sname}-devel
 
 %description devel
 The postgis-devel package contains the header files and libraries
@@ -53,6 +55,7 @@ The postgis-docs package includes PDF documentation of PostGIS.
 Summary:	The utils for PostGIS
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
+Provides:	%{sname}-utils
 
 %description utils
 The postgis-utils package provides the utilities for PostGIS.
@@ -134,6 +137,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
+- Provide postgis, to satisfy OS dependencies. Per #79.
+
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
 
