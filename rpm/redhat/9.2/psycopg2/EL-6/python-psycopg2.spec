@@ -2,8 +2,6 @@
 %{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
-%define ZPsycopgDAdir %{_localstatedir}/lib/zope/Products/ZPsycopgDA
-
 %global pgmajorversion 92
 %global pginstdir /usr/pgsql-9.2
 %global sname psycopg2
@@ -45,14 +43,6 @@ Requires:	%{name} = %{version}-%{release}
 %description test
 Tests for psycopg2.
 
-%package zope
-Summary:	Zope Database Adapter ZPsycopgDA
-Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release} zope
-
-%description zope
-Zope Database Adapter for PostgreSQL, called ZPsycopgDA
-
 %prep
 %setup -q -n psycopg2-%{version}
 %patch0 -p0
@@ -67,9 +57,6 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 rm -Rf %{buildroot}
 mkdir -p %{buildroot}%{python_sitearch}/psycopg2
 python setup.py install --no-compile --root %{buildroot}
-
-install -d %{buildroot}%{ZPsycopgDAdir}
-cp -pr ZPsycopgDA/* %{buildroot}%{ZPsycopgDAdir}
 
 %clean
 rm -rf %{buildroot}
@@ -92,19 +79,11 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{python_sitearch}/%{sname}/tests/*
 
-%files zope
-%defattr(-,root,root)
-%dir %{ZPsycopgDAdir}
-%{ZPsycopgDAdir}/*.py
-%{ZPsycopgDAdir}/*.pyo
-%{ZPsycopgDAdir}/*.pyc
-%{ZPsycopgDAdir}/dtml/*
-%{ZPsycopgDAdir}/icons/*
-
 %changelog
 * Thu Apr 11 2013 Devrim GUNDUZ <devrim@gunduz.org> 2.5-1
 - Update to 2.5, per changes described at:
   http://www.psycopg.org/psycopg/articles/2013/04/07/psycopg-25-released/
+- Remove zope support from RHEL 6.
 
 * Wed Dec 12 2012 Devrim GUNDUZ <devrim@gunduz.org> 2.4.6-1
 - Update to 2.4.6, per changes described at:
