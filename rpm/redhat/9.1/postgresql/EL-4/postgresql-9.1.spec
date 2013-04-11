@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.1.9
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -892,6 +892,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.9-2PGDG
+- Add pg_basebackup to PATH, per 75.
+
 * Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 9.1.9-1PGDG
 - Update to 9.1.9, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-9.html
