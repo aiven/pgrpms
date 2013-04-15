@@ -51,6 +51,7 @@ rm -rf %{buildroot}
      trust make install there, do not manually install files.
   * Fix pg_sphere.sql, so that it can be loaded w/o errors to 
     PostgreSQL 9.2.
+- Update download URL.
 
 * Wed Jan 5 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-1
 - Update to 1.1.1, per: 
