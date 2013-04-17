@@ -6,7 +6,7 @@
 # chkconfig: - 64 36
 # description: PostgreSQL database server.
 # processname: postmaster
-# pidfile: /var/run/postmaster-9.0.pid
+# pidfile="/var/run/${NAME}.pid"
 
 # This script is slightly unusual in that the name of the daemon (postmaster)
 # is not the same as the name of the subsystem (postgresql)
@@ -26,6 +26,13 @@
 
 # Version 9.0.3 Devrim Gunduz <devrim@gunduz.org>
 # Fix initdb message output, and use actual init script name/version, per Josh Berkus.
+
+# Version 9.0.4 Devrim Gunduz <devrim@gunduz.org>
+# Use $pidfile in status(), per PostgreSQL bug #7750 and pgrpms #87.
+# Move $pidfile and $lockfile definitions before sysconfig call, so that
+# they can be included in sysconfig file.
+# Fix pid file name in init script, so that it is more suitable for
+# multiple postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
 
 
 # PGVERSION is the full package version, e.g., 9.0.0
@@ -68,14 +75,15 @@ PGLOG=/var/lib/pgsql/${PGMAJORVERSION}/pgstartup.log
 # Value to set as postmaster process's oom_adj
 PG_OOM_ADJ=-17
 
+lockfile="/var/lock/subsys/${NAME}.${PGPORT}"
+pidfile="/var/run/${NAME}.pid"
+
 # Override defaults from /etc/sysconfig/pgsql if file is present
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
 
 export PGDATA
 export PGPORT
 
-lockfile="/var/lock/subsys/${NAME}.${PGPORT}"
-pidfile="/var/run/postmaster-${PGMAJORVERSION}.${PGPORT}.pid"
 
 [ -f "$PGENGINE/postmaster" ] || exit 1
 
@@ -235,7 +243,7 @@ case "$1" in
 	stop
 	;;
   status)
-	status -p /var/run/postmaster-${PGMAJORVERSION}.${PGPORT}.pid
+	status -p $pidfile
 	script_result=$?
 	;;
   restart)
