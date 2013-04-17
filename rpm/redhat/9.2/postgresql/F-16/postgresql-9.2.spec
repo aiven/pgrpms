@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.2.4
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -278,8 +278,8 @@ Install this if you want to write database functions in Python.
 %package pltcl
 Summary:	The Tcl procedural language for PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name}-%{?_isa} = %{version}-%{release}
-Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Requires: 	%{name}%{?_isa} = %{version}-%{release}
+Requires: 	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
 
@@ -967,6 +967,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
+- Fix Requires: for pltcl package. Per report from Peter Dean. 
+  Fixes #101.
+
 * Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-2PGDG
 - Add pg_basebackup to $PATH, per #75.
 
