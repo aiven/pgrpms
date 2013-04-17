@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.0.13
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -831,6 +831,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.13-2PGDG
+- Fix pid file name in init script, so that it is more suitable for multiple
+  postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
+
 * Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 9.0.13-1PGDG
 - Update to 9.0.13, per changes described at:
   http://www.postgresql.org/docs/9.0/static/release-9-0-13.html

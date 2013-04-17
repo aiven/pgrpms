@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.1.9
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -901,6 +901,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.9-3PGDG
+- Fix pid file name in init script, so that it is more suitable for multiple
+  postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
+
 * Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.9-2PGDG
 - Add pg_basebackup to PATH, per 75.
 
