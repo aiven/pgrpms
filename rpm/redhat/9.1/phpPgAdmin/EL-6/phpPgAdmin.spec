@@ -1,6 +1,6 @@
 Summary:	Web-based PostgreSQL administration
 Name:		phpPgAdmin
-Version:	5.0.4
+Version:	5.1
 Release:	1%{?dist}
 License:	GPLv3+
 Group:		Applications/Databases
@@ -31,9 +31,6 @@ functions (stored procedures). It also has Slony-I support.
 %patch1 -p0
 
 %build
-# Cleanup encoding problem
-sed -i 's/\r//' lang/php2po
-sed -i 's/\r//' lang/po2php
 
 %install
 rm -rf %{buildroot}
@@ -41,15 +38,15 @@ install -d %{buildroot}%{_phppgadmindir}
 install -d %{buildroot}%{_phppgadmindir}/conf
 install -d %{buildroot}%{_sysconfdir}/%{name}
 install -m 644 -p *.php %{buildroot}%{_phppgadmindir}
-cp -ap *.js robots.txt classes images lang libraries sql themes xloadtree help %{buildroot}%{_phppgadmindir}
+cp -ap *.js robots.txt classes conf help images js lang libraries plugins themes xloadtree %{buildroot}%{_phppgadmindir}
 install -d  %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 install -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}
-ln -s %{_sysconfdir}/%{name}/config.inc.php %{buildroot}/%{_phppgadmindir}/conf/config.inc.php
-ln -s %{_sysconfdir}/%{name}/config.inc.php-dist %{buildroot}/%{_phppgadmindir}/conf/config.inc.php-dist
 
 %post
+	/sbin/service httpd reload > /dev/null 2>&1
+%postun
 	/sbin/service httpd reload > /dev/null 2>&1
 
 %clean
@@ -67,26 +64,27 @@ rm -rf %{buildroot}
 %{_phppgadmindir}/*.js
 %{_phppgadmindir}/robots.txt
 %{_phppgadmindir}/classes
+%{_phppgadmindir}/help
 %{_phppgadmindir}/images
-%dir %{_phppgadmindir}/lang
-%dir %attr(755,root,root) %{_phppgadmindir}/lang/recoded
-%attr(644,root,root) %{_phppgadmindir}/lang/*.php
-%attr(644,root,root) %{_phppgadmindir}/lang/recoded/*
-%attr(644,root,root) %{_phppgadmindir}/lang/Makefile
-%attr(755,root,root) %{_phppgadmindir}/lang/convert.awk
-%attr(755,root,root) %{_phppgadmindir}/lang/langcheck
-%attr(755,root,root) %{_phppgadmindir}/lang/php2po
-%attr(755,root,root) %{_phppgadmindir}/lang/po2php
-%attr(755,root,root) %{_phppgadmindir}/lang/synch
+%{_phppgadmindir}/js/*.js
 %{_phppgadmindir}/libraries
-%{_phppgadmindir}/sql
+%{_phppgadmindir}/plugins/Report/*
+%{_phppgadmindir}/plugins/GuiControl/*
 %{_phppgadmindir}/themes
 %{_phppgadmindir}/xloadtree
-%{_phppgadmindir}/help
+%dir %{_phppgadmindir}/lang
+%attr(644,root,root) %{_phppgadmindir}/lang/*.php
+%attr(644,root,root) %{_phppgadmindir}/lang/README
+%attr(644,root,root) %{_phppgadmindir}/lang/langcheck
+%attr(755,root,root) %{_phppgadmindir}/lang/synch
 %{_phppgadmindir}/conf/config.inc.php*
 
 %changelog
-* Sun Mar 25 2012 Devrim Gunduz <devrim@gunduz.org> 5.0.4-1
+* Wed Apr 17 2013 Devrim Gunduz <devrim@gunduz.org> 5.1-1
+- Update to 5.1, per changes described at
+  http://sourceforge.net/mailarchive/message.php?msg_id=30730170
+
+"* Sun Mar 25 2012 Devrim Gunduz <devrim@gunduz.org> 5.0.4-1
 - Update to 5.0.4, per changes described at
   http://archives.postgresql.org/pgsql-announce/2012-03/msg00016.php
 
