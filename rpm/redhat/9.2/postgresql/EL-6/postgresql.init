@@ -6,7 +6,7 @@
 # chkconfig: - 64 36
 # description: PostgreSQL database server.
 # processname: postmaster
-# pidfile: /var/run/postmaster-9.2.pid
+# pidfile="/var/run/${NAME}.pid"
 
 # This script is slightly unusual in that the name of the daemon (postmaster)
 # is not the same as the name of the subsystem (postgresql)
@@ -33,7 +33,9 @@
 # in sysconfig file.
 # Use $pidfile in status().
 
-# TODO: Check sysconfig files for variables, if they exist.
+# Version 9.2.4 Devrim Gunduz <devrim@gunduz.org>
+# Fix pid file name in init script, so that it is more suitable for
+# multiple postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
 
 # PGVERSION is the full package version, e.g., 9.2.0
 # Note: the specfile inserts the correct value during package build
@@ -79,7 +81,7 @@ PGLOG=/var/lib/pgsql/9.2/pgstartup.log
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
 lockfile="/var/lock/subsys/${NAME}"
-pidfile="/var/run/postmaster-9.2.pid"
+pidfile="/var/run/${NAME}.pid"
 
 # Override defaults from /etc/sysconfig/pgsql if file is present
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
