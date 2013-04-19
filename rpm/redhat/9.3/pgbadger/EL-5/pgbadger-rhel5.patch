@@ -1,0 +1,11 @@
+--- pgbadger.old	2013-04-11 13:40:48.640549341 +0300
++++ pgbadger	2013-04-11 13:41:14.876548467 +0300
+@@ -39,7 +39,7 @@
+ use POSIX qw(locale_h sys_wait_h _exit);
+ setlocale(LC_NUMERIC, '');
+ setlocale(LC_ALL,     'C');
+-use File::Temp qw/ tempfile /;
++use File::Temp;
+ use IO::Handle;
+ use IO::Pipe;
+ use Time::HiRes qw/usleep/;
