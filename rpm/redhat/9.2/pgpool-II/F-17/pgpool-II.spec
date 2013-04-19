@@ -5,7 +5,7 @@
 
 Summary:	Pgpool is a connection pooling/replication server for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.2.0
+Version:	3.2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -84,7 +84,7 @@ rm -rf %{buildroot}
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_info pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info 920
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool 920
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node 920
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info 920
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info 920
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 920
 
 %preun
@@ -149,6 +149,11 @@ fi
 %{pgpoolinstdir}/include/pool_process_reporting.h
 
 %changelog
+* Thu Dec 13 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.1-1
+- Update to 3.2.1
+- Fix incorrect symlink (typo), per 
+  http://www.pgpool.net/mantisbt/view.php?id=43
+
 * Wed Sep 12 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.0-1
 - Update to 3.2.0
 
