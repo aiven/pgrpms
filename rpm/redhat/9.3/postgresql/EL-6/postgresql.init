@@ -37,12 +37,12 @@
 # Fix pid file name in init script, so that it is more suitable for
 # multiple postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
 
-# PGVERSION is the full package version, e.g., 9.2.0
+# PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
 # PGMAJORVERSION is major version, e.g., 9.2 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.1
+PGPREVMAJORVERSION=9.2
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -73,10 +73,10 @@ fi
 LOCALEPARAMETER=$2
 
 # Set defaults for configuration variables
-PGENGINE=/usr/pgsql-9.2/bin
+PGENGINE=/usr/pgsql-9.3/bin
 PGPORT=5432
-PGDATA=/var/lib/pgsql/9.2/data
-PGLOG=/var/lib/pgsql/9.2/pgstartup.log
+PGDATA=/var/lib/pgsql/9.3/data
+PGLOG=/var/lib/pgsql/9.3/pgstartup.log
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
