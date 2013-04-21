@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f18
-SPECFILE="pgdg-fedora-92.spec"
+SPECFILE="pgdg-fedora-93.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

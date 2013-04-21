@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel5
-SPECFILE="pgdg-centos-92.spec"
+SPECFILE="pgdg-centos-93.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
