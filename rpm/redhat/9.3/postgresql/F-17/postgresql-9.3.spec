@@ -47,8 +47,8 @@
 %{!?kerbdir:%define kerbdir "/usr"}
 
 # This is a macro to be used with find_lang and other stuff
-%define majorversion 9.2
-%define packageversion 92
+%define majorversion 9.3
+%define packageversion 93
 %define oname postgresql
 %define	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
@@ -81,7 +81,7 @@ Source4:	Makefile.regress
 Source5:	pg_config.h
 Source6:	README.rpm-dist
 Source7:	ecpg_config.h
-Source9:	postgresql-9.2-libs.conf
+Source9:	postgresql-9.3-libs.conf
 Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
@@ -161,11 +161,11 @@ access a PostgreSQL DBMS server, as well as HTML documentation for the whole
 system.  These client programs can be located on the same machine as the
 PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
 over a network connection.  The PostgreSQL server can be found in the
-postgresql92-server sub-package.
+postgresql93-server sub-package.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
-if you're installing the postgresql92-server package.
+if you're installing the postgresql93-server package.
 
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
@@ -174,7 +174,7 @@ Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
-The postgresql92-libs package provides the essential shared libraries for any
+The postgresql93-libs package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
 to use any other PostgreSQL package or any clients that need to connect to a
 PostgreSQL server.
@@ -197,7 +197,7 @@ Provides:	postgresql-server
 
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
-The postgresql92-server package contains the programs needed to create
+The postgresql93-server package contains the programs needed to create
 and run a PostgreSQL server, which will in turn allow you to create
 and maintain PostgreSQL databases.
 
@@ -207,7 +207,7 @@ Group:		Applications/Databases
 Provides:	postgresql-docs
 
 %description docs
-The postgresql92-docs package includes the SGML source for the documentation
+The postgresql93-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
 project, or if you want to generate printed documentation. This package also 
@@ -221,7 +221,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
 
 %description contrib
-The postgresql92-contrib package contains various extension modules that are
+The postgresql93-contrib package contains various extension modules that are
 included in the PostgreSQL distribution.
 
 %package devel
@@ -232,7 +232,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-devel
 
 %description devel
-The postgresql92-devel package contains the header files and libraries
+The postgresql93-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with a PostgreSQL database management server.  It also contains the ecpg
 Embedded C Postgres preprocessor. You need to install this package if you want
@@ -248,11 +248,11 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql92-pl
+Obsoletes:	postgresql93-pl
 Provides:	postgresql-plperl
 
 %description plperl
-The postgresql92-plperl package contains the PL/Perl procedural language,
+The postgresql93-plperl package contains the PL/Perl procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Perl.
 
@@ -268,7 +268,7 @@ Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
 
 %description plpython
-The postgresql92-plpython package contains the PL/Python procedural language,
+The postgresql93-plpython package contains the PL/Python procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Python.
 
@@ -298,7 +298,7 @@ Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test
 
 %description test
-The postgresql92-test package contains files needed for various tests for the
+The postgresql93-test package contains files needed for various tests for the
 PostgreSQL database management system, including regression tests and
 benchmarks.
 %endif
@@ -582,15 +582,15 @@ fi
 # We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
 # so that package manager will be happy during upgrade to new major version.
 echo "[ -f /etc/profile ] && source /etc/profile
-PGDATA=/var/lib/pgsql/9.2/data
+PGDATA=/var/lib/pgsql/9.3/data
 export PGDATA" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 
 %preun server
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable postgresql-9.2.service >/dev/null 2>&1 || :
-	/bin/systemctl stop postgresql-9.2.service >/dev/null 2>&1 || :
+	/bin/systemctl --no-reload disable postgresql-9.3.service >/dev/null 2>&1 || :
+	/bin/systemctl stop postgresql-9.3.service >/dev/null 2>&1 || :
 fi
 
 %postun server
@@ -598,7 +598,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
-	/bin/systemctl try-restart postgresql-9.2.service >/dev/null 2>&1 || :
+	/bin/systemctl try-restart postgresql-9.3.service >/dev/null 2>&1 || :
 fi
 
 %if %plperl
@@ -623,37 +623,37 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 
 # Create alternatives entries for common binaries and man files
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql 920
-%{_sbindir}/update-alternatives --install /usr/bin/clusterdb  pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb 920
-%{_sbindir}/update-alternatives --install /usr/bin/createdb   pgsql-createdb   %{pgbaseinstdir}/bin/createdb 920
-%{_sbindir}/update-alternatives --install /usr/bin/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang 920
-%{_sbindir}/update-alternatives --install /usr/bin/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser 920
-%{_sbindir}/update-alternatives --install /usr/bin/dropdb     pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb 920
-%{_sbindir}/update-alternatives --install /usr/bin/droplang   pgsql-droplang   %{pgbaseinstdir}/bin/droplang 920
-%{_sbindir}/update-alternatives --install /usr/bin/dropuser   pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser 920
-%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup    pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup 920
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dump    pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump 920
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall 920
-%{_sbindir}/update-alternatives --install /usr/bin/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore 920
-%{_sbindir}/update-alternatives --install /usr/bin/reindexdb  pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb 920
-%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb   pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1  pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1   pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1     pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dumpall.1 pgsql-pg_dumpallman    %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_restore.1 pgsql-pg_restoreman    %{pgbaseinstdir}/share/man/man1/pg_restore.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 920
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 920
+%{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql 930
+%{_sbindir}/update-alternatives --install /usr/bin/clusterdb  pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb 930
+%{_sbindir}/update-alternatives --install /usr/bin/createdb   pgsql-createdb   %{pgbaseinstdir}/bin/createdb 930
+%{_sbindir}/update-alternatives --install /usr/bin/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang 930
+%{_sbindir}/update-alternatives --install /usr/bin/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser 930
+%{_sbindir}/update-alternatives --install /usr/bin/dropdb     pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb 930
+%{_sbindir}/update-alternatives --install /usr/bin/droplang   pgsql-droplang   %{pgbaseinstdir}/bin/droplang 930
+%{_sbindir}/update-alternatives --install /usr/bin/dropuser   pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser 930
+%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup    pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup 930
+%{_sbindir}/update-alternatives --install /usr/bin/pg_dump    pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump 930
+%{_sbindir}/update-alternatives --install /usr/bin/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall 930
+%{_sbindir}/update-alternatives --install /usr/bin/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore 930
+%{_sbindir}/update-alternatives --install /usr/bin/reindexdb  pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb 930
+%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb   pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1  pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1   pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1     pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dumpall.1 pgsql-pg_dumpallman    %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_restore.1 pgsql-pg_restoreman    %{pgbaseinstdir}/share/man/man1/pg_restore.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 930
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 930
 
 %post libs
-%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.2-libs.conf 920
+%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-9.3-libs.conf 930
 /sbin/ldconfig
 
 # Drop alternatives entries for common binaries and man files
@@ -694,7 +694,7 @@ if [ "$1" -eq 0 ]
 %postun libs
 if [ "$1" -eq 0 ]
   then
-        %{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-9.2-libs.conf
+        %{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-9.3-libs.conf
         /sbin/ldconfig
 fi
 
@@ -860,7 +860,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%config(noreplace) %{pgbaseinstdir}/share/postgresql-9.2-libs.conf
+%config(noreplace) %{pgbaseinstdir}/share/postgresql-9.3-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
