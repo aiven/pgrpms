@@ -1,6 +1,6 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
-Version:	2.19.0
+Version:	2.20.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -8,6 +8,7 @@ Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/wiki/Check_postgres
 Buildarch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	perl-ExtUtils-MakeMaker
 
 %description
 check_postgres.pl is a script for checking the state of one or more 
@@ -41,6 +42,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}.pl
 
 %changelog
+* Mon Apr 29 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.20.0-1
+- Update to 2.20.0
+
 * Sun Feb 26 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.19.0-1
 - Update to 2.19.0, per changes described at
   https://mail.endcrypt.com/pipermail/check_postgres-announce/2012-January/000028.html
