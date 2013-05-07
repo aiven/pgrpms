@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.4
-Release:	3PGDG%{?dist}
+Version:	9.3beta1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -719,6 +719,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_config
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
+%{pgbaseinstdir}/bin/pg_isready
 %{pgbaseinstdir}/bin/pg_restore
 %{pgbaseinstdir}/bin/pg_test_fsync
 %{pgbaseinstdir}/bin/pg_receivexlog
@@ -736,6 +737,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/pg_config.*
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
+%{pgbaseinstdir}/share/man/man1/pg_isready.*
 %{pgbaseinstdir}/share/man/man1/pg_receivexlog.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
 %{pgbaseinstdir}/share/man/man1/psql.*
@@ -785,12 +787,14 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/pg_buffercache.so
 %{pgbaseinstdir}/lib/pg_trgm.so
 %{pgbaseinstdir}/lib/pg_upgrade_support.so
+%{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
 %{pgbaseinstdir}/lib/timetravel.so
 %{pgbaseinstdir}/lib/unaccent.so
+%{pgbaseinstdir}/lib/worker_spi.so
 %if %xml
 %{pgbaseinstdir}/lib/pgxml.so
 %endif
@@ -826,6 +830,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/pgcrypto*
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
+%{pgbaseinstdir}/share/extension/postgres_fdw*
 %{pgbaseinstdir}/share/extension/refint*
 %{pgbaseinstdir}/share/extension/seg*
 %{pgbaseinstdir}/share/extension/sslinfo*
@@ -844,12 +849,14 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_standby
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
+%{pgbaseinstdir}/bin/pg_xlogdump
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
 %{pgbaseinstdir}/share/man/man1/pg_upgrade.1
+%{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
 %{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
 
@@ -927,10 +934,12 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libecpg.a
 %{pgbaseinstdir}/lib/libecpg_compat.so
 %{pgbaseinstdir}/lib/libecpg_compat.a
+%{pgbaseinstdir}/lib/libpgcommon.a
 %{pgbaseinstdir}/lib/libpgport.a
 %{pgbaseinstdir}/lib/libpgtypes.so
 %{pgbaseinstdir}/lib/libpgtypes.a
 %{pgbaseinstdir}/lib/pgxs/*
+%{pgbaseinstdir}/lib/pkgconfig/*
 %{pgbaseinstdir}/share/man/man1/ecpg.*
 
 %if %plperl
@@ -967,6 +976,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
+- Initial cut for 9.3 beta 1
+
 * Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
 - Fix Requires: for pltcl package. Per report from Peter Dean.
   Fixes #101.
