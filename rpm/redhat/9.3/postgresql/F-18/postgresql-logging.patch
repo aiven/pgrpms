@@ -1,6 +1,6 @@
---- postgresql-9.1alpha3/src/backend/utils/misc/postgresql.conf.sample.old	2011-01-03 10:07:15.446773001 +0200
-+++ postgresql-9.1alpha3/src/backend/utils/misc/postgresql.conf.sample	2011-01-03 10:08:14.416773000 +0200
-@@ -256,25 +256,25 @@
+--- postgresql-9.3beta1/src/backend/utils/misc/postgresql.conf.sample.old	2013-05-09 08:37:36.803916642 +0300
++++ postgresql-9.3beta1/src/backend/utils/misc/postgresql.conf.sample	2013-05-09 08:39:29.283912894 +0300
+@@ -295,25 +295,25 @@
  
  # - Where to Log -
  
@@ -31,7 +31,7 @@
  					# same name as the new log file will be
  					# truncated rather than appended to.
  					# But such truncation only occurs on
-@@ -282,9 +282,9 @@
+@@ -321,9 +321,9 @@
  					# or size-driven rotation.  Default is
  					# off, meaning append to existing files
  					# in all cases.
@@ -43,3 +43,12 @@
  					# happen after that much log output.
  					# 0 disables.
  
+@@ -393,7 +393,7 @@
+ #log_duration = off
+ #log_error_verbosity = default		# terse, default, or verbose messages
+ #log_hostname = off
+-#log_line_prefix = ''			# special values:
++log_line_prefix = '< %m >'			# special values:
+ 					#   %a = application name
+ 					#   %u = user name
+ 					#   %d = database name
