@@ -40,6 +40,7 @@
 # Version 9.3.0 Devrim Gunduz <devrim@gunduz.org>
 # Add support for pg_ctl promote. Per suggestion from Magnus Hagander. Fixes #93.
 # Remove hardcoded script names in init script. Fixes #102.
+# Support separated xlog directory at initdb. Per suggestion from Magnus Hagander. Fixes #90.
 
 # PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
@@ -76,11 +77,14 @@ fi
 # Define variable for locale parameter:
 LOCALEPARAMETER=$2
 
+# Define variable for initdb xlog location
+INITDBXLOGDIR=$3
+
 # Set defaults for configuration variables
-PGENGINE=/usr/pgsql-9.3/bin
+PGENGINE=/usr/pgsql-9.2/bin
 PGPORT=5432
-PGDATA=/var/lib/pgsql/9.3/data
-PGLOG=/var/lib/pgsql/9.3/pgstartup.log
+PGDATA=/var/lib/pgsql/9.2/data
+PGLOG=/var/lib/pgsql/9.2/pgstartup.log
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
@@ -205,6 +209,14 @@ initdb(){
 			fi
 				LOCALESTRING="--locale=$LOCALE"
 
+			# If the xlog directory is specified just after the locale parameter, use it:
+			if [ -z $INITDBXLOGDIR ]
+			then
+				INITDBXLOGSTRING=`echo $PGDATA/pg_xlog`
+			else
+				INITDBXLOGSTRING=`echo $INITDBXLOGDIR`
+			fi
+
 		if [ -f "$PGDATA/PG_VERSION" ]
 		then
 			echo "Data directory is not empty!"
@@ -230,7 +242,7 @@ initdb(){
 			fi
 
 			# Initialize the database
-			$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" >> "$PGLOG" 2>&1 < /dev/null
+			$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --xlogdir=$INITDBXLOGSTRING --auth='ident' $LOCALESTRING" >> "$PGLOG" 2>&1 < /dev/null
 
 			# Create directory for postmaster log
 			mkdir "$PGDATA/pg_log"
@@ -377,7 +389,7 @@ case "$1" in
 	restart
 	;;
   *)
-	echo $"Usage: $0 {start|stop|status|restart|upgrade|condrestart|try-restart|reload|force-reload|initdb}"
+	echo $"Usage: $0 {start|stop|status|restart|upgrade|condrestart|try-restart|reload|force-reload|initdb|promote}"
 	exit 2
 esac
 
