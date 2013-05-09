@@ -39,6 +39,7 @@
 
 # Version 9.3.0 Devrim Gunduz <devrim@gunduz.org>
 # Add support for pg_ctl promote. Per suggestion from Magnus Hagander. Fixes #93.
+# Remove hardcoded script names in init script. Fixes #102.
 
 # PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
@@ -144,7 +145,7 @@ start(){
 		# No existing PGDATA! Warn the user to initdb it.
 
 		echo
-		echo "$PGDATA is missing. Use \"service postgresql-$PGMAJORVERSION initdb\" to initialize the cluster first."
+		echo "$PGDATA is missing. Use \"service $NAME initdb\" to initialize the cluster first."
 		echo_failure
 		echo
 		exit 1
@@ -291,7 +292,7 @@ if [ ! -x "$PGENGINE/pg_upgrade" ]
 fi
 
 # Perform initdb on the new server
-/sbin/service postgresql-$PGMAJORVERSION initdb
+/sbin/service $NAME initdb
 RETVAL=$?
 if [ $RETVAL -ne 0 ]
   then
