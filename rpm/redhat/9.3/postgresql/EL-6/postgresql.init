@@ -37,6 +37,9 @@
 # Fix pid file name in init script, so that it is more suitable for
 # multiple postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
 
+# Version 9.3.0 Devrim Gunduz <devrim@gunduz.org>
+# Add support for pg_ctl promote. Per suggestion from Magnus Hagander. Fixes #93.
+
 # PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
@@ -335,6 +338,10 @@ reload(){
     $SU -l postgres -c "$PGENGINE/pg_ctl reload -D '$PGDATA' -s" > /dev/null 2>&1 < /dev/null
 }
 
+promote(){
+    $SU -l postgres -c "$PGENGINE/pg_ctl promote -D '$PGDATA' -s" > /dev/null 2>&1 < /dev/null
+}
+
 # See how we were called.
 case "$1" in
   start)
@@ -352,6 +359,9 @@ case "$1" in
 	;;
   initdb)
 	initdb
+	;;
+  promote)
+	promote
 	;;
   upgrade)
 	upgrade
