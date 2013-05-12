@@ -41,7 +41,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%define beta 0
+%define beta 1
 %{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%define kerbdir "/usr"}
@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.3beta1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -925,6 +925,15 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
+- Support separated xlog directory at initdb. Per suggestion from
+  Magnus Hagander. Fixes #90.
+- Remove hardcoded script names in init script. Fixes #102.
+- Add support for pg_ctl promote. Per suggestion from Magnus Hagander.
+  Fixes #93.
+- Set log_line_prefix in default config file to %m. Per suggestion
+  from Magnus. Fixes #91.
+
 * Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
 - Initial cut for 9.3 beta 1
 
