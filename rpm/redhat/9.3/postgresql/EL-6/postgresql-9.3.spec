@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.3beta1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -925,6 +925,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon May 13 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-3PGDG
+- Fix paths in init script. Per repor from Vibhor Kumar.
+
 * Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
 - Support separated xlog directory at initdb. Per suggestion from
   Magnus Hagander. Fixes #90.
