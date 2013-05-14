@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.3beta1
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -920,6 +920,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-4PGDG
+- Revert #90. Per a report in pgsql-bugs mailing list.
+
 * Mon May 13 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-3PGDG
 - Fix paths in init script. Per repor from Vibhor Kumar.
 
