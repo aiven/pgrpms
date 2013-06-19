@@ -40,16 +40,16 @@ must dump, upgrade,initdb, and restore your data if you are
 performing a major version update. This is not needed for minor version
 updates.
 
-QUICKSTART
+QUICKSTART (note that this requires postgresql93-server installed)
 -----------------------------------------------------------------------------
 For a fresh installation, you will need to initialize the cluster first. Run:
 
-	service postgresql-9.3 initdb
+	/usr/pgsql-9.3/bin/postgresql93-setup initdb
 
 as root, and it will prepare a new database cluster for you. Then you will 
 need to start PostgreSQL. Again as root, run:
 
-	service postgresql-9.3 start
+	systemctl start postgresql-9.3.service
 
 This command will start a postmaster that willl listen on localhost and Unix 
 socket 5432 only.  Edit /var/lib/pgsql/9.3/data/postgresql.conf and pg_hba.conf 
@@ -58,7 +58,7 @@ Configuration.
 
 You will probably also want to do
 
-	chkconfig postgresql-9.3 on
+	systemctl enable postgresql-9.3.service
 
 so that the postmaster is automatically started during future reboots.
 
@@ -74,28 +74,56 @@ bash, and the home directory set to /var/lib/pgsql.  This user also has no
 default password.  If you want to be able to su to it from a non-root account
 or login as 'postgres' you will need to set a password using passwd.
 
+In the default installation, only postgres user is allowed to access to 
+the database server, because initdb in the RPMs pick up "peer" auth 
+method in the RPMs. 
+
+All the binaries are installed under /usr/pgsql-9.3/bin. However, the 
+tools that are compatible with the previous releases are symlinked under 
+/usr/bin directory. Please note that RPMs are using alternatives method 
+in here, so whenever a newer major version is installed, symlinks will 
+point to the new version. Here is the current list of the binaries that 
+are under $PATH:
+
+- clusterdb
+- createdb
+- createlang
+- createuser
+- dropdb
+- droplang
+- dropuser
+- pg_dump
+- pg_dumpall
+- pg_restore
+- psql
+- reindexdb
+
+You may want to add /usr/pgsql-9.3/bin to your $PATH variable in 
+/etc/profile, if you want to use them easily. However, please note that 
+this may lead to some unintentional side effects, so be careful.
+
+
 UPGRADING AN INSTALLATION
 -----------------------------------------------------------------------------
-For a minor-version upgrade (such as 9.3.0 to 9.3.1), just install the
+For a minor-version upgrade (such as 9.3.1 to 9.3.2), just install the
 new RPMs; there's usually nothing more to it than that.  Upgrading
-across a major release of PostgreSQL (for example, from 9.1.x to 9.3.x)
+across a major release of PostgreSQL (for example, from 9.2.x to 9.3.x)
 requires more effort.
 
 If you are upgrading across more than one major release of PostgreSQL
-(for example, from 8.3.x to 9.0.x), you will need to follow the "traditional"
+(for example, from 9.1.x to 9.3.x), you will need to follow the "traditional"
 dump and reload process to bring your data into the new version.  That is:
 *before* upgrading, run pg_dumpall to extract all your data into a SQL file.
 Shut down the old postmaster, upgrade to the new version RPMs, initdb,
 and run the dump file through psql to restore your data.
 
-In some major releases, the RPMs also support in-place upgrade from the
-immediately previous major release.  Currently, you can upgrade in-place
-from 9.2.x  to 9.3.x.  This is much faster than a dump and reload.
-To do an in-place upgrade, just run:
-$ service postgresql-9.3 upgrade
+In 9.1+, the RPMs also support in-place upgrade from th immediately 
+previous major release.  Currently, you can upgrade in-place
+from 9.2.x to 9.3.x.  Just run:
+$ /usr/pgsql-9.3/bin/postgresql93-setup upgrade
 
-Please note that 9.2 and 9.3 contrib RPMs needs to be installed for this 
-feature to work.
+Please note that 9.2 and 9.3 contrib RPMs needs	to be installed	for this 
+feature	to work.
 
 POSTGRESQL RPM PACKAGES AND RATIONALE.
 -----------------------------------------------------------------------------
@@ -137,8 +165,8 @@ Different distributions have different ideas of some of these file locations.
 In particular, the documentation directory can be /usr/doc, /usr/doc/packages,
 /usr/share/doc, /usr/share/doc/packages, or some other similar path.
 
-However, the Red Hat / CentOS / Fedora RPM's install the files like 
-this:
+However, the Red Hat / Scientific Linux ( CentOS / Fedora RPM's install 
+the files like this:
 
 Executables:		/usr/bin and /usr/pgsql-9.3/bin
 Libraries:		/usr/pgsql-9.3/lib
@@ -147,12 +175,11 @@ Contrib documentation:	/usr/pgsql-9.3/doc
 Source:			not installed
 Data:			/var/lib/pgsql/9.3/data
 Backup area:		/var/lib/pgsql/9.3/backups
-Templates:		/usr/share/pgsql
+Templates:		/usr/pgsql-9.3/share
 Procedural Languages:	/usr/pgsql-9.3/lib
 Development Headers:	/usr/pgsql-9.3/include
 Other shared data:	/usr/pgsql-9.3/share
-Regression tests:	/usr/lib/pgsql/test/regress  (in the -test package)
-			or /usr/lib64/pgsql/test/regress
+Regression tests:	/usr/pgsql-9.3/lib/test
 
 While it may seem gratuitous to place these files in different locations, the
 FHS requires it -- distributions should not ever touch /usr/local.  It may
@@ -161,7 +188,7 @@ the beauty of RPM -- you don't have to keep track of the files, RPM does it
 for you.
 
 These RPMs are designed to be LSB-compliant -- if you find this not to be the
-case, please let us know by way of the pgsqlrpms-hackers@pgfoundry.org
+case, please let us know by way of the pgsql-pkg-yum@postgresql.org
 mailing list.
 
 -------------------------------------------------------------------------------
@@ -181,9 +208,12 @@ As an example, let us create a secondary postmaster called, creatively enough,
         a shell script -- typically you would define PGDATA, PGPORT, and PGOPTS
         here.  Since $PGDATA/postgresql.conf will override many of these
         settings, except PGDATA, you might be surprised on startup.
-3.)     run service secondary-9.3 initdb
-4.)     Edit postgresql.conf to change the port, address, etc.
-5.)     Start the postmaster with 'service secondary-9.3 start'.
+3.)     create the target PGDATA.
+4.)     Initdb the targe PGDATA as documented in the main documentation.
+        Automatic initdb may or may not work for you, so a manual one is
+        preferred.  This must be done as user 'postgres'
+5.)     Edit postgresql.conf to change the port, address, tcpip settings, etc.
+6.)     Start the postmaster with 'service secondary-9.3 start'.
 
 Note that there may be problems with the standard symlink -- consider this
 support experimental at this point in time.
@@ -202,11 +232,10 @@ your database machine is up to the task.
 
 To run the regression tests under the RPM installation, make sure that the
 postmaster has been started (if not, su to root and do "systemctl start
-postgresql.service"), cd to /usr/lib/pgsql/test/regress (or
-/usr/lib64/pgsql/test/regress on a 64-bit machine), su to postgres,
-and execute "make check".
-This command will start the regression tests and will both show the
-results to the screen and store the results in the file regress.out.
+postgresql-9.3.service"), cd to /usr/pgsql-9.3/lib/test/regress, su to 
+postgres, and execute "make check". This command will start the 
+regression tests and will both show the results to the screen and store 
+the results in the file regress.out.
 
 If any tests fail, see the file regression.diffs in that directory for details,
 and read the "Regression Tests" section of the PostgreSQL documentation to
@@ -221,17 +250,17 @@ STARTING POSTMASTER AUTOMATICALLY AT SYSTEM STARTUP
 -------------------------------------------------------------------------------
 Fedora / Red Hat / CentOS use the systemd package to manage server startup.
 A systemd unit file for PostgreSQL is provided in the server package, as
-/lib/systemd/system/postgresql.service.  To start the postmaster manually,
+/lib/systemd/system/postgresql-9.3.service.  To start the postmaster manually,
 as root run
-	systemctl start postgresql.service
+	systemctl start postgresql-9.3.service
 To shut the postmaster down,
-	systemctl stop postgresql.service
+	systemctl stop postgresql-9.3.service
 These two commands only change the postmaster's current status.  If you
 want the postmaster to be started automatically during future system startups,
 run
-	systemctl enable postgresql.service
+	systemctl enable postgresql-9.3.service
 To undo that again,
-	systemctl disable postgresql.service
+	systemctl disable postgresql-9.3.service
 See "man systemctl" for other possible subcommands.
 
 GRAND UNIFIED CONFIGURATION (GUC) FILE
@@ -290,26 +319,26 @@ uuid		1	#build contrib/uuid-ossp
 To use these defines, invoke a rebuild like this:
 rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
 	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
-	postgresql-9.3.2-1.src.rpm
-This line would disable the python, tcl, and test subpackages, disable the
-regression test run during build, and disable kerberos support.
+	postgresql93-9.3.1-1PGDG.f17.src.rpm
+This line would disable the python, tcl, and test subpackages, disable 
+the regression test run during build, and disable kerberos support.
 
 You might need to disable runselftest if there is an installed version of
 PostgreSQL that is a different major version from what you are trying to
 build.  The self test tends to pick up the installed libpq.so shared library
 in place of the one being built :-(, so if that isn't compatible the test will
-fail.  Also, you can't use runselftest when doing the build as root.
+fail. Also, you can't use runselftest when doing the build as root.
 
 More of these conditionals will be added in the future.
 
 CONTRIB FILES
 -------------------------------------------------------------------------------
 The contents of the contrib tree are packaged into the -contrib subpackage
-and are processed with make and make install.  There is documentation in
-/usr/share/doc/postgresql-contrib-VERSION for these modules.  Most of the
-modules are in /usr/lib/pgsql (or /usr/lib64/pgsql) for loadable
-modules, and binaries are in /usr/bin.  In the future these files may be
-split out, depending upon function and dependencies.
+and are processed with make and make install. Most of the modules are in 
+/usr/pgsql-9.3/lib for loadable modules, and binaries are in 
+/usr/pgsql-9.3/bin.  In the future these files may be split out, 
+depending upon function and dependencies.
+
 
 MORE INFORMATION
 -------------------------------------------------------------------------------
@@ -318,5 +347,5 @@ http://yum.postgresql.org
 
 Please help make this packaging better -- let us know if you find problems, or
 better ways of doing things. You can reach us by e-mail at
-pgsqlrpms-hackers@pgfoundry.org
+pgsql-pkg-yum@postgresql.org
 -------------------------------------------------------------------------------
