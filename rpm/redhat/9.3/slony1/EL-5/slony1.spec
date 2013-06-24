@@ -1,17 +1,21 @@
 %global pginstdir /usr/pgsql-9.3
 %global pgmajorversion 93
+%global _slonconffilter /etc/slon_tools.conf
+%global __requires_exclude ^(%{_slonconffilter})$
 %global sname	slony1
 %{!?docs:%global docs 0}
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.1.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
 Source0:	http://main.slony.info/downloads/2.1/source/%{sname}-%{version}.tar.bz2
 Source2:	filter-requires-perl-Pg.sh
+Source3:	slony1.init
+Source4:	slony1-%{pgmajorversion}.sysconfig
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, initscripts, byacc, flex
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
@@ -78,26 +82,25 @@ rm -rf %{buildroot}
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 # Install sample slon.conf file
-install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/slon.conf
-install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/slon_tools.conf
+install -d %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}
+install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
+install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
+
+# Install default sysconfig file
+install -d %{buildroot}%{_sysconfdir}/sysconfig
+install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
 
 # change file modes of docs.
 /bin/chmod 644 COPYRIGHT UPGRADING SAMPLE HISTORY-1.1 RELEASE
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
-install -m 755 redhat/slony1.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
-
-# Temporary measure for 1.2.X
-%if %docs
-	rm -f doc/implementation/.cvsignore
-	rm -f doc/concept/.cvsignore
-%endif
+install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
-/bin/rm -f %{buildroot}%{_sysconfdir}/slon_tools.conf-sample
 # Perform some cleanup
+/bin/rm -f %{buildroot}%{_sysconfdir}/slon_tools.conf-sample
 /bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
 /bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
 
@@ -106,10 +109,15 @@ rm -rf %{buildroot}
 
 %post
 chkconfig --add %{sname}-%{pgmajorversion}
-if [ ! -e "/var/log/slony1-92" -a ! -h "/var/log/slony1-92" ]
+if [ ! -e "/var/log/slony1-93" -a ! -h "/var/log/slony1-93" ]
 then
-        mkdir /var/log/slony1-92
-        chown postgres:postgres /var/log/slony1-92
+        mkdir /var/log/slony1-93
+        chown postgres:postgres /var/log/slony1-93
+fi
+if [ ! -e "/var/run/slony1-93/" -a ! -h "/var/run/slony1-93/" ]
+then
+        mkdir /var/run/slony1-93
+        chown postgres:postgres /var/run/slony1-93
 fi
 
 %preun
@@ -129,8 +137,9 @@ fi
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
-%config(noreplace) %{_sysconfdir}/slon.conf
-%config(noreplace) %{_sysconfdir}/slon_tools.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
+%config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
+%config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 %attr(755,root,root) %{_initrddir}/slony1-%{pgmajorversion}
 
 %if %docs
@@ -139,6 +148,14 @@ fi
 %endif
 
 %changelog
+* Mon Jun 24 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-2
+- Various fixes for multiple postmaster feature:
+ - Install slony config files in separate directories.
+ - Update init scripts.
+ - Install pid and log files into separate directories.
+ - Properly filter dependency to /etc/slon_tools.conf
+ - Use default sysconfig file, to be used by init script.
+
 * Tue Feb 19 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-1
 - Update to 2.1.3
 - Fix init script names in %%postun and %%preun.
