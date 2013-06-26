@@ -920,7 +920,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Wed May 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
+* Wed Jun 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
 - Update to 9.3 beta 2
 
 * Tue May 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-4PGDG
