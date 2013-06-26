@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3beta1
-Release:	2PGDG%{?dist}
+Version:	9.3beta2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -976,6 +976,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
+- Update to 9.3 beta 2
+
 * Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
 - Set log_line_prefix in default config file to %m. Per suggestion 
   from Magnus. Fixes #91.

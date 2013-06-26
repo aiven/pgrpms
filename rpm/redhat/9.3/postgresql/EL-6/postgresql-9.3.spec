@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3beta1
-Release:	4PGDG%{?dist}
+Version:	9.3beta2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -925,6 +925,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
+- Update to 9.3 beta 2
+
 * Tue May 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-4PGDG
 - Revert #90. Per a report in pgsql-bugs mailing list.
 
