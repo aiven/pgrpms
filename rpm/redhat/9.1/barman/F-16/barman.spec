@@ -5,8 +5,8 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	1.2.0
-Release:	2%{?dist}
+Version:	1.2.2
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
@@ -73,6 +73,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Thu Jun 27 2013 Jeff Frost <jeff@pgexperts.com> - 1.2.2-1
+- Update to 1.2.2, per changes described in this page:
+   http://sourceforge.net/projects/pgbarman/files/1.2.2/
+
 * Tue Feb 26 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-2
 - Add dependency for argcomplete, also add dependency for 
   specific version of python-argh.
