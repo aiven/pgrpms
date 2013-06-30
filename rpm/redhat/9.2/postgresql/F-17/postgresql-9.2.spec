@@ -66,12 +66,12 @@
 %{!?runselftest:%define runselftest 0}
 %{!?uuid:%define uuid 1}
 %{!?ldap:%define ldap 1}
-%{!?selinux:%define selinux 0}
+%{!?selinux:%define selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.2.4
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -393,7 +393,7 @@ export LIBNAME=%{_lib}
 	--with-ldap \
 %endif
 %if %selinux
-	--with-selinux
+	--with-selinux \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -967,6 +967,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-4PGDG
+- Enable building with --with-selinux by default.
+
 * Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
 - Fix Requires: for pltcl package. Per report from Peter Dean.
   Fixes #101.
