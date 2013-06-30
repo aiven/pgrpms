@@ -66,7 +66,7 @@
 %{!?runselftest:%define runselftest 0}
 %{!?uuid:%define uuid 1}
 %{!?ldap:%define ldap 1}
-%{!?selinux:%define selinux 0}
+%{!?selinux:%define selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
@@ -393,7 +393,7 @@ export LIBNAME=%{_lib}
 	--with-ldap \
 %endif
 %if %selinux
-	--with-selinux
+	--with-selinux \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -976,6 +976,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta2-2PGDG
+- Enable building with --with-selinux by default.
+
 * Wed Jun 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
 - Update to 9.3 beta 2
 
