@@ -3,6 +3,7 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname	postgis
 %{!?utils:%define	utils 1}
+%{!?raster:%define	raster 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
@@ -17,7 +18,11 @@ URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2
-BuildRequires:	proj-devel, flex, gdal-devel, json-c-devel, mysql-devel
+BuildRequires:	proj-devel, flex, json-c-devel
+
+%if %raster
+BuildRequires:	gdal-devel, mysql-devel
+%endif
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
@@ -82,7 +87,12 @@ cp -p %{SOURCE2} .
 # We need the below for GDAL:
 export LD_LIBRARY_PATH=%{pginstdir}/lib
 
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath --libdir=%{pginstdir}/lib
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config \
+%if !%raster
+        --without-raster \
+%endif
+	 --disable-rpath --libdir=%{pginstdir}/lib
+
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %if %utils
@@ -161,6 +171,8 @@ rm -rf %{buildroot}
 - Add dependency for mysql-devel, since Fedora / EPEL gdal packages
   are built with MySQL support, too. (for now). This is needed for
   raster support.
+- Push raster support into conditionals, so that we can use similar 
+  spec files for RHEL and Fedora.
 
 * Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
 - Provide postgis, to satisfy OS dependencies. Per #79.
