@@ -4,7 +4,7 @@
 
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:           %{sname}%{pgmajorversion}
-Version:	2.1.2
+Version:	2.2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -53,6 +53,9 @@ rm -rf %{buildroot}
 %doc %{pginstdir}/share/contrib/README.*
 
 %changelog
+* Sun Jun 30 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.1-1
+- Update to 2.2.1
+
 * Wed Nov 14 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.2-1
 - Update to 2.1.2
 
