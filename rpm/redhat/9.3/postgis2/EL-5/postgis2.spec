@@ -152,7 +152,7 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Sun Jun 30 2013013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0beta3-1
+* Sun Jun 30 2013Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0beta3-1
 - Update to 2.1.0 beta3
 - Support multiple version installation 
 - Split "client" tools into a separate subpackage, per
