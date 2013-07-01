@@ -86,10 +86,12 @@ The postgis-utils package provides the utilities for PostGIS.
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
+%if %raster
 # Apply patch for configure.ac, and then run autogen.sh to regenerate
 # configure script.
 %patch0 -p0
 sh autogen.sh
+%endif
 
 %build
 # We need the below for GDAL:
@@ -138,6 +140,7 @@ rm -rf %{buildroot}
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
+%if %raster
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
@@ -145,6 +148,7 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
+%endif
 
 %files client
 %defattr(644,root,root)
