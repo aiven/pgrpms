@@ -14,7 +14,9 @@ Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
+%if %raster
 Patch0:		postgis-2.1-configure-dnl-gdal-deplibs.patch
+%endif
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
