@@ -14,6 +14,7 @@ Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
+Patch0:		postgis-2.1-configure-dnl-gdal-deplibs.patch
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -84,6 +85,7 @@ The postgis-utils package provides the utilities for PostGIS.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
 
@@ -177,6 +179,9 @@ rm -rf %{buildroot}
   raster support.
 - Push raster support into conditionals, so that we can use similar 
   spec files for RHEL and Fedora.
+- Add a patch to get rid of dependency hell from gdal. Per 
+  http://lists.osgeo.org/pipermail/postgis-devel/2013-June/023605.html
+  and a tweet from Mike Toews.
 
 * Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
 - Provide postgis, to satisfy OS dependencies. Per #79.
