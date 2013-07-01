@@ -84,9 +84,12 @@ The postgis-utils package provides the utilities for PostGIS.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
+# Apply patch for configure.ac, and then run autogen.sh to regenerate
+# configure script.
+%patch0 -p0
+sh autogen.sh
 
 %build
 # We need the below for GDAL:
