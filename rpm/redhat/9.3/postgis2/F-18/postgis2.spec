@@ -22,11 +22,10 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.
 BuildRequires:	proj-devel, flex, json-c-devel
 
 %if %raster
-BuildRequires:	gdal-devel, mysql-devel, poppler-devel, xz-devel, openldap-devel
+BuildRequires:	gdal-devel, mysql-devel, poppler-devel, xz-devel, g2clib-devel
 BuildRequires:	hdf5-devel, jasper-devel, freexl-devel, netcdf-devel, libgeotiff-devel
-BuildRequires:	tiff-devel, lzma-devel, xerces-c-devel, armadillo-devel, cfitsio-devel
+BuildRequires:	xerces-c-devel, armadillo-devel, cfitsio-devel, hdf-devel
 BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspatialite-devel
-BuildRequires:	g2clib-devel, hdf-devel, mozldap-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
