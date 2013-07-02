@@ -53,8 +53,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc INSTALL NEWS README
-%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/
-%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
+%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info
 %{python_sitelib}/%{name}/
 %{_bindir}/%{name}
 %doc %{_mandir}/man1/%{name}.1.gz
