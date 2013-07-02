@@ -1,5 +1,5 @@
 %global pginstdir	/usr/pgsql-9.3
-%global pgmajorversion	92
+%global pgmajorversion	93
 %global sname	plr
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
