@@ -791,8 +791,8 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
 %if %selinux
-%{pgbaseinstdir}/lib/selinux.so
-%{pginstdir}/share/contrib/sepgsql.sql
+%{pgbaseinstdir}/lib/sepgsql.so
+%{pgbaseinstdir}/share/contrib/sepgsql.sql
 %endif
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
