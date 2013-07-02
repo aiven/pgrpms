@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f18
+DIST=.f19
 SPECFILE="boxinfo.spec"
 
 # Now, include global Makefile
