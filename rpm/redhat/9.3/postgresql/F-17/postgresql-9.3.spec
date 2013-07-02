@@ -694,8 +694,8 @@ if [ "$1" -eq 0 ]
 %postun libs
 if [ "$1" -eq 0 ]
   then
-        %{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-9.3-libs.conf
-        /sbin/ldconfig
+	%{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-9.3-libs.conf
+	/sbin/ldconfig
 fi
 
 %clean
@@ -790,6 +790,10 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
+%if %selinux
+%{pgbaseinstdir}/lib/selinux.so
+%{pginstdir}/share/contrib/sepgsql.sql
+%endif
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
 %{pgbaseinstdir}/lib/timetravel.so
