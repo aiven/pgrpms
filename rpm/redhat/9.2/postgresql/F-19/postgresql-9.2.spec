@@ -787,6 +787,10 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/pg_upgrade_support.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
+%if %selinux
+%{pgbaseinstdir}/lib/sepgsql.so
+%{pgbaseinstdir}/share/contrib/sepgsql.sql
+%endif
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
 %{pgbaseinstdir}/lib/timetravel.so
