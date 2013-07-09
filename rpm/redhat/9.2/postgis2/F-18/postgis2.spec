@@ -1,6 +1,6 @@
 %global postgismajorversion 2.0
-%global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
+%global pgmajorversion 92
+%global pginstdir /usr/pgsql-9.2
 %global sname	postgis
 %{!?utils:%define	utils 1}
 %{!?raster:%define	raster 1}
@@ -14,9 +14,6 @@ Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-%if %raster
-Patch0:		postgis-2.0-configure-dnl-gdal-deplibs.patch
-%endif
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -88,12 +85,6 @@ The postgis-utils package provides the utilities for PostGIS.
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
-%if %raster
-# Apply patch for configure.ac, and then run autogen.sh to regenerate
-# configure script.
-%patch0 -p0
-sh autogen.sh
-%endif
 
 %build
 # We need the below for GDAL:
@@ -122,8 +113,8 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 
 # Create alternatives entries for common binaries
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 930
-%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql 930
+%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 920
+%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql 920
 
 # Drop alternatives entries for common binaries and man files
 %postun
@@ -148,8 +139,6 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/%{sname}_topology.control
-%{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
-%{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
 %endif
 
 %files client
@@ -176,17 +165,15 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-3
-- Support multiple version installation 
+* Tue Ful 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-3
+- Support multiple version installation.
 - Split "client" tools into a separate subpackage, per
   http://wiki.pgrpms.org/ticket/108
-- Bump up alternatives version.
-- Add dependencies for raster support.
+- Add dependency for mysql-devel, since Fedora / EPEL gdal packages
+  are built with MySQL support, too. (for now). This is needed for
+  raster support.
 - Push raster support into conditionals, so that we can use similar 
   spec files for RHEL and Fedora.
-- Add a patch to get rid of dependency hell from gdal. Per 
-  http://lists.osgeo.org/pipermail/postgis-devel/2013-June/023605.html
-  and a tweet from Mike Toews.
 
 * Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
 - Provide postgis, to satisfy OS dependencies. Per #79.
