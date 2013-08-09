@@ -8,7 +8,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.0.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -18,7 +18,7 @@ URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2
-BuildRequires:	proj-devel, flex, json-c-devel
+BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 
 %if %raster
 BuildRequires:	gdal-devel, mysql-devel, poppler-devel, xz-devel, g2clib-devel
@@ -30,7 +30,7 @@ BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspati
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
-Provides:	%{sname}
+Provides:	{sname} = %{version}-%{release}
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
@@ -44,7 +44,7 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Client tools and their libraries of PostGIS
 Group:		Applications/Databases
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Provides:	%{sname}-client
+Provides:	%{sname}-client = %{version}-%{release}
 
 %description client
 The postgis-client package contains the client tools and their libraries
@@ -54,7 +54,7 @@ of PostGIS.
 Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
-Provides:	%{sname}-devel
+Provides:	%{sname}-devel = %{version}-%{release}
 
 %description devel
 The postgis-devel package contains the header files and libraries
@@ -73,7 +73,7 @@ The postgis-docs package includes PDF documentation of PostGIS.
 Summary:	The utils for PostGIS
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
-Provides:	%{sname}-utils
+Provides:	%{sname}-utils = %{version}-%{release}
 
 %description utils
 The postgis-utils package provides the utilities for PostGIS.
@@ -165,7 +165,11 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Tue Ful 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-3
+* Wed Jul 31 2013 Davlet Panech <dpanech@ubitech.com> - 2.0.3-4
+- Fixed "provides postgis" to avoid self-conflicts
+- BuildRequires: libxml2-devel
+
+* Tue Jul 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-3
 - Support multiple version installation.
 - Split "client" tools into a separate subpackage, per
   http://wiki.pgrpms.org/ticket/108
