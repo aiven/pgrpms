@@ -1,10 +1,10 @@
---- tests/unit/geos_unit.cpp.old	2010-05-27 12:47:42.844449588 +0300
-+++ tests/unit/geos_unit.cpp	2010-05-27 12:47:59.134448617 +0300
-@@ -17,6 +17,7 @@
+--- tests/unit/geos_unit.cpp.old	2013-08-11 14:44:15.275125733 +0300
++++ tests/unit/geos_unit.cpp	2013-08-11 14:44:32.709326934 +0300
+@@ -12,6 +12,7 @@
+ #include <tut_reporter.hpp>
+ // geos 
+ #include <geos/unload.h>
++#include <stdlib.h>
+ // std
  #include <cstdlib>
  #include <iomanip>
- #include <iostream>
-+#include <stdlib.h>
- 
- namespace tut
- {
