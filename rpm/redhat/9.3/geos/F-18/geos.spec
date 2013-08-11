@@ -1,5 +1,5 @@
 Name:		geos
-Version:	3.3.8
+Version:	3.4.0
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -9,7 +9,6 @@ URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
 Patch2:		geos-3.3.2-php-5.4.patch
-Patch3:		geos-3.3.2-ruby-19.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
@@ -62,7 +61,6 @@ Ruby module to build applications using GEOS and ruby
 %setup -q
 %patch0 -p0
 %patch2 -p0
-%patch3 -p0
 
 %build
 
@@ -134,6 +132,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Aug 11 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
+- Update to 3.4.0, per changes described at:
+  http://trac.osgeo.org/geos/browser/tags/3.4.0/NEWS
+- Removed patch3 -- it is now in upstream.
+
 * Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
 - Update to 3.3.8, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.8/NEWS
