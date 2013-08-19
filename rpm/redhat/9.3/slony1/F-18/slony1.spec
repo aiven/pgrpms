@@ -7,8 +7,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.1.3
-Release:	2%{?dist}
+Version:	2.1.4
+Release:	%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -148,6 +148,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 20 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.4-1
+- Update to 2.1.4
+
 * Mon Jun 24 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-2
 - Various fixes for multiple postmaster feature:
  - Install slony config files in separate directories.
