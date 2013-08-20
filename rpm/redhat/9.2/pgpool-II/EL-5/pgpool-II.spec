@@ -5,12 +5,12 @@
 
 Summary:	Pgpool is a connection pooling/replication server for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.1.3
-Release:	2%{?dist}
+Version:	3.3.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
-Source0:	http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
+Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
@@ -52,7 +52,10 @@ Development headers and libraries for pgpool-II.
 %patch1 -p0
 
 %build
-./configure --exec-prefix=%{pgpoolinstdir} --with-pgsql=%{pginstdir} --disable-static --with-pam --disable-rpath --sysconfdir=%{_sysconfdir}/%{name}/ --includedir=%{pgpoolinstdir}/include --datadir=%{pgpoolinstdir}/share --mandir=%{pgpoolinstdir}/man
+./configure --exec-prefix=%{pgpoolinstdir} --with-pgsql=%{pginstdir} \
+--disable-static --with-pam --disable-rpath --sysconfdir=%{_sysconfdir}/%{name}/ \
+--includedir=%{pgpoolinstdir}/include --datadir=%{pgpoolinstdir}/share \
+--mandir=%{pgpoolinstdir}/man --with-openssl
 
 make %{?_smp_flags}
 
@@ -71,9 +74,7 @@ rm -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
 %clean
 rm -rf %{buildroot}
 
-%post 
-/sbin/ldconfig
-chkconfig --add %{sname}-%{pgmajorversion}
+%post
 # Create alternatives entries for common binaries and man files
 %{_sbindir}/update-alternatives --install /usr/bin/pgpool pgpool-pgpool %{pgpoolinstdir}/bin/pgpool 920
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_attach_node pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node 920
@@ -89,25 +90,29 @@ chkconfig --add %{sname}-%{pgmajorversion}
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info 920
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 920
 
-# Drop alternatives entries for common binaries and man files
 %preun
 if [ $1 = 0 ] ; then
 	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
 	chkconfig --del %{sname}-%{pgmajorversion}
 fi
-%{_sbindir}/update-alternatives --remove pgpool-pgpool %{pgpoolinstdir}/bin/pgpool
-%{_sbindir}/update-alternatives --remove pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node
-%{_sbindir}/update-alternatives --remove pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node
-%{_sbindir}/update-alternatives --remove pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count
-%{_sbindir}/update-alternatives --remove pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info
-%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count
-%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
-%{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
-%{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
-%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info
-%{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
 
-%postun -p /sbin/ldconfig
+%postun
+# Drop alternatives entries for common binaries and man files
+if [ "$1" -eq 0 ]
+  then
+      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	%{_sbindir}/update-alternatives --remove pgpool-pgpool %{pgpoolinstdir}/bin/pgpool
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info
+	%{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
+fi
 
 %files
 %defattr(-,root,root,-)
@@ -124,6 +129,7 @@ fi
 %{pgpoolinstdir}/bin/pcp_stop_pgpool
 %{pgpoolinstdir}/bin/pcp_recovery_node
 %{pgpoolinstdir}/bin/pcp_systemdb_info
+%{pgpoolinstdir}/bin/pcp_watchdog_info
 %{pgpoolinstdir}/bin/pg_md5
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pcp.conf.sample
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pgpool.conf.sample
@@ -147,140 +153,7 @@ fi
 %{pgpoolinstdir}/include/pool_process_reporting.h
 
 %changelog
-* Tue Jul 03 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.3-2
-- Update download URL.
-
-* Tue Apr 24 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.3-1
-- Update to 3.1.3, per changes described at:
-  http://www.pgpool.net/docs/pgpool-II-3.1.3/doc/NEWS.txt
-- Update patch1
-- Update alternatives version to 920
-
-* Tue Mar 27 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.2-1
-- Update to 3.1.2, per changes described at:
-  http://www.pgpool.net/docs/pgpool-II-3.1.2/doc/NEWS.txt
-
-* Fri Aug 12 2011 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.4
-- Update to 3.0.4
-
-* Tue Nov 9 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.1
-- Update to 3.0.1
-- Apply many 9.0+ specific changes, and use alternatives method.
-- Apply some changes to init script.
-
-* Sun Sep 26 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.0
-- Update to 3.0
-
-* Thu Jul 1 2010 Devrim GUNDUZ <devrim@gunduz.org> - 2.3.3-1
-- Update to 2.3.3
-- Enable compilation with PostgreSQL 9.0.
-
-* Thu Dec 10 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.3-1
-- Update to 2.3
-
-* Tue Dec 1 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.2.6-1
-- Update to 2.2.6
-
-* Sun Nov 01 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.2.5-2
-- Remove init script from all runlevels before uninstall. Per #RH Bugzilla
-  532177
-
-* Sun Oct 4 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.5-1
-- Update to 2.2.5, for various fixes described at
-  http://lists.pgfoundry.org/pipermail/pgpool-general/2009-October/002188.html
-- Re-apply a fix for Red Hat Bugzilla #442372
-
-* Wed Sep 9 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.4-1
-- Update to 2.2.4
-
-* Wed May 6 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.2-1
-- Update to 2.2.2
-
-* Sun Mar 1 2009 Devrim Gunduz <devrim@gunduz.org> 2.2-1
-- Update to 2.2
-- Fix URL
-- Own /usr/share/pgpool-II directory.
-- Fix pid file path in init script, per	pgcore #81.
-- Fix spec file -- we don't use short_name macro in pgcore spec file.
-- Create pgpool pid file directory, per pgcore #81.
-- Fix stop/start routines, also improve init script a bit.
-- Install conf files to a new directory (/etc/pgpool-II), and get rid 
-  of sample conf files.
-
-* Fri Aug 8 2008 Devrim Gunduz <devrim@gunduz.org> 2.1-1
-- Update to 2.1
-- Removed temp patch #4.
-
-* Sun Jan 13 2008 Devrim Gunduz <devrim@gunduz.org> 2.0.1-1
-- Update to 2.0.1
-- Add a temp patch that will disappear in 2.0.2
-
-* Fri Oct 5 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.1-1
-- Update to 1.2.1
-
-* Wed Aug 29 2007 Devrim Gunduz <devrim@gunduz.org> 1.2-5
-- Chmod sysconfig/pgpool to 644, not 755. Per BZ review.
-- Run chkconfig --add pgpool during %%post.
-
-* Thu Aug 16 2007 Devrim Gunduz <devrim@gunduz.org> 1.2-4
-- Fixed the directory name where sample conf files and sql files 
-  are installed.
-
-* Sun Aug 5 2007 Devrim Gunduz <devrim@gunduz.org> 1.2-3
-- Added a patch for sample conf file to use Fedora defaults
-
-* Sun Aug 5 2007 Devrim Gunduz <devrim@gunduz.org> 1.2-2
-- Added an init script for pgpool
-- Added /etc/sysconfig/pgpool
-
-* Wed Aug 1 2007 Devrim Gunduz <devrim@gunduz.org> 1.2-1
-- Update to 1.2
-
-* Fri Jun 15 2007 Devrim Gunduz <devrim@gunduz.org> 1.1.1-1
-- Update to 1.1.1
-
-* Sat Jun 2 2007 Devrim Gunduz <devrim@gunduz.org> 1.1-1
-- Update to 1.1
-- added --disable-rpath configure parameter.
-- Chowned sample conf files, so that they can work with pgpoolAdmin.
-
-* Thu Apr 22 2007 Devrim Gunduz <devrim@gunduz.org> 1.0.2-4
-- Added postgresql-devel as BR, per bugzilla review.
-- Added --disable-static flan, per bugzilla review.
-- Removed superfluous manual file installs, per bugzilla review.
-
-* Thu Apr 22 2007 Devrim Gunduz <devrim@gunduz.org> 1.0.2-3
-- Rebuilt for the correct tarball
-- Fixed man8 file ownership, per bugzilla review #229321 
-
-* Tue Feb 20 2007 Jarod Wilson <jwilson@redhat.com> 1.0.2-2
-- Create proper devel package, drop -libs package
-- Nuke rpath
-- Don't install libtool archive and static lib
-- Clean up %%configure line
-- Use proper %%_smp_mflags
-- Install config files properly, without .sample on the end
-- Preserve timestamps on header files
-
-* Tue Feb 20 2007 Devrim Gunduz <devrim@gunduz.org> 1.0.2-1
-- Update to 1.0.2-1
-
-* Mon Oct 02 2006 Devrim Gunduz <devrim@gunduz.org> 1.0.1-5
-- Rebuilt
-
-* Mon Oct 02 2006 Devrim Gunduz <devrim@gunduz.org> 1.0.1-4
-- Added -libs and RPM
-- Fix .so link problem
-- Cosmetic changes to spec file
-
-* Thu Sep 27 2006 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-3
-- Fix spec, per Yoshiyuki Asaba
-
-* Thu Sep 26 2006 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-2
-- Fixed rpmlint errors
-- Fixed download url
-- Added ldconfig for .so files
-
-* Thu Sep 21 2006 - David Fetter <david@fetter.org> 1.0.1-1
-- Initial build pgpool-II 1.0.1 for PgPool Global Development Group
-
+* Fri Aug 16 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.0-1
+- Update to 3.3.0
+- Compile pgpool with OpenSSL support, per #44
+- Trim changelog
