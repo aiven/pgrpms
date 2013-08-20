@@ -10,7 +10,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
-Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.gz
+Source0:	%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
@@ -157,3 +157,75 @@ fi
 - Update to 3.3.0
 - Compile pgpool with OpenSSL support, per #44
 - Trim changelog
+
+* Wed Sep 12 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.0-1
+- Update to 3.2.0
+
+* Tue Jul 03 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.3-2
+- Update download URL.
+
+* Tue Apr 24 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.3-1
+- Update to 3.1.3, per changes described at:
+  http://www.pgpool.net/docs/pgpool-II-3.1.3/doc/NEWS.txt
+- Update patch1
+- Update alternatives version to 920
+
+* Tue Mar 27 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.2-1
+- Update to 3.1.2, per changes described at:
+  http://www.pgpool.net/docs/pgpool-II-3.1.2/doc/NEWS.txt
+
+* Fri Aug 12 2011 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.4
+- Update to 3.0.4
+
+* Tue Nov 9 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.1
+- Update to 3.0.1
+- Apply many 9.0+ specific changes, and use alternatives method.
+- Apply some changes to init script.
+
+* Sun Sep 26 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.0
+- Update to 3.0
+
+* Thu Jul 1 2010 Devrim GUNDUZ <devrim@gunduz.org> - 2.3.3-1
+- Update to 2.3.3
+- Enable compilation with PostgreSQL 9.0.
+
+* Thu Dec 10 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.3-1
+- Update to 2.3
+
+* Tue Dec 1 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.2.6-1
+- Update to 2.2.6
+
+* Sun Nov 01 2009 Devrim GUNDUZ <devrim@gunduz.org> - 2.2.5-2
+- Remove init script from all runlevels before uninstall. Per #RH Bugzilla
+  532177
+
+* Sun Oct 4 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.5-1
+- Update to 2.2.5, for various fixes described at
+  http://lists.pgfoundry.org/pipermail/pgpool-general/2009-October/002188.html
+- Re-apply a fix for Red Hat Bugzilla #442372
+
+* Wed Sep 9 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.4-1
+- Update to 2.2.4
+
+* Wed May 6 2009 Devrim Gunduz <devrim@gunduz.org> 2.2.2-1
+- Update to 2.2.2
+
+* Sun Mar 1 2009 Devrim Gunduz <devrim@gunduz.org> 2.2-1
+- Update to 2.2
+- Fix URL
+- Own /usr/share/pgpool-II directory.
+- Fix pid file path in init script, per	pgcore #81.
+- Fix spec file -- we don't use short_name macro in pgcore spec file.
+- Create pgpool pid file directory, per pgcore #81.
+- Fix stop/start routines, also improve init script a bit.
+- Install conf files to a new directory (/etc/pgpool-II), and get rid 
+  of sample conf files.
+
+* Fri Aug 8 2008 Devrim Gunduz <devrim@gunduz.org> 2.1-1
+- Update to 2.1
+- Removed temp patch #4.
+
+* Sun Jan 13 2008 Devrim Gunduz <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+- Add a temp patch that will disappear in 2.0.2
+
