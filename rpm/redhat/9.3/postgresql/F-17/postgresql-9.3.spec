@@ -70,7 +70,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3beta2
+Version:	9.3rc1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -980,6 +980,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3rc1-1PGDG
+- Update to 9.3 RC1
+
 * Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta2-2PGDG
 - Enable building with --with-selinux by default.
 
