@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.1.3
+Version:	3.1.5
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -51,6 +51,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/data_maintainer3
 %attr(755,root,root) %{_bindir}/londiste3
 %attr(755,root,root) %{_bindir}/pgqd
 %attr(755,root,root) %{_bindir}/qadmin
@@ -91,10 +92,11 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/pgq_node.upgrade.sql
 %{pginstdir}/share/contrib/txid.sql
 %{pginstdir}/share/contrib/uninstall_pgq.sql
-%{pginstdir}/share/extension/londiste--3.1--3.1.3.sql
-%{pginstdir}/share/extension/londiste--3.1.1--3.1.3.sql
-%{pginstdir}/share/extension/londiste--3.1.3.sql
-%{pginstdir}/share/extension/londiste--unpackaged--3.1.3.sql
+%{pginstdir}/share/extension/londiste--3.1--3.1.4.sql
+%{pginstdir}/share/extension/londiste--3.1.1--3.1.4.sql
+%{pginstdir}/share/extension/londiste--3.1.3--3.1.4.sql
+%{pginstdir}/share/extension/londiste--3.1.4.sql
+%{pginstdir}/share/extension/londiste--unpackaged--3.1.4.sql
 %{pginstdir}/share/extension/londiste.control
 %{pginstdir}/share/extension/pgq--3.1--3.1.3.sql
 %{pginstdir}/share/extension/pgq--3.1.1--3.1.3.sql
@@ -149,6 +151,10 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
+* Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.5-1
+- Update to 3.1.5, per changes described at
+  http://pgfoundry.org/frs/shownotes.php?release_id=2045
+
 * Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.3-1
 - Update to 3.1.3
 
