@@ -5,7 +5,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
-Version:	2.1.3
+Version:	2.1.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -125,6 +125,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.4-1
+- Update to 2.1.4
+
 * Tue Feb 19 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-1
 - Update to 2.1.3
 - Fix init script names in %%postun and %%preun.
