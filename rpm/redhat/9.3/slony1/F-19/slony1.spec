@@ -2,13 +2,13 @@
 %global pgmajorversion 93
 %global _slonconffilter /etc/slon_tools.conf
 %global __requires_exclude ^(%{_slonconffilter})$
-%global sname	slony1
+%global sname slony1
 %{!?docs:%global docs 0}
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.1.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -68,11 +68,11 @@ CFLAGS="${CFLAGS} -I%{_includedir}/et -I%{_includedir}" ; export CFLAGS
 
 export LIBNAME=%{_lib}
 %configure --prefix=%{pginstdir} --includedir %{pginstdir}/include --with-pgconfigdir=%{pginstdir}/bin --libdir=%{pginstdir}/lib \
-	--with-perltools=%{pginstdir}/bin \
+	--with-perltools=%{pginstdir}/bin --sysconfdir=%{_sysconfdir}/%{sname}-%{pgmajorversion} \
 %if %docs
 	--with-docs --with-docdir=%{_docdir}/%{sname}-%{version} \
 %endif
-	--datadir=%{pginstdir}/share --with-pglibdir=%{pginstdir}/lib 
+	--datadir=%{pginstdir}/share --with-pglibdir=%{pginstdir}/lib
 
 make %{?_smp_mflags}
 make %{?_smp_mflags} -C tools
@@ -85,6 +85,9 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install
 install -d %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}
 install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
+
+# Fix the log path
+sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 
 # Install default sysconfig file
 install -d %{buildroot}%{_sysconfdir}/sysconfig
@@ -100,7 +103,7 @@ install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Perform some cleanup
-/bin/rm -f %{buildroot}%{_sysconfdir}/slon_tools.conf-sample
+/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 /bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
 /bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
 
@@ -148,6 +151,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
+- Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
+- Set the correct path for LOGDIR in the slon_tools.conf file
+
 * Tue Aug 20 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.4-1
 - Update to 2.1.4
 
@@ -173,7 +180,7 @@ fi
 - Update to 2.1.1
 
 * Wed Oct 05 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.7-2
-- Use correct pgmajorversion number, per report from Ger Timmens. .
+- Use correct pgmajorversion number, per report from Ger Timmens.
 
 * Fri Aug 12 2011 Devrim Gunduz <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7.
@@ -203,7 +210,7 @@ fi
 
 * Sat Mar 14 2009 Devrim Gunduz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
-- Create log directory,	per pgcore #77.
+- Create log directory, per pgcore #77.
 
 * Thu Jan 29 2009 Devrim Gunduz <devrim@gunduz.org> 2.0.0-3
 - Add docbook-utils to BR.
@@ -216,7 +223,7 @@ fi
 - Update to 2.0.0
 
 * Mon Sep 22 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.15-3
-- Add dependency for perl-DBD-Pg, paer Xavier Bergade.
+- Add dependency for perl-DBD-Pg, per Xavier Bergade.
 
 * Sun Sep 21 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.15-2
 - Fix dependency issues caused by latest commit.
@@ -276,7 +283,7 @@ fi
 - Add docs package (It should be added before but...)
 
 * Wed Nov 8 2006 Devrim Gunduz <devrim@gunduz.org>
-- On 64-bit boxes, both 32 and 64 bit -devel packages may be installed. 
+- On 64-bit boxes, both 32 and 64 bit -devel packages may be installed.
   Fix version check script
 - Revert tar name patch
 - Macros cannot be used in various parts of the spec file. Revert that commit
@@ -330,7 +337,7 @@ fi
 - More fixes on RPM builds
 
 * Tue Apr 04 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
-- Fix RPM build errors, regarding to tools/ .
+- Fix RPM build errors, regarding to tools/
 
 * Thu Apr 02 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
 - Added docs to installed files list.
