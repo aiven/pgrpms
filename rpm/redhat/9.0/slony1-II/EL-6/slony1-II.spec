@@ -83,7 +83,7 @@ install -m 755 redhat/slony1.init %{buildroot}%{_initrddir}/%{name}
 
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
-+/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
+/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 # Perform some cleanup
 /bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
 /bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
