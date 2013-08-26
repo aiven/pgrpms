@@ -6,7 +6,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
 Version:	2.1.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -61,7 +61,7 @@ CFLAGS="${CFLAGS} -I%{_includedir}/et -I%{_includedir}" ; export CFLAGS
 
 export LIBNAME=%{_lib}
 %configure --prefix=%{pginstdir} --includedir %{pginstdir}/include --with-pgconfigdir=%{pginstdir}/bin --libdir=%{pginstdir}/lib \
-	--with-perltools=%{pginstdir}/bin \
+	--with-perltools=%{pginstdir}/bin --sysconfdir=%{_sysconfdir}/%{sname}-%{pgmajorversion} \
 	--datadir=%{pginstdir}/share --with-pglibdir=%{pginstdir}/lib --sysconfdir=%{_sysconfdir}/%{name}
 
 make %{?_smp_mflags}
@@ -75,13 +75,16 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install
 install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{name}/slon.conf
 install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{name}/slon_tools.conf
 
+# Fix the log path
+sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
+
 # Install init script
 install -d %{buildroot}%{_initrddir}
 install -m 755 redhat/slony1.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
-/bin/rm -f %{buildroot}%{_sysconfdir}/slon_tools.conf-sample
+/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 # Perform some cleanup
 /bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
 /bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
@@ -125,6 +128,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
+- Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
+- Set the correct path for LOGDIR in the slon_tools.conf file
+
 * Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.4-1
 - Update to 2.1.4
 
