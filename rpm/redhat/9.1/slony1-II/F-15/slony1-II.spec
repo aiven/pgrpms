@@ -6,7 +6,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
 Version:	2.1.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -76,7 +76,7 @@ install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{name}/slon.c
 install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{name}/slon_tools.conf
 
 # Fix the log path
-sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
+sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{_sysconfdir}/%{name}/slon_tools.conf
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
@@ -128,6 +128,9 @@ fi
 %endif
 
 %changelog
+* Mon Aug 26 2013 Jeff Frost <jeff@pgexperts.com> 2.1.4-3
+- Fix slon_tools.conf location for sed command
+
 * Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
 - Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
 - Set the correct path for LOGDIR in the slon_tools.conf file
