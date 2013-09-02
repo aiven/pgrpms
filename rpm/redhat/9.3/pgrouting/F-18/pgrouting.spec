@@ -1,4 +1,5 @@
-%global postgismajorversion 2.0
+%global postgismajorversion 2.1
+%global pgroutingmajorversion 2.0
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3
 %global sname	pgrouting
@@ -10,24 +11,20 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.05
-Release:	1%{dist}
+Version:	%{pgroutingmajorversion}.0
+Release:	rc1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	http://download.osgeo.org/pgrouting/source/%{sname}-%{version}.tar.gz
+Source0:	http://download.osgeo.org/pgrouting/source/%{sname}-%{version}-rc1.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
-Patch1:		pgrouting-remove-createlang-quotes.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
 BuildRequires:	boost-devel >= 1.33
-%if %{tsp_support}
-BuildRequires:	gaul-devel
-%endif
 %if %{dd_support}
 BuildRequires:	CGAL-devel
 %endif
-Requires:	postgis2_%{pgmajorversion} >= 2.0
+Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -36,9 +33,8 @@ Routing functionality for PostgreSQL/PostGIS system.
 
 %prep
 
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{sname}-%{version}-rc1
 %patch0 -p0
-%patch1 -p0
 
 %build
 install -d build
@@ -72,7 +68,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc README.routing COPYING authors.txt  BOOST_LICENSE_1_0.txt RELEASE_NOTES
+%doc README.md BOOST_LICENSE_1_0.txt 
 %attr(755,root,root) %{pginstdir}/lib/librouting.so
 %if %{tsp_support}
 %attr(755,root,root) %{pginstdir}/lib/librouting_tsp.so
@@ -80,10 +76,16 @@ rm -rf %{buildroot}
 %if %{dd_support}
 %attr(755,root,root) %{pginstdir}/lib/librouting_dd.so
 %endif
-/usr/share/postlbs/matching.sql
-/usr/share/postlbs/routing_*.sql
+%attr(755,root,root) %{pginstdir}/lib/librouting_bd.so
+%attr(755,root,root) %{pginstdir}/lib/librouting_ksp.so
+%{pginstdir}/share/contrib/pgrouting-%{pgroutingmajorversion}/%{sname}*
+%{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
+- Update to 2.0.0 rc1
+- Remove patch1 -- already in upstream.
+
 * Mon Nov 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.5-2
 - Add the following features, sponsored by "Norsk institutt for skog og landskap":
  -- Add Traveling Salesperson functionality
