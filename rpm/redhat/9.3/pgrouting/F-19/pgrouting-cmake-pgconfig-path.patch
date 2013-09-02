@@ -1,29 +1,25 @@
---- CMakeLists.txt.old	2012-11-09 13:41:55.130073613 +0200
-+++ CMakeLists.txt	2012-11-09 13:42:04.536082802 +0200
-@@ -26,7 +26,7 @@
-   MESSAGE(FATAL ERROR " Please check your Boost installation ") 
- ENDIF(Boost_INCLUDE_DIRS)
+--- cmake/FindPostgreSQL.cmake.old	2013-09-02 18:45:12.122903519 +0300
++++ cmake/FindPostgreSQL.cmake	2013-09-02 18:46:05.328709679 +0300
+@@ -21,12 +21,14 @@
  
--EXEC_PROGRAM(pg_config
-+EXEC_PROGRAM(/usr/pgsql-9.2/bin/pg_config
-  ARGS --pkglibdir
-  OUTPUT_VARIABLE LIB_DIR)
+     find_program(POSTGRESQL_EXECUTABLE NAMES postgres
+         PATHS
++	/usr/pgsql-9.3/bin/
+         /usr/lib/postgresql/*/bin/
+         )
+     message(STATUS "POSTGRESQL_EXECUTABLE is " ${POSTGRESQL_EXECUTABLE})
  
---- cmake/FindPostgreSQL.cmake.old	2012-11-09 14:01:26.547078521 +0200
-+++ cmake/FindPostgreSQL.cmake	2012-11-09 14:01:55.099121211 +0200
-@@ -20,6 +20,7 @@
- #  find_path(POSTGRESQL_INCLUDE_DIR libpq-fe.h
+     find_program(POSTGRESQL_PG_CONFIG NAMES pg_config
+         PATHS
++	/usr/pgsql-9.3/bin/
+         /usr/lib/postgresql/*/bin/
+         )
+     message(STATUS "POSTGRESQL_PG_CONFIG is " ${POSTGRESQL_PG_CONFIG})
+@@ -47,6 +49,7 @@
  
-  FIND_PATH(POSTGRESQL_INCLUDE_DIR postgres.h
-+      /usr/pgsql-9.2/include/server
-       /usr/include/server
-       /usr/include/pgsql/server
-       /usr/local/include/pgsql/server
-@@ -33,6 +34,7 @@
- 
-   find_library(POSTGRESQL_LIBRARIES NAMES pq libpq
-      PATHS
-+     /usr/pgsql-9.2/lib
-      /usr/lib
-      /usr/local/lib
-      /usr/lib/postgresql
+     find_path(POSTGRESQL_INCLUDE_DIR postgres.h
+         ${T_POSTGRESQL_INCLUDE_DIR}
++	/usr/pgsql-9.3/include/server
+         /usr/include/server
+         /usr/include/pgsql/server
+         /usr/local/include/pgsql/server
