@@ -41,7 +41,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%define beta 1
+%define beta 0
 %{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%define kerbdir "/usr"}
@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3rc1
+Version:	9.3.0
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -920,6 +920,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 3 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.0-1PGDG
+- Update to 9.3.0
+
 * Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3rc1-1PGDG
 - Update to 9.3 RC1
 
