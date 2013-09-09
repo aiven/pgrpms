@@ -1,5 +1,5 @@
 Name:		geos
-Version:	3.4.1
+Version:	3.4.2
 Release:        1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -10,12 +10,10 @@ Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
-BuildRequires:	swig ruby
-BuildRequires:	python-devel ruby-devel
+BuildRequires:	python-devel
 BuildRequires:	gcc-c++
 
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e 'puts RbConfig::CONFIG["sitearchdir"]')}
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
@@ -47,14 +45,6 @@ Requires:	%{name} = %{version}-%{release}
 %description python
 Python module to build applications using GEOS and python
 
-%package ruby
-Summary:	Ruby modules for GEOS
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description ruby
-Ruby module to build applications using GEOS and ruby
-
 %prep
 %setup -q
 %patch0 -p0 -b .gcc43
@@ -70,7 +60,7 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-%configure --disable-static --disable-dependency-tracking --enable-python --enable-ruby
+%configure --disable-static --disable-dependency-tracking --enable-python
 make %{?_smp_mflags}
 
 # Make doxygen documentation files
@@ -120,13 +110,12 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/*.py?
 %{python_sitearch}/%{name}/_%{name}.so
 
-%files ruby
-%defattr(-,root,root,-)
-%{ruby_sitearch}/%{name}.so
-%exclude %{ruby_sitearch}/%{name}.a
-%exclude %{ruby_sitearch}/%{name}.la
-
 %changelog
+* Mon Sep 9 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
+- Update to 3.4.2, per changes described at:
+  http://trac.osgeo.org/geos/browser/tags/3.4.2/NEWS
+- Remove Ruby bindings, per suggestion from Kashif Rasul.
+
 * Tue Aug 20 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.1/NEWS
