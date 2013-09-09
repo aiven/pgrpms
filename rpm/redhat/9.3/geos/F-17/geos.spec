@@ -113,7 +113,6 @@ rm -rf %{buildroot}
 %exclude %{_libdir}/*.la
 %exclude %{_libdir}/*.a
 
-%if "%{?dist}" != ".el4"
 %files python
 %defattr(-,root,root,-)
 %dir %{python_sitearch}/%{name}
