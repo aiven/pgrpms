@@ -136,16 +136,16 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/lib/liblwgeom*.so
-%if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+#%{pginstdir}/share/extension/%{sname}-*.sql
+#%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/lib/liblwgeom*.so
+%if %raster
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
@@ -180,7 +180,7 @@ rm -rf %{buildroot}
 * Tue Sep 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-2
 - Remove ruby bindings, per
   http://lists.osgeo.org/pipermail/postgis-devel/2013-August/023690.html
-- Move extension related files under main package, 
+- Move extension related files under main package,
   per report from Daryl Herzmann
 
 * Mon Sep 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-1
