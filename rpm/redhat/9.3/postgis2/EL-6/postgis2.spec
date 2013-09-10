@@ -136,16 +136,16 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/lib/liblwgeom*.so
-%if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+#%{pginstdir}/share/extension/%{sname}-*.sql
+#%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/lib/liblwgeom*.so
+%if %raster
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
