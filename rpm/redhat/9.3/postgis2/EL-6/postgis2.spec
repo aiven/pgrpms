@@ -20,7 +20,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
-
 %if %raster
 BuildRequires:	gdal-devel
 %endif
@@ -95,6 +94,7 @@ export LD_LIBRARY_PATH=%{pginstdir}/lib
 	 --disable-rpath --libdir=%{pginstdir}/lib
 
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+make -C extensions
 
 %if %utils
  make -C utils
@@ -136,16 +136,16 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
-#%{pginstdir}/share/extension/%{sname}-*.sql
-#%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}-*.sql
+%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so
 %if %raster
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
@@ -156,8 +156,6 @@ rm -rf %{buildroot}
 %files client
 %defattr(644,root,root)
 %attr(755,root,root) %{pginstdir}/bin/*
-%attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
-%{pginstdir}/lib/liblwgeom*.so
 
 %files devel
 %defattr(644,root,root)
