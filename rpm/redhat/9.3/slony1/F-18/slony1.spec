@@ -7,12 +7,12 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.1.4
-Release:	2%{?dist}
+Version:	2.2.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
-Source0:	http://main.slony.info/downloads/2.1/source/%{sname}-%{version}.tar.bz2
+Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	filter-requires-perl-Pg.sh
 Source3:	slony1.init
 Source4:	slony1-%{pgmajorversion}.sysconfig
@@ -94,7 +94,7 @@ install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
 
 # change file modes of docs.
-/bin/chmod 644 COPYRIGHT UPGRADING SAMPLE HISTORY-1.1 RELEASE
+/bin/chmod 644 COPYRIGHT UPGRADING SAMPLE RELEASE
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
@@ -136,7 +136,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%attr(644,root,root) %doc COPYRIGHT UPGRADING HISTORY-1.1 INSTALL SAMPLE RELEASE
+%attr(644,root,root) %doc COPYRIGHT UPGRADING INSTALL SAMPLE RELEASE
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
@@ -151,7 +151,10 @@ fi
 %endif
 
 %changelog
-* Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
+* Tue Sep 10 2013 Devrim Gunduz <devrim@gunduz.org> 2.2.0-1
+- Update to 2.2.0
+
+* Fri Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
 - Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
 - Set the correct path for LOGDIR in the slon_tools.conf file
 
@@ -273,7 +276,7 @@ fi
 - Fix rpm build problem when the system has pg_config in both under
   /usr/local/pgsql/bin and /usr/bin
 
-* Wed Mar 22 2007 Christopher Browne <cbbrowne@ca.afilias.info>
+* Thu Mar 22 2007 Christopher Browne <cbbrowne@ca.afilias.info>
 - Added more recent release notes
 
 * Wed Mar 7 2007 Christopher Browne <cbbrowne@ca.afilias.info>
