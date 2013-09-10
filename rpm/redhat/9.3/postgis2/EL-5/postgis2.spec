@@ -8,7 +8,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -18,17 +18,14 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 
 %if %raster
-BuildRequires:	gdal-devel, mysql-devel, poppler-devel, xz-devel, g2clib-devel
-BuildRequires:	hdf5-devel, jasper-devel, freexl-devel, netcdf-devel, libgeotiff-devel
-BuildRequires:	xerces-c-devel, armadillo-devel, cfitsio-devel, hdf-devel
-BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspatialite-devel
+BuildRequires:	gdal-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -132,13 +129,25 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
-%if %raster
-%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
+%attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
 %{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/lib/liblwgeom*.so
+%if %raster
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
+%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
@@ -168,7 +177,13 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Mon Sep 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0
+* Tue Sep 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-2
+- Remove ruby bindings, per
+  http://lists.osgeo.org/pipermail/postgis-devel/2013-August/023690.html
+- Move extension related files under main package, 
+  per report from Daryl Herzmann
+
+* Mon Sep 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
 * Fri Aug 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0rc2
