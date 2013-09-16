@@ -9,7 +9,6 @@ Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://pgfoundry.org/frs/download.php/1780/%{sname}-%{version}.tar.bz2
-Patch1:		%{sname}-makefile.patch
 Patch2:		%{sname}-fix-totals.patch
 URL:		http://pgfoundry.org/projects/ptop
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
@@ -24,7 +23,6 @@ query plans, issued locks, and table and index statistics.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch1 -p0
 %patch2 -p0
 
 %build
