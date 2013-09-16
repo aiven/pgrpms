@@ -30,7 +30,7 @@ BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspati
 Requires:	postgresql%{pgmajorversion}, geos >= 3.3.8, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
-Provides:	{sname} = %{version}-%{release}
+Provides:	%{sname} = %{version}-%{release}
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
