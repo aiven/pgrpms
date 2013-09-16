@@ -69,7 +69,7 @@ cp -p %{SOURCE2} .
 # We need the below for GDAL:
 export LD_LIBRARY_PATH=%{pginstdir}/lib
 
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster --disable-rpath
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %if %utils
