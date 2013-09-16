@@ -2,7 +2,7 @@
 
 Name:		pgbouncer
 Version:	1.5.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 Group:		Applications/Databases
 License:	MIT and BSD
@@ -98,6 +98,19 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-2
+- Update init script, per #138, which fixes the following.
+  Contributed by Peter:
+ - various legacy code of unknown purpose
+ - no LSB header
+ - used the script name as NAME, making it impossible to copy
+   the script and run two pgbouncers
+ - didn't use provided functions like daemon and killproc
+ - incorrect exit codes when starting already started service and
+   stopping already stopped service (nonstandard condstop action
+   was a partial workaround?)
+ - restart didn't make use of pgbouncer -R option
+
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-1
 - Update to 1.5.4
 
