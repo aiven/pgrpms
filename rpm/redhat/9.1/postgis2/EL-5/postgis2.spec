@@ -6,7 +6,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.3
+Version:	2.0.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -16,7 +16,7 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8, proj-devel, flex, json-c-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8, proj-devel, flex, gdal-devel, json-c-devel
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
@@ -69,7 +69,7 @@ cp -p %{SOURCE2} .
 # We need the below for GDAL:
 export LD_LIBRARY_PATH=%{pginstdir}/lib
 
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster --disable-rpath
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-raster --disable-rpath
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %if %utils
@@ -110,6 +110,11 @@ rm -rf %{buildroot}
 %{_libdir}/liblwgeom*.so
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
+%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/extension/%{sname}-*.sql
+%{pginstdir}/share/extension/%{sname}_topology-*.sql
+%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}_topology.control
 
 %files devel
 %defattr(644,root,root)
@@ -131,7 +136,7 @@ rm -rf %{buildroot}
 %changelog
 * Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.4-1
 - Update to 2.0.4
-- Update GEOS dependency to at least 3.3.8
+- Update GEOS dependency to at least 3.3.8  
 
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
@@ -139,7 +144,6 @@ rm -rf %{buildroot}
 
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2.
-- Remove raster support for RHEL 5, due to missing deps.
 - Update download URL.
 - Add deps for JSON-C support.
 
