@@ -3,7 +3,7 @@
 %global pginstdir /usr/pgsql-9.2
 %global sname	postgis
 %{!?utils:%define	utils 1}
-%{!?raster:%define	raster 1}
+%{!?raster:%define	raster 0}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
