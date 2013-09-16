@@ -6,17 +6,17 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.3
+Version:	2.0.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-URL:		http://postgis.refractions.net/
+URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2, proj-devel, flex, gdal-devel, json-c-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8, proj-devel, flex, gdal-devel, json-c-devel
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
@@ -134,6 +134,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.4-1
+- Update to 2.0.4
+- Update GEOS dependency to at least 3.3.8  
+
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
 - Update all URLs
