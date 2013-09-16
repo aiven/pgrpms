@@ -7,8 +7,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.3
-Release:	4%{?dist}
+Version:	2.0.4
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -17,7 +17,7 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.2
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 
 %if %raster
@@ -27,7 +27,7 @@ BuildRequires:	xerces-c-devel, armadillo-devel, cfitsio-devel, hdf-devel
 BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspatialite-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion}, geos >= 3.3.8, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	{sname} = %{version}-%{release}
@@ -165,6 +165,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.4-1
+- Update to 2.0.4
+- Update GEOS dependency to at least 3.3.8
+
 * Wed Jul 31 2013 Davlet Panech <dpanech@ubitech.com> - 2.0.3-4
 - Fixed "provides postgis" to avoid self-conflicts
 - BuildRequires: libxml2-devel
