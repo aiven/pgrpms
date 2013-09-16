@@ -16,7 +16,7 @@ Source4:	filter-requires-perl-Pg.sh
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8, proj-devel, flex, gdal-devel, json-c-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.3.8, proj-devel, flex, json-c-devel
 
 Requires:	postgresql%{pgmajorversion}, geos, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
@@ -66,8 +66,6 @@ The postgis-utils package provides the utilities for PostGIS.
 cp -p %{SOURCE2} .
 
 %build
-# We need the below for GDAL:
-export LD_LIBRARY_PATH=%{pginstdir}/lib
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster --disable-rpath
 make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
