@@ -3,7 +3,7 @@
 
 Name:           libpqxx
 Epoch:          1
-Version:        4.0
+Version:        4.0.1
 Release:        0.1%{?dist}
 Summary:        C++ client API for PostgreSQL
 
@@ -79,6 +79,10 @@ rm -rf %{buildroot}
 %{_libdir}/pkgconfig/libpqxx.pc
 
 %changelog
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 4.0.1-1
+- Update to 4.0.1, per changes described at:
+  http://pqxx.org/development/libpqxx/browser/tags/4.0.1/NEWS
+
 * Fri Apr 6 2012 Devrim Gunduz <devrim@gunduz.org> 4.0-1
 - Update to 4.0
 
