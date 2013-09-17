@@ -4,13 +4,11 @@
 
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
-Version:	3.6.2
-Release:	3%{?dist}
+Version:	3.7.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/1780/%{sname}-%{version}.tar.bz2
-Patch1:		%{sname}-makefile.patch
-Patch2:		%{sname}-fix-totals.patch
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/ptop/%{sname}/%{version}/%{sname}-%{version}.tar.bz2
 URL:		http://pgfoundry.org/projects/ptop
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -24,8 +22,6 @@ query plans, issued locks, and table and index statistics.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch1 -p0
-%patch2 -p0
 
 %build
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure --prefix=%{pginstdir}
@@ -57,6 +53,11 @@ unlink %{_bindir}/%{sname}
 %doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Tue Sep 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-1
+- Update to 3.7.0
+- Remove patch2, now in upstream.
+- Remove patch1, new GCC's do not like it.
+
 * Mon Jan 17 2011 - Devrim GUNDUZ <devrim@gunduz.org> 3.6.2-3
 - Port a few fixes from EPEL:
  * Fix display of cumulative statistics (BZ#525763)
@@ -80,5 +81,5 @@ unlink %{_bindir}/%{sname}
 * Sun Jan 20 2008 - Devrim GUNDUZ <devrim@gunduz.org> 3.6.1-1.beta3
 - Update to 3.6.1-beta3
 
-* Mon Dec 13 2007 - Devrim GUNDUZ <devrim@gunduz.org> 3.6.1-1.beta2
+* Thu Dec 13 2007 - Devrim GUNDUZ <devrim@gunduz.org> 3.6.1-1.beta2
 - Initial RPM packaging for Fedora
