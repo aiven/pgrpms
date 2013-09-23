@@ -3,12 +3,12 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname	postgis
 %{!?utils:%define	utils 1}
-%{!?raster:%define	raster 0}
+%{!?raster:%define	raster 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -25,6 +25,7 @@ BuildRequires:	gdal-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
+Requires:	%{sname}-client = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -103,6 +104,7 @@ make -C extensions
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+make -C extensions install DESTDIR=%{buildroot}
 
 %if %utils
 install -d %{buildroot}%{_datadir}/%{name}
@@ -138,19 +140,19 @@ rm -rf %{buildroot}
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/lib/liblwgeom*.so
-%if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
-%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/lib/liblwgeom*.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
+%if %raster
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %endif
 
 %files client
@@ -175,6 +177,12 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Sep 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
+- Rebuild against gdal 1.9.3, to fix extension related issues.
+- Enable raster support in EL-6
+- Let main package depend on client package. Per pgrpms #141
+  and per PostgreSQL bug #8463.
+
 * Tue Sep 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-2
 - Remove ruby bindings, per
   http://lists.osgeo.org/pipermail/postgis-devel/2013-August/023690.html
