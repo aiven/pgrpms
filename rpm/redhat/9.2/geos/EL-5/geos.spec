@@ -37,7 +37,6 @@ functions such as IsValid()
 This package contains the development files to build applications that 
 use GEOS
 
-%if "%{?dist}" != ".el4"
 %package python
 Summary:	Python modules for GEOS
 Group:		Development/Libraries
