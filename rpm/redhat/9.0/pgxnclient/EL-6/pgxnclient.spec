@@ -35,7 +35,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc CHANGES  COPYING docs/ MANIFEST.in PKG-INFO  README
+%doc CHANGES  COPYING docs/
 %dir %{python_sitearch}/
 %dir %{python_sitearch}/pgxnclient
 %dir %{python_sitearch}/pgxnclient/tests
