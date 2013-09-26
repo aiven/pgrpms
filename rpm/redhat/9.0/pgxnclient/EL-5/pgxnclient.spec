@@ -4,7 +4,7 @@
 
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
-Version:	1.0
+Version:	1.2.1
 Release:	1%{?dist}
 Source0:	http://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
@@ -57,5 +57,8 @@ rm -rf %{buildroot}
 /usr/lib/python%{pyver}/site-packages/pgxnclient-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Thu Sep 26 2013 Jeff Frost <jeff@pgexperts.com> 1.2.1-1
+- Update to 1.2.1
+
 * Mon Nov 28 2011 Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
 - Initial packaging for PostgreSQL RPM Repository
