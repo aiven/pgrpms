@@ -11,31 +11,34 @@
 # This script is slightly unusual in that the name of the daemon (postmaster)
 # is not the same as the name of the subsystem (postgresql)
 
-# Version 9.0 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.0 Devrim Gündüz <devrim@gunduz.org>
 # Get rid of duplicate PGDATA assignment.
 # Ensure pgstartup.log gets the right ownership/permissions during initdb
 
-# Version 9.1 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.1 Devrim Gündüz <devrim@gunduz.org>
 # Update for 9.1
 # Add an option to initdb to specify locale (default is $LANG):
 # service postgresql initdb tr_TR.UTF-8
 
-# Version 9.2 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.2 Devrim Gündüz <devrim@gunduz.org>
 # Update for 9.2
 
-# Version 9.2.1 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.2.1 Devrim Gündüz <devrim@gunduz.org>
 # Fix version number in initdb warning message, per Jose Pedro Oliveira.
 # Add new functionality: Upgrade from previous version.
 # Usage: service postgresql-9.2 upgrade
 
-# Version 9.2.3 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.2.3 Devrim Gündüz <devrim@gunduz.org>
 # Fix longstanding bug: Enable pidfile and lockfile variables to be defined
 # in sysconfig file.
 # Use $pidfile in status().
 
-# Version 9.2.4 Devrim Gunduz <devrim@gunduz.org>
+# Version 9.2.4 Devrim Gündüz <devrim@gunduz.org>
 # Fix pid file name in init script, so that it is more suitable for
 # multiple postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
+
+# Version 9.2.5 Devrim Gündüz <devrim@gunduz.org>
+# Remove extra whitespace in upgrade() code, per report from Igor Poteryaev.
 
 # PGVERSION is the full package version, e.g., 9.2.0
 # Note: the specfile inserts the correct value during package build
@@ -315,7 +318,7 @@ if [ $RETVAL -eq 0 ]
 	echo "Performing upgrade"
 	su -l postgres -c "$PGENGINE/pg_upgrade \
 		-b /usr/pgsql-$PGPREVMAJORVERSION/bin/ -B $PGENGINE/ \
-		-d $OLDPGDATA -D $NEWPGDATA \ 
+		-d $OLDPGDATA -D $NEWPGDATA \
 		-p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 < /dev/null
   else
 	echo "Cluster check failed. Please see the output above."

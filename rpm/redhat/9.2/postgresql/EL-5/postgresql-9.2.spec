@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.4
-Release:	3PGDG%{?dist}
+Version:	9.2.5
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -911,6 +911,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Oct 08 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.5-1PGDG
+- Update to 9.2.5, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-5.html
+- Fix an with init script, per http://wiki.pgrpms.org/ticket/136.
+
 * Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
 - Fix pid file name in init script, so that it is more suitable for multiple
   postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
