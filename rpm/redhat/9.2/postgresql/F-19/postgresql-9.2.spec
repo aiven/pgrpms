@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.4
-Release:	4PGDG%{?dist}
+Version:	9.2.5
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -971,6 +971,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Oct 08 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.5-1PGDG
+- Update to 9.2.5, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-5.html
+
 * Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-4PGDG
 - Enable building with --with-selinux by default.
 
