@@ -1,4 +1,6 @@
 %global postgismajorversion 2.1
+%global postgisprevmajorversion 2.0  
+%global postgisprevversion 2.0.4
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3
 %global sname	postgis
@@ -8,10 +10,11 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
+Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 
@@ -109,6 +112,18 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
+# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship 
+# postgis-2.0.so file along with 2.1 package, so that we can upgrade:
+tar zxf %{SOURCE1}
+cd %{sname}-%{postgisprevversion}
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
+	 --disable-rpath --libdir=%{pginstdir}/lib
+
+make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
+# Install postgis-2.0.so file manually:
+%{__mkdir} -p %{buildroot}/%{pginstdir}/lib/
+%{__install} -m 644 postgis/postgis-%{postgisprevmajorversion}.so %{buildroot}/%{pginstdir}/lib/postgis-%{postgisprevmajorversion}.so
+
 # Create alternatives entries for common binaries
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 930
@@ -135,7 +150,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
-%attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
+%attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
+%attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so
@@ -175,6 +191,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Oct 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
+- Install postgis-2.0.so file, by compiling it from 2.0 sources.
+  Per lots of complaints to maintainers and pgsql-bugs lists.
+
 * Tue Sep 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-2
 - Remove ruby bindings, per
   http://lists.osgeo.org/pipermail/postgis-devel/2013-August/023690.html
