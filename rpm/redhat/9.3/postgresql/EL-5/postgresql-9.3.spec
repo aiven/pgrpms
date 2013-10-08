@@ -923,6 +923,7 @@ rm -rf %{buildroot}
 * Tue Oct 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.1-1PGDG
 - Update to 9.3.1, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-1.html
+- Fix issues with init script, per http://wiki.pgrpms.org/ticket/136.
 
 * Tue Sep 3 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.0-1PGDG
 - Update to 9.3.0

@@ -41,12 +41,16 @@
 # Add support for pg_ctl promote. Per suggestion from Magnus Hagander. Fixes #93.
 # Remove hardcoded script names in init script. Fixes #102.
 
+# Version 9.3.1 Devrim Gunduz <devrim@gunduz.org>
+# Fix PGPREVMAJORVERSION parameter, per report from Igor Poteryaev.
+# Remove extra whitespace in upgrade() code, per report from Igor Poteryaev.
+
 # PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
 # PGMAJORVERSION is major version, e.g., 9.3 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.3
+PGPREVMAJORVERSION=9.2
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -319,7 +323,7 @@ if [ $RETVAL -eq 0 ]
 	echo "Performing upgrade"
 	su -l postgres -c "$PGENGINE/pg_upgrade \
 		-b /usr/pgsql-$PGPREVMAJORVERSION/bin/ -B $PGENGINE/ \
-		-d $OLDPGDATA -D $NEWPGDATA \ 
+		-d $OLDPGDATA -D $NEWPGDATA \
 		-p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 < /dev/null
   else
 	echo "Cluster check failed. Please see the output above."
