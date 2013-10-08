@@ -4,7 +4,7 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.18.0
+Version:	1.18.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -96,6 +96,9 @@ fi
 %doc docs/*
 
 %changelog
+* Tue Oct 8 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-1
+- Update to 1.18.1
+
 * Fri Aug 30 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.0-1
 - Update to 1.18.0 Gold
 
