@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.0
+Version:	9.3.1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -925,6 +925,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Oct 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.1-1PGDG
+- Update to 9.3.1, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-1.html
+
 * Tue Sep 3 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.0-1PGDG
 - Update to 9.3.0
 
