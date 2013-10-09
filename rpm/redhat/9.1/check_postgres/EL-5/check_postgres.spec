@@ -8,6 +8,7 @@ Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/wiki/Check_postgres
 Buildarch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	perl-ExtUtils-MakeMaker
 
 %description
 check_postgres.pl is a script for checking the state of one or more 
@@ -23,13 +24,8 @@ make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-
-install -d %{buildroot}%{_bindir}/
-install -d %{buildroot}%{_docdir}/%{name}-%{version}
-install -d %{buildroot}%{_mandir}/man3/
-install -p -m 755 %{name}.pl %{buildroot}%{_bindir}/
-install -p -m 644 %{name}.pl.html README TODO %{buildroot}%{_docdir}/%{name}-%{version}/
-install -p -m 644 blib/man3/check_postgres.3 %{buildroot}%{_mandir}/man3/
+make %{?_smp_mflags} pure_install DESTDIR=%{buildroot}
+%{__rm} -f %{buildroot}/usr/lib/perl5/vendor_perl/auto/check_postgres/.packlist
 
 %clean
 rm -rf %{buildroot}
@@ -37,12 +33,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,-)
 %doc %{name}.pl.html README TODO
-%{_mandir}/man3/%{name}.*
+%{_mandir}/man1/%{name}*
 %{_bindir}/%{name}.pl
 
 %changelog
 * Wed Oct 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.21.0-1
 - Update to 2.21.0
+- Simplify spec file.
 
 * Tue Jul 2 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.20.1-1
 - Update to 2.20.1
