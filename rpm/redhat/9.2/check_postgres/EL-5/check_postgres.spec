@@ -25,7 +25,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make %{?_smp_mflags} pure_install DESTDIR=%{buildroot}
-%{__rm} -f %{buildroot}/usr/lib/perl5/vendor_perl/auto/check_postgres/.packlist
+%{__rm} -f %{buildroot}%{_libdir}/perl5/vendor_perl/auto/check_postgres/.packlist
 
 %clean
 rm -rf %{buildroot}
