@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	8.4.17
+Version:	8.4.18
 Release:	1PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -804,6 +804,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Oct 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.4.18-1PGDG
+- Update to 8.4.18, per changes described at:
+  http://www.postgresql.org/docs/8.4/static/release-8-4-18.html
+
 * Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 8.4.17-1PGDG
 - Update to 8.4.17, per changes described at:
   http://www.postgresql.org/docs/8.4/static/release-8-4-17.html
