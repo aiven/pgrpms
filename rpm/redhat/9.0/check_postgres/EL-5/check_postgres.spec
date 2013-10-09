@@ -1,6 +1,6 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
-Version:	2.20.1
+Version:	2.21.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,6 +41,9 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}.pl
 
 %changelog
+* Wed Oct 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.21.0-1
+- Update to 2.21.0
+
 * Tue Jul 2 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.20.1-1
 - Update to 2.20.1
 
