@@ -14,7 +14,8 @@ URL:		http://pgfoundry.org/projects/pg-comparator
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	perl(Getopt::Long) perl(Time::HiRes)
+Requires:	perl(Getopt::Long), perl(Time::HiRes), perl-Pod-Usage
+
 %description
 pg_comparator is a tool to compare possibly very big tables in 
 different locations and report differences, with a network and 
