@@ -1,6 +1,6 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	11.4
+Version:	12.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	GPLv3+
@@ -54,6 +54,10 @@ rm -rf %{buildroot}
 %{_docdir}/%{name}/*
 
 %changelog
+* Wed Oct 23 2013 Devrim GUNDUZ <devrim@gunduz.org> 12.0-1
+- Update to 12.0, per changes described at:
+  http://www.postgresql.org/message-id/52664854.30200@dalibo.com
+
 * Thu Sep 12 2013 Devrim GUNDUZ <devrim@gunduz.org> 11.4-1
 - Update to 11.4
 

@@ -1,17 +1,16 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	5.0
-Release:	4%{?dist}
-Group:		Productivity/Databases/Tools
-License:	Artistic License, GPL
-URL:		http://www.samse.fr/GPL/ora2pg/
-Source:		http://www.darold.net/projects/ora2pg/%{name}-%{version}.tar.gz
-#Patch0:		%{name}-%{version}-string-compare.patch
+Version:	12.0
+Release:	1%{?dist}
+Group:		Applications/Databases
+License:	GPLv3+
+URL:		http://ora2pg.darold.net/
+Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	perl
-Requires:	perl(DBD::Oracle) perl(DBI) perl(String::Random)
+Requires:	perl(DBD::Oracle) perl(DBI) perl(String::Random) perl(IO::Compress::Base)
 
 %description
 This package contains a Perl module and a companion script to convert an
@@ -19,26 +18,54 @@ Oracle database schema to PostgreSQL and to migrate the data from an
 Oracle database to a PostgreSQL database.
 
 %prep
-%setup
-#%patch0 -p1 
+%setup -q
 
 %build
+# Make Perl and Ora2Pg distrib files
+%{__perl} Makefile.PL \
+    INSTALLDIRS=vendor \
+    QUIET=1 \
+    CONFDIR=%{_sysconfdir} \
+    DOCDIR=%{_docdir}/%{name}-%{version} \
+    DESTDIR=%{buildroot}
+%{__make}
 
 %install
-install -m 644 -D Ora2Pg.pm %{buildroot}%{perl_vendorarch}/Ora2Pg.pm
-install -m 755 -D ora2pg.pl %{buildroot}/usr/bin/ora2pg
-mkdir -p %{buildroot}/usr/share/man/man1 %{buildroot}/usr/share/man/man3
-pod2man Ora2Pg.pm %{buildroot}/usr/share/man/man3/Ora2Pg.3
-ln -s /usr/share/man/man3/Ora2Pg.3.gz %{buildroot}/usr/share/man/man1/ora2pg.1.gz
+%{__rm} -rf %{buildroot}
+%{__make} install DESTDIR=%{buildroot}
+
+%{__install} -D -m 0644 doc/%{name}.3 \
+    %{buildroot}/%{_mandir}/man3/%{name}.3
+
+# Remove unpackaged files.
+rm -f `find %{buildroot}/%{_libdir}/perl*/ -name perllocal.pod -type f`
+rm -f `find %{buildroot}/%{_libdir}/perl*/ -name .packlist -type f`
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-, root, root, 0755)
-%doc ora2pg.conf CHANGES TODO
-%{_prefix}/*
+%attr(0755,root,root) %{_bindir}/%{name}
+%attr(0644,root,root) %{_mandir}/man3/%{name}.3.gz
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf.dist
+%{perl_vendorlib}/Ora2Pg/PLSQL.pm
+%{perl_vendorlib}/Ora2Pg.pm
+%{_docdir}/%{name}/*
 
 %changelog
+* Wed Oct 23 2013 Devrim GUNDUZ <devrim@gunduz.org> 12.0-1
+- Update to 12.0, per changes described at:
+  http://www.postgresql.org/message-id/52664854.30200@dalibo.com
+
+* Thu Sep 12 2013 Devrim GUNDUZ <devrim@gunduz.org> 11.4-1
+- Update to 11.4
+
+* Thu Sep 13 2012 Devrim GUNDUZ <devrim@gunduz.org> 9.2-1
+- Update to 9.2
+- Update URL, License, Group tags
+- Fix spec per rpmlint warnings
+- Apply some changes from upstream spec
+
 * Fri Mar 20 2009 Devrim GUNDUZ <devrim@gunduz.org> 5.0-1
 - Initial release, based on Peter's spec file.
