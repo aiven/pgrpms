@@ -12,10 +12,10 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.0
-Release:	rc1%{dist}
+Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	http://download.osgeo.org/pgrouting/source/%{sname}-%{version}-rc1.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake
@@ -33,7 +33,7 @@ Routing functionality for PostgreSQL/PostGIS system.
 
 %prep
 
-%setup -q -n %{sname}-%{sname}-%{version}-rc1
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -82,6 +82,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
+- Update to 2.0.0
+
 * Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
 - Update to 2.0.0 rc1
 - Remove patch1 -- already in upstream.
