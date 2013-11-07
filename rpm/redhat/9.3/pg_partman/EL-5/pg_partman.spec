@@ -45,6 +45,8 @@ rm -rf %{buildroot}
 %doc %{pginstdir}/share/extension/%{sname}.md
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ghost %{pginstdir}/bin/*.pyo
+%ghost %{pginstdir}/bin/*.pyc
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
 %attr(755, root, -) %{pginstdir}/bin/partition_data.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
