@@ -23,7 +23,7 @@
 # on the rpm command line
 
 %{!?gcj_support:%define gcj_support	1}
-%{!?upstreamserver:%define upstreamver	9.2-1002}
+%{!?upstreamver:%define upstreamver	9.3-1100}
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3
 %global sname postgresql-jdbc
@@ -33,7 +33,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.2.1002
+Version:	9.3.1100
 Release:	1PGDG%{?dist}
 Epoch:		0
 License:	BSD
@@ -65,7 +65,7 @@ system. The postgresql-jdbc package includes the .jar files needed for
 Java programs to access a PostgreSQL database.
 
 %prep
-%setup -c -q
+%setup -q -n %{sname}-%{upstreamver}.src
 
 # remove any binary libs
 find -name "*.jar" -or -name "*.class" | xargs rm -f
@@ -73,9 +73,6 @@ find -name "*.jar" -or -name "*.class" | xargs rm -f
 %build
 export OPT_JAR_LIST="ant/ant-junit junit"
 export CLASSPATH=
-
-# Temporary solution for build 1002 -- tarball is incorrect:
-mv postgresql-jdbc-9.2-1002.src/* .
 
 sh update-translations.sh
 ant
@@ -106,7 +103,7 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc LICENSE README doc/* 
+%doc LICENSE doc/* 
 %{_javadir}/*
 %if %{gcj_support}
 %dir %{_libdir}/gcj/%{name}
@@ -115,6 +112,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 05 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-1PGDG
+- Update to 9.3 build 1100
+
 * Mon Jan 14 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.2.1002-1PGDG
 - Update to 9.2 build 1002
 
