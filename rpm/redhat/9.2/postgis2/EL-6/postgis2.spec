@@ -7,8 +7,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.0
-Release:	3%{?dist}
+Version:	2.1.1
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -177,6 +177,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sat Nov 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
+- Update to 2.1.1
+
 * Mon Sep 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
 - Rebuild against gdal 1.9.3, to fix extension related issues.
 - Enable raster support in EL-6
