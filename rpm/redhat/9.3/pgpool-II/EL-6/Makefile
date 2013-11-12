@@ -1,7 +1,7 @@
 #################################
 # RPM-specific Makefile		#
 # http://yum.postgresql.org	#
-#                         	#
+#				#
 # Devrim Gunduz			#
 # devrim@gunduz.org		#
 #################################
@@ -12,7 +12,6 @@ ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
 SPECFILE="pgpool-II.spec"
-HOMEDIR=$HOMEDIR
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
