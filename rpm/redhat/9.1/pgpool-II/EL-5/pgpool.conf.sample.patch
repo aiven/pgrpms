@@ -1,5 +1,5 @@
---- pgpool.conf.sample.old	2011-11-25 02:39:25.328069349 +0200
-+++ pgpool.conf.sample	2011-11-25 02:42:08.770073079 +0200
+--- pgpool.conf.sample.old	2013-11-12 09:59:33.761162864 +0000
++++ pgpool.conf.sample	2013-11-12 09:59:41.054230722 +0000
 @@ -33,8 +33,6 @@
                                     # (change requires restart)
  socket_dir = '/tmp'
@@ -9,7 +9,7 @@
                                     # (change requires restart)
  
  
-@@ -45,21 +43,19 @@
+@@ -45,19 +43,17 @@
                                     # (change requires restart)
  pcp_socket_dir = '/tmp'
                                     # Unix domain socket path for pcp
@@ -31,18 +31,14 @@
 -#backend_data_directory0 = '/data'
 +backend_data_directory0 = '/var/lib/pgsql/9.1/data'
                                     # Data directory for backend 0
--#backend_flag0 = 'ALLOW_TO_FAILOVER'
-+backend_flag0 = 'ALLOW_TO_FAILOVER'
+ #backend_flag0 = 'ALLOW_TO_FAILOVER'
                                     # Controls various backend behavior
-                                    # ALLOW_TO_FAILOVER or DISALLOW_TO_FAILOVER
- #backend_hostname1 = 'host2'
-@@ -176,10 +172,11 @@
+@@ -180,10 +176,10 @@
  # FILE LOCATIONS
  #------------------------------------------------------------------------------
  
 -pid_file_name = '/var/run/pgpool/pgpool.pid'
 +pid_file_name = '/var/run/pgpool-II-91/pgpool.pid'
-+
                                     # PID file name
                                     # (change requires restart)
 -logdir = '/tmp'
