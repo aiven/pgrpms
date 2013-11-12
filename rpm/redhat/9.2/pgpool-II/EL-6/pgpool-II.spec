@@ -5,15 +5,16 @@
 
 Summary:	Pgpool is a connection pooling/replication server for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.3.0
+Version:	3.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
-Source0:	%{sname}-%{version}.tar.gz
+Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
+Patch2:		pgpool-Makefiles-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
 Requires(post):	%{_sbindir}/update-alternatives
@@ -50,18 +51,23 @@ Development headers and libraries for pgpool-II.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch1 -p0
+%patch2 -p0
 
 %build
 ./configure --exec-prefix=%{pgpoolinstdir} --with-pgsql=%{pginstdir} \
 --disable-static --with-pam --disable-rpath --sysconfdir=%{_sysconfdir}/%{name}/ \
 --includedir=%{pgpoolinstdir}/include --datadir=%{pgpoolinstdir}/share \
---mandir=%{pgpoolinstdir}/man --with-openssl
+--mandir=%{pgpoolinstdir}/man --with-openssl --with-memcached=%{_includedir}/libmemcached
 
-make %{?_smp_flags}
+USE_PGXS=1 make %{?_smp_flags}
+USE_PGXS=1 make -C sql %{?_smp_flags}
 
 %install
 rm -rf %{buildroot}
 make %{?_smp_flags} DESTDIR=%{buildroot} install
+make -C sql %{?_smp_flags} DESTDIR=%{buildroot} install
+
+# Install init script,, and sysconfig file:
 install -d %{buildroot}%{_initrddir}
 sed 's/^PGVERSION=.*$/PGVERSION=%{pgmajorversion}/' <%{SOURCE1} > pgpool-II-%{pgmajorversion}.init
 install -m 755 pgpool-II-%{pgmajorversion}.init %{buildroot}%{_initrddir}/pgpool-II-%{pgmajorversion}
@@ -138,10 +144,16 @@ fi
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pgpool.conf.sample-stream
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pool_hba.conf.sample
 %{pgpoolinstdir}/lib/libpcp.so*
+%{pginstdir}/lib/pgpool-recovery.so
+%{pginstdir}/lib/pgpool-regclass.so
 %{pgpoolinstdir}/man/man8/pgpool.8
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
 %{pgpoolinstdir}/share/pgpool-II/system_db.sql
+%{pginstdir}/share/extension/pgpool-recovery.sql
+%{pginstdir}/share/extension/pgpool-regclass.sql
+%{pginstdir}/share/extension/pgpool_recovery*
+%{pginstdir}/share/extension/pgpool_regclass*
 %{_initrddir}/%{sname}-%{pgmajorversion}
 %{_sysconfdir}/sysconfig/%{sname}-%{pgmajorversion}
 
@@ -153,6 +165,12 @@ fi
 %{pgpoolinstdir}/include/pool_process_reporting.h
 
 %changelog
+* Tue Nov 12 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.1-1
+- Update to 3.3.1
+- Add pgpool-recovery and pgpool-regclass extensions. Per 
+  pgrpms #127 and #134 .
+- Compile pgpool with memcache support, per pgrpms #135.
+
 * Fri Aug 16 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.0-1
 - Update to 3.3.0
 - Compile pgpool with OpenSSL support, per #44
@@ -168,7 +186,7 @@ fi
 - Update to 3.1.3, per changes described at:
   http://www.pgpool.net/docs/pgpool-II-3.1.3/doc/NEWS.txt
 - Update patch1
-- Update alternatives version to 920
+- Update alternatives version to 930
 
 * Tue Mar 27 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.2-1
 - Update to 3.1.2, per changes described at:
