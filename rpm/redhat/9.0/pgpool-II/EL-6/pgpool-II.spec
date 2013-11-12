@@ -14,7 +14,6 @@ Source0:	%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
-Patch2:		pgpool-Makefiles-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel, libmemcached-devel
 Requires(post):	%{_sbindir}/update-alternatives
@@ -51,7 +50,6 @@ Development headers and libraries for pgpool-II.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch1 -p0
-%patch2 -p0
 
 %build
 ./configure --exec-prefix=%{pgpoolinstdir} --with-pgsql=%{pginstdir} \
@@ -60,12 +58,10 @@ Development headers and libraries for pgpool-II.
 --mandir=%{pgpoolinstdir}/man --with-openssl --with-memcached=%{_includedir}/libmemcached
 
 USE_PGXS=1 make %{?_smp_flags}
-USE_PGXS=1 make -C sql %{?_smp_flags}
 
 %install
 rm -rf %{buildroot}
 make %{?_smp_flags} DESTDIR=%{buildroot} install
-make -C sql %{?_smp_flags} DESTDIR=%{buildroot} install
 
 # Install init script,, and sysconfig file:
 install -d %{buildroot}%{_initrddir}
@@ -144,16 +140,10 @@ fi
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pgpool.conf.sample-stream
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pool_hba.conf.sample
 %{pgpoolinstdir}/lib/libpcp.so*
-%{pginstdir}/lib/pgpool-recovery.so
-%{pginstdir}/lib/pgpool-regclass.so
 %{pgpoolinstdir}/man/man8/pgpool.8
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
 %{pgpoolinstdir}/share/pgpool-II/system_db.sql
-%{pginstdir}/share/extension/pgpool-recovery.sql
-%{pginstdir}/share/extension/pgpool-regclass.sql
-%{pginstdir}/share/extension/pgpool_recovery*
-%{pginstdir}/share/extension/pgpool_regclass*
 %{_initrddir}/%{sname}-%{pgmajorversion}
 %{_sysconfdir}/sysconfig/%{sname}-%{pgmajorversion}
 
@@ -167,8 +157,6 @@ fi
 %changelog
 * Tue Nov 12 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.1-1
 - Update to 3.3.1
-- Add pgpool-recovery and pgpool-regclass extensions. Per 
-  pgrpms #127 and #134 .
 - Compile pgpool with memcache support, per pgrpms #135.
 
 * Fri Aug 16 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.0-1
