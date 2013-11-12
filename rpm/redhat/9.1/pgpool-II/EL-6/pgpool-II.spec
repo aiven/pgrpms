@@ -16,7 +16,7 @@ Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
 Patch2:		pgpool-Makefiles-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, pam-devel, libmemcached-devel
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
