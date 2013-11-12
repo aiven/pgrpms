@@ -1,5 +1,5 @@
---- pgpool.conf.sample.old	2012-06-18 15:46:14.396000039 -0400
-+++ pgpool.conf.sample	2012-06-18 15:48:22.182000194 -0400
+--- pgpool.conf.sample.old	2013-11-12 09:59:33.761162864 +0000
++++ pgpool.conf.sample	2013-11-12 09:59:41.054230722 +0000
 @@ -33,8 +33,6 @@
                                     # (change requires restart)
  socket_dir = '/tmp'
@@ -29,16 +29,16 @@
 +backend_weight0 = 1
                                     # Weight for backend 0 (only in load balancing mode)
 -#backend_data_directory0 = '/data'
-+backend_data_directory0 = '/var/lib/pgsql/9.3/data'
++backend_data_directory0 = '/var/lib/pgsql/9.2/data'
                                     # Data directory for backend 0
  #backend_flag0 = 'ALLOW_TO_FAILOVER'
                                     # Controls various backend behavior
-@@ -176,10 +172,10 @@
+@@ -180,10 +176,10 @@
  # FILE LOCATIONS
  #------------------------------------------------------------------------------
  
 -pid_file_name = '/var/run/pgpool/pgpool.pid'
-+pid_file_name = '/var/run/pgpool-II-93/pgpool.pid'
++pid_file_name = '/var/run/pgpool-II-92/pgpool.pid'
                                     # PID file name
                                     # (change requires restart)
 -logdir = '/tmp'
