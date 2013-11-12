@@ -10,7 +10,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
-Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.gz
+Source0:	%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
 Patch1:		pgpool.conf.sample.patch
