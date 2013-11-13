@@ -18,6 +18,8 @@ Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 
+Patch0:		postgis-rhel5-compile.patch
+
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -84,6 +86,7 @@ The postgis-utils package provides the utilities for PostGIS.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
 
@@ -154,8 +157,6 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
@@ -195,6 +196,8 @@ rm -rf %{buildroot}
 %changelog
 * Sat Nov 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
 - Update to 2.1.1
+- Add a new patch for RHEL 5, per:
+  http://trac.osgeo.org/postgis/ticket/2542
 
 * Mon Oct 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
 - Install postgis-2.0.so file, by compiling it from 2.0 sources.
