@@ -5,7 +5,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.18.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
@@ -96,6 +96,9 @@ fi
 %doc docs/*
 
 %changelog
+* Tue Nov 19 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-2
+- Fix file paths, per #118.
+
 * Tue Oct 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.18.1-1
 - Update to 1.18.1
 
