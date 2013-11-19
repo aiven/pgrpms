@@ -5,7 +5,7 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.18.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
@@ -76,7 +76,7 @@ desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications
 rm -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 920
+%{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 930
 
 %preun
 if [ $1 = 0 ] ; then
@@ -96,6 +96,10 @@ fi
 %doc docs/*
 
 %changelog
+* Tue Nov 19 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-2
+- Fix file paths, per #118.
+- Fix alternatives version.
+
 * Tue Oct 8 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-1
 - Update to 1.18.1     
 
