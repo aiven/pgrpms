@@ -12,5 +12,5 @@
  Categories=Application;Development;
  MimeType=text/html
 -DocPath=/usr/share/pgadmin3/docs/en_US/index.html
-+DocPath=/usr/pgsql-9.3/share/pgadmin3/docs/en_US/o
++DocPath=/usr/pgsql-9.3/share/pgadmin3/docs/en_US/
  Comment=PostgreSQL Tools
