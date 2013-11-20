@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f19
+DIST=.rhel6
 SPECFILE="pgmemcache.spec"
 
 # Now, include global Makefile
