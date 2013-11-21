@@ -1,6 +1,3 @@
-# Regression tests take a long time, you can skip 'em with this
-%{!?runselftest: %{expand: %%global runselftest 0}}
-
 Name:		libmemcached
 Summary:	Client library and command line tools for memcached server
 Version:	1.0.17
@@ -56,7 +53,7 @@ Requires: cyrus-sasl-devel%{?_isa}
 %description devel
 This package contains the header files and development libraries
 for %{name}. If you like to develop programs using %{name}, 
-you will need to install %{name}-devel.
+you will need to install %{name}-devel.	
 
 %prep
 %setup -q
@@ -65,13 +62,7 @@ mkdir examples
 cp -p tests/*.{cc,h} examples/
 
 %build
-# option --with-memcached=false to disable server binary check (as we don't run test)
 %configure \
-%if %{runselftest}
-   --with-memcached=%{_bindir}/memcached \
-%else
-   --with-memcached=false \
-%endif
    --enable-sasl \
    --enable-libmemcachedprotocol \
    --enable-memaslap \
@@ -98,20 +89,6 @@ if [ ! -d %{buildroot}%{_mandir}/man1 ]; then
    install -d %{buildroot}%{_mandir}/man3
    install -p -m 644 man/*3 %{buildroot}%{_mandir}/man3
 fi
-
-
-%check
-%if %{runselftest}
-make test 2>&1 | tee rpmtests.log
-# Ignore test result for memaslap (XFAIL but PASS)
-# https://bugs.launchpad.net/libmemcached/+bug/1115357
-if grep "XPASS: clients/memaslap" rpmtests.log && grep "1 of 21" rpmtests.log
-then
-  exit 0
-else
-  exit 1
-fi
-%endif
 
 
 %clean
