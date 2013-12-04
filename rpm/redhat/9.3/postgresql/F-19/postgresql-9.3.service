@@ -12,6 +12,9 @@ Group=postgres
 # Note: avoid inserting whitespace in these Environment= lines, or you may
 # break postgresql-setup.
 
+# Port number for server to listen on
+Environment=PGPORT=5432
+
 # Location of database directory
 Environment=PGDATA=/var/lib/pgsql/9.3/data/
 
@@ -22,7 +25,7 @@ StandardOutput=syslog
 # Disable OOM kill on the postmaster
 OOMScoreAdjust=-1000
 
-ExecStart=/usr/pgsql-9.3/bin/pg_ctl start -D ${PGDATA} -s -w -t 300
+ExecStart=/usr/pgsql-9.3/bin/pg_ctl start -D ${PGDATA} -s -o "-p ${PGPORT}" -w -t 300
 ExecStop=/usr/pgsql-9.3/bin/pg_ctl stop -D ${PGDATA} -s -m fast
 ExecReload=/usr/pgsql-9.3/bin/pg_ctl reload -D ${PGDATA} -s
 
