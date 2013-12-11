@@ -1,6 +1,6 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	1.26.1
+Version:	1.26.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,6 +41,9 @@ rm -rf %{buildroot}
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
+* Wed Dec 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.3-1
+- Update to 1.26.3
+
 * Thu Sep 6 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.1-1
 - Update to 1.26.1
 
