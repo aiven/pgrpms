@@ -5,11 +5,14 @@
 Summary:	R-Tree implementation using GiST for spherical objects
 Name:           %{sname}%{pgmajorversion}
 Version:	1.1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
+Source1:	pgsphere.control
 Patch0:		pgsphere-pg92-languages.patch
+Patch1:		pgsphere-int4.patch
+Patch2:		pgsphere-makefile-extension.patch
 URL:		http://pgfoundry.org/projects/pgsphere
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -23,6 +26,8 @@ spherical objects.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
+%patch2 -p0
 
 %build
 make PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 %{?_smp_mflags} 
@@ -30,6 +35,9 @@ make PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 make install %{?_smp_mflags}
+%{__install} -d %{buildroot}%{pginstdir}/share/extension/
+%{__install} -m 644 %{SOURCE1} %{buildroot}%{pginstdir}/share/extension/
+mv %{buildroot}%{pginstdir}/share/contrib/pg_sphere.sql %{buildroot}%{pginstdir}/share/extension/pgsphere--%{version}.sql
 
 %clean
 rm -rf %{buildroot}
@@ -42,9 +50,14 @@ rm -rf %{buildroot}
 %doc %{_docdir}/pgsql/contrib/README.pg_sphere 
 %doc %{_docdir}/pgsql/contrib/COPYRIGHT.pg_sphere
 %{pginstdir}/lib/pg_sphere.so
-%{pginstdir}/share/contrib/pg_sphere.sql
+%{pginstdir}/share/extension/pgsphere--%{version}.sql
+%{pginstdir}/share/extension/pgsphere.control
 
 %changelog
+* Thu Dec 12 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-3
+- Add a patch to fix build on Fedora 19
+- Add extension support
+
 * Mon Apr 15 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-2
 - Fix packaging issues, per report from Yukio Yamamoto:
   * Install pg_sphere.so under correct location. Actually
