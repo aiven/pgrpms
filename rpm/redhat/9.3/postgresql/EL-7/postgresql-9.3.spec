@@ -64,7 +64,7 @@
 %{!?pam:%define pam 1}
 %{!?disablepgfts:%define disablepgfts 0}
 %{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 1}
+%{!?uuid:%define uuid 0}
 %{!?ldap:%define ldap 1}
 %{!?selinux:%define selinux 1}
 
@@ -983,6 +983,9 @@ rm -rf %{buildroot}
 
 %changelog
 * Thu Dec 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-2PGDG
+- Initial cut for RHEL 7
+- Disable uuid builds on RHEL 7 temporarily, since uuid-devel is not
+  available in the beta iso.
 - Fix builds when uuid support is disabled, by adding missing conditional.
 
 * Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-1PGDG
