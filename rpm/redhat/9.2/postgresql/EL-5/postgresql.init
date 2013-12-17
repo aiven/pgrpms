@@ -40,6 +40,9 @@
 # Version 9.2.5 Devrim Gündüz <devrim@gunduz.org>
 # Remove extra whitespace in upgrade() code, per report from Igor Poteryaev.
 
+# Version 9.2.6 Devrim Gunduz <devrim@gunduz.org>
+# Add process name to the status() call. Patch from Darrin Smart
+
 # PGVERSION is the full package version, e.g., 9.2.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
@@ -347,7 +350,7 @@ case "$1" in
 	stop
 	;;
   status)
-	status -p $pidfile
+	status -p $pidfile $NAME
 	script_result=$?
 	;;
   restart)

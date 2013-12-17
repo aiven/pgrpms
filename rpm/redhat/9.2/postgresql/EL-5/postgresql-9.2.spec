@@ -911,6 +911,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Dec 04 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.6-2PGDG
+- Add process name to the status() call in init script.
+  Patch from Darrin Smart
+
 * Wed Dec 04 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.6-1PGDG
 - Update to 9.2.6, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-6.html
