@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.1.11
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -896,6 +896,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Dec 04 2013 Devrim Gündüz <devrim@gunduz.org> - 9.1.11-2PGDG
+- Add process name to the status() call in init script.
+  Patch from Darrin Smart
+
+* Wed Dec 04 2013 Devrim Gündüz <devrim@gunduz.org> - 9.1.11-1PGDG
+- Add process name to the status() call in init script.
+  Patch from Darrin Smart
+
 * Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.11-1PGDG
 - Update to 9.1.11, per the changes described at
   http://www.postgresql.org/docs/9.1/static/release-9-1-11.html
