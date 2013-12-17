@@ -987,6 +987,8 @@ rm -rf %{buildroot}
 - Disable uuid builds on RHEL 7 temporarily, since uuid-devel is not
   available in the beta iso.
 - Fix builds when uuid support is disabled, by adding missing conditional.
+- Add process name to the status() call in init script.
+  Patch from Darrin Smart
 
 * Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-1PGDG
 - Update to 9.3.2, per changes described at:
