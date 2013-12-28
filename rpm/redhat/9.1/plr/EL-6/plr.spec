@@ -3,7 +3,7 @@
 %global sname	plr
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.14
+Version:	8.3.0.15
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{_docdir}/pgsql/extension/README.plr
 
 %changelog
+* Sat Dec 28 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-15-1
+- Update to 8.3.0.15
+
 * Mon Mar 25 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-14-1
 - Update to 8.3.0.14
 
