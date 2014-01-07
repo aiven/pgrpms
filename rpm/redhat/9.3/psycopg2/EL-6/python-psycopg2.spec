@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.5.1
+Version:	2.5.2
 Release:	1%{?dist}
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-5/%{sname}-%{version}.tar.gz
 Patch0:		setup.cfg.patch
@@ -80,6 +80,10 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{sname}/tests/*
 
 %changelog
+* Tue Jan 7 2014 Devrim Gündüz <devrim@gunduz.org> 2.5.2-1
+- Update to 2.5.2, per changes described at:
+  http://www.psycopg.org/psycopg/articles/2014/01/07/psycopg-252-released
+
 * Sun Jun 30 2013 Devrim GUNDUZ <devrim@gunduz.org> 2.5.1-1
 - Update to 2.5.1, per changes described at:
   http://www.psycopg.org/psycopg/articles/2013/06/23/psycopg-251-released/
