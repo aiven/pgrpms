@@ -18,7 +18,7 @@ Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
-BuildRequires:	gcc-c++, cmake
+BuildRequires:	gcc-c++, cmake28
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
 BuildRequires:	boost-devel >= 1.33
 %if %{dd_support}
