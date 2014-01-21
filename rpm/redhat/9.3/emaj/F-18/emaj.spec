@@ -1,5 +1,5 @@
 Name:		emaj
-Version:	1.0.1
+Version:	1.1.0
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
@@ -39,6 +39,9 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
+* Wed Jan 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
+- Update to 1.1.0
+
 * Mon Jan 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 
