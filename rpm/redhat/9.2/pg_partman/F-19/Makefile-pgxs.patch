@@ -1,0 +1,11 @@
+--- Makefile.old	2014-01-15 15:00:45.937953820 +0200
++++ Makefile	2014-01-15 15:00:58.976898383 +0200
+@@ -5,7 +5,7 @@
+ DATA = $(filter-out $(wildcard updates/*--*.sql),$(wildcard sql/*.sql))
+ DOCS = $(wildcard doc/*.md)
+ SCRIPTS = bin/dump_partition.py bin/partition_data.py bin/reapply_indexes.py bin/undo_partition.py
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.2/bin/pg_config
+ PG91 = $(shell $(PG_CONFIG) --version | egrep " 8\.| 9\.0" > /dev/null && echo no || echo yes)
+ 
+ ifeq ($(PG91),yes)
