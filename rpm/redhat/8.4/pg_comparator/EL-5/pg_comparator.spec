@@ -1,54 +1,71 @@
+%global pgmajorversion 91
+%global pginstdir /usr/pgsql-9.1
+%global sname pg_comparator
+
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
-Name:		pg_comparator
-Version:	1.6.1
+Name:           %{sname}%{pgmajorversion}
+Version:	2.2.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/2655/%{name}-%{version}.tgz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/pg-comparator/%{sname}/%{version}/%{sname}-%{version}.tgz
+Patch0:		Makefile-pgxs.patch
 URL:		http://pgfoundry.org/projects/pg-comparator
-BuildRequires:	postgresql-devel >= 8.0
-Requires:	postgresql-server >= 8.0
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	perl(Getopt::Long) perl(Time::HiRes)
+Requires:	perl(Getopt::Long), perl(Time::HiRes), perl-Pod-Usage 
 %description
 pg_comparator is a tool to compare possibly very big tables in 
 different locations and report differences, with a network and 
 time-efficient approach.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{sname}-%{version}
+%patch0 -p1
 
 %build
 make USE_PGXS=1 %{?_smp_mflags} 
 
 %install
 rm -rf %{buildroot}
+make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+install -d %{buildroot}%{pginstdir}/share/contrib/
+mv %{buildroot}%{_docdir}/pgsql/contrib/README* %{buildroot}%{pginstdir}/share/contrib/
+strip %{buildroot}/%{pginstdir}/lib/*.so
 
-install -d %{buildroot}%{_bindir}/
-install -d %{buildroot}%{_libdir}/
-install -d %{buildroot}%{_docdir}/%{name}-%{version}
-install -d %{buildroot}%{_datadir}/%{name}
-install -m 755 pg_comparator %{buildroot}%{_bindir}
-install -m 644 casts.so checksum.so %{buildroot}%{_libdir}
-install -m 644 README.* INSTALL LICENSE %{buildroot}%{_docdir}/%{name}-%{version}
-install -m 644 *.sql %{buildroot}%{_datadir}/%{name}
+%post
+# Create alternatives entries for binaries
+%{_sbindir}/update-alternatives --install /usr/bin/pg_comparator pgcomparator %{pginstdir}/bin/pg_comparator 910
 
-strip %{buildroot}/%{_libdir}/*.so
+%preun
+# Drop alternatives entries for common binaries and man files
+%{_sbindir}/update-alternatives --remove pgcomparator %{pginstdir}/bin/pg_comparator
 
 %clean
 rm -rf %{buildroot}
 
-#%post -p /sbin/ldconfig 
-#%postun -p /sbin/ldconfig 
-
 %files
 %defattr(-,root,root,-)
-%doc INSTALL LICENSE README.*
-%{_bindir}/pg_comparator
-%{_libdir}/casts.so
-%{_libdir}/checksum.so
-%{_datadir}/%{name}/*.sql
+%{pginstdir}/bin/pg_comparator
+%{pginstdir}/lib/*.so
+%{pginstdir}/share/contrib/*.sql
+%doc %{pginstdir}/share/contrib/README.*
 
 %changelog
+* Thu Feb 13 2014 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.2-1
+- Update to 2.2.2
+
+* Sun Jun 30 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.1-1
+- Update to 2.2.1
+
+* Fri Sep 14 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.1-1
+- Update to 2.1.1
+- Use a better URL for tarball
+
+* Fri Oct 8 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.2-1
+- Refactor spec for 9.0 compatibility. 
+
 * Tue Apr 20 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
+
