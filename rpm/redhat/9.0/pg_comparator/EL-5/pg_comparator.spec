@@ -1,5 +1,5 @@
-%global pgmajorversion 91
-%global pginstdir /usr/pgsql-9.1
+%global pgmajorversion 90
+%global pginstdir /usr/pgsql-9.0
 %global sname pg_comparator
 
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
@@ -36,7 +36,7 @@ strip %{buildroot}/%{pginstdir}/lib/*.so
 
 %post
 # Create alternatives entries for binaries
-%{_sbindir}/update-alternatives --install /usr/bin/pg_comparator pgcomparator %{pginstdir}/bin/pg_comparator 910
+%{_sbindir}/update-alternatives --install /usr/bin/pg_comparator pgcomparator %{pginstdir}/bin/pg_comparator 900
 
 %preun
 # Drop alternatives entries for common binaries and man files
