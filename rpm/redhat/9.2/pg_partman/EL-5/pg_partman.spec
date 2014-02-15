@@ -56,7 +56,7 @@ rm -rf %{buildroot}
 * Sat Feb 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.0-1
 - Update to 1.6.0
 
-* Wed* Wed Jan 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.5.1-1
+* Wed Jan 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.5.1-1
 - Update to 1.5.1
 
 * Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.4.3-1
