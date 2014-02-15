@@ -8,7 +8,7 @@ Version:	2.2.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/pg-comparator/%{sname}/%{version}/%{sname}-%{version}.tgz
+Source0:	http://pgfoundry.org/frs/download.php/3597/%{sname}-%{version}.tgz
 Patch0:		Makefile-pgxs.patch
 URL:		http://pgfoundry.org/projects/pg-comparator
 BuildRequires:	postgresql%{pgmajorversion}-devel
