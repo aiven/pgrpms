@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.2
-Release:	2PGDG%{?dist}
+Version:	9.3.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -922,6 +922,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.3-1PGDG
+- Update to 9.3.3, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-3.html
+
 * Thu Dec 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-2PGDG
 - Fix builds when uuid support is disabled, by adding missing conditional.
 - Add process name to the status() call in init script. 
