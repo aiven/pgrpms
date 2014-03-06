@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	1.6.0
+Version:	1.6.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -53,6 +53,9 @@ rm -rf %{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
 
 %changelog
+* Thu Mar 6 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.1-1
+- Update to 1.6.1
+
 * Sat Feb 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.0-1
 - Update to 1.6.0
 
