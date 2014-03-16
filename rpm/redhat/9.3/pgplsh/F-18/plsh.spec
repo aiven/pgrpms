@@ -4,11 +4,11 @@
 
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:           %{sname}%{pgmajorversion}
-Version:	1.20121018
+Version:	1.20130823
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/downloads/petere/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch1:		%{sname}-makefile.patch
 URL:		https://github.com/petere/plsh
 BuildRequires:	postgresql%{pgmajorversion}-devel 
@@ -42,11 +42,16 @@ rm -rf %{buildroot}
 
 %{pginstdir}/lib/%{sname}.so
 %doc NEWS COPYING README.md 
-%{pginstdir}/share/extension/%{sname}--1.sql
+%{pginstdir}/share/extension/%{sname}--1--2.sql
+%{pginstdir}/share/extension/%{sname}--2.sql
 %{pginstdir}/share/extension/%{sname}--unpackaged--1.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Mar 17 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.20130823-1
+- Update to 1.20130823
+- Update download URL
+
 * Tue Nov 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.20121018-1
 - Rewrite the spec file based on the new version, and update
   to 1.20121018
