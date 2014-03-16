@@ -39,18 +39,18 @@ Routing functionality for PostgreSQL/PostGIS system.
 %build
 install -d build
 cd build
-%cmake .. \
+cmake28 .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 %if %{tsp_support}
 	-DWITH_TSP=ON \
 %endif
 	-DCMAKE_BUILD_TYPE=Release \
 %if %{dd_support}
-	-DWITH_DD=ON \
+	-DWITH_DD=ON -DBoost_NO_BOOST_CMAKE=ON \
 %endif
-%if "%{_lib}" == "lib64"
-	-DLIB_SUFFIX=64
-%endif
+#%if "%{_lib}" == "lib64"
+#	-DLIB_SUFFIX=64
+#%endif
 
 %{__make}
 
@@ -84,6 +84,7 @@ rm -rf %{buildroot}
 %changelog
 * Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
+- Add (-DBoost_NO_BOOST_CMAKE=ON) to cmake28, per Dirk Lohbeck
 
 * Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
 - Update to 2.0.0 rc1
