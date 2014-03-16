@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
-SPECFILE="pgplsh.spec"
+SPECFILE="plsh.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
