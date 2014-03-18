@@ -971,7 +971,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Tue Mar 18 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.8-1PGDG
+* Tue Mar 18 2014 Devrim Gündüz <devrim@gunduz.org> - 9.2.8-1PGDG
 - Update to 9.2.8, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-8.html
 
