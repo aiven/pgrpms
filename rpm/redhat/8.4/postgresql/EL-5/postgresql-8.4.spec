@@ -72,7 +72,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		postgresql
-Version:	8.4.20
+Version:	8.4.21
 Release:	1PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -723,6 +723,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Mar 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.4.21-1PGDG
+- Update to 8.4.21, per changes described at:
+  http://www.postgresql.org/docs/8.4/static/release-8-4-21.html
+
 * Tue Feb 18 2014 Jeff Frost <jeff@pgexperts.com> - 8.4.20-1PGDG
 - Update to 8.4.20, per changes described at:
   http://www.postgresql.org/docs/8.4/static/release-8-4-20.html
