@@ -1,5 +1,5 @@
-%global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
+%global pgmajorversion 90
+%global pginstdir /usr/pgsql-9.0
 
 Name:           repmgr
 Version:        2.0
