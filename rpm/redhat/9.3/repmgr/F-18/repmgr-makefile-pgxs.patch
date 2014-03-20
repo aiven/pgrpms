@@ -20,3 +20,14 @@
  
  install_ext:
  	$(MAKE) -C sql install
+--- sql/Makefile.old	2014-03-20 14:03:24.685183806 +0200
++++ sql/Makefile	2014-03-20 14:03:36.618098929 +0200
+@@ -9,7 +9,7 @@
+ OBJS=repmgr_funcs.o
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
