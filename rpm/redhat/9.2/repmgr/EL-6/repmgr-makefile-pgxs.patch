@@ -1,23 +1,33 @@
---- Makefile.old	2012-04-03 11:36:22.433877157 +0300
-+++ Makefile	2012-04-03 11:38:01.496879417 +0300
-@@ -19,7 +19,8 @@
+--- Makefile.old	2014-03-20 13:56:42.774043093 +0200
++++ Makefile	2014-03-20 13:57:17.931792056 +0200
+@@ -21,7 +21,7 @@
  	$(CC) $(CFLAGS) $(repmgr_OBJS) $(PG_LIBS) $(LDFLAGS) $(LDFLAGS_EX) $(LIBS) -o repmgr
  
  ifdef USE_PGXS
--PGXS := $(shell pg_config --pgxs)
-+PG_CONFIG	= /usr/pgsql-9.2/bin/pg_config
-+PGXS   := $(shell $(PG_CONFIG) --pgxs)
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  else
- subdir = contrib/repmgr
-@@ -31,8 +32,8 @@
- # XXX: Try to use PROGRAM construct (see pgxs.mk) someday. Right now
- # is overriding pgxs install.
- install:
+@@ -36,8 +36,8 @@
+ install: install_prog install_ext
+ 
+ install_prog:
 -	$(INSTALL_PROGRAM) repmgrd$(X) '$(DESTDIR)$(bindir)'
 -	$(INSTALL_PROGRAM) repmgr$(X) '$(DESTDIR)$(bindir)'
 +	$(INSTALL_PROGRAM) repmgrd$(X) '$(DESTDIR)$(bindir)/'
 +	$(INSTALL_PROGRAM) repmgr$(X) '$(DESTDIR)$(bindir)/'
  
- ifneq (,$(DATA)$(DATA_built))
- 	@for file in $(addprefix $(srcdir)/, $(DATA)) $(DATA_built); do \
+ install_ext:
+ 	$(MAKE) -C sql install
+--- sql/Makefile.old	2014-03-20 14:03:24.685183806 +0200
++++ sql/Makefile	2014-03-20 14:03:36.618098929 +0200
+@@ -9,7 +9,7 @@
+ OBJS=repmgr_funcs.o
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
