@@ -2,7 +2,7 @@
 %global pginstdir /usr/pgsql-9.1
 
 Name:           repmgr
-Version:        1.2.0
+Version:        2.0
 Release:        1%{?dist}
 Summary:        Replication Manager for	PostgreSQL Clusters
 Group:		Applications/Databases
@@ -50,10 +50,16 @@ make USE_PGXS=1 clean
 %dir %{pginstdir}/bin
 %{pginstdir}/bin/repmgr
 %{pginstdir}/bin/repmgrd
+%{pginstdir}/lib/repmgr_funcs.so
 %{pginstdir}/share/contrib/repmgr.sql
+%{pginstdir}/share/contrib/repmgr_funcs.sql
 %{pginstdir}/share/contrib/uninstall_repmgr.sql
+%{pginstdir}/share/contrib/uninstall_repmgr_funcs.sql
 
 %changelog
+* Thu Mar 20 2014 - Devrim GUNDUZ <devrim@gunduz.org> 2.0-1
+- Update to 2.0
+
 * Fri Jul 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 
