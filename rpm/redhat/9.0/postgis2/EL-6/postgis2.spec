@@ -6,7 +6,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.3
+Version:	2.0.5
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -130,6 +130,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.5-1
+- Update to 2.0.5
+
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
 

@@ -7,7 +7,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.4
+Version:	2.0.5
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -165,6 +165,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.5-1
+- Update to 2.0.5
+
 * Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.4-1
 - Update to 2.0.4
 - Update GEOS dependency to at least 3.3.8
