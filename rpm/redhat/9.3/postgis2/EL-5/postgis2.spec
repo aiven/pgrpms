@@ -18,8 +18,6 @@ Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 
-Patch0:		postgis-rhel5-compile.patch
-
 URL:		http://postgis.refractions.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -86,7 +84,6 @@ The postgis-utils package provides the utilities for PostGIS.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
 
@@ -196,6 +193,7 @@ rm -rf %{buildroot}
 %changelog
 * Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-1
 - Update to 2.1.2
+- Remove patch0 -- now in upstream.
 
 * Sat Nov 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
 - Update to 2.1.1
