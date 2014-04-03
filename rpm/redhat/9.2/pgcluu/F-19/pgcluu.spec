@@ -1,6 +1,6 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	1.0
+Version:	2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -31,11 +31,15 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%doc ChangeLog
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/%{name}_collectd
 %perl_vendorarch/auto/pgCluu/.packlist
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue Apr 1 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0-1
+- Update to 2.0
+
 * Wed Jan 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
