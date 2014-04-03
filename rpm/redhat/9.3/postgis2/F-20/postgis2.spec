@@ -191,7 +191,7 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Wed Apr 2 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
+* Wed Apr 2 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
 - Bump up postgisprevversion to	2.0.5
 
 * Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-1
