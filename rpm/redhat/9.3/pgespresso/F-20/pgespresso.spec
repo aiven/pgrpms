@@ -5,14 +5,13 @@
 Summary:	Optional Extension for Barman
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		Makefile-pgxs.patch
 URL:		http://pgxn.org/dist/pgespresso/
 BuildRequires:	postgresql%{pgmajorversion}-devel
-Requires:	barman >= 1.3.1
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -49,5 +48,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-2
+- Remove barman dependency
+
 * Mon Apr 14 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
