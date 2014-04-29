@@ -10,7 +10,7 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		Makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_partman/
+URL:		http://pgxn.org/dist/pgespresso/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	barman >= 1.3.1
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
