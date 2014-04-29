@@ -4,7 +4,7 @@
 
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.1.3
+Version:	1.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -48,5 +48,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+
 * Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.3-1
 - Initial RPM packaging for PostgreSQL RPM Repository
