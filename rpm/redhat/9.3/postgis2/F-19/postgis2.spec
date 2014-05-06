@@ -18,7 +18,7 @@ Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
 
-URL:		http://postgis.refractions.net/
+URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2

@@ -8,10 +8,10 @@ Version:	1.3.6
 Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://postgis.refractions.net/download/%{name}-%{version}.tar.gz
+Source0:	http://www.postgis.net/download/%{name}-%{version}.tar.gz
 Source2:	http://www.postgis.org/download/%{name}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-URL:		http://postgis.refractions.net/
+URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql-devel, proj-devel, geos-devel, byacc, proj-devel, flex
