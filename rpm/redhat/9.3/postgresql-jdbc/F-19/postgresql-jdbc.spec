@@ -22,50 +22,54 @@
 # In this file you can find the default build package list macros.  These can be overridden by defining
 # on the rpm command line
 
-%{!?gcj_support:%define gcj_support	1}
-%{!?upstreamver:%define upstreamver	9.3-1100}
+%global section		devel
+%{!?upstreamver:%global upstreamver     9.3-1101}
 %global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
 %global sname postgresql-jdbc
-
-%global beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.3.1100
+Version:	9.3.1101
 Release:	1PGDG%{?dist}
-Epoch:		0
-License:	BSD
+
+# ASL 2.0 applies only to postgresql93-jdbc.pom file, the rest is BSD
+License:	BSD and ASL 2.0
 Group:		Applications/Databases
 URL:		http://jdbc.postgresql.org/
 
-Source0:	http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
+Source0:        http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
 
-%if ! %{gcj_support}
+# originally http://repo2.maven.org/maven2/postgresql/postgresql/8.4-701.jdbc4/postgresql-8.4-701.jdbc4.pom:
+Source1:	%{name}.pom
+
 BuildArch:	noarch
-%endif
-BuildRequires:  jpackage-utils >= 0:1.5
-BuildRequires:  ant >= 0:1.6.2
-BuildRequires:  ant-junit >= 0:1.6.2
-BuildRequires:  junit >= 0:3.7, java-1.5.0-gcj-devel
-BuildRequires:	findutils gettext
-%if %{gcj_support}
-BuildRequires:	gcc-java
-Requires(post):	/usr/bin/rebuild-gcj-db
-Requires(postun):	/usr/bin/rebuild-gcj-db
-%endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-Provides:	postgresql-jdbc
+BuildRequires:	java-devel
+BuildRequires:	jpackage-utils
+BuildRequires:	ant
+BuildRequires:	ant-junit
+BuildRequires:	junit
+# gettext is only needed if we try to update translations
+#BuildRequires:	gettext
+Requires:	java
+Requires:	jpackage-utils
 
 %description
 PostgreSQL is an advanced Object-Relational database management
 system. The postgresql-jdbc package includes the .jar files needed for
 Java programs to access a PostgreSQL database.
 
+%package javadoc
+Summary:        API docs for %{name}
+Group:          Documentation
+
+%description javadoc
+This package contains the API Documentation for %{name}.
+
 %prep
-%setup -q -n %{sname}-%{upstreamver}.src
+%setup -c -q
+mv -f %{sname}-%{upstreamver}.src/* .
+rm -f %{sname}-%{upstreamver}.src/.gitignore
+rmdir %{sname}-%{upstreamver}.src
 
 # remove any binary libs
 find -name "*.jar" -or -name "*.class" | xargs rm -f
@@ -74,44 +78,45 @@ find -name "*.jar" -or -name "*.class" | xargs rm -f
 export OPT_JAR_LIST="ant/ant-junit junit"
 export CLASSPATH=
 
-sh update-translations.sh
-ant
+# Ideally we would run "sh update-translations.sh" here, but that results
+# in inserting the build timestamp into the generated messages_*.class
+# files, which makes rpmdiff complain about multilib conflicts if the
+# different platforms don't build in the same minute.  For now, rely on
+# upstream to have updated the translations files before packaging.
+
+ant jar publicapi
 
 %install
-rm -rf %{buildroot}
-install -d %{buildroot}%{_javadir}
+install -d $RPM_BUILD_ROOT%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-install -m 644 jars/postgresql.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
+install -m 644 jars/postgresql-%{upstreamver}.jdbc41.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
 
-pushd %{buildroot}%{_javadir}
-ln -s %{name}-%{version}.jar %{name}.jar
-# We are breaking  backwards compatibility here, and not adding symlinks anymore.
-popd
+# We used to symlink the driver file to versionless files, but we are not
+# doing it anymore.
 
-%if %{gcj_support}
-aot-compile-rpm
-%endif
-
-%clean
-rm -rf %{buildroot}
-
-%if %{gcj_support}
-%post -p /usr/bin/rebuild-gcj-db
-%postun -p /usr/bin/rebuild-gcj-db
-%endif
+install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}
+cp -ra build/publicapi $RPM_BUILD_ROOT%{_javadocdir}/%{name}
+install -d build/publicapi docs/%{name}
 
 %files
-%defattr(-,root,root)
-%doc LICENSE doc/* 
-%{_javadir}/*
-%if %{gcj_support}
-%dir %{_libdir}/gcj/%{name}
-%{_libdir}/gcj/%{name}/*.jar.so
-%{_libdir}/gcj/%{name}/*.jar.db
-%endif
+%doc LICENSE doc/*
+%{_javadir}/%{name}.jar
+
+%files javadoc
+%doc LICENSE
+%doc %{_javadocdir}/%{name}
 
 %changelog
+* Thu Feb 20 2014 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1101-1PGDG
+- Update to build 1101
+
+* Thu Dec 12 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-2PGDG
+- add javadoc subpackage
+- don't use removed macro %%add_to_maven_depmap (#992816)
+- lint: trim-lines, reuse %%{name} macro, fedora-review fixes
+- merge cleanup changes by Stano Ochotnicky
+
 * Tue Nov 05 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-1PGDG
 - Update to 9.3 build 1100
 
