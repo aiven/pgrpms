@@ -48,12 +48,15 @@
 # Version 9.3.2 Devrim Gunduz <devrim@gunduz.org>
 # Add process name to the status() call. Patch from Darrin Smart
 
-# PGVERSION is the full package version, e.g., 9.3.0
+# Version 9.4.0 Devrim Gunduz <devrim@gunduz.org>
+# Remove PGPORT variable.
+
+# PGVERSION is the full package version, e.g., 9.4.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
-# PGMAJORVERSION is major version, e.g., 9.3 (this should match PG_VERSION)
+# PGMAJORVERSION is major version, e.g., 9.4 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.2
+PGPREVMAJORVERSION=9.3
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -84,10 +87,9 @@ fi
 LOCALEPARAMETER=$2
 
 # Set defaults for configuration variables
-PGENGINE=/usr/pgsql-9.3/bin
-PGPORT=5432
-PGDATA=/var/lib/pgsql/9.3/data
-PGLOG=/var/lib/pgsql/9.3/pgstartup.log
+PGENGINE=/usr/pgsql-9.4/bin
+PGDATA=/var/lib/pgsql/9.4/data
+PGLOG=/var/lib/pgsql/9.4/pgstartup.log
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
@@ -98,7 +100,6 @@ pidfile="/var/run/${NAME}.pid"
 [ -f /etc/sysconfig/pgsql/${NAME} ] && . /etc/sysconfig/pgsql/${NAME}
 
 export PGDATA
-export PGPORT
 
 [ -f "$PGENGINE/postmaster" ] || exit 1
 
@@ -159,7 +160,7 @@ start(){
  	fi
 
 	echo -n "$PSQL_START"
-	$SU -l postgres -c "$PGENGINE/postmaster -p '$PGPORT' -D '$PGDATA' ${PGOPTS} &" >> "$PGLOG" 2>&1 < /dev/null
+	$SU -l postgres -c "$PGENGINE/postmaster -D '$PGDATA' ${PGOPTS} &" >> "$PGLOG" 2>&1 < /dev/null
 	sleep 2
 	pid=`head -n 1 "$PGDATA/postmaster.pid" 2>/dev/null`
 	if [ "x$pid" != x ]
