@@ -5,7 +5,7 @@
 
 Summary:	top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	1.1.0
+Version:	1.1.1
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/pgactivity/*.py*
 
 %changelog
+* Thu Feb 27 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.1-1
+- Update to 1.1.1
+
 * Sun Dec 28 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 - Fix packaging issues
