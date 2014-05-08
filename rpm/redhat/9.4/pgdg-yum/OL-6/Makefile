@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
-SPECFILE="pgdg-oraclelinux-93.spec"
+SPECFILE="pgdg-oraclelinux-94.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

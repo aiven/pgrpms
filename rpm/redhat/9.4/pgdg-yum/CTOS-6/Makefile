@@ -1,17 +1,17 @@
-############################
-# RPM-specific Makefile	   #
-# http://yum.postgresql.org    #
-#                          #
-# Devrim Gunduz            #
-# devrim@gunduz.org        #
-############################
+#################################
+# RPM-specific Makefile		#
+# http://yum.postgresql.org	#
+#				#
+# Devrim Gunduz			#
+# devrim@gunduz.org		#
+#################################
 
 # Predefined values
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
-SPECFILE="pgdg-centos-93.spec"
+SPECFILE="pgdg-centos-94.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
