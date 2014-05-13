@@ -319,7 +319,11 @@ uuid		1	#build contrib/uuid-ossp
 To use these defines, invoke a rebuild like this:
 rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
 	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
+<<<<<<< .mine
+	postgresql94-9.4.0-1PGDG.f19.src.rpm
+=======
 	postgresql94-9.4.1-1PGDG.f17.src.rpm
+>>>>>>> .r572
 This line would disable the python, tcl, and test subpackages, disable 
 the regression test run during build, and disable kerberos support.
 
