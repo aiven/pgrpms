@@ -336,7 +336,6 @@ export LIBNAME=%{_lib}
 	--with-pam \
 %endif
 %if %kerberos
-	--with-krb5 \
 	--with-gssapi \
 	--with-includes=%{kerbdir}/include \
 	--with-libraries=%{kerbdir}/%{_lib} \
