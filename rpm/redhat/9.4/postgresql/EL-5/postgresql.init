@@ -56,7 +56,7 @@
 PGVERSION=xxxx
 # PGMAJORVERSION is major version, e.g., 9.4 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.3
+PGPREVMAJORVERSION=9.4
 
 # Source function library.
 INITD=/etc/rc.d/init.d
