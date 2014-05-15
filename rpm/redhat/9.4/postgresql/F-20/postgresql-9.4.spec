@@ -19,13 +19,14 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2012 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
 # ---------------
 # Lamar Owen
 # Tom Lane
+# Jeff Frost
 # Peter Eisentraut
 # Alvaro Herrera
 # David Fetter
@@ -71,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -82,6 +83,7 @@ Source5:	pg_config.h
 Source6:	README.rpm-dist
 Source7:	ecpg_config.h
 Source9:	postgresql-%{majorversion}-libs.conf
+Source10: 	postgresql94-check-db-dir
 Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
@@ -462,6 +464,15 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
         -e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
         <%{SOURCE17} >postgresql%{packageversion}-setup
 install -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+
+# prep the startup check script, including insertion of some values it needs
+sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+        -e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
+        -e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
+        <%{SOURCE10} >postgresql%{packageversion}-check-db-dir
+touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
+install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
+
 
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
@@ -886,6 +897,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 %if %pam
 %config(noreplace) /etc/pam.d/postgresql%{packageversion}
 %endif
@@ -989,6 +1001,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu May 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-2PGDG
+- Add a new script, called postgresql94-check-db-dir, to be used in 
+  unit file in ExecStartPre. This is a feature we used to have in
+  old init scripts. Per Fedora RPMs.
+
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1
 
