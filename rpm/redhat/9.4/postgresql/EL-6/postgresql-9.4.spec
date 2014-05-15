@@ -19,13 +19,14 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2012 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
 # ---------------
 # Lamar Owen
 # Tom Lane
+# Jeff Frost
 # Peter Eisentraut
 # Alvaro Herrera
 # David Fetter
@@ -734,12 +735,15 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/pgcrypto.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
+%{pgbaseinstdir}/lib/pg_prewarm.so
 %{pgbaseinstdir}/lib/pg_trgm.so
 %{pgbaseinstdir}/lib/pg_upgrade_support.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
+%{pgbaseinstdir}/lib/test_decoding.so
+%{pgbaseinstdir}/lib/test_shm_mq.so
 %{pgbaseinstdir}/lib/timetravel.so
 %{pgbaseinstdir}/lib/unaccent.so
 %{pgbaseinstdir}/lib/worker_spi.so
@@ -773,6 +777,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/pageinspect*
 %{pgbaseinstdir}/share/extension/pg_buffercache*
 %{pgbaseinstdir}/share/extension/pg_freespacemap*
+%{pgbaseinstdir}/share/extension/pg_prewarm*
 %{pgbaseinstdir}/share/extension/pg_stat_statements*
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pgcrypto*
@@ -785,9 +790,11 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/tablefunc*
 %{pgbaseinstdir}/share/extension/tcn*
 %{pgbaseinstdir}/share/extension/test_parser*
+%{pgbaseinstdir}/share/extension/test_shm_mq*
 %{pgbaseinstdir}/share/extension/timetravel*
 %{pgbaseinstdir}/share/extension/tsearch2*
 %{pgbaseinstdir}/share/extension/unaccent*
+%{pgbaseinstdir}/share/extension/worker_spi*
 %if %uuid
 %{pgbaseinstdir}/share/extension/uuid-ossp*
 %endif
@@ -796,12 +803,14 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pgbench
 %{pgbaseinstdir}/bin/vacuumlo
 %{pgbaseinstdir}/bin/pg_archivecleanup
+%{pgbaseinstdir}/bin/pg_recvlogical
 %{pgbaseinstdir}/bin/pg_standby
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_xlogdump
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
+%{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
 %{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
@@ -809,8 +818,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
 %{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
-
-
 
 %files libs -f pg_libpq5.lst
 %defattr(-,root,root)
