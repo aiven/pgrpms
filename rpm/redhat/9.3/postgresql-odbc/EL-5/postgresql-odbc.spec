@@ -26,7 +26,7 @@
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.03.0100
+Version:	09.03.0300
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
@@ -97,6 +97,9 @@ rm -rf %{buildroot}
 %doc license.txt readme.txt 
 
 %changelog
+* Mon May 19 2014 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0300-1
+- Update to 09.03.0300
+
 * Fri Dec 20 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0100-1
 - Update to 09.03.0100
 
