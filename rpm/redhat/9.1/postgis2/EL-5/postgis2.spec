@@ -107,12 +107,16 @@ rm -rf %{buildroot}
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-*.so
 %{_libdir}/liblwgeom*.so
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*.sql
-%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}_topology-*.sql
-%{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/extension/%{sname}_topology.control
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/legacy*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade_20_minor.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial_ref_sys.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
 
 %files devel
 %defattr(644,root,root)
