@@ -1,24 +1,26 @@
 %define debug 0
 
 Name:		pgbouncer
-Version:	1.3.4
-Release:	1%{?dist}
+Version:	1.5.4
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 Group:		Applications/Databases
 License:	MIT and BSD
 URL:		http://pgfoundry.org/projects/pgbouncer/
-Source0:	http://pgfoundry.org/frs/download.php/2797/%{name}-%{version}.tgz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.logrotate
 Patch0:		%{name}-ini.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	libevent-devel >= 1.3b
-Requires:	initscripts, libevent >= 1.3b
+BuildRequires:	libevent-devel >= 2.0
+Requires:	initscripts
 
 Requires(post):	chkconfig
 Requires(preun):	chkconfig, initscripts
 Requires(postun):	initscripts
+Requires:	/usr/sbin/useradd
 
 %description
 pgbouncer is a lightweight connection pooler for PostgreSQL.
@@ -46,16 +48,35 @@ make %{?_smp_mflags} V=1
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
-install -p -d %{buildroot}%{_sysconfdir}/
+install -p -d %{buildroot}%{_sysconfdir}/%{name}/
 install -p -d %{buildroot}%{_sysconfdir}/sysconfig
-install -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/
-rm -f %{buildroot}%{_docdir}/%{name}/pgbouncer.ini
+install -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
+install -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 install -p -d %{buildroot}%{_initrddir}
 install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+# Install sysconfig file
 install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+# Install logrotate file:
+install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
+install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
+# Remove duplicated files
+%{__rm} -f %{buildroot}%{_docdir}/%{name}/pgbouncer.ini
+%{__rm} -f %{buildroot}%{_docdir}/%{name}/NEWS
+%{__rm} -f %{buildroot}%{_docdir}/%{name}/README
+%{__rm} -f %{buildroot}%{_docdir}/%{name}/userlist.txt
 
 %post
 chkconfig --add pgbouncer
+chown -R pgbouncer:pgbouncer /etc/pgbouncer
+
+%pre
+groupadd -r pgbouncer >/dev/null 2>&1 || :
+useradd -m -g pgbouncer -r -s /bin/bash \
+        -c "PgBouncer Server" pgbouncer >/dev/null 2>&1 || :
+touch /var/log/pgbouncer.log
+chown pgbouncer:pgbouncer /var/log/pgbouncer.log
+chmod 0700 /var/log/pgbouncer.log
 
 %preun
 if [ $1 = 0 ] ; then
@@ -75,13 +96,67 @@ rm -rf %{buildroot}
 %defattr(-,root,root,-)
 %doc README NEWS AUTHORS
 %{_bindir}/*
-%config(noreplace) %{_sysconfdir}/%{name}.ini
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
 %{_initrddir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man5/%{name}.*
+%{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-3
+- Add logrotate file. It was already available in svn, but
+  apparently I forgot to add it to spec file. Per an email from
+  Jens Wilke.
+- Change ownership of /etc/pgbouncer directory, to pgbouncer user.
+  Per Jens Wilke.
+
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-2
+- Update init script, per #138, which fixes the following.
+  Contributed by Peter:
+ - various legacy code of unknown purpose
+ - no LSB header
+ - used the script name as NAME, making it impossible to copy
+   the script and run two pgbouncers
+ - didn't use provided functions like daemon and killproc
+ - incorrect exit codes when starting already started service and
+   stopping already stopped service (nonstandard condstop action
+   was a partial workaround?)
+ - restart didn't make use of pgbouncer -R option
+
+* Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-1
+- Update to 1.5.4
+
+* Wed Sep 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.3-1
+- Update to 1.5.3, per changes described at:
+  http://pgfoundry.org/forum/forum.php?forum_id=1981
+
+* Tue Jul 31 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-3
+- Add mkauth.py among installed files.
+
+* Thu Jun 21 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-2
+- Fix useradd line.
+
+* Tue Jun 5 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-1
+- Update to 1.5.2, per changes described at:
+  http://pgfoundry.org/forum/forum.php?forum_id=1885
+
+* Tue May 15 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.1-1
+- Update to 1.5.1
+
+* Sun Apr 08 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5-2
+-  Fix shell of pgbouncer user, to avoid startup errors.
+
+* Fri Apr 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5-1
+- Update to 1.5, for the changes described here:
+  http://pgfoundry.org/frs/shownotes.php?release_id=1920
+- Trim changelog
+
+* Fri Aug 12 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.4.2-1
+- Update to 1.4.2, for the changes described here:
+  http://pgfoundry.org/frs/shownotes.php?release_id=1863
+
 * Mon Sep 13 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.4-1
 - Update to 1.3.4, for the changes described here:
   http://pgfoundry.org/frs/shownotes.php?prelease_id=1698
@@ -96,65 +171,3 @@ rm -rf %{buildroot}
 * Tue Mar 16 2010 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.2-1
 - Fix some issues in init script. Fixes pgrpms.org #9.
 
-* Tue Mar 16 2010 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.2-1
-- Update to 1.3.2
-
-* Thu Dec 10 2009 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.1-4
-- Adjust order of startup and kill.
-
-* Sat Dec 05 2009 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.1-3
-- Fix init script, per report from Scott Bowers:
-  http://lists.pgfoundry.org/pipermail/pgbouncer-general/2009-December/000477.html
-
-* Mon Sep 14 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.3.1-2
-- Add libevent as Requires.
-
-* Wed Jul 29 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.3.1-1
-- Update to 1.3.1
-
-* Thu Mar 5 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-1
-- Update to 1.3
-
-* Fri Aug 29 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-3
-- More fixes, per Fedora review.
-
-* Fri Aug 29 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-2
-- More fixes, per Fedora review.
-
-* Fri Aug 8 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
-- Update to 1.2.3
-- Final fixes for Fedora review
-
-* Sun Mar 23 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-3
-- Mark sysconfig file as config file, per Guillaume Smet.
-
-* Fri Mar 7 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-2
-- Add a patch for pgbouncer.ini to satisfy Red Hat defaults and security.
-  Per Darcy Buskermolen.
-- Fix chkconfig line
-- Add sysconfig file
-- Refactor init script
-
-* Sat Mar 1 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-1
-- Update to 1.1.2
-- Various spec file improvements, per bz review #244593 .
-
-* Fri Oct 26 2007 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-1
-- Update to 1.1.1
-
-* Tue Oct 9 2007 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
-- Update to 1.1
-
-* Tue Sep 25 2007 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.8-2
-- Added init script from Darcy.
-
-* Tue Sep 18 2007 - Darcy Buskermolen <darcyb@gunduz.org> 1.0.8-1
-- Update to pgBouncer 1.0.8
-- Add libevent to requires
-
-* Sat Jun 18 2007 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.7-2
-- Prepare for Fedora review
-- Change spec file name
-
-* Thu May 03 2007 David Fetter <david@fetter.org> 1.0.7-1
-- Initial build 

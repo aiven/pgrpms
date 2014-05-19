@@ -1,15 +1,16 @@
 %define debug 0
 
 Name:		pgbouncer
-Version:	1.5.3
-Release:	1%{?dist}
+Version:	1.5.4
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 Group:		Applications/Databases
 License:	MIT and BSD
 URL:		http://pgfoundry.org/projects/pgbouncer/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}-%{version}.tar.gz
+Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
+Source3:	%{name}.logrotate
 Patch0:		%{name}-ini.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -53,7 +54,11 @@ install -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
 install -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 install -p -d %{buildroot}%{_initrddir}
 install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+# Install sysconfig file
 install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+# Install logrotate file:
+install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
+install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Remove duplicated files
 %{__rm} -f %{buildroot}%{_docdir}/%{name}/pgbouncer.ini
@@ -63,6 +68,7 @@ install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 %post
 chkconfig --add pgbouncer
+chown -R pgbouncer:pgbouncer /etc/pgbouncer
 
 %pre
 groupadd -r pgbouncer >/dev/null 2>&1 || :
@@ -93,11 +99,35 @@ rm -rf %{buildroot}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
 %{_initrddir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man5/%{name}.*
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-3
+- Add logrotate file. It was already available in svn, but
+  apparently I forgot to add it to spec file. Per an email from
+  Jens Wilke.
+- Change ownership of /etc/pgbouncer directory, to pgbouncer user.
+  Per Jens Wilke.
+
+* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-2
+- Update init script, per #138, which fixes the following.
+  Contributed by Peter:
+ - various legacy code of unknown purpose
+ - no LSB header
+ - used the script name as NAME, making it impossible to copy
+   the script and run two pgbouncers
+ - didn't use provided functions like daemon and killproc
+ - incorrect exit codes when starting already started service and
+   stopping already stopped service (nonstandard condstop action
+   was a partial workaround?)
+ - restart didn't make use of pgbouncer -R option
+
+* Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-1
+- Update to 1.5.4
+
 * Wed Sep 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.3-1
 - Update to 1.5.3, per changes described at:
   http://pgfoundry.org/forum/forum.php?forum_id=1981
