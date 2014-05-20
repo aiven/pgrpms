@@ -5,7 +5,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}-II
-Version:	2.0.7
+Version:	2.0.8
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -105,7 +105,7 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %post
-chkconfig --add slony-84-II
+chkconfig --add slony1-84-II
 if [ ! -e "/var/log/slony1-84" -a ! -h "/var/log/slony1-84" ]
 then
         mkdir /var/log/slony1-84
@@ -139,6 +139,10 @@ fi
 %endif
 
 %changelog
+* Wed May 21 2014 Devrim Gunduz <devrim@gunduz.org> 2.0.8-1
+- Update to 2.0.8
+- Fix init script name, per Jaime Casanova .
+
 * Wed Aug 10 2011 Devrim Gunduz <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7
 
