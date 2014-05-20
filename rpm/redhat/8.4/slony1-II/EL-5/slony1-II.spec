@@ -4,7 +4,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-II
-Version:	2.0.7
+Version:	2.0.8
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -147,6 +147,9 @@ fi
 %endif
 
 %changelog
+* Wed May 21 2014 Devrim Gunduz <devrim@gunduz.org> 2.0.8-1
+- Update to 2.0.8
+
 * Wed Aug 10 2011 Devrim Gunduz <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7
 
