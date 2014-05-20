@@ -4,7 +4,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		slony1
-Version:	1.2.22
+Version:	1.2.23
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -149,6 +149,9 @@ fi
 %endif
 
 %changelog
+* Wed May 21 2014 Devrim Gündüzz <devrim@gunduz.org> 1.2.23-1
+- Update to 1.2.23
+
 * Sun Dec 5 2010 Devrim Gunduz <devrim@gunduz.org> 1.2.22-1
 - Update to 1.2.22
 
