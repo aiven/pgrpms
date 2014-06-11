@@ -1,6 +1,6 @@
 Name:		geos
 Version:	3.4.2
-Release:        1%{?dist}
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -8,6 +8,8 @@ License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
+Patch2:		geos-3.3.2-php-5.4.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
@@ -47,7 +49,8 @@ Python module to build applications using GEOS and python
 
 %prep
 %setup -q
-%patch0 -p0 -b .gcc43
+%patch0 -p0
+%patch2 -p0
 
 %build
 
@@ -127,11 +130,11 @@ rm -rf %{buildroot}
 * Sun Aug 11 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.0/NEWS
+- Removed patch3 -- it is now in upstream.
 
 * Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
 - Update to 3.3.8, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.8/NEWS
-- Add new subpackage: ruby
 
 * Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-4
 - Final attempt to fix SIGABRT, per testing and patch by Klynton Jessup.
@@ -153,6 +156,7 @@ rm -rf %{buildroot}
 
 * Fri Jun 1 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.4-1
 - Update to 3.3.4
+- Add two F-17+ specific patches from Fedora.
 
 * Wed Apr 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3
@@ -168,6 +172,7 @@ rm -rf %{buildroot}
 
 * Thu May 27 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.2-1
 - Update to 3.2.2
+- Add a patch to fix build with swig 2.0.0
 
 * Mon Jun 29 2009 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.1-1
 - Update to 3.1.1

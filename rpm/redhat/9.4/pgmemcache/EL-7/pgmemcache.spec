@@ -22,9 +22,6 @@ an interface to memcached.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-# Add this typedef to deprecated_types.h of libmemceched-devel.
-# This is broken between 1.0.16 and 1.0.17.
-#echo "typedef memcached_instance_st *memcached_server_instance_st;" >>  /usr/include/libmemcached-1.0/deprecated_types.h
 
 %build
 make USE_PGXS=1 %{?_smp_mflags} 

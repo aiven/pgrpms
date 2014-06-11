@@ -19,6 +19,8 @@ Url:		http://www.psycopg.org/psycopg/
 BuildRequires:	python-devel postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-libs
 
+Obsoletes:	python-psycopg2-zope <= 2.0.5.1-8
+
 %description
 psycopg is a PostgreSQL database adapter for the Python programming
 language (just like pygresql and popy.) It was written from scratch 
@@ -58,6 +60,9 @@ rm -Rf %{buildroot}
 mkdir -p %{buildroot}%{python_sitearch}/psycopg2
 python setup.py install --no-compile --root %{buildroot}
 
+#install -d %{buildroot}%{ZPsycopgDAdir}
+#cp -pr ZPsycopgDA/* %{buildroot}%{ZPsycopgDAdir}
+
 %clean
 rm -rf %{buildroot}
 
@@ -69,15 +74,15 @@ rm -rf %{buildroot}
 %{python_sitearch}/psycopg2/*.pyc
 %{python_sitearch}/psycopg2/*.so
 %{python_sitearch}/psycopg2/*.pyo
-%{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
-
-%files doc
-%defattr(-,root,root)
-%doc doc examples/
+%{python_sitearch}/psycopg2-%{version}-py%{pyver}.egg-info
 
 %files test
 %defattr(-,root,root)
 %{python_sitearch}/%{sname}/tests/*
+
+%files doc
+%defattr(-,root,root)
+%doc doc examples/
 
 %changelog
 * Mon May 19 2014 Devrim Gündüz <devrim@gunduz.org> 2.5.3-1
@@ -95,7 +100,6 @@ rm -rf %{buildroot}
 * Thu Apr 11 2013 Devrim GUNDUZ <devrim@gunduz.org> 2.5-1
 - Update to 2.5, per changes described at:
   http://www.psycopg.org/psycopg/articles/2013/04/07/psycopg-25-released/
-- Remove zope support from RHEL 6.
 
 * Wed Dec 12 2012 Devrim GUNDUZ <devrim@gunduz.org> 2.4.6-1
 - Update to 2.4.6, per changes described at:
@@ -112,6 +116,10 @@ rm -rf %{buildroot}
 - Add a patch for pg_config path.
 - Add new subpackage: test
 
+* Mon Aug 22 2011 Devrim GUNDUZ <devrim@gunduz.org> 2.4.2-1
+- Update to 2.4.2
+- Add a patch for pg_config path.
+
 * Tue Mar 16 2010 Devrim GUNDUZ <devrim@gunduz.org> 2.0.14-1
 - Update to 2.0.14
 
@@ -124,20 +132,32 @@ rm -rf %{buildroot}
 * Tue May 26 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.11-1
 - Update to 2.0.11
 
-* Fri Apr 24 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.10-1
-- Update to 2.0.10
-
 * Thu Mar 2 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.9-1
 - Update to 2.0.9
 
-* Wed Apr 30 2008 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.7-1
+* Sun Sep 21 2008 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.8-1
+- Update to 2.0.8
+
+* Mon Jun 2 2008 Devrim GUNDUZ <devrim@gunduz.org> 2.0.7-2
+- Fix Fedora-9 builds.
+
+* Wed Apr 30 2008 Devrim GUNDUZ <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7
+
+* Tue Aug 28 2007 Fedora Release Engineering <rel-eng at fedoraproject dot org> - 2.0.6-2
+- Rebuild for selinux ppc32 issue.
 
 * Fri Jun 15 2007 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.6-1
 - Update to 2.0.6
 
-* Sun May 06 2007 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info>
-- rebuilt for RHEL5 final
+* Thu Apr 26 2007 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-8
+- Disabled zope package temporarily.
+
+* Wed Dec 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-7
+- Rebuilt
+
+* Wed Dec 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-5
+- Bumped up spec version
 
 * Wed Dec 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-4
 - Rebuilt for PostgreSQL 8.2.0

@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	0.9.7
+Version:	0.9.10
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -52,6 +52,9 @@ make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=po
 %{pginstdir}/share/extension/README.*
 
 %changelog
+* Thu Dec 26 2013 Devrim Gündüz <devrim@gunduz.org> 0.9.10-1
+- Update to 0.9.10-1
+
 * Mon Oct 8 2012 David E. Wheeler <david.wheeler@iovation.com> 0.9.7-1
 - Initial RPM
  

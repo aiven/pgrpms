@@ -4,7 +4,7 @@
 Name:           libpqxx
 Epoch:          1
 Version:        4.0.1
-Release:        1%{?dist}
+Release:        0.1%{?dist}
 Summary:        C++ client API for PostgreSQL
 
 Group:          System Environment/Libraries

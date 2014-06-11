@@ -4,8 +4,8 @@
 
 Summary:	Unit testing suite for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.24
-Release:	3%{?dist}
+Version:	0.25.0
+Release:	1%{?dist}
 Group:		Applications/Databases
 License:	BSD
 URL:		http://pgtap.projects.postgresql.org
@@ -59,6 +59,9 @@ mv %{buildroot}/usr/share/doc/pgsql/contrib/README.pgtap %{buildroot}%{pginstdir
 %{pginstdir}/share/contrib/README.pgtap
 
 %changelog
+* Fri Apr 1 2011 Devrim GÜNDÜZ <devrim@gunduz.org> 0.25.0-1
+- Update to 0.25.0
+ 
 * Fri Oct 8 2010 Devrim GÜNDÜZ <devrim@gunduz.org> 0.24-3
 - Use alternatives method for binaries.
 - Use %%{?_smp_mflags} macro for make.

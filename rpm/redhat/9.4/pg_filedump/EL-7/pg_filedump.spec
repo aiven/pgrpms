@@ -47,6 +47,7 @@ rm -rf %{buildroot}
 %changelog
 * Wed Nov 14 2012 Devrim GUNDUZ <devrim@gunduz.org> 9.2.0-1
 - Update to 9.2.0
+- Remove no-more-needed pg_crc.c
 
 * Mon Jan 3 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.0-1
 - Update to 9.0

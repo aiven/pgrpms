@@ -11,7 +11,7 @@ Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pgconfig.patch
 URL:		http://pgxn.org/dist/pgbson
-BuildRequires:	postgresql%{pgmajorversion}-devel, cmake28, boost-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, cmake, boost-devel
 Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -30,7 +30,7 @@ create, inspect and manipulate BSON objects.
 mkdir ../%{sname}-%{version}-build
 cd ../%{sname}-%{version}-build
 # Start building
-cmake28 ../%{sname}-%{version}
+cmake ../%{sname}-%{version}
 %{__make}
 
 %install
@@ -56,7 +56,6 @@ rm -rf %{buildroot}
 %changelog
 * Tue Dec 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
-- Depend on cmake28 on RHEL 6, which comes from EPEL repo.
 
 * Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
