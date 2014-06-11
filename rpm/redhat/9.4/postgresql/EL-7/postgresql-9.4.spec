@@ -65,7 +65,7 @@
 %{!?pam:%define pam 1}
 %{!?disablepgfts:%define disablepgfts 0}
 %{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 1}
+%{!?uuid:%define uuid 0}
 %{!?ldap:%define ldap 1}
 %{!?selinux:%define selinux 1}
 
@@ -1005,7 +1005,7 @@ rm -rf %{buildroot}
 - Add a new script, called postgresql94-check-db-dir, to be used in 
   unit file in ExecStartPre. This is a feature we used to have in
   old init scripts. Per Fedora RPMs.
-* Update unit file, per Fedora RPMs
+- Update unit file, per Fedora RPMs
 
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1
