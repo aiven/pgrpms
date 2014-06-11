@@ -19,13 +19,14 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2012 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
 # ---------------
 # Lamar Owen
 # Tom Lane
+# Jeff Frost
 # Peter Eisentraut
 # Alvaro Herrera
 # David Fetter
@@ -64,14 +65,14 @@
 %{!?pam:%define pam 1}
 %{!?disablepgfts:%define disablepgfts 0}
 %{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 0}
+%{!?uuid:%define uuid 1}
 %{!?ldap:%define ldap 1}
 %{!?selinux:%define selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -82,6 +83,7 @@ Source5:	pg_config.h
 Source6:	README.rpm-dist
 Source7:	ecpg_config.h
 Source9:	postgresql-%{majorversion}-libs.conf
+Source10: 	postgresql94-check-db-dir
 Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
@@ -244,7 +246,7 @@ to develop applications which will interact with a PostgreSQL server.
 Summary:	The Perl procedural language for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version})
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
@@ -462,6 +464,15 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
         -e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
         <%{SOURCE17} >postgresql%{packageversion}-setup
 install -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+
+# prep the startup check script, including insertion of some values it needs
+sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+        -e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
+        -e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
+        <%{SOURCE10} >postgresql%{packageversion}-check-db-dir
+touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
+install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
+
 
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
@@ -886,6 +897,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 %if %pam
 %config(noreplace) /etc/pam.d/postgresql%{packageversion}
 %endif
@@ -989,188 +1001,20 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu May 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-2PGDG
+- Add a new script, called postgresql94-check-db-dir, to be used in 
+  unit file in ExecStartPre. This is a feature we used to have in
+  old init scripts. Per Fedora RPMs.
+* Update unit file, per Fedora RPMs
+
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1
-
-* Tue Mar 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.4-1PGDG
-- Update to 9.3.4, per changes described at:
-  http://www.postgresql.org/docs/9.3/static/release-9-3-4.html
-
-* Tue Feb 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.3-1PGDG
-- Update to 9.3.3, per changes described at:
-  http://www.postgresql.org/docs/9.3/static/release-9-3-3.html
 
 * Thu Dec 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-2PGDG
 - Initial cut for RHEL 7
 - Disable uuid builds on RHEL 7 temporarily, since uuid-devel is not
-  available in the beta iso.
+ available in the beta iso.
 - Fix builds when uuid support is disabled, by adding missing conditional.
 - Add process name to the status() call in init script.
   Patch from Darrin Smart
-
-* Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-1PGDG
-- Update to 9.3.2, per changes described at:
-  http://www.postgresql.org/docs/9.3/static/release-9-3-2.html
-
-* Tue Oct 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.1-1PGDG
-- Update to 9.3.1, per changes described at:
-  http://www.postgresql.org/docs/9.3/static/release-9-3-1.html
-
-* Tue Sep 3 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.0-1PGDG
-- Update to 9.3.0
-
-* Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3rc1-1PGDG
-- Update to 9.3 RC1
-
-* Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta2-2PGDG
-- Enable building with --with-selinux by default.
-
-* Wed Jun 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
-- Update to 9.3 beta 2
-
-* Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
-- Set log_line_prefix in default config file to %m. Per suggestion 
-  from Magnus. Fixes #91.
-
-* Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
-- Initial cut for 9.3 beta 1
-
-* Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
-- Fix Requires: for pltcl package. Per report from Peter Dean.
-  Fixes #101.
-
-* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-2PGDG
-- Add pg_basebackup to $PATH, per #75.
-
-* Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 9.2.4-1PGDG
-- Update to 9.2.4, per changes described at:
-  http://www.postgresql.org/docs/9.2/static/release-9-2-4.html
-  which also includes fixes for CVE-2013-1899, CVE-2013-1900, and
-  CVE-2013-1901.
-
-* Fri Feb 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-2PGDG
-- Fix bug in new installations, that prevents ld.so.conf.d file
-  to be installed.
-
-* Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-1PGDG
-- Update to 9.2.3, per changes described at:
-  http://www.postgresql.org/docs/9.2/static/release-9-2-3.html
-- Fix -libs issue while installing 9.1+ in parallel. Per various
-  bug reports. Install ld.so.conf.d file with -libs subpackage.
-- Move $pidfile and $lockfile definitions before sysconfig call,
-  so that they can be included in sysconfig file.
-
-* Thu Dec 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.2-1PGDG
-- Update to 9.2.2, per changes described at:
-  http://www.postgresql.org/docs/9.2/static/release-9-2-2.html
-
-* Thu Sep 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.1-1PGDG
-- Update to 9.2.1, per changes described at:
-  http://www.postgresql.org/docs/9.2/static/release-9-2-1.html
-- Initial cut for pg_upgrade support on PGDG RPMs. 
-  Usage: postgresql92-setup upgrade
-
-* Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.0-1PGDG
-- Update to 9.2.0
-- Split .control files in appropriate packages. This is a late port
-  from 9.1 branch. With this patch, pls can be created w/o installing
-  -contrib subpackage.
-
-* Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2
-- Install linker conf file with alternatives, so that the latest 
-  version will always be used. Fixes #77.
-
-* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1  
-- Update to 9.2 RC1
-
-* Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1
-- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489 
-  and CVE-2012-3488.
-
-* Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1
-- Update to 9.2 beta3  
-
-* Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1
-- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143, 
-  CVE-2012-2655.
-
-* Fri May 11 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-beta1-1PGDG
-- Initial cut for 9.2 beta 1
-
-* Fri Feb 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.3-1PGDG
-- Update to 9.1.3, per the changes described at
-  http://www.postgresql.org/docs/9.1/static/release-9-1-3.html
-  which	also includes fixes for	CVE-2012-0866, CVE-2012-0867 and
-  CVE-2012-0868	.
-
-* Fri Dec 02 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.2-1PGDG
-- Update to 9.1.2, per the changes described at
-  http://www.postgresql.org/docs/9.1/static/release-9-1-2.html
-- Fix nls related build issues: Enable builds when %%nls is 1, but
-  %%pl* is 0.
-- Change service named to postgresql-9.1.service, to make it compatible
-  with previous releases.
-
-* Wed Nov 9 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.1-4PGDG
-- Use native systemd support. Patches are taken from Fedora, and 
-  adjusted for PGDG layout. 
-- Initial F-16 support.
-- Improve CFLAGS
-- Improve package descriptions, per Fedora spec.
-
-* Tue Oct 18 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.1-3PGDG
-- Move doc directory only once. Per Alex Tkachenko.
-
-* Wed Oct 5 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.1-2PGDG
-- Explicitly Provide: versionless postgresql*, to satisfy dependencies
-  in OS packages. Already did it in -jdbc package, and it worked.
-
-* Fri Sep 23 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.1-1PGDG
-- Update to 9.1.1, per the changes described at
-  http://www.postgresql.org/docs/9.1/static/release-9-1-1.html
-
-* Mon Sep 19 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.0-3PGDG
-- Add support for compilation with selinux. Patch from Daymel 
-  Bonne Solís.
-
-* Mon Sep 12 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.0-2PGDG
-- Add plpgsql.control to -server subpackage, so initdb won't be broken (and we
-  will not need to install -contrib subpackage)..
-
-* Fri Sep 9 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1.0-1PGDG   
-- Update to 9.1.0 Gold, per
-  http://www.postgresql.org/docs/9.1/static/release-9-1.html
-- Update several patches, per Tom's Fedora RPMs.
-
-* Sat Aug 20 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1rc1-1PGDG
-- Update to 9.1 RC1
-- Revert init script change for RHCS, since it breaks stop() routine.
-
-* Tue Aug 9 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1beta3-1PGDG
-- Update to 9.1 beta3
-
-* Fri Jun 10 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1beta2-1PGDG
-- Update to 9.1 beta2
-
-* Mon Jun 6 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1beta1-1PGDG
-- Update to 9.1 beta1
-
-* Tue Mar 29 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1alpha5-1PGDG
-- Update to 9.1 alpha5
-- Add new option to init script to specify locale during initdb.
-
-* Thu Mar 10 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1alpha4-1PGDG
-- Update to 9.1 alpha4
-
-* Fri Jan 7 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1alpha3-1PGDG
-- Port various fixes from 9.0 branch.
-- Update to 9.1 alpha3
-- Remove Conflicts for pre 7.4
-- Trim changelog
-
-* Wed Sep 8 2010 Devrim GUNDUZ <devrim@gunduz.org> 9.1alpha1-1PGDG
-- Initial cut for 9.1 Alpha1.
-- Init script, libdir, etc. updates.
-- Bump up alternatives version.
-- Fix alternatives section for psql.
 

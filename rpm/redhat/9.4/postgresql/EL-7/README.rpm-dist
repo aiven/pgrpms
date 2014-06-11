@@ -107,11 +107,11 @@ UPGRADING AN INSTALLATION
 -----------------------------------------------------------------------------
 For a minor-version upgrade (such as 9.4.1 to 9.4.2), just install the
 new RPMs; there's usually nothing more to it than that.  Upgrading
-across a major release of PostgreSQL (for example, from 9.3.x to 9.4.x)
+across a major release of PostgreSQL (for example, from 9.2.x to 9.4.x)
 requires more effort.
 
 If you are upgrading across more than one major release of PostgreSQL
-(for example, from 9.2.x to 9.4.x), you will need to follow the "traditional"
+(for example, from 9.1.x to 9.4.x), you will need to follow the "traditional"
 dump and reload process to bring your data into the new version.  That is:
 *before* upgrading, run pg_dumpall to extract all your data into a SQL file.
 Shut down the old postmaster, upgrade to the new version RPMs, initdb,
@@ -119,10 +119,10 @@ and run the dump file through psql to restore your data.
 
 In 9.1+, the RPMs also support in-place upgrade from th immediately 
 previous major release.  Currently, you can upgrade in-place
-from 9.3.x to 9.4.x.  Just run:
+from 9.2.x to 9.4.x.  Just run:
 $ /usr/pgsql-9.4/bin/postgresql94-setup upgrade
 
-Please note that 9.2 and 9.3 contrib RPMs needs	to be installed	for this 
+Please note that 9.2 and 9.4 contrib RPMs needs	to be installed	for this 
 feature	to work.
 
 POSTGRESQL RPM PACKAGES AND RATIONALE.
@@ -319,7 +319,7 @@ uuid		1	#build contrib/uuid-ossp
 To use these defines, invoke a rebuild like this:
 rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
 	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
-	postgresql94-9.4.0-1PGDG.f17.src.rpm
+	postgresql94-9.4.0-1PGDG.f20.src.rpm
 This line would disable the python, tcl, and test subpackages, disable 
 the regression test run during build, and disable kerberos support.
 
