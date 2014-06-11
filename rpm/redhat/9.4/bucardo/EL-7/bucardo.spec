@@ -23,8 +23,6 @@ BuildRequires:  perl(IO::Handle)
 BuildRequires:  perl(Sys::Hostname)
 BuildRequires:  perl(Sys::Syslog)
 BuildRequires:  perl(Net::SMTP)
-# available from fedora 10
-BuildRequires:  perl(DBIx::Safe)
 
 Requires:  perl(ExtUtils::MakeMaker)
 Requires:  postgresql%{pgmajorversion}-plperl
