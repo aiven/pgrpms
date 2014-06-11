@@ -1,0 +1,11 @@
+--- setup.py.old	2014-06-11 16:19:51.147482861 +0300
++++ setup.py	2014-06-11 16:19:56.647420816 +0300
+@@ -15,7 +15,7 @@
+ 
+ setup(
+     name = 'pg_activity',
+-    version = '1.1.0',
++    version = '1.1.1',
+     author = 'Julien Tachoires',
+     author_email = 'julmon@gmail.com',
+     scripts = ['bin/pg_activity'],
