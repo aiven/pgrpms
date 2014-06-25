@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}%{pgmajorversion}
-Version:	9.2.0
+Version:	9.3.0
 Release:	1%{?dist}
 URL:		http://pgfoundry.org/projects/pgfiledump
 License:	GPLv2+
@@ -12,7 +12,7 @@ Group:		Applications/Databases
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel
 
-Source0:	http://pgfoundry.org/frs/download.php/3391/pg_filedump-%{version}.tar.gz
+Source0:	http://pgfoundry.org/frs/download.php/3657/pg_filedump-%{version}.tar.gz
 Patch1:		pg_filedump-make.patch
 
 Obsoletes:	rhdb-utils => 8.2.0
@@ -45,6 +45,9 @@ rm -rf %{buildroot}
 %doc  README.pg_filedump
 
 %changelog
+* Wed Jun 25 2014 Devrim GUNDUZ <devrim@gunduz.org> 9.3.0-1
+- Update to 9.3.0
+
 * Wed Nov 14 2012 Devrim GUNDUZ <devrim@gunduz.org> 9.2.0-1
 - Update to 9.2.0
 - Remove no-more-needed pg_crc.c
