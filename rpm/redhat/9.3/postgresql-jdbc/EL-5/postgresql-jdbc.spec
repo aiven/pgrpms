@@ -85,7 +85,7 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-install -m 644 jars/postgresql.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
+install -m 644 jars/postgresql-%{upstreamver}.jdbc4.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
 
 pushd %{buildroot}%{_javadir}
 ln -s %{name}-%{version}.jar %{name}.jar
