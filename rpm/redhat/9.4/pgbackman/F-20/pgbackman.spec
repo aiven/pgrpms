@@ -38,7 +38,6 @@ python setup.py build
 
 %install
 python setup.py install -O1 --skip-build --root %{buildroot}
-exit 
 mkdir -p %{buildroot}/var/lib/%{name}
 touch %{buildroot}/var/log/%{name}/%{name}.log
 
@@ -70,6 +69,7 @@ useradd -M -N -g pgbackman -r -d /var/lib/pgbackman -s /bin/bash \
 - Convert spaces to tabs in spec file
 - Fix changelog date
 - Update Source0 line with full URL
+- Fix setup line, to match with tarball name.
 
 * Mon Jun 23 2014 - Rafael Martinez Guerrero <rafael@postgresql.org.es> 1.0.0-1
 - New release 1.0.0
