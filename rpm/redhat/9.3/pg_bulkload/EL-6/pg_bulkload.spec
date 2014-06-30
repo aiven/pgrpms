@@ -1,42 +1,36 @@
+%global pgmajorversion 94
+%global pginstdir /usr/pgsql-9.4
+%global sname pg_bulkload
+
 Summary:	High speed data loading utility for PostgreSQL
-Name:		pg_bulkload
-Version:	3.0a2
+Name:		%{sname}%{pgmajorversion}
+Version:	3.1.6
 Release:	1%{?dist}
 URL:		http://pgfoundry.org/projects/pgbulkload/
+Source0:	http://pgfoundry.org/frs/download.php/3653/%{sname}-%{version}.tar.gz
+Patch0:		pg_bulkload-makefile.patch
 License:	BSD
 Group:		Applications/Databases
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql-devel >= 8.3
-Requires:	postgresql-server
-
-Source0:	http://pgfoundry.org/frs/download.php/2504/%{name}-%{version}.tar.gz
+BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
+BuildRequires:	libsepol-devel, readline-devel, krb5-devel
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 
 %prep
-%setup -q -n %{name}
+%setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
 
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 
-mkdir -p %{buildroot}%{_libdir}
-mkdir -p %{buildroot}%{_bindir}
-mkdir -p %{buildroot}%{_datadir}/%{name}
-install -m 755 lib/pg_bulkload.so %{buildroot}%{_libdir}
-install -m 755 util/pg_timestamp.so %{buildroot}%{_libdir}
-install -m 755 bin/pg_bulkload %{buildroot}%{_bindir}
-install -m 755 bin/postgresql %{buildroot}%{_bindir}/pg_bulkload_ctl
-install -m 644 lib/pg_bulkload.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 bin/sql/*.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 lib/uninstall_pg_bulkload.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 util/pg_timestamp.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 util/uninstall_pg_timestamp.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 sample* %{buildroot}%{_datadir}/%{name}/
+rm -rf %{buildroot}
+make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
 rm -rf %{buildroot}
@@ -46,16 +40,22 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%{_libdir}/pg_bulkload.so
-%{_libdir}/pg_timestamp.so
-%{_bindir}/pg_bulkload
-%{_bindir}/pg_bulkload_ctl
-%{_datadir}/%{name}/pg_bulkload.sql
-%{_datadir}/%{name}/*.sql
-%{_datadir}/%{name}/sample*
-%doc README.pg_bulkload
+#%doc README.pg_bulkload
+%{pginstdir}/bin/pg_bulkload
+%{pginstdir}/bin/postgresql
+%{pginstdir}/lib/pg_bulkload.so
+%{pginstdir}/lib/pg_timestamp.so
+%{pginstdir}/share/contrib/pg_timestamp.sql
+%{pginstdir}/share/contrib/uninstall_pg_timestamp.sql
+%{pginstdir}/share/extension/pg_bulkload*.sql
+%{pginstdir}/share/extension/pg_bulkload.control
+%{pginstdir}/share/extension/uninstall_pg_bulkload.sql
 
 %changelog
+* Thu May 29 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.1.6-1
+- Update to 3.1.6
+- Simplify install section
+
 * Fri Jan 22 2010 Devrim GUNDUZ <devrim@gunduz.org> 3.0a2-1
 - Update to 3.0a2
 
