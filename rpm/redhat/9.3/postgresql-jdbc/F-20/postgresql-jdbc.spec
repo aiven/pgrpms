@@ -23,14 +23,14 @@
 # on the rpm command line
 
 %global section		devel
-%{!?upstreamver:%global upstreamver     9.3-1100}
+%{!?upstreamver:%global upstreamver     9.3-1101}
 %global pgmajorversion 93
 %global sname postgresql-jdbc
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.3.1100
-Release:	2PGDG%{?dist}
+Version:	9.3.1101
+Release:	1PGDG%{?dist}
 
 # ASL 2.0 applies only to postgresql93-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -121,6 +121,9 @@ install -d build/publicapi docs/%{name}
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Mon Jun 30 2014 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1101-1PGDG
+- Update to 9.3 build 1101
+
 * Thu Dec 12 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-2PGDG
 - add javadoc subpackage
 - don't use removed macro %%add_to_maven_depmap (#992816)
