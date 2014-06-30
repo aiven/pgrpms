@@ -15,10 +15,10 @@ then
     exit 1
 fi
 
-# PGVERSION is the full package version, e.g., 9.4.0
+# PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
-# PGMAJORVERSION is major version, e.g., 9.4 (this should match PG_VERSION)
+# PGMAJORVERSION is major version, e.g., 9.3 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # PREVMAJORVERSION is the previous major version, e.g., 9.3, for upgrades
 # Note: the specfile inserts the correct value during package build
@@ -49,7 +49,7 @@ then
 else
     # No existing PGDATA! Warn the user to initdb it.
     echo $"\"$PGDATA\" is missing or empty."
-    echo $"Use \"/usr/pgsql-9.4/bin/postgresql94-setup initdb\" to initialize the database cluster."
+    echo $"Use \"/usr/pgsql-9.3/bin/postgresql93-setup initdb\" to initialize the database cluster."
     echo $"See $PGDOCDIR/README.rpm-dist for more information."
     exit 1
 fi
