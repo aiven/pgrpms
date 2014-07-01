@@ -891,7 +891,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%config(noreplace) %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
+%config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
@@ -1005,6 +1005,7 @@ rm -rf %{buildroot}
 - Add a new script, called postgresql94-check-db-dir, to be used in 
   unit file in ExecStartPre. This is a feature we used to have in
   old init scripts. Per Fedora RPMs.
+- Fix permissions of postgresql-94-libs.conf, per Christoph Berg. 
 
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1

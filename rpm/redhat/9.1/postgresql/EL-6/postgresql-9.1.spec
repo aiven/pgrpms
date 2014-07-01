@@ -796,7 +796,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%config(noreplace) %{pgbaseinstdir}/share/postgresql-9.1-libs.conf
+%config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/postgresql-9.1-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
@@ -904,6 +904,7 @@ rm -rf %{buildroot}
 * Tue Mar 18 2014 Devrim Gündüz <devrim@gunduz.org> - 9.1.13-1PGDG
 - Update to 9.1.13, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-13.html
+- Fix permissions of postgresql-91-libs.conf, per Christoph Berg.
 
 * Tue Feb 18 2014 Jeff Frost <jeff@pgexperts.com> - 9.1.12-1PGDG
 - Update to 9.1.12, per changes described at:

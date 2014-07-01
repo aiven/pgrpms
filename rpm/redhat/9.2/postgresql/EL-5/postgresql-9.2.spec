@@ -806,7 +806,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%config(noreplace) %{pgbaseinstdir}/share/postgresql-9.2-libs.conf
+%config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/postgresql-9.2-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
@@ -914,6 +914,7 @@ rm -rf %{buildroot}
 * Tue Mar 18 2014 Devrim Gündüz <devrim@gunduz.org> - 9.2.8-1PGDG
 - Update to 9.2.8, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-8.html
+- Fix permissions of postgresql-92-libs.conf, per Christoph Berg.
 
 * Tue Feb 18 2014 Jeff Frost <jeff@pgexperts.com> - 9.2.7-1PGDG
 - Update to 9.2.7, per changes described at:

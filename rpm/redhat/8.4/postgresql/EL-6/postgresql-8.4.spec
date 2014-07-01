@@ -704,7 +704,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libecpg.so*
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
-%config(noreplace) %{_sysconfdir}/ld.so.conf.d/%{oname}-%{majorversion}-libs.conf
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{oname}-%{majorversion}-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
@@ -807,6 +807,7 @@ rm -rf %{buildroot}
 * Tue Mar 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.4.21-1PGDG
 - Update to 8.4.21, per changes described at:
   http://www.postgresql.org/docs/8.4/static/release-8-4-21.html
+- Fix permissions of postgresql-84-libs.conf, per Christoph Berg.
 
 * Tue Feb 18 2014 Jeff Frost <jeff@pgexperts.com> - 8.4.20-1PGDG
 - Update to 8.4.20, per changes described at:
