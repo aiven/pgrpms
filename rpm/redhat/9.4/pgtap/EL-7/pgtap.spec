@@ -2,21 +2,18 @@
 %global pginstdir /usr/pgsql-9.4
 %global sname	pgtap
 
-Summary:	Unit testing suite for PostgreSQL
+Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.25.0
+Version:	0.94.0
 Release:	1%{?dist}
 Group:		Applications/Databases
-License:	BSD
-URL:		http://pgtap.projects.postgresql.org
-Source0:	ftp://ftp.postgresql.org/pub/projects/pgFoundry/pgtap/pgtap-%{version}.tar.bz2
+License:	PostgreSQL
+URL:		http://pgxn.org/dist/pgtap/
+Source0:	http://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 Patch0:		Makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
-
-Requires(post):	%{_sbindir}/update-alternatives
-Requires(postun):	%{_sbindir}/update-alternatives
 
 BuildArch:	noarch
  
@@ -28,7 +25,7 @@ test frameworks. It can also be used in the xUnit testing style.
  
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p1
+%patch0 -p0
 
 %build
 make USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
@@ -36,29 +33,23 @@ make USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
 %install
 %{__rm} -rf  %{buildroot}
 make install USE_PGXS=1 DESTDIR=%{buildroot} %{?_smp_mflags}
-mv %{buildroot}/usr/share/doc/pgsql/contrib/README.pgtap %{buildroot}%{pginstdir}/share/contrib
+# Move doc to appropriate place:
+%{__mkdir} -p %{buildroot}/%{pginstdir}/share/extension
+mv %{buildroot}/%{_docdir}/pgsql/extension/pgtap.mmd %{buildroot}/%{pginstdir}/share/extension
 
 %clean
 %{__rm} -rf  %{buildroot}
 
-%post
-# Create alternatives entries for binaries
-%{_sbindir}/update-alternatives --install /usr/bin/pg_prove pgtap-prove %{pginstdir}/bin/pg_prove 910
-%{_sbindir}/update-alternatives --install /usr/bin/pg_tapgen pgtap-tapgen %{pginstdir}/bin/pg_tapgen 910
-
-%preun
-# Drop alternatives entries for common binaries and man files
-%{_sbindir}/update-alternatives --remove pgtap-prove %{pginstdir}/bin/pg_prove
-%{_sbindir}/update-alternatives --remove pgtap-tapgen %{pginstdir}/bin/pg_tapgen
-
 %files
 %defattr(-,root,root,-)
-%{pginstdir}/bin/pg_prove
-%{pginstdir}/bin/pg_tapgen
-%{pginstdir}/share/contrib/*.sql
-%{pginstdir}/share/contrib/README.pgtap
+%{pginstdir}/share/extension/pgtap-*.sql
+%{pginstdir}/share/extension/pgtap.control
+%{pginstdir}/share/extension/pgtap.mmd 
 
 %changelog
+* Wed Jul 2 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 0.94.0-1
+- Update to 0.94.0
+
 * Fri Apr 1 2011 Devrim GÜNDÜZ <devrim@gunduz.org> 0.25.0-1
 - Update to 0.25.0
  
