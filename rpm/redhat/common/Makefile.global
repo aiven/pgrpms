@@ -80,6 +80,6 @@ nopreprpm:
 
 noprepsrpm:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
