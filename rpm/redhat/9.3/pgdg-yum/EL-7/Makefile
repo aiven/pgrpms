@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
-SPECFILE="pgdg-fedora-93.spec"
+SPECFILE="pgdg-redhat-93.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

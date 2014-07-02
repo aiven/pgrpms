@@ -1,19 +1,19 @@
-Name:		pgdg-fedora93
+Name:		pgdg-redhat93
 Version:	9.3
 Release:	1
-Summary:	PostgreSQL 9.3.X PGDG RPMs for Fedora - Yum Repository Configuration
+Summary:	PostgreSQL 9.3.X PGDG RPMs for RHEL 7 - Yum Repository Configuration
 Group:		System Environment/Base 
 License:	BSD
 URL:		http://yum.postgresql.org
 Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-93
-Source2:	pgdg-93-fedora.repo
+Source2:	pgdg-93-redhat.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	fedora-release
+Requires:	redhat-release
 
 %description
-This package contains yum configuration for Fedora, and also the GPG
-key for PGDG RPMs.
+This package contains yum configuration for Red Hat Enterprise Linux, and 
+also the GPG key for PGDG RPMs.
 
 %prep
 %setup -q  -c -T
