@@ -156,13 +156,13 @@ OLDPGDATA=`sed -n 's/Environment=PGDATA=//p' "${OLD_SERVICE_FILE}"`
     if [ ! -x "$PGENGINE/pg_upgrade" ]
     then
 	echo
-	echo $"Please install the postgresql92-contrib RPM."
+	echo $"Please install the postgresql94-contrib RPM."
 	echo
 	exit 5
     fi
 
 # Perform initdb on the new server
-$PGENGINE/postgresql92-setup initdb
+$PGENGINE/postgresql94-setup initdb
 RETVAL=$?
 if [ $RETVAL -ne 0 ]
   then
