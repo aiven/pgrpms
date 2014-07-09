@@ -65,14 +65,14 @@
 %{!?pam:%define pam 1}
 %{!?disablepgfts:%define disablepgfts 0}
 %{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 0}
+%{!?uuid:%define uuid 1}
 %{!?ldap:%define ldap 1}
 %{!?selinux:%define selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -1001,6 +1001,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Jul 9 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-3PGDG
+- Re-enable uuid.
+
 * Thu May 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-2PGDG
 - Add a new script, called postgresql94-check-db-dir, to be used in 
   unit file in ExecStartPre. This is a feature we used to have in
