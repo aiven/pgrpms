@@ -4,11 +4,11 @@
 
 Summary:	PostgreSQL procedural language powered by V8 JavaScript Engine
 Name:		plv8_%{pgmajorversion}
-Version:	1.4.1
+Version:	1.4.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://plv8js.googlecode.com/files/%{sname}-%{version}.zip
+Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		plv8-makefile.patch
 URL:		http://code.google.com/p/plv8js/wiki/PLV8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -48,6 +48,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/plv8.control
 
 %changelog
+* Wed Jul 9 2014 Devrim Gündüz <devrim@gunduz.org> 1.4.2-1
+- Update to 1.4.2
+
 * Thu Dec 12 2013 Devrim Gündüz <devrim@gunduz.org> 1.4.1-1
 - Initial spec file, per RH #1036130, after doing modifications
   to suit community RPM layout. Original work is by David
