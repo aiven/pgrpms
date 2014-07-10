@@ -38,7 +38,7 @@ USER postgres
 # Create a PostgreSQL role named ``docker`` with ``docker`` as the password and
 # then create a database `docker` owned by the ``docker`` role.
 # After start, sleep for 5 secs to make sure that postmaster is started before
-# creaiting the role and database:
+# creating the role and database:
 RUN  /usr/pgsql-9.3/bin/pg_ctl -D /var/lib/pgsql/9.3/data start &&\
     sleep 5 &&\
     psql --command "CREATE USER docker WITH SUPERUSER PASSWORD 'docker';" &&\
