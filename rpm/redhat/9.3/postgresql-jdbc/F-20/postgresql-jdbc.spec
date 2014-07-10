@@ -1,7 +1,7 @@
 %global section		devel
 %global upstreamver	9.3-1101
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global sname postgresql-jdbc
 
 Summary:	JDBC driver for PostgreSQL
