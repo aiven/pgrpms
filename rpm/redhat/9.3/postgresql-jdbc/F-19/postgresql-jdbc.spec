@@ -10,35 +10,33 @@
 # on the rpm command line
 
 %global section		devel
-%{!?upstreamver:%global upstreamver     9.3-1101}
+%global upstreamver	9.3-1101
 %global pgmajorversion 93
 %global sname postgresql-jdbc
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
 Version:	9.3.1101
-Release:	1PGDG%{?dist}
-
-# ASL 2.0 applies only to postgresql93-jdbc.pom file, the rest is BSD
+Release:	1%{?dist}
+# ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 Group:		Applications/Databases
 URL:		http://jdbc.postgresql.org/
 
-Source0:        http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
-
+Source0:	http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
 # originally http://repo2.maven.org/maven2/postgresql/postgresql/8.4-701.jdbc4/postgresql-8.4-701.jdbc4.pom:
 Source1:	%{name}.pom
 
 BuildArch:	noarch
-BuildRequires:	java-devel
+BuildRequires:	java-1.7.0-openjdk-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	ant
 BuildRequires:	ant-junit
 BuildRequires:	junit
 # gettext is only needed if we try to update translations
 #BuildRequires:	gettext
-Requires:	java
 Requires:	jpackage-utils
+Requires:	java-headless >= 1:1.8
 
 %description
 PostgreSQL is an advanced Object-Relational database management
@@ -53,7 +51,8 @@ Group:          Documentation
 This package contains the API Documentation for %{name}.
 
 %prep
-%setup -c -q
+%setup -c -q -n postgresql-jdbc-9.3-1101.src/
+
 mv -f %{sname}-%{upstreamver}.src/* .
 rm -f %{sname}-%{upstreamver}.src/.gitignore
 rmdir %{sname}-%{upstreamver}.src
@@ -79,30 +78,50 @@ install -d $RPM_BUILD_ROOT%{_javadir}
 # versionless symlinks.
 install -m 644 jars/postgresql-%{upstreamver}.jdbc41.jar $RPM_BUILD_ROOT%{_javadir}/%{name}.jar
 
-# We used to symlink the driver file to versionless files, but we are not
-# doing it anymore.
+
+pushd $RPM_BUILD_ROOT%{_javadir}
+# Also, for backwards compatibility with our old postgresql-jdbc packages,
+# add these symlinks.  (Probably only the jdbc3 symlink really makes sense?)
+ln -s postgresql-jdbc.jar postgresql-jdbc2.jar
+ln -s postgresql-jdbc.jar postgresql-jdbc2ee.jar
+ln -s postgresql-jdbc.jar postgresql-jdbc3.jar
+popd
+
+# Install the pom after inserting the correct version number
+sed 's/UPSTREAM_VERSION/%{upstreamver}/g' %{SOURCE1} >JPP-%{name}.pom
+install -d -m 755 $RPM_BUILD_ROOT%{_mavenpomdir}/
+install -m 644 JPP-%{name}.pom $RPM_BUILD_ROOT%{_mavenpomdir}/JPP-%{name}.pom
+%add_maven_depmap
 
 install -d -m 755 $RPM_BUILD_ROOT%{_javadocdir}
 cp -ra build/publicapi $RPM_BUILD_ROOT%{_javadocdir}/%{name}
 install -d build/publicapi docs/%{name}
 
-%files
-%doc LICENSE doc/*
-%{_javadir}/%{name}.jar
+
+%check
+%if 0%{?runselftest}
+# Note that this requires to have PostgreSQL properly configured;  for this
+# reason the testsuite is turned off by default (see org/postgresql/test/README)
+ant test 2>&1 | tee test.log | grep FAILED
+test $? -eq 0 && { cat test.log ; exit 1 ; }
+%endif
+
+
+%files -f .mfiles
+%doc LICENSE README.md doc/*
+%{_javadir}/%{sname}2.jar
+%{_javadir}/%{sname}2ee.jar
+%{_javadir}/%{sname}3.jar
 
 %files javadoc
 %doc LICENSE
 %doc %{_javadocdir}/%{name}
 
 %changelog
-* Thu Feb 20 2014 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1101-1PGDG
-- Update to build 1101
-
-* Thu Dec 12 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-2PGDG
-- add javadoc subpackage
-- don't use removed macro %%add_to_maven_depmap (#992816)
-- lint: trim-lines, reuse %%{name} macro, fedora-review fixes
-- merge cleanup changes by Stano Ochotnicky
+* Wed Jul 9 2014 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1101-1PGDG
+- Update to 9.3 build 1101
+- Remove gcj support, now deprecated.
+- Sync spec file Fedora rawhide.
 
 * Tue Nov 05 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-1PGDG
 - Update to 9.3 build 1100
@@ -119,3 +138,4 @@ install -d build/publicapi docs/%{name}
 * Tue Sep 21 2010 Devrim Gunduz <devrim@gunduz.org> 0:9.0.801-1PGDG
 - Initial packaging of build 801, for PostgreSQL 9.0
 - Trim changelog
+
