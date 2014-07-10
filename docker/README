@@ -1,0 +1,11 @@
+This directory contains the dockerfiles for PostgreSQL.
+
+The naming convention is:
+
+Dockerfile-$DISTRO_NAME-PG$PG_VERSION
+
+i.e.,
+
+Dockerfile-Fedora-PG93
+
+More will come later.
