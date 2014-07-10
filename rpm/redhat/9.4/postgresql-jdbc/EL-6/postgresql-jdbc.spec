@@ -23,7 +23,7 @@
 # on the rpm command line
 
 %{!?gcj_support:%define gcj_support	1}
-%{!?upstreamver:%define upstreamver	9.3-1100}
+%{!?upstreamver:%define upstreamver	9.3-1101}
 %global pgmajorversion 94
 %global pginstdir /usr/pgsql-9.4
 %global sname postgresql-jdbc
@@ -33,7 +33,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.3.1100
+Version:	9.3.1101
 Release:	1PGDG%{?dist}
 Epoch:		0
 License:	BSD
@@ -82,7 +82,7 @@ rm -rf %{buildroot}
 install -d %{buildroot}%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-install -m 644 jars/postgresql.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
+install -m 644 jars/postgresql-%{upstreamver}.jdbc4.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
 
 pushd %{buildroot}%{_javadir}
 ln -s %{name}-%{version}.jar %{name}.jar
@@ -112,6 +112,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jul 10 2014 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1101-1PGDG
+- Update to 9.3 build 1101
+
 * Tue Nov 05 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.3.1100-1PGDG
 - Update to 9.3 build 1100
 
