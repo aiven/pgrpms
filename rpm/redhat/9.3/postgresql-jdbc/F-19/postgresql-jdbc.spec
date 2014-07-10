@@ -1,16 +1,3 @@
-# Conventions for PostgreSQL Global Development Group RPM releases:
-
-# Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-
 # Major Contributors:
 # ---------------
 # Tom Lane

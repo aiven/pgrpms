@@ -1,3 +1,14 @@
+# Major Contributors:
+# ---------------
+# Tom Lane
+# Devrim Gunduz
+# Peter Eisentraut
+
+# This spec file and ancilliary files are licensed in accordance with
+# The PostgreSQL license.
+# In this file you can find the default build package list macros.  These can be overridden by defining
+# on the rpm command line
+
 %global section		devel
 %global upstreamver	9.3-1101
 %global pgmajorversion 93
