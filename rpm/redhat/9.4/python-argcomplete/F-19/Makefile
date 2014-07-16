@@ -1,10 +1,10 @@
-################################
-# RPM-specific Makefile        #
-# http://yum.postgresql.org    #
-#                              #
-# Devrim Gunduz                #
-# devrim@gunduz.org            #
-################################
+#################################
+# RPM-specific Makefile		#
+# http://yum.postgresql.org	#
+#                         	#
+# Devrim Gunduz			#
+# devrim@gunduz.org		#
+#################################
 
 # Predefined values
 

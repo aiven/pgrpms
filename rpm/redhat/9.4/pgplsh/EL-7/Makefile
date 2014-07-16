@@ -12,7 +12,6 @@ ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
 SPECFILE="plsh.spec"
-HOMEDIR=$HOMEDIR
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

@@ -12,7 +12,6 @@ ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f19
 SPECFILE="prefix.spec"
-HOMEDIR=$HOMEDIR
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
