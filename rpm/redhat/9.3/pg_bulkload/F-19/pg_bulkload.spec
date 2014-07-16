@@ -1,5 +1,5 @@
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global sname pg_bulkload
 
 Summary:	High speed data loading utility for PostgreSQL
@@ -12,7 +12,7 @@ Patch0:		pg_bulkload-makefile.patch
 License:	BSD
 Group:		Applications/Databases
 Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
+BuildRequires:	postgresql%{pgmajorversion}, openssl-devel, pam-devel
 BuildRequires:	libsepol-devel, readline-devel, krb5-devel
 Requires:	postgresql%{pgmajorversion}-server
 
