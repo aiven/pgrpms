@@ -5,7 +5,7 @@
  
  ifdef USE_PGXS
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.4/bin/pg_config
++PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  else
@@ -16,7 +16,7 @@
  # src/include subdirectory.  If working with an installed tree, point to
  # the server include subdirectory, eg /usr/local/include/postgresql/server
 -PGSQL_INCLUDE_DIR=../../pgsql/src/include
-+PGSQL_INCLUDE_DIR=/usr/pgsql-9.4/include/server
++PGSQL_INCLUDE_DIR=/usr/pgsql-9.3/include/server
  
  
  DISTFILES= README.pg_filedump Makefile Makefile.contrib \
