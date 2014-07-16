@@ -36,7 +36,7 @@ BuildRequires:	junit
 # gettext is only needed if we try to update translations
 #BuildRequires:	gettext
 Requires:	jpackage-utils
-Requires:	java-headless >= 1:1.8
+Requires:	java-headless >= 1:1.7
 
 %description
 PostgreSQL is an advanced Object-Relational database management
