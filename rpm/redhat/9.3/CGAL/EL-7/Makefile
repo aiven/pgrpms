@@ -10,8 +10,9 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
-SPECFILE="table_log.spec"
+DIST=.f20
+SPECFILE="CGAL.spec"
+HOMEDIR=$HOMEDIR
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

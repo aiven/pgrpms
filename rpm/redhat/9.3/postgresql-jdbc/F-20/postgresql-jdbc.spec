@@ -10,13 +10,13 @@
 # on the rpm command line
 
 %global section		devel
-%global upstreamver	9.3-1101
+%global upstreamver	9.3-1102
 %global pgmajorversion 93
 %global sname postgresql-jdbc
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.3.1101
+Version:	9.3.1102
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -26,6 +26,7 @@ URL:		http://jdbc.postgresql.org/
 Source0:	http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
 # originally http://repo2.maven.org/maven2/postgresql/postgresql/8.4-701.jdbc4/postgresql-8.4-701.jdbc4.pom:
 Source1:	%{name}.pom
+Patch0:		javadoc.patch
 
 BuildArch:	noarch
 BuildRequires:	java-1.7.0-openjdk-devel
@@ -51,11 +52,13 @@ Group:          Documentation
 This package contains the API Documentation for %{name}.
 
 %prep
-%setup -c -q -n postgresql-jdbc-9.3-1101.src/
+%setup -c -q -n postgresql-jdbc-9.3-1102.src/
 
 mv -f %{sname}-%{upstreamver}.src/* .
 rm -f %{sname}-%{upstreamver}.src/.gitignore
+rm -f %{sname}-%{upstreamver}.src/.travis.yml
 rmdir %{sname}-%{upstreamver}.src
+%patch0 -p0
 
 # remove any binary libs
 find -name "*.jar" -or -name "*.class" | xargs rm -f
