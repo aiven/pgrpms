@@ -71,8 +71,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4beta1
-Release:	3PGDG%{?dist}
+Version:	9.4beta2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -1001,6 +1001,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-1PGDG
+- Update to 9.4 beta 2
+
 * Wed Jul 9 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-3PGDG
 - Re-enable uuid.
 
