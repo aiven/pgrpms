@@ -83,15 +83,6 @@ if [ x"$PGDATA" = x ]; then
     exit 1
 fi
 
-PGPORT=`systemctl show -p Environment "${SERVICE_NAME}.service" |
-                sed 's/^Environment=//' | tr ' ' '\n' |
-                sed -n 's/^PGPORT=//p' | tail -n 1`
-if [ x"$PGPORT" = x ]; then
-    echo "failed to find PGPORT setting in ${SERVICE_NAME}.service"
-    exit 1
-fi
-
-
 # Find the unit file for new version.
 if [ -f "/etc/systemd/system/${SERVICE_NAME}.service" ]
 then
@@ -109,11 +100,9 @@ PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
 PGLOG=/var/lib/pgsql/9.4/initdb.log
 
-# Get port number and data directory from the service file
-PGPORT=`sed -n 's/port//p' "${SERVICE_FILE}"`
+# Get data directory from the service file
 PGDATA=`sed -n 's/Environment=PGDATA=//p' "${SERVICE_FILE}"`
 
-export PGPORT
 export PGDATA
 
 # For SELinux we need to use 'runuser' not 'su'

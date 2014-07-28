@@ -10,7 +10,7 @@ PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # PGENGINE is the directory containing the postmaster executable
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
-# PREVMAJORVERSION is the previous major version, e.g., 9.1, for upgrades
+# PREVMAJORVERSION is the previous major version, e.g., 9.3, for upgrades
 PREVMAJORVERSION=9.3
 # PREVPGENGINE is the directory containing the previous postmaster executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
@@ -31,6 +31,58 @@ then
     OLD_SERVICE_NAME=postgresql-$PREVMAJORVERSION
 fi
 
+USAGE_STRING=$"
+Usage: $0 {initdb|upgrade} [SERVICE_NAME]
+
+Script is aimed to help sysadmin with basic database cluster administration.
+
+The SERVICE_NAME is used for selection of proper unit configuration file; For
+more info and howto/when use this script please look at the docu file
+$README_RPM_DIST.  The 'postgresql'
+string is used when no SERVICE_NAME is explicitly passed.
+
+Available operation mode:
+  initdb        Create a new PostgreSQL database cluster.  This is usually the
+                first action you perform after PostgreSQL server installation.
+  upgrade	Upgrade PostgreSQL database cluster to be usable with new
+                server.  Use this if you upgraded your PostgreSQL server to
+                newer major version (currently from $PREVMAJORVERSION \
+to $PGMAJORVERSION).
+
+Environment:
+  PGSETUP_INITDB_OPTIONS     Options carried by this variable are passed to
+                             subsequent call of \`initdb\` binary (see man
+                             initdb(1)).  This variable is used also during
+                             'upgrade' mode because the new cluster is actually
+                             re-initialized from the old one.
+  PGSETUP_PGUPGRADE_OPTIONS  Options in this variable are passed next to the
+                             subsequent call of \`pg_upgrade\`.  For more info
+                             about possible options please look at man
+                             pg_upgrade(1).
+  PGSETUP_DEBUG              Set to '1' if you want to see debugging output."
+
+# note that these options are useful at least for help2man processing
+case "$1" in
+    --version)
+	echo "postgresql-setup $PGVERSION"
+        exit 0
+        ;;
+    --help|--usage)
+        echo "$USAGE_STRING"
+        exit 0
+        ;;
+esac
+
+# this parsing technique fails for PGDATA pathnames containing spaces,
+# but there's not much I can do about it given systemctl's output format...
+PGDATA=`systemctl show -p Environment "${SERVICE_NAME}.service" |
+                sed 's/^Environment=//' | tr ' ' '\n' |
+                sed -n 's/^PGDATA=//p' | tail -n 1`
+if [ x"$PGDATA" = x ]; then
+    echo "failed to find PGDATA setting in ${SERVICE_NAME}.service"
+    exit 1
+fi
+
 # Find the unit file for new version.
 if [ -f "/etc/systemd/system/${SERVICE_NAME}.service" ]
 then
@@ -48,11 +100,9 @@ PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
 PGLOG=/var/lib/pgsql/9.4/initdb.log
 
-# Get port number and data directory from the service file
-PGPORT=`sed -n 's/Environment=PGPORT=//p' "${SERVICE_FILE}"`
+# Get data directory from the service file
 PGDATA=`sed -n 's/Environment=PGDATA=//p' "${SERVICE_FILE}"`
 
-export PGPORT
 export PGDATA
 
 # For SELinux we need to use 'runuser' not 'su'
@@ -67,151 +117,157 @@ script_result=0
 
 # code shared between initdb and upgrade actions
 perform_initdb(){
-	if [ ! -e "$PGDATA" -a ! -h "$PGDATA" ]
-	then
-		mkdir -p "$PGDATA" || return 1
-		chown postgres:postgres "$PGDATA"
-		chmod go-rwx "$PGDATA"
-	fi
-	# Clean up SELinux tagging for PGDATA
-	[ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA"
+    if [ ! -e "$PGDATA" ]; then
+        mkdir "$PGDATA" || return 1
+        chown postgres:postgres "$PGDATA"
+        chmod go-rwx "$PGDATA"
+    fi
+    # Clean up SELinux tagging for PGDATA
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA"
 
-	# Create the initdb log file if needed
-	if [ ! -e "$PGLOG" -a ! -h "$PGLOG" ]
-	then
-		touch "$PGLOG" || return 1
-		chown postgres:postgres "$PGLOG"
-		chmod go-rwx "$PGLOG"
-		[ -x /sbin/restorecon ] && /sbin/restorecon "$PGLOG"
-	fi
+    # Create the initdb log file if needed
+    if [ ! -e "$PGLOG" -a ! -h "$PGLOG" ]; then
+        touch "$PGLOG" || return 1
+        chown postgres:postgres "$PGLOG"
+        chmod go-rwx "$PGLOG"
+        [ -x /sbin/restorecon ] && /sbin/restorecon "$PGLOG"
+    fi
 
-	# Initialize the database
-	$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident'" >> "$PGLOG" 2>&1 < /dev/null
+    # Initialize the database
+    initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident'"
+    initdbcmd+=" $PGSETUP_INITDB_OPTIONS"
 
-	# Create directory for postmaster log files
-	mkdir "$PGDATA/pg_log"
-	chown postgres:postgres "$PGDATA/pg_log"
-	chmod go-rwx "$PGDATA/pg_log"
+    $SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
 
-	if [ -f "$PGDATA/PG_VERSION" ]
-	then
-	    return 0
-	fi
-	return 1
+    # Create directory for postmaster log files
+    mkdir "$PGDATA/pg_log"
+    chown postgres:postgres "$PGDATA/pg_log"
+    chmod go-rwx "$PGDATA/pg_log"
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA/pg_log"
+
+    if [ -f "$PGDATA/PG_VERSION" ]; then
+        return 0
+    fi
+    return 1
 }
 
 initdb(){
-    if [ -f "$PGDATA/PG_VERSION" ]
-    then
-	echo $"Data directory is not empty!"
-	echo
-	script_result=1
+    if [ -f "$PGDATA/PG_VERSION" ]; then
+        echo $"Data directory is not empty!"
+        echo
+        script_result=1
     else
-	echo -n $"Initializing database ... "
-	if perform_initdb
-	then
-	    echo $"OK"
-	else
-	    echo $"failed, see $PGLOG"
-	    script_result=1
-	fi
-	echo
+        echo -n $"Initializing database ... "
+        if perform_initdb; then
+            echo $"OK"
+        else
+            echo $"failed, see $PGLOG"
+            script_result=1
+        fi
+        echo
     fi
 }
 
 upgrade(){
-
-## Absorb configuration settings from the specified systemd service files.
-
-# Do the same for the old PostgreSQL version.
-if [ -f "/etc/systemd/system/${OLD_SERVICE_NAME}.service" ]
-then
-    OLD_SERVICE_FILE="/etc/systemd/system/${OLD_SERVICE_NAME}.service"
-elif [ -f "/lib/systemd/system/${OLD_SERVICE_NAME}.service" ]
-then
-    OLD_SERVICE_FILE="/lib/systemd/system/${OLD_SERVICE_NAME}.service"
-else
-    echo "Could not find systemd unit file ${OLD_SERVICE_NAME}.service"
-    exit 1
-fi
-
-## Get port number and data directory from the service file
-NEWPGPORT=`sed -n 's/Environment=PGPORT=//p' "${SERVICE_FILE}"`
-NEWPGDATA=`sed -n 's/Environment=PGDATA=//p' "${SERVICE_FILE}"`
-
-## Get port number and data directory from the service file
-OLDPGPORT=`sed -n 's/Environment=PGPORT=//p' "${OLD_SERVICE_FILE}"`
-OLDPGDATA=`sed -n 's/Environment=PGDATA=//p' "${OLD_SERVICE_FILE}"`
-
-# must see previous version in PG_VERSION
-    if [ ! -f "$OLDPGDATA/PG_VERSION" -o \
-	 x`cat "$OLDPGDATA/PG_VERSION"` != x"$PREVMAJORVERSION" ]
+    # must see previous version in PG_VERSION
+    if [ ! -f "$PGDATA/PG_VERSION" -o \
+         x`cat "$PGDATA/PG_VERSION"` != x"$PREVMAJORVERSION" ]
     then
-	echo
-	echo $"Cannot upgrade because database is not of version $PREVMAJORVERSION."
-	echo
-	exit 1
+        echo
+        echo $"Cannot upgrade because the database in $PGDATA is not of"
+        echo $"compatible previous version $PREVMAJORVERSION."
+        echo
+        exit 1
+    fi
+    if [ ! -x "$PGENGINE/pg_upgrade" ]; then
+        echo
+        echo $"Please install the postgresql-upgrade RPM."
+        echo
+        exit 5
     fi
 
-    if [ ! -x "$PGENGINE/pg_upgrade" ]
-    then
-	echo
-	echo $"Please install the postgresql92-contrib RPM."
-	echo
-	exit 5
+    # Set up log file for pg_upgrade
+    rm -f "$PGUPLOG"
+    touch "$PGUPLOG" || exit 1
+    chown postgres:postgres "$PGUPLOG"
+    chmod go-rwx "$PGUPLOG"
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGUPLOG"
+
+    # Move old DB to PGDATAOLD
+    PGDATAOLD="${PGDATA}-old"
+    rm -rf "$PGDATAOLD"
+    mv "$PGDATA" "$PGDATAOLD" || exit 1
+
+    # Create configuration file for upgrade process
+    HBA_CONF_BACKUP="$PGDATAOLD/pg_hba.conf.postgresql-setup.`date +%s`"
+    HBA_CONF_BACKUP_EXISTS=0
+
+    if [ ! -f $HBA_CONF_BACKUP ]; then
+        mv "$PGDATAOLD/pg_hba.conf" "$HBA_CONF_BACKUP"
+        HBA_CONF_BACKUP_EXISTS=1
+
+        # For fluent upgrade 'postgres' user should be able to connect
+        # to any database without password.  Temporarily, no other type
+        # of connection is needed.
+        echo "local all postgres ident" > "$PGDATAOLD/pg_hba.conf"
     fi
 
-# Perform initdb on the new server
-$PGENGINE/postgresql92-setup initdb
-RETVAL=$?
-if [ $RETVAL -ne 0 ]
-  then
-	echo "initdb failed!"
-	exit 1
-fi
+    echo -n $"Upgrading database: "
 
-# Check the clusters first, without changing any data:
-su -l postgres -c "$PGENGINE/pg_upgrade -b $PGPREVENGINE -B $PGENGINE/ -d $OLDPGDATA -D $NEWPGDATA -p $OLDPGPORT -P $NEWPGPORT -c"
-RETVAL=$?
-if [ $RETVAL -eq 0 ]
-  then
-	echo "Clusters checked successfully, proceeding with upgrade from $PREVMAJORVERSION to $PGMAJORVERSION"
-	echo "Stopping old cluster"
-	/bin/systemctl stop $OLD_SERVICE_NAME.service
-	#/sbin/service $OLD_INIT_SCRIPT stop
+    # Create empty new-format database
+    if perform_initdb; then
+        # Do the upgrade
+        $SU -l postgres -c "$PGENGINE/pg_upgrade \
+                        '--old-bindir=$PREVPGENGINE' \
+                        '--new-bindir=$PGENGINE' \
+                        '--old-datadir=$PGDATAOLD' \
+                        '--new-datadir=$PGDATA' \
+                        --link \
+                        '--old-port=$PGPORT' '--new-port=$PGPORT' \
+                        --user=postgres \
+                        $PGSETUP_PGUPGRADE_OPTIONS" \
+                                >> "$PGUPLOG" 2>&1 < /dev/null
+        if [ $? -ne 0 ]; then
+            # pg_upgrade failed
+            script_result=1
+        fi
+    else
+        # initdb failed
+        script_result=1
+    fi
 
-	# Set up log file for pg_upgrade
-	rm -f "$PGUPLOG"
-	touch "$PGUPLOG" || exit 1
-	chown postgres:postgres "$PGUPLOG"
-	chmod go-rwx "$PGUPLOG"
-	[ -x /sbin/restorecon ] && /sbin/restorecon "$PGUPLOG"
+    # Move back the backed-up pg_hba.conf regardless of the script_result.
+    if [ x$HBA_CONF_BACKUP_EXISTS = x1 ]; then
+        mv -f "$HBA_CONF_BACKUP" "$PGDATAOLD/pg_hba.conf"
+    fi
 
-	echo "Performing upgrade"
-	su -l postgres -c "$PGENGINE/pg_upgrade \
-		-b $PGPREVENGINE -B $PGENGINE/ \
-		-d $OLDPGDATA -D $NEWPGDATA -p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 < /dev/null
-  else
-	echo "Cluster check failed. Please see the output above."
-	exit 1
-fi
-	echo
-
-exit 0
-
+    if [ $script_result -eq 0 ]; then
+        echo $"OK"
+        echo
+        echo $"The configuration files were replaced by default configuration."
+        echo $"The previous configuration and data are stored in folder"
+        echo $PGDATAOLD.
+    else
+        # Clean up after failure
+        rm -rf "$PGDATA"
+        mv "$PGDATAOLD" "$PGDATA"
+        echo $"failed"
+    fi
+    echo
+    echo $"See $PGUPLOG for details."
 }
 
 # See how we were called.
 case "$1" in
-  initdb)
-	initdb
-	;;
-  upgrade)
-	upgrade
-	;;
-  *)
-	echo $"Usage: $0 {initdb|upgrade} [ service_name ]"
-	exit 2
+    initdb)
+        initdb
+        ;;
+    upgrade)
+        upgrade
+        ;;
+    *)
+        echo >&2 "$USAGE_STRING"
+        exit 2
 esac
 
 exit $script_result
