@@ -1001,6 +1001,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jul 28 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-2PGDG
+- Fix setup script, so that it does not look for PGPORT variable. Per 
+  Jesper Petersen.
+
 * Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-1PGDG
 - Update to 9.4 beta 2
 
