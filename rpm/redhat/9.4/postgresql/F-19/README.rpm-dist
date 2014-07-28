@@ -205,7 +205,7 @@ As an example, let us create a secondary postmaster called, creatively enough,
         to postgresql-9.4 named 'secondary-9.4' : ln postgresql secondary   Pick
         a name not already used in /etc/rc.d/init.d!
 2.)     create a file in /etc/sysconfig/pgsql named secondary.  This file is
-        a shell script -- typically you would define PGDATA, PGPORT, and PGOPTS
+        a shell script -- typically you would define PGDATA, and PGOPTS
         here.  Since $PGDATA/postgresql.conf will override many of these
         settings, except PGDATA, you might be surprised on startup.
 3.)     create the target PGDATA.
@@ -319,11 +319,7 @@ uuid		1	#build contrib/uuid-ossp
 To use these defines, invoke a rebuild like this:
 rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
 	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
-<<<<<<< .mine
-	postgresql94-9.4.0-1PGDG.f19.src.rpm
-=======
-	postgresql94-9.4.1-1PGDG.f17.src.rpm
->>>>>>> .r572
+	postgresql94-9.4.0-1PGDG.f20.src.rpm
 This line would disable the python, tcl, and test subpackages, disable 
 the regression test run during build, and disable kerberos support.
 
