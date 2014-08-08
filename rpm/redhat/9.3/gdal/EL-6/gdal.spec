@@ -33,7 +33,7 @@
 
 Name:      gdal
 Version:   1.9.2
-Release:   4%{?dist}
+Release:   5%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -805,6 +805,9 @@ rm -rf %{buildroot}
 #Or as before, using ldconfig
 
 %changelog
+* Fri Aug 8 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-5
+- Rebuild for new armadillo.
+
 * Tue Mar 26 2013 Volker Fröhlich <volker27@gmx.at> - 1.9.2-4
 - Rebuild for cfitsio 3.340
 
