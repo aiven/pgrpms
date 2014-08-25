@@ -65,14 +65,14 @@
 %{!?pam:%define pam 1}
 %{!?disablepgfts:%define disablepgfts 0}
 %{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 0}
+%{!?uuid:%define uuid 1}
 %{!?ldap:%define ldap 1}
 %{!?selinux:%define selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.3.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -994,6 +994,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Aug 25 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.5-2PGDG
+- Re-enable uuid support.
+
 * Tue Jul 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.5-1PGDG
 - Update to 9.3.5, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-5.html
