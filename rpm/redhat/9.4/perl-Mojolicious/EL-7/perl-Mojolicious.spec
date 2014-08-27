@@ -3,6 +3,7 @@ Version:        5.33
 Release:        1%{?dist}
 Summary:        A next generation web framework for Perl
 License:        Artistic 2.0
+Group:		Development/Libraries
 
 URL:            http://mojolicio.us/
 Source0:        http://search.cpan.org/CPAN/authors/id/S/SR/SRI/Mojolicious-%{version}.tar.gz
