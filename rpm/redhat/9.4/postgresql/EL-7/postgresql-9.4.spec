@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta2
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -246,7 +246,7 @@ to develop applications which will interact with a PostgreSQL server.
 Summary:	The Perl procedural language for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version})
+Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
@@ -1001,6 +1001,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Aug 27 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-3PGDG
+- Fix perl requires incancation, per Craig Ringer.
+
 * Mon Jul 28 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-2PGDG
 - Fix setup script, so that it does not look for PGPORT variable. Per 
   Jesper Petersen.
