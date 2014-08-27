@@ -34,14 +34,14 @@ rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 # Move README file under PostgreSQL installation directory
 %{__mkdir} -p -m 700 %{buildroot}/%{pginstdir}/share/extension
-%{__mv} %{buildroot}/%{_docdir}/pgsql/extension/README.md %{buildroot}/%{pginstdir}/share/extension/
+%{__mv} %{buildroot}/%{_docdir}/pgsql/extension/README.md %{buildroot}/%{pginstdir}/share/extension/README-powa.md
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc %{pginstdir}/share/extension/README.md
+%doc %{pginstdir}/share/extension/README-powa.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
