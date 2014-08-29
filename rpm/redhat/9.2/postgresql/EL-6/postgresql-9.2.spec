@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.2.9
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -784,7 +784,9 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/timetravel*
 %{pgbaseinstdir}/share/extension/tsearch2*
 %{pgbaseinstdir}/share/extension/unaccent*
+%if %uuid
 %{pgbaseinstdir}/share/extension/uuid-ossp*
+%endif
 %{pgbaseinstdir}/share/extension/xml2*
 %{pgbaseinstdir}/bin/oid2name
 %{pgbaseinstdir}/bin/pgbench
@@ -916,6 +918,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri Aug 29 2014 Devrim Gündüz <devrim@gunduz.org> - 9.2.9-2PGDG
+- Add conditionals for uuid-ossp, to fix builds	when uuid is disabled.
+  Patch	from Bernd Helmle.
+
 * Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.2.9-1PGDG
 - Update to 9.2.9, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-9.html
