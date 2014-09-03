@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta2
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -135,7 +135,7 @@ BuildRequires:	pam-devel
 %endif
 
 %if %uuid
-BuildRequires:	uuid-devel
+BuildRequires:	libuuid-devel
 %endif
 
 %if %ldap
@@ -172,7 +172,6 @@ if you're installing the postgresql%{packageversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
-Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
@@ -384,7 +383,7 @@ export LIBNAME=%{_lib}
 	--disable-thread-safety \
 %endif
 %if %uuid
-	--with-ossp-uuid \
+	--with-uuid=e2fs \
 %endif
 %if %xml
 	--with-libxml \
@@ -578,9 +577,6 @@ cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controlda
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
-touch /var/log/pgsql
-chown postgres:postgres /var/log/pgsql
-chmod 0700 /var/log/pgsql
 
 %post server
 /sbin/ldconfig
@@ -1001,6 +997,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Sep 01 2014 Craig Ringer <craig@2ndquadrant.com> - 9.4beta2-4PGDG
+- Use libuuid from e2fsprogs instead of ossp-uuid to remove EPEL dependency
+- Remove obsolete /var/log/pgsql
+- Remove Provides: entry for libpq.so (RPM generates one)
+
 * Wed Aug 27 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-3PGDG
 - Fix perl requires incancation, per Craig Ringer.
 

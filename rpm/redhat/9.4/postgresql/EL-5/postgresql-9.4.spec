@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4beta2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -127,7 +127,7 @@ BuildRequires:	pam-devel
 %endif
 
 %if %uuid
-BuildRequires:	uuid-devel
+BuildRequires:	e2fsprogs-devel
 %endif
 
 %if %ldap
@@ -161,7 +161,6 @@ if you're installing the postgresql%{packageversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
-Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
@@ -228,6 +227,7 @@ develop applications which will interact with a PostgreSQL server.
 Summary:	The Perl procedural language for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{name}-server = %{version}-%{release}
+Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
@@ -350,7 +350,7 @@ export LIBNAME=%{_lib}
 	--disable-thread-safety \
 %endif
 %if %uuid
-	--with-ossp-uuid \
+	--with-uuid=e2fs \
 %endif
 %if %xml
 	--with-libxml \
@@ -517,9 +517,6 @@ cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controlda
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
-touch /var/log/pgsql
-chown postgres:postgres /var/log/pgsql
-chmod 0700 /var/log/pgsql
 
 %post server
 chkconfig --add postgresql-%{majorversion}
@@ -929,6 +926,11 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Sep 01 2014 Craig Ringer <craig@2ndquadrant.com> - 9.4beta2-2PGDG
+- Use libuuid from e2fsprogs instead of ossp-uuid to remove EPEL dependency
+- Remove obsolete /var/log/pgsql
+- Remove Provides: entry for libpq.so (RPM generates one)
+
 * Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-1PGDG
 - Update to 9.4 beta 2
 
