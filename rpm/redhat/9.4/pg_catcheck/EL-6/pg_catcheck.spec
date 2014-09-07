@@ -9,7 +9,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://get.enterprisedb.com/src/%{sname}-%{version}.tar.gz
-Patch0:		pg_catcheck-makefile-pgxs.patch
+Patch0:		%{sname}-makefile-pgxs.patch
 URL:		http://www.enterprisedb.com
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -38,7 +38,7 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-pg_catcheck.md
+install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 rm -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
 %clean
