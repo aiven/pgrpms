@@ -52,11 +52,11 @@ else
 fi
 
 # Set defaults for configuration variables
-PGPOOLENGINE=/usr/pgpool-9.3/bin
+PGPOOLENGINE=/usr/pgpool-9.4/bin
 PGPOOLDAEMON=$PGPOOLENGINE/pgpool
-PGPOOLCONF=/etc/pgpool-II-93/pgpool.conf
-PGPOOLPIDDIR=/var/run/pgpool-II-93
-PGPOOLLOG=/var/log/pgpool-II-93.log
+PGPOOLCONF=/etc/pgpool-II-94/pgpool.conf
+PGPOOLPIDDIR=/var/run/pgpool-II-94
+PGPOOLLOG=/var/log/pgpool-II-94.log
 
 test -x $PGPOOLDAEMON || exit 5
 

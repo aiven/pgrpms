@@ -1,23 +1,48 @@
 %global pgmajorversion 94
 %global pginstdir /usr/pgsql-9.4
-%global pgpoolinstdir /usr/pgpool-9.3
+%global pgpoolinstdir /usr/pgpool-9.4
 %global sname pgpool-II
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%define systemd_enabled 0
+%else
+%define systemd_enabled 1
+%endif
+
+%global _varrundir %{_localstatedir}/run/pgpool
+
 
 Summary:	Pgpool is a connection pooling/replication server for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.3.2
+Version:	3.3.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
-Source0:	%{sname}-%{version}.tar.gz
+Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.gz
 Source1:        pgpool.init
 Source2:        pgpool.sysconfig
+Source3:	pgpool-II-94.service
 Patch1:		pgpool.conf.sample.patch
 Patch2:		pgpool-Makefiles-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, pam-devel, libmemcached-devel
-Requires(post):	%{_sbindir}/update-alternatives
+%if %{systemd_enabled}
+BuildRequires:		systemd
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
+Requires(postun):	initscripts
+%endif
+Requires(post):		%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 Obsoletes:	postgresql-pgpool
@@ -67,12 +92,22 @@ rm -rf %{buildroot}
 make %{?_smp_flags} DESTDIR=%{buildroot} install
 make -C sql %{?_smp_flags} DESTDIR=%{buildroot} install
 
+
+%if %{systemd_enabled}
+install -d %{buildroot}%{_unitdir}
+install -m 755 %{SOURCE3} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
+# ... and make a tmpfiles script to recreate it at reboot.
+mkdir -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_varrundir} 0755 root root -
+EOF
+%else
 # Install init script,, and sysconfig file:
 install -d %{buildroot}%{_initrddir}
-sed 's/^PGVERSION=.*$/PGVERSION=%{pgmajorversion}/' <%{SOURCE1} > pgpool-II-%{pgmajorversion}.init
 install -m 755 pgpool-II-%{pgmajorversion}.init %{buildroot}%{_initrddir}/pgpool-II-%{pgmajorversion}
 install -d %{buildroot}%{_sysconfdir}/sysconfig/
 install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/pgpool-II-%{pgmajorversion}
+%endif
 
 # nuke libtool archive and static lib
 rm -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
@@ -82,27 +117,46 @@ rm -rf %{buildroot}
 
 %post
 # Create alternatives entries for common binaries and man files
-%{_sbindir}/update-alternatives --install /usr/bin/pgpool pgpool-pgpool %{pgpoolinstdir}/bin/pgpool 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_attach_node pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_detach_node pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_node_count pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_node_info pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_pool_status pgpool-pcp_pool_status %{pgpoolinstdir}/bin/pcp_pool_status 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_promote_node pgpool-pcp_promote_node %{pgpoolinstdir}/bin/pcp_promote_node 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_count pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_info pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node 930
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info 930
-%{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 930
+%{_sbindir}/update-alternatives --install /usr/bin/pgpool pgpool-pgpool %{pgpoolinstdir}/bin/pgpool 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_attach_node pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_detach_node pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_node_count pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_node_info pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_pool_status pgpool-pcp_pool_status %{pgpoolinstdir}/bin/pcp_pool_status 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_promote_node pgpool-pcp_promote_node %{pgpoolinstdir}/bin/pcp_promote_node 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_count pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_info pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node 940
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info 940
+%{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info 940
+%{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 940
+/sbin/ldconfig
+%if %{systemd_enabled}
+%systemd_post %{sname}-%{pgmajorversion}.service
+%else
+# This adds the proper /etc/rc*.d links for the script
+/sbin/chkconfig --add pgpool-II-%{pgmajorversion}
+%endif
+%tmpfiles_create
 
 %preun
-if [ $1 = 0 ] ; then
+%if %{systemd_enabled}
+%systemd_preun %{sname}-%{pgmajorversion}.service
+%else
+if [ $1 -eq 0 ] ; then
 	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
-	chkconfig --del %{sname}-%{pgmajorversion}
+	/sbin/chkconfig --del %{sname}-%{pgmajorversion}
 fi
+%endif
+
 
 %postun
+/sbin/ldconfig
+%if %{systemd_enabled}
+%systemd_postun_with_restart %{sname}-%{pgmajorversion}.service
+%else
+if [ $1 -ge 1 ] ; then
 # Drop alternatives entries for common binaries and man files
 if [ "$1" -eq 0 ]
   then
@@ -112,13 +166,31 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_pool_status %{pgpoolinstdir}/bin/pcp_pool_status
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_promote_node %{pgpoolinstdir}/bin/pcp_promote_node
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
-	%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/cp_systemdb_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info
 	%{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
 fi
+    /sbin/service pgpool condrestart >/dev/null 2>&1 || :fi
+%endif
+
+%if %{systemd_enabled}
+%triggerun -- pgpool < 3.1-1
+# Save the current service runlevel info
+# User must manually run systemd-sysv-convert --apply pgpool
+# to migrate them to systemd targets
+/usr/bin/systemd-sysv-convert --save pgpool >/dev/null 2>&1 ||:
+
+# Run these because the SysV package being removed won't do them
+/sbin/chkconfig --del pgpool >/dev/null 2>&1 || :
+/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
+%endif
+
 
 %files
 %defattr(-,root,root,-)
@@ -154,8 +226,15 @@ fi
 %{pginstdir}/share/extension/pgpool-regclass.sql
 %{pginstdir}/share/extension/pgpool_recovery*
 %{pginstdir}/share/extension/pgpool_regclass*
+%if %{systemd_enabled}
+%ghost %{_varrundir}
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%else
 %{_initrddir}/%{sname}-%{pgmajorversion}
 %{_sysconfdir}/sysconfig/%{sname}-%{pgmajorversion}
+%endif
+
 
 %files devel
 %defattr(-,root,root,-)
@@ -165,6 +244,18 @@ fi
 %{pgpoolinstdir}/include/pool_process_reporting.h
 
 %changelog
+* Tue Sep 16 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.4-1
+- Update to 3.3.4
+- Update alternatives version to 940
+- Update versions in init script and unit file
+- Fix file name list for alternatives in %%postun
+- Use correct file name in chkconfig
+- Remove useless sed command
+
+* Fri Jun 20 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.3-1
+- Update to 3.3.3
+- Apply various parts from Fedora spec file.
+
 * Thu Feb 20 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.2-1
 - Update to 3.3.2
 
