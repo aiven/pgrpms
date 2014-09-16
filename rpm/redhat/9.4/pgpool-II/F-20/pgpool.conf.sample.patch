@@ -29,7 +29,7 @@
 +backend_weight0 = 1
                                     # Weight for backend 0 (only in load balancing mode)
 -#backend_data_directory0 = '/data'
-+backend_data_directory0 = '/var/lib/pgsql/9.3/data'
++backend_data_directory0 = '/var/lib/pgsql/9.4/data'
                                     # Data directory for backend 0
  #backend_flag0 = 'ALLOW_TO_FAILOVER'
                                     # Controls various backend behavior
