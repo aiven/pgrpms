@@ -9,7 +9,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.3
+Version:	2.1.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -191,6 +191,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Sep 17 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.4-1
+- Update to 2.1.4, per changes described at:
+  http://postgis.net/2014/09/10/postgis-2.1.4
+
 * Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-1
 - Update to 2.1.3, for bug and security	fixes.
 - Bump up postgisprevversion to 2.0.6
