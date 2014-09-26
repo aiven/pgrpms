@@ -1,6 +1,6 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.0
+Version:	2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Fri Sep 26 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1-1
+- Update to 2.1
+
 * Tue Apr 1 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0-1
 - Update to 2.0
 
