@@ -41,7 +41,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%define beta 1
+%define beta 0
 %{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%define kerbdir "/usr"}
@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4beta2
-Release:	2PGDG%{?dist}
+Version:	9.4beta3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -926,6 +926,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Oct 8 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta3-1PGDG
+- Update to 9.4 beta 3
+
 * Mon Sep 01 2014 Craig Ringer <craig@2ndquadrant.com> - 9.4beta2-2PGDG
 - Use libuuid from e2fsprogs instead of ossp-uuid to remove EPEL dependency
 - Remove obsolete /var/log/pgsql
