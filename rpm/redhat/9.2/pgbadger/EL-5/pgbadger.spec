@@ -1,6 +1,6 @@
 Summary:	a fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	6.0
+Version:	6.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -47,6 +47,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Thu Oct 16 2014 - Devrim GÜNDÜZ <devrim@gunduz.org> 6.1-1
+- Update to 6.1
+
 * Wed Aug 27 2014 - Devrim GÜNDÜZ <devrim@gunduz.org> 6.0-1
 - Update to 6.0
 
