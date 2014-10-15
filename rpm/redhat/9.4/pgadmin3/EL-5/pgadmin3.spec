@@ -4,11 +4,11 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.18.1
-Release:	2%{?dist}
+Version:	1.20.0
+Release:	beta2_1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
+Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}-beta2/src/%{sname}-%{version}-beta2.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,7 +44,7 @@ This package contains documentation for various languages,
 which are in html format.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}-beta2
 
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
@@ -96,12 +96,18 @@ fi
 %doc docs/*
 
 %changelog
+* Wed Oct 15 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-beta2-1
+- Update to 1.20.0-beta2
+
+* Thu Aug 28 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-beta1-1
+- Update to 1.20.0-beta1
+
 * Tue Nov 19 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-2
 - Fix file paths, per #118.
 - Fix alternatives version.
 
 * Tue Oct 8 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-1
-- Update to 1.18.1
+- Update to 1.18.1     
 
 * Fri Aug 30 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.0-1
 - Update to 1.18.0 Gold
