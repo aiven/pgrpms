@@ -29,8 +29,8 @@ fi
 DBNAME=${DBNAME- postgres}
 DBUSER=${DBUSER- postgres}
 DBHOST=${DBHOST- 127.0.0.1}
-DBPORT=${DBPORT- 5492}
-LOGFILE=${LOGFILE- /var/log/pgagent_92.log}
+DBPORT=${DBPORT- 5432}
+LOGFILE=${LOGFILE- /var/log/pgagent_93.log}
 lockfile="/var/lock/subsys/${NAME}"
 
 # Override defaults from /etc/sysconfig/pgagent/ directory,  if file is present:
