@@ -4,12 +4,12 @@
 
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.3.0
+Version:	3.4.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source:		http://ftp.postgresql.org/pub/pgadmin3/release/pgagent/pgAgent-%{version}-Source.tar.gz
-Source2:	pgagent.init
+Source:		http://ftp.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
+Source2:	%{sname}.init
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
@@ -24,9 +24,9 @@ a separate application.
 groupadd -o -r pgagent >/dev/null 2>&1 || :
 useradd -o -g pgagent -r -s /bin/false \
 	-c "pgAgent Job Schedule" pgagent >/dev/null 2>&1 || :
-touch /var/log/pgagent_92.log
-chown pgagent:pgagent /var/log/pgagent_92.log
-chmod 0700 /var/log/pgagent_92.log
+touch /var/log/pgagent_%{pgmajorversion}.log
+chown pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
+chmod 0700 /var/log/pgagent_%{pgmajorversion}.log
 
 %prep
 %setup -q -n pgAgent-%{version}-Source
@@ -60,11 +60,18 @@ rm -rf %{buildroot}
 %files
 %defattr(-, root, root)
 %doc README LICENSE
-%{_bindir}/pgagent
+%{_bindir}/%{sname}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %{_initrddir}/%{name}
+%{pginstdir}/share/extension/%{sname}--3.4.sql
+%{pginstdir}/share/extension/%{sname}--unpackaged--3.4.sql
+%{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Oct 17 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-1
+- Update to 3.4.0
+- Use macros for pgagent, where appropriate.
+
 * Mon Sep 17 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.3.0-1
 - Update to 3.3.0
 
