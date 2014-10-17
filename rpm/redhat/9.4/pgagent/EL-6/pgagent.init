@@ -51,7 +51,7 @@ start() {
 
     echo $"Starting ${NAME} service: "
 
-    $SU pgagent -c "pgagent -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
+    $SU pgagent -c "/usr/bin/pgagent_94 -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
 	then
@@ -68,7 +68,7 @@ start() {
 stop(){
     echo $"Stopping ${NAME} service: "
 
-    killproc /usr/bin/pgagent
+    killproc /usr/bin/pgagent_94
 
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
@@ -99,7 +99,7 @@ case "$1" in
     RETVAL=$?
     ;;
   status)
-    status /usr/bin/pgagent
+    status /usr/bin/pgagent_94
     RETVAL=$?
     ;;
   *)

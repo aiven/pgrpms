@@ -36,8 +36,8 @@ Environment=LOGFILE=/var/log/pgagent_94.log
 # Disable OOM kill on the postmaster
 OOMScoreAdjust=-1000
 
-ExecStart=/usr/bin/pgagent -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
-ExecStop=/usr/bin/kill -TERM /usr/bin/pgagent
+ExecStart=/usr/bin/pgagent_94 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
+ExecStop=/usr/bin/kill -TERM /usr/bin/pgagent_94
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300

@@ -42,6 +42,9 @@ make DESTDIR=%{buildroot} install
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{sname}_%{pgmajorversion}.service
 
+# Rename pgagent binary, so that we can have parallel installations:
+%{__mv} -f %{buildroot}%{_bindir}/%{sname} %{buildroot}%{_bindir}/%{name}
+
 # Remove some cruft, and also install doc related files to appropriate directory:
 %{__mkdir} -p %{buildroot}%{_datadir}/%{name}-%{version}
 %{__rm} -f %{buildroot}/usr/LICENSE
@@ -49,7 +52,6 @@ install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{sname}_%{pgmajorversion}.ser
 %{__mv} -f %{buildroot}%{_datadir}/pgagent*.sql %{buildroot}%{_datadir}/%{name}-%{version}/
 
 %post
-/sbin/ldconfig
 if [ $1 -eq 1 ] ; then
     # Initial installation
     /bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -75,7 +77,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-, root, root)
 %doc README LICENSE
-%{_bindir}/%{sname}
+%{_bindir}/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
 %{pginstdir}/share/extension/%{sname}--3.4.sql
@@ -88,6 +90,8 @@ rm -rf %{buildroot}
 - Use macros for pgagent, where appropriate.
 - Switch to systemd, and use unit file instead of sysV init
   script.
+- Add PostgreSQL major version number to pgagent binary, to 
+  enable parallel installations.
 
 * Mon Sep 17 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.3.0-1
 - Update to 3.3.0
