@@ -29,7 +29,7 @@ fi
 DBNAME=${DBNAME- postgres}
 DBUSER=${DBUSER- postgres}
 DBHOST=${DBHOST- 127.0.0.1}
-DBPORT=${DBPORT- 5492}
+DBPORT=${DBPORT- 5432}
 LOGFILE=${LOGFILE- /var/log/pgagent_92.log}
 lockfile="/var/lock/subsys/${NAME}"
 
@@ -51,7 +51,7 @@ start() {
 
     echo $"Starting ${NAME} service: "
 
-    $SU pgagent -c "pgagent -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
+    $SU pgagent -c "/usr/bin/pgagent_92 -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
 	then
@@ -68,7 +68,7 @@ start() {
 stop(){
     echo $"Stopping ${NAME} service: "
 
-    killproc /usr/bin/pgagent
+    killproc /usr/bin/pgagent_92
 
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
@@ -99,7 +99,7 @@ case "$1" in
     RETVAL=$?
     ;;
   status)
-    status /usr/bin/pgagent
+    status /usr/bin/pgagent_92
     RETVAL=$?
     ;;
   *)
