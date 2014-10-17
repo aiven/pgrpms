@@ -38,6 +38,9 @@ cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}
 rm -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
+# Rename pgagent binary, so that we can have parallel installations:
+%{__mv} -f %{buildroot}%{_bindir}/%{sname} %{buildroot}%{_bindir}/%{name}
+
 # Remove some cruft, and also install doc related files to appropriate directory:
 %{__mkdir} -p %{buildroot}%{_datadir}/%{name}-%{version}
 %{__rm} -f %{buildroot}/usr/LICENSE
@@ -60,7 +63,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-, root, root)
 %doc README LICENSE
-%{_bindir}/%{sname}
+%{_bindir}/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %{_initrddir}/%{name}
 %{pginstdir}/share/extension/%{sname}--3.4.sql
@@ -71,6 +74,8 @@ rm -rf %{buildroot}
 * Fri Oct 17 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-1
 - Update to 3.4.0
 - Use macros for pgagent, where appropriate.
+- Add PostgreSQL major version number to pgagent binary, to 
+  enable parallel installations.
 
 * Mon Sep 17 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.3.0-1
 - Update to 3.3.0
