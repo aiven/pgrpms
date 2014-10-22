@@ -1,17 +1,20 @@
 %global pgmajorversion 94
 %global pginstdir /usr/pgsql-9.4
 %global sname orafce
+%global orafcemajver 3
+%global orafcemidver 0
+%global orafceminver 7
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.0.4
+Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		orafce-makefile.patch
-Patch1:		orafce.control.patch
-URL:		http://pgfoundry.org/projects/orafce/
+Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
+Patch0:		%{sname}-makefile.patch
+Patch1:		%{sname}.control.patch
+URL:		https://github.com/orafce/orafce
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, krb5-devel, bison, flex 
@@ -24,7 +27,7 @@ now. Functionality was verified on Oracle 10g and module is useful
 for production work.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
 %patch0 -p0
 %patch1 -p0
 
@@ -37,27 +40,30 @@ USE_PGXS=1 make %{?_smp_mflags}
 rm -rf %{buildroot}
 make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-#install -d %{buildroot}%{_libdir}/pgsql/
-#install -d %{buildroot}%{_datadir}/%{sname}/
-#install -d %{buildroot}%{_docdir}/%{sname}/
+# install doc related files to appropriate directory:
+%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/COPYRIGHT.orafunc %{buildroot}%{pginstdir}/share/extension/COPYRIGHT.orafunc
+%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/INSTALL.orafunc %{buildroot}%{pginstdir}/share/extension/INSTALL.orafunc
+%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/README.asciidoc %{buildroot}%{pginstdir}/share/extension/README.asciidoc
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-
+%doc %{pginstdir}/share/extension/COPYRIGHT.orafunc
+%doc %{pginstdir}/share/extension/INSTALL.orafunc
+%doc %{pginstdir}/share/extension/README.asciidoc
 %{pginstdir}/lib/orafunc.so
-%{pginstdir}/share/extension/orafce--3.0.sql
-%{pginstdir}/share/extension/orafce--unpackaged--3.0.sql
-%{pginstdir}/share/extension/orafce.control
+%{pginstdir}/share/extension/%{sname}--3.0.7.sql
+%{pginstdir}/share/extension/%{sname}--unpackaged--3.0.7.sql
+%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/orafunc.sql
 %{pginstdir}/share/extension/uninstall_orafunc.sql
-%{_docdir}/pgsql/extension/COPYRIGHT.orafunc
-%{_docdir}/pgsql/extension/INSTALL.orafunc
-%{_docdir}/pgsql/extension/README.orafunc
 
 %changelog
+* Wed Oct 22 2014 - Devrim GUNDUZ <devrim@gunduz.org> 3.0.7-1
+- Update to 3.0.7
+
 * Thu Sep 13 2012 - Devrim GUNDUZ <devrim@gunduz.org> 3.0.4-1
 - Update to 3.0.4
 
