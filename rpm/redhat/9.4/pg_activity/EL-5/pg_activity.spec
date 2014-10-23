@@ -10,7 +10,8 @@ Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		https://github.com/julmon/pg_activity/
-Source0:	https://github.com/julmon/%{name}/archive/%{version}.tar.gz
+Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
+Patch0:		pg_activity-1.1.1-version.patch
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python > 2.6, python-psutil > 0.5.1, python-psycopg2 >= 2.2.1
@@ -21,6 +22,7 @@ top like application for PostgreSQL server activity monitoring.
 
 %prep
 %setup -n %{name}-%{version}
+%patch0 -p0
 
 %build
 %{__python} setup.py build
@@ -43,7 +45,7 @@ rm -rf %{buildroot}
 * Thu Feb 27 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.1-1
 - Update to 1.1.1
 
-* Sun Dec 28 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
+* Sat Dec 28 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 - Fix packaging issues
 - Update description and summary
