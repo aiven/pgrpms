@@ -28,6 +28,7 @@ pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
+
 rm -rf %{buildroot}
 make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
@@ -46,13 +47,15 @@ rm -rf %{buildroot}
 %{pginstdir}/lib/pg_timestamp.so
 %{pginstdir}/share/contrib/pg_timestamp.sql
 %{pginstdir}/share/contrib/uninstall_pg_timestamp.sql
-%{pginstdir}/share/extension/pg_bulkload--1.0.sql
-%{pginstdir}/share/extension/pg_bulkload--unpackaged--1.0.sql
+%{pginstdir}/share/extension/pg_bulkload*.sql
 %{pginstdir}/share/extension/pg_bulkload.control
-%{pginstdir}/share/extension/pg_bulkload.sql
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
 
 %changelog
+* Thu May 29 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.1.6-1
+- Update to 3.1.6
+- Simplify install section
+
 * Fri Jan 22 2010 Devrim GUNDUZ <devrim@gunduz.org> 3.0a2-1
 - Update to 3.0a2
 
