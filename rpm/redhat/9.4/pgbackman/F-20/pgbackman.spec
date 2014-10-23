@@ -8,11 +8,12 @@
 Summary:	PostgreSQL backup manager
 Name:		pgbackman
 Version:	%{majorversion}.%{minorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
 Source0:	https://github.com/rafaelma/%{name}/archive/v_1_0_0.tar.gz
+Patch0:		pgbackman-add-fedora.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python-psycopg2 python-argparse at cronie python-setuptools shadow-utils logrotate
@@ -32,9 +33,9 @@ elements associated to it.
 
 %prep
 %setup -n %{name}-v_1_0_0 -q
-
+%patch0 -p0
 %build
-python setup.py build
+python setup.py build 
 
 %install
 python setup.py install -O1 --skip-build --root %{buildroot}
@@ -65,6 +66,9 @@ useradd -M -N -g pgbackman -r -d /var/lib/pgbackman -s /bin/bash \
         -c "PostgreSQL Backup Manager" pgbackman >/dev/null 2>&1 || :
 
 %changelog
+* Thu Oct 23 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-3
+- Add a patch to support Fedora.
+
 * Mon Jun 30 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-2
 - Convert spaces to tabs in spec file
 - Fix changelog date
