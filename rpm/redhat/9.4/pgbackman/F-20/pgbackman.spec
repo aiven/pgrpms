@@ -1,4 +1,5 @@
-%define majorversion 1.0
+%define majorversion 1
+%define midversion 0
 %define minorversion 0
 %define pbm_owner pgbackman
 %define pbm_group pgbackman
@@ -7,12 +8,12 @@
 
 Summary:	PostgreSQL backup manager
 Name:		pgbackman
-Version:	%{majorversion}.%{minorversion}
-Release:	2%{?dist}
+Version:	%{majorversion}.%{midversion}.%{minorversion}
+Release:	3%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
-Source0:	https://github.com/rafaelma/%{name}/archive/v_1_0_0.tar.gz
+Source0:	https://github.com/rafaelma/%{name}/archive/v_%{majorversion}_%{midversion}_%{minorversion}.tar.gz
 Patch0:		pgbackman-add-fedora.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -32,7 +33,7 @@ ensure a 100% restore of a logical backup of a database and the
 elements associated to it.
 
 %prep
-%setup -n %{name}-v_1_0_0 -q
+%setup -n %{name}-v_%{majorversion}_%{midversion}_%{minorversion} -q
 %patch0 -p0
 %build
 python setup.py build 
