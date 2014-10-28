@@ -3,7 +3,7 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname powa
 %global powamajorversion 1
-%global powaminorversion 1
+%global powaminorversion 2
 %global	powawebdir  %{_datadir}/%{name}
 
 Summary:	PostgreSQL Workload Analyzer
@@ -70,5 +70,8 @@ rm -rf %{buildroot}
 %{_sysconfdir}/httpd/conf.d/%{name}.conf-dist
 
 %changelog
+* Tue Oct 28 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+- Update to 1.2
+
 * Wed Aug 27 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
