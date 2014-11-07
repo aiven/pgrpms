@@ -14,7 +14,7 @@
 
 Summary:	Pgpool is a connection pooling/replication server for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.3.4
+Version:	3.4.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -25,6 +25,7 @@ Source2:        pgpool.sysconfig
 Source3:	pgpool-II-94.service
 Patch1:		pgpool.conf.sample.patch
 Patch2:		pgpool-Makefiles-pgxs.patch
+Patch3:		pgpool-3.4.0-memcache_compile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, pam-devel, libmemcached-devel
 %if %{systemd_enabled}
@@ -77,6 +78,7 @@ Development headers and libraries for pgpool-II.
 %setup -q -n %{sname}-%{version}
 %patch1 -p0
 %patch2 -p0
+%patch3 -p0
 
 %build
 ./configure --exec-prefix=%{pgpoolinstdir} --with-pgsql=%{pginstdir} \
@@ -85,12 +87,12 @@ Development headers and libraries for pgpool-II.
 --mandir=%{pgpoolinstdir}/man --with-openssl --with-memcached=%{_includedir}/libmemcached
 
 USE_PGXS=1 make %{?_smp_flags}
-USE_PGXS=1 make -C sql %{?_smp_flags}
+USE_PGXS=1 make -C src/sql %{?_smp_flags}
 
 %install
 rm -rf %{buildroot}
 make %{?_smp_flags} DESTDIR=%{buildroot} install
-make -C sql %{?_smp_flags} DESTDIR=%{buildroot} install
+make -C src/sql %{?_smp_flags} DESTDIR=%{buildroot} install
 
 
 %if %{systemd_enabled}
@@ -129,7 +131,7 @@ rm -rf %{buildroot}
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pcp_watchdog pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 %{pgmajorversion}0
 /sbin/ldconfig
 %if %{systemd_enabled}
@@ -215,16 +217,19 @@ fi
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pgpool.conf.sample-stream
 %{_sysconfdir}/pgpool-II-%{pgmajorversion}/pool_hba.conf.sample
 %{pgpoolinstdir}/lib/libpcp.so*
+%{pginstdir}/lib/pgpool_adm.so
 %{pginstdir}/lib/pgpool-recovery.so
 %{pginstdir}/lib/pgpool-regclass.so
 %{pgpoolinstdir}/man/man8/pgpool.8
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
 %{pgpoolinstdir}/share/pgpool-II/system_db.sql
+%{pginstdir}/share/extension/pgpool_adm*
 %{pginstdir}/share/extension/pgpool-recovery.sql
 %{pginstdir}/share/extension/pgpool-regclass.sql
 %{pginstdir}/share/extension/pgpool_recovery*
 %{pginstdir}/share/extension/pgpool_regclass*
+
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -243,6 +248,12 @@ fi
 %{pgpoolinstdir}/include/pool_process_reporting.h
 
 %changelog
+* Fri Nov 7 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
+- Update to 3.4.0
+- Add patch3 to fix compilation with memcache support. This
+  patch will be removed when 3.4.1 comes out.
+- Fix config file path in unit file.
+
 * Tue Sep 16 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.4-1
 - Update to 3.3.4
 - Update alternatives version to 940
