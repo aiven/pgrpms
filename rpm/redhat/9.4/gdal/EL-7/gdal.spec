@@ -24,7 +24,7 @@
 
 # Tests can be of a different version
 %global testversion 1.11.0
-%global run_tests 1
+%global run_tests 0
 
 %global with_spatialite 1
 %global spatialite "--with-spatialite"
@@ -41,7 +41,7 @@
 
 Name:      gdal
 Version:   1.11.0
-Release:   2%{?dist}
+Release:   3%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -109,7 +109,6 @@ BuildRequires: giflib-devel
 BuildRequires: netcdf-devel
 BuildRequires: libdap-devel
 BuildRequires: librx-devel
-BuildRequires: mysql-devel
 BuildRequires: numpy
 BuildRequires: pcre-devel
 BuildRequires: ogdi-devel
@@ -402,7 +401,6 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-libtiff=external   \
         --with-libz               \
         --without-mdb             \
-        --with-mysql              \
         --with-netcdf             \
         --with-odbc               \
         --with-ogdi               \
@@ -660,7 +658,6 @@ pushd %{name}autotest-%{testversion}
 
   # Remove some test cases that would require special preparation
   rm -rf ogr/ogr_pg.py        # No database available
-  rm -rf ogr/ogr_mysql.py     # No database available
   rm -rf osr/osr_esri.py      # ESRI datum absent
   rm -rf osr/osr_erm.py       # File from ECW absent
 
@@ -761,6 +758,11 @@ popd
 #commons-logging-1.1.1.jar (other versions might work)
 #If you didn't specify --with-jvm-lib-add-rpath at
 #Or as before, using ldconfig
+
+%changelog
+* Tue Nov 25 2014 Devrim Gündüz <devrimgundu<z.org> - 1.11.0-3
+- Remove mysql support.
+- Disable tests.
 
 %changelog
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11.0-2
