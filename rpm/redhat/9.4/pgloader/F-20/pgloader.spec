@@ -4,61 +4,49 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	2.3.2
+Version:	3.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://pgfoundry.org/projects/pgloader/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
-Patch1:		pgloader-makefile.patch
+URL:		http://pgloader.io
+Source0:	http://pgloader.io/files/pgloader_%{version}.orig.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python
+BuildRequires:	python sbcl
 Requires:	python-psycopg2
 
 %description
-The PostgreSQL Loader project is a fast data loader for PostgreSQL, 
-with the ability to generate files of rejected rows. It currently 
-requires Python and Psycopg (version 1 or version 2, latter preferred).
+pgloader imports data from different kind of sources and COPY it into
+PostgreSQL.
+
+The command language is described in the manual page and allows to describe 
+where to find the data source, its format, and to describe data processing
+and transformation.
+
+Supported source formats include CSV, fixed width flat files, dBase3 files
+(DBF), and SQLite and MySQL databases. In most of those formats, pgloader is
+able to auto-discover the schema and create the tables and the indexes in
+PostgreSQL. In the MySQL case it's possible to edit CASTing rules from the
+pgloader command directly.
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch1 -p0
+%setup -q -n %{name}
+make %{?_smp_mflags} COMPRESS_CORE=no %{name}
 
 %install
 rm -rf %{buildroot}
-#export LIBDIR=%{python_sitearch}/
-#export EXDIR=%{_docdir}/%{name}-%{version}
-install -d %{buildroot}%{_bindir}
-install -d %{buildroot}%{_docdir}/%{name}
-install -d %{buildroot}/%{python_sitearch}/%{name}/
-install -d %{buildroot}/%{python_sitearch}/%{name}/reformat
-install -d %{buildroot}/%{_mandir}/man1/
-install -m 755 pgloader.py %{buildroot}%{_bindir}/pgloader
-install -m 644 pgloader/*.py %{buildroot}/%{python_sitearch}/%{name}/
-install -m 644 reformat/*.py %{buildroot}/%{python_sitearch}/%{name}/reformat/
-%{__cp} -r  examples/* %{buildroot}%{_docdir}/%{name}
-install -m 644 TODO.txt BUGS.txt %{buildroot}%{_docdir}/%{name}
-%{__gzip} -q pgloader.1
-install -m 644 pgloader.1.gz %{buildroot}/%{_mandir}/man1/
+install -m 755 -d %{buildroot}/%{_bindir}
+cp build/bin/%{name} %{buildroot}/%{_bindir}/%{name}
+mkdir -p %{buildroot}/etc/prelink.conf.d
+echo '-b /usr/bin/pgloader' > %{buildroot}/etc/prelink.conf.d/%{name}.conf
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
-#%doc BUGS.txt BUGS.txt TODO.txt
-%{_bindir}/pgloader
-%{_docdir}/%{name}/*
-%dir %{python_sitearch}/%{name}/
-%dir %{python_sitearch}/%{name}/reformat
-%{python_sitearch}/%{name}/*.py
-%{python_sitearch}/%{name}/*.pyo
-%{python_sitearch}/%{name}/*.pyc
-%{python_sitearch}/%{name}/reformat/*.py
-%{python_sitearch}/%{name}/reformat/*.pyo
-%{python_sitearch}/%{name}/reformat/*.pyc
-%{_mandir}/man1/pgloader.1.gz
+%doc README.md %{name}.1.md
+%{_bindir}/*
+/etc/prelink.conf.d/%{name}.conf
 
 %changelog
 * Tue Jul 28 2009 Devrim Gunduz <devrim@gunduz.org> 2.3.2-1
