@@ -1,0 +1,59 @@
+--- Makefile.old	2014-05-20 00:09:17.808826715 +0200
++++ Makefile	2014-05-20 00:09:41.248674221 +0200
+@@ -6,7 +6,7 @@
+ #  Portions Copyright (c) 2012, The Reorg Development Team
+ #
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.4/bin/pg_config
+ EXTENSION = pg_repack
+ 
+ .PHONY: dist/$(EXTENSION)-$(EXTVERSION).zip
+--- bin/Makefile.old	2014-05-20 00:09:24.155785430 +0200
++++ bin/Makefile	2014-05-20 00:12:41.964496611 +0200
+@@ -6,7 +6,7 @@
+ #  Portions Copyright (c) 2012, The Reorg Development Team
+ #
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.4/bin/pg_config
+ 
+ SRCS = pg_repack.c pgut/pgut.c pgut/pgut-fe.c
+ OBJS = $(SRCS:.c=.o)
+@@ -26,7 +26,6 @@
+ PG_LIBS = $(libpq)
+ 
+ USE_PGXS = 1	# use pgxs if not in contrib directory
+-PG_CONFIG = pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
+--- lib/Makefile.old	2014-05-20 00:09:26.408770774 +0200
++++ lib/Makefile	2014-05-20 00:09:41.248674221 +0200
+@@ -6,7 +6,7 @@
+ #  Portions Copyright (c) 2012, The Reorg Development Team
+ #
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.4/bin/pg_config
+ 
+ # version as a number, e.g. 9.1.4 -> 901
+ VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
+--- regress/Makefile.old	2014-05-20 00:09:29.920747926 +0200
++++ regress/Makefile	2014-05-20 00:12:37.605525047 +0200
+@@ -6,7 +6,7 @@
+ #  Portions Copyright (c) 2012, The Reorg Development Team
+ #
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.4/bin/pg_config
+ 
+ # version as a number, e.g. 9.1.4 -> 901
+ VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
+@@ -37,6 +37,5 @@
+ 
+ 
+ USE_PGXS = 1	# use pgxs if not in contrib directory
+-PG_CONFIG = pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)

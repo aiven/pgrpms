@@ -1,0 +1,12 @@
+diff -up plruby-0.5.3/src/plruby.h.debug plruby-0.5.3/src/plruby.h
+--- plruby-0.5.3/src/plruby.h.debug	2013-03-05 12:43:39.107105360 +0100
++++ plruby-0.5.3/src/plruby.h	2013-03-05 12:46:11.769101158 +0100
+@@ -8,6 +8,8 @@
+ #include "commands/trigger.h"
+ #include "utils/elog.h"
+ #include "utils/builtins.h"
++#include "utils/rel.h"
++#include "utils/relcache.h"
+ #include "fmgr.h"
+ #include "access/heapam.h"
+ 
