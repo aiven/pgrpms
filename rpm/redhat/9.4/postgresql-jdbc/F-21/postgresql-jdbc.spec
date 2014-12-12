@@ -18,7 +18,7 @@ Source0:	http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
 Source1:	%{name}.pom
 
 BuildArch:	noarch
-BuildRequires:	java-1.7.0-openjdk-devel
+BuildRequires:	java-1.8.0-openjdk-devel
 BuildRequires:	jpackage-utils
 BuildRequires:	ant
 BuildRequires:	ant-junit
