@@ -1,0 +1,20 @@
+--- Makefile.old	2014-10-23 04:13:07.507000000 -0400
++++ Makefile	2014-10-23 04:13:33.506000000 -0400
+@@ -7,7 +7,7 @@
+ DATA = uninstall_orafunc.sql orafce--3.0.7.sql orafce--unpackaged--3.0.7.sql
+ DOCS = README.asciidoc COPYRIGHT.orafunc INSTALL.orafunc
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
+ 
+ # version as a number, e.g. 9.1.4 -> 901
+ VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
+@@ -46,7 +46,7 @@
+ endif
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
