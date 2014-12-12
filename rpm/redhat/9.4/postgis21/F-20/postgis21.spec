@@ -1,8 +1,8 @@
 %global postgismajorversion 2.1
 %global postgisprevmajorversion 2.0  
 %global postgisprevversion 2.0.6
-%global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
+%global pgmajorversion 94
+%global pginstdir /usr/pgsql-9.4
 %global sname	postgis
 %{!?utils:%define	utils 1}
 %{!?raster:%define	raster 1}

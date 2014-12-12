@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel5
-SPECFILE="postgis2.spec"
+DIST=.f19
+SPECFILE="postgis21.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
