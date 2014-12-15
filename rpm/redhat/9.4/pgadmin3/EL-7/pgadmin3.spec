@@ -5,10 +5,10 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20.0
-Release:	beta2_1%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}-beta2/src/%{sname}-%{version}-beta2.tar.gz
+Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,7 +44,7 @@ This package contains documentation for various languages,
 which are in html format.
 
 %prep
-%setup -q -n %{sname}-%{version}-beta2
+%setup -q -n %{sname}-%{version}
 
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
@@ -96,6 +96,9 @@ fi
 %doc docs/*
 
 %changelog
+* Mon Dec 15 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-1
+- Update to 1.20.0 Gold
+
 * Wed Oct 15 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-beta2-1
 - Update to 1.20.0-beta2
 
