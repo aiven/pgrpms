@@ -32,7 +32,7 @@ License:	LGPLv2
 Group:		Applications/Databases
 Url:		http://psqlodbc.projects.postgresql.org/
 
-Source0:	ftp://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
+Source0:	https://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
 Source1:	acinclude.m4
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
