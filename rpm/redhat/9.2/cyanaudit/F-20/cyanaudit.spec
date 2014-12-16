@@ -5,14 +5,14 @@
 Summary:        DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.9.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		cyanaudit-makefile-pgconfig.patch
 URL:		http://pgxn.org/dist/cyanaudit
 Requires:	postgresql%{pgmajorversion}-plperl
-BuildRequires:	protobuf-c-devel
+BuildRequires:	protobuf-c-devel, postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -53,5 +53,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/*cyanaudit*.md
 
 %changelog
+* Wed Dec 17 2014 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-2
+- Add postgresql main package as BR
+
 * Tue Apr 8 2014 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-1
 - Initial RPM packaging for PostgreSQL RPM Repository
