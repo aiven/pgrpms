@@ -5,7 +5,7 @@
  #
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.2/bin/pg_config
  EXTENSION = pg_repack
  
  .PHONY: dist/$(EXTENSION)-$(EXTVERSION).zip
@@ -16,7 +16,7 @@
  #
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.2/bin/pg_config
  
  SRCS = pg_repack.c pgut/pgut.c pgut/pgut-fe.c
  OBJS = $(SRCS:.c=.o)
@@ -35,7 +35,7 @@
  #
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.2/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
  VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
@@ -46,7 +46,7 @@
  #
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.2/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
  VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
