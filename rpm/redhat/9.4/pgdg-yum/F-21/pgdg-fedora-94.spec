@@ -1,6 +1,6 @@
 Name:		pgdg-fedora94
 Version:	9.4
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.4.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base 
 License:	BSD
@@ -33,9 +33,6 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
-/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
-
 %files
 %defattr(-,root,root,-)
 %config %{_sysconfdir}/yum.repos.d/*
@@ -43,6 +40,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Fri Dec 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-2
+- Avoid importing GPG key. 
+
 * Thu May 8 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-1
 - 9.4 set
 
