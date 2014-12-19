@@ -8,7 +8,7 @@ Version:	1.20.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
+Source:		https://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
