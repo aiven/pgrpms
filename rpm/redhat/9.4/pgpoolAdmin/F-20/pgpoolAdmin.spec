@@ -1,13 +1,13 @@
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	2.3
+Version:	3.4.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://pgpool.projects.postgresql.org
+URL:		http://www.pgpool.net
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0:	http://pgfoundry.org/frs/download.php/2494/%{name}-%{version}.tar.gz
+Source0:	http://www.pgpool.net/download.php?f=%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 
 Requires:	php >= 4.3.9
@@ -28,7 +28,7 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 
 %prep
 %setup -q 
-%patch1 -p1
+%patch1 -p0
 %build
 
 %install
@@ -37,7 +37,7 @@ install -d %{buildroot}%{_pgpoolAdmindir}
 install -d %{buildroot}%{_pgpoolAdmindir}/conf
 install -d %{buildroot}%{_sysconfdir}/%{name}
 install -m 644 *.php %{buildroot}%{_pgpoolAdmindir}
-cp -a  doc/ images/ install/ lang/ libs/ templates/ screen.css %{buildroot}%{_pgpoolAdmindir}
+cp -a doc/ images/ install/ lang/ libs/ templates/ templates_c/  screen.css %{buildroot}%{_pgpoolAdmindir}
 install -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}/
 ln -s ../../../..%{_sysconfdir}/%{name}/pgmgt.conf.php %{buildroot}%{_pgpoolAdmindir}/conf/pgmgt.conf.php
 
