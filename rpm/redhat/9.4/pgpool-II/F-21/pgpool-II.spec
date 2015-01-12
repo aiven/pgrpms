@@ -13,7 +13,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.4.0
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -237,7 +237,7 @@ fi
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %else
-%{_sysconfdir}/init.d/pgpool
+{_sysconfdir}/init.d/%{name}
 %endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
@@ -261,6 +261,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Jan 12 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-3
+- Fix builds for non-systemd environments. Patch by Bernd Helmle.
+
 * Thu Dec 11 2014 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-2
 - Sync with Fedora spec and apply our multiversion changes.
   Fedora spec is recently reworked by Pavel Raiskup. This spec
