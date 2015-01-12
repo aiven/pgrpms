@@ -4,7 +4,7 @@
 
 Summary:	Prefix Opclass for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.0
+Version:	1.2.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -42,6 +42,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Jan 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
+- Update to 1.2.3
+
 * Mon Jan 7 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 - Fix for PostgreSQL 9.0+ RPM layout.
