@@ -237,7 +237,7 @@ fi
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %else
-{_sysconfdir}/init.d/%{name}
+%{_sysconfdir}/init.d/%{name}
 %endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
