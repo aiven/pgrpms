@@ -13,7 +13,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.4.0
-Release:		3%{?dist}
+Release:		4%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -21,6 +21,7 @@ Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:        	%{sname}-%{pgmajorversion}.service
 Source2:        	pgpool.sysconfig
 Source3:		pgpool.init
+Source9:		pgpool-%{pgmajorversion}-libs.conf
 Patch1:			pgpool.conf.sample.patch
 Patch2:			pgpool-Makefiles-pgxs.patch
 Patch3:			pgpool-3.4.0-memcache_compile.patch
@@ -97,7 +98,6 @@ Postgresql extensions libraries and sql files for pgpool-II.
 	--with-openssl \
 	--with-pam \
 	--with-pgsql=%{pginstdir} 
-	
 
 # https://fedoraproject.org/wiki/Packaging:Guidelines#Removing_Rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -133,6 +133,11 @@ install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 # nuke libtool archive and static lib
 rm -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
 
+# Install linker conf file under postgresql installation directory.
+# We will install the latest version via alternatives.
+install -d -m 755 %{buildroot}%{pgpoolinstdir}/share/
+install -m 700 %{SOURCE9} %{buildroot}%{pgpoolinstdir}/share/
+
 %post
 # Create alternatives entries for common binaries and man files
 %{_sbindir}/update-alternatives --install /usr/bin/pgpool pgpool-pgpool %{pgpoolinstdir}/bin/pgpool %{pgmajorversion}0
@@ -149,6 +154,7 @@ rm -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_watchdog pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/pgpool-libs.conf   pgpool-ld-conf        %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf %{pgmajorversion}0
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
@@ -169,6 +175,11 @@ fi
 %endif
 
 %postun 
+if [ "$1" -eq 0 ]
+  then
+        %{_sbindir}/update-alternatives --remove pgpool-ld-conf          %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf
+        /sbin/ldconfig
+fi
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_postun_with_restart %{sname}-%{pgmajorversion}.service
@@ -232,6 +243,7 @@ fi
 %{pgpoolinstdir}/share/pgpool-II/system_db.sql
 %{_sysconfdir}/%{name}/*.sample*
 %{pgpoolinstdir}/lib/libpcp.so.*
+%config(noreplace) %attr (644,root,root) %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -261,6 +273,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Jan 12 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-4
+- Create /etc/ld.so.conf.d config file, for pcp and other libraries.
+  Per #12597 in pgsql-bugs mailing list.
+
 * Mon Jan 12 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-3
 - Fix builds for non-systemd environments. Patch by Bernd Helmle.
 
