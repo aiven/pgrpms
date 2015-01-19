@@ -3,16 +3,17 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname powa
 %global powamajorversion 1
-%global powaminorversion 2
+%global powamidversion 2
+%global powaminorversion 1
 %global	powawebdir  %{_datadir}/%{name}
 
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{powamajorversion}.%{powaminorversion}
+Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/dalibo/%{sname}/archive/REL_%{powamajorversion}_%{powaminorversion}.zip
+Source0:	https://github.com/dalibo/%{sname}/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
 Source1:	%{name}-apache.conf-dist
 Patch0:		%{sname}-makefile.patch
 URL:		http://dalibo.github.io/powa/
@@ -33,7 +34,7 @@ Requires:	perl-Mojolicious
 This is the user interface of POWA.
 
 %prep
-%setup -q -n %{sname}-REL_%{powamajorversion}_%{powaminorversion}
+%setup -q -n %{sname}-REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}
 %patch0 -p0
 
 %build
@@ -70,6 +71,11 @@ rm -rf %{buildroot}
 %{_sysconfdir}/httpd/conf.d/%{name}.conf-dist
 
 %changelog
+* Mon Jan 19 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.1-1
+- Update to 1.2.1
+- Fix a stupid oversight in spec file: This package contains
+  3 digit version number.
+
 * Tue Oct 28 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
