@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/ 
@@ -930,6 +930,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 19 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.0-2PGDG
+- Fix PREVMAJORVERSION in init script, per Tomonari Katsumata.
+
 * Wed Dec 17 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4.0-1PGDG
 - Update to 9.4.0
 
