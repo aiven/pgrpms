@@ -1,0 +1,10 @@
+%dir /usr/lib/debug
+%dir /usr/lib/debug/usr
+%dir /usr/lib/debug/usr/pgsql-9.4
+%dir /usr/lib/debug/usr/pgsql-9.4/lib
+%dir /usr/lib/debug/.build-id
+%dir /usr/lib/debug/.build-id/77
+/usr/lib/debug/usr/pgsql-9.4/lib/orafce.so.debug
+/usr/lib/debug/.build-id/77/0e3ea93979addd6707e1b2eb05fa09a2809f6b.debug
+/usr/lib/debug/.build-id/77/0e3ea93979addd6707e1b2eb05fa09a2809f6b
+/usr/src/debug/orafce-VERSION_3_0_14

@@ -3,7 +3,7 @@
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 0
-%global orafceminver 7
+%global orafceminver 14
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
@@ -17,13 +17,13 @@ Patch1:		%{sname}.control.patch
 URL:		https://github.com/orafce/orafce
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, krb5-devel, bison, flex 
+BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, krb5-devel, bison, flex
 Requires:	postgresql%{pgmajorversion}
 
-%description 	
-The goal of this project is implementation some functions from Oracle database. 
-Some date functions (next_day, last_day, trunc, round, ...) are implemented 
-now. Functionality was verified on Oracle 10g and module is useful 
+%description
+The goal of this project is implementation some functions from Oracle database.
+Some date functions (next_day, last_day, trunc, round, ...) are implemented
+now. Functionality was verified on Oracle 10g and module is useful
 for production work.
 
 %prep
@@ -34,15 +34,15 @@ for production work.
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 
-USE_PGXS=1 make %{?_smp_mflags} 
+USE_PGXS=1 make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
 make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 # install doc related files to appropriate directory:
-%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/COPYRIGHT.orafunc %{buildroot}%{pginstdir}/share/extension/COPYRIGHT.orafunc
-%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/INSTALL.orafunc %{buildroot}%{pginstdir}/share/extension/INSTALL.orafunc
+%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/COPYRIGHT.orafce %{buildroot}%{pginstdir}/share/extension/COPYRIGHT.orafce
+%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/INSTALL.orafce %{buildroot}%{pginstdir}/share/extension/INSTALL.orafce
 %{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/README.asciidoc %{buildroot}%{pginstdir}/share/extension/README.asciidoc
 
 %clean
@@ -50,17 +50,20 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/COPYRIGHT.orafunc
-%doc %{pginstdir}/share/extension/INSTALL.orafunc
+%doc %{pginstdir}/share/extension/COPYRIGHT.orafce
+%doc %{pginstdir}/share/extension/INSTALL.orafce
 %doc %{pginstdir}/share/extension/README.asciidoc
-%{pginstdir}/lib/orafunc.so
-%{pginstdir}/share/extension/%{sname}--3.0.7.sql
-%{pginstdir}/share/extension/%{sname}--unpackaged--3.0.7.sql
+%{pginstdir}/lib/orafce.so
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/extension/orafunc.sql
-%{pginstdir}/share/extension/uninstall_orafunc.sql
+%{pginstdir}/share/extension/orafce--%{orafcemajver}.%{orafcemidver}.%{orafceminver}.sql
+%{pginstdir}/share/extension/orafce--unpackaged--%{orafcemajver}.%{orafcemidver}.%{orafceminver}.sql
+%{pginstdir}/share/extension/orafce.sql
+%{pginstdir}/share/extension/uninstall_orafce.sql
 
 %changelog
+* Tue Jan 20 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.0.14-1
+- Update to 3.0.14
+
 * Wed Oct 22 2014 - Devrim GUNDUZ <devrim@gunduz.org> 3.0.7-1
 - Update to 3.0.7
 
