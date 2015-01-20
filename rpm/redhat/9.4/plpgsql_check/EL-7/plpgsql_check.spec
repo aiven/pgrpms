@@ -3,7 +3,7 @@
 %global sname plpgsql_check
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.2
+Version:	0.9.3
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -46,5 +46,8 @@ rm -rf %{buildroot}
 
 
 %changelog
+* Tue Jan 20 2015 - Devrim Gündüz <devrim@gunduz.org> 0.9.3-1
+- Update to 0.9.3
+
 * Mon Aug 25 2014 - Pavel STEHULE <pavel.stehule@gmail.com> 0.9.2-1
 - Initial packaging

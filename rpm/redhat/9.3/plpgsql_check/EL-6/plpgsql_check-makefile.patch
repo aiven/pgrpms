@@ -1,11 +1,11 @@
---- Makefile.old	2014-08-29 14:13:12.561211003 +0300
-+++ Makefile	2014-08-29 14:13:23.191104550 +0300
-@@ -13,7 +13,7 @@
- REGRESS = plpgsql_check_passive plpgsql_check_active plpgsql_check_active-$(MAJORVERSION)
- 
- ifdef USE_PGXS
+--- Makefile.old	2015-01-20 20:40:12.010411007 +0200
++++ Makefile	2015-01-20 20:40:17.918298848 +0200
+@@ -18,7 +18,7 @@
+ include $(top_builddir)/src/Makefile.global
+ include $(top_srcdir)/contrib/contrib-global.mk
+ else
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
- else
+ endif
