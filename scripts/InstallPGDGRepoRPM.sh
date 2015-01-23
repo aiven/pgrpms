@@ -68,23 +68,37 @@ echo "Installer will now install the repository RPM for ${green}$lsb_distro_name
 # We also need a dotless version of pgversion variable:
 pgshortversion=`echo $pgversion | tr -d . `
 
-# Install the RPM
-
+# Install the repository RPM
 echo "Please stand by while installing the repository RPM. It may take a while."
 echo
 yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_name/$lsb_distro_name-$lsb_distro_version-$distro_arch/pgdg$pgshortversion-$pgversion-latest.noarch.rpm
 
+# Check whether the repo RPM has been installed or not:
 if [ $? != 0 ]
 then
+	# Throw error messages:
 	echo
-	echo "${red}Error installing the repository RPM$"
+	echo "${red}Error installing the repository RPM. See the message above for details."
 	echo "This distro/arch may not be supported for PostgreSQL $pgversion${reset}"
 	exit 1
 fi
 
+# RPM has been installed successfully.
 echo
 echo "Repository RPM successfully installed. You can now install PostgreSQL server by running"
-echo "${blue}yum groupinstall \"PostgreSQL Database Server 9.4 PGDG\"${reset}"
+echo "${blue}yum groupinstall \"PostgreSQL Database Server $pgversion PGDG\"${reset}"
 
-#TODO: ASK USER WHETHER THEY WANT TO INSTALL PG OR NOT
+read -r -p "Are you sure? [y/N] " response
+case $response in
+	[yY][eE][sS]|[yY])
+	echo "Please wait while we are installing PostgreSQL $pgversion RPMs."
+	yum -y groupinstall "PostgreSQL Database Server $pgversion PGDG"
+        ;;
+    *)
+	echo
+	echo
+	echo "You can later install PostgreSQL server by running"
+	echo "${blue}yum groupinstall \"PostgreSQL Database Server $pgversion PGDG\"${reset}"
+        ;;
+esac
 exit 0
