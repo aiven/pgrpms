@@ -5,7 +5,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	1.3.3
+Version:	1.4.0
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -15,7 +15,7 @@ Source1:	%{name}.cron
 Source2:	%{name}.logrotate
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	python-abi = %{pybasever}, python-argh  => 0.21.2, python-psycopg2, 
+Requires:	python-abi = %{pybasever}, python-argh  => 0.21.2, python-psycopg2
 Requires:	python-argcomplete, python-dateutil
 Requires:	/usr/sbin/useradd
 
@@ -72,9 +72,13 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Tue Jan 27 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0, per changes described in:
+   http://sourceforge.net/projects/pgbarman/files/1.4.0
+
 * Tue Aug 26 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.3-1
-- Update to 1.3.3, per changes described in:           
-   http://sourceforge.net/projects/pgbarman/files/1.3.3 
+- Update to 1.3.3, per changes described in:
+   http://sourceforge.net/projects/pgbarman/files/1.3.3
 
 * Tue Apr 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.2-1
 - Update to 1.3.2, per changes described in these pages:
@@ -98,7 +102,7 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
    http://sourceforge.net/projects/pgbarman/files/1.2.1/
 
 * Tue Feb 26 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-2
-- Add dependency for argcomplete, also add dependency for 
+- Add dependency for argcomplete, also add dependency for
   specific version of python-argh.
 
 * Fri Feb 1 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
