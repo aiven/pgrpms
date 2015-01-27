@@ -35,7 +35,6 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Install README file under PostgreSQL installation directory:
 install -d %{buildroot}%{pginstdir}/share/extension
 install -m 755 README.asciidoc  %{buildroot}%{pginstdir}/share/extension/README-%{sname}.asciidoc
-rm -f %{buildroot}%{_docdir}/pgsql/extension/pg_partman.asciidoc
 
 %clean
 rm -rf %{buildroot}
