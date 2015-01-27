@@ -5,17 +5,21 @@
 # description: Starts and stops the Slon daemon that handles
 #              Slony-I replication.
 # processname: slon
-# pidfile:	/var/run/slony1-93/slon.pid
+# pidfile:	/var/run/slony1-94/slon.pid
 #
 # v1.0.0 Devrim GUNDUZ <devrim@gunduz.org>
 # - Initial version of Red Hat / Fedora init script, based on Ubuntu one.
-# 
+#
 # v2.0.0 Devrim GÜNDÜZ <devrim@gunduz.org>
 # - Multiple fixes for multiple postmaster feature.
 # - Start logging to startup logging file.
+#
+# v2.0.1 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Fix init script so that it reads the conninfo
+# correctly. Per Tomonari Katsumata.
 
-if [ -r /etc/sysconfig/slony1-93 ]; then
-    . /etc/sysconfig/slony1-93
+if [ -r /etc/sysconfig/slony1-94 ]; then
+    . /etc/sysconfig/slony1-94
 fi
 
 # Source function library.
@@ -48,11 +52,11 @@ then
 fi
 
 # Set defaults for configuration variables
-SLONENGINE=/usr/pgsql-9.3/bin
+SLONENGINE=/usr/pgsql-9.4/bin
 SLONDAEMON=$SLONENGINE/slon
-SLONCONF=/etc/slony1-93/slon.conf
-SLONPID=/var/run/slony1-93/slon.pid
-SLONLOGDIR=/var/log/slony1-93
+SLONCONF=/etc/slony1-94/slon.conf
+SLONPID=/var/run/slony1-94/slon.pid
+SLONLOGDIR=/var/log/slony1-94
 
 test -x $SLONDAEMON || exit 5
 
@@ -63,7 +67,7 @@ start(){
 	SLON_START=$"Starting ${NAME} service: "
 
 	echo -n "$SLON_START"
-	$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME $SLONCONNINFO &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
+	$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME \"$SLONCONNINFO\" &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
 	sleep 2
 
 	pid=`pidof -s "$SLONDAEMON"`

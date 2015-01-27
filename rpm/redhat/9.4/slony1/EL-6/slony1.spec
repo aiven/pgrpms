@@ -8,7 +8,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -26,7 +26,7 @@ BuildRequires:	docbook-style-dsssl postgresql_autodoc docbook-utils
 %endif
 
 %description
-Slony-I is a "master to multiple slaves" replication 
+Slony-I is a "master to multiple slaves" replication
 system for PostgreSQL with cascading and failover.
 
 The big picture for the development of Slony-I is to build
@@ -151,6 +151,11 @@ fi
 %endif
 
 %changelog
+* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-2
+- Fix init script so that it reads the conninfo correctly.
+  Per Tomonari Katsumata.
+- Fix major version number in init script.
+
 * Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-1
 - Update to 2.2.4
 

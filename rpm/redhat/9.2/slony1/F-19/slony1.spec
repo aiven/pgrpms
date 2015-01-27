@@ -8,7 +8,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.1.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -151,6 +151,10 @@ fi
 %endif
 
 %changelog
+* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.1.4-3
+- Fix init script so that it reads the conninfo correctly.
+  Per Tomonari Katsumata.
+
 * Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
 - Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
 - Set the correct path for LOGDIR in the slon_tools.conf file

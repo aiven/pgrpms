@@ -9,10 +9,14 @@
 #
 # v1.0.0 Devrim GUNDUZ <devrim@gunduz.org>
 # - Initial version of Red Hat / Fedora init script, based on Ubuntu one.
-# 
+#
 # v2.0.0 Devrim GÜNDÜZ <devrim@gunduz.org>
 # - Multiple fixes for multiple postmaster feature.
 # - Start logging to startup logging file.
+#
+# v2.0.1 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Fix init script so that it reads the conninfo
+# correctly. Per Tomonari Katsumata.
 
 if [ -r /etc/sysconfig/slony1-92 ]; then
     . /etc/sysconfig/slony1-92
@@ -63,7 +67,7 @@ start(){
 	SLON_START=$"Starting ${NAME} service: "
 
 	echo -n "$SLON_START"
-	$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME $SLONCONNINFO &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
+	$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME \"$SLONCONNINFO\" &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
 	sleep 2
 
 	pid=`pidof -s "$SLONDAEMON"`
