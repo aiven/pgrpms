@@ -36,7 +36,7 @@
                                     # PID file name
                                     # (change requires restart)
 -logdir = '/var/log/pgpool'
-+logdir = '/var/log/pgpool-II-94'
++logdir = '/var/log/pgpool-II-93'
                                     # Directory of pgPool status file
                                     # (change requires restart)
  
