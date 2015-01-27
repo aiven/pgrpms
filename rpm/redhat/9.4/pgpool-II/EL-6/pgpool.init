@@ -18,8 +18,8 @@
 # v2.3 Devrim GUNDUZ <devrim@gunduz.org>
 # - Adjust order of startup and kill, per RH bugzilla #545739.
 
-if [ -r /etc/sysconfig/pgpool ]; then
-    . /etc/sysconfig/pgpool
+if [ -r /etc/sysconfig/pgpool-II-94 ]; then
+    . /etc/sysconfig/pgpool-II-94
 fi
 
 # Source function library.
