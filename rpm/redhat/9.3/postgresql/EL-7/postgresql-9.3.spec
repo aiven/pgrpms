@@ -5,7 +5,7 @@
 # test releases.
 
 # Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not 
+# tarballs from postgresql.org.  Official beta releases are not
 # considered pre-releases, nor are release candidates, as their beta or
 # release candidate status is reflected in the version of the tarball. Pre-
 # releases' versions do not change -- the pre-release tarball of 7.0.3, for
@@ -33,7 +33,7 @@
 # Greg Smith
 # and others in the Changelog....
 
-# This spec file and ancilliary files are licensed in accordance with 
+# This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
 
 # In this file you can find the default build package list macros.  These can be overridden by defining
@@ -71,11 +71,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.5
+Version:	9.3.6
 Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/ 
+Url:		http://www.postgresql.org/
 
 Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	Makefile.regress
@@ -94,12 +94,12 @@ Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
 Patch6:		postgresql-perl-rpath.patch
 
-Buildrequires:	perl glibc-devel bison flex >= 2.5.31
-Requires:	/sbin/ldconfig 
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+Requires:	/sbin/ldconfig
 
 %if %plperl
 BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker) 
+BuildRequires:	perl(ExtUtils::MakeMaker)
 %endif
 
 %if %plpython
@@ -212,7 +212,7 @@ Provides:	postgresql-docs
 The postgresql93-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also 
+project, or if you want to generate printed documentation. This package also
 includes HTML version of the documentation.
 
 %package contrib
@@ -605,7 +605,7 @@ if [ $1 -eq 0 ] ; then
 fi
 
 %postun server
-/sbin/ldconfig 
+/sbin/ldconfig
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
@@ -994,6 +994,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.6-1PGDG
+- Update to 9.3.6, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-6.html
+
 * Mon Aug 25 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.5-2PGDG
 - Re-enable uuid support.
 

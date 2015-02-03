@@ -5,7 +5,7 @@
 # test releases.
 
 # Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not 
+# tarballs from postgresql.org.  Official beta releases are not
 # considered pre-releases, nor are release candidates, as their beta or
 # release candidate status is reflected in the version of the tarball. Pre-
 # releases' versions do not change -- the pre-release tarball of 7.0.3, for
@@ -26,13 +26,14 @@
 # ---------------
 # Lamar Owen
 # Tom Lane
+# Jeff Frost
 # Peter Eisentraut
 # Alvaro Herrera
 # David Fetter
 # Greg Smith
 # and others in the Changelog....
 
-# This spec file and ancilliary files are licensed in accordance with 
+# This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
 
 # In this file you can find the default build package list macros.  These can be overridden by defining
@@ -69,11 +70,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.5
+Version:	9.3.6
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/ 
+Url:		http://www.postgresql.org/
 
 Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source3:	postgresql.init
@@ -91,7 +92,7 @@ Patch3:		postgresql-logging.patch
 Patch6:		postgresql-perl-rpath.patch
 Patch8:		postgresql-prefer-ncurses.patch
 
-Buildrequires:	perl glibc-devel bison flex
+BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig initscripts
 
 %if %plpython
@@ -151,8 +152,8 @@ client programs are programs that directly manipulate the internal
 structure of PostgreSQL databases on a PostgreSQL server. These client
 programs can be located on the same machine with the PostgreSQL
 server, or may be on a remote machine which accesses a PostgreSQL
-server over a network connection. This package contains the command-line 
-utilities for managing PostgreSQL databases on a PostgreSQL server. 
+server over a network connection. This package contains the command-line
+utilities for managing PostgreSQL databases on a PostgreSQL server.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
@@ -165,7 +166,7 @@ Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
-The postgresql93-libs package provides the essential shared libraries for any 
+The postgresql93-libs package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
 to use any other PostgreSQL package or any clients that need to connect to a
 PostgreSQL server.
@@ -173,7 +174,7 @@ PostgreSQL server.
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
-Requires:	/usr/sbin/useradd /sbin/chkconfig 
+Requires:	/usr/sbin/useradd /sbin/chkconfig
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 
@@ -197,7 +198,7 @@ Provides:	postgresql-docs
 The postgresql93-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also 
+project, or if you want to generate printed documentation. This package also
 includes HTML version of the documentation.
 
 %package contrib
@@ -221,7 +222,7 @@ The postgresql93-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with a PostgreSQL database management server and the ecpg Embedded C
 Postgres preprocessor. You need to install this package if you want to
-develop applications which will interact with a PostgreSQL server. 
+develop applications which will interact with a PostgreSQL server.
 
 %if %plperl
 %package plperl
@@ -540,7 +541,7 @@ if [ $1 = 0 ] ; then
 fi
 
 %postun server
-/sbin/ldconfig 
+/sbin/ldconfig
 if [ $1 -ge 1 ]; then
   /sbin/service postgresql-9.3 condrestart >/dev/null 2>&1
 fi
@@ -922,6 +923,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.6-1PGDG
+- Update to 9.3.6, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-6.html
+
 * Tue Jul 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.5-1PGDG
 - Update to 9.3.5, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-5.html
@@ -929,7 +934,7 @@ rm -rf %{buildroot}
 * Tue Mar 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.4-1PGDG
 - Update to 9.3.4, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-4.html
-- Fix permissions of postgresql-93-libs.conf, per Christoph Berg. 
+- Fix permissions of postgresql-93-libs.conf, per Christoph Berg.
 
 * Tue Feb 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.3-1PGDG
 - Update to 9.3.3, per changes described at:
@@ -937,7 +942,7 @@ rm -rf %{buildroot}
 
 * Thu Dec 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-2PGDG
 - Fix builds when uuid support is disabled, by adding missing conditional.
-- Add process name to the status() call in init script. 
+- Add process name to the status() call in init script.
   Patch from Darrin Smart
 
 * Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-1PGDG
@@ -965,12 +970,12 @@ rm -rf %{buildroot}
 - Fix paths in init script. Per repor from Vibhor Kumar.
 
 * Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
-- Support separated xlog directory at initdb. Per suggestion from 
+- Support separated xlog directory at initdb. Per suggestion from
   Magnus Hagander. Fixes #90.
 - Remove hardcoded script names in init script. Fixes #102.
-- Add support for pg_ctl promote. Per suggestion from Magnus Hagander. 
+- Add support for pg_ctl promote. Per suggestion from Magnus Hagander.
   Fixes #93.
-- Set log_line_prefix in default config file to %m. Per suggestion 
+- Set log_line_prefix in default config file to %m. Per suggestion
   from Magnus. Fixes #91.
 
 * Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
@@ -1014,27 +1019,27 @@ rm -rf %{buildroot}
 
 * Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.0-1PGDG
 - Update to 9.2.0
-- Split .control files in appropriate packages. This is a late port 
+- Split .control files in appropriate packages. This is a late port
   from 9.1 branch. With this patch, pls can be created w/o installing
   -contrib subpackage.
 - Re-enable -test subpackage, removed accidentally.
 
 * Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2PGDG
-- Install linker conf file with alternatives, so that the latest 
+- Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
 * Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1PGDG
 - Update to 9.2 RC1
 
 * Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1PGDG
-- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489 
+- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489
   and CVE-2012-3488.
 
 * Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1PGDG
 - Update to 9.2 beta3
 
 * Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1PGDG
-- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143, 
+- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143,
   CVE-2012-2655.
 
 * Fri May 18 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta1-1PGDG
