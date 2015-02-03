@@ -5,7 +5,7 @@
 # test releases.
 
 # Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not 
+# tarballs from postgresql.org.  Official beta releases are not
 # considered pre-releases, nor are release candidates, as their beta or
 # release candidate status is reflected in the version of the tarball. Pre-
 # releases' versions do not change -- the pre-release tarball of 7.0.3, for
@@ -32,7 +32,7 @@
 # Greg Smith
 # and others in the Changelog....
 
-# This spec file and ancilliary files are licensed in accordance with 
+# This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
 
 # In this file you can find the default build package list macros.  These can be overridden by defining
@@ -69,11 +69,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.0.18
+Version:	9.0.19
 Release:	1PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/ 
+Url:		http://www.postgresql.org/
 
 Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/%{oname}-%{version}.tar.bz2
 Source3:	postgresql.init
@@ -91,7 +91,7 @@ Patch3:		postgresql-logging.patch
 Patch6:		postgresql-perl-rpath.patch
 Patch8:		postgresql-prefer-ncurses.patch
 
-Buildrequires:	perl glibc-devel bison flex
+BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig initscripts
 
 %if %plpython
@@ -152,8 +152,8 @@ client programs are programs that directly manipulate the internal
 structure of PostgreSQL databases on a PostgreSQL server. These client
 programs can be located on the same machine with the PostgreSQL
 server, or may be on a remote machine which accesses a PostgreSQL
-server over a network connection. This package contains the command-line 
-utilities for managing PostgreSQL databases on a PostgreSQL server. 
+server over a network connection. This package contains the command-line
+utilities for managing PostgreSQL databases on a PostgreSQL server.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
@@ -166,7 +166,7 @@ Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
-The postgresql90-libs package provides the essential shared libraries for any 
+The postgresql90-libs package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
 to use any other PostgreSQL package or any clients that need to connect to a
 PostgreSQL server.
@@ -174,7 +174,7 @@ PostgreSQL server.
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
-Requires:	/usr/sbin/useradd /sbin/chkconfig 
+Requires:	/usr/sbin/useradd /sbin/chkconfig
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 
@@ -198,7 +198,7 @@ Provides:	postgresql-docs
 The postgresql90-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also 
+project, or if you want to generate printed documentation. This package also
 includes HTML version of the documentation.
 
 %package contrib
@@ -222,7 +222,7 @@ The postgresql90-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with a PostgreSQL database management server and the ecpg Embedded C
 Postgres preprocessor. You need to install this package if you want to
-develop applications which will interact with a PostgreSQL server. 
+develop applications which will interact with a PostgreSQL server.
 
 %if %plperl
 %package plperl
@@ -460,7 +460,7 @@ install -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 # gzip doc/internals.ps
 cp %{SOURCE6} README.rpm-dist
 mkdir -p %{buildroot}%{pgbaseinstdir}/share/doc/html
-mv doc/src/sgml/html doc 
+mv doc/src/sgml/html doc
 mkdir -p %{buildroot}%{pgbaseinstdir}/share/man/
 mv doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
 rm -rf %{buildroot}%{_docdir}/pgsql
@@ -507,8 +507,8 @@ cat pg_config-%{majorversion}.lang ecpg-%{majorversion}.lang ecpglib6-%{majorver
 cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
 cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
 
-%post libs -p /sbin/ldconfig 
-%postun libs -p /sbin/ldconfig 
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %pre server
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
@@ -536,7 +536,7 @@ if [ $1 = 0 ] ; then
 fi
 
 %postun server
-/sbin/ldconfig 
+/sbin/ldconfig
 if [ $1 -ge 1 ]; then
   /sbin/service postgresql-9.0 condrestart >/dev/null 2>&1
 fi
@@ -631,7 +631,7 @@ rm -rf %{buildroot}
 
 %files -f pg_main.lst
 %defattr(-,root,root)
-%doc doc/KNOWN_BUGS doc/MISSING_FEATURES doc/README* 
+%doc doc/KNOWN_BUGS doc/MISSING_FEATURES doc/README*
 %doc COPYRIGHT README doc/bug.template
 %doc README.rpm-dist
 %{pgbaseinstdir}/bin/clusterdb
@@ -831,6 +831,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 3 2015 Devrim GUNDUZ <devrim@gunduz.org> 9.0.19-1PGDG
+- Update to 9.0.19, per changes described at:
+  http://www.postgresql.org/docs/9.0/static/release-9-0-19.html
+
 * Tue Jul 22 2014 Devrim GUNDUZ <devrim@gunduz.org> 9.0.18-1PGDG
 - Update to 9.0.18, per changes described at:
   http://www.postgresql.org/docs/9.0/static/release-9-0-18.html
@@ -877,7 +881,7 @@ rm -rf %{buildroot}
 - Fix incorrect pg libs version, per report from Roy Hocknull.
 
 * Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.9-2PGDG
-- Install linker conf file with alternatives, so that the latest 
+- Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
 * Wed Aug 15 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.9-1PGDG
@@ -940,9 +944,9 @@ rm -rf %{buildroot}
   http://www.postgresql.org/docs/9.0/static/release-9-0-2.html
 
 * Tue Dec 7 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.1-6PGDG
-- Fix a major issue: Keep alternatives links during an upgrade.	In 
+- Fix a major issue: Keep alternatives links during an upgrade.	In
   previous releases, all links were gone during	an upgrade. Per	report
-  and fix from Richard A  Karhuse.         
+  and fix from Richard A Karhuse.
 
 * Wed Nov 17 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.1-5PGDG
 - postgres user needs to own .bash_profile
@@ -958,11 +962,11 @@ rm -rf %{buildroot}
   instead.
 
 * Fri Oct 8 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.1-2PGDG
-- Re-enable thread safety. I probably missed it while working on migration. 
+- Re-enable thread safety. I probably missed it while working on migration.
 - Append PGPORT to pid filename in init script. Per report from Carlos Sotto Maior.
 - Properly fix .bash_profile issue, by moving it to %%post server, and not owning
   the file.
-- Add PGPORT to lockfile variable in init script. 
+- Add PGPORT to lockfile variable in init script.
 
 * Fri Oct 1 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0.1-1PGDG
 - Update to 9.0.1, per changes described at:
@@ -981,9 +985,9 @@ rm -rf %{buildroot}
 - Update to PostgreSQL 9.0.0
 
 * Fri Sep 10 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0-rc1_2PGDG
-- Finally, renamed package from postgresql to postgresql90, in order to 
+- Finally, renamed package from postgresql to postgresql90, in order to
   *really* fix parallel RPM installation. Previous versions were installable
-  via rpm command itself, but per some testing with 9.1 packages, I figured 
+  via rpm command itself, but per some testing with 9.1 packages, I figured
   that is is not possible with yum.
 
 * Mon Sep 06 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.0-rc1_1PGDG.1
@@ -1013,7 +1017,7 @@ rm -rf %{buildroot}
 - Fix docdir configure option
 
 * Fri Apr 30 2010 Devrim GUNDUZ <devrim@gunduz.org> 9.0beta1-1PGDG
-- Update to 9.0 Beta1 
+- Update to 9.0 Beta1
 
 * Thu Apr 1 2010 Devrim GUNDUZ <devrim@gunduz.org> 9.0alpha5-1PGDG
 - Update to 9.0 Alpha5
@@ -1024,10 +1028,10 @@ rm -rf %{buildroot}
   initdb is broken when	-contrib is not	installed. Fixes #11.
 - Improve/fix alternatives section
 
-* Sun Feb 21 2010 Devrim GUNDUZ <devrim@gunduz.org> 9.0alpha4-1PGDG 
-- Update to 9.0 Alpha4 
-- Update README.rpm-dist to reflect latest changes 
-- Rename pgfts macro to disablepgfts to match 9.0 behaviour. 
+* Sun Feb 21 2010 Devrim GUNDUZ <devrim@gunduz.org> 9.0alpha4-1PGDG
+- Update to 9.0 Alpha4
+- Update README.rpm-dist to reflect latest changes
+- Rename pgfts macro to disablepgfts to match 9.0 behaviour.
 - Fix service name in spec file.
 - Update init script for LSB compilance	issues (as much	as possible).
 - Install a file under /etc/ld.so.conf.d, so libs can be detected easily.
