@@ -5,7 +5,7 @@
 # test releases.
 
 # Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not 
+# tarballs from postgresql.org.  Official beta releases are not
 # considered pre-releases, nor are release candidates, as their beta or
 # release candidate status is reflected in the version of the tarball. Pre-
 # releases' versions do not change -- the pre-release tarball of 7.0.3, for
@@ -32,7 +32,7 @@
 # Greg Smith
 # and others in the Changelog....
 
-# This spec file and ancilliary files are licensed in accordance with 
+# This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
 
 # In this file you can find the default build package list macros.  These can be overridden by defining
@@ -69,11 +69,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.9
-Release:	2PGDG%{?dist}
+Version:	9.2.10
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/ 
+Url:		http://www.postgresql.org/
 
 Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source3:	postgresql.init
@@ -91,12 +91,12 @@ Patch3:		postgresql-logging.patch
 Patch6:		postgresql-perl-rpath.patch
 Patch8:		postgresql-prefer-ncurses.patch
 
-Buildrequires:	perl glibc-devel bison flex
+BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig initscripts
 
 %if %plperl
 BuildRequires: perl-ExtUtils-Embed
-BuildRequires: perl(ExtUtils::MakeMaker) 
+BuildRequires: perl(ExtUtils::MakeMaker)
 %endif
 
 %if %plpython
@@ -156,8 +156,8 @@ client programs are programs that directly manipulate the internal
 structure of PostgreSQL databases on a PostgreSQL server. These client
 programs can be located on the same machine with the PostgreSQL
 server, or may be on a remote machine which accesses a PostgreSQL
-server over a network connection. This package contains the command-line 
-utilities for managing PostgreSQL databases on a PostgreSQL server. 
+server over a network connection. This package contains the command-line
+utilities for managing PostgreSQL databases on a PostgreSQL server.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
@@ -170,7 +170,7 @@ Provides:	libpq.so
 Provides:	postgresql-libs
 
 %description libs
-The postgresql92-libs package provides the essential shared libraries for any 
+The postgresql92-libs package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
 to use any other PostgreSQL package or any clients that need to connect to a
 PostgreSQL server.
@@ -178,7 +178,7 @@ PostgreSQL server.
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
-Requires:	/usr/sbin/useradd /sbin/chkconfig 
+Requires:	/usr/sbin/useradd /sbin/chkconfig
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 
@@ -202,7 +202,7 @@ Provides:	postgresql-docs
 The postgresql92-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also 
+project, or if you want to generate printed documentation. This package also
 includes HTML version of the documentation.
 
 %package contrib
@@ -226,7 +226,7 @@ The postgresql92-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with a PostgreSQL database management server and the ecpg Embedded C
 Postgres preprocessor. You need to install this package if you want to
-develop applications which will interact with a PostgreSQL server. 
+develop applications which will interact with a PostgreSQL server.
 
 %if %plperl
 %package plperl
@@ -545,7 +545,7 @@ if [ $1 = 0 ] ; then
 fi
 
 %postun server
-/sbin/ldconfig 
+/sbin/ldconfig
 if [ $1 -ge 1 ]; then
   /sbin/service postgresql-9.2 condrestart >/dev/null 2>&1
 fi
@@ -654,7 +654,7 @@ rm -rf %{buildroot}
 
 %files -f pg_main.lst
 %defattr(-,root,root)
-%doc doc/KNOWN_BUGS doc/MISSING_FEATURES 
+%doc doc/KNOWN_BUGS doc/MISSING_FEATURES
 %doc COPYRIGHT doc/bug.template
 %doc README.rpm-dist
 %{pgbaseinstdir}/bin/clusterdb
@@ -918,6 +918,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.2.10-1PGDG
+- Update to 9.2.10, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-10.html
+
 * Fri Aug 29 2014 Devrim Gündüz <devrim@gunduz.org> - 9.2.9-2PGDG
 - Add conditionals for uuid-ossp, to fix builds	when uuid is disabled.
   Patch	from Bernd Helmle.
@@ -992,21 +996,21 @@ rm -rf %{buildroot}
 - Re-enable -test subpackage, removed accidentally.
 
 * Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2
-- Install linker conf file with alternatives, so that the latest 
+- Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
-* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1  
+* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1
 - Update to 9.2 RC1
 
 * Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1
-- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489 
+- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489
   and CVE-2012-3488.
 
 * Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1
-- Update to 9.2 beta3  
+- Update to 9.2 beta3
 
 * Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1
-- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143, 
+- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143,
   CVE-2012-2655.
 
 * Fri May 18 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta1-1
