@@ -5,7 +5,7 @@
 # test releases.
 
 # Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not 
+# tarballs from postgresql.org.  Official beta releases are not
 # considered pre-releases, nor are release candidates, as their beta or
 # release candidate status is reflected in the version of the tarball. Pre-
 # releases' versions do not change -- the pre-release tarball of 7.0.3, for
@@ -33,7 +33,7 @@
 # Greg Smith
 # and others in the Changelog....
 
-# This spec file and ancilliary files are licensed in accordance with 
+# This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
 
 # In this file you can find the default build package list macros.  These can be overridden by defining
@@ -75,7 +75,7 @@ Version:	9.4.1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/ 
+Url:		http://www.postgresql.org/
 
 Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	Makefile.regress
@@ -94,12 +94,12 @@ Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
 Patch6:		postgresql-perl-rpath.patch
 
-Buildrequires:	perl glibc-devel bison flex >= 2.5.31
-Requires:	/sbin/ldconfig 
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+Requires:	/sbin/ldconfig
 
 %if %plperl
 BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker) 
+BuildRequires:	perl(ExtUtils::MakeMaker)
 %endif
 
 %if %plpython
@@ -211,7 +211,7 @@ Provides:	postgresql-docs
 The postgresql%{packageversion}-docs package includes the SGML source for the documentation
 as well as the documentation in PDF format and some extra documentation.
 Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also 
+project, or if you want to generate printed documentation. This package also
 includes HTML version of the documentation.
 
 %package contrib
@@ -589,8 +589,13 @@ fi
 # so that package manager will be happy during upgrade to new major version.
 echo "[ -f /etc/profile ] && source /etc/profile
 PGDATA=/var/lib/pgsql/%{majorversion}/data
-export PGDATA" >  /var/lib/pgsql/.bash_profile
+export PGDATA
+# If you want to customize your settings,
+# Use the file below. This is not overridden
+# by the RPMS.
+[ -f /var/lib/pgsql/.psql_profile ] && source /var/lib/pgsql/.psql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
+chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
 if [ $1 -eq 0 ] ; then
@@ -600,7 +605,7 @@ if [ $1 -eq 0 ] ; then
 fi
 
 %postun server
-/sbin/ldconfig 
+/sbin/ldconfig
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
@@ -1000,6 +1005,9 @@ rm -rf %{buildroot}
 * Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.1-1PGDG
 - Update to 9.4.1, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-1.html
+- Improve .bash_profile, and let users specify their own
+  environmental settings by sourcing an external file. Per request
+  from various users, and final suggestion from Martin Gudmundsson.
 
 * Wed Dec 17 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4.0-1PGDG
 - Update to 9.4.0
@@ -1019,17 +1027,17 @@ rm -rf %{buildroot}
 - Fix perl requires incancation, per Craig Ringer.
 
 * Mon Jul 28 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-2PGDG
-- Fix setup script, so that it does not look for PGPORT variable. Per 
+- Fix setup script, so that it does not look for PGPORT variable. Per
   Jesper Petersen.
 
 * Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-1PGDG
 - Update to 9.4 beta 2
 
 * Thu May 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4beta1-2PGDG
-- Add a new script, called postgresql94-check-db-dir, to be used in 
+- Add a new script, called postgresql94-check-db-dir, to be used in
   unit file in ExecStartPre. This is a feature we used to have in
   old init scripts. Per Fedora RPMs.
-- Fix permissions of postgresql-94-libs.conf, per Christoph Berg. 
+- Fix permissions of postgresql-94-libs.conf, per Christoph Berg.
 
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1
@@ -1066,7 +1074,7 @@ rm -rf %{buildroot}
 - Update to 9.3 beta 2
 
 * Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
-- Set log_line_prefix in default config file to %m. Per suggestion 
+- Set log_line_prefix in default config file to %m. Per suggestion
   from Magnus. Fixes #91.
 
 * Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
@@ -1104,7 +1112,7 @@ rm -rf %{buildroot}
 * Thu Sep 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.1-1PGDG
 - Update to 9.2.1, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-1.html
-- Initial cut for pg_upgrade support on PGDG RPMs. 
+- Initial cut for pg_upgrade support on PGDG RPMs.
   Usage: postgresql92-setup upgrade
 
 * Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.0-1PGDG
@@ -1114,21 +1122,21 @@ rm -rf %{buildroot}
   -contrib subpackage.
 
 * Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2
-- Install linker conf file with alternatives, so that the latest 
+- Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
-* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1  
+* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1
 - Update to 9.2 RC1
 
 * Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1
-- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489 
+- Update to 9.2 beta4, which also includes fixes for CVE-2012-3489
   and CVE-2012-3488.
 
 * Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1
-- Update to 9.2 beta3  
+- Update to 9.2 beta3
 
 * Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1
-- Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143, 
+- Update to 9.2 beta2, which also includes fixes for CVE-2012-2143,
   CVE-2012-2655.
 
 * Fri May 11 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-beta1-1PGDG
@@ -1149,8 +1157,8 @@ rm -rf %{buildroot}
   with previous releases.
 
 * Wed Nov 9 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.1-4PGDG
-- Use native systemd support. Patches are taken from Fedora, and 
-  adjusted for PGDG layout. 
+- Use native systemd support. Patches are taken from Fedora, and
+  adjusted for PGDG layout.
 - Initial F-16 support.
 - Improve CFLAGS
 - Improve package descriptions, per Fedora spec.
@@ -1167,14 +1175,14 @@ rm -rf %{buildroot}
   http://www.postgresql.org/docs/9.1/static/release-9-1-1.html
 
 * Mon Sep 19 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.0-3PGDG
-- Add support for compilation with selinux. Patch from Daymel 
+- Add support for compilation with selinux. Patch from Daymel
   Bonne Solís.
 
 * Mon Sep 12 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1.0-2PGDG
 - Add plpgsql.control to -server subpackage, so initdb won't be broken (and we
   will not need to install -contrib subpackage)..
 
-* Fri Sep 9 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1.0-1PGDG   
+* Fri Sep 9 2011 Devrim GUNDUZ <devrim@gunduz.org> 9.1.0-1PGDG
 - Update to 9.1.0 Gold, per
   http://www.postgresql.org/docs/9.1/static/release-9-1.html
 - Update several patches, per Tom's Fedora RPMs.
