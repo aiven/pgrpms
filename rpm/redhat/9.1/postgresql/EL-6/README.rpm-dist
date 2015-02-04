@@ -76,11 +76,10 @@ socket 5432 only.  Edit /var/lib/pgsql/9.1/data/postgresql.conf and pg_hba.conf
 if you want to allow remote access -- see the section on Grand Unified 
 Configuration.
 
-The file /var/lib/pgsql/.bash_profile is packaged to help with the 
-setting of environment variables. You may edit this file, and it won't be
-overwritten during an upgrade.  However, enhancements and bugfixes may 
-be added to this file, so be sure to check .bash_profile.rpmnew after 
-upgrading.
+The file /var/lib/pgsql/.bash_profile is packaged to help with the
+setting of environment variables. Users should not edit this file, because
+it may be overwritten during every new installation. However, you can create
+~/.pgsql_profile file, and add your customizations there.
 
 The user 'postgres' is created during installation of the server subpackage.
 This user by default is UID and GID 26. The user has the default shell set to
