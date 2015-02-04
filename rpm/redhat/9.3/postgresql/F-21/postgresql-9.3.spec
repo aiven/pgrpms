@@ -583,9 +583,14 @@ fi
 # We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
 # so that package manager will be happy during upgrade to new major version.
 echo "[ -f /etc/profile ] && source /etc/profile
-PGDATA=/var/lib/pgsql/9.3/data
-export PGDATA" >  /var/lib/pgsql/.bash_profile
+PGDATA=/var/lib/pgsql/%{majorversion}/data
+export PGDATA
+# If you want to customize your settings,
+# Use the file below. This is not overridden
+# by the RPMS.
+[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
+chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
 if [ $1 -eq 0 ] ; then
@@ -986,6 +991,10 @@ rm -rf %{buildroot}
 * Tue Feb 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.6-1PGDG
 - Update to 9.3.6, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-6.html
+- Improve .bash_profile, and let users specify their own
+  environmental settings by sourcing an external file, called
+  ~/.pgsql_profile. Per request from various users, and final
+  suggestion from Martin Gudmundsson.
 
 * Tue Jul 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.5-1PGDG
 - Update to 9.3.5, per changes described at:
