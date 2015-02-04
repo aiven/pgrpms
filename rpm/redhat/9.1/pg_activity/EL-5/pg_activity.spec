@@ -26,7 +26,7 @@ top like application for PostgreSQL server activity monitoring.
 %{__python} setup.py build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python} setup.py install --with-man -O1 --skip-build --root %{buildroot}
 
 %clean
 rm -rf %{buildroot}
