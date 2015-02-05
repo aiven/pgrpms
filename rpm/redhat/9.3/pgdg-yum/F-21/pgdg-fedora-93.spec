@@ -1,4 +1,4 @@
-Name:		pgdg-fedora94
+Name:		pgdg-fedora93
 Version:	9.3
 Release:	2
 Summary:	PostgreSQL 9.3.X PGDG RPMs for Fedora - Yum Repository Configuration
