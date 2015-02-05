@@ -71,7 +71,7 @@ pgshortversion=`echo $pgversion | tr -d . `
 # Install the repository RPM
 echo "Please stand by while installing the repository RPM. It may take a while."
 echo
-yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_name/$lsb_distro_name-$lsb_distro_version-$distro_arch/pgdg$pgshortversion-$pgversion-latest.noarch.rpm
+yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_name/$lsb_distro_name-$lsb_distro_version-$distro_arch/pgdg-$lsb_distro_name$pgshortversion-$pgversion-latest.noarch.rpm
 
 # Check whether the repo RPM has been installed or not:
 if [ $? != 0 ]
