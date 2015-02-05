@@ -20,6 +20,20 @@ green=`tput setaf 2`
 blue=`tput setaf 4`
 reset=`tput sgr0`
 
+# Check whether lsb_release exists or not:
+
+if [ ! -f /usr/bin/1lsb_release ]
+then
+	echo
+	echo "${red}ERROR:${reset} lsb_release command does not exist. Please install it with"
+	echo
+	echo "${blue}	yum -y install redhat-lsb-core"
+	echo
+	echo "${red}Exiting...${reset}"
+	echo
+	exit 1
+fi
+
 # Some introductory message (TODO: more should be added)
 echo "${green}This script only installs the PostgreSQL repository RPM for the official"
 echo "PostgreSQL repository located at http://yum.PostgreSQL.org . "
