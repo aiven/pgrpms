@@ -1,6 +1,6 @@
---- Makefile.old	2014-10-10 15:28:22.826229910 +0300
-+++ Makefile	2014-10-10 15:28:58.512814211 +0300
-@@ -26,7 +26,7 @@
+--- Makefile.old	2015-02-05 11:55:18.929158420 +0200
++++ Makefile	2015-02-05 11:55:28.317044462 +0200
+@@ -25,7 +25,7 @@
  PG_CPPFLAGS := $(shell $(MYSQL_CONFIG) --include)
  
  ifdef USE_PGXS
@@ -8,4 +8,4 @@
 +PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
- else
+ ifndef MAJORVERSION
