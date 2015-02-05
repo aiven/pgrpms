@@ -27,10 +27,10 @@ prep:
 	# Use spectool to download source files, especially tarballs.
 	spectool -g -S $(SPECFILE)
 
-clean:	
+clean:
 	rm -rf i386/ i586/ i686/ x86_64/ noarch/
 	rm -f *.src.rpm
-	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip
+	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
 srpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
@@ -58,7 +58,7 @@ build: bfsrpm
 	--define "_rpmdir $(HOME)/rpm/RPMS/" --sign \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-noprepbuild: 
+noprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
