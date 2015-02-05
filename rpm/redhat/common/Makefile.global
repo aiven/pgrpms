@@ -18,9 +18,6 @@
 prep:
 	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
 
-	# Checkout Makefile.global before doing anything else.
-	# svn up ../../../common/
-
 	# Update spec file, patches, etc, before running spectool:
 	git pull
 
