@@ -22,7 +22,7 @@ reset=`tput sgr0`
 
 # Check whether lsb_release exists or not:
 
-if [ ! -f /usr/bin/1lsb_release ]
+if [ ! -f /usr/bin/lsb_release ]
 then
 	echo
 	echo "${red}ERROR:${reset} lsb_release command does not exist. Please install it with"
