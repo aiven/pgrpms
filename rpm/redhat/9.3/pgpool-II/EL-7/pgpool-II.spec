@@ -12,8 +12,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.4.0
-Release:		4%{?dist}
+Version:		3.4.1
+Release:		1%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -24,7 +24,6 @@ Source3:		pgpool.init
 Source9:		pgpool-%{pgmajorversion}-libs.conf
 Patch1:			pgpool.conf.sample.patch
 Patch2:			pgpool-Makefiles-pgxs.patch
-Patch3:			pgpool-3.4.0-memcache_compile.patch
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel, libmemcached-devel
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -44,22 +43,22 @@ Requires(postun):	initscripts
 Obsoletes:		postgresql-pgpool
 
 %description
-pgpool-II is a inherited project of pgpool (to classify from 
-pgpool-II, it is sometimes called as pgpool-I). For those of 
-you not familiar with pgpool-I, it is a multi-functional 
-middle ware for PostgreSQL that features connection pooling, 
-replication and load balancing functions. pgpool-I allows a 
-user to connect at most two PostgreSQL servers for higher 
-availability or for higher search performance compared to a 
+pgpool-II is a inherited project of pgpool (to classify from
+pgpool-II, it is sometimes called as pgpool-I). For those of
+you not familiar with pgpool-I, it is a multi-functional
+middle ware for PostgreSQL that features connection pooling,
+replication and load balancing functions. pgpool-I allows a
+user to connect at most two PostgreSQL servers for higher
+availability or for higher search performance compared to a
 single PostgreSQL server.
 
-pgpool-II, on the other hand, allows multiple PostgreSQL 
-servers (DB nodes) to be connected, which enables queries 
-to be executed simultaneously on all servers. In other words, 
-it enables "parallel query" processing. Also, pgpool-II can 
-be started as pgpool-I by changing configuration parameters. 
-pgpool-II that is executed in pgpool-I mode enables multiple 
-DB nodes to be connected, which was not possible in pgpool-I. 
+pgpool-II, on the other hand, allows multiple PostgreSQL
+servers (DB nodes) to be connected, which enables queries
+to be executed simultaneously on all servers. In other words,
+it enables "parallel query" processing. Also, pgpool-II can
+be started as pgpool-I by changing configuration parameters.
+pgpool-II that is executed in pgpool-I mode enables multiple
+DB nodes to be connected, which was not possible in pgpool-I.
 
 %package devel
 Summary:	The development files for pgpool-II
@@ -83,7 +82,6 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %setup -q -n %{sname}-%{version}
 %patch1 -p0
 %patch2 -p0
-%patch3 -p0
 
 %build
 ./configure \
@@ -97,7 +95,7 @@ Postgresql extensions libraries and sql files for pgpool-II.
 	--with-memcached=%{_includedir}/libmemcached \
 	--with-openssl \
 	--with-pam \
-	--with-pgsql=%{pginstdir} 
+	--with-pgsql=%{pginstdir}
 
 # https://fedoraproject.org/wiki/Packaging:Guidelines#Removing_Rpath
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -273,6 +271,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu Feb 5 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-1
+- Update to 3.4.1
+- Remove patch3, now in upstream.
+
 * Mon Jan 12 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-4
 - Create /etc/ld.so.conf.d config file, for pcp and other libraries.
   Per #12597 in pgsql-bugs mailing list.
