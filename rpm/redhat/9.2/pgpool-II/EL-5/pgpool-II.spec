@@ -1,6 +1,6 @@
-%global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
-%global pgpoolinstdir /usr/pgpool-9.3
+%global pgmajorversion 92
+%global pginstdir /usr/pgsql-9.2
+%global pgpoolinstdir /usr/pgpool-9.2
 %global sname pgpool-II
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -13,17 +13,19 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.4.1
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Source1:        	%{sname}-%{pgmajorversion}.service
-Source2:        	pgpool.sysconfig
+Source1:		%{sname}-%{pgmajorversion}.service
+Source2:		pgpool.sysconfig
 Source3:		pgpool.init
 Source9:		pgpool-%{pgmajorversion}-libs.conf
 Patch1:			pgpool.conf.sample.patch
 Patch2:			pgpool-Makefiles-pgxs.patch
+BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel, libmemcached-devel
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -40,7 +42,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-Obsoletes:		postgresql-pgpool
+Obsoletes:		postgresql-pgpool > 1.0.0
 
 %description
 pgpool-II is a inherited project of pgpool (to classify from
@@ -69,11 +71,11 @@ Requires:	%{name} = %{version}-%{release}
 Development headers and libraries for pgpool-II.
 
 %package extensions
-Summary:     Postgersql extensions for pgpool-II
-Group:       Applications/Databases
-Obsoletes:   postgresql-pgpool-II-recovery <= 1:3.3.4-1
-Provides:    postgresql-pgpool-II-recovery = %{version}-%{release}
-Requires:    postgresql%{pgmajorversion}-server
+Summary:	Postgersql extensions for pgpool-II
+Group:		Applications/Databases
+Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
+Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
+Requires:	postgresql%{pgmajorversion}-server
 
 %description extensions
 Postgresql extensions libraries and sql files for pgpool-II.
@@ -152,7 +154,7 @@ install -m 700 %{SOURCE9} %{buildroot}%{pgpoolinstdir}/share/
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_watchdog pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/pgpool-libs.conf   pgpool-ld-conf        %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/pgpool-libs.conf pgpool-ld-conf %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf %{pgmajorversion}0
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
@@ -175,8 +177,8 @@ fi
 %postun 
 if [ "$1" -eq 0 ]
   then
-        %{_sbindir}/update-alternatives --remove pgpool-ld-conf          %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf
-        /sbin/ldconfig
+	%{_sbindir}/update-alternatives --remove pgpool-ld-conf	%{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf
+	/sbin/ldconfig
 fi
 /sbin/ldconfig
 %if %{systemd_enabled}
@@ -189,21 +191,21 @@ fi
 # Drop alternatives entries for common binaries and man files
 if [ "$1" -eq 0 ]
   then
-      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
-        %{_sbindir}/update-alternatives --remove pgpool-pgpool %{pgpoolinstdir}/bin/pgpool
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_pool_status %{pgpoolinstdir}/bin/pcp_pool_status
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_promote_node %{pgpoolinstdir}/bin/pcp_promote_node
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info
-        %{_sbindir}/update-alternatives --remove pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info
-        %{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
+	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	%{_sbindir}/update-alternatives --remove pgpool-pgpool %{pgpoolinstdir}/bin/pgpool
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_attach_node %{pgpoolinstdir}/bin/pcp_attach_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_detach_node %{pgpoolinstdir}/bin/pcp_detach_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_count %{pgpoolinstdir}/bin/pcp_node_count
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_node_info %{pgpoolinstdir}/bin/pcp_node_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_pool_status %{pgpoolinstdir}/bin/pcp_pool_status
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_promote_node %{pgpoolinstdir}/bin/pcp_promote_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_count %{pgpoolinstdir}/bin/pcp_proc_count
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info
+	%{_sbindir}/update-alternatives --remove pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info
+	%{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
 fi
 
 %if %{systemd_enabled}
@@ -271,6 +273,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Feb 6 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-2
+- Add missing BuildRoot macro.
+- Fix rpmlint warnings/errors.
+
 * Thu Feb 5 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1
 - Remove patch3, now in upstream.
