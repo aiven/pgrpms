@@ -1,20 +1,21 @@
 %global pgmajorversion 92
-%global pginstdir /usr/pgsql-9.2
+%global pginstdir /usr/pgsql-9.
 %define sname	oracle_fdw
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	0.9.7
+Version:	1.2.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
-URL:		http://oracle-fdw.projects.postgresql.org/
+URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Patch0:		oracle_fdw-makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
-BuildRequires:	oracle-instantclient11.2-basic
-BuildRequires:	oracle-instantclient11.2-devel
+#BuildRequires:	oracle-instantclient11.2-basic
+#BuildRequires:	oracle-instantclient11.2-devel
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	oracle-instantclient11.2-basic
 
@@ -29,13 +30,14 @@ required columns as well as comprehensive EXPLAIN support.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
-make PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags}
+USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf  %{buildroot}
-make install DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags}
+USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot} 
 mv %{buildroot}/usr/share/doc/pgsql/extension/README.oracle_fdw %{buildroot}%{pginstdir}/share/extension
 
 %check
@@ -52,6 +54,14 @@ make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=po
 %{pginstdir}/share/extension/README.*
 
 %changelog
+* Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+- Add a patch for PGXS compilation.
+- Ran dos2unix against the spec file, to fix build issues.
+
+* Thu Dec 26 2013 Devrim Gündüz <devrim@gunduz.org> 0.9.10-1
+- Update to 0.9.10-1
+
 * Mon Oct 8 2012 David E. Wheeler <david.wheeler@iovation.com> 0.9.7-1
 - Initial RPM
  
