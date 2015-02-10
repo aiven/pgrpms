@@ -9,7 +9,7 @@
 %if 0%{?with_python3}
 %global	python_runtimes	python python-debug python3 python3-debug
 %else
-%global python_runtimes	python python-debug
+%global python_runtimes	python
 %endif # with_python3
 
 # Python major version.
@@ -41,7 +41,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python-devel
-BuildRequires:	python-debug
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
@@ -57,30 +56,35 @@ programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
+%if 0%{?fedora} && 0%{?rhel} >= 7
 %package debug
-Summary: A PostgreSQL database adapter for Python 2 (debug build)
+Summary:	A PostgreSQL database adapter for Python 2 (debug build)
 # Require the base package, as we're sharing .py/.pyc files:
 Requires:	%{name} = %{version}-%{release}
+Group:		Applications/Databases
 
 %description debug
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
+%endif
 
 %if 0%{?with_python3}
 %package -n python3-psycopg2
-Summary: A PostgreSQL database adapter for Python 3
+Summary:	A PostgreSQL database adapter for Python 3
 
 %description  -n python3-psycopg2
 This is a build of the psycopg PostgreSQL database adapter for Python 3.
 
+%if 0%{?fedora} && 0%{?rhel} >= 7
 %package -n python3-psycopg2-debug
-Summary: A PostgreSQL database adapter for Python 3 (debug build)
+Summary:	A PostgreSQL database adapter for Python 3 (debug build)
 # Require base python 3 package, as we're sharing .py/.pyc files:
 Requires:	python3-psycopg2 = %{version}-%{release}
 
 %description -n python3-psycopg2-debug
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 3.
+%endif
 %endif # with_python3
 
 %package doc
@@ -158,10 +162,12 @@ rm -rf %{buildroot}
 %{python_sitearch}/psycopg2/*.pyo
 %{python_sitearch}/psycopg2-%{version}-py%{pyver}.egg-info
 
+%if 0%{?fedora} && 0%{?rhel} >= 7
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
 %{python_sitearch}/psycopg2/_psycopg_d.so
+%endif
 
 %if 0%{?with_python3}
 %files -n python3-psycopg2
@@ -175,12 +181,13 @@ rm -rf %{buildroot}
 %{python3_sitearch}/psycopg2/__pycache__/*.pyo
 %{python3_sitearch}/psycopg2-%{version}-py%{py3ver}.egg-info
 
+%if 0%{?fedora} && 0%{?rhel} >= 7
 %files -n python3-psycopg2-debug
 %defattr(-,root,root)
 %doc LICENSE
 %{python3_sitearch}/psycopg2/_psycopg.cpython-3?dm*.so
+%endif
 %endif # with_python3
-
 
 %files doc
 %defattr(-,root,root)
