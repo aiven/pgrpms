@@ -22,7 +22,7 @@ RUN yum update -y
 RUN yum -y -q install postgresql93-server postgresql93-contrib
 
 # initdb PostgreSQL 9.3:
-RUN	/usr/pgsql-9.3/bin/postgresql93-setup initdb
+CMD	/usr/pgsql-9.3/bin/postgresql93-setup initdb
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 

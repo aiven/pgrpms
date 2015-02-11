@@ -12,7 +12,7 @@ MAINTAINER devrim@gunduz.org
 RUN rpm --import http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
 
 # Add PostgreSQL's repository. It contains the most recent stable release
-#     of PostgreSQL, ``9.4``.
+# of PostgreSQL, ``9.4``.
 RUN rpm -ivh http://yum.postgresql.org/9.4/fedora/fedora-21-x86_64/pgdg-fedora94-9.4-2.noarch.rpm
 
 # Update the Fedora and PostgreSQL repository metadata
@@ -22,7 +22,7 @@ RUN yum update -y
 RUN yum -y install postgresql94-server postgresql94-contrib
 
 # initdb PostgreSQL 9.4:
-RUN	/usr/pgsql-9.4/bin/postgresql94-setup initdb
+CMD	/usr/pgsql-9.4/bin/postgresql94-setup initdb
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
