@@ -55,7 +55,7 @@ lsb_distro_name=`lsb_release -i -s`
 lsb_distro_version=`lsb_release -r -s`
 distro_arch=`uname -m`
 
-#We need the lowercase version of the distro name:
+# We need the lowercase version of the distro name:
 lsb_distro_name=`echo $lsb_distro_name | awk '{print tolower($0)}'`
 
 #Ask for which PostgreSQL version is needed"
@@ -76,16 +76,62 @@ else
 	exit
 fi
 
-# Get confirmation from the user about the platform:
-echo "Installer will now install the repository RPM for ${green}$lsb_distro_name $lsb_distro_version${reset} for ${green}$distro_arch${reset} architecture"
-
 # We also need a dotless version of pgversion variable:
 pgshortversion=`echo $pgversion | tr -d . `
+
+# We need to check the distro name, and make some changes in the URL for some of them.
+# CentOS 6: We need to change first occurence of centos to redhat, 2nd to rhel:
+# CentOS 7: CentOS 7 includes an extra string (1406), so we need to omit that.
+# Fedora: No need to change.
+# RHEL 7: RedHatEnterpriseServer
+# RHEL 6: Not checked yet.
+# SL: Not checked yet.
+# Oracle Linux: Not checked yet.
+
+# CentOS 6,7 and RHEL 7
+if [ "$lsb_distro_name" = "centos" ]
+then
+	lsb_distro_url_first="redhat"
+	lsb_distro_url_second="rhel"
+	lsb_distro_url_third="centos"
+fi
+
+# RHEL 7
+if [ "$lsb_distro_name" = "redhatenterpriseserver" ]
+then
+	lsb_distro_url_first="redhat"
+	lsb_distro_url_second="rhel"
+	lsb_distro_url_third="redhat"
+fi
+
+# SL 6
+if [ "$lsb_distro_name" = "scientific" ]
+then
+	lsb_distro_url_first="redhat"
+	lsb_distro_url_second="rhel"
+	lsb_distro_url_third="redhat"
+fi
+
+if [ "$lsb_distro_name" = "fedora" ]
+then
+	lsb_distro_url_first="fedora"
+	lsb_distro_url_second="fedora"
+	lsb_distro_url_third="fedora"
+fi
+
+# RHEL 7.0:
+if [ "$lsb_distro_version" = "7.0.1406" ]
+then
+	lsb_distro_version="7.0"
+fi
+
+# Give confirmation to the user about the platform:
+echo "Installer will now install the repository RPM for ${green}$lsb_distro_name $lsb_distro_version${reset} for ${green}$distro_arch${reset} architecture"
 
 # Install the repository RPM
 echo "Please stand by while installing the repository RPM. It may take a while."
 echo
-yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_name/$lsb_distro_name-$lsb_distro_version-$distro_arch/pgdg-$lsb_distro_name$pgshortversion-$pgversion-latest.noarch.rpm
+yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-$lsb_distro_version-$distro_arch/pgdg-$lsb_distro_url_third$pgshortversion-$pgversion-latest.noarch.rpm
 
 # Check whether the repo RPM has been installed or not:
 if [ $? != 0 ]
