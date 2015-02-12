@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.1.15
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -523,9 +523,6 @@ cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controlda
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
-touch /var/log/pgsql
-chown postgres:postgres /var/log/pgsql
-chmod 0700 /var/log/pgsql
 
 %post server
 chkconfig --add postgresql-9.1
@@ -908,6 +905,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 11 2015 Strahinja Kustudic <strahinjak@nordeus.com> - 9.1.15-2PGDG
+- Remove obsolete /var/log/pgsql
+
 * Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.1.15-1PGDG
 - Update to 9.1.15, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-15.html
