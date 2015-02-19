@@ -2,7 +2,7 @@
 %global pginstdir /usr/pgsql-9.2
 
 Name:           repmgr
-Version:        2.0
+Version:        2.0.2
 Release:        1%{?dist}
 Summary:        Replication Manager for	PostgreSQL Clusters
 Group:		Applications/Databases
@@ -16,14 +16,14 @@ BuildRequires:  postgresql%{pgmajorversion}
 Requires:       postgresql%{pgmajorversion}-server
 
 %description
-repmgr is a set of open source tools that helps DBAs and System 
+repmgr is a set of open source tools that helps DBAs and System
 administrators manage a cluster of PostgreSQL databases..
 
-By taking advantage of the Hot Standby capability introduced in 
-PostgreSQL 9, repmgr greatly simplifies the process of setting up and 
+By taking advantage of the Hot Standby capability introduced in
+PostgreSQL 9, repmgr greatly simplifies the process of setting up and
 managing database with high availability and scalability requirements.
 
-repmgr simplifies administration and daily management, enhances 
+repmgr simplifies administration and daily management, enhances
 productivity and reduces the overall costs of a PostgreSQL cluster by:
   * monitoring the replication process;
   * allowing DBAs to issue high availability operations such as
@@ -40,7 +40,6 @@ USE_PGXS=1 make %{?_smp_mflags}
 rm -rf %{buildroot}
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 USE_PGXS=1 make install DESTDIR=%{buildroot}
-#mv repmgr %{buildroot}/%{pginstdir}/bin/
 
 %clean
 make USE_PGXS=1 clean
@@ -57,6 +56,10 @@ make USE_PGXS=1 clean
 %{pginstdir}/share/contrib/uninstall_repmgr_funcs.sql
 
 %changelog
+* Thu Feb 19 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.2-1
+- Update to 2.0.2, per changes described at:
+  http://www.repmgr.org/release-notes-2.0.2.html
+
 * Thu Mar 20 2014 - Devrim GUNDUZ <devrim@gunduz.org> 2.0-1
 - Update to 2.0
 
