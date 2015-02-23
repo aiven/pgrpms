@@ -4,7 +4,7 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.15
+Version:	8.3.0.16
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -16,7 +16,7 @@ Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Procedural Language Handler for the "R software environment for 
+Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
@@ -24,7 +24,7 @@ statistical computing and graphics".
 %patch0 -p1
 
 %build
-make USE_PGXS=1 %{?_smp_mflags} 
+make USE_PGXS=1 %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
@@ -33,8 +33,8 @@ make USE_PGXS=1 DESTDIR=%{buildroot}/ install
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig 
-%postun -p /sbin/ldconfig 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{_docdir}/pgsql/extension/README.plr
 
 %changelog
+* Mon Feb 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-16-1
+- Update to 8.3.0.16
+
 * Sat Dec 28 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-15-1
 - Update to 8.3.0.15
 
