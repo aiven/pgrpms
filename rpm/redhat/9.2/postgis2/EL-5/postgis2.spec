@@ -8,7 +8,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -27,7 +27,7 @@ BuildRequires:	xerces-c-devel, armadillo-devel, cfitsio-devel, hdf-devel
 BuildRequires:	libwebp-devel, giflib-devel, libgta-devel, CharLS-devel, libspatialite-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.3.8, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion} >= 9.2.10, geos >= 3.3.8, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -165,6 +165,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Feb 25 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.6-2
+- Require PostgreSQL at least 9.2.10, per 2 bug reports on
+  pgsql-pkg-yum mailing list.
+
 * Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.6-1
 - Update to 2.0.6, for bug and security fixes.
 

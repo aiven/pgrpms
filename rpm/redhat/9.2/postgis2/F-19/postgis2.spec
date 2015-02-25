@@ -8,7 +8,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -24,7 +24,7 @@ BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 BuildRequires:	gdal-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion} >= 9.2.10, geos >= 3.4.2, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -175,6 +175,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Feb 25 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-2
+- Require PostgreSQL at least 9.2.10, per 2 bug reports on
+  pgsql-pkg-yum mailing list.
+
 * Sun Dec 21 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-1
 - Update to 2.1.5, per changes described at:
   http://postgis.net/2014/12/18/postgis-2.1.5
