@@ -1,20 +1,35 @@
-%{!?ruby_sitearch: %define ruby_sitearch %(ruby -rrbconfig -e "puts Config::CONFIG['sitearchdir']")}
+%global pgmajorversion 94
+%global pginstdir /usr/pgsql-9.4
+%global sname plruby
+
+%if 0%{?rhel} <= 5
+%{!?ruby_sitearch: %global ruby_sitearch %(ruby -rrbconfig -e 'puts Config::CONFIG["sitearchdir"] ' 2>/dev/null)}
+%{!?ruby_vendorarchdir: %global ruby_vendorarchdir %ruby_sitearch}
+%else
+%{!?ruby_vendorarchdir: %global ruby_vendorarchdir %(ruby -rrbconfig -e 'puts Config::CONFIG["vendorarchdir"] ' 2>/dev/null)}
+%endif
 
 Summary:	PostgreSQL Ruby Procedural Language
-Name:		plruby
-Version:	0.5.3
-Release:	1%{?dist}
-Source0:	ftp://moulon.inra.fr/pub/ruby/%{name}-%{version}.tar.gz
+Name:		%{sname}%{pgmajorversion}
+Version:	0.5.4
+Release:	6%{?dist}
+Source0:	https://github.com/knu/postgresql-%{sname}/archive/v0.5.4/postgresql-%{sname}-%{version}.tar.gz
 License:	Ruby or GPL+
 Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Url:		http://raa.ruby-lang.org/project/pl-ruby/
-BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql-devel >= 8.1
-Requires:	postgresql-libs, ruby(abi) = 1.8
+Url:		https://github.com/knu/postgresql-plruby
+BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql%{pgmajorversion}
+Requires:	postgresql%{pgmajorversion}-libs, ruby(release)
+
+Patch0:	postgresql-plruby-bitopers.patch
+Patch2:	postgresql-plruby-retval.patch
+Patch3:	postgresql-plruby-includes.patch
+Patch4:	postgresql-plruby-version.patch
+Patch5:	postgresql-plruby-ruby22-rbconfig.patch
 
 %description
 PL/Ruby is a loadable procedural language for the PostgreSQL database
-system that enable the Ruby language to create functions and trigger 
+system that enable the Ruby language to create functions and trigger
 procedures.
 
 %package doc
@@ -26,77 +41,47 @@ Requires:	%{name} = %{version}-%{release}
 Documentation for plruby.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n postgresql-%{sname}-%{version}
 
-unset FILE
-for f in %{_includedir}/pg_config_*.h
-	do
-	if grep -q PG_VERSION $f
-		then
-		FILE=`basename $f`
-	fi
-done
-if [ -n $FILE ]
-	then
-	%{__sed} -i.pgver -e "s|pg_config.h|${FILE}|" extconf.rb
-fi
+%if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
+%patch0 -p1 -b .biopers
+%endif
+%patch2 -p1 -b .retval
+%patch3 -p1 -b .debug
+%patch4 -p1 -b .version
+%patch5 -p1 -b .rbconfig
 
 %build
-ruby extconf.rb --with-pgsql-include=%{_includedir}/pgsql/server
-CC="%{__cc} -I%{_includedir}/pgsql -I%{_includedir}/pgsql/server" make DESTDIR=%{buildroot} %{?_smp_mflags} install
+ruby extconf.rb --vendor --with-pg-config=%{pginstdir}/bin/pg_config
+make
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+# ruby_headers= applied as workaround for rhbz#921650.
+make DESTDIR=%{buildroot} %{?_smp_mflags} ruby_headers= install
 
 %clean
 rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Changes README.en plruby.html 
-%dir %{ruby_sitearch}/plruby
-%{ruby_sitearch}/plruby/plruby_*.so
-%{ruby_sitearch}/plruby.so
+%doc Changes README.en plruby.html
+%dir %{ruby_vendorarchdir}/plruby
+%{ruby_vendorarchdir}/plruby/plruby_*.so
 
 %files doc
 %defattr(-,root,root,-)
 %doc docs/plruby.rb
 
 %changelog
-* Mon Mar 3 2008 Devrim GUNDUZ <devrim@gunduz.org> - 0.5.3-1
-- Update to 0.5.3 to fix PostgreSQL 8.3 + GCC 4.3 problems. 0.5.2 had
-  a problem with PostgreSQL version detection, so author kindly released
-  0.5.3 for this issue.
-- Sync with Fedora spec.
+* Wed Feb 25 2015 Devrim Gündüz <devrim@gunduz.org> 0.5.4-6
+- Resync patches from Fedora
+- Update URL
+- Use the right pg_config
 
-* Mon Feb 18 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 0.5.1-6.1
-- Autorebuild for GCC 4.3
+* Wed Jul 30 2014 Devrim Gündüz <devrim@gunduz.org> 0.5.4-5
+- Resync with Fedora spec file
 
-* Mon Jan 21 2008 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.1-5.1
-- Rebuilt against PostgreSQL 8.3
-
-* Mon Jan 14 2008 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.1-5
-- Use a better BR line for postgresql-devel
-
-* Sat Nov 30 2007 - Mamoru Tasaka <mtasaka@ioa.s.u-tokyo.ac.jp> 0.5.1-4
-- Make spec file actually compile
-- Fix license tag
-
-* Sat Oct 15 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.1-3
-- More fixes to spec file per bz review #246793
-
-* Sat Oct 6 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.1-2
-- Updates to spec file per bz review #246793
-
-* Fri Oct 5 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.1-1
-- Update to 0.5.1
-
-* Tue Jul 17 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.0-2
-- Minor fixes to spec file.
-
-* Wed Jul 4 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.5.0-1
-- Update to 0.5.0
-
-* Sat Jun 16 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.4.8-1
-- Initial packaging for Fedora
+* Wed Jul 2 2014 Devrim Gündüz <devrim@gunduz.org> 0.5.4-4
+- Sync with Fedora spec file
+- Trim changelog

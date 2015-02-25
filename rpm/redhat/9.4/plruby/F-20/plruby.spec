@@ -1,5 +1,5 @@
-%global pgmajorversion 93
-%global pginstdir /usr/pgsql-9.3
+%global pgmajorversion 94
+%global pginstdir /usr/pgsql-9.4
 %global sname plruby
 
 %if 0%{?rhel} <= 5
@@ -12,8 +12,8 @@
 Summary:	PostgreSQL Ruby Procedural Language
 Name:		%{sname}%{pgmajorversion}
 Version:	0.5.4
-Release:	5%{?dist}
-Source0:	https://github.com/knu/%{sname}/archive/v0.5.4/%{sname}-%{version}.tar.gz
+Release:	6%{?dist}
+Source0:	https://github.com/knu/postgresql-%{sname}/archive/v0.5.4/postgresql-%{sname}-%{version}.tar.gz
 License:	Ruby or GPL+
 Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -25,10 +25,11 @@ Patch0:	postgresql-plruby-bitopers.patch
 Patch2:	postgresql-plruby-retval.patch
 Patch3:	postgresql-plruby-includes.patch
 Patch4:	postgresql-plruby-version.patch
+Patch5:	postgresql-plruby-ruby22-rbconfig.patch
 
 %description
 PL/Ruby is a loadable procedural language for the PostgreSQL database
-system that enable the Ruby language to create functions and trigger 
+system that enable the Ruby language to create functions and trigger
 procedures.
 
 %package doc
@@ -40,7 +41,7 @@ Requires:	%{name} = %{version}-%{release}
 Documentation for plruby.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n postgresql-%{sname}-%{version}
 
 %if 0%{?fedora} >= 15 || 0%{?rhel} >= 7
 %patch0 -p1 -b .biopers
@@ -48,9 +49,10 @@ Documentation for plruby.
 %patch2 -p1 -b .retval
 %patch3 -p1 -b .debug
 %patch4 -p1 -b .version
+%patch5 -p1 -b .rbconfig
 
 %build
-ruby extconf.rb --vendor
+ruby extconf.rb --vendor --with-pg-config=%{pginstdir}/bin/pg_config
 make
 
 %install
@@ -63,16 +65,20 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc Changes README.en plruby.html 
+%doc Changes README.en plruby.html
 %dir %{ruby_vendorarchdir}/plruby
 %{ruby_vendorarchdir}/plruby/plruby_*.so
-%{ruby_vendorarchdir}/plruby.so
 
 %files doc
 %defattr(-,root,root,-)
 %doc docs/plruby.rb
 
 %changelog
+* Wed Feb 25 2015 Devrim Gündüz <devrim@gunduz.org> 0.5.4-6
+- Resync patches from Fedora
+- Update URL
+- Use the right pg_config
+
 * Wed Jul 30 2014 Devrim Gündüz <devrim@gunduz.org> 0.5.4-5
 - Resync with Fedora spec file
 
