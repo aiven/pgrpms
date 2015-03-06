@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	1.8.0
+Version:	1.8.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -48,8 +48,6 @@ rm -rf %{buildroot}
 %doc %{pginstdir}/share/extension/%{sname}-howto.md
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ghost %{pginstdir}/bin/*.pyo
-%ghost %{pginstdir}/bin/*.pyc
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
@@ -59,6 +57,9 @@ rm -rf %{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
 
 %changelog
+* Sat Mar 7 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.8.2-1
+- Update to 1.8.2
+
 * Wed Feb 25 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.8.0-1
 - Update to 1.8.0
 - Remove executable bit from docs
