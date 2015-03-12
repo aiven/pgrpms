@@ -4,7 +4,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
+Version:	1.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -15,7 +15,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	protobuf-c-devel
 
 %description
-cstore_fdw is column-oriented store available for PostgreSQL. Using it will 
+cstore_fdw is column-oriented store available for PostgreSQL. Using it will
 let you:
     Leverage typical analytics benefits of columnar stores
     Deploy on stock PostgreSQL or scale-out PostgreSQL (CitusDB)
@@ -45,5 +45,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Mar 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+- Update to 1.2
+
 * Fri Aug 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
