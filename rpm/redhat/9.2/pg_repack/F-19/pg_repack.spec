@@ -4,7 +4,7 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.1
+Version:	1.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -16,9 +16,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}
 Requires:	postgresql%{pgmajorversion}
 
-%description 	
-pg_repack can re-organize tables on a postgres database without any locks so that 
-you can retrieve or update rows in tables being reorganized. 
+%description
+pg_repack can re-organize tables on a postgres database without any locks so that
+you can retrieve or update rows in tables being reorganized.
 The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 
 %prep
@@ -44,6 +44,9 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %changelog
+* Thu Mar 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
+- Update to 1.3.1
+
 * Tue May 20 2014 - Devrim Gündüz <devrim@gunduz.org> 1.2.1-1
 - Update to 1.2.1
 
