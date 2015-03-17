@@ -8,9 +8,9 @@ Version:	2.0.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/3650/%{sname}-%{version}.tar.gz
+Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
-URL:		http://pgfoundry.org/projects/ip4r
+URL:		https://github.com/RhodiumToad/ip4r
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -18,8 +18,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	postgresql-ip4r
 
 %description
-ip4, ip4r, ip6, ip6r, ipaddress and iprange are types that contain a single 
-IPv4/IPv6 address and a range of IPv4/IPv6 addresses respectively. They can 
+ip4, ip4r, ip6, ip6r, ipaddress and iprange are types that contain a single
+IPv4/IPv6 address and a range of IPv4/IPv6 addresses respectively. They can
 be used as a more flexible, indexable version of the cidr type.
 
 %prep
@@ -27,7 +27,7 @@ be used as a more flexible, indexable version of the cidr type.
 %patch0 -p0
 
 %build
-make USE_PGXS=1 %{?_smp_mflags} 
+make USE_PGXS=1 %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
