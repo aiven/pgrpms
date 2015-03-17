@@ -8,7 +8,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -112,15 +112,15 @@ rm -rf %{buildroot}
 
 %post
 chkconfig --add %{sname}-%{pgmajorversion}
-if [ ! -e "/var/log/slony1-93" -a ! -h "/var/log/slony1-93" ]
+if [ ! -e "/var/log/slony1-%{pgmajorversion}" -a ! -h "/var/log/slony1-%{pgmajorversion}" ]
 then
-        mkdir /var/log/slony1-93
-        chown postgres:postgres /var/log/slony1-93
+        mkdir /var/log/slony1-%{pgmajorversion}
+        chown postgres:postgres /var/log/slony1-%{pgmajorversion}
 fi
-if [ ! -e "/var/run/slony1-93/" -a ! -h "/var/run/slony1-93/" ]
+if [ ! -e "/var/run/slony1-%{pgmajorversion}/" -a ! -h "/var/run/slony1-%{pgmajorversion}/" ]
 then
-        mkdir /var/run/slony1-93
-        chown postgres:postgres /var/run/slony1-93
+        mkdir /var/run/slony1-%{pgmajorversion}
+        chown postgres:postgres /var/run/slony1-%{pgmajorversion}
 fi
 
 %preun
@@ -151,6 +151,10 @@ fi
 %endif
 
 %changelog
+* Tue Mar 17 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-3
+- Fix the log directory, so that it points to correct release.
+  Per bug report from Guillaume Lelarge.
+
 * Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-2
 - Fix init script so that it reads the conninfo correctly.
   Per Tomonari Katsumata.
