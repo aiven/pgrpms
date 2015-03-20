@@ -1,11 +1,11 @@
---- Makefile.old	2015-03-12 22:27:54.654389792 +0200
-+++ Makefile	2015-03-12 22:28:08.651239971 +0200
-@@ -43,7 +43,7 @@
+--- Makefile.old	2015-03-20 17:50:21.792296346 +0200
++++ Makefile	2015-03-20 17:50:29.414214813 +0200
+@@ -62,7 +62,7 @@
+ include test/Makefile
  
- EXTRA_CLEAN += ${REGRESS_PREP}
- 
+ ifndef NO_PGXS
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
- 
+ else

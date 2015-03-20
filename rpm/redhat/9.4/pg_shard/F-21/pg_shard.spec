@@ -4,7 +4,7 @@
 
 Summary:	Easy sharding for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.2
+Version:	1.1.0
 Release:	1%{?dist}
 License:	LGPLv3
 Group:		Applications/Databases
@@ -40,9 +40,13 @@ rm -rf %{buildroot}
 %doc CHANGELOG.md LICENSE
 %doc %{pginstdir}/share/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
+%{pginstdir}/bin/copy_to_distributed_table
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Mar 20 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0
+
 * Thu Mar 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository
