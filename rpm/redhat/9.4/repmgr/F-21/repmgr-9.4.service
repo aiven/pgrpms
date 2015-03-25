@@ -20,7 +20,7 @@ Group=repmgr
 
 # Location of repmgr conf file:
 Environment=REPMGRDCONF=/etc/repmgrd/9.4/repmgr.conf
-Environment=PIDFILE=var/run/repmgr/repmgrd-9.4.pid
+Environment=PIDFILE=/var/run/repmgr/repmgrd-9.4.pid
 Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
 
 # Where to send early-startup messages from the server 
