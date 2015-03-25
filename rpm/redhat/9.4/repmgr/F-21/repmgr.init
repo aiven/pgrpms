@@ -9,7 +9,7 @@
 # Provides: repmgrd
 # Required-Start: $local_fs $remote_fs $network $syslog $named
 # Required-Stop: $local_fs $remote_fs $network $syslog $named
-# Should-Start: postgresql
+# Should-Start: postgresql-9.4
 # Short-Description: Start repmgrd daemon
 # Description: repmgrd is replication manager, and failover management tool
 ### END INIT INFO
