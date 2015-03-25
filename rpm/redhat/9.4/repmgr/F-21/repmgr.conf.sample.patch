@@ -21,7 +21,7 @@
  priority=-1
 -promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
-+promote_command='/usr/local/bin/promote_command.sh'
++promote_command='/usr/pgsql-9.4/bin/repmgr standby promote -f /etc/repmgr/9.4/repmgr.conf'
 +follow_command='/usr/pgsql-9.4/bin/repmgr standby follow -f /etc/repmgr/9.4/repmgr.conf'
  
  # Log level: possible values are DEBUG, INFO, NOTICE, WARNING, ERR, ALERT, CRIT or EMERG
