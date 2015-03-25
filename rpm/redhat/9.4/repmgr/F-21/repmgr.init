@@ -17,6 +17,13 @@
 # Source function library.
 . /etc/rc.d/init.d/functions
 
+# Find the name of the script
+NAME=`basename $0`
+if [ ${NAME:0:1} = "S" -o ${NAME:0:1} = "K" ]
+then
+       	NAME=${NAME:3}
+fi
+
 exec=/usr/pgsql-9.4/bin/repmgrd
 user=repmgr
 prog=repmgrd
@@ -115,7 +122,9 @@ case "$1" in
         restart
         ;;
   status)
-        rh_status
+	status -p $pidfile repmgr-9.4
+	script_result=$?
+
         ;;
   *)
         echo $"Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|status}"
