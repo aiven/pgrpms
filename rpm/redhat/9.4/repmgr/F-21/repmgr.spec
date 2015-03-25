@@ -135,6 +135,7 @@ make USE_PGXS=1 clean
 * Tue Mar 24 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-2
 - Add unit file/init script for repmgr. This spec file can be
   used on all platforms.
+- Updated BR, per mock build.
 
 * Thu Feb 19 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
 - Update to 2.0.2, per changes described at:
