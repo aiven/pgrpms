@@ -1,5 +1,5 @@
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global sname pg_top
 
 Summary:	'top' for PostgreSQL process

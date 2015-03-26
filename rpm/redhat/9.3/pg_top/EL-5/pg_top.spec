@@ -5,25 +5,27 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/ptop/%{sname}/%{version}/%{sname}-%{version}.tar.bz2
-URL:		http://pgfoundry.org/projects/ptop
+Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
+URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
+BuildRequires:	autoconf
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	ptop => 3.5.0
 
 %description
-pg_top is 'top' for PostgreSQL processes. See running queries, 
+pg_top is 'top' for PostgreSQL processes. See running queries,
 query plans, issued locks, and table and index statistics.
 
 %prep
 %setup -q -n %{sname}-%{version}
 
 %build
+sh autogen.sh
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure --prefix=%{pginstdir}
 make %{?_smp_mflags} CFLAGS="%{optflags}"
 
@@ -53,6 +55,10 @@ unlink %{_bindir}/%{sname}
 %doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-2
+- Update URLs: Project moved to github.
+- pg_top now requires autoconf for build.
+
 * Tue Sep 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-1
 - Update to 3.7.0
 - Remove patch2, now in upstream.
