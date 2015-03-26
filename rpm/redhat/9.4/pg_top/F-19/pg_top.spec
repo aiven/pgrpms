@@ -5,7 +5,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
@@ -37,9 +37,8 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 rm -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pg_top90 pg_top %{pginstdir}/bin/pg_top 900
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 900
-ln -s %{_bindir}/pg_top90 %{_bindir}/pg_top
+%{_sbindir}/update-alternatives --install /usr/bin/pg_top%{pgmajorversion} pg_top %{_bindir}/bin/pg_top %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 %{pgmajorversion}0
 
 %postun
 unlink %{_bindir}/%{sname}
@@ -55,6 +54,9 @@ unlink %{_bindir}/%{sname}
 %doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-3
+- Fix alternatives path and version.
+
 * Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-2
 - Update URLs: Project moved to github.
 - pg_top now requires autoconf for build.
