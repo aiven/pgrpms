@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -50,9 +50,11 @@ rm -rf %{buildroot}
 %doc %{pginstdir}/share/extension/README-%{sname}.rst
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
-%{pginstdir}/share/extension/%{sname}--2.0--2.0.1.sql
+%{pginstdir}/share/extension/%{sname}--2.0.1--2.0.2.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Mar 17 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.1-1
+* Fri Mar 27 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
+- Update to 2.0.2
+* Tue Mar 17 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
