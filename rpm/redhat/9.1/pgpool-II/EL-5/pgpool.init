@@ -65,7 +65,7 @@ if [ ! -r $PGPOOLCONF ]
 then
 	echo "$PGPOOLCONF not found"
 	RETVAL=1
-	failure	
+	failure
 	exit
 fi
 
