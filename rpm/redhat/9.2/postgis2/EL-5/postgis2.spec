@@ -7,8 +7,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.0.6
-Release:	2%{?dist}
+Version:	2.0.7
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -36,8 +36,8 @@ Provides:	%{sname} = %{version}-%{release}
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
 database. In effect, PostGIS "spatially enables" the PostgreSQL server,
 allowing it to be used as a backend spatial database for geographic information
-systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS 
-follows the OpenGIS "Simple Features Specification for SQL" and has been 
+systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+follows the OpenGIS "Simple Features Specification for SQL" and has been
 certified as compliant with the "Types and Functions" profile.
 
 %package client
@@ -165,6 +165,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.7-1
+- Update to 2.0.7, for bug and security fixes.
+
 * Wed Feb 25 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.6-2
 - Require PostgreSQL at least 9.2.10, per 2 bug reports on
   pgsql-pkg-yum mailing list.

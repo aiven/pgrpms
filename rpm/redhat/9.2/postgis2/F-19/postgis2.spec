@@ -7,8 +7,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.5
-Release:	2%{?dist}
+Version:	2.1.7
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -175,6 +175,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
+- Update to 2.1.7, for bug and security fixes.
+
 * Wed Feb 25 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-2
 - Require PostgreSQL at least 9.2.10, per 2 bug reports on
   pgsql-pkg-yum mailing list.

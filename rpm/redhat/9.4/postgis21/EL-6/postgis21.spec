@@ -1,15 +1,15 @@
 %global postgismajorversion 2.1
-%global postgisprevmajorversion 2.0  
-%global postgisprevversion 2.0.6
+%global postgisprevmajorversion 2.0
+%global postgisprevversion 2.0.7
 %global pgmajorversion 94
 %global pginstdir /usr/pgsql-9.4
 %global sname	postgis
 %{!?utils:%define	utils 1}
-%{!?raster:%define	raster 1}
+%{!?raster:%define	raster 0}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.5
+Version:	2.1.7
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -37,8 +37,8 @@ Provides:	%{sname} = %{version}-%{release}
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
 database. In effect, PostGIS "spatially enables" the PostgreSQL server,
 allowing it to be used as a backend spatial database for geographic information
-systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS 
-follows the OpenGIS "Simple Features Specification for SQL" and has been 
+systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+follows the OpenGIS "Simple Features Specification for SQL" and has been
 certified as compliant with the "Types and Functions" profile.
 
 %package client
@@ -154,8 +154,6 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
-%{pginstdir}/share/extension/%{sname}-*.sql
-%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
@@ -193,6 +191,14 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
+- Update to 2.1.7, for bug and security fixes.
+- Bump up postgisprevversion to 2.0.7
+
+* Fri Mar 27 2015 Devrim Gündüz <devrim@gunduz.org> - 2.1.6-1
+- Update to 2.1.6, per changes described at:
+  http://postgis.net/2015/03/20/postgis-2.1.6
+
 * Sun Dec 21 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-1
 - Update to 2.1.5, per changes described at:
   http://postgis.net/2014/12/18/postgis-2.1.5
@@ -201,29 +207,25 @@ rm -rf %{buildroot}
 - Update to 2.1.4, per changes described at:
   http://postgis.net/2014/09/10/postgis-2.1.4
 
-* Mon Aug 4 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-2
-- Rebuild for new armadillo in EPEL.
-
 * Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-1
 - Update to 2.1.3, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.6
 
 * Wed Apr 2 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
-- Bump up postgisprevversion to	2.0.5
+- Bump up postgisprevversion to 2.0.5
 
 * Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-1
 - Update to 2.1.2
+- Remove patch0 -- now in upstream.
 
 * Sat Nov 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
 - Update to 2.1.1
+- Add a new patch for RHEL 5, per:
+  http://trac.osgeo.org/postgis/ticket/2542
 
-* Mon Oct 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-4
+* Mon Oct 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
 - Install postgis-2.0.so file, by compiling it from 2.0 sources.
   Per lots of complaints to maintainers and pgsql-bugs lists.
-
-* Mon Sep 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
-- Rebuild against gdal 1.9.3, to fix extension related issues.
-- Enable raster support in EL-6
 - Let main package depend on client package. Per pgrpms #141
   and per PostgreSQL bug #8463.
 
