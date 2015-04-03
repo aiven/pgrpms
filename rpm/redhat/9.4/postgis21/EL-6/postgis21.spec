@@ -5,12 +5,12 @@
 %global pginstdir /usr/pgsql-9.4
 %global sname	postgis
 %{!?utils:%define	utils 1}
-%{!?raster:%define	raster 0}
+%{!?raster:%define	raster 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -167,6 +167,8 @@ rm -rf %{buildroot}
 %if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/share/extension/postgis--*.sql
+%{pginstdir}/share/extension/postgis.control
 %endif
 
 %files client
@@ -191,6 +193,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Fri Apr 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-2
+- Re-enable raster support, which broke upgrades.
+
 * Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.7
