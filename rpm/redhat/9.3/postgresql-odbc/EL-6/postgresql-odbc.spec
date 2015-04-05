@@ -18,19 +18,19 @@
 
 # This spec file and ancilliary files are licensed in accordance with
 # The PostgreSQL license.
-# In this file you can find the default build package list macros.  These can be overridden by defining
-# on 
+# In this file you can find the default build package list macros.  These can be
+# overridden by defining on
 
 %global pgmajorversion 93
 %global	pginstdir /usr/pgsql-9.3
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.03.0300
+Version:	09.03.0400
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
-Url:		http://psqlodbc.projects.postgresql.org/
+URL:		https://odbc.postgresql.org/
 
 Source0:	https://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
 Source1:	acinclude.m4
@@ -41,8 +41,9 @@ BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
 Requires:	postgresql%{pgmajorversion}-libs
+Provides:	postgresql-odbc
 
-# This spec file and ancillary files are licensed in accordance with 
+# This spec file and ancillary files are licensed in accordance with
 # the psqlodbc license.
 
 %description
@@ -94,9 +95,14 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %attr(755,root,root) %{pginstdir}/lib/psqlodbcw.so
 %{pginstdir}/lib/psqlodbc.so
-%doc license.txt readme.txt 
+%doc license.txt readme.txt
 
 %changelog
+* Sun Apr 5 2015 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0400-1
+- Update to 09.03.0400
+- Provide postgresql-odbc package (versionless)
+- Update URL
+
 * Mon May 19 2014 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0300-1
 - Update to 09.03.0300
 
@@ -106,8 +112,12 @@ rm -rf %{buildroot}
 * Sat Nov 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.02.0100-1
 - Update to 09.02.0100
 
-* Mon Sep 10 2012 - Devrim GUNDUZ <devrim@gunduz.org> - 09.01.0200
-- Update to 09.01.0200 
+* Sat Nov 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.02.0200
+- Update to 09.02.0200
+
+* Mon Sep 10 2012 - De
+vrim GUNDUZ <devrim@gunduz.org> - 09.01.0200
+- Update to 09.01.0200
 
 * Tue Nov 8 2011 - Devrim GUNDUZ <devrim@gunduz.org> - 09.00.0310
 - Update to 09.00.0310.
@@ -120,7 +130,7 @@ rm -rf %{buildroot}
 - Use new parameter --with-libpq in order to support multiple version
   installation of PostgreSQL.
 - Remove --with-odbcinst parameter.
-- Add new global variable to support multiple version installation 
+- Add new global variable to support multiple version installation
   of PostgreSQL.
 - Update URL.
 - Update license
