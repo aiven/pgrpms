@@ -1,6 +1,6 @@
---- install/defaultParameter.php.old	2014-12-14 12:51:25.523701332 +0200
-+++ install/defaultParameter.php	2014-12-14 12:52:27.377043709 +0200
-@@ -23,9 +23,9 @@
+--- install/defaultParameter.php.old	2015-04-09 18:34:37.538021376 +0300
++++ install/defaultParameter.php	2015-04-09 18:34:41.890973819 +0300
+@@ -23,17 +23,17 @@
   * @version    CVS: $Id$
   */
  
@@ -13,20 +13,22 @@
  define("_PGPOOL2_CMD_OPTION_C", "0");
  define("_PGPOOL2_CMD_OPTION_LARGE_D", "0");
  define("_PGPOOL2_CMD_OPTION_D", "0");
-@@ -33,7 +33,7 @@
+ define("_PGPOOL2_CMD_OPTION_M", "s");
  define("_PGPOOL2_CMD_OPTION_N", "0");
  define("_PGPOOL2_CMD_OPTION_LARGE_C", "0");
- define("_PGPOOL2_LOG_FILE", "/tmp/pgpool.log");
+-define("_PGPOOL2_LOG_FILE", "/tmp/pgpool.log");
 -define("_PGPOOL2_PCP_DIR", "/usr/local/bin");
-+define("_PGPOOL2_PCP_DIR", "/usr/pgpool-9.4/bin");
++define("_PGPOOL2_LOG_FILE", "/var/log/pgpool-II-94/");
++define("_PGPOOL2_PCP_DIR", "/etc/pgpool-II-94/bin");
  define("_PGPOOL2_PCP_HOSTNAME", "localhost");
  define("_PGPOOL2_PCP_TIMEOUT", "10");
  define("_PGPOOL2_STATUS_REFRESH_TIME", "0");
---- conf/pgmgt.conf.php.old	2014-12-14 12:59:02.202831626 +0200
-+++ conf/pgmgt.conf.php	2014-12-14 12:59:57.326241491 +0200
-@@ -1,9 +1,9 @@
+--- conf/pgmgt.conf.php.old	2015-04-09 18:34:22.682183679 +0300
++++ conf/pgmgt.conf.php	2015-04-09 18:34:54.745833377 +0300
+@@ -1,17 +1,17 @@
  <?php
- define('_PGPOOL2_LANG', 'ja');
+-define('_PGPOOL2_LANG', 'ja');
++define('_PGPOOL2_LANG', 'en');
  define('_PGPOOL2_VERSION', '3.2');
 -define('_PGPOOL2_CONFIG_FILE', '/usr/local/etc/pgpool.conf');
 -define('_PGPOOL2_PASSWORD_FILE', '/usr/local/etc/pcp.conf');
@@ -37,12 +39,24 @@
  define('_PGPOOL2_CMD_OPTION_C', '0');
  define('_PGPOOL2_CMD_OPTION_LARGE_D', '0');
  define('_PGPOOL2_CMD_OPTION_D', '0');
-@@ -11,7 +11,7 @@
+ define('_PGPOOL2_CMD_OPTION_M', 's');
  define('_PGPOOL2_CMD_OPTION_N', '0');
  define('_PGPOOL2_CMD_OPTION_LARGE_C', '0');
- define('_PGPOOL2_LOG_FILE', '/tmp/pgpool.log');
+-define('_PGPOOL2_LOG_FILE', '/tmp/pgpool.log');
 -define('_PGPOOL2_PCP_DIR', '/usr/local/bin');
++define('_PGPOOL2_LOG_FILE', '/var/log/pgpool-II-94/');
 +define('_PGPOOL2_PCP_DIR', '/usr/pgpool-9.4/bin');
  define('_PGPOOL2_PCP_HOSTNAME', 'localhost');
  define('_PGPOOL2_STATUS_REFRESH_TIME', '0');
  ?>
+--- definePgpoolConfParam.php.old	2015-04-09 18:37:51.040907317 +0300
++++ definePgpoolConfParam.php	2015-04-09 18:38:20.922580853 +0300
+@@ -289,7 +289,7 @@
+ 
+ $key = 'pid_file_name';
+ $pgpoolConfigParam[$key]['type'] = 'C';
+-$pgpoolConfigParam[$key]['default'] = '/var/run/pgpool/pgpool.pid';
++$pgpoolConfigParam[$key]['default'] = '/var/run/pgpool-II-94/pgpool.pid';
+ $pgpoolConfigParam[$key]['regexp'] = $dirreg;
+ 
+ $key = 'logdir';
