@@ -82,6 +82,7 @@ Source5:	pg_config.h
 Source6:	README.rpm-dist
 Source7:	ecpg_config.h
 Source9:	postgresql-9.2-libs.conf
+Source10:	postgresql92-check-db-dir
 Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
@@ -463,6 +464,14 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
         -e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
         <%{SOURCE17} >postgresql%{packageversion}-setup
 install -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+
+# prep the startup check script, including insertion of some values it needs
+sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+        -e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
+        -e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
+        <%{SOURCE10} >postgresql%{packageversion}-check-db-dir
+touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
+install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
@@ -874,6 +883,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 %if %pam
 %config(noreplace) /etc/pam.d/postgresql%{packageversion}
 %endif
