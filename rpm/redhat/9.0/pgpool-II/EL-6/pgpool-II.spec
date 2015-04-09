@@ -262,12 +262,6 @@ fi
 
 %files extensions
 %{pginstdir}/lib/pgpool-recovery.so
-%{pginstdir}/share/extension/pgpool-recovery.sql
-%{pginstdir}/share/extension/pgpool-regclass.sql
-%{pginstdir}/share/extension/pgpool_recovery--1.1.sql
-%{pginstdir}/share/extension/pgpool_recovery.control
-%{pginstdir}/share/extension/pgpool_regclass--1.0.sql
-%{pginstdir}/share/extension/pgpool_regclass.control
 # From PostgreSQL 9.4 pgpool-regclass.so is not needed anymore
 # because 9.4 or later has to_regclass.
 %{pginstdir}/lib/pgpool-regclass.so
