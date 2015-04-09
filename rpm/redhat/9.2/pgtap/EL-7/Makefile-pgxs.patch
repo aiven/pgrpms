@@ -1,0 +1,10 @@
+--- Makefile.old	2014-07-02 17:18:01.657048086 +0300
++++ Makefile	2014-07-02 17:18:19.218887093 +0300
+@@ -16,6 +16,7 @@
+ PG_CONFIG := $(top_builddir)/src/bin/pg_config/pg_config
+ else
+ # Run pg_config to get the PGXS Makefiles
++PG_CONFIG=/usr/pgsql-9.2/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ endif
+ 
