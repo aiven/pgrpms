@@ -4,7 +4,7 @@
 
 Name:           uriparser
 Version:        0.8.1
-Release:        4%{?dist5
+Release:        5%{?dist}
 Summary:        URI parsing library - RFC 3986
 
 Group:          System Environment/Libraries
