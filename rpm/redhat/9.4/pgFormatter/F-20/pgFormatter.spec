@@ -1,6 +1,6 @@
 Summary:	A PostgreSQL SQL syntax beautifier
 Name:		pgFormatter
-Version:	1.3
+Version:	1.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,5 +41,8 @@ rm -rf %{buildroot}
 %{_mandir}/man1/pg_format.1.gz
 
 %changelog
+* Sun Apr 19 2015 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
+- Update to 1.4
+
 * Sun Mar 29 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Initial RPM packaging for PostgreSQL RPM Repository
