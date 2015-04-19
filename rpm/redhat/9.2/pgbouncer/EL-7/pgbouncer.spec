@@ -1,25 +1,44 @@
-%define debug 0
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
+
+%global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.5.4
-Release:	3%{?dist}
+Version:	1.5.5
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 Group:		Applications/Databases
 License:	MIT and BSD
-URL:		http://pgfoundry.org/projects/pgbouncer/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
+URL:		https://pgbouncer.github.io/
+Source0:	https://pgbouncer.github.io/downloads/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
+Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	libevent-devel >= 2.0
 Requires:	initscripts
 
-Requires(post):	chkconfig
-Requires(preun):	chkconfig, initscripts
+%if %{systemd_enabled}
+BuildRequires:		systemd, systemd-units
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
 Requires(postun):	initscripts
+%endif
 Requires:	/usr/sbin/useradd
 
 %description
@@ -27,7 +46,7 @@ pgbouncer is a lightweight connection pooler for PostgreSQL.
 pgbouncer uses libevent for low-level socket handling.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p0
 
 %build
@@ -36,26 +55,35 @@ sed -i.fedora \
  -e '/BININSTALL/s|-s||' \
  configure
 
-%configure \
-%if %debug
-	--enable-debug \
-	--enable-cassert \
-%endif
---datadir=%{_datadir} 
+%configure --datadir=%{_datadir}
 
 make %{?_smp_mflags} V=1
 
 %install
 rm -rf %{buildroot}
 make install DESTDIR=%{buildroot}
+# Install sysconfig file
 install -p -d %{buildroot}%{_sysconfdir}/%{name}/
 install -p -d %{buildroot}%{_sysconfdir}/sysconfig
+install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
 install -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
+
+%if %{systemd_enabled}
+install -d %{buildroot}%{_unitdir}
+install -m 755 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
+
+# ... and make a tmpfiles script to recreate it at reboot.
+%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_varrundir}/pgbouncer 0700 pgbouncer pgbouncer -
+EOF
+
+%else
 install -p -d %{buildroot}%{_initrddir}
 install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
-# Install sysconfig file
-install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+%endif
+
 # Install logrotate file:
 install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -67,37 +95,58 @@ install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %{__rm} -f %{buildroot}%{_docdir}/%{name}/userlist.txt
 
 %post
-chkconfig --add pgbouncer
-chown -R pgbouncer:pgbouncer /etc/pgbouncer
+%if %{systemd_enabled}
+%systemd_post %{name}.service
+%tmpfiles_create
+%else
+# This adds the proper /etc/rc*.d links for the script
+/sbin/chkconfig --add %{name}
+%endif
+touch /var/log/pgbouncer.log
+chmod 0700 /var/log/pgbouncer.log
+chown pgbouncer:pgbouncer /var/log/pgbouncer.log
+chown -R pgbouncer:pgbouncer /var/run/pgbouncer >/dev/null 2>&1 || :
 
 %pre
 groupadd -r pgbouncer >/dev/null 2>&1 || :
 useradd -m -g pgbouncer -r -s /bin/bash \
-        -c "PgBouncer Server" pgbouncer >/dev/null 2>&1 || :
-touch /var/log/pgbouncer.log
-chown pgbouncer:pgbouncer /var/log/pgbouncer.log
-chmod 0700 /var/log/pgbouncer.log
+	-c "PgBouncer Server" pgbouncer >/dev/null 2>&1 || :
 
 %preun
-if [ $1 = 0 ] ; then
+%if %{systemd_enabled}
+%systemd_preun %{name}.service
+%else
+if [ $1 -eq 0 ] ; then
 	/sbin/service pgbouncer condstop >/dev/null 2>&1
 	chkconfig --del pgbouncer
 fi
+%endif
 
 %postun
-if [ "$1" -ge "1" ] ; then
+%{__rm} -rf /var/run/pgbouncer
+%if %{systemd_enabled}
+%systemd_postun_with_restart %{name}.service
+%else
+if [ $1 -ge 1 ] ; then
 	/sbin/service pgbouncer condrestart >/dev/null 2>&1 || :
 fi
+%endif
 
 %clean
 rm -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
 %doc README NEWS AUTHORS
-%{_bindir}/*
+%dir %{_sysconfdir}/%{name}
+%{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
+%if %{systemd_enabled}
+%ghost %{_varrundir}
+%{_tmpfilesdir}/%{name}.conf
+%attr(644,root,root) %{_unitdir}/%{name}.service
+%else
 %{_initrddir}/%{name}
+%endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_mandir}/man1/%{name}.*
@@ -105,6 +154,14 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Fri Apr 17 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.5-1
+- Update to 1.5.5
+- Update to new URL
+- Revert chown'ing /etc/pgbouncer to pgbouncer user, and keep
+  it as root.
+- Add systemd support, and convert the spec file to unified
+  spec file for all platforms
+
 * Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-3
 - Add logrotate file. It was already available in svn, but
   apparently I forgot to add it to spec file. Per an email from
