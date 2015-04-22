@@ -146,6 +146,13 @@ BuildRequires:	openldap-devel
 BuildRequires: libselinux >= 2.0.93
 BuildRequires: selinux-policy >= 3.9.13
 %endif
+# These are required for -docs subpackage:
+
+BuildRequires:	openjade
+BuildRequires:	opensp
+BuildRequires:	docbook-dtds
+BuildRequires:	docbook-style-dsssl
+BuildRequires:	libxslt
 
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives

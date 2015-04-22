@@ -139,6 +139,14 @@ BuildRequires:	uuid-devel
 BuildRequires:	openldap-devel
 %endif
 
+# These are required for -docs subpackage:
+
+BuildRequires:	openjade
+BuildRequires:	opensp
+BuildRequires:	docbook-dtds
+BuildRequires:	docbook-style-dsssl
+BuildRequires:	libxslt
+
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
