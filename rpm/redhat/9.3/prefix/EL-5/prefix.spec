@@ -7,11 +7,13 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.2.3
 Release:	2%{?dist}
 License:	BSD
+Group:		Applications/Databases
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 Patch0:		prefix-makefile-pgconfig.patch
 URL:		https://github.com/dimitri/prefix
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 The prefix project implements text prefix matches operator (prefix @>
