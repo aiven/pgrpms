@@ -29,11 +29,14 @@ make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-%make_install DESTDIR=%{buildroot}
+make %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Move docs under PostgreSQL extensions director
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
 %{__mv} %{buildroot}%{_docdir}/pgsql/extension/README.md %{buildroot}%{pginstdir}/share/extension/README-prefix.md
 %{__mv} %{buildroot}%{_docdir}/pgsql/extension/TESTS.md %{buildroot}%{pginstdir}/share/extension/TESTS-prefix.md
+
+%clean
+rm -rf %{buildroot}
 
 %postun -p /sbin/ldconfig
 %post -p /sbin/ldconfig
@@ -46,9 +49,6 @@ rm -rf %{buildroot}
 
 %changelog
 * Mon Jan 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
-- Omit deprecated Group: tags and %%clean section
-- Use %%make_install macro
-- Get rid of BuildRoot definition
 - No need to cleanup buildroot during %%install
 - Remove %%defattr
 - Run ldconfig
