@@ -1,53 +1,66 @@
-Summary:	Prefix Opclass for PostgreSQL
-Name:		prefix
-Version:	1.1.0
-Release:	1%{?dist}
+%global pgmajorversion 90
+%global pginstdir /usr/pgsql-9.0
+%global sname prefix
+
+Summary:	Prefix Range module for PostgreSQL
+Name:		%{sname}%{pgmajorversion}
+Version:	1.2.3
+Release:	2%{?dist}
 License:	BSD
-Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/2477/%{name}-%{version}.tar.gz
-URL:		http://pgfoundry.org/projects/prefix
-BuildRequires:	postgresql-devel >= 8.2
-Requires:	postgresql-server >= 8.2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
+Patch0:		prefix-makefile-pgconfig.patch
+URL:		https://github.com/dimitri/prefix
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
-The prefix project implements text prefix matches operator (prefix @> 
-text) and provide a GiST opclass for indexing support of prefix 
+The prefix project implements text prefix matches operator (prefix @>
+text) and provide a GiST opclass for indexing support of prefix
 searches.
 
 %prep
-%setup -q
+%setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
-make %{?_smp_mflags} 
+make %{?_smp_mflags}
 
 %install
 rm -rf %{buildroot}
-install -d %{buildroot}%{_libdir}/pgsql/
-install -d %{buildroot}%{_datadir}/%{name}
-install -d %{buildroot}%{_docdir}/%{name}-%{version}
+%make_install DESTDIR=%{buildroot}
+# Move docs under PostgreSQL extensions director
+%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
+%{__mv} %{buildroot}%{_docdir}/pgsql/extension/README.md %{buildroot}%{pginstdir}/share/extension/README-prefix.md
+%{__mv} %{buildroot}%{_docdir}/pgsql/extension/TESTS.md %{buildroot}%{pginstdir}/share/extension/TESTS-prefix.md
 
-install -m 755 prefix.so %{buildroot}%{_libdir}/pgsql
-install -m 644 *.sql %{buildroot}%{_datadir}/%{name}/
-install -m 644 *.csv %{buildroot}%{_datadir}/%{name}/
-install -m 644 *.txt %{buildroot}%{_docdir}/%{name}-%{version}/
-
-%clean
-rm -rf %{buildroot}
-
-%post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+%post -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,-)
-%doc README.txt TESTS.txt
-%{_datadir}/%{name}/*.sql
-%{_datadir}/%{name}/*.csv
-%{_libdir}/pgsql/prefix.so
+%doc %{pginstdir}/share/extension/README-prefix.md
+%doc %{pginstdir}/share/extension/TESTS-prefix.md
+%{pginstdir}/lib/%{sname}.so
+%{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Jan 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
+- Omit deprecated Group: tags and %%clean section
+- Use %%make_install macro
+- Get rid of BuildRoot definition
+- No need to cleanup buildroot during %%install
+- Remove %%defattr
+- Run ldconfig
+- Update URL
+
+* Mon Jan 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
+- Update to 1.2.3
+
+* Mon Jan 7 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+- Fix for PostgreSQL 9.0+ RPM layout.
+
 * Fri Dec 11 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 
 * Fri May 30 2008 - Devrim GUNDUZ <devrim@gunduz.org> 0.2-1
-- Initial RPM packaging for yum.pgsqlrpms.org 
+- Initial RPM packaging for yum.pgsqlrpms.org
