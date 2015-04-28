@@ -95,8 +95,7 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files
-%license LICENSE
-%doc BUGS CHANGELOG README
+%doc BUGS CHANGELOG README LICENSE
 %{pginstdir}/bin/%{sname}
 %{pginstdir}/share/%{sname}
 %{_datadir}/applications/fedora-%{sname}_%{pgmajorversion}.desktop
