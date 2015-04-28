@@ -4,15 +4,14 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.16.1
+Version:	1.20.0
 Release:	3%{?dist}
 License:	BSD
-Group:		Applications/Databases
-Source:		ftp://ftp.postgresql.org/pub/pgadmin3/release/v%{version}/src/%{sname}-%{version}.tar.gz
+Source:		https://ftp.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel desktop-file-utils openssl-devel libxml2-devel libxslt-devel
+BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel ImageMagick
+BuildRequires:	desktop-file-utils openssl-devel libxml2-devel libxslt-devel
 Requires:	wxGTK
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -25,13 +24,13 @@ from writing simple SQL queries to developing complex
 databases. The graphical interface supports all PostgreSQL
 features and makes administration easy.
 
-pgAdmin III is designed to answer the needs of all users, 
-from writing simple SQL queries to developing complex databases. 
-The graphical interface supports all PostgreSQL features and 
-makes administration easy. The application also includes a syntax 
-highlighting SQL editor, a server-side code editor, an 
-SQL/batch/shell job scheduling agent, support for the Slony-I 
-replication engine and much more. No additional drivers are 
+pgAdmin III is designed to answer the needs of all users,
+from writing simple SQL queries to developing complex databases.
+The graphical interface supports all PostgreSQL features and
+makes administration easy. The application also includes a syntax
+highlighting SQL editor, a server-side code editor, an
+SQL/batch/shell job scheduling agent, support for the Slony-I
+replication engine and much more. No additional drivers are
 required to communicate with the database server.
 
 %package docs
@@ -49,22 +48,25 @@ which are in html format.
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
 %patch2 -p0
-for f in configure{,.ac} ; do touch -r $f.stamp $f ; done
+# extract 48x48 png from ico
+convert "pgadmin/include/images/pgAdmin3.ico[3]" pgadmin/include/images/pgAdmin3-48.png
 
 %build
 export LIBS="-lwx_gtk2u_core-2.8"
 ./configure --disable-debug --disable-dependency-tracking --with-wx-version=2.8 --with-wx=/usr --with-pgsql=%{pginstdir} --prefix=%{pginstdir}
-make %{?_smp_mflags} all
+%{__make} %{?_smp_mflags} all
 
 %install
 rm -rf %{buildroot}
-make DESTDIR=%{buildroot} install
+%make_install DESTDIR=%{buildroot}
 
-mkdir -p %{buildroot}%{_datadir}/%{name}/
-cp -f ./pkg/debian/pgadmin3.xpm %{buildroot}/%{_datadir}/%{name}/%{name}.xpm
+%{__mkdir} -p %{buildroot}%{_datadir}/%{name}/
+for size in 16 32 48 ; do
+	install -Dpm 644 pgadmin/include/images/pgAdmin3-$size.png \
+	%{buildroot}/%{_datadir}/icons/hicolor/${size}x$size/apps/pgAdmin3.png
+done
 
-mkdir -p %{buildroot}/%{_datadir}/applications
-
+%{__mkdir} -p %{buildroot}/%{_datadir}/applications
 mv ./pkg/%{sname}.desktop ./pkg/%{name}.desktop
 desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications \
 	--add-category X-Fedora\
@@ -73,31 +75,76 @@ desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications
 	./pkg/%{name}.desktop
 
 %clean
-rm -rf %{buildroot}
-
-%post
-%{_sbindir}/update-alternatives --install /usr/bin/%{sname} pgadmin3 %{pginstdir}/bin/%{sname} 910
+%{__rm} -rf %{buildroot}
 
 %preun
 if [ $1 = 0 ] ; then
-	%{_sbindir}/update-alternatives --remove pgadmin3 %{pginstdir}/bin/%{sname}
+	%{_sbindir}/update-alternatives --remove %{sname} %{pginstdir}/bin/%{sname}
 fi
 
+%post
+%{_sbindir}/update-alternatives --install /usr/bin/%{sname} %{sname} %{pginstdir}/bin/%{sname} 940
+
+%postun
+if [ $1 -eq 0 ] ; then
+	touch --no-create %{_datadir}/icons/hicolor &>/dev/null
+	gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+fi
+
+%posttrans
+gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
+
 %files
-%defattr(-, root, root)
-%doc BUGS CHANGELOG LICENSE README
-%{pginstdir}/*
+%license LICENSE
+%doc BUGS CHANGELOG README
+%{pginstdir}/bin/%{sname}
 %{pginstdir}/share/%{sname}
-%{_datadir}/%{name}
-%{_datadir}/applications/*
+%{_datadir}/applications/fedora-%{sname}_%{pgmajorversion}.desktop
+%{_datadir}/icons/hicolor/16x16/apps/pgAdmin3.png
+%{_datadir}/icons/hicolor/32x32/apps/pgAdmin3.png
+%{_datadir}/icons/hicolor/48x48/apps/pgAdmin3.png
 
 %files docs
-%defattr(-,root,root)
 %doc docs/*
 
 %changelog
-* Mon Feb 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-3
+* Tue Apr 28 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.20.0-3
+- Install better icons, per Ville @ RH bugilla #1211723
+- Mark LICENSE as %%license, per Ville @ RH bugilla #1211723
+- omit deprecated Group: tags and %%clean section
+- Use %%make_install macro
+- Get rid of BuildRoot definition
+- No need to cleanup buildroot during %%install
+- Remove %%defattr
+- Use more macros, where available.
+
+* Mon Jan 5 2015 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-2
+- Update/fix alternatives version.
+
+* Mon Dec 15 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-1
+- Update to 1.20.0 Gold
+
+* Wed Oct 15 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-beta2-1
+- Update to 1.20.0-beta2
+
+* Thu Aug 28 2014 Devrim GUNDUZ <devrim@gunduz.org> 1.20.0-beta1-1
+- Update to 1.20.0-beta1
+
+* Tue Nov 19 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-2
+- Fix file paths, per #118.
+- Fix alternatives version.
+
+* Tue Oct 8 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.1-1
+- Update to 1.18.1
+
+* Fri Aug 30 2013 Devrim GUNDUZ <devrim@gunduz.org> 1.18.0-1
+- Update to 1.18.0 Gold
+
+* Mon Feb 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-4
 - More fixes to the %%preun section.
+
+* Fri Jan 25 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-3
+- Fix typo in init script.
 
 * Wed Jan 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.16.1-2
 - Fix %%post and %%postin issues.
@@ -105,20 +152,11 @@ fi
 * Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.1-1
 - Update to 1.16.1
 
-* Tue Sep 18 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.0-1
-- Update to 1.16.0
-
-* Fri Jun 1 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.14.3-1
-- Update to 1.14.3
-
-* Sat Feb 25 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.14.2-1
-- Update to 1.14.2
-
-* Sun Dec 4 2011 Devrim GUNDUZ <devrim@gunduz.org> 1.14.1-1
-- Update to 1.14.1     
+* Thu Sep 6 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.16.0-1
+- Update to 1.16.0 Gold
 
 * Tue Nov 15 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.14.0-3
--  Fix paths in desktop file paths, per Stephen Blake. Also bump up the
+- Fix paths in desktop file paths, per Stephen Blake. Also bump up the
   alternatives version..
 
 * Mon Oct 31 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.14.0-2
@@ -160,7 +198,7 @@ fi
 - Update patch0
 
 * Tue Jul 15 2008 Devrim GUNDUZ <devrim@gunduz.org> 1.8.4-2
-- Use $RPM_OPT_FLAGS, build with dependency tracking disabled 
+- Use $RPM_OPT_FLAGS, build with dependency tracking disabled
 (#229054). Patch from Ville Skyttä
 
 * Thu Jun 5 2008 Devrim GUNDUZ <devrim@gunduz.org> 1.8.4-1
