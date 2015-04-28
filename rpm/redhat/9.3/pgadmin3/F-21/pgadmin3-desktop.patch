@@ -7,7 +7,7 @@
 -Exec=/usr/bin/pgadmin3
 -Icon=/usr/share/pgadmin3/pgAdmin3.png
 +Exec=/usr/pgsql-9.3/bin/pgadmin3
-+Icon=/usr/share/pgadmin3_93/pgadmin3_93.xpm
++Icon=/usr/share/icons/hicolor/48x48/apps/pgAdmin3.png
  Type=Application
  Categories=Application;Development;
  MimeType=text/html
