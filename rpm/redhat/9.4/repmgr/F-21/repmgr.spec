@@ -12,9 +12,8 @@
 
 Name:           %{sname}%{pgmajorversion}
 Version:        2.0.2
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Replication Manager for	PostgreSQL Clusters
-Group:		Applications/Databases
 License:        GPLv3
 URL:            http://www.repmgr.org
 Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
@@ -22,7 +21,6 @@ Source1:	repmgr-9.4.service
 Source2:	repmgr.init
 Patch0:		repmgr-makefile-pgxs.patch
 Patch1:		repmgr.conf.sample.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -63,12 +61,11 @@ switch-overs and fail-overs.
 %patch1 -p0
 
 %build
-USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
-USE_PGXS=1 make install DESTDIR=%{buildroot}
+USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
@@ -100,6 +97,7 @@ then
 fi
 
 %post
+/sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
 %tmpfiles_create
@@ -108,11 +106,11 @@ fi
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
 
-%clean
-make USE_PGXS=1 clean
+%postun -p /sbin/ldconfig
 
 %files
-%doc COPYRIGHT CREDITS HISTORY LICENSE README.rst TODO
+%doc CREDITS HISTORY LICENSE README.rst TODO
+%license COPYRIGHT
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %config %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
@@ -132,6 +130,14 @@ make USE_PGXS=1 clean
 %endif
 
 %changelog
+* Wed Apr 29 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-3
+- Add %%license macro
+- Omit obsoleted BuildRoot and Group macros.
+- Use %%make_install macro
+- Omit %%clean
+- No need to cleanup buildroot during %%install
+- Run ldconfig
+
 * Tue Mar 24 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-2
 - Add unit file/init script for repmgr. This spec file can be
   used on all platforms.
