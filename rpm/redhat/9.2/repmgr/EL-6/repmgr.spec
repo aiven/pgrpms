@@ -110,8 +110,7 @@ fi
 %postun -p /sbin/ldconfig
 
 %files
-%doc CREDITS HISTORY LICENSE README.rst TODO
-%license COPYRIGHT
+%doc CREDITS HISTORY LICENSE README.rst TODO COPYRIGHT
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %config %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
@@ -134,6 +133,7 @@ fi
 * Fri May 1 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-4
 - chown pid file dir and fix its path.
 - Fix unit file
+- Remove license macro in RHEL 6 spec.
 
 * Wed Apr 29 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-3
 - Add %%license macro
