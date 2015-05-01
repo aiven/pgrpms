@@ -1,0 +1,46 @@
+--- repmgr.conf.sample.old	2015-03-25 07:34:23.602944864 +0000
++++ repmgr.conf.sample	2015-03-25 07:35:17.661332008 +0000
+@@ -6,11 +6,11 @@
+ cluster=test
+ 
+ # Node ID
+-node=2
+-node_name=standby2
++node=1
++node_name=localhost
+ 
+ # Connection information
+-conninfo='host=192.168.204.104'
++conninfo='host=localhost'
+ rsync_options=--archive --checksum --compress --progress --rsh="ssh -o \"StrictHostKeyChecking no\""
+ ssh_options=-o "StrictHostKeyChecking no"
+ 
+@@ -24,8 +24,8 @@
+ # Autofailover options
+ failover=manual
+ priority=-1
+-promote_command='repmgr standby promote -f /path/to/repmgr.conf'
+-follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
++promote_command='/usr/pgsql-9.1/bin/repmgr standby promote -f /etc/repmgr/9.1/repmgr.conf'
++follow_command='/usr/pgsql-9.1/bin/repmgr standby follow -f /etc/repmgr/9.1/repmgr.conf'
+ 
+ # Log level: possible values are DEBUG, INFO, NOTICE, WARNING, ERR, ALERT, CRIT or EMERG
+ # Default: NOTICE
+@@ -36,7 +36,7 @@
+ logfacility=STDERR
+ 
+ # path to pg_ctl executable
+-pg_bindir=/usr/bin/
++pg_bindir=/usr/pgsql-9.1/bin/
+ 
+ #
+ # you may add command line arguments for pg_ctl
+@@ -46,7 +46,7 @@
+ #
+ # redirect stderr to a logfile
+ #
+-# logfile='/var/log/repmgr.log'
++logfile='/var/log/repmgr/repmgr-9.1.log'
+ 
+ #
+ # change monitoring interval; default is 2s
