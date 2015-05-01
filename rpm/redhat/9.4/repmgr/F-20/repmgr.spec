@@ -1,6 +1,6 @@
 %global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
 %global pgpackageversion 9.4
+%global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -8,16 +8,16 @@
 %global systemd_enabled 1
 %endif
 
-%global _varrundir %{_localstatedir}/run/%{name}
+%global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:           %{sname}%{pgmajorversion}
 Version:        2.0.2
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Replication Manager for	PostgreSQL Clusters
 License:        GPLv3
 URL:            http://www.repmgr.org
 Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
-Source1:	repmgr-9.4.service
+Source1:	repmgr-%{pgpackageversion}.service
 Source2:	repmgr.init
 Patch0:		repmgr-makefile-pgxs.patch
 Patch1:		repmgr.conf.sample.patch
@@ -105,6 +105,7 @@ fi
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
+%{__chown} repmgr: %{_localstatedir}/run/%{sname}
 
 %postun -p /sbin/ldconfig
 
@@ -130,6 +131,10 @@ fi
 %endif
 
 %changelog
+* Fri May 1 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-4
+- chown pid file dir and fix its path.
+- Fix unit file
+
 * Wed Apr 29 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-3
 - Add %%license macro
 - Omit obsoleted BuildRoot and Group macros.

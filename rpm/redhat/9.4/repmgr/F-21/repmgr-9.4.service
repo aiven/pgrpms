@@ -19,7 +19,7 @@ User=repmgr
 Group=repmgr
 
 # Location of repmgr conf file:
-Environment=REPMGRDCONF=/etc/repmgrd/9.4/repmgr.conf
+Environment=REPMGRDCONF=/etc/repmgr/9.4/repmgr.conf
 Environment=PIDFILE=/var/run/repmgr/repmgrd-9.4.pid
 Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
 
@@ -27,8 +27,8 @@ Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 ExecStart=/usr/pgsql-9.4/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d ->> ${REPMGRDLOG} 2>&1" 
-ExecStop=/usr/bin/kill -TERM -p ${PIDFILE}
-ExecReload=/usr/bin/kill -HUP -p ${PIDFILE}
+ExecStop=/usr/bin/kill -TERM ${PIDFILE}
+ExecReload=/usr/bin/kill -HUP ${PIDFILE}
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
