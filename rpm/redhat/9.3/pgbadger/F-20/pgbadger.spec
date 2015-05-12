@@ -1,13 +1,11 @@
-Summary:	a fast PostgreSQL log analyzer
+Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	6.4
+Version:	7.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	http://downloads.sourceforge.net/project/%{name}/%{version}/%{name}-%{version}.tar.gz
 URL:		http://dalibo.github.com/pgbadger/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Buildarch:	noarch
+BuildArch:	noarch
 
 %description
 pgBadger is a PostgreSQL log analyzer build for speed with fully
@@ -29,22 +27,25 @@ compressed file.
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
-make %{?_smp_mflags}
+%{__make} %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-make pure_install PERL_INSTALL_ROOT=%{buildroot}
-
-%clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
+%{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
+# Remove .packlist file (per rpmlint)
+%{__rm} -f %{buildroot}/%perl_vendorarch/auto/pgBadger/.packlist
 
 %files
-%defattr(-,root,root,-)
+%doc README LICENSE
 %attr(755,root,root) %{_bindir}/%{name}
-%perl_vendorarch/auto/pgBadger/.packlist
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Tue May 12 2015 - Devrim GÜNDÜZ <devrim@gunduz.org> 7.0-1
+- Update to 7.0
+- Minor spec file cosmetic and rpmlint updates.
+- Spec file cleanups for RHEL 7 and Fedora 20+.
+
 * Wed Apr 15 2015 - Devrim GÜNDÜZ <devrim@gunduz.org> 6.4-1
 - Update to 6.4
 
