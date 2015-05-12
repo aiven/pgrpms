@@ -14,18 +14,18 @@ After=network.target
 
 [Service]
 Type=forking
+RemainAfterExit=yes
 
 User=pgbouncer
 Group=pgbouncer
 
 # Path to the init file
 Environment=BOUNCERCONF=/etc/pgbouncer/pgbouncer.ini
-# Path to the pid file
-Environment=PIDFILE=/var/run/pgbouncer/pgbouncer.pid
 
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
+
 ExecStart=/usr/bin/pgbouncer -d -v ${BOUNCERCONF} 
 ExecReload=/usr/bin/pgbouncer -R -v ${BOUNCERCONF}
 
