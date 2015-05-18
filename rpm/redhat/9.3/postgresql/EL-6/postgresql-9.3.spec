@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.6
-Release:	2PGDG%{?dist}
+Version:	9.3.7
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -938,6 +938,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 19 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.7-1PGDG
+- Update to 9.3.7, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-7.html
+
 * Wed Feb 11 2015 Strahinja Kustudic <strahinjak@nordeus.com> - 9.3.6-2PGDG
 - Remove obsolete /var/log/pgsql
 
