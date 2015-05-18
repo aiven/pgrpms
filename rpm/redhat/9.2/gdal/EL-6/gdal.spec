@@ -1,3 +1,6 @@
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
+
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
 #TODO: Create script to make clean tarball
@@ -33,7 +36,7 @@
 
 Name:      gdal
 Version:   1.9.2
-Release:   5%{?dist}
+Release:   6%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -111,7 +114,7 @@ BuildRequires: numpy
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
-BuildRequires: postgresql-devel
+BuildRequires: postgresql%{pgmajorversion}-devel
 BuildRequires: proj-devel
 BuildRequires: python-devel
 BuildRequires: ruby
@@ -436,7 +439,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --without-msg             \
         --without-openjpeg        \
         --with-pcraster           \
-        --with-pg                 \
+        --with-pg=%{pginstdir}/bin/pg_config                 \
         --with-png                \
         --with-poppler            \
         %{spatialite}             \
@@ -805,6 +808,9 @@ rm -rf %{buildroot}
 #Or as before, using ldconfig
 
 %changelog
+* Mon Aug 25 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-6
+- Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
+
 * Fri Aug 8 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-5
 - Rebuild for new armadillo.
 
