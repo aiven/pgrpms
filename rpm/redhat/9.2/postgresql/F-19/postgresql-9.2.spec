@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.10
-Release:	2PGDG%{?dist}
+Version:	9.2.11
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -983,6 +983,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 19 2015 Devrim Gündüz <devrim@gunduz.org> - 9.2.11-1PGDG
+- Update to 9.2.11, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-11.html
+
 * Thu Feb 12 2015 Strahinja Kustudic <strahinjak@nordeus.com> - 9.2.10-2PGDG
 - Remove obsolete /var/log/pgsql
 
