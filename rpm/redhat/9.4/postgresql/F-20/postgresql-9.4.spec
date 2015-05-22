@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -960,6 +960,7 @@ rm -rf %{buildroot}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}/backups
+%attr(755,postgres,postgres) %dir /var/run/postgresql
 #%attr(644,postgres,postgres) %config(noreplace) /var/lib/pgsql/.bash_profile
 %{pgbaseinstdir}/lib/*_and_*.so
 %{pgbaseinstdir}/share/conversion_create.sql
@@ -1019,6 +1020,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Fri May 22 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.2-2PGDG
+- Create and own /var/run/postgresql directory. Per report from
+  Pete Deffendol.
+
 * Wed May 20 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.2-1PGDG
 - Update to 9.4.2, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-2.html
