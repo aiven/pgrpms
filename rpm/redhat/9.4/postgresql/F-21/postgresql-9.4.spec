@@ -71,7 +71,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.1
+Version:	9.4.2
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -89,9 +89,11 @@ Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
 Source17:	postgresql%{packageversion}-setup
 Source18:	postgresql-%{majorversion}.service
+Source19:	postgresql.tmpfiles.d
 
 Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
+Patch5:		postgresql-var-run-socket.patch
 Patch6:		postgresql-perl-rpath.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
@@ -317,7 +319,7 @@ benchmarks.
 %setup -q -n %{oname}-%{version}
 %patch1 -p1
 %patch3 -p1
-# patch5 is applied later
+%patch5 -p1
 %patch6 -p1
 
 cp -p %{SOURCE12} .
@@ -487,6 +489,13 @@ install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.se
 install -d %{buildroot}/etc/pam.d
 install -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/postgresql%{packageversion}
 %endif
+
+# Create the directory for sockets.
+install -d -m 755 %{buildroot}/var/run/postgresql
+
+# ... and make a tmpfiles script to recreate it at reboot.
+mkdir -p %{buildroot}/%{_tmpfilesdir}
+install -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/postgresql-9.4.conf
 
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
 install -d -m 700 %{buildroot}/var/lib/pgsql/%{majorversion}/data
@@ -903,6 +912,7 @@ rm -rf %{buildroot}
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
+%{_tmpfilesdir}/postgresql-9.4.conf
 %{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
@@ -1009,6 +1019,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed May 20 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.2-1PGDG
+- Update to 9.4.2, per changes described at:
+  http://www.postgresql.org/docs/9.4/static/release-9-4-2.html
+- Add a new patch (Patch5) from Fedora:
+  * Configure postmaster to create sockets in both /var/run/postgresql and /tmp;
+    the former is now the default place for libpq to contact the postmaster.
+- Add tmpfiles.d conf file
+
 * Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.1-1PGDG
 - Update to 9.4.1, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-1.html
