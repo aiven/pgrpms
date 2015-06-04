@@ -71,8 +71,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.2
-Release:	2PGDG%{?dist}
+Version:	9.4.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1020,6 +1020,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Jun 4 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.3-1PGDG
+- Update to 9.4.3, per changes described at:
+  http://www.postgresql.org/docs/9.4/static/release-9-4-3.html
+
 * Fri May 22 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.2-2PGDG
 - Create and own /var/run/postgresql directory. Per report from
   Pete Deffendol.
