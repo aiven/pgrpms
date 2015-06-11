@@ -913,7 +913,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Jun 4 2015 Devrim Gündüz <devrim@gunduz.org> - 9.1.18-1PGDG
+* Thu Jun 11 2015 Devrim Gündüz <devrim@gunduz.org> - 9.1.18-1PGDG
 - Update to 9.1.18, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-18.html
 
