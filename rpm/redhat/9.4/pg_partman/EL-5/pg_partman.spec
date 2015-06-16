@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	1.8.2
+Version:	2.0.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -34,9 +34,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 install -d %{buildroot}%{pginstdir}/share/extension
 install -m 644 README.md  %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 install -m 644 doc/pg_partman.md  %{buildroot}%{pginstdir}/share/extension/
-install -m 644 doc/howto.md %{buildroot}%{pginstdir}/share/extension/%{sname}-howto.md
+install -m 644 doc/pg_partman_howto.md %{buildroot}%{pginstdir}/share/extension/
 rm -f %{buildroot}%{_docdir}/pgsql/extension/pg_partman.md
-rm -f %{buildroot}%{_docdir}/pgsql/extension/howto.md
+rm -f %{buildroot}%{_docdir}/pgsql/extension/pg_partman_howto.md
 
 %clean
 rm -rf %{buildroot}
@@ -45,11 +45,10 @@ rm -rf %{buildroot}
 %defattr(644,root,root,755)
 %doc %{pginstdir}/share/extension/README-%{sname}.md
 %doc %{pginstdir}/share/extension/%{sname}.md
-%doc %{pginstdir}/share/extension/%{sname}-howto.md
+%doc %{pginstdir}/share/extension/%{sname}_howto.md
+%{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ghost %{pginstdir}/bin/*.pyo
-%ghost %{pginstdir}/bin/*.pyc
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
@@ -59,8 +58,8 @@ rm -rf %{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
 
 %changelog
-* Sat Mar 7 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.8.2-1
-- Update to 1.8.2
+* Tue Jun 16 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.0-1
+- Update to 2.0.0
 
 * Wed Feb 25 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.8.0-1
 - Update to 1.8.0
