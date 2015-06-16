@@ -9,9 +9,9 @@ Source:		http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.
 BuildRequires:	libtiff-devel libjpeg-devel proj-devel zlib-devel
 
 %description
-GeoTIFF represents an effort by over 160 different remote sensing, 
-GIS, cartographic, and surveying related companies and organizations 
-to establish a TIFF based interchange format for georeferenced 
+GeoTIFF represents an effort by over 160 different remote sensing,
+GIS, cartographic, and surveying related companies and organizations
+to establish a TIFF based interchange format for georeferenced
 raster imagery.
 
 %package devel
