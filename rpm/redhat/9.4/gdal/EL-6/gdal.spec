@@ -1,3 +1,6 @@
+%global pgmajorversion 94
+%global pginstdir /usr/pgsql-9.4
+
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
 #TODO: Create script to make clean tarball
@@ -33,7 +36,7 @@
 
 Name:      gdal
 Version:   1.9.2
-Release:   6%{?dist}
+Release:   7%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -105,12 +108,13 @@ BuildRequires: giflib-devel
 BuildRequires: netcdf-devel
 BuildRequires: libdap-devel
 BuildRequires: librx-devel
+BuildRequires: mysql-devel
 BuildRequires: numpy
 #BuildRequires: ogdi-devel
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
-BuildRequires: postgresql-devel
+BuildRequires: postgresql%{pgmajorversion}-devel
 BuildRequires: proj-devel
 BuildRequires: python-devel
 BuildRequires: ruby
@@ -428,13 +432,14 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-libtiff=external   \
         --with-libz               \
         --without-mdb             \
+        --with-mysql              \
         --with-netcdf             \
         --with-odbc               \
         --without-ogdi               \
         --without-msg             \
         --without-openjpeg        \
         --with-pcraster           \
-        --with-pg                 \
+        --with-pg=%{pginstdir}/bin/pg_config                 \
         --with-png                \
         --with-poppler            \
         %{spatialite}             \
@@ -681,6 +686,7 @@ pushd %{name}autotest-%{testversion}
 
   # Remove some test cases that would require special preparation
   rm -rf ogr/ogr_pg.py        # No database available
+  rm -rf ogr/ogr_mysql.py     # No database available
   rm -rf osr/osr_esri.py      # ESRI datum absent
   rm -rf osr/osr_erm.py       # File from ECW absent
 
@@ -802,6 +808,10 @@ rm -rf %{buildroot}
 #Or as before, using ldconfig
 
 %changelog
+* Wed Jun 17 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-7
+- Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
+- Re-add MySQL support.
+
 * Tue Nov 25 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-6
 - Remove mysql support
 
