@@ -1,0 +1,10 @@
+/var/log/pgbouncer/pgbouncer.log {
+    missingok
+    compress
+    notifempty
+    sharedscripts
+    create 0640 pgbouncer pgbouncer
+    nodateext
+    weekly
+    rotate 5
+}
