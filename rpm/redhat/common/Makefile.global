@@ -39,6 +39,11 @@ bfsrpm: prep
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
+bfnosignsrpm: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
 rpm: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
@@ -53,6 +58,14 @@ build: bfsrpm
 	--define  "_builddir $(HOME)/rpm/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm/RPMS/" --sign \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nosignbuild: bfnosignsrpm
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpm/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm/RPMS/" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 noprepbuild:
