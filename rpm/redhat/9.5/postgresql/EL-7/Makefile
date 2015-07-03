@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
-SPECFILE="postgresql-9.4.spec"
+SPECFILE="postgresql-9.5.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

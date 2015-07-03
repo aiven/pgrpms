@@ -43,7 +43,6 @@
 # The base package, the lib package, the devel package, and the server package always get built.
 
 %define beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%define kerbdir "/usr"}
 
@@ -52,6 +51,12 @@
 %define packageversion 95
 %define oname postgresql
 %define	pgbaseinstdir	/usr/pgsql-%{majorversion}
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
 
 %{!?test:%define test 1}
 %{!?plpython:%define plpython 1}
@@ -77,8 +82,9 @@ License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://ftp.postgresql.org/pub/source/v%{version}alpha1/postgresql-%{version}alpha1.tar.bz2
+Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}alpha1.tar.bz2
 Source4:	Makefile.regress
+Source3:	postgresql.init
 Source5:	pg_config.h
 Source6:	README.rpm-dist
 Source7:	ecpg_config.h
@@ -155,6 +161,22 @@ BuildRequires:	opensp
 BuildRequires:	docbook-dtds
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	libxslt
+
+%if %{systemd_enabled}
+BuildRequires:		systemd
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
+Requires(postun):	initscripts
+%endif
 
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives
@@ -265,7 +287,6 @@ Provides:	postgresql-plperl
 The postgresql%{packageversion}-plperl package contains the PL/Perl procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Perl.
-
 %endif
 
 %if %plpython
@@ -281,7 +302,6 @@ Provides:	postgresql-plpython
 The postgresql%{packageversion}-plpython package contains the PL/Python procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Python.
-
 %endif
 
 %if %pltcl
@@ -482,8 +502,19 @@ touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
 install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 
 
+%if %{systemd_enabled}
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
+# ... and make a tmpfiles script to recreate it at reboot.
+mkdir -p $RPM_BUILD_ROOT%{_tmpfilesdir}
+cat > $RPM_BUILD_ROOT%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_varrundir} 0755 root root -
+EOF
+%else
+install -d %{buildroot}%{_sysconfdir}/init.d
+install -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/%{name}
+%endif
+
 
 %if %pam
 install -d %{buildroot}/etc/pam.d
@@ -610,24 +641,46 @@ export PGDATA
 # If you want to customize your settings,
 # Use the file below. This is not overridden
 # by the RPMS.
-#[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
+[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
+%if %{systemd_enabled}
+%systemd_post postgresql-%{pgmajorversion}.service
+%tmpfiles_create
+%else
+# This adds the proper /etc/rc*.d links for the script
+chkconfig --add postgresql-%{majorversion}
+%endif
+
 %preun server
+%if %{systemd_enabled}
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable postgresql-%{majorversion}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+	%systemd_preun postgresql-%{pgmajorversion}.service
 fi
+%else
+f [ $1 -eq 0 ] ; then
+	/sbin/service postgresql-%{pgmajorversion} condstop >/dev/null 2>&1
+	/sbin/chkconfig --del postgresql-%{pgmajorversion}
+fi
+%endif
 
 %postun server
 /sbin/ldconfig
+
+%if %{systemd_enabled}
+%systemd_postun_with_restart postgresql-%{pgmajorversion}.service
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-	# Package upgrade, not uninstall
-	/bin/systemctl try-restart postgresql-%{majorversion}.service >/dev/null 2>&1 || :
-fi
+#if [ $1 -ge 1 ] ; then
+#	# Package upgrade, not uninstall
+#	/bin/systemctl try-restart postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+#fi
+%else
+#if [ $1 -ge 1 ] ; then
+    /sbin/service postgresql-%{pgmajorversion} condrestart >/dev/null 2>&1 || :
+#fi
+%endif
 
 %if %plperl
 %post 	-p /sbin/ldconfig	plperl
@@ -651,25 +704,25 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 
 # Create alternatives entries for common binaries and man files
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/clusterdb  pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/createdb   pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/droplang pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/dropdb     pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/droplang   pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/dropuser   pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup    pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pg_dump    pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/reindexdb pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/reindexdb  pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb   pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1  pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1   pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1     pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
@@ -718,6 +771,17 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-vacuumdb		%{pgbaseinstdir}/bin/vacuumdb
 	%{_sbindir}/update-alternatives --remove pgsql-vacuumdbman	%{pgbaseinstdir}/share/man/man1/vacuumdb.1
   fi
+%if %{systemd_enabled}
+%triggerun -- postgresql-%{pgmajorversion}  < 9.4
+# Save the current service runlevel info
+# User must manually run systemd-sysv-convert --apply postgresql-9.5
+# to migrate them to systemd targets
+/usr/bin/systemd-sysv-convert --save postgresql-%{pgmajorversion} >/dev/null 2>&1 ||:
+
+# Run these because the SysV package being removed won't do them
+/sbin/chkconfig --del postgresql-%{pgmajorversion} >/dev/null 2>&1 || :
+/bin/systemctl try-restart postgresql-%{pgmajorversion}.service >/dev/null 2>&1 || :
+%endif
 
 %postun libs
 if [ "$1" -eq 0 ]
@@ -839,7 +903,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/seg.so
 %{pgbaseinstdir}/lib/sslinfo.so
 %{pgbaseinstdir}/lib/refint.so
-%{pgbaseinstdir}/lib/seg.so
 %if %selinux
 %{pgbaseinstdir}/lib/sepgsql.so
 %{pgbaseinstdir}/share/contrib/sepgsql.sql
@@ -922,8 +985,13 @@ rm -rf %{buildroot}
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
+%if %{systemd_enabled}
+%ghost %{_varrundir}
 %{_tmpfilesdir}/postgresql-9.4.conf
 %{_unitdir}/postgresql-%{majorversion}.service
+%else
+%{_sysconfdir}/init.d/postgresql-%{pgmajorversion}
+%endif
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
 %if %pam

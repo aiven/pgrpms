@@ -38,11 +38,9 @@ index abf1586..8c01d48 100644
  #else
  	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = ''");
  #endif
-diff --git a/src/include/pg_config_manual.h b/src/include/pg_config_manual.h
-index 24c5069..aeec705 100644
---- a/src/include/pg_config_manual.h
-+++ b/src/include/pg_config_manual.h
-@@ -144,7 +144,7 @@
+--- postgresql-9.5alpha1/src/include/pg_config_manual.h.old	2015-07-01 20:44:55.220774654 +0300
++++ postgresql-9.5alpha1/src/include/pg_config_manual.h	2015-07-01 20:45:14.265582141 +0300
+@@ -169,7 +169,7 @@
   * here's where to twiddle it.  You can also override this at runtime
   * with the postmaster's -k switch.
   */
@@ -50,4 +48,4 @@ index 24c5069..aeec705 100644
 +#define DEFAULT_PGSOCKET_DIR  "/var/run/postgresql"
  
  /*
-  * The random() function is expected to yield values between 0 and
+  * This is the default event source for Windows event log.
