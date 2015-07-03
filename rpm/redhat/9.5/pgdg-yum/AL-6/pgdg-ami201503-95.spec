@@ -1,7 +1,7 @@
 Name:		pgdg-ami201503-94
-Version:	9.4
+Version:	9.5
 Release:	1
-Summary:	PostgreSQL 9.4.X PGDG RPMs for Amazon Linux AMI 2015.03 - Yum Repository Configuration
+Summary:	PostgreSQL 9.5.X PGDG RPMs for Amazon Linux AMI 2015.03 - Yum Repository Configuration
 License:	BSD
 URL:		http://yum.postgresql.org
 Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
@@ -37,5 +37,5 @@ install -pm 644 %{SOURCE2}  \
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Wed Apr 22 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-1
-- 9.4 set for Amazon Linux AMI 2015.03.
+* Fri Jul 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5-1
+- 9.5 set for Amazon Linux AMI 2015.03.

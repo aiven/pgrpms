@@ -1,18 +1,18 @@
-Name:		pgdg-centos94
-Version:	9.4
+Name:		pgdg-fedora95
+Version:	9.5
 Release:	1
-Summary:	PostgreSQL 9.4.X PGDG RPMs for CentOS - Yum Repository Configuration
-Group:		System Environment/Base 
+Summary:	PostgreSQL 9.5.X PGDG RPMs for Fedora - Yum Repository Configuration
+Group:		System Environment/Base
 License:	BSD
 URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
-Source2:	pgdg-94-centos.repo
+Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
+Source2:	pgdg-95-fedora.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	centos-release
+Requires:	fedora-release
 
 %description
-This package contains yum configuration for CentOS, and also the GPG
+This package contains yum configuration for Fedora, and also the GPG
 key for PGDG RPMs.
 
 %prep
@@ -24,7 +24,7 @@ key for PGDG RPMs.
 rm -rf %{buildroot}
 
 install -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 install -pm 644 %{SOURCE2}  \
@@ -33,8 +33,8 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
-/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
+%post
+/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 %files
 %defattr(-,root,root,-)
@@ -43,10 +43,10 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Thu May 8 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-1
-- 9.4 set
+* Fri Jul 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.5-1
+- 9.5 set
 
-* Sun Apr 21 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3-1
+* Sun Apr 21 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3-1 
 - 9.3 set
 
 * Sun Sep 23 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-6
@@ -70,4 +70,3 @@ rm -rf %{buildroot}
 
 * Thu Sep 9 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-1
 - 9.2 set
-

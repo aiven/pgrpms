@@ -1,12 +1,12 @@
-Name:		pgdg-redhat93
-Version:	9.3
+Name:		pgdg-redhat95
+Version:	9.5
 Release:	1
-Summary:	PostgreSQL 9.3.X PGDG RPMs for RHEL - Yum Repository Configuration
-Group:		System Environment/Base 
+Summary:	PostgreSQL 9.5.X PGDG RPMs for RHEL - Yum Repository Configuration
+Group:		System Environment/Base
 License:	BSD
 URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-93
-Source2:	pgdg-93-redhat.repo
+Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
+Source2:	pgdg-95-redhat.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	redhat-release
@@ -24,7 +24,7 @@ key for PGDG RPMs.
 rm -rf %{buildroot}
 
 install -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-93
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 install -pm 644 %{SOURCE2}  \
@@ -33,8 +33,8 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
-/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-93
+%post
+/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 %files
 %defattr(-,root,root,-)
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Fri Jul 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.5-1
+- 9.5 set
+
 * Sun Apr 21 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3-1 
 - 9.3 set
 
