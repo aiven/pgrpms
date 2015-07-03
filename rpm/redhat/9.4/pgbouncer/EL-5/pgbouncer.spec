@@ -8,7 +8,7 @@
 
 Name:		pgbouncer
 Version:	1.5.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -77,7 +77,7 @@ install -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir}/pgbouncer 0700 pgbouncer pgbouncer -
+d %{_varrundir} 0700 pgbouncer pgbouncer -
 EOF
 
 %else
@@ -157,6 +157,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon Jun 01 2015 Jeff Frost <jeff@pgexperts.com> - 1.5.5-3
+- Fix extra "pgbouncer" added to /var/run/pgbouncer
+
 * Tue May 12 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.5-2
 - Fix service file, per Peter Eisentraut.
 - Fix permissions of unit file and logrotate conf file. Per
