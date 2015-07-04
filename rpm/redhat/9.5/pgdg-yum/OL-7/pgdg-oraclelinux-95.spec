@@ -43,5 +43,5 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Jul 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.5-1
+* Fri Jul 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.5-1
 - 9.5 set
