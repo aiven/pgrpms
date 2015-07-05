@@ -6,9 +6,8 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/wiki/Check_postgres
-Buildarch:	noarch
+BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	perl-ExtUtils-MakeMaker
 
 %description
 check_postgres is a script for monitoring various attributes of your
@@ -25,7 +24,7 @@ make %{?_smp_mflags}
 %install
 rm -rf %{buildroot}
 make %{?_smp_mflags} pure_install DESTDIR=%{buildroot}
-%{__rm} -f %{buildroot}%{_libdir}/perl5/vendor_perl/auto/check_postgres/.packlist
+%{__rm} -f %{buildroot}%{_libdir}/perl5/vendor_perl/5.8.8/i386-linux-thread-multi/auto/%{name}/.packlist
 
 %clean
 rm -rf %{buildroot}
