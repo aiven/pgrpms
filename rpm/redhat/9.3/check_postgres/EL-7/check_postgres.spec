@@ -1,6 +1,6 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
-Version:	2.21.0
+Version:	2.22.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -11,9 +11,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl-ExtUtils-MakeMaker
 
 %description
-check_postgres.pl is a script for checking the state of one or more 
-Postgres databases and reporting back in a Nagios-friendly manner. It is 
-also used for MRTG.
+check_postgres is a script for monitoring various attributes of your
+database. It is designed to work with Nagios, MRTG, or in standalone
+scripts.
 
 %prep
 %setup -q
@@ -37,6 +37,11 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}.pl
 
 %changelog
+* Sun Jul 5 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.22.0-1
+- Update to 2.22.0, per changes described at
+  https://mail.endcrypt.com/pipermail/check_postgres-announce/2015-July/000035.html
+- Update description
+
 * Wed Oct 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.21.0-1
 - Update to 2.21.0
 - Simplify spec file.
