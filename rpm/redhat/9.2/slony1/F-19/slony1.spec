@@ -8,7 +8,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.1.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -26,7 +26,7 @@ BuildRequires:	docbook-style-dsssl postgresql_autodoc docbook-utils
 %endif
 
 %description
-Slony-I is a "master to multiple slaves" replication 
+Slony-I is a "master to multiple slaves" replication
 system for PostgreSQL with cascading and failover.
 
 The big picture for the development of Slony-I is to build
@@ -94,7 +94,7 @@ install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
 
 # change file modes of docs.
-/bin/chmod 644 COPYRIGHT UPGRADING SAMPLE HISTORY-1.1 RELEASE
+%{__chmod} 644 COPYRIGHT UPGRADING SAMPLE HISTORY-1.1 RELEASE
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
@@ -103,9 +103,9 @@ install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Perform some cleanup
-/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
-/bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
-/bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
+%{__rm} -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
+%{__rm} -f %{buildroot}%{_datadir}/pgsql/*.sql
+%{__rm} -f %{buildroot}%{_libdir}/slony1_funcs.so
 
 %clean
 rm -rf %{buildroot}
@@ -114,13 +114,13 @@ rm -rf %{buildroot}
 chkconfig --add %{sname}-%{pgmajorversion}
 if [ ! -e "/var/log/slony1-92" -a ! -h "/var/log/slony1-92" ]
 then
-        mkdir /var/log/slony1-92
-        chown postgres:postgres /var/log/slony1-92
+        %{__mkdir} /var/log/slony1-92
+        %{__chown} postgres:postgres /var/log/slony1-92
 fi
 if [ ! -e "/var/run/slony1-92/" -a ! -h "/var/run/slony1-92/" ]
 then
-        mkdir /var/run/slony1-92
-        chown postgres:postgres /var/run/slony1-92
+        %{__mkdir} /var/run/slony1-92
+        %{__chown} postgres:postgres /var/run/slony1-92
 fi
 
 %preun
@@ -151,6 +151,10 @@ fi
 %endif
 
 %changelog
+* Sun Jul 5 2015 Devrim Gunduz <devrim@gunduz.org> 2.1.4-4
+- Various updates to init script, per Rob Brucks.
+- Cosmetic updates to spec file (using macros)
+
 * Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.1.4-3
 - Fix init script so that it reads the conninfo correctly.
   Per Tomonari Katsumata.

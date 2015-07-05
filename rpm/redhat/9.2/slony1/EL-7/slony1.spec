@@ -7,12 +7,12 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2.4
-Release:	2%{?dist}
+Version:	2.1.4
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
-Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
+Source0:	http://main.slony.info/downloads/2.1/source/%{sname}-%{version}.tar.bz2
 Source2:	filter-requires-perl-Pg.sh
 Source3:	slony1.init
 Source4:	slony1-%{pgmajorversion}.sysconfig
@@ -94,7 +94,7 @@ install -d %{buildroot}%{_sysconfdir}/sysconfig
 install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
 
 # change file modes of docs.
-/bin/chmod 644 COPYRIGHT UPGRADING SAMPLE RELEASE
+%{__chmod} 644 COPYRIGHT UPGRADING SAMPLE HISTORY-1.1 RELEASE
 
 # Install init script
 install -d %{buildroot}%{_initrddir}
@@ -103,24 +103,24 @@ install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 cd tools
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Perform some cleanup
-/bin/rm -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
-/bin/rm -f %{buildroot}%{_datadir}/pgsql/*.sql
-/bin/rm -f %{buildroot}%{_libdir}/slony1_funcs.so
+%{__rm} -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
+%{__rm} -f %{buildroot}%{_datadir}/pgsql/*.sql
+%{__rm} -f %{buildroot}%{_libdir}/slony1_funcs.so
 
 %clean
 rm -rf %{buildroot}
 
 %post
 chkconfig --add %{sname}-%{pgmajorversion}
-if [ ! -e "/var/log/slony1-93" -a ! -h "/var/log/slony1-93" ]
+if [ ! -e "/var/log/slony1-92" -a ! -h "/var/log/slony1-92" ]
 then
-        mkdir /var/log/slony1-93
-        chown postgres:postgres /var/log/slony1-93
+        %{__mkdir} /var/log/slony1-92
+        %{__chown} postgres:postgres /var/log/slony1-92
 fi
-if [ ! -e "/var/run/slony1-93/" -a ! -h "/var/run/slony1-93/" ]
+if [ ! -e "/var/run/slony1-92/" -a ! -h "/var/run/slony1-92/" ]
 then
-        mkdir /var/run/slony1-93
-        chown postgres:postgres /var/run/slony1-93
+        %{__mkdir} /var/run/slony1-92
+        %{__chown} postgres:postgres /var/run/slony1-92
 fi
 
 %preun
@@ -136,7 +136,7 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%attr(644,root,root) %doc COPYRIGHT UPGRADING INSTALL SAMPLE RELEASE
+%attr(644,root,root) %doc COPYRIGHT UPGRADING HISTORY-1.1 INSTALL SAMPLE RELEASE
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
@@ -151,28 +151,15 @@ fi
 %endif
 
 %changelog
-* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-2
+* Sun Jul 5 2015 Devrim Gunduz <devrim@gunduz.org> 2.1.4-4
+- Various updates to init script, per Rob Brucks.
+- Cosmetic updates to spec file (using macros)
+
+* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.1.4-3
 - Fix init script so that it reads the conninfo correctly.
   Per Tomonari Katsumata.
-- Fix major version number in init script.
 
-* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-1
-- Update to 2.2.4
-
-* Wed Jul 9 2014 Devrim Gunduz <devrim@gunduz.org> 2.2.3-1
-- Update to 2.2.3
-
-* Wed Feb 12 2014 Devrim Gunduz <devrim@gunduz.org> 2.2.2-1
-- Update to 2.2.2
-
-* Sat Nov 9 2013 Devrim Gunduz <devrim@gunduz.org> 2.2.1-1
-- Update to 2.2.1
-
-* Tue Sep 10 2013 Devrim Gunduz <devrim@gunduz.org> 2.2.0-1
-- Update to 2.2.0
-- Trim changelog.
-
-* Fri Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
+* Tue Aug 23 2013 Xavier Bergade <XavierB@benon.com> 2.1.4-2
 - Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
 - Set the correct path for LOGDIR in the slon_tools.conf file
 
@@ -242,3 +229,136 @@ fi
 
 * Tue Dec 2 2008 Devrim Gunduz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
+
+* Mon Sep 22 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.15-3
+- Add dependency for perl-DBD-Pg, per Xavier Bergade.
+
+* Sun Sep 21 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.15-2
+- Fix dependency issues caused by latest commit.
+
+* Fri Sep 12 2008 Devrim Gunduz <devtrim@CommandPrompt.com> 1.2.15-1
+- Update to 1.2.15
+- Install tools written in perl, too.
+
+* Fri May 16 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.14-1
+- Update to 1.2.14
+
+* Wed Apr 2 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.13-2
+- Fix init script name.
+
+* Sun Feb 10 2008 Devrim Gunduz <devrim@gunduz.org> 1.2.13-1
+- Update to 1.2.13
+
+* Mon Dec 17 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.12-2
+- Add flex and byacc to buildrequires, per Michael Best
+
+* Tue Nov 13 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.12-1
+- Update to 1.2.12
+
+* Wed Aug 29 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.11-1
+- Update to 1.2.11
+- Remove the word "engine" from init script name.
+
+* Mon Aug 6 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.10-2
+- Fix Source0
+- Spec file cleanup (removed macro for perltools)
+- Added initscripts as BR.
+- Fix doc package installation path (and ownership issue)
+
+* Wed Jun 13 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.10-1
+- Update to 1.2.10
+
+* Mon Jun 11 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.9-3
+- Add BuildRequires for docs subpackage, per #199154 (Thanks Ruben).
+
+* Sun Jun 3 2007 Devrim Gunduz <devrim@gunduz.org> 1.2.9-2
+- Some more fixes for Fedora review.
+- Remove executable bits from docs.
+
+* Thu May 17 2007 Devrim Gunduz <devrim@gunduz.org>
+- Install init script with rpm.
+- Fix --with-pgconfigdir parameter.
+- Fix rpm build problem when the system has pg_config in both under
+  /usr/local/pgsql/bin and /usr/bin
+
+* Wed Mar 22 2007 Christopher Browne <cbbrowne@ca.afilias.info>
+- Added more recent release notes
+
+* Wed Mar 7 2007 Christopher Browne <cbbrowne@ca.afilias.info>
+- Added more recent release notes
+
+* Thu Jan 4 2007 Devrim Gunduz <devrim@gunduz.org>
+- Add docs package (It should be added before but...)
+
+* Wed Nov 8 2006 Devrim Gunduz <devrim@gunduz.org>
+- On 64-bit boxes, both 32 and 64 bit -devel packages may be installed.
+  Fix version check script
+- Revert tar name patch
+- Macros cannot be used in various parts of the spec file. Revert that commit
+- Spec file cleanup
+
+* Tue Oct 31 2006 Trevor Astrope <astrope@sitesell.com>
+- Fixup tar name and install slon-tools as slon-tools.pm
+
+* Mon Jul 17 2006 Devrim Gunduz <devrim@gunduz.org> postgresql-slony1-engine
+- Updated spec and cleaned up rpmlint errors and warnings
+
+* Wed Dec 21 2005 Devrim Gunduz <devrim@gunduz.org> postgresql-slony1-engine
+- Added a buildrhel3 macro to fix RHEL 3 RPM builds
+- Added a kerbdir macro
+
+* Wed Dec 14 2005 Devrim Gunduz <devrim@gunduz.org> postgresql-slony1-engine
+- Fixed the spec file so that during upgrade, conf files will not be replaced, and a .rpmnew will be created.
+
+* Thu Nov 24 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Created bindir
+
+* Wed Oct 26 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Modify CPPFLAGS and CFLAGS to fix builds on RHEL -- Per Philip Yarra
+
+* Tue Oct 18 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Created a new package : -docs and moved all the docs there.
+
+* Tue Oct 18 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Fixed the problem in http://gborg.postgresql.org/pipermail/slony1-general/2005-October/003105.html
+
+* Sat Oct 01 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Upgrade to 1.1.1
+
+* Tue Jul 12 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Added a line to check postgresql RPM version and tag SlonyI RPM with it.
+- Updated Requires files so that it checks correct PostgreSQL version
+- Moved autoconf line into correct place.
+
+* Thu Jun 08 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Added UPGRADING, HISTORY-1.1, INSTALL, SAMPLE among installed files, reflecting the change in GNUMakefile.in
+
+* Thu Jun 02 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Apply a new %docs macro and disable building of docs by default.
+- Remove slon-tools.conf-sample from bindir.
+- Removed --bindir and --libdir, since they are not needed.
+
+* Mon Apr 10 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- More fixes on RPM builds
+
+* Thu Apr 07 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- More fixes on RPM builds
+
+* Tue Apr 04 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Fix RPM build errors, regarding to tools/
+
+* Thu Apr 02 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Added docs to installed files list.
+- Added perltools, so that tools/altperl may be compiled.
+- Updated the spec file
+
+* Thu Mar 17 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Update to 1.1.0beta1
+- Remove PostgreSQL source dependency
+
+* Thu Mar 17 2005 Devrim Gunduz <devrim@PostgreSQL.org> postgresql-slony1-engine
+- Fix RPM builds
+
+* Thu Mar 18 2004 Daniel Berrange <berrange@redhat.com> postgresql-slony1-engine
+- Initial RPM packaging
+

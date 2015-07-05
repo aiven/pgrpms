@@ -17,10 +17,19 @@
 # v2.0.1 Devrim GÜNDÜZ <devrim@gunduz.org>
 # Fix init script so that it reads the conninfo
 # correctly. Per Tomonari Katsumata.
+#
+# v2.0.2.RS Rob Brucks <rob.brucks@rackspace.com>
+# Heavily modified as needed:
+#  - moved sysconfig file override code to proper location
+#  - fixed "status" to check for daemon based on pidfile
+#  - added code to prevent multiple daemons from starting for the same configs
+#  - changed code to leverage /etc/init.d/functions
+#  - added code to allow for multiple concurrent daemons, pids, and configs based on script name
+#  - added code to clean up pid file in case of daemon crash
+#  - changed "stop" command to only kill the watchdog daemon based on associated pid file
+#  - set return codes to Linux LSB init script standards
+#      per http://refspecs.linuxbase.org/LSB_3.1.0/LSB-Core-generic/LSB-Core-generic/iniscrptact.html
 
-if [ -r /etc/sysconfig/slony1-95 ]; then
-    . /etc/sysconfig/slony1-95
-fi
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -54,86 +63,127 @@ fi
 # Set defaults for configuration variables
 SLONENGINE=/usr/pgsql-9.5/bin
 SLONDAEMON=$SLONENGINE/slon
-SLONCONF=/etc/slony1-95/slon.conf
-SLONPID=/var/run/slony1-95/slon.pid
-SLONLOGDIR=/var/log/slony1-95
+SLONCONF=/etc/${NAME}/slon.conf
+SLONPID=/var/run/slony1-95/${NAME}.pid
+SLONLOGDIR=/var/log/${NAME}
+
+# read in overrides for defaults
+if [ -r /etc/sysconfig/${NAME} ]; then
+    . /etc/sysconfig/${NAME}
+fi
 
 test -x $SLONDAEMON || exit 5
 
 
-script_result=0
+RETVAL=0
+RC=0
 
 start(){
-	SLON_START=$"Starting ${NAME} service: "
-
-	echo -n "$SLON_START"
-	$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME \"$SLONCONNINFO\" &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
-	sleep 2
-
-	pid=`pidof -s "$SLONDAEMON"`
-	if [ $pid ] 
-	then
-		success "$SLON_START"
-		touch /var/lock/subsys/${NAME}
-		echo
+	echo -n "Starting ${NAME} service: "
+	if [ $EUID -ne 0 ]; then
+		RC=4
+		failure
 	else
-		failure "$PSQL_START"
-		echo
-		script_result=1
+		# if pidfile exists and slony is running, then return
+		if [ -f $SLONPID ]; then
+			if [[ -n `slon_status | grep "running"` ]]
+			then
+				echo
+				return 0
+			fi
+		fi
+
+		$SU -l postgres -c "$SLONDAEMON -f $SLONCONF -p $SLONPID $SLONCLUSTERNAME \"$SLONCONNINFO\" &" >> "$SLONLOGDIR/slonystartup.log" 2>&1 < /dev/null
+		sleep 2
+		RC=$?
+	
+		if [[ $RC -eq 0 && -n `slon_status | grep "running"` ]]
+		then
+			success
+			touch /var/lock/subsys/${NAME}
+		else
+			failure
+			rm -f "/var/lock/subsys/${NAME}"
+			RC=7
+		fi
 	fi
+	echo
+	return $RC
 }
 
 stop(){
 	echo -n $"Stopping ${NAME} service: "
-        if [ $UID -ne 0 ]; then
-                RETVAL=1
-                failure
-        else
-                killproc /usr/bin/slon
-                RETVAL=$?
-                [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/${NAME}
-        fi;
-        echo
-        return $RETVAL
+	if [ $EUID -ne 0 ]; then
+		RC=4
+		failure
+	else
+		if [ -f $SLONPID ]; then
+			killproc -p $SLONPID slon
+			RC=$?
+			[ $RC -eq 0 ] && rm -f "$SLONPID"
+		else
+			failure
+		fi
+		rm -f /var/lock/subsys/${NAME}
+	fi
+	echo
+	return $RC
 }
 
 restart(){
-    stop
-    start
+	stop
+	start
+	return $?
 }
 
 condrestart(){
-    [ -e /var/lock/subsys/${NAME} ] && restart
+	[ -e /var/lock/subsys/${NAME} ] && restart
+	return $?
 }
 
 condstop(){
-    [ -e /var/lock/subsys/${NAME} ] && stop
+	[ -e /var/lock/subsys/${NAME} ] && stop
+	return $?
+}
+
+slon_status(){
+	status -p $SLONPID $SLONDAEMON
+	return $?
 }
 
 # See how we were called.
-case "$1" in
-  start)
-        start
-        ;;
-  stop)
-        stop
-        ;;
-  status)
-        status slon
-        script_result=$?
-        ;;
-  restart)
-        restart
-        ;;
-  condrestart)
-        condrestart
-        ;;
-  condstop)
-        condstop
-        ;;
-  *)
-        echo $"Usage: $0 {start|stop|status|restart|condrestart|condstop}"
-        exit 1
-esac
+	case "$1" in
+	start)
+		start
+		RETVAL=$?
+		;;
+	stop)
+		stop
+		RETVAL=$?
+		;;
+	status)
+		slon_status
+		RETVAL=$?
+		;;
+	reload)
+		echo 'reload not implemented'
+		RETVAL=3
+		;;
+	restart)
+		restart
+		RETVAL=$?
+		;;
+	condrestart)
+		condrestart
+		RETVAL=$?
+		;;
+	condstop)
+		condstop
+		RETVAL=$?
+		;;
+	*)
+		echo $"Usage: $0 {start|stop|status|restart|condrestart|condstop}"
+		RETVAL=2
+	esac
 
-exit $script_result
+exit $RETVAL
