@@ -1,8 +1,8 @@
 # It's not recommended to modify this file in-place, because it will be
 # overwritten during package upgrades.  If you want to customize, the
-# best way is to create a file "/etc/systemd/system/pgagent-9.4.service",
+# best way is to create a file "/etc/systemd/system/pgagent-9.5.service",
 # containing
-#	.include /lib/systemd/system/pgagent-9.4.service
+#	.include /lib/systemd/system/pgagent-9.5.service
 #	...make your changes here...
 # For more info about custom unit files, see
 # http://fedoraproject.org/wiki/Systemd#How_do_I_customize_a_unit_file.2F_add_a_custom_unit_file.3F
@@ -11,7 +11,7 @@
 # configuration as well.
 
 [Unit]
-Description=PgAgent for PostgreSQL 9.4
+Description=PgAgent for PostgreSQL 9.5
 After=syslog.target
 After=network.target
 
@@ -26,7 +26,7 @@ Environment=DBNAME=postgres
 Environment=DBUSER=postgres
 Environment=DBHOST=127.0.0.1
 Environment=DBPORT=5432
-Environment=LOGFILE=/var/log/pgagent_94.log
+Environment=LOGFILE=/var/log/pgagent_95.log
 
 # Where to send early-startup messages from the server (before the logging
 # options of pgagent.conf take effect)
@@ -36,8 +36,8 @@ Environment=LOGFILE=/var/log/pgagent_94.log
 # Disable OOM kill on the postmaster
 OOMScoreAdjust=-1000
 
-ExecStart=/usr/bin/pgagent_94 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
-ExecStop=/usr/bin/kill -TERM /usr/bin/pgagent_94
+ExecStart=/usr/bin/pgagent_95 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
+ExecStop=/usr/bin/kill -TERM /usr/bin/pgagent_95
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
