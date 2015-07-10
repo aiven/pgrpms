@@ -17,6 +17,8 @@ Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
+# To be removed when 2.0.8 is out:
+Source5:	postgis-2.0.7-pg95.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,8 +38,8 @@ Provides:	%{sname} = %{version}-%{release}
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
 database. In effect, PostGIS "spatially enables" the PostgreSQL server,
 allowing it to be used as a backend spatial database for geographic information
-systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS 
-follows the OpenGIS "Simple Features Specification for SQL" and has been 
+systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+follows the OpenGIS "Simple Features Specification for SQL" and has been
 certified as compliant with the "Types and Functions" profile.
 
 %package client
@@ -112,10 +114,13 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship 
+# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship
 # postgis-2.0.so file along with 2.1 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
+# To be removed when 2.0.8 is out:
+patch -p0 < %{SOURCE5}
+
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
 	 --disable-rpath --libdir=%{pginstdir}/lib
 
@@ -194,10 +199,15 @@ rm -rf %{buildroot}
 * Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
 - Update to 2.1.8, per changes described at:
   http://postgis.net/2015/07/07/postgis-2.1.8
+- Add a temp patch so that 2.0.7 can be built against 9.5
 
 * Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.7
+
+* Fri Mar 27 2015 Devrim Gündüz <devrim@gunduz.org> - 2.1.6-1
+- Update to 2.1.6, per changes described at:
+  http://postgis.net/2015/03/20/postgis-2.1.6
 
 * Sun Dec 21 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-1
 - Update to 2.1.5, per changes described at:
