@@ -1,15 +1,15 @@
 %global postgismajorversion 2.1
 %global postgisprevmajorversion 2.0
 %global postgisprevversion 2.0.7
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
 %global sname	postgis
 %{!?utils:%define	utils 1}
 %{!?raster:%define	raster 1}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.7
+Version:	2.1.8
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -191,6 +191,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
+- Update to 2.1.8, per changes described at:
+  http://postgis.net/2015/07/07/postgis-2.1.8
+
 * Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.7

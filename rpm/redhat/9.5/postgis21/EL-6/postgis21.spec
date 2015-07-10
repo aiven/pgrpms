@@ -9,8 +9,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.7
-Release:	2%{?dist}
+Version:	2.1.8
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -193,6 +193,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
+- Update to 2.1.8, per changes described at:
+  http://postgis.net/2015/07/07/postgis-2.1.8
+
 * Fri Apr 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-2
 - Re-enable raster support, which broke upgrades.
 
