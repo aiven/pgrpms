@@ -49,6 +49,8 @@ rm -rf %{buildroot}
 %{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ghost %{pginstdir}/bin/*.pyo
+%ghost %{pginstdir}/bin/*.pyc
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
