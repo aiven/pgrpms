@@ -9,7 +9,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.1.7
+Version:	2.1.8
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -37,8 +37,8 @@ Provides:	%{sname} = %{version}-%{release}
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
 database. In effect, PostGIS "spatially enables" the PostgreSQL server,
 allowing it to be used as a backend spatial database for geographic information
-systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS 
-follows the OpenGIS "Simple Features Specification for SQL" and has been 
+systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+follows the OpenGIS "Simple Features Specification for SQL" and has been
 certified as compliant with the "Types and Functions" profile.
 
 %package client
@@ -193,6 +193,10 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
+- Update to 2.1.8, per changes described at:
+  http://postgis.net/2015/07/07/postgis-2.1.8
+
 * Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.7
@@ -250,16 +254,16 @@ rm -rf %{buildroot}
 
 * Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0beta3-1
 - Update to 2.1.0 beta3
-- Support multiple version installation 
+- Support multiple version installation
 - Split "client" tools into a separate subpackage, per
   http://wiki.pgrpms.org/ticket/108
 - Bump up alternatives version.
 - Add dependency for mysql-devel, since Fedora / EPEL gdal packages
   are built with MySQL support, too. (for now). This is needed for
   raster support.
-- Push raster support into conditionals, so that we can use similar 
+- Push raster support into conditionals, so that we can use similar
   spec files for RHEL and Fedora.
-- Add a patch to get rid of dependency hell from gdal. Per 
+- Add a patch to get rid of dependency hell from gdal. Per
   http://lists.osgeo.org/pipermail/postgis-devel/2013-June/023605.html
   and a tweet from Mike Toews.
 
@@ -267,7 +271,7 @@ rm -rf %{buildroot}
 - Provide postgis, to satisfy OS dependencies. Per #79.
 
 * Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
-- Update to 2.0.3 
+- Update to 2.0.3
 
 * Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2.
