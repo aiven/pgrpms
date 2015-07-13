@@ -1,5 +1,5 @@
-%global pgmajorversion 92
-%global pginstdir /usr/pgsql-9.2
+%global pgmajorversion 91
+%global pginstdir /usr/pgsql-9.1
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 1
