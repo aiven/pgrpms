@@ -1,11 +1,11 @@
---- Makefile.old	2015-01-20 20:23:32.303907023 +0200
-+++ Makefile	2015-01-20 20:23:44.850766990 +0200
+--- Makefile.old	2015-07-13 14:20:34.824022694 +0300
++++ Makefile	2015-07-13 14:20:46.464903048 +0300
 @@ -7,7 +7,7 @@
- DATA = uninstall_orafce.sql orafce--3.0.14.sql orafce--unpackaged--3.0.14.sql
+ DATA = uninstall_orafce.sql orafce--3.1.sql orafce--unpackaged--3.1.sql
  DOCS = README.asciidoc COPYRIGHT.orafce INSTALL.orafce
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.0/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.5/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
  VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
@@ -14,7 +14,7 @@
  include $(top_srcdir)/contrib/contrib-global.mk
  else
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.0/bin/pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  endif
