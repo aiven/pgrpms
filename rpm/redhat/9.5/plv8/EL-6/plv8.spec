@@ -2,19 +2,19 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname	plv8
 
-Summary:	PostgreSQL procedural language powered by V8 JavaScript Engine
-Name:		plv8_%{pgmajorversion}
-Version:	1.4.2
+Summary:	 V8 Engine Javascript Procedural Language add-on for PostgreSQL
+Name:		%{sname}_%{pgmajorversion}
+Version:	1.4.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		plv8-makefile.patch
-URL:		http://code.google.com/p/plv8js/wiki/PLV8
+Source0:	https://github.com/%{sname}/%{sname}/archive/v%{version}.tar.gz
+Patch0:		%{sname}-makefile.patch
+URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel
-Requires:	postgresql%{pgmajorversion}, v8
+BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++ >= 4.5.1
+Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
 
 %description
 plv8 is a shared library that provides a PostgreSQL procedural language
@@ -26,28 +26,32 @@ your function that is callable from SQL.
 %patch0 -p0
 
 %build
-make %{?_smp_mflags} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot} %{?_smp_mflags}
-rm -f  %{buildroot}%{_datadir}/*.sql
+%{__rm} -f  %{buildroot}%{_datadir}/*.sql
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc COPYRIGHT README Changes doc/plv8.md
-%{pginstdir}/lib/plv8.so
+%doc COPYRIGHT README Changes doc/%{sname}.md
+%{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/plcoffee--%{version}.sql
 %{pginstdir}/share/extension/plcoffee.control
 %{pginstdir}/share/extension/plls--%{version}.sql
 %{pginstdir}/share/extension/plls.control
-%{pginstdir}/share/extension/plv8--%{version}.sql
-%{pginstdir}/share/extension/plv8.control
+%{pginstdir}/share/extension/%{sname}--%{version}.sql
+%{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Jul 23 2015 Devrim Gündüz <devrim@gunduz.org> 1.4.4-1
+- Update to 1.4.4
+- Update URL
+
 * Wed Jul 9 2014 Devrim Gündüz <devrim@gunduz.org> 1.4.2-1
 - Update to 1.4.2
 
