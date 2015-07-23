@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f22
+DIST=.rhel6
 SPECFILE="pg_track_settings.spec"
 
 # Now, include global Makefile
