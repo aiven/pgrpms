@@ -13,7 +13,7 @@ Patch0:		%{sname}-makefile.patch
 URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++ >= 4.5.1
+BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
 Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
 
 %description
