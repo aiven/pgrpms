@@ -18,8 +18,8 @@
 # v2.3 Devrim GUNDUZ <devrim@gunduz.org>
 # - Adjust order of startup and kill, per RH bugzilla #545739.
 
-if [ -r /etc/sysconfig/pgpool-II-94 ]; then
-    . /etc/sysconfig/pgpool-II-94
+if [ -r /etc/sysconfig/pgpool-II-95 ]; then
+    . /etc/sysconfig/pgpool-II-95
 fi
 
 # Source function library.
@@ -52,11 +52,11 @@ else
 fi
 
 # Set defaults for configuration variables
-PGPOOLENGINE=/usr/pgpool-9.4/bin
+PGPOOLENGINE=/usr/pgpool-9.5/bin
 PGPOOLDAEMON=$PGPOOLENGINE/pgpool
-PGPOOLCONF=/etc/pgpool-II-94/pgpool.conf
-PGPOOLPIDDIR=/var/run/pgpool-II-94
-PGPOOLLOG=/var/log/pgpool-II-94.log
+PGPOOLCONF=/etc/pgpool-II-95/pgpool.conf
+PGPOOLPIDDIR=/var/run/pgpool-II-95
+PGPOOLLOG=/var/log/pgpool-II-95.log
 
 test -x $PGPOOLDAEMON || exit 5
 

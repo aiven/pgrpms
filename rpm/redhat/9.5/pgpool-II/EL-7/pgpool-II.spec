@@ -1,6 +1,6 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
-%global pgpoolinstdir /usr/pgpool-9.4
+%global pgpoolinstdir /usr/pgpool-9.5
 %global sname pgpool-II
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -12,7 +12,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.4.2
+Version:		3.4.3
 Release:		1%{?dist}
 License:		BSD
 Group:			Applications/Databases
@@ -273,6 +273,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Wed Aug 5 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-1
+- Update to 3.4.3, per changes described at:
+  http://www.pgpool.net/docs/pgpool-II-3.4.3/NEWS.txt
+
 * Wed Apr 8 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2, per changes described at:
   http://www.pgpool.net/docs/pgpool-II-3.4.2/NEWS.txt
