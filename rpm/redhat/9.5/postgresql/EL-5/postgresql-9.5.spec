@@ -19,13 +19,14 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2013 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
 # ---------------
 # Lamar Owen
 # Tom Lane
+# Jeff Frost
 # Peter Eisentraut
 # Alvaro Herrera
 # David Fetter
@@ -69,13 +70,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.0
-Release:	alpha1_1PGDG%{?dist}
+Version:	9.5
+Release:	alpha2_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
+Source0:	https://ftp.postgresql.org/pub/source/v%{version}alpha2/postgresql-%{version}alpha2.tar.bz2
 Source3:	postgresql.init
 Source4:	Makefile.regress
 Source5:	pg_config.h
@@ -93,6 +94,11 @@ Patch8:		postgresql-prefer-ncurses.patch
 
 BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig initscripts
+
+%if %plperl
+BuildRequires: perl-ExtUtils-Embed
+BuildRequires: perl(ExtUtils::MakeMaker)
+%endif
 
 %if %plpython
 BuildRequires:	python-devel
@@ -127,7 +133,7 @@ BuildRequires:	pam-devel
 %endif
 
 %if %uuid
-BuildRequires:	e2fsprogs-devel
+BuildRequires:	libuuid-devel
 %endif
 
 %if %ldap
@@ -295,7 +301,7 @@ system, including regression tests and benchmarks.
 %define __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{oname}-%{version}
+%setup -q -n %{oname}-%{version}alpha2
 %patch1 -p1
 %patch3 -p1
 # patch5 is applied later
@@ -498,6 +504,7 @@ cp /dev/null plpython.lst
 %find_lang pg_ctl-%{majorversion}
 %find_lang pg_dump-%{majorversion}
 %find_lang pg_resetxlog-%{majorversion}
+%find_lang pg_rewind-%{majorversion}
 %find_lang pgscripts-%{majorversion}
 %if %plperl
 %find_lang plperl-%{majorversion}
@@ -518,7 +525,7 @@ cat pltcl-%{majorversion}.lang > pg_pltcl.lst
 
 cat libpq5-%{majorversion}.lang > pg_libpq5.lst
 cat pg_config-%{majorversion}.lang ecpg-%{majorversion}.lang ecpglib6-%{majorversion}.lang > pg_devel.lst
-cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pg_basebackup-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
+cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pg_basebackup-%{majorversion}.lang pg_rewind-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
 cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
 
 %pre server
@@ -668,14 +675,20 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/dropdb
 %{pgbaseinstdir}/bin/droplang
 %{pgbaseinstdir}/bin/dropuser
+%{pgbaseinstdir}/bin/pgbench
+%{pgbaseinstdir}/bin/pg_archivecleanup
 %{pgbaseinstdir}/bin/pg_basebackup
 %{pgbaseinstdir}/bin/pg_config
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
 %{pgbaseinstdir}/bin/pg_isready
 %{pgbaseinstdir}/bin/pg_restore
+%{pgbaseinstdir}/bin/pg_rewind
 %{pgbaseinstdir}/bin/pg_test_fsync
 %{pgbaseinstdir}/bin/pg_receivexlog
+%{pgbaseinstdir}/bin/pg_test_timing
+%{pgbaseinstdir}/bin/pg_upgrade
+%{pgbaseinstdir}/bin/pg_xlogdump
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -686,6 +699,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/dropdb.*
 %{pgbaseinstdir}/share/man/man1/droplang.*
 %{pgbaseinstdir}/share/man/man1/dropuser.*
+%{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_basebackup.*
 %{pgbaseinstdir}/share/man/man1/pg_config.*
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
@@ -693,6 +707,12 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
 %{pgbaseinstdir}/share/man/man1/pg_receivexlog.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
+%{pgbaseinstdir}/share/man/man1/pg_rewind.1
+%{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
+%{pgbaseinstdir}/share/man/man1/pg_test_timing.1
+%{pgbaseinstdir}/share/man/man1/pg_upgrade.1
+%{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
+%{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
 %{pgbaseinstdir}/share/man/man1/vacuumdb.*
@@ -719,38 +739,45 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/citext.so
 %{pgbaseinstdir}/lib/cube.so
 %{pgbaseinstdir}/lib/dblink.so
-%{pgbaseinstdir}/lib/dummy_seclabel.so
 %{pgbaseinstdir}/lib/earthdistance.so
 %{pgbaseinstdir}/lib/file_fdw.so*
 %{pgbaseinstdir}/lib/fuzzystrmatch.so
 %{pgbaseinstdir}/lib/insert_username.so
 %{pgbaseinstdir}/lib/isn.so
 %{pgbaseinstdir}/lib/hstore.so
-%{pgbaseinstdir}/lib/passwordcheck.so
-%{pgbaseinstdir}/lib/pg_freespacemap.so
-%{pgbaseinstdir}/lib/pg_stat_statements.so
-%{pgbaseinstdir}/lib/pgrowlocks.so
-%{pgbaseinstdir}/lib/postgres_fdw.so
-%{pgbaseinstdir}/lib/sslinfo.so
+%if %plperl
+%{pgbaseinstdir}/lib/hstore_plperl.so
+%endif
+%if %plpython
+%{pgbaseinstdir}/lib/hstore_plpython2.so
+%endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
+%if %plpython
+%{pgbaseinstdir}/lib/ltree_plpython2.so
+%endif
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
+%{pgbaseinstdir}/lib/passwordcheck.so
 %{pgbaseinstdir}/lib/pgcrypto.so
+%{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
+%{pgbaseinstdir}/lib/pg_freespacemap.so
 %{pgbaseinstdir}/lib/pg_prewarm.so
+%{pgbaseinstdir}/lib/pg_stat_statements.so
 %{pgbaseinstdir}/lib/pg_trgm.so
-%{pgbaseinstdir}/lib/pg_upgrade_support.so
+%{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
+%{pgbaseinstdir}/lib/sslinfo.so
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
 %{pgbaseinstdir}/lib/test_decoding.so
-%{pgbaseinstdir}/lib/test_shm_mq.so
 %{pgbaseinstdir}/lib/timetravel.so
+%{pgbaseinstdir}/lib/tsm_system_rows.so
+%{pgbaseinstdir}/lib/tsm_system_time.so
 %{pgbaseinstdir}/lib/unaccent.so
-%{pgbaseinstdir}/lib/worker_spi.so
 %if %xml
 %{pgbaseinstdir}/lib/pgxml.so
 %endif
@@ -793,37 +820,24 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/sslinfo*
 %{pgbaseinstdir}/share/extension/tablefunc*
 %{pgbaseinstdir}/share/extension/tcn*
-%{pgbaseinstdir}/share/extension/test_parser*
-%{pgbaseinstdir}/share/extension/test_shm_mq*
 %{pgbaseinstdir}/share/extension/timetravel*
 %{pgbaseinstdir}/share/extension/tsearch2*
+%{pgbaseinstdir}/share/extension/tsm_system_rows*
+%{pgbaseinstdir}/share/extension/tsm_system_time*
 %{pgbaseinstdir}/share/extension/unaccent*
 %if %uuid
 %{pgbaseinstdir}/share/extension/uuid-ossp*
 %endif
-%{pgbaseinstdir}/share/extension/worker_spi*
 %{pgbaseinstdir}/share/extension/xml2*
 %{pgbaseinstdir}/bin/oid2name
-%{pgbaseinstdir}/bin/pgbench
 %{pgbaseinstdir}/bin/vacuumlo
-%{pgbaseinstdir}/bin/pg_archivecleanup
 %{pgbaseinstdir}/bin/pg_recvlogical
 %{pgbaseinstdir}/bin/pg_standby
-%{pgbaseinstdir}/bin/pg_test_timing
-%{pgbaseinstdir}/bin/pg_upgrade
-%{pgbaseinstdir}/bin/pg_xlogdump
 %{pgbaseinstdir}/share/man/man1/oid2name.1
-%{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
-%{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
-%{pgbaseinstdir}/share/man/man1/pg_test_timing.1
-%{pgbaseinstdir}/share/man/man1/pg_upgrade.1
-%{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
-%{pgbaseinstdir}/share/man/man1/pgbench.1
+%{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
-
-
 
 %files libs -f pg_libpq5.lst
 %defattr(-,root,root)
@@ -832,7 +846,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%config(noreplace)%attr (644,root,root) %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
+%config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
@@ -872,7 +886,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/plpgsql.so
 %dir %{pgbaseinstdir}/share/extension
 %{pgbaseinstdir}/share/extension/plpgsql*
-%{pgbaseinstdir}/lib/test_parser.so
 %{pgbaseinstdir}/lib/tsearch2.so
 
 %dir %{pgbaseinstdir}/lib
@@ -894,10 +907,10 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpq.so
 %{pgbaseinstdir}/lib/libecpg.so
 %{pgbaseinstdir}/lib/libpq.a
+%{pgbaseinstdir}/lib/libpgcommon.a
 %{pgbaseinstdir}/lib/libecpg.a
 %{pgbaseinstdir}/lib/libecpg_compat.so
 %{pgbaseinstdir}/lib/libecpg_compat.a
-%{pgbaseinstdir}/lib/libpgcommon.a
 %{pgbaseinstdir}/lib/libpgport.a
 %{pgbaseinstdir}/lib/libpgtypes.so
 %{pgbaseinstdir}/lib/libpgtypes.a
@@ -939,6 +952,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Sep 1 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5alpha2-1PGDG
+- Initial cut for 9.5 alpha2
+- Move pg_archivecleanup, pg_test_fsync, pg_test_timing, pg_xlogdump,
+  pgbench, and pg_upgrade to main package.
+- Remove dummy_seclabel, test_shm_mq, test_parser, and worker_spi.
+
 * Thu Jun 11 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4.4-1PGDG
 - Update to 9.4.4, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-4.html
@@ -979,7 +998,6 @@ rm -rf %{buildroot}
 * Tue Jul 22 2014 Devrim Gündüz <devrim@gunduz.org> - 9.4beta2-1PGDG
 - Update to 9.4 beta 2
 
-- Fix permissions of postgresql-94-libs.conf, per Christoph Berg.
 * Thu May 15 2014 Jeff Frost <jeff@pgexperts.com> - 9.4beta1-1PGDG
 - Update to 9.4 beta 1
 - Fix permissions of postgresql-94-libs.conf, per Christoph Berg.
@@ -1066,7 +1084,7 @@ rm -rf %{buildroot}
 - Update to 9.2.1, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-1.html
 - Add new functionality: Upgrade from previous version.
-  Usage: service postgresql-9.2	upgrade
+  Usage: service postgresql-9.2 upgrade
 - Fix version number in initdb warning message, per Jose Pedro Oliveira.
 
 * Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.0-1PGDG
@@ -1076,24 +1094,23 @@ rm -rf %{buildroot}
   -contrib subpackage.
 - Re-enable -test subpackage, removed accidentally.
 
-* Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2PGDG
+* Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2
 - Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
-* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1PGDG
+* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1
 - Update to 9.2 RC1
 
-* Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1PGDG
+* Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1
 - Update to 9.2 beta4, which also includes fixes for CVE-2012-3489
   and CVE-2012-3488.
 
-* Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1PGDG
+* Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1
 - Update to 9.2 beta3
 
-* Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1PGDG
+* Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1
 - Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143,
   CVE-2012-2655.
 
-* Fri May 18 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta1-1PGDG
+* Fri May 18 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta1-1
 - Initial cut for 9.2 Beta 1
-
