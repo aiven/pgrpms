@@ -128,7 +128,7 @@ BuildRequires:	pam-devel
 %endif
 
 %if %uuid
-BuildRequires:	libuuid-devel
+BuildRequires:	e2fsprogs-devel
 %endif
 
 %if %ldap
