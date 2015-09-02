@@ -1,11 +1,11 @@
-Name:		pgdg-ami201503-94
+Name:		pgdg-ami201503-95
 Version:	9.5
 Release:	1
 Summary:	PostgreSQL 9.5.X PGDG RPMs for Amazon Linux AMI 2015.03 - Yum Repository Configuration
 License:	BSD
 URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
-Source2:	pgdg-94-ami201503.repo
+Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
+Source2:	pgdg-95-ami201503.repo
 BuildArch:	noarch
 Requires:	system-release
 
@@ -22,14 +22,14 @@ key for PGDG RPMs.
 rm -rf %{buildroot}
 
 install -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 install -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %post
-/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
+/bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
 %files
 %config %{_sysconfdir}/yum.repos.d/*
