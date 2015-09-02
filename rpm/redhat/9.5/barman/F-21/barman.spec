@@ -9,7 +9,7 @@ Version:	1.4.1
 Release:	1%{?dist}
 License:	GPLv3
 Url:		http://www.pgbarman.org/
-Source0:	http://garr.dl.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.cron
 Source2:	%{name}.logrotate
 BuildArch:	noarch
