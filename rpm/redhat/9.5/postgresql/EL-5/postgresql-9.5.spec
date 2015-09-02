@@ -95,11 +95,6 @@ Patch8:		postgresql-prefer-ncurses.patch
 BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig initscripts
 
-%if %plperl
-BuildRequires: perl-ExtUtils-Embed
-BuildRequires: perl(ExtUtils::MakeMaker)
-%endif
-
 %if %plpython
 BuildRequires:	python-devel
 %endif
