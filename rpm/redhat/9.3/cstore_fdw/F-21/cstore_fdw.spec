@@ -4,7 +4,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -45,6 +45,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Sep 07 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-1
+- Update to 1.3
+
 * Thu Mar 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
