@@ -26,8 +26,8 @@ Environment=BOUNCERCONF=/etc/pgbouncer/pgbouncer.ini
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 
-ExecStart=/usr/bin/pgbouncer -d -v ${BOUNCERCONF} 
-ExecReload=/usr/bin/pgbouncer -R -v ${BOUNCERCONF}
+ExecStart=/usr/bin/pgbouncer -d -q ${BOUNCERCONF}
+ExecReload=/usr/bin/pgbouncer -R -q ${BOUNCERCONF}
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300

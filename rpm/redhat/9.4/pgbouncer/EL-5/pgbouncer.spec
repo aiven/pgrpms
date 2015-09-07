@@ -7,12 +7,12 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.5.5
-Release:	3%{?dist}
+Version:	1.6.1
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
-Source0:	https://pgbouncer.github.io/downloads/%{name}-%{version}.tar.gz
+Source0:	https://pgbouncer.github.io/downloads/files/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
@@ -105,7 +105,7 @@ install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 %endif
 %{__mkdir} -m 700 %{_localstatedir}/log/pgbouncer
 %{__chown} -R pgbouncer:pgbouncer %{_localstatedir}/log/pgbouncer
-%{__chown} -R pgbouncer:pgbouncer /var/run/pgbouncer >/dev/null 2>&1 || :
+%{__chown} -R pgbouncer:pgbouncer %{_varrundir} >/dev/null 2>&1 || :
 
 %pre
 groupadd -r pgbouncer >/dev/null 2>&1 || :
@@ -157,8 +157,11 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
-* Mon Jun 01 2015 Jeff Frost <jeff@pgexperts.com> - 1.5.5-3
-- Fix extra "pgbouncer" added to /var/run/pgbouncer
+* Mon Sep 7 2015 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
+- Update to 1.6.1
+- Fix startup issues: The tmpfiles.d file was not created
+  correctly, causing startup failures due to permissions.
+- Fix systemd file: Use -q, not -v.
 
 * Tue May 12 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.5-2
 - Fix service file, per Peter Eisentraut.

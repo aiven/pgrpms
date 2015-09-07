@@ -7,19 +7,17 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.5.5
-Release:	2%{?dist}
+Version:	1.6.1
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
-Group:		Applications/Databases
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
-Source0:	https://pgbouncer.github.io/downloads/%{name}-%{version}.tar.gz
+Source0:	https://pgbouncer.github.io/downloads/files/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	libevent-devel >= 2.0
 Requires:	initscripts
@@ -38,6 +36,9 @@ Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
+# This is for older releases:
+Group:		Applications/Databases
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 Requires:	/usr/sbin/useradd
 
@@ -60,7 +61,7 @@ sed -i.fedora \
 make %{?_smp_mflags} V=1
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 # Install sysconfig file
 install -p -d %{buildroot}%{_sysconfdir}/%{name}/
@@ -71,7 +72,7 @@ install -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 
 %if %{systemd_enabled}
 install -d %{buildroot}%{_unitdir}
-install -m 755 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
+install -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -86,7 +87,7 @@ install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
 
 # Install logrotate file:
 install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
-install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # Remove duplicated files
 %{__rm} -f %{buildroot}%{_docdir}/%{name}/pgbouncer.ini
@@ -102,10 +103,9 @@ install -p -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
 %endif
-touch /var/log/pgbouncer.log
-chmod 0700 /var/log/pgbouncer.log
-chown pgbouncer:pgbouncer /var/log/pgbouncer.log
-chown -R pgbouncer:pgbouncer /var/run/pgbouncer >/dev/null 2>&1 || :
+%{__mkdir} -m 700 %{_localstatedir}/log/pgbouncer
+%{__chown} -R pgbouncer:pgbouncer %{_localstatedir}/log/pgbouncer
+%{__chown} -R pgbouncer:pgbouncer %{_varrundir} >/dev/null 2>&1 || :
 
 %pre
 groupadd -r pgbouncer >/dev/null 2>&1 || :
@@ -137,6 +137,9 @@ rm -rf %{buildroot}
 
 %files
 %doc README NEWS AUTHORS
+%if %{systemd_enabled}
+%license COPYRIGHT
+%endif
 %dir %{_sysconfdir}/%{name}
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
@@ -154,8 +157,19 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
-* Mon Jun 01 2015 Jeff Frost <jeff@pgexperts.com> - 1.5.5-2
-- Fix extra "pgbouncer" added to /var/run/pgbouncer
+* Mon Sep 7 2015 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
+- Update to 1.6.1
+- Fix startup issues: The tmpfiles.d file was not created
+  correctly, causing startup failures due to permissions.
+- Fix systemd file: Use -q, not -v.
+
+* Tue May 12 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.5-2
+- Fix service file, per Peter Eisentraut.
+- Fix permissions of unit file and logrotate conf file. Per
+  Peter Eisentraut.
+- Fix logrotate configuration. Per Peter Eisentraut.
+- Apply some spec file fixes so that we can use it on all
+  platforms.
 
 * Fri Apr 17 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.5-1
 - Update to 1.5.5
