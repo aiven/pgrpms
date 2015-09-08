@@ -11,11 +11,11 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{sname}-%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake
@@ -29,11 +29,22 @@ Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Routing functionality for PostgreSQL/PostGIS system.
+pgRouting extends the PostGIS / PostgreSQL geospatial database to
+provide geospatial routing functionality.
+
+Advantages of the database routing approach are:
+
+- Data and attributes can be modified by many clients, like QGIS and
+uDig through JDBC, ODBC, or directly using Pl/pgSQL. The clients can
+either be PCs or mobile devices)
+- Data changes can be reflected instantaneously through the routing
+engine. There is no need for precalculation.
+- The “cost” parameter can be dynamically calculated through SQL and its
+value can come from multiple fields or tables.
 
 %prep
 
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -55,20 +66,20 @@ cd build
 %{__make}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %{__make} -C build install \
 	DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc README.md BOOST_LICENSE_1_0.txt 
+%doc README.md BOOST_LICENSE_1_0.txt
 %attr(755,root,root) %{pginstdir}/lib/librouting.so
 %if %{tsp_support}
 %attr(755,root,root) %{pginstdir}/lib/librouting_tsp.so
@@ -82,6 +93,10 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+- Improve description
+
 * Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 
