@@ -33,7 +33,7 @@
 Summary:	Development module for Python code to access a PostgreSQL DB
 Name:		postgresql%{pgmajorversion}-python
 Version:	4.1.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		0
 License:	BSD
 Group:		Applications/Databases
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Wed Sep 9 2015 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-2PGDG
+- Remove dependency of mx, per Jimmy Angelakos.
+
 * Tue Jan 15 2013 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-1PGDG
 - Update to 4.1.1
 
