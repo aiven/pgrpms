@@ -4,7 +4,7 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.1
+Version:	1.3.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -44,6 +44,9 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 rm -rf %{buildroot}
 
 %changelog
+* Wed Sep 9 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
+- Update to 1.3.2
+
 * Thu Mar 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
 - Update to 1.3.1
 
