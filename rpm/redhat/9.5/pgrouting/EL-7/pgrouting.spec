@@ -1,7 +1,7 @@
 %global postgismajorversion 2.1
 %global pgroutingmajorversion 2.0
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
 %global sname	pgrouting
 
 # Add Traveling Salesperson functionality
@@ -15,7 +15,7 @@ Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{sname}-%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake

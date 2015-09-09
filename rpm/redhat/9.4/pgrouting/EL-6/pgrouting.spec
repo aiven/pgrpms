@@ -15,7 +15,7 @@ Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{sname}-%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake
