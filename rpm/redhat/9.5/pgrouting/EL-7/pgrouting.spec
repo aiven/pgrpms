@@ -10,7 +10,7 @@ Version:	%{pgroutingmajorversion}.0
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{sname}-%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
