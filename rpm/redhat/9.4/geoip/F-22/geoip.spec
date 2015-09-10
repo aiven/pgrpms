@@ -4,7 +4,7 @@
 
 Summary:	Geolocation using GeoIP for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.2.3
+Version:	0.2.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,10 +41,13 @@ rm -rf %{buildroot}
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%{pginstdir}/share/extension/%{sname}--0.2.3.sql
+%{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/uninstall_%{sname}.sql
 
 %changelog
+* Thu Sep 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.2.4-1
+- Update to 0.2.4
+
 * Wed Jan 21 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.2.3-1
 - Initial packaging for PostgreSQL RPM Repository
