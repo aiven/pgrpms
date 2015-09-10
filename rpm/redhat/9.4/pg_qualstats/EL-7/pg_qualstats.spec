@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	0.0.4
+Version:	0.0.6
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -55,5 +55,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.6-1
+- Update to 0.0.6
+
 * Tue Mar 17 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.4-1
 - Initial RPM packaging for PostgreSQL RPM Repository
