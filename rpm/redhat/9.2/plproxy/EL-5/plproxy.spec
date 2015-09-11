@@ -3,13 +3,13 @@
 %global sname plproxy
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
-Name:           %{sname}%{pgmajorversion}
-Version:	2.5
+Name:		%{sname}%{pgmajorversion}
+Version:	2.6
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	BSD
-URL:		https://github.com/markokr/plproxy-dev
-Source0:	https://github.com/markokr/%{sname}-dev/archive/%{sname}_2_5.tar.gz
+URL:		https://plproxy.github.io
+Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -20,7 +20,7 @@ Requires:	postgresql%{pgmajorversion}
 PL/Proxy is database partitioning system implemented as PL language.
 
 %prep
-%setup -q -n %{sname}-dev-%{sname}_2_5
+%setup -q -n %{sname}-%{version}
 %patch0 -p1
 
 %build
@@ -35,15 +35,19 @@ rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README NEWS AUTHORS COPYRIGHT
+%doc README.md AUTHORS COPYRIGHT
 %{pginstdir}/lib/plproxy.so
-%{pginstdir}/share/extension/plproxy--2.3.0--2.5.0.sql
-%{pginstdir}/share/extension/plproxy--2.4.0--2.5.0.sql
-%{pginstdir}/share/extension/plproxy--2.5.0.sql
-%{pginstdir}/share/extension/plproxy--unpackaged--2.5.0.sql
+%{pginstdir}/share/extension/plproxy--2.3.0--2.6.0.sql
+%{pginstdir}/share/extension/plproxy--2.4.0--2.6.0.sql
+%{pginstdir}/share/extension/plproxy--2.5.0--2.6.0.sql
+%{pginstdir}/share/extension/plproxy--2.6.0.sql
+%{pginstdir}/share/extension/plproxy--unpackaged--2.6.0.sql
 %{pginstdir}/share/extension/plproxy.control
 
 %changelog
+* Fri Sep 11 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.6-1
+- Update to 2.6
+
 * Tue Jan 15 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.5-1
 - Update to 2.5
 
