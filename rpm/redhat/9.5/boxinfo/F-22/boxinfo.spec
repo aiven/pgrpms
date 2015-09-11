@@ -11,11 +11,11 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 
 %description
-boxinfo is a Perl script for quickly gathering all sorts of interesting 
-information about a particular computer, which is then put into a HTML 
-or MediaWiki page. It is very handy for being able to see a quick 
-overview of the boxes that you are responsible for. The script has a 
-highly developed Postgres section. It was developed at End Point 
+boxinfo is a Perl script for quickly gathering all sorts of interesting
+information about a particular computer, which is then put into a HTML
+or MediaWiki page. It is very handy for being able to see a quick
+overview of the boxes that you are responsible for. The script has a
+highly developed Postgres section. It was developed at End Point
 Corporation by Greg Sabino Mullane.
 
 %prep
