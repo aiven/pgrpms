@@ -1,29 +1,29 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.2
+Version:	2.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://downloads.sourceforge.net/project/%{name}/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 URL:		http://pgcluu.darold.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 
 %description
 gCluu is a PostgreSQL performances monitoring and auditing tool.
-View reports of all statistics collected from your PostgreSQL 
+View reports of all statistics collected from your PostgreSQL
 databases cluster. pgCluu will show you the entire information
 of the PostgreSQL cluster and the system utilization
 
 %prep
-%setup -q 
+%setup -q
 
+%build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
-
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make pure_install PERL_INSTALL_ROOT=%{buildroot}
 
 %clean
@@ -38,6 +38,11 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Fri Sep 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.4-1
+- Update to 2.4
+- Fix rpmlint warning (add %%build section)
+- Update download URL
+
 * Sun Jan 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 
