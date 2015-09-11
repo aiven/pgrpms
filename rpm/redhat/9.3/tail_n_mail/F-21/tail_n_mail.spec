@@ -1,6 +1,6 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	1.26.3
+Version:	1.27.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -11,11 +11,11 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 
 %description
-tail_n_mail (sometimes abbreviated TNM or tnm) is a Perl script for 
-automatically detecting interesting items that appear in log files 
-and mailing them out to interested parties. It is primarily aimed 
-at Postgres log files but can be used for any files. It was developed 
-at End Point Corporation by Greg Sabino Mullane. 
+tail_n_mail (sometimes abbreviated TNM or tnm) is a Perl script for
+automatically detecting interesting items that appear in log files
+and mailing them out to interested parties. It is primarily aimed
+at Postgres log files but can be used for any files. It was developed
+at End Point Corporation by Greg Sabino Mullane.
 
 %prep
 cp -p %{SOURCE0} %{name}.pl
@@ -41,6 +41,9 @@ rm -rf %{buildroot}
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
+* Fri Sep 11 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.27.0-1
+- Update to 1.27.0
+
 * Wed Dec 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.3-1
 - Update to 1.26.3
 
