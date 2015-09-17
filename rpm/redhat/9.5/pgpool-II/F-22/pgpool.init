@@ -52,13 +52,17 @@ else
 fi
 
 # Set defaults for configuration variables
+PGPOOLUSER=postgres
 PGPOOLENGINE=/usr/pgpool-9.5/bin
 PGPOOLDAEMON=$PGPOOLENGINE/pgpool
 PGPOOLCONF=/etc/pgpool-II-95/pgpool.conf
 PGPOOLPIDDIR=/var/run/pgpool-II-95
 PGPOOLLOG=/var/log/pgpool-II-95.log
 
-test -x $PGPOOLDAEMON || exit 5
+/var/lock/subsys/${NAME}
+pidfile="$PGPOOLPIDDIR/pgpool.pid"
+
+text -x $PGPOOLDAEMON || exit 5
 
 # Check whether the config file exists or not
 if [ ! -r $PGPOOLCONF ]
@@ -106,7 +110,7 @@ start(){
 	if [ $pid ] 
 	then
 		success "$PGPOOL_START"
-		touch /var/lock/subsys/${NAME}
+		touch "${lockfile}"
 		echo
 	else
 		failure "$PGPOQL_START"
@@ -124,7 +128,7 @@ stop(){
 		killproc /usr/bin/pgpool
 #		$PGPOOLDAEMON stop & >> "$PGPOOLLOG" 2>&1 < /dev/null
                 RETVAL=$?
-                [ $RETVAL -eq 0 ] && rm -f /var/lock/subsys/${NAME}
+                [ $RETVAL -eq 0 ] && rm -f ${lockfile}
         fi;
         echo
         return $RETVAL
@@ -162,11 +166,11 @@ reload(){
 }
 
 condrestart(){
-	[ -e /var/lock/subsys/${NAME} ] && restart
+	[ -e "${lockfile}" ] && restart
 }
 
 condstop(){
-	[ -e /var/lock/subsys/${NAME} ] && stop
+	[ -e "${lockfile}" ] && stop
 }
 
 # See how we were called.
