@@ -5,7 +5,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
@@ -50,10 +50,13 @@ unlink %{_bindir}/%{sname}
 %files
 %defattr(-,root,root,-)
 %{pginstdir}/bin/pg_top
-%{pginstdir}/share/man/man1/pg_top.1
+%{pginstdir}/man/man1/pg_top.1
 %doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Fri Sep 18 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-4
+- Fix path of man file on RHEL 5. No idea why this happens, though.
+
 * Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-3
 - Fix alternatives path and version.
 
