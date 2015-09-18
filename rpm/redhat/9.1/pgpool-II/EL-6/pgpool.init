@@ -17,10 +17,10 @@
 #
 # v2.3 Devrim GUNDUZ <devrim@gunduz.org>
 # - Adjust order of startup and kill, per RH bugzilla #545739.
-
-if [ -r /etc/sysconfig/pgpool-II-91 ]; then
-    . /etc/sysconfig/pgpool-II-91
-fi
+#
+# v2.4 Jeff Frost <jeff@pgexperts.com>
+# - Bring pgpool init script more in line with
+#   pgpool community init script
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -40,7 +40,7 @@ TYPESET=`typeset -f|grep "declare"`
 NAME=`basename $0`
 if [ ${NAME:0:1} = "S" -o ${NAME:0:1} = "K" ]
 then
-	NAME=${NAME:3}
+    NAME=${NAME:3}
 fi
 
 # For SELinux we need to use 'runuser' not 'su'
@@ -62,6 +62,11 @@ PGPOOLLOG=/var/log/pgpool-II-91.log
 lockfile="/var/lock/subsys/${NAME}"
 pidfile="$PGPOOLPIDDIR/pgpool.pid"
 
+# Import configuration from /etc/sysconfig, if it exists
+if [ -r /etc/sysconfig/pgpool-II-91 ]; then
+    . /etc/sysconfig/pgpool-II-91
+fi
+
 test -x $PGPOOLDAEMON || exit 5
 
 # Check whether the config file exists or not
@@ -77,13 +82,13 @@ fi
 if [ ! -x $PGPOOLLOG ]
 then
     touch $PGPOOLLOG
-    chown postgres: $PGPOOLLOG
+    chown ${PGPOOLUSER}: $PGPOOLLOG
 fi
 
 if [ ! -d $PGPOOLPIDDIR ]
 then
     mkdir $PGPOOLPIDDIR
-    chown postgres: $PGPOOLPIDDIR
+    chown ${PGPOOLUSER}: $PGPOOLPIDDIR
 fi
 
 script_result=0
