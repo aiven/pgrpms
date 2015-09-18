@@ -98,7 +98,7 @@ start(){
     if [ $pid ]
     then
         echo "pgpool is already running with pid $pid"
-        failure "$PGPOQL_START"
+        failure "$PGPOOL_START"
         echo
         script_result=1
         exit 1
@@ -118,7 +118,7 @@ start(){
         touch "${lockfile}"
         echo
     else
-        failure "$PGPOQL_START"
+        failure "$PGPOOL_START"
         echo
         script_result=1
     fi
