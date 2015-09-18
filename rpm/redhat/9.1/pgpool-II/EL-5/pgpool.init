@@ -18,7 +18,7 @@
 # v2.3 Devrim GUNDUZ <devrim@gunduz.org>
 # - Adjust order of startup and kill, per RH bugzilla #545739.
 #
-# v2.4 Jeff Frost <jeff@pgexperts.com>
+# v3.4 Jeff Frost <jeff@pgexperts.com>
 # - Bring pgpool init script more in line with
 #   pgpool community init script
 
@@ -138,20 +138,6 @@ stop(){
         return $RETVAL
 }
 
-switch() {
-    echo -n $"Sending switchover request to $NAME "
-    $PGPOOLDAEMON -f $PGPOOLCONF switch >> "$PGPOOLLOG" 2>&1 < /dev/null
-    RETVAL=$?
-    echo
-    if [ $RETVAL -eq 0 ]
-    then
-        echo_success
-    else
-        echo_failure
-    fi
-    echo
-}
-
 restart(){
     stop
     start
@@ -185,9 +171,6 @@ case "$1" in
   stop)
         stop
         ;;
-  switch)
-        switch
-        ;;
   status)
         status pgpool
         script_result=$?
@@ -205,7 +188,7 @@ case "$1" in
         condstop
         ;;
   *)
-        echo $"Usage: $0 {start|stop|switch|status|restart|condrestart|condstop|reload|force-reload}"
+        echo $"Usage: $0 {start|stop|status|restart|condrestart|condstop|reload|force-reload}"
         exit 1
 esac
 
