@@ -5,12 +5,12 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	1.4.0
+Version:	1.5.0
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
-Source0:	http://garr.dl.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
+Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.cron
 Source2:	%{name}.logrotate
 BuildRoot: 	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
@@ -72,6 +72,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Tue Sep 29 2015 Jeff Frost <jeff@pgexperts.com> - 1.5.0-1
+- Update to 1.5.0, per changes described in:
+  http://www.pgbarman.org/barman-1-5-0-released/
+
 * Tue Jan 27 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0, per changes described in:
    http://sourceforge.net/projects/pgbarman/files/1.4.0
