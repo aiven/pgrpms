@@ -20,7 +20,7 @@
  # stderr can be redirected to an arbitrary file:
  #
 -# logfile='/var/log/repmgr.log'
-+logfile='/var/log/repmgr/repmgr-9.4.log'
++logfile='/var/log/repmgr/repmgr-9.5.log'
  
  # event notifications can be passed to an arbitrary external program
  # together with the following parameters:
@@ -40,8 +40,8 @@
 -promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
 -
-+promote_command='/usr/pgsql-9.5/bin/repmgr standby promote -f /etc/repmgr/9.4/repmgr.conf'
-+follow_command='/usr/pgsql-9.5/bin/repmgr standby follow -f /etc/repmgr/9.4/repmgr.conf'
++promote_command='/usr/pgsql-9.5/bin/repmgr standby promote -f /etc/repmgr/9.5/repmgr.conf'
++follow_command='/usr/pgsql-9.5/bin/repmgr standby follow -f /etc/repmgr/9.5/repmgr.conf'
 + 
  # monitoring interval; default is 2s
  #

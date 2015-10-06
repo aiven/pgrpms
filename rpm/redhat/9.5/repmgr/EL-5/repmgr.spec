@@ -1,5 +1,5 @@
 %global pgmajorversion 95
-%global pgpackageversion 9.4
+%global pgpackageversion 9.5
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -11,7 +11,7 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:           %{sname}%{pgmajorversion}
-Version:        3.0.1
+Version:        3.0.2
 Release:        1%{?dist}
 Summary:        Replication Manager for PostgreSQL Clusters
 License:        GPLv3
@@ -52,7 +52,7 @@ perform administrative tasks such as failover or manual switchover operations.
 
 repmgr has provided advanced support for PostgreSQL's built-in replication
 mechanisms since they were introduced in 9.0, and repmgr 2.0 supports all
-PostgreSQL versions from 9.0 to 9.4. With further developments in replication
+PostgreSQL versions from 9.0 to 9.5. With further developments in replication
 functionality such as cascading replication, timeline switching and base
 backups via the replication protocol, the repmgr team has decided to use
 PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
@@ -146,6 +146,9 @@ fi
 %endif
 
 %changelog
+* Tue Oct 6 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-1
+- Update to 3.0.2
+
 * Tue May 12 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
 - Update to 3.0.1
 - Update description and some other minor places.

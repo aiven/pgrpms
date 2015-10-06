@@ -9,7 +9,7 @@
 # Provides: repmgrd
 # Required-Start: $local_fs $remote_fs $network $syslog $named
 # Required-Stop: $local_fs $remote_fs $network $syslog $named
-# Should-Start: postgresql-9.5
+# Should-Start: postgresql-9.3
 # Short-Description: Start repmgrd daemon
 # Description: repmgrd is replication manager, and failover management tool
 ### END INIT INFO
@@ -24,13 +24,13 @@ then
        	NAME=${NAME:3}
 fi
 
-exec=/usr/pgsql-9.5/bin/repmgrd
+exec=/usr/pgsql-9.3/bin/repmgrd
 user=repmgr
 prog=repmgrd
-pidfile=/var/run/repmgr/repmgrd-9.5.pid
+pidfile=/var/run/repmgr/repmgrd-9.3.pid
 lockfile=/var/lock/subsys/$prog
-REPMGRDCONF=/etc/repmgr/9.5/repmgr.conf
-REPMGRDLOG=/var/log/repmgr/repmgrd-9.5.log
+REPMGRDCONF=/etc/repmgr/9.3/repmgr.conf
+REPMGRDLOG=/var/log/repmgr/repmgrd-9.3.log
 
 # Get config.
 . /etc/sysconfig/network
@@ -122,7 +122,7 @@ case "$1" in
         restart
         ;;
   status)
-	status -p $pidfile repmgr-9.5
+	status -p $pidfile repmgr-9.3
 	script_result=$?
 
         ;;
