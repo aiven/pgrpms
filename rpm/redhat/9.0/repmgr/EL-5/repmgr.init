@@ -1,0 +1,134 @@
+#!/bin/sh
+#
+# repmgrd     Start repmgrd daemon
+#
+# chkconfig: - 64 36
+# description: repmgrd is a replication manager, and failover management tool for PostgreSQL
+
+## BEGIN INIT INFO
+# Provides: repmgrd
+# Required-Start: $local_fs $remote_fs $network $syslog $named
+# Required-Stop: $local_fs $remote_fs $network $syslog $named
+# Should-Start: postgresql-9.0
+# Short-Description: Start repmgrd daemon
+# Description: repmgrd is replication manager, and failover management tool
+### END INIT INFO
+
+# Source function library.
+. /etc/rc.d/init.d/functions
+
+# Find the name of the script
+NAME=`basename $0`
+if [ ${NAME:0:1} = "S" -o ${NAME:0:1} = "K" ]
+then
+       	NAME=${NAME:3}
+fi
+
+exec=/usr/pgsql-9.0/bin/repmgrd
+user=repmgr
+prog=repmgrd
+pidfile=/var/run/repmgr/repmgrd-9.0.pid
+lockfile=/var/lock/subsys/$prog
+REPMGRDCONF=/etc/repmgr/9.0/repmgr.conf
+REPMGRDLOG=/var/log/repmgr/repmgrd-9.0.log
+
+# Get config.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+[ "${NETWORKING}" = "no" ] && exit 6
+start(){
+        [ -x $exec ] || exit 5
+        [ -f "$REPMGRDCONF" ] || exit 6
+        echo -n "Starting $prog: "
+
+        # Make sure startup-time log file is valid
+        if [ ! -e "$REPMGRDLOG" -a ! -h "$REPMGRDLOG" ]
+        then
+                touch "$REPMGRDLOG" || exit 1
+                chown $user: "$REPMGRDLOG"
+                chmod go-rwx "$REPMGRDLOG"
+                [ -x /usr/bin/chcon ] && /usr/bin/chcon -u system_u -r object_r -t postgresql_log_t "$REPMGRDLOG" 2>/dev/null
+        fi
+
+        mkdir -p $(dirname $pidfile)
+        chown $user: $(dirname $pidfile)
+
+	su -l repmgr -c "$exec -f $REPMGRDCONF -p $pidfile -d ->> $REPMGRDLOG 2>&1" $user # --monitoring-history --verbose
+        retval=$?
+	[ $retval -eq 0 ] && success 
+        echo
+        [ $retval -eq 0 ] && touch $lockfile
+        return $retval
+}
+
+stop(){
+        echo -n "Stopping $prog: "
+        killproc -p $pidfile $prog -TERM
+        retval=$?
+        echo
+        [ $retval -eq 0 ] && rm -f $lockfile
+        return $retval
+}
+
+restart(){
+        if rh_status_q; then
+                stop
+		start
+        else
+                start
+        fi
+}
+reload(){
+        echo -n "Reloading $prog: "
+        kill -HUP $(cat $pidfile)
+        retval=$?
+        echo
+        return $retval
+}
+
+rh_status() {
+   if [ -f $pidfile ] && [  `ps hp $(cat $pidfile)|wc -l` -eq 1 ]
+   then
+       pid=$(cat $pidfile)
+       echo "Process repmgrd exists (PID $pid)"
+       return 0
+   else
+       return 1
+   fi
+}
+
+rh_status_q() {
+        rh_status >/dev/null 2>&1
+}
+case "$1" in
+  start)
+        rh_status_q && exit 0
+        start
+        ;;
+  stop)
+        rh_status_q || exit 0
+        stop
+        ;;
+  restart)
+        restart
+        ;;
+  reload|force-reload)
+        rh_status_q || exit 7
+        reload
+        ;;
+  condrestart|try-restart)
+        rh_status_q || exit 0
+        restart
+        ;;
+  status)
+	status -p $pidfile repmgr-9.0
+	script_result=$?
+
+        ;;
+  *)
+        echo $"Usage: $0 {start|stop|restart|reload|force-reload|condrestart|try-restart|status}"
+        exit 2
+esac
+
+exit $?

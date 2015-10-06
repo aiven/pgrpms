@@ -20,7 +20,7 @@
  # stderr can be redirected to an arbitrary file:
  #
 -# logfile='/var/log/repmgr.log'
-+logfile='/var/log/repmgr/repmgr-9.1.log'
++logfile='/var/log/repmgr/repmgr-9.0.log'
  
  # event notifications can be passed to an arbitrary external program
  # together with the following parameters:
@@ -29,7 +29,7 @@
  # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
  # (if not provided, defaults to system $PATH)
 -# pg_bindir=/usr/bin/
-+pg_bindir=/usr/pgsql-9.1/bin
++pg_bindir=/usr/pgsql-9.0/bin
  
  # external command options
  
@@ -40,8 +40,8 @@
 -promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
 -
-+promote_command='/usr/pgsql-9.1/bin/repmgr standby promote -f /etc/repmgr/9.1/repmgr.conf'
-+follow_command='/usr/pgsql-9.1/bin/repmgr standby follow -f /etc/repmgr/9.1/repmgr.conf'
++promote_command='/usr/pgsql-9.0/bin/repmgr standby promote -f /etc/repmgr/9.0/repmgr.conf'
++follow_command='/usr/pgsql-9.0/bin/repmgr standby follow -f /etc/repmgr/9.0/repmgr.conf'
 + 
  # monitoring interval; default is 2s
  #

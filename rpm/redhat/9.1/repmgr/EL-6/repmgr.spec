@@ -11,9 +11,9 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:           %{sname}%{pgmajorversion}
-Version:        2.0.2
-Release:        4%{?dist}
-Summary:        Replication Manager for	PostgreSQL Clusters
+Version:        3.0.2
+Release:        1%{?dist}
+Summary:        Replication Manager for PostgreSQL Clusters
 License:        GPLv3
 URL:            http://www.repmgr.org
 Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
@@ -36,24 +36,28 @@ Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
+# This is for older spec files (RHEL <= 6)
+Group:		Application/Databases
+BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:  postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel, pam-devel, openssl-devel, readline-devel
 Requires:       postgresql%{pgmajorversion}-server
 
 %description
-repmgr is a set of open source tools that helps DBAs and System
-administrators manage a cluster of PostgreSQL databases..
+repmgr is an open-source tool suite to manage replication and failover in a
+cluster of PostgreSQL servers. It enhances PostgreSQL's built-in hot-standby
+capabilities with tools to set up standby servers, monitor replication, and
+perform administrative tasks such as failover or manual switchover operations.
 
-By taking advantage of the Hot Standby capability introduced in
-PostgreSQL 9, repmgr greatly simplifies the process of setting up and
-managing database with high availability and scalability requirements.
-
-repmgr simplifies administration and daily management, enhances
-productivity and reduces the overall costs of a PostgreSQL cluster by:
-  * monitoring the replication process;
-  * allowing DBAs to issue high availability operations such as
-switch-overs and fail-overs.
+repmgr has provided advanced support for PostgreSQL's built-in replication
+mechanisms since they were introduced in 9.0, and repmgr 2.0 supports all
+PostgreSQL versions from 9.0 to 9.5. With further developments in replication
+functionality such as cascading replication, timeline switching and base
+backups via the replication protocol, the repmgr team has decided to use
+PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
+rewrite of the existing repmgr code and which will be developed to support
+future PostgreSQL versions.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -65,7 +69,13 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
+%if %{systemd_enabled}
+# Use new %%make_install macro:
 USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
+%else
+# Use older version
+USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
+%endif
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
@@ -93,7 +103,7 @@ useradd -m -g repmgr -r -s /bin/bash \
 if [ ! -x /var/log/repmgr ]
 then
 	%{__mkdir} -m 700 /var/log/repmgr
-	chown repmgr: /var/log/repmgr
+	%{__chown} -R repmgr: /var/log/repmgr
 fi
 
 %post
@@ -110,7 +120,13 @@ fi
 %postun -p /sbin/ldconfig
 
 %files
-%doc CREDITS HISTORY LICENSE README.rst TODO COPYRIGHT
+%if %{systemd_enabled}
+%doc CREDITS HISTORY README.md
+%license COPYRIGHT LICENSE
+%else
+%defattr(-,root,root,-)
+%doc CREDITS HISTORY README.md LICENSE COPYRIGHT
+%endif
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %config %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
@@ -130,10 +146,19 @@ fi
 %endif
 
 %changelog
+* Tue Oct 6 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-1
+- Update to 3.0.2
+
+* Tue May 12 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
+- Update to 3.0.1
+- Update description and some other minor places.
+- More for creating unified spec file for all distros, and put
+  back some stuff into conditionals. Also, use %%license macro
+  only on newer releases.
+
 * Fri May 1 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-4
 - chown pid file dir and fix its path.
 - Fix unit file
-- Remove license macro in RHEL 6 spec.
 
 * Wed Apr 29 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-3
 - Add %%license macro
