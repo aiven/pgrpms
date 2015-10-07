@@ -913,7 +913,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Tue Jun 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.1.19-1PGDG
+* Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.1.19-1PGDG
 - Update to 9.1.19, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-19.html
 
