@@ -33,7 +33,7 @@
 Summary:	Development module for Python code to access a PostgreSQL DB
 Name:		postgresql%{pgmajorversion}-python
 Version:	4.1.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Epoch:		0
 License:	BSD
 Group:		Applications/Databases
@@ -44,7 +44,7 @@ Source0:	http://pygresql.org/files/%{sname}-%{version}.tgz
 Patch0:		setup.py-rpm.patch
 
 BuildRequires:	python-devel, postgresql%{pgmajorversion}-devel
-Requires:	python mx  postgresql%{pgmajorversion}-libs
+Requires:	python postgresql%{pgmajorversion}-libs
 
 %description
 PostgreSQL is an advanced Object-Relational database management
@@ -85,6 +85,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Tue Oct 13 2015 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-3PGDG
+- Really remove dependency of mx :-(
+
 * Wed Sep 9 2015 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-2PGDG
 - Remove dependency of mx, per Jimmy Angelakos.
 
