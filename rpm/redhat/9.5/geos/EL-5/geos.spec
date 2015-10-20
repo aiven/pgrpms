@@ -1,5 +1,5 @@
 Name:		geos
-Version:	3.4.2
+Version:	3.5.0
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -8,6 +8,8 @@ License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
+Patch2:		geos-3.3.2-php-5.4.patch
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
@@ -16,10 +18,10 @@ BuildRequires:	gcc-c++
 %{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %description
-GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
-Suite (JTS). As such, it aims to contain the complete functionality of 
-JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial 
-predicate functions and spatial operators, as well as specific JTS topology 
+GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
+Suite (JTS). As such, it aims to contain the complete functionality of
+JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial
+predicate functions and spatial operators, as well as specific JTS topology
 functions such as IsValid()
 
 %package devel
@@ -28,27 +30,28 @@ Group:		Development/Libraries
 Requires: 	%{name} = %{version}-%{release}
 
 %description devel
-GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
-Suite (JTS). As such, it aims to contain the complete functionality of 
-JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial 
-predicate functions and spatial operators, as well as specific JTS topology 
+GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
+Suite (JTS). As such, it aims to contain the complete functionality of
+JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial
+predicate functions and spatial operators, as well as specific JTS topology
 functions such as IsValid()
 
-This package contains the development files to build applications that 
+This package contains the development files to build applications that
 use GEOS
 
-%if "%{?dist}" != ".el4"
 %package python
 Summary:	Python modules for GEOS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+BuildRequires:	swig
 
 %description python
 Python module to build applications using GEOS and python
 
 %prep
 %setup -q
-%patch0 -p0 -b .gcc43
+%patch0 -p0
+%patch2 -p0
 
 %build
 
@@ -104,8 +107,11 @@ rm -rf %{buildroot}
 %{_libdir}/libgeos_c.so
 %exclude %{_libdir}/*.la
 %exclude %{_libdir}/*.a
+#%exclude %{python_sitearch}/%{name}/_%{name}.a
+#%exclude %{python_sitearch}/%{name}/_%{name}.la
 
 %files python
+%defattr(-,root,root,-)
 %defattr(-,root,root,-)
 %dir %{python_sitearch}/%{name}
 %exclude %{python_sitearch}/%{name}/_%{name}.a
@@ -116,6 +122,11 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/_%{name}.so
 
 %changelog
+* Tue Oct 13 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
+- Update to 3.5.0, per changes described at:
+  http://trac.osgeo.org/geos/browser/tags/3.5.0/NEWS
+- Add swig as BR to python subpackage, as it does not build without that.
+
 * Mon Sep 9 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.2/NEWS
@@ -128,6 +139,7 @@ rm -rf %{buildroot}
 * Sun Aug 11 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.0/NEWS
+- Removed patch3 -- it is now in upstream.
 
 * Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
 - Update to 3.3.8, per changes described at:
@@ -135,7 +147,6 @@ rm -rf %{buildroot}
 
 * Tue Jan 15 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-4
 - Final attempt to fix SIGABRT, per testing and patch by Klynton Jessup.
-- Remove RHEL4 conditionals from spec file.
 
 * Mon Jan 07 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-3
 - Apply a better fix for SIGABRT, per
@@ -154,6 +165,7 @@ rm -rf %{buildroot}
 
 * Fri Jun 1 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.4-1
 - Update to 3.3.4
+- Add two F-17+ specific patches from Fedora.
 
 * Wed Apr 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3
@@ -169,6 +181,7 @@ rm -rf %{buildroot}
 
 * Thu May 27 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.2-1
 - Update to 3.2.2
+- Add a patch to fix build with swig 2.0.0
 
 * Mon Jun 29 2009 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.1-1
 - Update to 3.1.1
