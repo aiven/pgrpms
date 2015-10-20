@@ -19,14 +19,14 @@ User=repmgr
 Group=repmgr
 
 # Location of repmgr conf file:
-Environment=REPMGRDCONF=/etc/repmgr/9.3/repmgr.conf
-Environment=PIDFILE=/var/run/repmgr/repmgrd-9.3.pid
-Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.3.log
+Environment=REPMGRDCONF=/etc/repmgr/9.2/repmgr.conf
+Environment=PIDFILE=/var/run/repmgr/repmgrd-9.2.pid
+Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.2.log
 
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
-ExecStart=/usr/pgsql-9.3/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d > ${REPMGRDLOG} 2>&1" 
+ExecStart=/usr/pgsql-9.2/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d > ${REPMGRDLOG} 2>&1
 ExecStop=/usr/bin/kill -TERM ${PIDFILE}
 ExecReload=/usr/bin/kill -HUP ${PIDFILE}
 
