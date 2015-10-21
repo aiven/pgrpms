@@ -1,6 +1,6 @@
 Name:		pgdg-fedora94
 Version:	9.4
-Release:	3
+Release:	4
 Summary:	PostgreSQL 9.4.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4-4
+- Point the download URL in repo file to new location.
+
 * Thu Jul 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-3
 - Re-enable gpgcheck in repo file, per Fedora bugzilla #1239039.
 

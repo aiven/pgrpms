@@ -1,6 +1,6 @@
 Name:		pgdg-redhat92
 Version:	9.2
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.2.X PGDG RPMs for RHEL - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -33,7 +33,7 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
+%post
 /bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-92
 
 %files
@@ -43,5 +43,8 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.2-2
+- Point the download URL in repo file to new location.
+
 * Thu Apr 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-1
 - 9.2 set for RHEL 7

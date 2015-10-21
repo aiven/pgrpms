@@ -1,8 +1,8 @@
 Name:		pgdg-centos94
 Version:	9.4
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.4.X PGDG RPMs for CentOS - Yum Repository Configuration
-Group:		System Environment/Base 
+Group:		System Environment/Base
 License:	BSD
 URL:		http://yum.postgresql.org
 Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
@@ -33,7 +33,7 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
+%post
 /bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
 
 %files
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4-2
+- Point the download URL in repo file to new location.
+
 * Thu May 8 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.4-1
 - 9.4 set
 
