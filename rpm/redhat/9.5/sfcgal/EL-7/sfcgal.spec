@@ -3,6 +3,7 @@ Name:		SFCGAL
 Version:	1.2.0
 Release:	1%{?dist}
 License:	GLPLv2
+Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 URL:		http://sfcgal.org/
 BuildRequires:	cmake, CGAL-devel
