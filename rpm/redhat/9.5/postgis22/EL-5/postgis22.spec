@@ -10,7 +10,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -22,12 +22,13 @@ URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
-BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
+BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel, SFCGAL-devel
 %if %raster
 BuildRequires:	gdal-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
+Requires:	SFCGAL
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -94,7 +95,7 @@ export LD_LIBRARY_PATH=%{pginstdir}/lib
 %if !%raster
         --without-raster \
 %endif
-	 --disable-rpath --libdir=%{pginstdir}/lib
+	 --disable-rpath --libdir=%{pginstdir}/lib --with-sfcgal=%{_bindir}/sfcgal-config
 
 make LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 make -C extensions
@@ -152,12 +153,14 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
 %{pginstdir}/share/contrib/%{sname}_topology-%{postgismajorversion}/*topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
+%{pginstdir}/share/extension/%{sname}_sfcgal*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}_sfcgal.control
 %{pginstdir}/lib/liblwgeom*.so.*
 %{pginstdir}/lib/postgis_topology-2.2.so
 %{pginstdir}/lib/address_standardizer-2.2.so
@@ -199,6 +202,9 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Fri Oct 30 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.2.0-2
+- Build with SFCGAL support.
+
 * Tue Oct 13 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.2.0-1
 - Update to 2.2.0, per changes described at:
   http://postgis.net/2015/10/07/postgis-2.2.0
