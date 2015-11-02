@@ -1028,7 +1028,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
+* Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
 - Update to 9.5beta1
 
 * Thu Aug 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.alpha2-1PGDG
