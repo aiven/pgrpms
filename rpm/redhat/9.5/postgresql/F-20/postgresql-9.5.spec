@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5
-Release:	beta1_1PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -406,7 +406,8 @@ export LIBNAME=%{_lib}
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
-	--docdir=%{_docdir}
+	--docdir=%{pgbaseinstdir}/doc \
+	--htmldir=%{pgbaseinstdir}/doc/html
 
 make %{?_smp_mflags} all
 make %{?_smp_mflags} -C contrib all
@@ -1028,6 +1029,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Nov 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5alpha1-2PGDG
+- Specify/fix --docdir and --htmldir in configure line.
+
 * Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
 - Update to 9.5beta1
 
