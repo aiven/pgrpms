@@ -103,10 +103,6 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS changelog.rst LICENSE.txt DEVELOP.rst TODO
 %dir %{python_sitearch}/%{name}
-#%{python_sitearch}/%{name}/*.py
-#%{python_sitearch}/%{name}/*.pyc
-#%{python_sitearch}/%{name}/*.pyo
-#%{python_sitearch}/%{name}-%{version}-py%{pyver}.egg-info
 
 %if 0%{?fedora} && 0%{?rhel} >= 7
 %files debug
@@ -120,18 +116,11 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc AUTHORS changelog.rst LICENSE.txt DEVELOP.rst TODO
 %dir %{python3_sitearch}/%{name}
-#%{python3_sitearch}/%{name}/*.py
-#%{python3_sitearch}/%{name}/_psycopg.cpython-3?m*.so
-#%dir %{python3_sitearch}/%{name}/__pycache__
-#%{python3_sitearch}/%{name}/__pycache__/*.pyc
-#%{python3_sitearch}/%{name}/__pycache__/*.pyo
-#%{python3_sitearch}/%{name}-%{version}-py%{py3ver}.egg-info
 
 %if 0%{?fedora} && 0%{?rhel} >= 7
 %files -n python3-%{name}-debug
 %defattr(-,root,root)
 %doc LICENSE
-#%{python3_sitearch}/%{name}/_psycopg.cpython-3?dm*.so
 %endif
 %endif # with_python3
 
