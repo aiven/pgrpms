@@ -1,6 +1,6 @@
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3
-%define sname	oracle_fdw
+%global sname	oracle_fdw
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}

@@ -1,6 +1,6 @@
 # Python major version.
-%{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3

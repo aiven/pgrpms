@@ -18,7 +18,7 @@ Requires:	pgpool-II
 Buildarch:	noarch
 BuildRequires:	httpd
 
-%define		_pgpoolAdmindir	%{_datadir}/%{name}
+%global		_pgpoolAdmindir	%{_datadir}/%{name}
 
 Patch1:		%{name}-conf.patch
 
