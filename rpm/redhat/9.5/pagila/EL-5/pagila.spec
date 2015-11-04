@@ -16,7 +16,7 @@ Source0:	http://pgfoundry.org/frs/download.php/1719/%{sname}-%{version}.zip
 Requires:	postgresql%{pgmajorversion}
 Buildarch:	noarch
 
-%define		_pagiladir  %{_datadir}/%{name}
+%global		_pagiladir  %{_datadir}/%{name}
 
 %description
 Pagila is a port of the Sakila example database available for MySQL, which was

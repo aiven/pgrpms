@@ -1,6 +1,6 @@
 %global	pgmajorversion 95
 
-%define	realname Bucardo
+%global	realname Bucardo
 Name:		bucardo
 Version:	5.4.0
 Release:	1%{?dist}

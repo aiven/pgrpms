@@ -12,7 +12,7 @@ Source0:	http://pgfoundry.org/frs/download.php/555/%{name}-%{version}.tar.gz
 Requires:	postgresql91
 Buildarch:	noarch
 
-%define		_usdadir  %{_datadir}/%{name}
+%global		_usdadir  %{_datadir}/%{name}
 
 %description
 The USDA Food Database is published by the US Department of Agriculture.
