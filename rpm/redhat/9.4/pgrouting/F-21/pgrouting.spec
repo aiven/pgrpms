@@ -5,9 +5,9 @@
 %global sname	pgrouting
 
 # Add Traveling Salesperson functionality
-%{!?tsp_support:%define	tsp_support 1}
+%{!?tsp_support:%global	tsp_support 1}
 # Add Driving Distance functionality
-%{!?dd_support:%define	dd_support 1}
+%{!?dd_support:%global	dd_support 1}
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}

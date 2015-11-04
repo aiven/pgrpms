@@ -22,7 +22,7 @@
 %global libpqmajorversion 8.4
 %global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
-%{!?kerbdir:%define kerbdir "/usr"}
+%{!?kerbdir:%global kerbdir "/usr"}
 %{!?test:%global test 1}
 %{!?plpython:%global plpython 1}
 %{!?pltcl:%global pltcl 1}

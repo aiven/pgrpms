@@ -39,7 +39,7 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 
-%define		_pgpoolAdmindir	%{_datadir}/%{name}
+%global		_pgpoolAdmindir	%{_datadir}/%{name}
 
 Patch1:		%{name}-conf.patch
 
