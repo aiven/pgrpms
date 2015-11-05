@@ -729,6 +729,7 @@ rm -rf %{buildroot}
 
 %files contrib
 %defattr(-,root,root)
+%doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
 %{pgbaseinstdir}/lib/adminpack.so
 %{pgbaseinstdir}/lib/auth_delay.so
