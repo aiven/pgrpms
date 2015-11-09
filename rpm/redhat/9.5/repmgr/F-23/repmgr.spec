@@ -12,7 +12,7 @@
 
 Name:           %{sname}%{pgmajorversion}
 Version:        3.0.2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Replication Manager for PostgreSQL Clusters
 License:        GPLv3
 URL:            http://www.repmgr.org
@@ -97,13 +97,10 @@ install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackag
 %endif
 
 %pre
-groupadd -r repmgr >/dev/null 2>&1 || :
-useradd -m -g repmgr -r -s /bin/bash \
-        -c "repmgr" repmgr >/dev/null 2>&1 || :
 if [ ! -x /var/log/repmgr ]
 then
 	%{__mkdir} -m 700 /var/log/repmgr
-	%{__chown} -R repmgr: /var/log/repmgr
+	%{__chown} -R postgres: /var/log/repmgr
 fi
 
 %post
@@ -115,7 +112,11 @@ fi
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
-%{__chown} repmgr: %{_localstatedir}/run/%{sname}
+if [ ! -x %{_varrundir} ]
+then
+	%{__mkdir} -m 700 %{_varrundir}
+	%{__chown} -R postgres: %{_varrundir}
+fi
 
 %postun -p /sbin/ldconfig
 
@@ -146,6 +147,11 @@ fi
 %endif
 
 %changelog
+* Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-2
+- Ensure that /var/run/repmgr exists. Per Guillaume Lelarge.
+- Switch to postgres user while running the deamon, instead of
+  repmgr user. Per recent complaints from Guillaume and Justin King.
+
 * Tue Oct 6 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-1
 - Update to 3.0.2
 
