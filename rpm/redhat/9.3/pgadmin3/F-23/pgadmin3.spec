@@ -1,8 +1,8 @@
 %if (0%{?fedora})
 %global _hardened_build 1
 %endif
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global sname	pgadmin3
 
 Summary:	Graphical client for PostgreSQL
