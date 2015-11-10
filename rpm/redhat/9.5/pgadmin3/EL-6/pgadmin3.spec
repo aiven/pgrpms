@@ -1,13 +1,16 @@
+%if (0%{?fedora})
+%global _hardened_build 1
+%endif
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname	pgadmin3
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20.0
-Release:	3%{?dist}
+Version:	1.22.0
+Release:	beta1_1%{?dist}
 License:	BSD
-Source:		https://ftp.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
+Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}-beta1/src/%{sname}-%{version}-beta1.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel ImageMagick
@@ -43,7 +46,7 @@ This package contains documentation for various languages,
 which are in html format.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}-beta1
 
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
@@ -52,12 +55,16 @@ for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
 convert "pgadmin/include/images/pgAdmin3.ico[3]" pgadmin/include/images/pgAdmin3-48.png
 
 %build
+CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+export CFLAGS
+export CXXFLAGS
 export LIBS="-lwx_gtk2u_core-2.8"
 ./configure --disable-debug --disable-dependency-tracking --with-wx-version=2.8 --with-wx=/usr --with-pgsql=%{pginstdir} --prefix=%{pginstdir}
 %{__make} %{?_smp_mflags} all
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %make_install DESTDIR=%{buildroot}
 
 %{__mkdir} -p %{buildroot}%{_datadir}/%{name}/
@@ -67,7 +74,7 @@ for size in 16 32 48 ; do
 done
 
 %{__mkdir} -p %{buildroot}/%{_datadir}/applications
-mv ./pkg/%{sname}.desktop ./pkg/%{name}.desktop
+%{__mv} ./pkg/%{sname}.desktop ./pkg/%{name}.desktop
 desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications \
 	--add-category X-Fedora\
 	--add-category Application\
@@ -95,7 +102,10 @@ fi
 gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 
 %files
-%doc BUGS CHANGELOG README LICENSE
+%if (0%{?fedora} || 0%{?rhel} > 6)
+%license LICENSE
+%endif
+%doc BUGS CHANGELOG README
 %{pginstdir}/bin/%{sname}
 %{pginstdir}/share/%{sname}
 %{_datadir}/applications/fedora-%{sname}_%{pgmajorversion}.desktop
@@ -107,6 +117,12 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc docs/*
 
 %changelog
+* Tue Nov 10 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-beta1-1
+- Update to 1.22.0 beta1
+- Add -fPIC and -pie to CFLAGS and CXXFLAGS, per Fedora 23 packaging
+  requirements. This currently applies only to Fedora.
+- Update download URL
+
 * Tue Apr 28 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.20.0-3
 - Install better icons, per Ville @ RH bugilla #1211723
 - Mark LICENSE as %%license, per Ville @ RH bugilla #1211723
