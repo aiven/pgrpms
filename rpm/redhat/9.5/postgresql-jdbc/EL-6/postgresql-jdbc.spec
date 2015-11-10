@@ -22,14 +22,14 @@
 # In this file you can find the default build package list macros.  These can be overridden by defining
 # on the rpm command line
 
-%{!?gcj_support:%define gcj_support	1}
-%{!?upstreamver:%define upstreamver	9.3-1101}
+%{!?gcj_support:%global gcj_support	1}
+%{!?upstreamver:%global upstreamver	9.3-1101}
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname postgresql-jdbc
 
 %global beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
+%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql%{pgmajorversion}-jdbc

@@ -1,6 +1,6 @@
 Name:		pgdg-fedora95
 Version:	9.5
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.5.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -43,10 +43,13 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5-2
+- Point the download URL in repo file to new location.
+
 * Fri Jul 3 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.5-1
 - 9.5 set
 
-* Sun Apr 21 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3-1 
+* Sun Apr 21 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3-1
 - 9.3 set
 
 * Sun Sep 23 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-6

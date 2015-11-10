@@ -1,25 +1,24 @@
-%define majorversion 1
-%define midversion 0
-%define minorversion 0
-%define pbm_owner pgbackman
-%define pbm_group pgbackman
-%{!?pybasever: %define pybasever %(python -c "import sys;print(sys.version[0:3])")}
-%{!?python_sitelib: %define python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%global majorversion 1
+%global midversion 1
+%global minorversion 0
+%global pbm_owner pgbackman
+%global pbm_group pgbackman
+%{!?pybasever: %global pybasever %(python -c "import sys;print(sys.version[0:3])")}
+%{!?python_sitelib: %global python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Summary:	PostgreSQL backup manager
 Name:		pgbackman
 Version:	%{majorversion}.%{midversion}.%{minorversion}
-Release:	3%{?dist}
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
 Source0:	https://github.com/rafaelma/%{name}/archive/v_%{majorversion}_%{midversion}_%{minorversion}.tar.gz
-Patch0:		pgbackman-add-fedora.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python-psycopg2 python-argparse at cronie python-setuptools shadow-utils logrotate
 
-%description 
+%description
 PgBackMan is a tool for managing PostgreSQL logical backups created
 with pg_dump and pg_dumpall.
 
@@ -34,21 +33,21 @@ elements associated to it.
 
 %prep
 %setup -n %{name}-v_%{majorversion}_%{midversion}_%{minorversion} -q
-%patch0 -p0
+
 %build
-python setup.py build 
+python setup.py build
 
 %install
 python setup.py install -O1 --skip-build --root %{buildroot}
-mkdir -p %{buildroot}/var/lib/%{name}
+%{__mkdir} -p %{buildroot}/var/lib/%{name}
 touch %{buildroot}/var/log/%{name}/%{name}.log
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc INSTALL
+%doc INSTALL README.md
 %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/
 %{python_sitelib}/%{name}/
 %{_bindir}/%{name}*
@@ -56,6 +55,8 @@ rm -rf %{buildroot}
 %{_sysconfdir}/logrotate.d/%{name}*
 %{_datadir}/%{name}/*
 /var/log/%{name}/*
+%dir %{_sysconfdir}/%{name}/
+%{_sysconfdir}/%{name}/pgbackman_alerts.template
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(700,%{pbm_owner},%{pbm_group}) %dir /var/lib/%{name}
 %attr(755,%{pbm_owner},%{pbm_group}) %dir /var/log/%{name}
@@ -64,9 +65,14 @@ rm -rf %{buildroot}
 %pre
 groupadd -f -r pgbackman >/dev/null 2>&1 || :
 useradd -M -N -g pgbackman -r -d /var/lib/pgbackman -s /bin/bash \
-        -c "PostgreSQL Backup Manager" pgbackman >/dev/null 2>&1 || :
+	-c "PostgreSQL Backup Manager" pgbackman >/dev/null 2>&1 || :
 
 %changelog
+* Fri Oct 30 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0
+- Remove patch, it is now in upstream.
+- Fix an rpmlint warning.
+
 * Thu Oct 23 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-3
 - Add a patch to support Fedora.
 

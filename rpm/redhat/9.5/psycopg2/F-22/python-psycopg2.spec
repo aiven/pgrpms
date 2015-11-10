@@ -13,11 +13,11 @@
 %endif # with_python3
 
 # Python major version.
-%{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %if 0%{?with_python3}
-%{expand: %%define py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
+%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
 %endif # with_python3
 
 # Python 2.5+ is not supported by Zope, so it does not exist in

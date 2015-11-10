@@ -1,0 +1,11 @@
+--- Makefile.old	2014-04-08 20:32:01.818084344 +0300
++++ Makefile	2014-04-08 20:36:53.893985628 +0300
+@@ -5,7 +5,7 @@
+ DOCS         = $(wildcard doc/*.md)
+ SCRIPTS      = $(wildcard tools/*)
+ 
+-PG_CONFIG    = pg_config
++PG_CONFIG    = /usr/pgsql-9.4/bin/pg_config
+ DATA         = $(wildcard sql/$(EXTENSION)--*--*.sql) sql/$(EXTENSION)--$(EXTVERSION).sql
+ PKG_SQL      = $(wildcard sql/$(EXTENSION)--*--*.sql) sql/$(EXTENSION).sql
+ EXTRA_CLEAN  = sql/$(EXTENSION)--$(EXTVERSION).sql

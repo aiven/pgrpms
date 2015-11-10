@@ -16,7 +16,7 @@ Requires(post): systemd
 Requires(postun): systemd
 Buildarch:	noarch
 
-%define		_phppgadmindir	%{_datadir}/%{name}
+%global		_phppgadmindir	%{_datadir}/%{name}
 
 Patch1:		%{name}-langcheck.patch
 

@@ -15,8 +15,8 @@ After=network.target
 [Service]
 Type=forking
 
-User=repmgr
-Group=repmgr
+User=postgres
+Group=postgres
 
 # Location of repmgr conf file:
 Environment=REPMGRDCONF=/etc/repmgr/9.5/repmgr.conf

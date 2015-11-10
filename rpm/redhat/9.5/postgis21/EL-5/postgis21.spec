@@ -4,8 +4,8 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname	postgis
-%{!?utils:%define	utils 1}
-%{!?raster:%define	raster 0}
+%{!?utils:%global	utils 1}
+%{!?raster:%global	raster 0}
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
@@ -82,7 +82,7 @@ Provides:	%{sname}-utils = %{version}-%{release}
 The postgis-utils package provides the utilities for PostGIS.
 %endif
 
-%define __perl_requires %{SOURCE4}
+%global __perl_requires %{SOURCE4}
 
 %prep
 %setup -q -n %{sname}-%{version}

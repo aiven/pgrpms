@@ -15,7 +15,7 @@ BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
 BuildRequires:	gcc-c++
 
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 

@@ -1,10 +1,10 @@
-%define majorversion 1
-%define midversion 0
-%define minorversion 0
-%define pbm_owner pgbackman
-%define pbm_group pgbackman
-%{!?pybasever: %define pybasever %(python -c "import sys;print(sys.version[0:3])")}
-%{!?python_sitelib: %define python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%global majorversion 1
+%global midversion 0
+%global minorversion 0
+%global pbm_owner pgbackman
+%global pbm_group pgbackman
+%{!?pybasever: %global pybasever %(python -c "import sys;print(sys.version[0:3])")}
+%{!?python_sitelib: %global python_sitelib %(python -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
 
 Summary:	PostgreSQL backup manager
 Name:		pgbackman

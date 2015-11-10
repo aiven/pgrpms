@@ -42,31 +42,31 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%define beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
+%global beta 0
+%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
-%{!?kerbdir:%define kerbdir "/usr"}
+%{!?kerbdir:%global kerbdir "/usr"}
 
 # This is a macro to be used with find_lang and other stuff
-%define majorversion 9.3
-%define packageversion 93
-%define oname postgresql
-%define	pgbaseinstdir	/usr/pgsql-%{majorversion}
+%global majorversion 9.3
+%global packageversion 93
+%global oname postgresql
+%global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-%{!?test:%define test 1}
-%{!?plpython:%define plpython 1}
-%{!?pltcl:%define pltcl 1}
-%{!?plperl:%define plperl 1}
-%{!?ssl:%define ssl 1}
-%{!?intdatetimes:%define intdatetimes 1}
-%{!?kerberos:%define kerberos 1}
-%{!?nls:%define nls 1}
-%{!?xml:%define xml 1}
-%{!?pam:%define pam 1}
-%{!?disablepgfts:%define disablepgfts 0}
-%{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 1}
-%{!?ldap:%define ldap 1}
+%{!?test:%global test 1}
+%{!?plpython:%global plpython 1}
+%{!?pltcl:%global pltcl 1}
+%{!?plperl:%global plperl 1}
+%{!?ssl:%global ssl 1}
+%{!?intdatetimes:%global intdatetimes 1}
+%{!?kerberos:%global kerberos 1}
+%{!?nls:%global nls 1}
+%{!?xml:%global xml 1}
+%{!?pam:%global pam 1}
+%{!?disablepgfts:%global disablepgfts 0}
+%{!?runselftest:%global runselftest 0}
+%{!?uuid:%global uuid 1}
+%{!?ldap:%global ldap 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
@@ -293,7 +293,7 @@ binaries of various tests for the PostgreSQL database management
 system, including regression tests and benchmarks.
 %endif
 
-%define __perl_requires %{SOURCE16}
+%global __perl_requires %{SOURCE16}
 
 %prep
 %setup -q -n %{oname}-%{version}

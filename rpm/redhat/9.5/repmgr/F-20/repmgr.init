@@ -54,7 +54,7 @@ start(){
         mkdir -p $(dirname $pidfile)
         chown $user: $(dirname $pidfile)
 
-	su -l repmgr -c "$exec -f $REPMGRDCONF -p $pidfile -d ->> $REPMGRDLOG 2>&1" $user # --monitoring-history --verbose
+	su -l $user -c "$exec -f $REPMGRDCONF -p $pidfile -d ->> $REPMGRDLOG 2>&1" $user # --monitoring-history --verbose
         retval=$?
 	[ $retval -eq 0 ] && success 
         echo

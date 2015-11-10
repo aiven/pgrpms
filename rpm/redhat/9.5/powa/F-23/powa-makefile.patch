@@ -1,0 +1,10 @@
+--- Makefile.old	2015-03-16 09:21:11.036640436 +0200
++++ Makefile	2015-03-16 09:21:16.227584412 +0200
+@@ -3,6 +3,6 @@
+ DATA = powa--2.0.sql
+ DOCS = README.md
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)

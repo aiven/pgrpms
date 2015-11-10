@@ -16,7 +16,7 @@ Requires:	php-pgsql >= 4.2, httpd
 Requires(post):	/sbin/service
 Buildarch:	noarch
 
-%define		_phppgadmindir	%{_datadir}/%{name}
+%global		_phppgadmindir	%{_datadir}/%{name}
 
 Patch1:		%{name}-langcheck.patch
 

@@ -21,14 +21,14 @@
 # on the rpm command line
 
 # Python major version.
-%{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{expand: %%define pynextver %(python -c 'import sys;print(float(sys.version[0:3])+0.1)')}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
+%{expand: %%global pynextver %(python -c 'import sys;print(float(sys.version[0:3])+0.1)')}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
-%define sname PyGreSQL
+%global sname PyGreSQL
 
 Summary:	Development module for Python code to access a PostgreSQL DB
 Name:		postgresql%{pgmajorversion}-python

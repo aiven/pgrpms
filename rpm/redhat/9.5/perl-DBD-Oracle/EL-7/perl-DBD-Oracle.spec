@@ -1,7 +1,7 @@
-%define perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
-%define perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
+%global perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
+%global perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
 
-%define real_name DBD-Oracle
+%global real_name DBD-Oracle
 
 Summary:	Oracle database driver for the DBI module.
 Name:		perl-DBD-Oracle

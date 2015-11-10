@@ -1,8 +1,8 @@
 Name:		pgdg-fedora92
 Version:	9.2
-Release:	6
+Release:	7
 Summary:	PostgreSQL 9.2.X PGDG RPMs for Fedora - Yum Repository Configuration
-Group:		System Environment/Base 
+Group:		System Environment/Base
 License:	BSD
 URL:		http://yum.postgresql.org
 Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-92
@@ -34,7 +34,7 @@ install -pm 644 %{SOURCE2}  \
 %clean
 rm -rf %{buildroot}
 
-%post 
+%post
 /bin/rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-92
 
 %files
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.2-7
+- Point the download URL in repo file to new location.
+
 * Sun Sep 23 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-6
 - Fix name of the GPG key file, per report from Rafael Martinez.
 

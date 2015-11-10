@@ -42,37 +42,37 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%define beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
+%global beta 0
+%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
-%{!?kerbdir:%define kerbdir "/usr"}
+%{!?kerbdir:%global kerbdir "/usr"}
 
 # This is a macro to be used with find_lang and other stuff
-%define majorversion 9.5
-%define packageversion 95
-%define oname postgresql
-%define	pgbaseinstdir	/usr/pgsql-%{majorversion}
+%global majorversion 9.5
+%global packageversion 95
+%global oname postgresql
+%global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-%{!?test:%define test 1}
-%{!?plpython:%define plpython 1}
-%{!?pltcl:%define pltcl 1}
-%{!?plperl:%define plperl 1}
-%{!?ssl:%define ssl 1}
-%{!?intdatetimes:%define intdatetimes 1}
-%{!?kerberos:%define kerberos 1}
-%{!?nls:%define nls 1}
-%{!?xml:%define xml 1}
-%{!?pam:%define pam 1}
-%{!?disablepgfts:%define disablepgfts 0}
-%{!?runselftest:%define runselftest 0}
-%{!?uuid:%define uuid 1}
-%{!?ldap:%define ldap 1}
-%{!?selinux:%define selinux 1}
+%{!?test:%global test 1}
+%{!?plpython:%global plpython 1}
+%{!?pltcl:%global pltcl 1}
+%{!?plperl:%global plperl 1}
+%{!?ssl:%global ssl 1}
+%{!?intdatetimes:%global intdatetimes 1}
+%{!?kerberos:%global kerberos 1}
+%{!?nls:%global nls 1}
+%{!?xml:%global xml 1}
+%{!?pam:%global pam 1}
+%{!?disablepgfts:%global disablepgfts 0}
+%{!?runselftest:%global runselftest 0}
+%{!?uuid:%global uuid 1}
+%{!?ldap:%global ldap 1}
+%{!?selinux:%global selinux 1}
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5
-Release:	beta1_1PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -313,7 +313,7 @@ PostgreSQL database management system, including regression tests and
 benchmarks.
 %endif
 
-%define __perl_requires %{SOURCE16}
+%global __perl_requires %{SOURCE16}
 
 %prep
 %setup -q -n %{oname}-%{version}beta1
@@ -406,7 +406,8 @@ export LIBNAME=%{_lib}
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
-	--docdir=%{_docdir}
+	--docdir=%{pgbaseinstdir}/doc \
+	--htmldir=%{pgbaseinstdir}/doc/html
 
 make %{?_smp_mflags} all
 make %{?_smp_mflags} -C contrib all
@@ -796,6 +797,7 @@ rm -rf %{buildroot}
 
 %files contrib
 %defattr(-,root,root)
+%doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
 %{pgbaseinstdir}/lib/adminpack.so
 %{pgbaseinstdir}/lib/auth_delay.so
@@ -1028,7 +1030,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Thu Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
+* Tue Nov 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5alpha1-2PGDG
+- Specify/fix --docdir and --htmldir in configure line.
+
+* Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
 - Update to 9.5beta1
 
 * Thu Aug 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.alpha2-1PGDG

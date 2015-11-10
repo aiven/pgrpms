@@ -1,7 +1,7 @@
 #Python major version.
-%{expand: %%define pybasever %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pybasever %(python -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity

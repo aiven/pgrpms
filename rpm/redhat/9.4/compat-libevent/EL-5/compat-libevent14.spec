@@ -1,4 +1,4 @@
-%define oldname libevent
+%global oldname libevent
 
 Name:		compat-libevent14
 Version:	1.4.13
