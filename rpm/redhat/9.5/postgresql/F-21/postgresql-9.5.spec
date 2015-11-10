@@ -42,6 +42,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
+%global _hardened_build 1
 %global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -1032,6 +1033,7 @@ rm -rf %{buildroot}
 %changelog
 * Tue Nov 10 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5beta2-1PGDG
 - Update to 9.5beta2
+- Enable hardened build on Fedora.
 
 * Tue Nov 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5beta1-2PGDG
 - Specify/fix --docdir and --htmldir in configure line.
