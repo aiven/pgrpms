@@ -71,12 +71,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5
-Release:	beta1_2PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://ftp.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
+Source0:	https://ftp.postgresql.org/pub/source/v%{version}beta2/postgresql-%{version}beta2.tar.bz2
 Source3:	postgresql.init
 Source4:	Makefile.regress
 Source5:	pg_config.h
@@ -296,7 +296,7 @@ system, including regression tests and benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{oname}-%{version}beta1
+%setup -q -n %{oname}-%{version}beta2
 %patch1 -p1
 %patch3 -p1
 # patch5 is applied later
@@ -949,7 +949,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Tue Nov 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5alpha1-2PGDG
+* Tue Nov 10 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5beta2-1PGDG
+- Update to 9.5beta2
+
+* Tue Nov 3 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5beta1-2PGDG
 - Specify/fix --docdir and --htmldir in configure line.
 
 * Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.5.beta1-1PGDG
