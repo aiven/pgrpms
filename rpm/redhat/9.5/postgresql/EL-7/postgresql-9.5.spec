@@ -841,7 +841,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/seg.so
 %{pgbaseinstdir}/lib/sslinfo.so
 %{pgbaseinstdir}/lib/refint.so
-%{pgbaseinstdir}/lib/seg.so
 %if %selinux
 %{pgbaseinstdir}/lib/sepgsql.so
 %{pgbaseinstdir}/share/contrib/sepgsql.sql
