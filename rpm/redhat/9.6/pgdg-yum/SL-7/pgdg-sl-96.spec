@@ -43,6 +43,6 @@ install -pm 644 %{SOURCE2}  \
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-k* Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6-1
+* Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6-1
 - Initial set for 9.6
 
