@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
-SPECFILE="pgdg-ami201503-95.spec"
+SPECFILE="pgdg-ami201503-96.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

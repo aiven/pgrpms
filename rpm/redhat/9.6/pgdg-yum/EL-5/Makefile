@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel5
-SPECFILE="pgdg-redhat-95.spec"
+SPECFILE="pgdg-redhat-96.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
