@@ -21,7 +21,7 @@ key for PGDG RPMs.
 %build
 
 %install
-%{__rm} -rf-rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 install -Dpm 644 %{SOURCE0} \
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-96
