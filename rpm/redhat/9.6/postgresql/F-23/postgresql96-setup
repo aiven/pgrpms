@@ -2,16 +2,16 @@
 #
 # postgresql-setup	Initialization and upgrade operations for PostgreSQL
 
-# PGVERSION is the full package version, e.g., 9.5.0
+# PGVERSION is the full package version, e.g., 9.6.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
-# PGMAJORVERSION is major version, e.g., 9.5 (this should match PG_VERSION)
+# PGMAJORVERSION is major version, e.g., 9.6 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # PGENGINE is the directory containing the postmaster executable
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
-# PREVMAJORVERSION is the previous major version, e.g., 9.3, for upgrades
-PREVMAJORVERSION=9.3
+# PREVMAJORVERSION is the previous major version, e.g., 9.5, for upgrades
+PREVMAJORVERSION=9.5
 # PREVPGENGINE is the directory containing the previous postmaster executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
 
@@ -98,7 +98,7 @@ fi
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
-PGLOG=/var/lib/pgsql/9.5/initdb.log
+PGLOG=/var/lib/pgsql/9.6/initdb.log
 
 # Get data directory from the service file
 PGDATA=`sed -n 's/Environment=PGDATA=//p' "${SERVICE_FILE}"`
