@@ -31,7 +31,7 @@ install -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %clean
-%{__rm} -rf-rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
