@@ -1030,7 +1030,7 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Mon Nov 16 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151116_1PGDG-1
+* Mon Nov 16 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151116_1PGDG-1
 - Update to Nov 16, 2015 tarball.
 
 * Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151113_1PGDG-1
