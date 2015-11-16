@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6
-Release:	git20151113_1PGDG%{?dist}
+Release:	git20151116_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -954,6 +954,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Nov 16 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151116_1PGDG-1
+- Update to Nov 16, 2015 tarball.
+
 * Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151113_1PGDG-1
 - Initial cut for PostgreSQL 9.6devel.
 
