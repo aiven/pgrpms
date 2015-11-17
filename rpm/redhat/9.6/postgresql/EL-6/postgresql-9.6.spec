@@ -42,7 +42,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%global beta 0
+%global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%global kerbdir "/usr"}
