@@ -1,13 +1,24 @@
-Name:           libevent
-Version:        2.0.19
-Release:        1%{?dist}
-Summary:        Abstract asynchronous event notification library
+%if 0%{?fedora} && 0%{?fedora} >= 20
+%global develdocdir %{_docdir}/%{name}-devel
+%else
+%global develdocdir %{_docdir}/%{name}-devel-%{version}
+%endif
 
-Group:          System Environment/Libraries
-License:        BSD
-URL:            http://libevent.org
-Source0:        https://github.com/downloads/%{name}/%{name}/%{name}-%{version}-stable.tar.gz
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Name:		libevent
+Version:	2.0.22
+Release:	1%{?dist}
+Summary:	Abstract asynchronous event notification library
+
+Group:		System Environment/Libraries
+License:	BSD
+URL:		http://sourceforge.net/projects/levent
+Source0:	http://downloads.sourceforge.net/levent/%{name}-%{version}-stable.tar.gz
+
+BuildRequires:	doxygen openssl-devel
+
+Patch0:		libevent-2.0.10-stable-configure.patch
+# Disable network tests
+Patch1:		libevent-nonettests.patch
 
 %description
 The libevent API provides a mechanism to execute a callback function
@@ -18,76 +29,98 @@ to call event_dispatch() and can then add or remove events dynamically
 without having to change the event loop.
 
 %package devel
-Summary: Header files, libraries and development documentation for %{name}
-Group: Development/Libraries
-Requires: %{name} = %{version}-%{release}
+Summary:	Development files for %{name}
+Group:		Development/Libraries
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel
-This package contains the header files, static libraries and development
-documentation for %{name}. If you like to develop programs using %{name},
-you will need to install %{name}-devel.
+This package contains the header files and libraries for developing
+with %{name}.
 
+%package doc
+Summary:	Development documentation for %{name}
+Group:		Documentation
+BuildArch:	noarch
+
+%description doc
+This package contains the development documentation for %{name}.
 
 %prep
 %setup -q -n libevent-%{version}-stable
 
+# 477685 -  libevent-devel multilib conflict
+%patch0 -p0
+%patch1 -p1 -b .nonettests
+
 %build
 %configure \
-    --disable-dependency-tracking
-make %{?_smp_mflags}
+    --disable-dependency-tracking --disable-static
+make %{?_smp_mflags} all
+
+# Create the docs
+make doxygen
 
 %install
-rm -rf $RPM_BUILD_ROOT
-make DESTDIR=$RPM_BUILD_ROOT install
-rm -f $RPM_BUILD_ROOT%{_libdir}/*.la
+%{__rm} -rf %{buildroot}
+make DESTDIR=%{buildroot} install
+%{__rm} -f %{buildroot}%{_libdir}/*.la
 
-#%check
-#make verify
+%{__mkdir} -p %{buildroot}/%{develdocdir}/html
+(cd doxygen/html; \
+	install -p -m 644 *.* %{buildroot}/%{develdocdir}/html)
+
+%{__mkdir}  -p %{buildroot}/%{develdocdir}/sample
+(cd sample; \
+	install -p -m 644 *.c Makefile* %{buildroot}/%{develdocdir}/sample)
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(-,root,root,0755)
-%doc README
+%doc ChangeLog LICENSE README
 %{_libdir}/libevent-*.so.*
 %{_libdir}/libevent_core-*.so.*
 %{_libdir}/libevent_extra-*.so.*
+%{_libdir}/libevent_openssl-*.so.*
+%{_libdir}/libevent_pthreads-*.so.*
 
 %files devel
-%defattr(-,root,root,0755)
-%doc sample/*.c
-%{_includedir}/evdns.h
 %{_includedir}/event.h
+%{_includedir}/evdns.h
 %{_includedir}/evhttp.h
 %{_includedir}/evrpc.h
 %{_includedir}/evutil.h
+%dir %{_includedir}/event2
 %{_includedir}/event2/*.h
 %{_libdir}/libevent.so
-%{_libdir}/libevent.a
 %{_libdir}/libevent_core.so
-%{_libdir}/libevent_core.a
 %{_libdir}/libevent_extra.so
-%{_libdir}/libevent_extra.a
-%{_libdir}/libevent_openssl-2.0.so.5
-%{_libdir}/libevent_openssl-2.0.so.5.1.7
-%{_libdir}/libevent_openssl.a
 %{_libdir}/libevent_openssl.so
-%{_libdir}/libevent_pthreads-2.0.so.5
-%{_libdir}/libevent_pthreads-2.0.so.5.1.7
-%{_libdir}/libevent_pthreads.a
 %{_libdir}/libevent_pthreads.so
 %{_libdir}/pkgconfig/libevent.pc
 %{_libdir}/pkgconfig/libevent_openssl.pc
 %{_libdir}/pkgconfig/libevent_pthreads.pc
-
 %{_bindir}/event_rpcgen.*
 
+%files doc
+%{develdocdir}/
+
 %changelog
+* Tue Nov 24 2015 Devrim GUNDUZ <devrim@gunduz.org> 2.0.22-1
+- Update to 2.0.22
+- Some fixes from Fedora packaging:
+ * Fix -doc package for F20 UnversionedDocDirs (#993956)
+ * Add missing directory /usr/include/event2
+ * Fix directory ownership in -doc package
+ * Correct summary and description of -devel and -doc packages
+ * Set -doc package Group tag to "Documentation"
+ * Add %%?_isa to -devel package base dependency
+ * Remove %%defattr
+
 * Fri Jul 27 2012 Devrim GUNDUZ <devrim@gunduz.org> 2.0.19-1
 - Update to 2.0.19
 
@@ -100,3 +133,4 @@ rm -rf $RPM_BUILD_ROOT
 
 * Tue Jan 13 2009 Devrim GUNDUZ <devrim@gunduz.org> 1.4.9-1
 - Initial build for PostgreSQL RPM Repository, based on Fedora spec.
+
