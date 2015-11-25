@@ -5,7 +5,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	1.5.0
+Version:	1.5.1
 Release:	1%{?dist}
 License:	GPLv3
 Url:		http://www.pgbarman.org/
@@ -34,27 +34,27 @@ and of backups. Barman is written and maintained by PostgreSQL professionals
 2ndQuadrant.
 
 %prep
-%setup -n barman-%{version} -q
+%setup -n %{name}-%{version} -q
 
 %build
 %{__python} setup.py build
 
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
-mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d
-mkdir -p %{buildroot}%{_sysconfdir}/cron.d/
-mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
-mkdir -p %{buildroot}/var/lib/barman
-mkdir -p %{buildroot}/var/log/barman
-install -pm 644 doc/barman.conf %{buildroot}%{_sysconfdir}/barman.conf
-install -pm 644 scripts/barman.bash_completion %{buildroot}%{_sysconfdir}/bash_completion.d/barman
-install -pm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/cron.d/barman
-install -pm 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/barman
-touch %{buildroot}/var/log/barman/barman.log
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/bash_completion.d
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/cron.d/
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d/
+%{__mkdir} -p %{buildroot}/var/lib/%{name}
+%{__mkdir} -p %{buildroot}/var/log/%{name}
+install -pm 644 doc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}.conf
+install -pm 644 scripts/barman.bash_completion %{buildroot}%{_sysconfdir}/bash_completion.d/%{name}
+install -pm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/cron.d/%{name}
+install -pm 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+touch %{buildroot}/var/log/%{name}/%{name}.log
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %endif
 
 %files
@@ -84,6 +84,11 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Wed Nov 25 2015 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
+- Update to 1.5.0, per changes described in:
+  http://www.pgbarman.org/barman-1-5-1-released/
+- Spec file cosmetic updates.
+
 * Tue Sep 29 2015 Jeff Frost <jeff@pgexperts.com> - 1.5.0-1
 - Update to 1.5.0, per changes described in:
   http://www.pgbarman.org/barman-1-5-0-released/
