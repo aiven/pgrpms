@@ -13,7 +13,7 @@
 %global gforgedlnumber 32995
 
 Name:           CGAL
-Version:        4.3
+Version:        4.7
 Release:        1%{alphatag}%{?dist}
 Summary:        Computational Geometry Algorithms Library
 
@@ -139,6 +139,9 @@ rm -rf %{buildroot}
 %exclude %{_datadir}/CGAL/*/*/skip_vcproj_auto_generation
 
 %changelog
+* Fri Nov 27 2015 Devrim Gündüz <devrim@gunduz.org> - 4.7-1
+- Update to 4.7
+
 * Thu Jul 17 2014 Devrim Gündüz <devrim@gunduz.org> - 4.3-1
 - Initial build for PostgreSQL Build Farm, to satisfy dependencies for
   pgrouting.
