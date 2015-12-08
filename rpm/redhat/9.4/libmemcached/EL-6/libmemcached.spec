@@ -1,6 +1,6 @@
 Name:		libmemcached
 Summary:	Client library and command line tools for memcached server
-Version:	1.0.17
+Version:	1.0.18
 Release:	1%{?dist}
 License:	BSD
 Group:		System Environment/Libraries
@@ -130,6 +130,9 @@ rm -rf %{buildroot}
 %{_mandir}/man3/hashkit*
 
 %changelog
+* Tue Dec 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.18-1
+- Update to 1.0.18
+
 * Wed Nov 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.17-1
 - Initial packaging for PostgreSQL RPM Repository, to satisfy
   pgmemcached requirement.
