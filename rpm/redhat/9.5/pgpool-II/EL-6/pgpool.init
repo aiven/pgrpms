@@ -67,7 +67,7 @@ if [ -r /etc/sysconfig/pgpool-II-95 ]; then
     . /etc/sysconfig/pgpool-II-95
 fi
 
-text -x $PGPOOLDAEMON || exit 5
+test -x $PGPOOLDAEMON || exit 5
 
 # Check whether the config file exists or not
 if [ ! -r $PGPOOLCONF ]
@@ -140,7 +140,6 @@ stop(){
     fi
     echo
 }
-
 
 restart(){
     stop
