@@ -128,8 +128,8 @@ make LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgispre
 
 # Create alternatives entries for common binaries
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp 930
-%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql 930
+%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql %{pgmajorversion}0
 
 # Drop alternatives entries for common binaries and man files
 %postun
