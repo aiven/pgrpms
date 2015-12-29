@@ -20,7 +20,7 @@ Summary:        Computational Geometry Algorithms Library
 Group:          System Environment/Libraries
 License:        LGPLv3+ and GPLv3+ and Boost
 URL:            http://www.cgal.org/
-Source0:        https://gforge.inria.fr/frs/download.php/%{gforgedlnumber}/%{name}-%{version}%{alphaname}.tar.xz
+Source0:        https://gforge.inria.fr/frs/download.php/%{gforgedlnumber}/%{name}-%{version}%{alphaname}.tar.gz
 Source10:       CGAL-README.Fedora
 
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
