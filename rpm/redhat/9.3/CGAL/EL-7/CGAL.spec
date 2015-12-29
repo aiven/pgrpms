@@ -7,33 +7,30 @@
 %global soname 10
 %global soversion 10.0.2
 %global alphatag %{nil}
-#global alphatag beta1
 %global alphaname %{nil}
-#global alphaname -%{alphatag}
-%global gforgedlnumber 32995
 
-Name:           CGAL
-Version:        4.3
-Release:        1%{alphatag}%{?dist}
-Summary:        Computational Geometry Algorithms Library
+Name:		CGAL
+Version:	4.7
+Release:	1%{alphatag}%{?dist}
+Summary:	Computational Geometry Algorithms Library
 
-Group:          System Environment/Libraries
-License:        LGPLv3+ and GPLv3+ and Boost
-URL:            http://www.cgal.org/
-Source0:        https://gforge.inria.fr/frs/download.php/%{gforgedlnumber}/%{name}-%{version}%{alphaname}.tar.gz
-Source10:       CGAL-README.Fedora
+Group:		System Environment/Libraries
+License:	LGPLv3+ and GPLv3+ and Boost
+URL:		http://www.cgal.org/
+Source0:	https://github.com/CGAL/cgal/releases/download/releases/%{name}-%{version}/%{name}-%{version}.tar.xz
+Source10:	CGAL-README.Fedora
 
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Required devel packages.
-BuildRequires: cmake >= %{cmake_version}
-BuildRequires: gmp-devel
-BuildRequires: boost-devel >= %{boost_version}
-BuildRequires: qt3-devel
-BuildRequires: qt-devel >= %{qt_version}
-BuildRequires: zlib-devel
-BuildRequires: blas-devel lapack-devel
-BuildRequires: mpfr-devel
+BuildRequires:	cmake >= %{cmake_version}
+BuildRequires:	gmp-devel
+BuildRequires:	boost-devel >= %{boost_version}
+BuildRequires:	qt3-devel
+BuildRequires:	qt-devel >= %{qt_version}
+BuildRequires:	zlib-devel
+BuildRequires:	blas-devel lapack-devel
+BuildRequires:	mpfr-devel
 
 %description
 Libraries for CGAL applications.
@@ -45,23 +42,25 @@ access to useful, reliable geometric algorithms.
 
 
 %package devel
-Group:          Development/Libraries
-Summary:        Development files and tools for CGAL applications
-Requires:       cmake
-Requires:       %{name} = %{version}-%{release}
-Requires:       boost-devel%{?_isa} >= %{boost_version}
-Requires:       qt-devel%{?_isa} >= %{qt_version}
-Requires:       blas-devel%{?_isa} lapack-devel%{?_isa} qt3-devel%{?_isa} zlib-devel%{?_isa} gmp-devel%{?_isa}
-Requires:       mpfr-devel%{?_isa}
+Group:		Development/Libraries
+Summary:	Development files and tools for CGAL applications
+Requires:	cmake
+Requires:	%{name} = %{version}-%{release}
+Requires:	boost-devel%{?_isa} >= %{boost_version}
+Requires:	qt-devel%{?_isa} >= %{qt_version}
+Requires:	blas-devel%{?_isa} lapack-devel%{?_isa} qt3-devel%{?_isa} zlib-devel%{?_isa} gmp-devel%{?_isa}
+Requires:	mpfr-devel%{?_isa}
+
 %description devel
 The %{name}-devel package provides the headers files and tools you may need to 
 develop applications using CGAL.
 
 
 %package demos-source
-Group:          Documentation
-Summary:        Examples and demos of CGAL algorithms
-Requires:       %{name}-devel%{?_isa} = %{version}-%{release}
+Group:		Documentation
+Summary:	Examples and demos of CGAL algorithms
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+
 %description demos-source
 The %{name}-demos-source package provides the sources of examples and demos of
 CGAL algorithms.
@@ -82,7 +81,7 @@ install -p -m 644 %{SOURCE10} ./README.Fedora
 
 %build
 
-mkdir build
+%{__mkdir} build
 pushd build
 %cmake -DCGAL_INSTALL_LIB_DIR=%{_lib} -DCGAL_INSTALL_DOC_DIR= ${CHANGE_SOVERSION} ..
 make VERBOSE=1 %{?_smp_mflags}
@@ -90,7 +89,7 @@ popd
 
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 pushd build
 
@@ -99,13 +98,13 @@ make install DESTDIR=$RPM_BUILD_ROOT
 popd
 
 # Install demos and examples
-mkdir -p %{buildroot}%{_datadir}/CGAL
+%{__mkdir} -p %{buildroot}%{_datadir}/CGAL
 touch -r demo %{buildroot}%{_datadir}/CGAL/
-cp -a demo %{buildroot}%{_datadir}/CGAL/demo
-cp -a examples %{buildroot}%{_datadir}/CGAL/examples
+%{__cp} -a demo %{buildroot}%{_datadir}/CGAL/demo
+%{__cp} -a examples %{buildroot}%{_datadir}/CGAL/examples
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 
 %post -p /sbin/ldconfig
@@ -139,6 +138,9 @@ rm -rf %{buildroot}
 %exclude %{_datadir}/CGAL/*/*/skip_vcproj_auto_generation
 
 %changelog
+* Fri Nov 27 2015 Devrim Gündüz <devrim@gunduz.org> - 4.7-1
+- Update to 4.7
+
 * Thu Jul 17 2014 Devrim Gündüz <devrim@gunduz.org> - 4.3-1
 - Initial build for PostgreSQL Build Farm, to satisfy dependencies for
   pgrouting.
