@@ -4,8 +4,8 @@
 %global cmake_version 2.6.2
 
 # Various variables that defines the release
-%global soname 10
-%global soversion 10.0.2
+%global soname 11
+%global soversion 11.0.1
 %global alphatag %{nil}
 %global alphaname %{nil}
 
@@ -23,14 +23,9 @@ Source10:	CGAL-README.Fedora
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Required devel packages.
-BuildRequires:	cmake >= %{cmake_version}
-BuildRequires:	gmp-devel
-BuildRequires:	boost-devel >= %{boost_version}
-BuildRequires:	qt3-devel
-BuildRequires:	qt-devel >= %{qt_version}
-BuildRequires:	zlib-devel
-BuildRequires:	blas-devel lapack-devel
-BuildRequires:	mpfr-devel
+BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_version}
+BuildRequires:	qt3-devel qt-devel >= %{qt_version} zlib-devel
+BuildRequires:	blas-devel lapack-devel mpfr-devel gcc-c++
 
 %description
 Libraries for CGAL applications.
@@ -73,7 +68,6 @@ CGAL algorithms.
 chmod a-x include/CGAL/export/ImageIO.h
 chmod a-x include/CGAL/export/CORE.h
 chmod a-x include/CGAL/internal/Static_filters/Equal_3.h
-chmod a-x include/CGAL/export/Qt4.h
 chmod a-x include/CGAL/export/CGAL.h
 
 # Install README.Fedora here, to include it in %%doc
