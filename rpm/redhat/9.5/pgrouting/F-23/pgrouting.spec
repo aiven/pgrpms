@@ -11,10 +11,11 @@ Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
+Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
-BuildRequires:	boost-devel >= 1.55, CGAL-devel => 4.4, gmp-devel
+BuildRequires:	boost-devel >= 1.58, CGAL-devel => 4.4, gmp-devel
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -35,6 +36,7 @@ value can come from multiple fields or tables.
 
 %prep
 %setup -q -n %{sname}-%{sname}-%{version}
+%patch0 -p0
 
 %build
 install -d build
