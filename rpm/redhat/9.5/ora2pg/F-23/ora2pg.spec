@@ -1,11 +1,11 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	15.1
+Version:	16.1
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	GPLv3+
 URL:		http://ora2pg.darold.net/
-Source0:	http://downloads.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
+Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
@@ -34,27 +34,29 @@ Oracle database to a PostgreSQL database.
 %{__rm} -rf %{buildroot}
 %{__make} install DESTDIR=%{buildroot}
 
-%{__install} -D -m 0644 doc/%{name}.3 \
-    %{buildroot}/%{_mandir}/man3/%{name}.3
-
 # Remove unpackaged files.
-rm -f `find %{buildroot}/%{_libdir}/perl*/ -name perllocal.pod -type f`
-rm -f `find %{buildroot}/%{_libdir}/perl*/ -name .packlist -type f`
+%{__rm} -f `find %{buildroot}/%{_libdir}/perl*/ -name perllocal.pod -type f`
+%{__rm} -f `find %{buildroot}/%{_libdir}/perl*/ -name .packlist -type f`
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root, 0755)
 %attr(0755,root,root) %{_bindir}/%{name}
+%attr(0755,root,root) %{_bindir}/%{name}_scanner
 %attr(0644,root,root) %{_mandir}/man3/%{name}.3.gz
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf.dist
+%{perl_vendorlib}/Ora2Pg/MySQL.pm
 %{perl_vendorlib}/Ora2Pg/PLSQL.pm
 %{perl_vendorlib}/Ora2Pg/GEOM.pm
 %{perl_vendorlib}/Ora2Pg.pm
 %{_docdir}/%{name}/*
 
 %changelog
+* Wed Dec 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 16-1-1
+- Update to 16.1.
+
 * Fri Feb 6 2015 Devrim GUNDUZ <devrim@gunduz.org> 15-1-1
 - Update to 15.1, per changes described at:
   http://www.postgresql.org/message-id/54D49C0B.2000006@dalibo.com
