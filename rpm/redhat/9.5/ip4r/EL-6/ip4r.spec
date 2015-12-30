@@ -5,7 +5,7 @@
 Name:           %{sname}%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
 Version:	2.0.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
@@ -38,11 +38,14 @@ rm -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{_docdir}/pgsql/extension/README.ip4r
+%doc %{pginstdir}/doc/extension/README.ip4r
 %{pginstdir}/lib/ip4r.so
 %{pginstdir}/share/extension/ip4r*
 
 %changelog
+* Mon Nov 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-2
+- Fixes for Fedora 23 and new doc layout in 9.5.
+
 * Wed Jun 11 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2
 - Update summary and description
@@ -51,7 +54,7 @@ rm -rf %{buildroot}
 - Update to 2.0, using the "extension" tarball.
 
 * Thu Mar 08 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.05-3
--  Provide postgresql-ip4r, to match the package name in EPEL.
+- Provide postgresql-ip4r, to match the package name in EPEL.
 
 * Tue Oct 12 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.05-2
 - Apply 9.0 specific changes to spec file.
