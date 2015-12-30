@@ -37,22 +37,17 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-# install doc related files to appropriate directory:
-%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/COPYRIGHT.orafce %{buildroot}%{pginstdir}/share/extension/COPYRIGHT.orafce
-%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/INSTALL.orafce %{buildroot}%{pginstdir}/share/extension/INSTALL.orafce
-%{__mv} -f %{buildroot}%{_docdir}/pgsql/extension/README.asciidoc %{buildroot}%{pginstdir}/share/extension/README.asciidoc
-
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/COPYRIGHT.orafce
-%doc %{pginstdir}/share/extension/INSTALL.orafce
-%doc %{pginstdir}/share/extension/README.asciidoc
+%doc %{pginstdir}/doc/extension/COPYRIGHT.orafce
+%doc %{pginstdir}/doc/extension/INSTALL.orafce
+%doc %{pginstdir}/doc/extension/README.asciidoc
 %{pginstdir}/lib/orafce.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/orafce--%{orafcemajver}.%{orafcemidver}.sql
