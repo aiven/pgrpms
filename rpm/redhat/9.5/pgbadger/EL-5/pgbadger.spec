@@ -3,6 +3,7 @@ Name:		pgbadger
 Version:	7.1
 Release:	1%{?dist}
 License:	BSD
+Group:		Application/Databases
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 URL:		http://dalibo.github.com/pgbadger/
 BuildArch:	noarch
