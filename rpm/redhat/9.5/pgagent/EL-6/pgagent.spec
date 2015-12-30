@@ -5,19 +5,19 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	1%{?dist}
-License:	BSD
+Release:	2%{?dist}
+License:	PostgreSQL
 Group:		Applications/Databases
-Source:		http://ftp.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
-Source2:	%{sname}.init
+Source:		https://download.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
+Source2:	%{sname}-%{pgmajorversion}.service
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
 
 %description
 pgAgent is a job scheduler for PostgreSQL which may be managed
-using pgAdmin. Prior to pgAdmin v1.9, pgAgent shipped as part 
-of pgAdmin. From pgAdmin v1.9 onwards, pgAgent is shipped as 
+using pgAdmin. Prior to pgAdmin v1.9, pgAgent shipped as part
+of pgAdmin. From pgAdmin v1.9 onwards, pgAgent is shipped as
 a separate application.
 
 %pre
@@ -25,17 +25,21 @@ groupadd -o -r pgagent >/dev/null 2>&1 || :
 useradd -o -g pgagent -r -s /bin/false \
 	-c "pgAgent Job Schedule" pgagent >/dev/null 2>&1 || :
 touch /var/log/pgagent_%{pgmajorversion}.log
-chown pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
-chmod 0700 /var/log/pgagent_%{pgmajorversion}.log
+%{__chown} pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
+%{__chmod} 0700 /var/log/pgagent_%{pgmajorversion}.log
 
 %prep
 %setup -q -n pgAgent-%{version}-Source
 
 %build
+CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+export CFLAGS
+export CXXFLAGS
 cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config -D STATIC_BUILD:BOOL=OFF .
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
 # Rename pgagent binary, so that we can have parallel installations:
@@ -55,10 +59,10 @@ install -m 755 %{SOURCE2} %{buildroot}/etc/rc.d/init.d/%{name}
 chkconfig --add %{name}
 
 %preun
-chkconfig --add %{name}
+chkconfig --del %{name}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-, root, root)
@@ -71,10 +75,16 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Dec 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-2
+- Build with -fPIC, per Fedora 23+ guidelines.
+- Use more macros.
+- Update license.
+- Update download URL.
+
 * Fri Oct 17 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-1
 - Update to 3.4.0
 - Use macros for pgagent, where appropriate.
-- Add PostgreSQL major version number to pgagent binary, to 
+- Add PostgreSQL major version number to pgagent binary, to
   enable parallel installations.
 
 * Mon Sep 17 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.3.0-1
