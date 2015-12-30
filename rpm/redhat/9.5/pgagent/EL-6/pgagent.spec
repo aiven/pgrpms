@@ -9,7 +9,7 @@ Release:	2%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Source:		https://download.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
-Source2:	%{sname}-%{pgmajorversion}.service
+Source2:	%{sname}.init
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
