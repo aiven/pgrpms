@@ -1,6 +1,9 @@
+%global debug_package %{nil}
+
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname mailchimp_fdw
+%global packagesoversion 0.3.0
 
 #Python major version.
 %{expand: %%global pybasever %(python -c 'import sys;print(sys.version[0:3])')}
@@ -9,7 +12,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for Mailchimp
 Name:		%{sname}%{pgmajorversion}
-Version:	0.1.0
+Version:	0.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -42,9 +45,13 @@ rm -rf %{buildroot}
 %defattr(644,root,root,755)
 %doc README.md
 %dir %{python_sitelib}/mailchimpfdw/
-%{python_sitelib}/mailchimpfdw-%{version}-py%{pybasever}.egg-info
+%{python_sitelib}/mailchimpfdw-%{packagesoversion}-py%{pybasever}.egg-info
 %{python_sitelib}/mailchimpfdw/*.py*
 
 %changelog
-* Mon Mar 16 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.1.8-1
+* Wed Dec 30 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.3.1-1
+- Update to 0.3.1
+
+* Mon Mar 16 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
+
