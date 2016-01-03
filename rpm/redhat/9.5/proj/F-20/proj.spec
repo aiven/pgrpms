@@ -1,6 +1,6 @@
 Name:		proj
-Version:	4.9.1
-Release:	1%{?dist}
+Version:	4.8.0
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
 
@@ -9,7 +9,7 @@ License:	MIT
 URL:		http://trac.osgeo.org/proj
 Source0:	http://download.osgeo.org/%{name}/%{name}-%{version}.tar.gz
 Source1:	http://download.osgeo.org//proj/proj-datumgrid-1.5.zip
-Patch0:		proj-4.8.0-removeinclude.patch
+Patch0:		proj.copyright.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	libtool
@@ -29,11 +29,6 @@ Summary:	EPSG dataset for PROJ.4
 Group:		Applications/Engineering
 Requires:	%{name} = %{version}-%{release}
 
-%package static
-Summary:	Development files for PROJ.4
-Group:		Development/Libraries
-Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-
 %description
 Proj and invproj perform respective forward and inverse transformation of
 cartographic data to or from cartesian data with a wide range of selectable
@@ -47,9 +42,6 @@ This package contains additional US and Canadian datum shift grids.
 
 %description epsg
 This package contains additional EPSG dataset.
-
-%description static
-This package contains libproj static library.
 
 %prep
 %setup -q
@@ -69,9 +61,6 @@ sed -i -e '1,1s|:|#!/bin/bash|' $script
 done
 
 %build
-# fix version info to respect new ABI
-sed -i -e 's|5\:4\:5|6\:4\:6|' src/Makefile*
-
 %configure --without-jni
 make OPTIMIZE="$RPM_OPT_FLAGS" %{?_smp_mflags}
 
@@ -105,7 +94,8 @@ rm -rf %{buildroot}
 %doc NEWS AUTHORS COPYING README ChangeLog
 %{_bindir}/*
 %{_mandir}/man1/*.1*
-%{_libdir}/libproj.so.9*
+%{_libdir}/*.so.*
+%{_libdir}/pkgconfig/proj.pc
 
 %files devel
 %defattr(-,root,root,-)
@@ -113,14 +103,7 @@ rm -rf %{buildroot}
 %{_includedir}/*.h
 %{_libdir}/*.so
 %{_libdir}/*.a
-%attr(0755,root,root) %{_libdir}/pkgconfig/%{name}.pc
-%exclude %{_libdir}/libproj.a
 %exclude %{_libdir}/libproj.la
-
-%files static
-%defattr(-,root,root,-)
-%{_libdir}/libproj.a
-%{_libdir}/libproj.la
 
 %files nad
 %defattr(-,root,root,-)
@@ -128,7 +111,6 @@ rm -rf %{buildroot}
 %attr(0755,root,root) %{_datadir}/%{name}/test27
 %attr(0755,root,root) %{_datadir}/%{name}/test83
 %attr(0755,root,root) %{_datadir}/%{name}/testvarious
-%attr(0755,root,root) %{_libdir}/pkgconfig/%{name}.pc
 %exclude %{_datadir}/%{name}/epsg
 %{_datadir}/%{name}
 
@@ -138,12 +120,6 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_datadir}/%{name}/epsg
 
 %changelog
-* Wed Mar 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 4.9.1-1
-- Update to 4.9.1
-- track soname so bumps are not a suprise.
-- -devel: include .pc file here (left copy in -nad too)
-
-
 * Thu Jul 26 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 0:4.8.0-2
 - Add --without-jni to configure, for clean build..
 
