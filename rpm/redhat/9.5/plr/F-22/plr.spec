@@ -27,20 +27,20 @@ statistical computing and graphics".
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make USE_PGXS=1 DESTDIR=%{buildroot}/ install
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
+%doc %{pginstdir}/doc/extension/README.%{sname}
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
-%{_docdir}/pgsql/extension/README.plr
 
 %changelog
 * Mon Feb 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-16-1
