@@ -1,6 +1,3 @@
-%global pgmajorversion 95
-%global pginstdir /usr/pgsql-9.5
-
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
 #TODO: Create script to make clean tarball
@@ -44,7 +41,7 @@
 
 Name:      gdal
 Version:   1.11.0
-Release:   4%{?dist}
+Release:   3%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -118,7 +115,7 @@ BuildRequires: ogdi-devel
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
-BuildRequires: postgresql%{pgmajorversion}-devel
+BuildRequires: postgresql94-devel
 BuildRequires: proj-devel
 BuildRequires: python2-devel
 BuildRequires: sqlite-devel
@@ -410,7 +407,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --without-msg             \
         --without-openjpeg        \
         --with-pcraster           \
-        --with-pg=%{pginstdir}/bin/pg_config	\
+        --with-pg                 \
         --with-png                \
         --with-poppler            \
         %{spatialite}             \
@@ -763,13 +760,11 @@ popd
 #Or as before, using ldconfig
 
 %changelog
-* Sat Jul 4 2015 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-4
-- Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
-
-* Tue Nov 25 2014 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-3
+* Tue Nov 25 2014 Devrim Gündüz <devrimgundu<z.org> - 1.11.0-3
 - Remove mysql support.
 - Disable tests.
 
+%changelog
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

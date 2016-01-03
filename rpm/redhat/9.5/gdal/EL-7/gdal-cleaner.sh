@@ -1,6 +1,6 @@
 #!/bin/bash
 # Volker Fröhlich
-VERSION="1.11.0"
+VERSION="1.11.3"
 
 tar xvf gdal-"${VERSION}".tar.xz
 
