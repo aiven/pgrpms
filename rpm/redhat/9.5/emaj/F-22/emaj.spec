@@ -36,7 +36,6 @@ in time.
 %dir %{_datadir}/%{name}-%{version}
 %dir %{_datadir}/%{name}-%{version}/sql
 %dir %{_datadir}/%{name}-%{version}/php
-%dir %{_datadir}/%{name}-%{version}/sql
 %{_datadir}/%{name}-%{version}/sql/*.sql
 %{_datadir}/%{name}-%{version}/php/*.php
 
