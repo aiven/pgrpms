@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname pg_track_settings
@@ -5,7 +7,7 @@
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
@@ -39,10 +41,8 @@ make %{?_smp_mflags}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-%{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
+#Avoid conflict with some other README file:
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -52,10 +52,13 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-2
+- Update for 9.5 doc layout.
+
 * Thu Jul 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
