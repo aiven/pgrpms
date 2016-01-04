@@ -33,18 +33,15 @@ make USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
 %install
 %{__rm} -rf  %{buildroot}
 %{__make} install USE_PGXS=1 DESTDIR=%{buildroot} %{?_smp_mflags}
-# Move doc to appropriate place:
-%{__mkdir} -p %{buildroot}/%{pginstdir}/share/extension
-%{__mv} %{buildroot}/%{_docdir}/pgsql/extension/pgtap.mmd %{buildroot}/%{pginstdir}/share/extension
 
 %clean
 %{__rm} -rf  %{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%doc %{pginstdir}/doc/extension/pgtap.mmd
 %{pginstdir}/share/extension/pgtap-*.sql
 %{pginstdir}/share/extension/pgtap.control
-%{pginstdir}/share/extension/pgtap.mmd
 
 %changelog
 * Fri Mar 27 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 0.95.0-1
