@@ -30,24 +30,23 @@ the queryid field.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.rst %{buildroot}%{pginstdir}/share/extension/README-%{sname}.rst
-rm -f %{buildroot}%{_docdir}/pgsql/extension/README.rst
+# Avoid conflict with some other README files:
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.rst %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.rst
+
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}.rst
+%doc %{pginstdir}/doc/extension/README-%{sname}.rst
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}--2.0.1--2.0.2.sql
@@ -56,5 +55,6 @@ rm -rf %{buildroot}
 %changelog
 * Fri Mar 27 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
 - Update to 2.0.2
+
 * Tue Mar 17 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
