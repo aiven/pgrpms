@@ -26,26 +26,17 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 644 README.md  %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-install -m 644 doc/pg_partman.md  %{buildroot}%{pginstdir}/share/extension/
-install -m 644 doc/pg_partman_howto.md %{buildroot}%{pginstdir}/share/extension/
-rm -f %{buildroot}%{_docdir}/pgsql/extension/pg_partman.md
-rm -f %{buildroot}%{_docdir}/pgsql/extension/pg_partman_howto.md
-
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}.md
-%doc %{pginstdir}/share/extension/%{sname}.md
-%doc %{pginstdir}/share/extension/%{sname}_howto.md
+%doc %{pginstdir}/doc/extension/%{sname}.md
+%doc %{pginstdir}/doc/extension/%{sname}_howto.md
 %{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
