@@ -19,7 +19,7 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2016 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
@@ -70,13 +70,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5
-Release:	rc1_1PGDG%{?dist}
+Version:	9.5.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://ftp.postgresql.org/pub/source/v%{version}rc1/postgresql-%{version}rc1.tar.bz2
+Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source3:	postgresql.init
 Source4:	Makefile.regress
 Source5:	pg_config.h
@@ -296,7 +296,7 @@ system, including regression tests and benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{oname}-%{version}rc1
+%setup -q -n %{oname}-%{version}
 %patch1 -p1
 %patch3 -p1
 # patch5 is applied later
@@ -949,6 +949,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 4 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.0-1PGDG
+- Update to 9.5.0
+
 * Thu Dec 17 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5rc1-1PGDG
 - Update to 9.5rc1
 
