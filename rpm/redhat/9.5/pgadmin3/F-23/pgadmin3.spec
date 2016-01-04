@@ -8,9 +8,9 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.22.0
-Release:	beta1_1%{?dist}
+Release:	1%{?dist}
 License:	BSD
-Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}-beta1/src/%{sname}-%{version}-beta1.tar.gz
+Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel ImageMagick
@@ -46,7 +46,7 @@ This package contains documentation for various languages,
 which are in html format.
 
 %prep
-%setup -q -n %{sname}-%{version}-beta1
+%setup -q -n %{sname}-%{version}
 
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
@@ -117,6 +117,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc docs/*
 
 %changelog
+* Tue Jan 5 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-1
+- Update to 1.22.0 Gold.
+
 * Tue Nov 10 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-beta1-1
 - Update to 1.22.0 beta1
 - Add -fPIC and -pie to CFLAGS and CXXFLAGS, per Fedora 23 packaging
