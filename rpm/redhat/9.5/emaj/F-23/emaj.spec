@@ -1,12 +1,14 @@
 %global debug_package %{nil}
+%global sname e-maj
+
 Name:		emaj
-Version:	1.1.0
-Release:	2%{?dist}
+Version:	1.2.0
+Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
 License:	GPLv2
-URL:		http://pgfoundry.org/projects/emaj/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
+URL:		http://pgxn.org/dist/%{sname}/
+Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -16,7 +18,7 @@ the capability to "rollback" these updates to a predefined point
 in time.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 
@@ -39,6 +41,9 @@ in time.
 %{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
+* Mon Jan 4 2016 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+
 * Mon Nov 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-2
 - Fixes for Fedora 23 and new doc layout in 9.5.
 

@@ -1,32 +1,34 @@
+%global debug_package %{nil}
+%global sname e-maj
+
 Name:		emaj
-Version:	1.1.0
+Version:	1.2.0
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
 License:	GPLv2
-URL:		http://pgfoundry.org/projects/emaj/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
+URL:		http://pgxn.org/dist/%{sname}/
+Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-E-Maj is a set of PL/pgSQL functions allowing PostgreSQL Database 
-Administrators to record updates applied on a set of tables, with 
-the capability to "rollback" these updates to a predefined point 
+E-Maj is a set of PL/pgSQL functions allowing PostgreSQL Database
+Administrators to record updates applied on a set of tables, with
+the capability to "rollback" these updates to a predefined point
 in time.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %{__install} -d %{buildroot}%{_datadir}/%{name}-%{version}/
-#%{__cp} -r AUTHORS CHANGES doc LICENSE META.json php README sql %{buildroot}%{_datadir}/%{name}-%{version}/
 %{__cp} -r php sql %{buildroot}%{_datadir}/%{name}-%{version}/
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -39,6 +41,12 @@ rm -rf %{buildroot}
 %{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
+* Mon Jan 4 2016 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+
+* Mon Nov 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-2
+- Fixes for Fedora 23 and new doc layout in 9.5.
+
 * Wed Jan 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 
