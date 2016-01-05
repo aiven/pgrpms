@@ -97,8 +97,7 @@ mvn clean package 2>&1 | tee test.log | grep FAILED
 test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
-%files -f .mfiles
-%doc LICENSE README.md
+%files
 %{_javadir}/%{sname}2.jar
 %{_javadir}/%{sname}2ee.jar
 %{_javadir}/%{sname}3.jar
