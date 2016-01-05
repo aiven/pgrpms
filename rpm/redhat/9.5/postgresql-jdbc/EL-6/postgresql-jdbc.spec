@@ -81,7 +81,6 @@ popd
 sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 install -d -m 755 %{buildroot}%{_mavenpomdir}/
 install -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
-%add_maven_depmap
 
 install -d -m 755 %{buildroot}%{_javadocdir}
 %{__cp} -ra pgjdbc/target/apidocs %{buildroot}%{_javadocdir}/%{name}
@@ -101,6 +100,8 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_javadir}/%{sname}2.jar
 %{_javadir}/%{sname}2ee.jar
 %{_javadir}/%{sname}3.jar
+%{_javadir}/postgresql%{pgmajorversion}-jdbc.jar
+%{_datadir}/maven2/poms/JPP-postgresql%{pgmajorversion}-jdbc.pom
 
 %files javadoc
 %doc LICENSE
