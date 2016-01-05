@@ -47,6 +47,10 @@ install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 %endif
 
 %changelog
+* Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> 1.25-beta1-1
+- Update to 1.25 beta1
+- Fix rpmlint warnings, and adjust to PGDG release format.
+
 * Wed Dec 10 2014 Nicolas Thauvin <nicolas.thauvin@dalibo.com> 1.19-1
 - update to release 1.19
 
