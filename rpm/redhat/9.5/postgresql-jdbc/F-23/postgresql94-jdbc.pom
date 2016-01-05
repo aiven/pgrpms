@@ -18,6 +18,6 @@
     </license>
   </licenses>
   <scm>
-    <url>http://gborg.postgresql.org/project/pgjdbc/cvs/cvs.php</url>
+    <url>https://github.com/pgjdbc/pgjdbc</url>
   </scm>
 </project>
