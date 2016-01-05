@@ -19,6 +19,7 @@ URL:		http://www.repmgr.org
 Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-%{pgpackageversion}.service
 Source2:	repmgr.init
+Source3:	repmgr.sysconfig
 Patch0:		repmgr-makefile-pgxs.patch
 Patch1:		repmgr.conf.sample.patch
 
@@ -94,6 +95,9 @@ EOF
 %else
 install -d %{buildroot}%{_sysconfdir}/init.d
 install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+# Create the sysconfig directory and config file:
+install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
+install -m 700 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
@@ -144,11 +148,14 @@ fi
 %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %changelog
 * Tue Jan 5 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-1
 - Update to 3.0.3
+- Apply various fixes to init script, and also add sysconfig
+  file. Patch from Martín Marqués.
 - Fix some rpmlint warnings.
 
 * Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-2
