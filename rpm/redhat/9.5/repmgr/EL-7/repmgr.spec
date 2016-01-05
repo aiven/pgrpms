@@ -10,13 +10,13 @@
 
 %global _varrundir %{_localstatedir}/run/%{sname}
 
-Name:           %{sname}%{pgmajorversion}
-Version:        3.0.2
-Release:        2%{?dist}
-Summary:        Replication Manager for PostgreSQL Clusters
-License:        GPLv3
-URL:            http://www.repmgr.org
-Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
+Name:		%{sname}%{pgmajorversion}
+Version:	3.0.3
+Release:	1%{?dist}
+Summary:	Replication Manager for PostgreSQL Clusters
+License:	GPLv3
+URL:		http://www.repmgr.org
+Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-%{pgpackageversion}.service
 Source2:	repmgr.init
 Patch0:		repmgr-makefile-pgxs.patch
@@ -147,6 +147,10 @@ fi
 %endif
 
 %changelog
+* Tue Jan 5 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-1
+- Update to 3.0.3
+- Fix some rpmlint warnings.
+
 * Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-2
 - Ensure that /var/run/repmgr exists. Per Guillaume Lelarge.
 - Switch to postgres user while running the deamon, instead of
