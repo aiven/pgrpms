@@ -5,7 +5,7 @@
 %global java_ver_min 1.8.0
 
 Name:           apache-maven
-Version:        3.3.3
+Version:        3.3.9
 Release:        4%{?dist}
 Summary:        Java project management and project comprehension tool binary
 Epoch:          0
@@ -163,6 +163,9 @@ EOF
 %config(noreplace) %{_sysconfdir}/bash_completion.d/%{maven_name}
 
 %changelog
+* Tue Jan 5 2016 Devrim Gündüz <devrim @gunduz.org> - 0:3.3.9-4
+- Update to 3.3.9
+
 * Wed Oct 21 2015 Ding-Yi Chen <dchen at redhat.com> - 0:3.3.3-4
 - CentOS 6 only has java-<ver>-openjdk-devel, but not java-devel-<ver>
 
