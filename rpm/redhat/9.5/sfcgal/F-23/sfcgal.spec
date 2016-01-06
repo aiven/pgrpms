@@ -8,7 +8,7 @@ Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 URL:		http://sfcgal.org/
 BuildRequires:	cmake, CGAL-devel
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
-BuildRequires:	mpfr-devel, gmp-devel, CGAL-devel
+BuildRequires:	mpfr-devel, gmp-devel, CGAL-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
@@ -42,7 +42,7 @@ Development headers and libraries for SFCGAL.
 %setup -q
 
 %build
-%cmake	-D LIB_INSTALL_DIR=%{_lib} .
+%cmake	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
 make %{?_smp_mflags}
 
