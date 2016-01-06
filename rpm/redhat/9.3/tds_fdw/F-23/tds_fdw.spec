@@ -4,13 +4,13 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.5
+Version:	1.0.6
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/geoip/
+URL:		http://pgxn.org/dist/tds_fdw/
 BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
 Requires:	postgresql%{pgmajorversion}-server, freetds
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -55,5 +55,8 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/share/extension/Variables-%
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.6-1
+- Update to 1.0.6
+
 * Fri Sep 25 2015  - Devrim GUNDUZ <devrim@gunduz.org> 1.0.5-1
 - Initial packaging for PostgreSQL RPM Repository
