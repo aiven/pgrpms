@@ -4,17 +4,17 @@
 %global sname	pgcenter
 
 Summary:	top-like PostgreSQL statistics viewer.
-Name:		%{sname}%{pgmajorversion}
+Name:		pgcenter
 Version:	0.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/lesovsky/%{sname}/archive/0.2.0.tar.gz
-Patch0:		%{sname}-pgxs.patch
-URL:		https://github.com/lesovsky/%{sname}
+Source0:	https://github.com/lesovsky/%{name}/archive/0.2.0.tar.gz
+Patch0:		%{name}-pgxs.patch
+URL:		https://github.com/lesovsky/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Requires:	postgresql%{pgöajorversion}-libs
-BuildRequires:	postgresql%{pgöajorversion}, ncurses-devel
+Requires:	postgresql%{pgmajorversion}-libs
+BuildRequires:	postgresql%{pgmajorversion}, ncurses-devel
 
 %description
 PostgreSQL provides various statistics which includes information about
@@ -31,7 +31,7 @@ However if need execute some specific operations, pgcenter can start
 psql session for this purposes.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q
 %patch0 -p0
 
 %build
@@ -47,10 +47,15 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %files
 %defattr(-,root,root,-)
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc README.md COPYRIGHT
+%else
 %doc README.md
 %license COPYRIGHT
-%{_bindir}/%{sname}
+%endif
+
+%{_bindir}/%{name}
 
 %changelog
-* Tue Apr 27 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.9.0-1
+* Wed Jan 06 2016 - Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
