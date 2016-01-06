@@ -1,9 +1,8 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	7.1
+Version:	7.2
 Release:	1%{?dist}
-License:	BSD
-Group:		Application/Databases
+License:	PostgreSQL
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 URL:		http://dalibo.github.com/pgbadger/
 BuildArch:	noarch
@@ -37,11 +36,21 @@ compressed file.
 %{__rm} -f %{buildroot}/%perl_vendorarch/auto/pgBadger/.packlist
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc README LICENSE
+%else
+%doc README
+%license LICENSE
+%endif
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Wed Jan 6 2016 - Devrim GÜNDÜZ <devrim@gunduz.org> 7.2-1
+- Update to 7.2
+- Update license
+- Use new %%license macro
+
 * Mon Jul 13 2015 - Devrim GÜNDÜZ <devrim@gunduz.org> 7.1-1
 - Update to 7.1, per changes described at:
   http://www.postgresql.org/message-id/55A0EB5C.1040900@dalibo.com
