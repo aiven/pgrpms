@@ -1,10 +1,5 @@
 %global sname check_pgactivity
 %global pgmajorversion 95
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
 
 %global		_tag REL1_25
 
@@ -38,12 +33,11 @@ install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 %files
 %defattr(-,root,root,0755)
 %{_libdir}/nagios/plugins/%{sname}
-%if %{systemd_enabled}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc README.rst LICENSE
+%else
 %doc README.rst
 %license LICENSE
-%else
-%defattr(-,root,root,-)
-%doc README.rst LICENSE
 %endif
 
 %changelog
