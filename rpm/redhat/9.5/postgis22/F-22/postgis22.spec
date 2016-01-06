@@ -4,8 +4,12 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname	postgis
-%{!?utils:%global	utils 1}
-%{!?raster:%global	raster 1}
+%{!?raster:%global     utils 1}
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+%{!?raster:%global     raster 1}
+%else
+%{!?raster:%global     raster 0}
+%endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
@@ -23,13 +27,16 @@ URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
-BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel, SFCGAL-devel
-%if %raster
+BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+BuildRequires:	SFCGAL-devel
+Requires:	SFCGAL
+%endif
+%if %{raster}
 BuildRequires:	gdal-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
-Requires:	SFCGAL
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -95,7 +102,12 @@ The postgis-utils package provides the utilities for PostGIS.
 %if !%raster
         --without-raster \
 %endif
-	 --disable-rpath --libdir=%{pginstdir}/lib --with-sfcgal=%{_bindir}/sfcgal-config
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+	--with-sfcgal=%{_bindir}/sfcgal-config \
+	--disable-rpath --libdir=%{pginstdir}/lib
+%else
+	--disable-rpath --libdir=%{pginstdir}/lib
+%endif
 
 make LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 make -C extensions
@@ -147,9 +159,9 @@ fi
 %defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.txt
+%doc LICENSE.TXT
 %else
-%license LICENSE.txt
+%license LICENSE.TXT
 %endif
 %{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
@@ -211,6 +223,8 @@ fi
 - Update to 2.2.1, per changes described at:
   http://postgis.net/2016/01/06/postgis-2.2.1/
 - Use %%license macro, on supported distros.
+- Put sfcgal and raster support into conditionals, so that
+  we can use one spec file for all platforms.
 
 * Fri Oct 30 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.2.0-2
 - Build with SFCGAL support.
