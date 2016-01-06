@@ -9,14 +9,15 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.2.0
-Release:	2%{?dist}
+Version:	2.2.1
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
+Patch0:		postgis-2.2.0-gdalfpic.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -85,11 +86,10 @@ The postgis-utils package provides the utilities for PostGIS.
 %prep
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
-cp -p %{SOURCE2} .
+%{__cp} -p %{SOURCE2} .
+%patch0 -p0
 
 %build
-# We need the below for GDAL:
-export LD_LIBRARY_PATH=%{pginstdir}/lib
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -105,7 +105,7 @@ make -C extensions
 %endif
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
 %if %utils
@@ -141,19 +141,24 @@ if [ "$1" -eq 0 ]
 fi
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
-%{_docdir}/pgsql/extension/README.address_standardizer
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE.txt
+%else
+%license LICENSE.txt
+%endif
+%{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
-%{pginstdir}/share/contrib/%{sname}_topology-%{postgismajorversion}/*topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*topology*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
@@ -202,8 +207,14 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
+- Update to 2.2.1, per changes described at:
+  http://postgis.net/2016/01/06/postgis-2.2.1/
+- Use %%license macro, on supported distros.
+
 * Fri Oct 30 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.2.0-2
 - Build with SFCGAL support.
+- use -fPIC with gdal, patch from Oskari Saarenmaa.
 
 * Tue Oct 13 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.2.0-1
 - Update to 2.2.0, per changes described at:
