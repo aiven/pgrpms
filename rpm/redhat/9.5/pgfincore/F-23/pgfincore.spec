@@ -42,14 +42,18 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/pgfincore/README.rst
 %doc AUTHORS ChangeLog
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYRIGHT
+%else
 %license COPYRIGHT
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/pgfincore/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
 * Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-2
-- Fixes for Fedora 23.
+- Fixes for Fedora 23 and PostgreSQL 9.5 doc layout.
 
 * Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-1
 - Update to 1.1.2

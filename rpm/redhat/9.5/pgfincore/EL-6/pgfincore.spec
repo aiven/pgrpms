@@ -5,7 +5,7 @@
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}%{pgmajorversion}
 Version:	1.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
@@ -26,30 +26,35 @@ PgFincore is a set of functions to manage blocks in memory.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-
+%{__rm} -rf %{buildroot}
+%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
+%{__mkdir} -p %{buildroot}%{pginstdir}/share/pgfincore
+%{__mkdir} -p %{buildroot}%{pginstdir}/doc/pgfincore
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.rst %{buildroot}%{pginstdir}/share/extension/
-%{__rm} -f %{buildroot}%{_docdir}/pgsql/pgfincore/README.rst
-
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS COPYRIGHT TODO ChangeLog README.rst
+%doc %{pginstdir}/doc/pgfincore/README.rst
+%doc AUTHORS ChangeLog
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYRIGHT
+%else
+%license COPYRIGHT
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/pgfincore/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/extension/README.rst
 
 %changelog
+* Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-2
+- Fixes for Fedora 23 and PostgreSQL 9.5 doc layout.
+
 * Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-1
 - Update to 1.1.2
 - Update project URL -- pgfoundry is dead.
