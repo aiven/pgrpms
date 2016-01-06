@@ -2,6 +2,7 @@ Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
 Version:	7.2
 Release:	1%{?dist}
+Group:		Applications/Databases
 License:	PostgreSQL
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 URL:		http://dalibo.github.com/pgbadger/
