@@ -42,7 +42,7 @@ Development headers and libraries for SFCGAL.
 %setup -q
 
 %build
-%cmake	-D LIB_INSTALL_DIR=%{_lib} .
+%cmake	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
 make %{?_smp_mflags}
 
