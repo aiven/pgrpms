@@ -4,7 +4,7 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.6
+Version:	1.0.7
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -55,6 +55,9 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/share/extension/Variables-%
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Thu Jan 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.7-1
+- Update to 1.0.7
+
 * Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.6-1
 - Update to 1.0.6
 
