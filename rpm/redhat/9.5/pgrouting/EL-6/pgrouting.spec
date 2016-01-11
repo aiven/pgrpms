@@ -52,6 +52,7 @@ install -d build
 cd build
 %cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
+	-DBoost_NO_BOOST_CMAKE=on \
 %if %{tsp_support}
 	-DWITH_TSP=ON \
 %endif
@@ -96,6 +97,9 @@ cd build
 * Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 - Improve description
+- Set Boost_NO_BOOST_CMAKE to revent FindBoost.cmake from
+  picking up boost's BoostConfig.cmake. This is needed
+  only on RHEL 6.
 
 * Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
