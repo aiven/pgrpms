@@ -59,7 +59,7 @@ PGPOOLCONF=/etc/pgpool-II-95/pgpool.conf
 PGPOOLPIDDIR=/var/run/pgpool-II-95
 PGPOOLLOG=/var/log/pgpool-II-95.log
 
-/var/lock/subsys/${NAME}
+lockfile=/var/lock/subsys/${NAME}
 pidfile="$PGPOOLPIDDIR/pgpool.pid"
 
 # Import configuration from /etc/sysconfig, if it exists
