@@ -4,17 +4,22 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname	postgis
-%{!?raster:%global     utils 1}
-%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+%{!?utils:%global     utils 1}
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 6
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
+%endif
+%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+%{!?sfcgal:%global     sfcgal 1}
+%else
+%{!?sfcgal:%global    sfcgal 0}
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -28,7 +33,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
-%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+%if %{sfcgal}
 BuildRequires:	SFCGAL-devel
 Requires:	SFCGAL
 %endif
@@ -102,12 +107,10 @@ The postgis-utils package provides the utilities for PostGIS.
 %if !%raster
         --without-raster \
 %endif
-%if 0%{?fedora} >= 21 || 0%{?rhel} >= 7
+%if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
-	--disable-rpath --libdir=%{pginstdir}/lib
-%else
-	--disable-rpath --libdir=%{pginstdir}/lib
 %endif
+	--disable-rpath --libdir=%{pginstdir}/lib
 
 make LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 make -C extensions
@@ -171,24 +174,28 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*topology*.sql
+%if %{sfcgal}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
+%endif
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
+%if %{sfcgal}
 %{pginstdir}/share/extension/%{sname}_sfcgal*.sql
-%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/%{sname}_sfcgal.control
+%endif
+%{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so.*
 %{pginstdir}/lib/postgis_topology-2.2.so
 %{pginstdir}/lib/address_standardizer-2.2.so
 %{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
 %if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
@@ -219,6 +226,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Jan 11 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-2
+- Fix utils, and raster macros, to fix builds on RHEL 6.
+- Add macro for sfcgal support.
+
 * Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
 - Update to 2.2.1, per changes described at:
   http://postgis.net/2016/01/06/postgis-2.2.1/
