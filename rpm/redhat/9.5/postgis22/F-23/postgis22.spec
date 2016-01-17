@@ -19,7 +19,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.2.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -31,7 +31,7 @@ Patch0:		postgis-2.2.0-gdalfpic.patch
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.4.2
+BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.5.0
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 %if %{sfcgal}
 BuildRequires:	SFCGAL-devel
@@ -226,6 +226,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
+- Force dependency on GeOS 3.5.0. Per report from Paul Edwards,
+  and others, on PostGIS mailing list.
+
 * Mon Jan 11 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-2
 - Fix utils, and raster macros, to fix builds on RHEL 6.
 - Add macro for sfcgal support.
