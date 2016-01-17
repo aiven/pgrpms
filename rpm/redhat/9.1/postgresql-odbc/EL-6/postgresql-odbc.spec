@@ -23,16 +23,17 @@
 
 %global pgmajorversion 91
 %global	pginstdir /usr/pgsql-9.1
+%global debug_package %{nil}
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.03.0400
+Version:	09.05.0100
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
 URL:		https://odbc.postgresql.org/
 
-Source0:	https://ftp.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
+Source0:	http://download.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
 Source1:	acinclude.m4
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -54,9 +55,9 @@ PostgreSQL system via ODBC (Open Database Connectivity).
 %setup -q -n psqlodbc-%{version}
 
 # Some missing macros.  Courtesy Owen Taylor <otaylor@redhat.com>.
-cp -p %{SOURCE1} .
+%{__cp} -p %{SOURCE1} .
 # Use build system's libtool.m4, not the one in the package.
-rm -f libtool.m4
+%{__rm} -f libtool.m4
 
 libtoolize --force  --copy
 aclocal -I .
@@ -71,7 +72,7 @@ autoheader
 make
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %makeinstall
 
 # Provide the old library name "psqlodbc.so" as a symlink,
@@ -86,7 +87,7 @@ popd
 strip %{buildroot}%{pginstdir}/lib/*.so
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -95,9 +96,20 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %attr(755,root,root) %{pginstdir}/lib/psqlodbcw.so
 %{pginstdir}/lib/psqlodbc.so
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc license.txt readme.txt
+%else
+%doc readme.txt
+%license license.txt
+%endif
+
 
 %changelog
+* Mon Jan 18 2016 - Devrim Gündüz <devrim@gunduz.org> - 09.05.0100-1
+- Update to 09.05.0100
+- Update download URL
+- Use a few more macros in spec file.
+
 * Sun Apr 5 2015 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0400-1
 - Update to 09.03.0400
 - Provide postgresql-odbc package (versionless)
