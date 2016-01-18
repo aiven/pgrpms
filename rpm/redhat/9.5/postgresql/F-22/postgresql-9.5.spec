@@ -53,23 +53,25 @@
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-# Configure parameters
+
 %{!?disablepgfts:%global disablepgfts 0}
 %{!?intdatetimes:%global intdatetimes 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plperl:%global plperl 1}
-%{!?pltcl%{!?pltcl:%global pltcl 1}
 %{!?plpython:%global plpython 1}
-%if 0%{?fedora} > 22
+%if 0%{?fedora} > 21
 %{!?plpython3:%global plpython3 1}
+%else
+%{!?plpython3:%global plpython3 0}
 %endif
-%{!?runselftest:%global runselftest 0}
-%{!?selinux:%global selinux 1}
+%{!?pltcl:%global pltcl 1}
+%{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
+%{!?runselftest:%global runselftest 0}
+%{!?selinux:%global selinux 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -79,7 +81,7 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %{!?sdt:%global sdt 1}
 %endif
-%if 0%{?fedora} > 22
+%if 0%{?fedora} > 23
 %global _hardened_build 1
 %endif
 
@@ -545,7 +547,7 @@ unset PYTHON
 	--enable-nls \
 %endif
 %if %sdt
-        --enable-dtrace \
+	--enable-dtrace \
 %endif
 %if !%intdatetimes
 	--disable-integer-datetimes \
@@ -672,7 +674,7 @@ case `uname -i` in
 	;;
 esac
 
-# This is only for systemd supported distros.
+# This is only for systemd supported distros:
 %if %{systemd_enabled}
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
@@ -687,9 +689,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
 	<%{SOURCE10} >postgresql%{packageversion}-check-db-dir
 touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
 install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
-%endif
 
-%if %{systemd_enabled}
 install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
 %else
@@ -1162,10 +1162,10 @@ fi
 %files server -f pg_server.lst
 %defattr(-,root,root)
 %if %{systemd_enabled}
-%{_tmpfilesdir}/postgresql-%{majorversion}.conf
-%{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
+%{_tmpfilesdir}/postgresql-%{majorversion}.conf
+%{_unitdir}/postgresql-%{majorversion}.service
 %else
 %config(noreplace) %{_initrddir}/postgresql-%{majorversion}
 %endif
