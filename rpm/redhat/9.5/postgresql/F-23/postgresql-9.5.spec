@@ -61,7 +61,7 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 %{!?plperl:%global plperl 1}
-%{!?plpy%{!?pltcl:%global pltcl 1}
+%{!?pltcl%{!?pltcl:%global pltcl 1}
 %{!?plpython:%global plpython 1}
 %if 0%{?fedora} > 22
 %{!?plpython3:%global plpython3 1}

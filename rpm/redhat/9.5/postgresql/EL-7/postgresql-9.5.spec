@@ -61,7 +61,7 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 %{!?plperl:%global plperl 1}
-%{!?plpy%{!?pltcl:%global pltcl 1}
+%{!?pltcl%{!?pltcl:%global pltcl 1}
 %{!?plpython:%global plpython 1}
 %if 0%{?fedora} > 22
 %{!?plpython3:%global plpython3 1}
@@ -113,6 +113,10 @@ Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
 Patch5:		postgresql-var-run-socket.patch
 Patch6:		postgresql-perl-rpath.patch
+# This is needed only for RHEL 5
+%if 0%{?rhel} && 0%{?rhel} <= 5
+Patch7:		postgresql-prefer-ncurses.patch
+%endif
 Patch8:		postgresql-python3.5-tests.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
@@ -382,6 +386,9 @@ benchmarks.
 %patch3 -p1
 %patch5 -p1
 %patch6 -p1
+%if 0%{?rhel} && 0%{?rhel} <= 5
+%patch7 -p1
+%endif
 %patch8 -p1
 
 %{__cp} -p %{SOURCE12} .
