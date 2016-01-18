@@ -1,6 +1,6 @@
---- Makefile.old	2014-08-29 11:05:27.953942192 +0300
-+++ Makefile	2014-08-29 11:05:44.400758688 +0300
-@@ -30,7 +30,7 @@
+--- Makefile.old	2016-01-18 11:37:02.729445644 +0200
++++ Makefile	2016-01-18 11:37:11.260360248 +0200
+@@ -32,7 +32,7 @@
  # example: /usr/local/pgsql/bin/pg_config or /usr/lib/postgresql/9.3/bin/pg_config
  #
  
