@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel5
+DIST=.f23
 SPECFILE="postgresql-9.5.spec"
 
 # Now, include global Makefile
