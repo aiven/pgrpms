@@ -14,7 +14,6 @@
 #			   	#
 #################################
 
-# $Id: Makefile.global 1090 2010-01-20 09:08:12Z devrim $
 prep:
 	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
 
