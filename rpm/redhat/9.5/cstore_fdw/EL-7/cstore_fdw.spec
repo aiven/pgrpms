@@ -4,7 +4,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3
+Version:	1.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -25,17 +25,17 @@ let you:
 %patch0 -p0
 
 %build
-make %{?_smp_mflags}
+make
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Let's also install documentation:
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/share/extension/README-cstore_fdw.md
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -45,6 +45,10 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Jan 18 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.4-1
+- Update to 1.4
+- Parallel build seems to be broken, so disable it for now.
+
 * Mon Sep 07 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-1
 - Update to 1.3
 
