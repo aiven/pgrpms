@@ -239,6 +239,7 @@ PostgreSQL server.
 
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
+Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires(pre):	/usr/sbin/useradd
