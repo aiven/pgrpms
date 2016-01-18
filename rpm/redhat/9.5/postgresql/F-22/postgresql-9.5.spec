@@ -71,15 +71,16 @@
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
-%{!?selinux:%global selinux 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
+%{!?selinux:%global selinux 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
 %{!?sdt:%global sdt 1}
+%{!?selinux:%global selinux 1}
 %endif
 %if 0%{?fedora} > 23
 %global _hardened_build 1
