@@ -71,11 +71,7 @@
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
-%if 0%{?rhel} && 0%{?rhel} <= 5
-%{!?uuid:%global uuid 0}
-%else
 %{!?uuid:%global uuid 1}
-%endif
 %{!?xml:%global xml 1}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
@@ -184,7 +180,11 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %uuid
+%if 0%{?rhel} && 0%{?rhel} <= 5
+BuildRequires:	e2fsprogs-devel
+%else
 BuildRequires:	libuuid-devel
+%endif
 %endif
 
 %if %ldap
@@ -435,7 +435,12 @@ CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 
 # Use --as-needed to eliminate unnecessary link dependencies.
 # Hopefully upstream will do this for itself in some future release.
+# This is a hack for RHEL 5, and will be removed once RHEL 5 is EOLed.
+%if 0%{?rhel} && 0%{?rhel} <= 5
+export LDFLAGS
+%else
 LDFLAGS="-Wl,--as-needed"; export LDFLAGS
+%endif
 
 # plpython requires separate configure/build runs to build against python 2
 # versus python 3.  Our strategy is to do the python 3 run first, then make
