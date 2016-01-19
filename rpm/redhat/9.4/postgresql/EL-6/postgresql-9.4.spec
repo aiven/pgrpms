@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -375,7 +375,8 @@ export LIBNAME=%{_lib}
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
-	--docdir=%{_docdir}
+	--docdir=%{pgbaseinstdir}/doc \
+	--htmldir=%{pgbaseinstdir}/doc/html
 
 make %{?_smp_mflags} all
 make %{?_smp_mflags} -C contrib all
@@ -818,6 +819,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_xlogdump
+%{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
@@ -943,6 +945,12 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.5-2PGDG
+- Specify --docdir and --htmldir properly. This will require many
+  other packages to be updated, but we already made this change in
+  9.5 branch, and maintaining spec files for 3rd party stuff
+  separately for each version started to become harder.
+
 * Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.4.5-1PGDG
 - Update to 9.4.5, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-5.html
