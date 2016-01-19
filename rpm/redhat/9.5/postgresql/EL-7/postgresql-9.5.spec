@@ -71,7 +71,11 @@
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
+%if 0%{?rhel} && 0%{?rhel} <= 5
+%{!?uuid:%global uuid 0}
+%else
 %{!?uuid:%global uuid 1}
+%endif
 %{!?xml:%global xml 1}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
@@ -122,12 +126,21 @@ Patch7:		postgresql-prefer-ncurses.patch
 %endif
 Patch8:		postgresql-python3.5-tests.patch
 
-BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl glibc-devel bison flex
+
 Requires:	/sbin/ldconfig
 
 %if %plperl
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	perl(ExtUtils::MakeMaker)
+%else
 BuildRequires:	perl-ExtUtils-Embed
 BuildRequires:	perl(ExtUtils::MakeMaker)
+%endif
+%if 0%{?fedora} >= 22
+BuildRequires:	perl-ExtUtils-Embed
+BuildRequires:	perl(ExtUtils::MakeMaker)
+%endif
 %endif
 
 %if %plpython
