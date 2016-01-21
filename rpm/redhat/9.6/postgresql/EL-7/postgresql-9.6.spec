@@ -19,7 +19,7 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2015 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2016 Devrim GÜNDÜZ <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6
-Release:	git20151228_1PGDG%{?dist}
+Release:	git20160121_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1030,7 +1030,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
-* Mon Dec 28 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git201512288_1PGDG-1
+* Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160121_1PGDG-1
+- Update to Jan 21, 2016 tarball.
+
+* Mon Dec 28 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151228_1PGDG-1
 - Update to Dec 28, 2015 tarball.
 
 * Wed Nov 18 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151118_1PGDG-1
