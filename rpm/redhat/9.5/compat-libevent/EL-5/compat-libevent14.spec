@@ -29,7 +29,7 @@ Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains the header files, static libraries and development
-documentation for %{name}. If you like to develop programs using 
+documentation for %{name}. If you like to develop programs using
 %{name}, you will need to install %{name}-devel.
 
 %prep
@@ -79,9 +79,11 @@ rm -rf %{buildroot}
 %{_libdir}/libevent.a
 %{_mandir}/man3/*
 
+
+
 %changelog
-* Tue Dec 11 2011 Devrim Gunduz <devrim@gunduz.org> 1.4.13-1
-- Update to 1.4 for RHEL 5
+* Fri Aug 12 2011 Devrim Gunduz <devrim@gunduz.org> 1.4.13-1
+- Update to 1.4 for RHEL 6
 
 * Wed Sep 09 2009 Pavel Lisy <pavel.lisy@gmail.com> 1.1a-1
 - based on libevent-1.1a-3.2.1

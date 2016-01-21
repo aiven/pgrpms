@@ -29,7 +29,7 @@ Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains the header files, static libraries and development
-documentation for %{name}. If you like to develop programs using 
+documentation for %{name}. If you like to develop programs using
 %{name}, you will need to install %{name}-devel.
 
 %prep
@@ -59,7 +59,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root,0755)
 %doc README
-%{_bindir}/event_rpcgen.py
+%{_bindir}/event_rpcgen.py*
 %{_libdir}/libevent*.so.*
 %{_libdir}/libevent_core.a
 %{_libdir}/libevent_core.so
