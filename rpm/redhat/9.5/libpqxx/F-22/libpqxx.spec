@@ -4,7 +4,7 @@
 Name:           libpqxx
 Epoch:          1
 Version:        4.0.1
-Release:        0.1%{?dist}
+Release:        1%{?dist}
 Summary:        C++ client API for PostgreSQL
 
 Group:          System Environment/Libraries
@@ -24,11 +24,12 @@ C++ client API for PostgreSQL. The standard front-end (in the sense of
 Supersedes older libpq++ interface.
 
 %package devel
-Summary:        Development tools for %{name} 
+Summary:        Development tools for %{name}
 Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:       pkgconfig
 Requires:       postgresql%{pgmajorversion}-devel
+
 %description devel
 %{summary}.
 
@@ -36,30 +37,29 @@ Requires:       postgresql%{pgmajorversion}-devel
 %setup -q
 
 # fix spurious permissions
-chmod -x COPYING
+%{__chmod} -x COPYING
 
 %patch3 -p1 -b .multilib
 
 
 %build
-export PG_CONFIG=%{pginstdir}/bin/pg_config 
+export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure --enable-shared --disable-static
 
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 
-rm -f %{buildroot}%{_libdir}/lib*.la
+%{__rm} -f %{buildroot}%{_libdir}/lib*.la
 
-%check 
+%check
 # not enabled, by default, takes awhile.
 %{?_with_check:make check}
 
 %clean
-rm -rf %{buildroot}
-
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
