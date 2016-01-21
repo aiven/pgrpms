@@ -30,17 +30,17 @@ the MySQL.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 install -d %{buildroot}%{pginstdir}/share/extension
 install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}
-rm -f %{buildroot}%{_docdir}/pgsql/extension/README.md
+%{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
