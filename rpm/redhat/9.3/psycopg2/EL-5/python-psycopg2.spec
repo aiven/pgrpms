@@ -1,32 +1,82 @@
-# Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
-%global ZPsycopgDAdir %{_localstatedir}/lib/zope/Products/ZPsycopgDA
-
 %global pgmajorversion 93
 %global pginstdir /usr/pgsql-9.3
 %global sname psycopg2
 
+%if 0%{?fedora} > 22
+%global with_python3 1
+%else
+%global with_python3 0
+%endif
+
+%if 0%{?with_python3}
+%global	python_runtimes	python python-debug python3 python3-debug
+%else
+%global python_runtimes	python
+%endif # with_python3
+
+# Python major version.
+%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+
+%if 0%{?with_python3}
+%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
+%endif # with_python3
+
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.5.4
+Version:	2.6.1
 Release:	1%{?dist}
-Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-5/%{sname}-%{version}.tar.gz
-Patch0:		setup.cfg.patch
-License:	GPL (with Exceptions)
+# The exceptions allow linking to OpenSSL and PostgreSQL's libpq
+License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Url:		http://www.psycopg.org/psycopg/
-BuildRequires:	python-devel postgresql%{pgmajorversion}-devel
+Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-6/psycopg2-%{version}.tar.gz
+Patch0:		setup.cfg.patch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	python-devel
+%if 0%{?with_python3}
+BuildRequires:	python3-devel
+BuildRequires:	python3-debug
+%endif # with_python3
+
 Requires:	postgresql%{pgmajorversion}-libs
 
+Conflicts:	python-psycopg2-zope < %{version}
+
 %description
-psycopg is a PostgreSQL database adapter for the Python programming
-language (just like pygresql and popy.) It was written from scratch 
-with the aim of being very small and fast, and stable as a rock. The 
-main advantages of psycopg are that it supports the full Python
-DBAPI-2.0 and being thread safe at level 2.
+Psycopg is the most popular PostgreSQL adapter for the Python
+programming language. At its core it fully implements the Python DB
+API 2.0 specifications. Several extensions allow access to many of the
+features offered by PostgreSQL.
+
+%if 0%{?with_python3}
+%package debug
+Summary:	A PostgreSQL database adapter for Python 2 (debug build)
+# Require the base package, as we're sharing .py/.pyc files:
+Requires:	%{name} = %{version}-%{release}
+Group:		Applications/Databases
+
+%description debug
+This is a build of the psycopg PostgreSQL database adapter for the debug
+build of Python 2.
+
+%package -n python3-psycopg2
+Summary:	A PostgreSQL database adapter for Python 3
+
+%description  -n python3-psycopg2
+This is a build of the psycopg PostgreSQL database adapter for Python 3.
+
+%package -n python3-psycopg2-debug
+Summary:	A PostgreSQL database adapter for Python 3 (debug build)
+# Require base python 3 package, as we're sharing .py/.pyc files:
+Requires:	python3-psycopg2 = %{version}-%{release}
+
+%description -n python3-psycopg2-debug
+This is a build of the psycopg PostgreSQL database adapter for the debug
+build of Python 3.
+%endif # with_python3
 
 %package doc
 Summary:	Documentation for psycopg python PostgreSQL database adapter
@@ -37,179 +87,91 @@ Requires:	%{name} = %{version}-%{release}
 Documentation and example files for the psycopg python PostgreSQL
 database adapter.
 
-%package test
-Summary:	Tests for psycopg2
-Group:		Development Libraries
-Requires:	%{name} = %{version}-%{release}
-
-%description test
-Tests for psycopg2.
-
-%package zope
-Summary:	Zope Database Adapter ZPsycopgDA
-Group:		Applications/Databases
-Requires:	%{name} = %{version}-%{release} zope
-
-%description zope
-Zope Database Adapter for PostgreSQL, called ZPsycopgDA
-
 %prep
 %setup -q -n psycopg2-%{version}
 %patch0 -p0
 
 %build
-python setup.py build
+for python in %{python_runtimes} ; do
+  $python setup.py build
+done
+
 # Fix for wrong-file-end-of-line-encoding problem; upstream also must fix this.
 for i in `find doc -iname "*.html"`; do sed -i 's/\r//' $i; done
 for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 
-%install
-rm -Rf %{buildroot}
-mkdir -p %{buildroot}%{python_sitearch}/psycopg2
-python setup.py install --no-compile --root %{buildroot}
+# Get rid of a "hidden" file that rpmlint complains about
+%{__rm} -f doc/html/.buildinfo
 
-install -d %{buildroot}%{ZPsycopgDAdir}
-cp -pr ZPsycopgDA/* %{buildroot}%{ZPsycopgDAdir}
+%install
+
+DoInstall() {
+  PythonBinary=$1
+
+  Python_SiteArch=$($PythonBinary -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+
+  %{__mkdir} -p %{buildroot}$Python_SiteArch/psycopg2
+  $PythonBinary setup.py install --no-compile --root %{buildroot}
+
+  # We're not currently interested in packaging the test suite.
+  %{__rm} -rf %{buildroot}$Python_SiteArch/psycopg2/tests
+}
+
+%{__rm} -rf %{buildroot}
+for python in %{python_runtimes} ; do
+  DoInstall $python
+done
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%doc AUTHORS INSTALL LICENSE README NEWS
+%doc AUTHORS LICENSE NEWS README.rst
 %dir %{python_sitearch}/psycopg2
 %{python_sitearch}/psycopg2/*.py
 %{python_sitearch}/psycopg2/*.pyc
-%{python_sitearch}/psycopg2/*.so
+%{python_sitearch}/psycopg2/_psycopg.so
 %{python_sitearch}/psycopg2/*.pyo
+%{python_sitearch}/psycopg2-%{version}-py%{pyver}.egg-info
+
+%if 0%{?with_python3}
+%files debug
+%defattr(-,root,root)
+%doc LICENSE
+%{python_sitearch}/psycopg2/_psycopg_d.so
+%endif
+
+%if 0%{?with_python3}
+%files -n python3-psycopg2
+%defattr(-,root,root)
+%doc AUTHORS LICENSE NEWS README.rst
+%dir %{python3_sitearch}/psycopg2
+%{python3_sitearch}/psycopg2/*.py
+%dir %{python3_sitearch}/psycopg2/__pycache__
+%{python3_sitearch}/psycopg2/__pycache__/*.pyc
+%{python3_sitearch}/psycopg2/__pycache__/*.pyo
+%{python3_sitearch}/psycopg2-%{version}-py%{py3ver}.egg-info
+
+%files -n python3-psycopg2-debug
+%defattr(-,root,root)
+%doc LICENSE
+%{python3_sitearch}/psycopg2/_psycopg.cpython-3*m*.so
+%endif # with_python3
 
 %files doc
 %defattr(-,root,root)
 %doc doc examples/
 
-%files test
-%defattr(-,root,root)
-%{python_sitearch}/%{sname}/tests/*
-
-%files zope
-%defattr(-,root,root)
-%dir %{ZPsycopgDAdir}
-%{ZPsycopgDAdir}/*.py
-%{ZPsycopgDAdir}/*.pyo
-%{ZPsycopgDAdir}/*.pyc
-%{ZPsycopgDAdir}/dtml/*
-%{ZPsycopgDAdir}/icons/*
-
 %changelog
-* Tue Jan 13 2015 Devrim Gündüz <devrim@gunduz.org> 2.5.4-1
-- Update to 2.5.4, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2014/08/30/psycopg-254-released
+* Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.1-1
+- Update to 2.6.1
+- Create unified spec file for all distros.
+- Remove Zope subpackage.
+- Minor spec file cleanups
 
-* Mon May 19 2014 Devrim Gündüz <devrim@gunduz.org> 2.5.3-1
-- Update to 2.5.3, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2014/05/13/psycopg-253-released 
-
-* Tue Jan 7 2014 Devrim Gündüz <devrim@gunduz.org> 2.5.2-1
-- Update to 2.5.2, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2014/01/07/psycopg-252-released
-
-* Sun Jun 30 2013 Devrim GUNDUZ <devrim@gunduz.org> 2.5.1-1
-- Update to 2.5.1, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2013/06/23/psycopg-251-released/
-
-* Thu Apr 11 2013 Devrim GUNDUZ <devrim@gunduz.org> 2.5-1
-- Update to 2.5, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2013/04/07/psycopg-25-released/
-
-* Wed Dec 12 2012 Devrim GUNDUZ <devrim@gunduz.org> 2.4.6-1
-- Update to 2.4.6, per changes described at:
-  http://www.psycopg.org/psycopg/articles/2012/12/12/psycopg-246-released/
-
-* Thu Jul 5 2012 Devrim GUNDUZ <devrim@gunduz.org> 2.4.5-1
-- Update to 2.4.5
-
-* Mon Dec 19 2011 Devrim GUNDUZ <devrim@gunduz.org> 2.4.4-1
-- Update to 2.4.4
-
-* Mon Aug 22 2011 Devrim GUNDUZ <devrim@gunduz.org> 2.4.2-1
-- Update to 2.4.2
-- Add a patch for pg_config path.
-- Add new subpackage: test
-
-* Tue Mar 16 2010 Devrim GUNDUZ <devrim@gunduz.org> 2.0.14-1
-- Update to 2.0.14
-
-* Mon Oct 19 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.13-1
-- Update to 2.0.13
-
-* Mon Sep 7 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.12-1
-- Update to 2.0.12
-
-* Tue May 26 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.11-1
-- Update to 2.0.11
-
-* Fri Apr 24 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.10-1
-- Update to 2.0.10
-
-* Thu Mar 2 2009 Devrim GUNDUZ <devrim@gunduz.org> 2.0.9-1
-- Update to 2.0.9
-
-* Wed Apr 30 2008 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.7-1
-- Update to 2.0.7
-
-* Fri Jun 15 2007 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.6-1
-- Update to 2.0.6
-
-* Sun May 06 2007 Thorsten Leemhuis <fedora [AT] leemhuis [DOT] info>
-- rebuilt for RHEL5 final
-
-* Wed Dec 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-4
-- Rebuilt for PostgreSQL 8.2.0
-
-* Mon Sep 11 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-3
-- Rebuilt
-
-* Wed Sep 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-2
-- Remove ghost'ing, per Python Packaging Guidelines
-
-* Mon Sep 4 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.5.1-1
-- Update to 2.0.5.1
-
-* Sun Aug 6 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.3-3
-- Fixed zope package dependencies and macro definition, per bugzilla review (#199784)
-- Fixed zope package directory ownership, per bugzilla review (#199784)
-- Fixed cp usage for zope subpackage, per bugzilla review (#199784)
-
-* Mon Jul 31 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.3-2
-- Fixed 64 bit builds
-- Fixed license
-- Added Zope subpackage
-- Fixed typo in doc description
-- Added macro for zope subpackage dir
-
-* Mon Jul 31 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.3-1
-- Update to 2.0.3
-- Fixed spec file, per bugzilla review (#199784)
-
-* Sat Jul 22 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.2-3
-- Removed python dependency, per bugzilla review. (#199784)
-- Changed doc package group, per bugzilla review. (#199784)
-- Replaced dos2unix with sed, per guidelines and bugzilla review (#199784)
-- Fix changelog dates
-
-* Sat Jul 21 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.2-2
-- Added dos2unix to buildrequires
-- removed python related part from package name
-
-* Fri Jul 20 2006 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.2-1
-- Fix rpmlint errors, including dos2unix solution
-- Re-engineered spec file
-
-* Fri Jan 23 2006 - Devrim GUNDUZ <devrim@gunduz.org>
-- First 2.0.X build
-
-* Fri Jan 23 2006 - Devrim GUNDUZ <devrim@gunduz.org>
-- Update to 1.2.21
-
-* Tue Dec 06 2005 - Devrim GUNDUZ <devrim@gunduz.org>
-- Initial release for 1.1.20
+* Mon Feb 9 2015 Devrim Gündüz <devrim@gunduz.org> 2.6-1
+- Update to 2.6, per changes described at:
+  http://www.psycopg.org/psycopg/articles/2015/02/09/psycopg-26-and-255-released/
+- Trim changelog
+- Merge some changes from Fedora spec file.
