@@ -2,9 +2,12 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname	oracle_fdw
 
+# Disable tests by default.
+%{!?runselftest:%global runselftest 0}
+
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.0
+Version:	1.3.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -14,6 +17,7 @@ Patch0:		oracle_fdw-makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
+# Package builder needs to adjust this as needed.
 #BuildRequires:	oracle-instantclient11.2-basic
 #BuildRequires:	oracle-instantclient11.2-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -37,11 +41,12 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf  %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot} 
-mv %{buildroot}/usr/share/doc/pgsql/extension/README.oracle_fdw %{buildroot}%{pginstdir}/share/extension
+USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %check
-make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres
+%if %runselftest
+make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres PGPORT=5495
+%endif
 
 %clean
 %{__rm} -rf  %{buildroot}
@@ -51,9 +56,14 @@ make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=po
 %{pginstdir}/lib/*.so
 %{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/*.control
-%{pginstdir}/share/extension/README.*
+%{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
+- Update to 1.3.0
+- Put check into conditional, and disable it by default.
+- Update for new doc layout.
+
 * Tue Feb 3 2015 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 - Add a patch for PGXS compilation.
