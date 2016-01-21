@@ -32,7 +32,7 @@ This is a PostgreSQL FDW for Mailchimp
 %{__python} setup.py build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
 
 %clean
