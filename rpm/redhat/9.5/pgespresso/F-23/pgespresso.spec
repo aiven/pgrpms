@@ -6,7 +6,7 @@ Summary:	Optional Extension for Barman
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
 Release:	2%{?dist}
-License:	BSD
+License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		Makefile-pgxs.patch
@@ -17,7 +17,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %description
 
 pgespresso is an extension that adds functions and views to be used by Barman,
-the disaster recovery tool written by 2ndQuadrant and released as open source 
+the disaster recovery tool written by 2ndQuadrant and released as open source
 (http://www.pgbarman.org/). Requires at least Barman 1.3.1 and PostgreSQL 9.2.
 
 %prep
@@ -28,7 +28,7 @@ the disaster recovery tool written by 2ndQuadrant and released as open source
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
@@ -37,11 +37,16 @@ install -d %{buildroot}%{pginstdir}/share/extension
 install -m 755 README.asciidoc  %{buildroot}%{pginstdir}/share/extension/README-%{sname}.asciidoc
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}.asciidoc 
+%doc %{pginstdir}/share/extension/README-%{sname}.asciidoc
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYING
+%else
+%license COPYING
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
