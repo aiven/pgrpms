@@ -9,7 +9,7 @@ Version:	0.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/lesovsky/%{name}/archive/0.2.0.tar.gz
+Source0:	https://github.com/lesovsky/%{name}/archive/%{version}.tar.gz
 Patch0:		%{name}-pgxs.patch
 URL:		https://github.com/lesovsky/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
