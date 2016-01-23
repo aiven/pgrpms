@@ -32,26 +32,29 @@ checksum feature (`initdb -k`).
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-rm -f %{buildroot}%{_docdir}/pgsql/extension/README.md
+install -d %{buildroot}%{pginstdir}/doc
+install -m 755 README.md %{buildroot}%{pginstdir}/doc/README-%{sname}.md
 
 %clean
 rm -rf %{buildroot}
 
-%post -p /sbin/ldconfig 
-%postun -p /sbin/ldconfig 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %defattr(755,root,root,755)
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE
+%else
+%license LICENSE
+%endif
 %{pginstdir}/bin/%{sname}
-%{pginstdir}/share/extension/README-%{sname}.md
+%{pginstdir}/doc/README-%{sname}.md
 
 %changelog
 * Sun Sep 7 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
