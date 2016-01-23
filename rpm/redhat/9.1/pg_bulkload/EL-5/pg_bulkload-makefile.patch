@@ -1,0 +1,44 @@
+--- Makefile.old	2014-05-29 13:43:51.753908762 +0300
++++ Makefile	2014-05-29 13:44:14.784633880 +0300
+@@ -12,7 +12,7 @@
+ endif
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.1/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- lib/Makefile.old	2014-05-29 13:44:00.565803587 +0300
++++ lib/Makefile	2014-05-29 13:44:33.001416460 +0300
+@@ -47,7 +47,7 @@
+ endif
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.1/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- bin/Makefile.old	2014-05-29 13:43:55.381865461 +0300
++++ bin/Makefile	2014-05-29 13:44:28.763467048 +0300
+@@ -21,7 +21,7 @@
+ endif
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.1/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- util/Makefile.old	2014-05-29 13:44:02.713777953 +0300
++++ util/Makefile	2014-05-29 13:44:36.468375081 +0300
+@@ -20,7 +20,7 @@
+ endif
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.1/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
