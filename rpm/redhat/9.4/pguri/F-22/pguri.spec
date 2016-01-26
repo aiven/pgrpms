@@ -4,7 +4,7 @@
 
 Summary:	uri type for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.20150415
+Version:	1.20151224
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -38,12 +38,12 @@ arbitrary junk.
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -52,9 +52,12 @@ rm -rf %{buildroot}
 %defattr(644,root,root,755)
 %doc README.md
 %{pginstdir}/lib/uri.so
-%{pginstdir}/share/extension/uri--0.sql
+%{pginstdir}/share/extension/uri-*.sql
 %{pginstdir}/share/extension/uri.control
 
 %changelog
+* Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.20151224-1
+- Update to 1.20151224
+
 * Fri Apr 17 2015 - Devrim Gündüz <devrim@gunduz.org> 1.20150415-1
 - Initial RPM packaging for PostgreSQL YUM Repository
