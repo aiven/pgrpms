@@ -1,14 +1,14 @@
 %global debug_package %{nil}
-%global pgmajorversion 94
-%global pgpoolinstdir /usr/pgpool-9.4/
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 92
+%global pgpoolinstdir /usr/pgpool-9.2/
+%global pginstdir /usr/pgsql-9.2
 %global sname pgpool-ha
 %global ocfdir /usr/lib/ocf/resource.d/heartbeat/
 
 Summary:	OCF style Resource Agent for pgpool-II
 Name:		%{sname}
 Version:	2.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pgpool.net
@@ -30,19 +30,28 @@ this.
 make %{?smp_flags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %{__mkdir} -p -m 755 %{buildroot}%{ocfdir}
 %{__install} -m 755 pgpool %{buildroot}%{ocfdir}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS COPYING INSTALL README ChangeLog README
+%doc README ChangeLog
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYING
+%else
+%license COPYING
+%endif
+
 %{ocfdir}/pgpool
 
 %changelog
+* Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.2-2
+- Cosmetic updates for unified spec file.
+
 * Tue Sep 30 2014 Devrim GUNDUZ <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 - Trim changelog
