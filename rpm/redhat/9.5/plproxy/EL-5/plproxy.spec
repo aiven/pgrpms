@@ -27,11 +27,11 @@ PL/Proxy is database partitioning system implemented as PL language.
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 USE_PGXS=1 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
