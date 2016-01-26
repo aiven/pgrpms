@@ -38,7 +38,12 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 
 %files
 %defattr(-,root,root)
-%doc COPYRIGHT README Changes doc/%{sname}.md
+%doc README Changes doc/%{sname}.md
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYRIGHT
+%else
+%license COPYRIGHT
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/plcoffee--%{version}.sql
 %{pginstdir}/share/extension/plcoffee.control
