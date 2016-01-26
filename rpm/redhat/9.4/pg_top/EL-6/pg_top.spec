@@ -5,7 +5,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
@@ -30,11 +30,11 @@ PG_CONFIG=%{pginstdir}/bin/pg_config ./configure --prefix=%{pginstdir}
 make %{?_smp_mflags} CFLAGS="%{optflags}"
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/pg_top%{pgmajorversion} pg_top %{_bindir}/bin/pg_top %{pgmajorversion}0
@@ -49,11 +49,19 @@ unlink %{_bindir}/%{sname}
 
 %files
 %defattr(-,root,root,-)
+%doc FAQ README
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE
+%else
+%license LICENSE
+%endif
 %{pginstdir}/bin/pg_top
 %{pginstdir}/share/man/man1/pg_top.1
-%doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.7.0-4
+- Cosmetic updates, and simplify %%doc section.
+
 * Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-3
 - Fix alternatives path and version.
 

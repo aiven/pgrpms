@@ -5,39 +5,40 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	1%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/ptop/%{sname}/%{version}/%{sname}-%{version}.tar.bz2
-URL:		http://pgfoundry.org/projects/ptop
+Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
+URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
+BuildRequires:	autoconf
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	ptop => 3.5.0
 
 %description
-pg_top is 'top' for PostgreSQL processes. See running queries, 
+pg_top is 'top' for PostgreSQL processes. See running queries,
 query plans, issued locks, and table and index statistics.
 
 %prep
 %setup -q -n %{sname}-%{version}
 
 %build
+sh autogen.sh
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure --prefix=%{pginstdir}
 make %{?_smp_mflags} CFLAGS="%{optflags}"
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pg_top90 pg_top %{pginstdir}/bin/pg_top 900
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 900
-ln -s %{_bindir}/pg_top90 %{_bindir}/pg_top
+%{_sbindir}/update-alternatives --install /usr/bin/pg_top%{pgmajorversion} pg_top %{_bindir}/bin/pg_top %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 %{pgmajorversion}0
 
 %postun
 unlink %{_bindir}/%{sname}
@@ -48,11 +49,26 @@ unlink %{_bindir}/%{sname}
 
 %files
 %defattr(-,root,root,-)
+%doc FAQ README
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE
+%else
+%license LICENSE
+%endif
 %{pginstdir}/bin/pg_top
 %{pginstdir}/share/man/man1/pg_top.1
-%doc FAQ HISTORY INSTALL LICENSE README TODO Y2K
 
 %changelog
+* Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.7.0-4
+- Cosmetic updates, and simplify %%doc section.
+
+* Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-3
+- Fix alternatives path and version.
+
+* Thu Mar 26 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-2
+- Update URLs: Project moved to github.
+- pg_top now requires autoconf for build.
+
 * Tue Sep 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.7.0-1
 - Update to 3.7.0
 - Remove patch2, now in upstream.
