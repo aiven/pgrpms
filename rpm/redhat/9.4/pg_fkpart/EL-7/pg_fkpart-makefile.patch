@@ -1,11 +1,10 @@
---- Makefile.old	2015-05-04 09:22:25.349257069 +0300
-+++ Makefile	2015-05-04 09:22:36.605135276 +0300
-@@ -4,7 +4,7 @@
- DATA = pg_fkpart--1.0.sql pg_fkpart--unpackaged--1.0.sql
+--- Makefile.old	2016-01-26 20:08:47.601807430 +0200
++++ Makefile	2016-01-26 20:08:53.233752500 +0200
+@@ -3,6 +3,6 @@
+ EXTENSION = pg_fkpart
+ DATA = pg_fkpart--1.2.sql pg_fkpart--unpackaged--1.1.sql pg_fkpart--1.0--1.1.sql pg_fkpart--1.1--1.2.sql
  
- ifdef USE_PGXS
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.4/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
- else
