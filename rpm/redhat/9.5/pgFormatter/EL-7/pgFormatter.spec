@@ -25,7 +25,7 @@ demo site at http://sqlformat.darold.net/
 %{__make} %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
 
@@ -33,7 +33,7 @@ find %{buildroot} -type f -name .packlist -exec rm -f {} +
 find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
