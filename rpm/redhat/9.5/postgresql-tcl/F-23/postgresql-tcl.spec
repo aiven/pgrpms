@@ -1,8 +1,8 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 
-Name:           postgresql%{pgmajorversion}-tcl
-Version:	2.0.0
+Name:		postgresql%{pgmajorversion}-tcl
+Version:	2.1.1
 Release:	1%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
@@ -10,8 +10,8 @@ Group:		Applications/Databases
 URL:		http://sourceforge.net/projects/pgtclng/
 License:	PostgreSQL
 
-Source0:        http://downloads.sourceforge.net/pgtclng/pgtcl%{version}.tar.gz
-Source1:        http://downloads.sourceforge.net/pgtclng/Manual/20110918/pgtcldocs-20110918.zip
+Source0:	http://downloads.sourceforge.net/pgtclng/pgtcl%{version}.tar.gz
+Source1:	http://downloads.sourceforge.net/pgtclng/Manual/20140912/pgtcldocs-20140912.zip
 
 Patch1:		pgtcl-no-rpath.patch
 
@@ -56,21 +56,30 @@ autoconf
 make all
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make install DESTDIR=%{buildroot}
 # we don't really need to ship the .h file
-rm -f %{buildroot}%{_includedir}/libpgtcl.h
+%{__rm} -f %{buildroot}%{_includedir}/libpgtcl.h
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%{_libdir}/tcl%{tcl_version}/pgtcl%{version}/
 %doc Pgtcl-docs/*
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYRIGHT
+%else
+%license COPYRIGHT
+%endif
+%{_libdir}/tcl%{tcl_version}/pgtcl%{version}/
 
 %changelog
+* Wed Jan 27 2016 Devrim Gündüz <devrim@gunduz.org> 2.1.1-1
+- Update to 2.1.1
+- Unified spec file for all distros.
+
 * Thu Nov 10 2011 Devrim Gunduz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 - Use better download URLs.
