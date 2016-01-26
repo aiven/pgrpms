@@ -113,30 +113,30 @@ make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
 make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 %if %{systemd_enabled}
-install -d %{buildroot}%{_unitdir}
-install -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
-mkdir -p $RPM_BUILD_ROOT%{_tmpfilesdir}
-cat > $RPM_BUILD_ROOT%{_tmpfilesdir}/%{name}.conf <<EOF
+mkdir -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_varrundir} 0755 root root -
 EOF
 
 %else
-install -d %{buildroot}%{_sysconfdir}/init.d
-install -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/%{name}
+%{__install} -d %{buildroot}%{_sysconfdir}/init.d
+%{__install} -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/%{name}
 %endif
 
-install -d %{buildroot}%{_sysconfdir}/sysconfig
-install -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig
+%{__install} -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 
 # nuke libtool archive and static lib
-rm -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
+%{__rm} -f %{buildroot}%{pgpoolinstdir}/lib/libpcp.{a,la}
 
 # Install linker conf file under postgresql installation directory.
 # We will install the latest version via alternatives.
-install -d -m 755 %{buildroot}%{pgpoolinstdir}/share/
-install -m 700 %{SOURCE9} %{buildroot}%{pgpoolinstdir}/share/
+%{__install} -d -m 755 %{buildroot}%{pgpoolinstdir}/share/
+%{__install} -m 700 %{SOURCE9} %{buildroot}%{pgpoolinstdir}/share/
 
 %post
 # Create alternatives entries for common binaries and man files
@@ -221,7 +221,12 @@ fi
 %endif
 
 %files
-%doc README TODO COPYING INSTALL AUTHORS ChangeLog NEWS doc/pgpool-en.html doc/pgpool-ja.html doc/pgpool.css doc/tutorial-en.html doc/tutorial-ja.html
+%doc README TODO INSTALL AUTHORS ChangeLog NEWS doc/pgpool-en.html doc/pgpool-ja.html doc/pgpool.css doc/tutorial-en.html doc/tutorial-ja.html
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYING
+%else
+%license COPYING
+%endif
 %dir %{pgpoolinstdir}
 %{pgpoolinstdir}/bin/pgpool
 %{pgpoolinstdir}/bin/pcp_attach_node
