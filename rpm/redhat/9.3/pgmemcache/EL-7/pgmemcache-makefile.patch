@@ -1,11 +1,11 @@
---- Makefile.old	2013-11-20 15:11:06.496699686 +0200
-+++ Makefile	2013-11-20 15:11:31.057039290 +0200
-@@ -13,7 +13,7 @@
+--- Makefile.old	2016-01-26 20:28:55.395839798 +0200
++++ Makefile	2016-01-26 20:29:02.204773428 +0200
+@@ -22,7 +22,7 @@
+ PG_CPPFLAGS += -DUSE_LIBMEMCACHED
+ endif
  
- SHLIB_LINK = -lmemcached -lsasl2
- 
--PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.3/bin/pg_config
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-9.3/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  
