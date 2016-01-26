@@ -3,7 +3,7 @@
 %global sname plpgsql_check
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.2
+Version:	1.0.4
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -31,21 +31,28 @@ performance issues.
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make USE_PGXS=1 DESTDIR=%{buildroot} install
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
 %doc README.md
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE
+%else
+%license LICENSE
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--1.0.sql
 %{pginstdir}/share/extension/%{sname}.control
 
-
 %changelog
+* Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.4-1
+- Update to 1.0.4
+
 * Mon Jul 13 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
 
