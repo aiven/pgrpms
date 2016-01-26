@@ -29,7 +29,7 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 USE_PGXS=1 make DESTDIR=%{buildroot} install
 
 %files
@@ -41,7 +41,7 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %changelog
 * Wed Sep 9 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
