@@ -1,3 +1,6 @@
+%global	pgmajorversion 94
+%global	_pgpoolAdmindir	%{_datadir}/%{name}
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
 %else
@@ -7,7 +10,7 @@
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
 Version:	3.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgpool.net
@@ -19,7 +22,7 @@ Source1:	%{name}.conf
 Requires:	php >= 4.3.9
 Requires:	php-pgsql >= 4.3.9
 Requires:	webserver
-Requires:	pgpool-II-94
+Requires:	pgpool-II-%{pgmajorversion}
 
 BuildArch:	noarch
 BuildRequires:	httpd
@@ -39,8 +42,6 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 
-%global		_pgpoolAdmindir	%{_datadir}/%{name}
-
 Patch1:		%{name}-conf.patch
 
 %description
@@ -53,12 +54,12 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 install -d %{buildroot}%{_pgpoolAdmindir}
 install -d %{buildroot}%{_pgpoolAdmindir}/conf
 install -d %{buildroot}%{_sysconfdir}/%{name}
 install -m 644 *.php %{buildroot}%{_pgpoolAdmindir}
-cp -a  doc/ images/ install/ lang/ libs/ templates/ screen.css %{buildroot}%{_pgpoolAdmindir}
+%{__cp} -a  doc/ images/ install/ lang/ libs/ templates/ screen.css %{buildroot}%{_pgpoolAdmindir}
 install -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}/
 ln -s ../../../..%{_sysconfdir}/%{name}/pgmgt.conf.php %{buildroot}%{_pgpoolAdmindir}/conf/pgmgt.conf.php
 
@@ -74,10 +75,10 @@ fi
 %else
 	/sbin/service httpd reload > /dev/null 2>&1
 %endif
-	chgrp apache /var/log/pgpool-II-94
-	chgrp apache /var/run/pgpool-II-94
-	chmod g+rwx /var/log/pgpool-II-94
-	chmod g+rwx /var/run/pgpool-II-94
+	chgrp apache /var/log/pgpool-II-%{pgmajorversion}
+	chgrp apache /var/run/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
 
 %postun
 %if %{systemd_enabled}
@@ -85,11 +86,11 @@ fi
 %else
 	/sbin/service httpd reload > /dev/null 2>&1
 %endif
-	chmod g+rwx /var/log/pgpool-II-94
-	chmod g+rwx /var/run/pgpool-II-94
+	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(0644,apache,apache,0755)
@@ -108,6 +109,10 @@ rm -rf %{buildroot}
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 3.4-1-2
+- Use macro for PostgreSQL version.
+- Cosmetic cleanup
+
 * Thu Apr 9 2015 Devrim Gunduz <devrim@gunduz.org> 3.4-1-1
 - Update to 3.4.1
 - Update spec file so that it works with all distros.

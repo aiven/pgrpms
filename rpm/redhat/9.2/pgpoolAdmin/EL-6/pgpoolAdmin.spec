@@ -1,43 +1,65 @@
+%global	pgmajorversion 92
+%global	_pgpoolAdmindir	%{_datadir}/%{name}
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
+
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	2.3
-Release:	1%{?dist}
+Version:	3.4.1
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://pgpool.projects.postgresql.org
+URL:		http://pgpool.net
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0:	http://pgfoundry.org/frs/download.php/2494/%{name}-%{version}.tar.gz
+Source0:	http://www.pgpool.net/download.php?f=%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 
 Requires:	php >= 4.3.9
 Requires:	php-pgsql >= 4.3.9
 Requires:	webserver
-Requires:	pgpool-II
+Requires:	pgpool-II-%{pgmajorversion}
 
-Buildarch:	noarch
+BuildArch:	noarch
 BuildRequires:	httpd
-
-%define		_pgpoolAdmindir	%{_datadir}/%{name}
+%if %{systemd_enabled}
+BuildRequires:	systemd
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
+Requires(postun):	initscripts
+%endif
 
 Patch1:		%{name}-conf.patch
 
 %description
-The pgpool Administration Tool is management tool of pgpool-II. It is 
+The pgpool Administration Tool is management tool of pgpool-II. It is
 possible to monitor, start, stop pgpool and change settings of pgpool-II.
 
 %prep
-%setup -q 
-%patch1 -p1
+%setup -q
+%patch1 -p0
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 install -d %{buildroot}%{_pgpoolAdmindir}
 install -d %{buildroot}%{_pgpoolAdmindir}/conf
 install -d %{buildroot}%{_sysconfdir}/%{name}
 install -m 644 *.php %{buildroot}%{_pgpoolAdmindir}
-cp -a  doc/ images/ install/ lang/ libs/ templates/ screen.css %{buildroot}%{_pgpoolAdmindir}
+%{__cp} -a  doc/ images/ install/ lang/ libs/ templates/ screen.css %{buildroot}%{_pgpoolAdmindir}
 install -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}/
 ln -s ../../../..%{_sysconfdir}/%{name}/pgmgt.conf.php %{buildroot}%{_pgpoolAdmindir}/conf/pgmgt.conf.php
 
@@ -48,27 +70,35 @@ then
 fi
 
 %post
+%if %{systemd_enabled}
+	systemctl reload httpd.service > /dev/null 2>&1
+%else
 	/sbin/service httpd reload > /dev/null 2>&1
-	chgrp apache /var/log/pgpool
-	chgrp apache /var/run/pgpool
-	chmod g+rwx /var/run/pgpool/
-	chmod g+rwx /var/log/pgpool/
-	
-%postun 
+%endif
+	chgrp apache /var/log/pgpool-II-%{pgmajorversion}
+	chgrp apache /var/run/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
+
+%postun
+%if %{systemd_enabled}
+	systemctl reload httpd.service
+%else
 	/sbin/service httpd reload > /dev/null 2>&1
-	chmod g-rwx /var/run/pgpool
-	chmod g-rwx /var/log/pgpool
+%endif
+	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
-%defattr(0644,nobody,nobody,0755)
+%defattr(0644,apache,apache,0755)
 %doc README README.euc_jp
 %dir %{_pgpoolAdmindir}
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %attr(0644,apache,apache) %config(noreplace) %{_sysconfdir}/%{name}/*
-%attr(0644,root,root) %{_pgpoolAdmindir}/*.php
+%attr(0755,root,root) %{_pgpoolAdmindir}/*.php
 %{_pgpoolAdmindir}/conf
 %{_pgpoolAdmindir}/doc
 %{_pgpoolAdmindir}/images
@@ -79,6 +109,17 @@ rm -rf %{buildroot}
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 3.4-1-2
+- Use macro for PostgreSQL version.
+- Cosmetic cleanup
+
+* Thu Apr 9 2015 Devrim Gunduz <devrim@gunduz.org> 3.4-1-1
+- Update to 3.4.1
+- Update spec file so that it works with all distros.
+- Change file ownership from nobody to apache.
+- Update Apache conf file for Apache > 2.3
+- Update patch0
+
 * Thu Dec 10 2009 Devrim Gunduz <devrim@gunduz.org> 2.3-1
 - Update to 2.3
 
@@ -107,7 +148,7 @@ rm -rf %{buildroot}
 - Fix ownership problems
 
 * Mon Oct 02 2006 Devrim Gunduz <devrim@gunduz.org> 1.0.0-4
-- chgrp and chmod pgpool-II conf files so that apache can write it. 
+- chgrp and chmod pgpool-II conf files so that apache can write it.
 - Change file ownership from apache to nobody.
 
 * Tue Sep 26 2006 Devrim Gunduz <devrim@gunduz.org> 1.0.0-3
