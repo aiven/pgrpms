@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.0
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -885,6 +885,8 @@ if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
 	# Package upgrade, not uninstall
 	/bin/systemctl try-restart postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+ %else
+   /sbin/service postgresql-%{majorversion} condrestart >/dev/null 2>&1
  %endif
 fi
 
@@ -1297,6 +1299,10 @@ fi
 %endif
 
 %changelog
+* Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.0-3PGDG
+- Fix %%postun in server subpackage on non-systemd distros. Per
+  report from Marian Krucina.
+
 * Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.0-2PGDG
 - Unified spec file for all distros.
 - Ship plpython3 subpackage. Per report from Clodoaldo Neto on
