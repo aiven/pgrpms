@@ -37,6 +37,11 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/%{sname}/*.rst
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYING
+%else
+%license COPYING
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/%{sname}*.sql

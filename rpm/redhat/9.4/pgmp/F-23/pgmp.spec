@@ -27,18 +27,21 @@ integer and rational data types offered by the GMP library.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%{__mv} %{buildroot}%{_docdir}/pgsql/%{sname} %{buildroot}%{_docdir}/pgsql/%{name}
-
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{_docdir}/pgsql/%{name}/*.rst
+%doc %{pginstdir}/doc/%{sname}/*.rst
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYING
+%else
+%license COPYING
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/%{sname}*.sql
