@@ -64,10 +64,10 @@ export CLASSPATH=
 mvn -DskipTests -P release-artifacts clean package
 
 %install
-install -d %{buildroot}%{_javadir}
+%{__install} -d %{buildroot}%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-install -m 644 pgjdbc/target/postgresql-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
+%{__install} -m 644 pgjdbc/target/postgresql-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
 
 pushd %{buildroot}%{_javadir}
 # Also, for backwards compatibility with our old postgresql-jdbc packages,
@@ -79,12 +79,13 @@ popd
 
 # Install the pom after inserting the correct version number
 sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
-install -d -m 755 %{buildroot}%{_mavenpomdir}/
-install -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
+%{__install} -d -m 755 %{buildroot}%{_mavenpomdir}/
+%{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
+%add_maven_depmap
 
-install -d -m 755 %{buildroot}%{_javadocdir}
+%{__install} -d -m 755 %{buildroot}%{_javadocdir}
 %{__cp} -ra pgjdbc/target/apidocs %{buildroot}%{_javadocdir}/%{name}
-install -d pgjdbc/target/apidocs docs/%{name}
+%{__install} -d pgjdbc/target/apidocs docs/%{name}
 
 %check
 %if 0%{?runselftest}
@@ -96,12 +97,11 @@ mvn clean package 2>&1 | tee test.log | grep FAILED
 test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
-%files
+%files -f .mfiles
+%doc LICENSE README.md
 %{_javadir}/%{sname}2.jar
 %{_javadir}/%{sname}2ee.jar
 %{_javadir}/%{sname}3.jar
-%{_javadir}/postgresql%{pgmajorversion}-jdbc.jar
-%{_datadir}/maven2/poms/JPP-postgresql%{pgmajorversion}-jdbc.pom
 
 %files javadoc
 %doc LICENSE
