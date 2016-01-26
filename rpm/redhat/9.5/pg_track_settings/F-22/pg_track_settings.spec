@@ -53,6 +53,11 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE
+%else
+%license LICENSE
+%endif
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
 
