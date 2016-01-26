@@ -15,22 +15,22 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-pgreplay reads a PostgreSQL log file (not a WAL file), extracts the SQL 
-statements and executes them in the same order and relative time against 
+pgreplay reads a PostgreSQL log file (not a WAL file), extracts the SQL
+statements and executes them in the same order and relative time against
 a PostgreSQL database cluster.
 
-If the execution of statements gets behind schedule, warning messages 
-are issued that indicate that the server cannot handle the load in a 
-timely fashion. The idea is to replay a real-world database workload as 
+If the execution of statements gets behind schedule, warning messages
+are issued that indicate that the server cannot handle the load in a
+timely fashion. The idea is to replay a real-world database workload as
 exactly as possible.
 
-pgreplay is useful for performance tests, particularly in the following 
+pgreplay is useful for performance tests, particularly in the following
 situations:
 
-* You want to compare the performance of your PostgreSQL application 
+* You want to compare the performance of your PostgreSQL application
 on different hardware or different operating systems.
-* You want to upgrade your database and want to make sure that the new 
-database version does not suffer from performance regressions that 
+* You want to upgrade your database and want to make sure that the new
+database version does not suffer from performance regressions that
 affect you.
 
 %prep
@@ -38,15 +38,15 @@ affect you.
 %configure --with-postgres=%{pginstdir}/bin
 
 %build
-make %{?_smp_mflags} 
+make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
