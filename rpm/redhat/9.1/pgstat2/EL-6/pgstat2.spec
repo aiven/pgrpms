@@ -5,19 +5,19 @@
 Summary:	PostgreSQL monitoring script
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.01
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/2471/%{sname}-%{version}.tar.gz
-Source1:	README.pgstat2
-URL:		http://pgfoundry.org/projects/pgstat2/
+Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
+Source1:	README.%{sname}
+URL:		http://pgfoundry.org/projects/%{sname}/
 Requires:	postgresql%{pgmajorversion}-devel, python-psycopg2
-Buildarch:	noarch
+BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-pgstat is a command line utility to display PostgreSQL information on the 
-command line similar to iostat or vmstat. This data can be used for 
+pgstat is a command line utility to display PostgreSQL information on the
+command line similar to iostat or vmstat. This data can be used for
 monitoring or performance tuning.
 
 %prep
@@ -26,21 +26,25 @@ monitoring or performance tuning.
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-install -d %{buildroot}%{_bindir}/
-install -m 755 pgstat %{buildroot}%{_bindir}/
-cp %{SOURCE1} README.pgstat2
+%{__install} -d %{buildroot}%{_bindir}/
+%{__install} -m 755 pgstat %{buildroot}%{_bindir}/
+%{__cp} %{SOURCE1} README.%{sname}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README.pgstat2
+%doc README.%{sname}
 %{_bindir}/pgstat
 
 %changelog
+* Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-3
+- Update download URL
+- Cosmetic updates to spec file
+
 * Sat Oct 22 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.01-2
 - Update layout for new PostgreSQL rpm layout.
 
