@@ -7,7 +7,7 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.6.1
+Version:	1.7
 Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -89,12 +89,6 @@ install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
 install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-# Remove duplicated files
-%{__rm} -f %{buildroot}%{_docdir}/%{name}/pgbouncer.ini
-%{__rm} -f %{buildroot}%{_docdir}/%{name}/NEWS
-%{__rm} -f %{buildroot}%{_docdir}/%{name}/README
-%{__rm} -f %{buildroot}%{_docdir}/%{name}/userlist.txt
-
 %post
 %if %{systemd_enabled}
 %systemd_post %{name}.service
@@ -133,10 +127,10 @@ fi
 %endif
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
-%doc README NEWS AUTHORS
+%doc %{_docdir}/pgbouncer
 %if %{systemd_enabled}
 %license COPYRIGHT
 %endif
@@ -157,6 +151,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Wed Dec 30 2015 Devrim Gündüz <devrim@gunduz.org> - 1.7-1
+- Update to 1.7
+
 * Mon Sep 7 2015 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
 - Update to 1.6.1
 - Fix startup issues: The tmpfiles.d file was not created

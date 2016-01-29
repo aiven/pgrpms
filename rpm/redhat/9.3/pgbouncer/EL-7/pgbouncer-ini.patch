@@ -1,14 +1,5 @@
 --- etc/pgbouncer.ini.old	2012-04-24 01:42:43.093199723 +0300
 +++ etc/pgbouncer.ini	2012-04-24 01:43:58.083201432 +0300
-@@ -28,7 +28,7 @@
- ;;; Administrative settings
- ;;;
- 
--logfile = /var/log/pgbouncer/pgbouncer.log
-+logfile = /var/log/pgbouncer.log
- pidfile = /var/run/pgbouncer/pgbouncer.pid
- 
- ;;;
 @@ -59,10 +59,10 @@
  ;;;
  
