@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.5
-Release:	2PGDG%{?dist}
+Version:	9.4.6
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -945,6 +945,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 9 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.6-1PGDG
+- Update to 9.4.6, per changes described at:
+  http://www.postgresql.org/docs/9.4/static/release-9-4-6.html
+
 * Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.5-2PGDG
 - Specify --docdir and --htmldir properly. This will require many
   other packages to be updated, but we already made this change in
