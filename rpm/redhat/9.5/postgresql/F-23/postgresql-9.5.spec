@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.0
-Release:	3PGDG%{?dist}
+Version:	9.5.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -120,7 +120,6 @@ Patch6:		postgresql-perl-rpath.patch
 %if 0%{?rhel} && 0%{?rhel} <= 5
 Patch7:		postgresql-prefer-ncurses.patch
 %endif
-Patch8:		postgresql-python3.5-tests.patch
 
 BuildRequires:	perl glibc-devel bison flex
 
@@ -406,7 +405,6 @@ benchmarks.
 %if 0%{?rhel} && 0%{?rhel} <= 5
 %patch7 -p1
 %endif
-%patch8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1299,6 +1297,11 @@ fi
 %endif
 
 %changelog
+* Tue Feb 9 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.1-1PGDG
+- Update to 9.5.1, per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-5-1.html
+- Remove patch8, it is in upstream now.
+
 * Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.0-3PGDG
 - Fix %%postun in server subpackage on non-systemd distros. Per
   report from Marian Krucina.
