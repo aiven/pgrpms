@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.1.19
+Version:	9.1.20
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -370,7 +370,8 @@ export LIBNAME=%{_lib}
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
-	--docdir=%{_docdir}
+	--docdir=%{pgbaseinstdir}/doc \
+	--htmldir=%{pgbaseinstdir}/doc/html
 
 make %{?_smp_mflags} all
 make %{?_smp_mflags} -C contrib all
@@ -908,6 +909,14 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 9 2016 Devrim Gündüz <devrim@gunduz.org> - 9.1.20-1PGDG
+- Update to 9.1.20, per changes described at:
+  http://www.postgresql.org/docs/9.1/static/release-9-1-20.html
+- Specify --docdir and --htmldir properly. This will require many
+  other packages to be updated, but we already made this change in
+  9.5 branch, and maintaining spec files for 3rd party stuff
+  separately for each version started to become harder.
+
 * Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.1.19-1PGDG
 - Update to 9.1.19, per changes described at:
   http://www.postgresql.org/docs/9.1/static/release-9-1-19.html
