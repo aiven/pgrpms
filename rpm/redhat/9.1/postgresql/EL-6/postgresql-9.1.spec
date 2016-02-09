@@ -801,6 +801,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_archivecleanup
 %{pgbaseinstdir}/bin/pg_standby
 %{pgbaseinstdir}/bin/pg_upgrade
+%{pgbaseinstdir}/doc/extension/*.example
 
 %files libs -f pg_libpq5.lst
 %defattr(-,root,root)
