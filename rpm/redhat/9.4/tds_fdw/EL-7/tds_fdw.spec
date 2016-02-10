@@ -32,8 +32,7 @@ make USE_PGXS=1 %{?_smp_mflags}
 make  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/doc/extension
-install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+install -d %{buildroot}%{pginstdir}/share/extension
 install -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignServerCreation-%{sname}.md
 install -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignTableCreation-%{sname}.md
 install -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/doc/extension/UserMappingCreation-%{sname}.md
@@ -57,6 +56,7 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %changelog
 * Thu Jan 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.7-1
 - Update to 1.0.7
+- Apply 9.5 doc layout.
 
 * Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.6-1
 - Update to 1.0.6
