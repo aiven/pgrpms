@@ -24,50 +24,83 @@ then
        	NAME=${NAME:3}
 fi
 
-exec=/usr/pgsql-9.4/bin/repmgrd
-user=repmgr
-prog=repmgrd
-pidfile=/var/run/repmgr/repmgrd-9.4.pid
-lockfile=/var/lock/subsys/$prog
-REPMGRDCONF=/etc/repmgr/9.4/repmgr.conf
-REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
+prog=repmgr-9.4
+REPMGRD_LOCKFILE=/var/lock/subsys/$prog
+REPMGRD_ENABLED=no
+REPMGRD_OPTS=
+REPMGRD_CONF=/etc/repmgr/9.4/repmgr.conf
+REPMGRD_LOG=/var/log/repmgr/repmgrd-9.4.log
+REPMGRD_USER=postgres
+REPMGRD_BIN=/usr/pgsql-9.4/bin/repmgrd
+REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-9.4.pid
 
-# Get config.
+# Get network config.
 . /etc/sysconfig/network
+
+# Read configuration variable file if it is present
+[ -r /etc/sysconfig/repmgr/$prog ] && . /etc/sysconfig/repmgr/$prog
+
+# For SELinux we need to use 'runuser' not 'su'
+if [ -x /sbin/runuser ]
+then
+    SU=runuser
+else
+    SU=su
+fi
+
+test -x $REPMGRD_BIN || exit 0
+
+case "$REPMGRD_ENABLED" in
+    [Yy]*)
+	break
+	;;
+    *)
+	exit 0
+	;;
+esac
+
+if [ -z "${REPMGRD_OPTS}" ]
+then
+    echo "Not starting ${prog}, REPMGRD_OPTS not set in /etc/sysconfig/repmgr/${prog}"
+    exit 0
+fi
+
+
 
 # Check that networking is up.
 [ "${NETWORKING}" = "no" ] && exit 6
 start(){
-        [ -x $exec ] || exit 5
-        [ -f "$REPMGRDCONF" ] || exit 6
-        echo -n "Starting $prog: "
+	[ -x $REPMGRD_BIN ] || exit 5
+	[ -f "${REPMGRD_CONF}" ] || exit 6
+	echo -n "Starting $prog: "
 
-        # Make sure startup-time log file is valid
-        if [ ! -e "$REPMGRDLOG" -a ! -h "$REPMGRDLOG" ]
-        then
-                touch "$REPMGRDLOG" || exit 1
-                chown $user: "$REPMGRDLOG"
-                chmod go-rwx "$REPMGRDLOG"
-                [ -x /usr/bin/chcon ] && /usr/bin/chcon -u system_u -r object_r -t postgresql_log_t "$REPMGRDLOG" 2>/dev/null
-        fi
+	# Make sure startup-time log file is valid
+	if [ ! -e "${REPMGRD_LOG}" -a ! -h "${REPMGRD_LOG}" ]
+	then
+		touch "${REPMGRD_LOG}" || exit 1
+		chown $REPMGRD_USER: "${REPMGRD_LOG}"
+		chmod go-rwx "${REPMGRD_LOG}"
+		[ -x /usr/bin/chcon ] && /usr/bin/chcon -u system_u -r object_r -t postgresql_log_t "${REPMGRD_LOG}" 2>/dev/null
+	fi
 
-        mkdir -p $(dirname $pidfile)
-        chown $user: $(dirname $pidfile)
+        mkdir -p $(dirname $REPMGRD_PIDFILE)
+        chown $REPMGRD_USER: $(dirname $REPMGRD_PIDFILE)
 
-	su -l repmgr -c "$exec -f $REPMGRDCONF -p $pidfile -d ->> $REPMGRDLOG 2>&1" $user # --monitoring-history --verbose
+	${SU} -l $REPMGRD_USER -c "${REPMGRD_BIN} -f ${REPMGR_CONF} ${REPMGRD_OPTS} -p ${REPMGRD_PIDFILE} >> ${REPMGRD_LOG} 2>&1" ${REPMGRD_USER} < /dev/null
+	sleep 2
         retval=$?
-	[ $retval -eq 0 ] && success 
+	[ $retval -eq 0 ] && success
         echo
-        [ $retval -eq 0 ] && touch $lockfile
+        [ $retval -eq 0 ] && touch $REPMGRD_LOCKFILE
         return $retval
 }
 
 stop(){
         echo -n "Stopping $prog: "
-        killproc -p $pidfile $prog -TERM
+        killproc -p $REPMGRD_PIDFILE $prog -TERM
         retval=$?
         echo
-        [ $retval -eq 0 ] && rm -f $lockfile
+        [ $retval -eq 0 ] && rm -f $REPMGRD_LOCKFILE
         return $retval
 }
 
@@ -81,16 +114,16 @@ restart(){
 }
 reload(){
         echo -n "Reloading $prog: "
-        kill -HUP $(cat $pidfile)
+        kill -HUP $(cat $REPMGRD_PIDFILE)
         retval=$?
         echo
         return $retval
 }
 
 rh_status() {
-   if [ -f $pidfile ] && [  `ps hp $(cat $pidfile)|wc -l` -eq 1 ]
+   if [ -f $REPMGRD_PIDFILE ] && [  `ps hp $(cat $REPMGRD_PIDFILE)|wc -l` -eq 1 ]
    then
-       pid=$(cat $pidfile)
+       pid=$(cat $REPMGRD_PIDFILE)
        echo "Process repmgrd exists (PID $pid)"
        return 0
    else
@@ -122,7 +155,7 @@ case "$1" in
         restart
         ;;
   status)
-	status -p $pidfile repmgr-9.4
+	status -p $REPMGRD_PIDFILE repmgr-9.4
 	script_result=$?
 
         ;;

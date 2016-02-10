@@ -1,21 +1,15 @@
---- repmgr.conf.sample.old	2015-05-01 14:47:50.244400552 +0300
-+++ repmgr.conf.sample	2015-05-01 14:50:05.917954944 +0300
-@@ -17,11 +17,11 @@
- # (Note: we recommend to avoid naming nodes after their initial
- #  replication funcion, as this will cause confusion when e.g.
- #  "standby2" is promoted to master)
--node=2
--node_name=node2
-+node=1
-+node_name=node1
- 
- # Database connection information
+--- repmgr.conf.sample.old	2016-01-05 15:49:09.632969842 +0200
++++ repmgr.conf.sample	2016-01-05 15:50:26.693116297 +0200
+@@ -25,7 +25,7 @@
+ # Database connection information as a conninfo string
+ # This must be accessible to all servers in the cluster; for details see:
+ #   http://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
 -conninfo='host=192.168.204.104 dbname=repmgr_db user=repmgr_usr'
 +conninfo='host=localhost dbname=repmgr_db user=repmgr_usr'
  
  # Optional configuration items
  # ============================
-@@ -55,7 +55,7 @@
+@@ -61,7 +61,7 @@
  
  # stderr can be redirected to an arbitrary file:
  #
@@ -24,25 +18,23 @@
  
  # event notifications can be passed to an arbitrary external program
  # together with the following parameters:
-@@ -82,7 +82,7 @@
+@@ -88,7 +88,7 @@
  
  # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
  # (if not provided, defaults to system $PATH)
 -# pg_bindir=/usr/bin/
-+pg_bindir=/usr/pgsql-9.4/bin
++pg_bindir=/usr/pgsql-9.4/bin/
  
  # external command options
  
-@@ -120,9 +120,9 @@
+@@ -129,8 +129,8 @@
  # Autofailover options
  failover=automatic  # one of 'automatic', 'manual'
- priority=100        # a value of zero or less prevents the node being promoted to master
+ priority=100        # a value of zero or less prevents the node being promoted to primary
 -promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
--
-+promote_command='/usr/pgsql-9.4/bin/repmgr standby promote -f /etc/repmgr/9.4/repmgr.conf'
-+follow_command='/usr/pgsql-9.4/bin/repmgr standby follow -f /etc/repmgr/9.4/repmgr.conf'
-+ 
- # monitoring interval; default is 2s
++promote_command='/usr/pgsql-9.4/bin/repmgr standby promote -f /etc/repmgr/9.5/repmgr.conf'
++follow_command='/usr/pgsql-9.4/bin/repmgr standby follow -f /etc/repmgr/9.5/repmgr.conf'
+ 
+ # monitoring interval in seconds; default is 2
  #
- # monitor_interval_secs=2

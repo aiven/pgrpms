@@ -15,8 +15,8 @@ After=network.target
 [Service]
 Type=forking
 
-User=repmgr
-Group=repmgr
+User=postgres
+Group=postgres
 
 # Location of repmgr conf file:
 Environment=REPMGRDCONF=/etc/repmgr/9.4/repmgr.conf
@@ -26,7 +26,7 @@ Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
-ExecStart=/usr/pgsql-9.4/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d > ${REPMGRDLOG} 2>&1" 
+ExecStart=/usr/pgsql-9.4/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d > ${REPMGRDLOG} 2>&1
 ExecStop=/usr/bin/kill -TERM ${PIDFILE}
 ExecReload=/usr/bin/kill -HUP ${PIDFILE}
 
