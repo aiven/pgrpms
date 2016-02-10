@@ -9,8 +9,8 @@
 
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	3.4.1
-Release:	2%{?dist}
+Version:	3.5.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgpool.net
@@ -22,7 +22,7 @@ Source1:	%{name}.conf
 Requires:	php >= 4.3.9
 Requires:	php-pgsql >= 4.3.9
 Requires:	webserver
-Requires:	pgpool-II-%{pgmajorversion}
+Requires:	pgpool-II-%{pgmajorversion} >= %{version}
 
 BuildArch:	noarch
 BuildRequires:	httpd
@@ -109,6 +109,10 @@ fi
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Wed Feb 10 2016 Devrim Gündüz <devrim@gunduz.org> 3.5.0-1
+- Update to 3.5.0
+- Make sure that the right version of pgpool-II is picked up.
+
 * Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 3.4-1-2
 - Use macro for PostgreSQL version.
 - Cosmetic cleanup
