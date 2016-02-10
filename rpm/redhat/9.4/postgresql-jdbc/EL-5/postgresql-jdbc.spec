@@ -1,7 +1,7 @@
 %global section		devel
 %global upstreamrel	1207
 %global upstreamver	9.4.%{upstreamrel}
-%global pgmajorversion	95
+%global pgmajorversion	94
 %global sname		postgresql-jdbc
 %global tarballname	pgjdbc-REL%{upstreamver}
 
