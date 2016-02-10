@@ -32,12 +32,12 @@ make USE_PGXS=1 %{?_smp_mflags}
 make  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 644 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-install -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/share/extension/ForeignServerCreation-%{sname}.md
-install -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/share/extension/ForeignTableCreation-%{sname}.md
-install -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/share/extension/UserMappingCreation-%{sname}.md
-install -m 644 Variables.md %{buildroot}%{pginstdir}/share/extension/Variables-%{sname}.md
+install -d %{buildroot}%{pginstdir}/doc/extension
+install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+install -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignServerCreation-%{sname}.md
+install -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignTableCreation-%{sname}.md
+install -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/doc/extension/UserMappingCreation-%{sname}.md
+install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{sname}.md
 
 %{__rm} -f %{buildroot}/%{_docdir}/pgsql/extension/README.%{sname}.md
 
@@ -49,7 +49,7 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/share/extension/Variables-%
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/*-%{sname}.md
+%doc %{pginstdir}/doc/extension/*%{sname}.md
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
