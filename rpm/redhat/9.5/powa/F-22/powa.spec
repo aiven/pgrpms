@@ -6,7 +6,7 @@
 # Powa version
 %global powamajorversion 3
 %global powamidversion 0
-%global powaminorversion 0
+%global powaminorversion 1
 # powa-web version
 %global powawebversion 3.0.2
 
@@ -91,6 +91,9 @@ popd
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 
 %changelog
+* Wed Feb 10 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
+- Update to 3.0.1
+
 * Wed Jan 27 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.0-1
 - Update to 3.0.0
 - Improve spec file, to fix multiple issues.
