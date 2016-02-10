@@ -4,13 +4,13 @@
 %global		_tag REL1_25
 
 Name:		nagios-plugins-pgactivity
-Version:	1.25beta1
+Version:	1.25
 Release:	1
 Summary:	PostgreSQL monitoring plugin for Nagios
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://opm.io
-Source0:	https://github.com/OPMDG/%{sname}/archive/%{_tag}_BETA1.tar.gz
+Source0:	https://github.com/OPMDG/%{sname}/archive/%{_tag}.tar.gz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	postgresql%{pgmajorversion}
@@ -23,7 +23,7 @@ many checks and allow the gathering of many performance counters.
 check_pgactivity is part of Open PostgreSQL Monitoring.
 
 %prep
-%setup -q -n %{sname}-%{_tag}_BETA1
+%setup -q -n %{sname}-%{_tag}
 
 %build
 
@@ -41,6 +41,9 @@ install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 %endif
 
 %changelog
+* Wed Feb 10 2016 Devrim Gündüz <devrim@gunduz.org> 1.25-1
+- Update to 1.25
+
 * Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> 1.25-beta1-1
 - Update to 1.25 beta1
 - Fix rpmlint warnings, and adjust to PGDG release format.
