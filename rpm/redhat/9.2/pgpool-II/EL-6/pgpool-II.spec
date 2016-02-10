@@ -104,11 +104,13 @@ sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool_adm
 USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-recovery
 USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-regclass
 
 %install
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
+make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
 make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
 make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
@@ -151,7 +153,6 @@ EOF
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_proc_info pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pcp_systemdb_info pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pcp_watchdog pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/pgpool-libs.conf pgpool-ld-conf %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf %{pgmajorversion}0
@@ -203,7 +204,6 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node
-	%{_sbindir}/update-alternatives --remove pgpool-pcp_systemdb_info %{pgpoolinstdir}/bin/pcp_systemdb_info
 	%{_sbindir}/update-alternatives --remove pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info
 	%{_sbindir}/update-alternatives --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
 fi
@@ -239,13 +239,11 @@ fi
 %{pgpoolinstdir}/bin/pcp_promote_node
 %{pgpoolinstdir}/bin/pcp_recovery_node
 %{pgpoolinstdir}/bin/pcp_stop_pgpool
-%{pgpoolinstdir}/bin/pcp_systemdb_info
 %{pgpoolinstdir}/bin/pcp_watchdog_info
 %{pgpoolinstdir}/bin/pg_md5
 %{pgpoolinstdir}/man/man8/pgpool.8
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
-%{pgpoolinstdir}/share/pgpool-II/system_db.sql
 %{_sysconfdir}/%{name}/*.sample*
 %{pgpoolinstdir}/lib/libpcp.so.*
 %config(noreplace) %attr (644,root,root) %{pgpoolinstdir}/share/pgpool-%{pgmajorversion}-libs.conf
@@ -266,7 +264,10 @@ fi
 %{pgpoolinstdir}/lib/libpcp.so
 
 %files extensions
+%{pginstdir}/lib/pgpool_adm.so
 %{pginstdir}/lib/pgpool-recovery.so
+%{pginstdir}/share/extension/pgpool_adm--1.0.sql
+%{pginstdir}/share/extension/pgpool_adm.control
 %{pginstdir}/share/extension/pgpool-recovery.sql
 %{pginstdir}/share/extension/pgpool-regclass.sql
 %{pginstdir}/share/extension/pgpool_recovery--1.1.sql
@@ -280,6 +281,7 @@ fi
 %changelog
 * Tue Feb 9 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0
+- Add pgpool_adm to extensions subpackage.
 
 * Mon Jan 11 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-4
 - Second time in a row: Fix typo in init script. Per report

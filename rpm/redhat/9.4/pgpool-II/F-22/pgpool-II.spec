@@ -104,11 +104,13 @@ sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool_adm
 USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-recovery
 USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-regclass
 
 %install
 make %{?_smp_mflags} DESTDIR=%{buildroot} install
+make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
 make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
 make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
@@ -262,7 +264,10 @@ fi
 %{pgpoolinstdir}/lib/libpcp.so
 
 %files extensions
+%{pginstdir}/lib/pgpool_adm.so
 %{pginstdir}/lib/pgpool-recovery.so
+%{pginstdir}/share/extension/pgpool_adm--1.0.sql
+%{pginstdir}/share/extension/pgpool_adm.control
 %{pginstdir}/share/extension/pgpool-recovery.sql
 %{pginstdir}/share/extension/pgpool-regclass.sql
 %{pginstdir}/share/extension/pgpool_recovery--1.1.sql
@@ -276,6 +281,7 @@ fi
 %changelog
 * Tue Feb 9 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0
+- Add pgpool_adm to extensions subpackage.
 
 * Mon Jan 11 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-4
 - Second time in a row: Fix typo in init script. Per report
