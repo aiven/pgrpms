@@ -31,7 +31,7 @@ Patch0:		postgis-2.2.0-gdalfpic.patch
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel >= 3.5.0
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 %if %{sfcgal}
 BuildRequires:	SFCGAL-devel
