@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0
+Version:	1.0.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -29,10 +29,12 @@ make USE_PGXS=1 %{?_smp_mflags}
 %install
 %{__rm} -rf %{buildroot}
 
+install -d %{buildroot}%{pginstdir}/
+install -d %{buildroot}%{pginstdir}/bin/
+install -d %{buildroot}%{pginstdir}/share/extension
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
 install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
@@ -45,10 +47,14 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/share/extension/README-%{sname}.md
+%attr (755,root,root) %{pginstdir}/bin/ogr_fdw_info
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--%{version}.sql
+%{pginstdir}/share/extension/%{sname}--1.0.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
+- Update to 1.0.1
+
 * Mon Sep 21 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
