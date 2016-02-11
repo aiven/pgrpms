@@ -1,128 +1,145 @@
-# Conventions for PostgreSQL Global Development Group RPM releases:
-
-# Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-
-# Major Contributors:
-# ---------------
-# Tom Lane
-# Devrim Gunduz
-# Peter Eisentraut
-
-# This spec file and ancilliary files are licensed in accordance with
-# The PostgreSQL license.
-# In this file you can find the default build package list macros.  These can be overridden by defining
-# on the rpm command line
-
-%{!?gcj_support:%define gcj_support	1}
-%{!?upstreamserver:%define upstreamver	9.1-903}
-%global pgmajorversion 91
-%global pginstdir /usr/pgsql-9.1
-%global sname postgresql-jdbc
-
-%global beta 0
-%{?beta:%define __os_install_post /usr/lib/rpm/brp-compress}
+%global tarballname	pgjdbc-REL%{version}
 
 Summary:	JDBC driver for PostgreSQL
-Name:		postgresql%{pgmajorversion}-jdbc
-Version:	9.1.903
-Release:	1PGDG%{?dist}
-Epoch:		0
-License:	BSD
+Name:		postgresql-jdbc
+Version:	9.4.1207
+Release:	3%{?dist}
+# ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
+License:	BSD and ASL 2.0
 Group:		Applications/Databases
-URL:		http://jdbc.postgresql.org/
-
-Source0:	http://jdbc.postgresql.org/download/%{sname}-%{upstreamver}.src.tar.gz
-
-Provides:	postgresql-jdbc
-
-%if ! %{gcj_support}
+URL:		https://jdbc.postgresql.org/
+Source0:	https://github.com/pgjdbc/pgjdbc/archive/REL%{version}.tar.gz
+Source1:	%{name}.pom
 BuildArch:	noarch
+
+Requires:	jpackage-utils
+Requires:	java-headless >= 1:1.8
+BuildRequires:	java-1.8.0-openjdk-devel
+
+%if 0%{?rhel} && 0%{?rhel} <= 7
+# On RHEL 6, we depend on the apache-maven package that we provide via our
+# repo. Build servers should not have any other apache-maven package from other
+# repos, because they depend on java-1.7.0, which is not supported by pgjdbc.
+# Please note that we don't support RHEL 5 for this package. RHEL 7 already
+# includes apache-maven package in its own repo.
+BuildRequires:	apache-maven >= 3.0.0
+%else
+# On the remaining distros, use the maven package supplied by OS.
+BuildRequires:	maven
 %endif
-BuildRequires:  jpackage-utils >= 0:1.5
-BuildRequires:  ant >= 0:1.6.2
-BuildRequires:  ant-junit >= 0:1.6.2
-BuildRequires:  junit >= 0:3.7
-BuildRequires:	findutils gettext
-%if %{gcj_support}
-BuildRequires:	gcc-java
-Requires(post):	/usr/bin/rebuild-gcj-db
-Requires(postun):	/usr/bin/rebuild-gcj-db
-%endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 PostgreSQL is an advanced Object-Relational database management
 system. The postgresql-jdbc package includes the .jar files needed for
 Java programs to access a PostgreSQL database.
 
+%package javadoc
+Summary:        API docs for %{name}
+Group:          Documentation
+
+%description javadoc
+This package contains the API Documentation for %{name}.
+
 %prep
-%setup -c -q
-mv -f %{sname}-%{upstreamver}.src/* .
-rm -f %{sname}-%{upstreamver}.src/.cvsignore
-rm -rf %{sname}-%{upstreamver}.src
+%setup -c -q -n %{tarballname}
+
+%{__mv} -f %{tarballname}/* .
+%{__rm} -f %{tarballname}/.gitattributes
+%{__rm} -f %{tarballname}/.gitignore
+%{__rm} -f %{tarballname}/.travis.yml
 
 # remove any binary libs
-find -name "*.jar" -or -name "*.class" | xargs rm -f
+find -name "*.jar" -or -name "*.class" | xargs %{__rm} -f
 
 %build
-export OPT_JAR_LIST="ant/ant-junit junit"
+
 export CLASSPATH=
-sh update-translations.sh
-ant
+# Ideally we would run "sh update-translations.sh" here, but that results
+# in inserting the build timestamp into the generated messages_*.class
+# files, which makes rpmdiff complain about multilib conflicts if the
+# different platforms don't build in the same minute.  For now, rely on
+# upstream to have updated the translations files before packaging.
+
+mvn -DskipTests -P release-artifacts clean package
 
 %install
-rm -rf %{buildroot}
-install -d %{buildroot}%{_javadir}
+%{__install} -d %{buildroot}%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-install -m 644 jars/postgresql.jar %{buildroot}%{_javadir}/%{name}-%{version}.jar
+%{__install} -m 644 pgjdbc/target/postgresql-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
 
 pushd %{buildroot}%{_javadir}
-ln -s %{name}-%{version}.jar %{name}.jar
-# We are breaking  backwards compatibility here, and not adding symlinks anymore.
+# Also, for backwards compatibility with our old postgresql-jdbc packages,
+# add these symlinks.  (Probably only the jdbc3 symlink really makes sense?)
+%{__ln_s} postgresql-jdbc.jar postgresql-jdbc2.jar
+%{__ln_s} postgresql-jdbc.jar postgresql-jdbc2ee.jar
+%{__ln_s} postgresql-jdbc.jar postgresql-jdbc3.jar
 popd
 
-%if %{gcj_support}
-aot-compile-rpm
+# Install the pom after inserting the correct version number
+sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
+%{__install} -d -m 755 %{buildroot}%{_mavenpomdir}/
+%{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
+%if 0%{?rhel} && 0%{?rhel} <= 6
+:
+%else
+%add_maven_depmap
 %endif
 
-%clean
-rm -rf %{buildroot}
+%{__install} -d -m 755 %{buildroot}%{_javadocdir}
+%{__cp} -ra pgjdbc/target/apidocs %{buildroot}%{_javadocdir}/%{name}
+%{__install} -d pgjdbc/target/apidocs docs/%{name}
 
-%if %{gcj_support}
-%post -p /usr/bin/rebuild-gcj-db
-%postun -p /usr/bin/rebuild-gcj-db
+%check
+%if 0%{?runselftest}
+# Note that this requires to have PostgreSQL properly configured;  for this
+# reason the testsuite is turned off by default (see org/postgresql/test/README)
+test_log=test.log
+# TODO: more reliable testing
+mvn clean package 2>&1 | tee test.log | grep FAILED
+test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %files
-%defattr(-,root,root)
-%doc LICENSE README doc/* 
-%{_javadir}/*
-%if %{gcj_support}
-%dir %{_libdir}/gcj/%{name}
-%{_libdir}/gcj/%{name}/*.jar.so
-%{_libdir}/gcj/%{name}/*.jar.db
+%doc LICENSE README.md
+%else
+%files -f .mfiles
+%doc README.md
+%license LICENSE
 %endif
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# These files are installed with the other distros, but we don't need to list
+# them on newer ones, as they are picked up by .mfiles above.
+%{_javadir}/postgresql-jdbc.jar
+%{_datadir}/maven2/poms/JPP-postgresql-jdbc.pom
+%endif
+%{_javadir}/%{name}2.jar
+%{_javadir}/%{name}2ee.jar
+%{_javadir}/%{name}3.jar
+
+%files javadoc
+%doc LICENSE
+%doc %{_javadocdir}/%{name}
 
 %changelog
-* Mon Jan 14 2013 Devrim Gunduz <devrim@gunduz.org> 0:9.1.903-1PGDG
-- Update to 9.1 build 903
+* Wed Feb 10 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1207-3
+- Remove pgmajorversion from spec file, because this package does not
+  depend on PostgreSQL version.
+- Add more conditionals for unified spec file.
+- Remove some BRs, per John Harvey.
+- Specify maven version, per John Harvey.
 
-* Thu Jul 5 2012 Devrim Gunduz <devrim@gunduz.org> 0:9.1.902-1PGDG
-- Update to 9.1 build 902
+* Wed Feb 10 2016 John Harvey <john.harvey@crunchydata.com> - 9.4.1207-2
+- Fix broken links to jar files.
+- Trim changelog (Devrim)
 
-* Mon Sep 12 2011 Devrim Gunduz <devrim@gunduz.org> 0:9.1.901-1PGDG
-- Update to 9.1 build 901
+* Tue Jan 5 2016 John Harvey <john.harvey@crunchydata.com> - 9.4.1207-1
+- Update to 9.4 build 1207 (maven support)
+- Use some more macros, where appropriate (Devrim)
 
-* Tue Sep 21 2010 Devrim Gunduz <devrim@gunduz.org> 0:9.0.801-1PGDG
-- Initial packaging of build 801, for PostgreSQL 9.0
-- Trim changelog
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 9.4.1200-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Wed Feb 04 2015 Pavel Raiskup <praiskup@redhat.com> - 9.4.1200-1
+- rebase to most recent version (#1188827)
