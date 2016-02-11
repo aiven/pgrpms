@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f12
+DIST=.rhel5
 SPECFILE="pg_bulkload.spec"
 
 # Now, include global Makefile
