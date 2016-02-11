@@ -16,6 +16,7 @@ RUN rpm --import http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
 RUN rpm -ivh http://download.postgresql.org/pub/repos/yum/9.5/fedora/fedora-23-x86_64/pgdg-fedora95-9.5-3.noarch.rpm
 
 # Update the Fedora and PostgreSQL repository metadata
+RUN yum -y install deltarpm
 RUN yum update -y
 
 # Install PostgreSQL 9.5
