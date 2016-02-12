@@ -4,7 +4,7 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.2
+Version:	1.3.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -29,7 +29,7 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 USE_PGXS=1 make DESTDIR=%{buildroot} install
 
 %files
@@ -41,9 +41,12 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %changelog
+* Fri Feb 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.3.3-1
+- Update to 1.3.3
+
 * Wed Sep 9 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
 - Update to 1.3.2
 
