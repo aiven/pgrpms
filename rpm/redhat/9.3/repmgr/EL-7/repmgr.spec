@@ -1,5 +1,5 @@
-%global pgmajorversion 93
-%global pgpackageversion 9.3
+%global pgmajorversion 95
+%global pgpackageversion 9.5
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -10,15 +10,16 @@
 
 %global _varrundir %{_localstatedir}/run/%{sname}
 
-Name:           %{sname}%{pgmajorversion}
-Version:        3.0.2
-Release:        1%{?dist}
-Summary:        Replication Manager for PostgreSQL Clusters
-License:        GPLv3
-URL:            http://www.repmgr.org
-Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
+Name:		%{sname}%{pgmajorversion}
+Version:	3.0.3
+Release:	2%{?dist}
+Summary:	Replication Manager for PostgreSQL Clusters
+License:	GPLv3
+URL:		http://www.repmgr.org
+Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-%{pgpackageversion}.service
 Source2:	repmgr.init
+Source3:	repmgr.sysconfig
 Patch0:		repmgr-makefile-pgxs.patch
 Patch1:		repmgr.conf.sample.patch
 
@@ -94,16 +95,16 @@ EOF
 %else
 install -d %{buildroot}%{_sysconfdir}/init.d
 install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+# Create the sysconfig directory and config file:
+install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
+install -m 700 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
-groupadd -r repmgr >/dev/null 2>&1 || :
-useradd -m -g repmgr -r -s /bin/bash \
-        -c "repmgr" repmgr >/dev/null 2>&1 || :
 if [ ! -x /var/log/repmgr ]
 then
 	%{__mkdir} -m 700 /var/log/repmgr
-	%{__chown} -R repmgr: /var/log/repmgr
+	%{__chown} -R postgres: /var/log/repmgr
 fi
 
 %post
@@ -115,7 +116,11 @@ fi
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
-%{__chown} repmgr: %{_localstatedir}/run/%{sname}
+if [ ! -x %{_varrundir} ]
+then
+	%{__mkdir} -m 700 %{_varrundir}
+	%{__chown} -R postgres: %{_varrundir}
+fi
 
 %postun -p /sbin/ldconfig
 
@@ -143,9 +148,25 @@ fi
 %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %changelog
+* Tue Feb 16 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-2
+- Install correct sysconfig file, instead of init script. Per
+  bug report from Brett Maton.
+
+* Tue Jan 5 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-1
+- Update to 3.0.3
+- Apply various fixes to init script, and also add sysconfig
+  file. Patch from Martín Marqués.
+- Fix some rpmlint warnings.
+
+* Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-2
+- Ensure that /var/run/repmgr exists. Per Guillaume Lelarge.
+- Switch to postgres user while running the deamon, instead of
+  repmgr user. Per recent complaints from Guillaume and Justin King.
+
 * Tue Oct 6 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-1
 - Update to 3.0.2
 

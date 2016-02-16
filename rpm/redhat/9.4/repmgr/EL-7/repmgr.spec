@@ -1,5 +1,5 @@
-%global pgmajorversion 94
-%global pgpackageversion 9.4
+%global pgmajorversion 95
+%global pgpackageversion 9.5
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -12,7 +12,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	3.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -97,7 +97,7 @@ install -d %{buildroot}%{_sysconfdir}/init.d
 install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 # Create the sysconfig directory and config file:
 install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
-install -m 700 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
+install -m 700 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
@@ -152,6 +152,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 16 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-2
+- Install correct sysconfig file, instead of init script. Per
+  bug report from Brett Maton.
+
 * Tue Jan 5 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-1
 - Update to 3.0.3
 - Apply various fixes to init script, and also add sysconfig

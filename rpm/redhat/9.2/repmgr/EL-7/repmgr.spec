@@ -1,5 +1,5 @@
-%global pgmajorversion 92
-%global pgpackageversion 9.2
+%global pgmajorversion 95
+%global pgpackageversion 9.5
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -10,15 +10,16 @@
 
 %global _varrundir %{_localstatedir}/run/%{sname}
 
-Name:           %{sname}%{pgmajorversion}
-Version:        2.0.2
-Release:        4%{?dist}
-Summary:        Replication Manager for	PostgreSQL Clusters
-License:        GPLv3
-URL:            http://www.repmgr.org
-Source0:        http://repmgr.org/download/%{sname}-%{version}.tar.gz
+Name:		%{sname}%{pgmajorversion}
+Version:	3.0.3
+Release:	2%{?dist}
+Summary:	Replication Manager for PostgreSQL Clusters
+License:	GPLv3
+URL:		http://www.repmgr.org
+Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-%{pgpackageversion}.service
 Source2:	repmgr.init
+Source3:	repmgr.sysconfig
 Patch0:		repmgr-makefile-pgxs.patch
 Patch1:		repmgr.conf.sample.patch
 
@@ -36,24 +37,28 @@ Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
+# This is for older spec files (RHEL <= 6)
+Group:		Application/Databases
+BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:  postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel, pam-devel, openssl-devel, readline-devel
 Requires:       postgresql%{pgmajorversion}-server
 
 %description
-repmgr is a set of open source tools that helps DBAs and System
-administrators manage a cluster of PostgreSQL databases..
+repmgr is an open-source tool suite to manage replication and failover in a
+cluster of PostgreSQL servers. It enhances PostgreSQL's built-in hot-standby
+capabilities with tools to set up standby servers, monitor replication, and
+perform administrative tasks such as failover or manual switchover operations.
 
-By taking advantage of the Hot Standby capability introduced in
-PostgreSQL 9, repmgr greatly simplifies the process of setting up and
-managing database with high availability and scalability requirements.
-
-repmgr simplifies administration and daily management, enhances
-productivity and reduces the overall costs of a PostgreSQL cluster by:
-  * monitoring the replication process;
-  * allowing DBAs to issue high availability operations such as
-switch-overs and fail-overs.
+repmgr has provided advanced support for PostgreSQL's built-in replication
+mechanisms since they were introduced in 9.0, and repmgr 2.0 supports all
+PostgreSQL versions from 9.0 to 9.5. With further developments in replication
+functionality such as cascading replication, timeline switching and base
+backups via the replication protocol, the repmgr team has decided to use
+PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
+rewrite of the existing repmgr code and which will be developed to support
+future PostgreSQL versions.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -65,7 +70,13 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
+%if %{systemd_enabled}
+# Use new %%make_install macro:
 USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
+%else
+# Use older version
+USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
+%endif
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
@@ -84,16 +95,16 @@ EOF
 %else
 install -d %{buildroot}%{_sysconfdir}/init.d
 install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+# Create the sysconfig directory and config file:
+install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
+install -m 700 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
-groupadd -r repmgr >/dev/null 2>&1 || :
-useradd -m -g repmgr -r -s /bin/bash \
-        -c "repmgr" repmgr >/dev/null 2>&1 || :
 if [ ! -x /var/log/repmgr ]
 then
 	%{__mkdir} -m 700 /var/log/repmgr
-	chown repmgr: /var/log/repmgr
+	%{__chown} -R postgres: /var/log/repmgr
 fi
 
 %post
@@ -105,13 +116,22 @@ fi
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
-%{__chown} repmgr: %{_localstatedir}/run/%{sname}
+if [ ! -x %{_varrundir} ]
+then
+	%{__mkdir} -m 700 %{_varrundir}
+	%{__chown} -R postgres: %{_varrundir}
+fi
 
 %postun -p /sbin/ldconfig
 
 %files
-%doc CREDITS HISTORY LICENSE README.rst TODO
-%license COPYRIGHT
+%if %{systemd_enabled}
+%doc CREDITS HISTORY README.md
+%license COPYRIGHT LICENSE
+%else
+%defattr(-,root,root,-)
+%doc CREDITS HISTORY README.md LICENSE COPYRIGHT
+%endif
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %config %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
@@ -128,9 +148,35 @@ fi
 %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %changelog
+* Tue Feb 16 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-2
+- Install correct sysconfig file, instead of init script. Per
+  bug report from Brett Maton.
+
+* Tue Jan 5 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-1
+- Update to 3.0.3
+- Apply various fixes to init script, and also add sysconfig
+  file. Patch from Martín Marqués.
+- Fix some rpmlint warnings.
+
+* Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-2
+- Ensure that /var/run/repmgr exists. Per Guillaume Lelarge.
+- Switch to postgres user while running the deamon, instead of
+  repmgr user. Per recent complaints from Guillaume and Justin King.
+
+* Tue Oct 6 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.2-1
+- Update to 3.0.2
+
+* Tue May 12 2015 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
+- Update to 3.0.1
+- Update description and some other minor places.
+- More for creating unified spec file for all distros, and put
+  back some stuff into conditionals. Also, use %%license macro
+  only on newer releases.
+
 * Fri May 1 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-4
 - chown pid file dir and fix its path.
 - Fix unit file
