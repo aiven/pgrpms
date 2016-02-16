@@ -1,5 +1,5 @@
-%global pgmajorversion 95
-%global pgpackageversion 9.5
+%global pgmajorversion 94
+%global pgpackageversion 9.4
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
