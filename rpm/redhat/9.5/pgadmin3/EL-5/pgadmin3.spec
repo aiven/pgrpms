@@ -7,12 +7,15 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.22.0
+Version:	1.22.1
 Release:	1%{?dist}
 License:	BSD
 Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
+%if 0%{?rhel} && 0%{?rhel} <= 5
+Group:		Applications/Databases
+%endif
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel ImageMagick
 BuildRequires:	desktop-file-utils openssl-devel libxml2-devel libxslt-devel
 Requires:	wxGTK
@@ -38,7 +41,9 @@ required to communicate with the database server.
 
 %package docs
 Summary:	Documentation for pgAdmin3
+%if 0%{?rhel} && 0%{?rhel} <= 5
 Group:		Applications/Databases
+%endif
 Requires:	%{sname}_%{pgmajorversion} = %{version}
 
 %description docs
@@ -55,10 +60,13 @@ for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
 convert "pgadmin/include/images/pgAdmin3.ico[3]" pgadmin/include/images/pgAdmin3-48.png
 
 %build
+# This is only for Fedora for now:
+%if (0%{?fedora})
 CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 export CFLAGS
 export CXXFLAGS
+%endif
 export LIBS="-lwx_gtk2u_core-2.8"
 ./configure --disable-debug --disable-dependency-tracking --with-wx-version=2.8 --with-wx=/usr --with-pgsql=%{pginstdir} --prefix=%{pginstdir}
 %{__make} %{?_smp_mflags} all
@@ -117,6 +125,10 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc docs/*
 
 %changelog
+* Wed Feb 17 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.1-1
+- Update to 1.22.1
+- Put Fedora-related compile flags into conditionals for unified spec file.
+
 * Tue Jan 5 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-1
 - Update to 1.22.0 Gold.
 

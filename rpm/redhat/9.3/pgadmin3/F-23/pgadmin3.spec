@@ -7,12 +7,15 @@
 
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20.0
-Release:	4%{?dist}
+Version:	1.22.1
+Release:	1%{?dist}
 License:	BSD
 Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
 URL:		http://www.pgadmin.org/
+%if 0%{?rhel} && 0%{?rhel} <= 5
+Group:		Applications/Databases
+%endif
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel ImageMagick
 BuildRequires:	desktop-file-utils openssl-devel libxml2-devel libxslt-devel
 Requires:	wxGTK
@@ -38,7 +41,9 @@ required to communicate with the database server.
 
 %package docs
 Summary:	Documentation for pgAdmin3
+%if 0%{?rhel} && 0%{?rhel} <= 5
 Group:		Applications/Databases
+%endif
 Requires:	%{sname}_%{pgmajorversion} = %{version}
 
 %description docs
@@ -55,16 +60,19 @@ for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
 convert "pgadmin/include/images/pgAdmin3.ico[3]" pgadmin/include/images/pgAdmin3-48.png
 
 %build
+# This is only for Fedora for now:
+%if (0%{?fedora})
 CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 export CFLAGS
 export CXXFLAGS
+%endif
 export LIBS="-lwx_gtk2u_core-2.8"
 ./configure --disable-debug --disable-dependency-tracking --with-wx-version=2.8 --with-wx=/usr --with-pgsql=%{pginstdir} --prefix=%{pginstdir}
 %{__make} %{?_smp_mflags} all
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %make_install DESTDIR=%{buildroot}
 
 %{__mkdir} -p %{buildroot}%{_datadir}/%{name}/
@@ -74,7 +82,7 @@ for size in 16 32 48 ; do
 done
 
 %{__mkdir} -p %{buildroot}/%{_datadir}/applications
-mv ./pkg/%{sname}.desktop ./pkg/%{name}.desktop
+%{__mv} ./pkg/%{sname}.desktop ./pkg/%{name}.desktop
 desktop-file-install --vendor fedora --dir %{buildroot}/%{_datadir}/applications \
 	--add-category X-Fedora\
 	--add-category Application\
@@ -90,7 +98,7 @@ if [ $1 = 0 ] ; then
 fi
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/%{sname} %{sname} %{pginstdir}/bin/%{sname} 940
+%{_sbindir}/update-alternatives --install /usr/bin/%{sname} %{sname} %{pginstdir}/bin/%{sname} 950
 
 %postun
 if [ $1 -eq 0 ] ; then
@@ -117,7 +125,15 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc docs/*
 
 %changelog
-* Tue Nov 10 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.20.0-4
+* Wed Feb 17 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.1-1
+- Update to 1.22.1
+- Put Fedora-related compile flags into conditionals for unified spec file.
+
+* Tue Jan 5 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-1
+- Update to 1.22.0 Gold.
+
+* Tue Nov 10 2015 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.0-beta1-1
+- Update to 1.22.0 beta1
 - Add -fPIC and -pie to CFLAGS and CXXFLAGS, per Fedora 23 packaging
   requirements. This currently applies only to Fedora.
 - Update download URL
