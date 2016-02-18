@@ -5,7 +5,7 @@
 #                                                                       #
 #########################################################################
 
-FROM centos:latest
+FROM centos:centos6
 MAINTAINER devrim@gunduz.org
 
 # Add the PostgreSQL PGP key to verify the official yum repository packages
@@ -13,17 +13,17 @@ RUN rpm --import http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 #     of PostgreSQL, ``9.5``.
-RUN rpm -ivh https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-6-x86_64/pgdg-centos95-9.5-2.noarch.rpm
 
 # Update the CentOS and PostgreSQL repository metadata
 RUN yum -y install deltarpm
 RUN yum update -y
 
 # Install PostgreSQL 9.5
-RUN yum -y -q install postgresql95-server postgresql95-client
+RUN yum -y install postgresql95-server postgresql95-contrib
 
 # initdb PostgreSQL 9.5:
-RUN	/usr/pgsql-9.5/bin/postgresql95-setup initdb
+RUN service postgresql-9.5 initdb
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
