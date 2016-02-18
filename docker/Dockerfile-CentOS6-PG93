@@ -5,7 +5,7 @@
 #                                                                       #
 #########################################################################
 
-FROM centos:latest
+FROM centos:centos6
 MAINTAINER devrim@gunduz.org
 
 # Add the PostgreSQL PGP key to verify the official yum repository packages
@@ -13,17 +13,17 @@ RUN rpm --import http://yum.postgresql.org/RPM-GPG-KEY-PGDG-93
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 #     of PostgreSQL, ``9.3``.
-RUN rpm -ivh http://yum.postgresql.org/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-1.noarch.rpm
+RUN yum install -y https://download.postgresql.org/pub/repos/yum/9.3/redhat/rhel-6-x86_64/pgdg-centos93-9.3-2.noarch.rpm
 
 # Update the CentOS and PostgreSQL repository metadata
 RUN yum -y install deltarpm
 RUN yum update -y
 
 # Install PostgreSQL 9.3
-RUN yum -y -q install postgresql93-server postgresql93-client
+RUN yum -y install postgresql93-server postgresql93-contrib
 
 # initdb PostgreSQL 9.3:
-RUN	/usr/pgsql-9.3/bin/postgresql93-setup initdb
+RUN service postgresql-9.3 initdb
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible. 
