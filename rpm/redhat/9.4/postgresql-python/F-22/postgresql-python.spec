@@ -1,29 +1,5 @@
-# Conventions for PostgreSQL Global Development Group RPM releases:
-
-# Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-
-# Major Contributors:
-# ---------------
-# Devrim Gunduz
-
-# This spec file and ancilliary files are licensed in accordance with
-# The PostgreSQL license.
-# In this file you can find the default build package list macros.  These can be overridden by defining
-# on the rpm command line
-
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{expand: %%global pynextver %(python -c 'import sys;print(float(sys.version[0:3])+0.1)')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %global pgmajorversion 94
@@ -32,15 +8,15 @@
 
 Summary:	Development module for Python code to access a PostgreSQL DB
 Name:		postgresql%{pgmajorversion}-python
-Version:	4.1.1
-Release:	2PGDG%{?dist}
+Version:	4.2
+Release:	1PGDG%{?dist}
 Epoch:		0
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.pygresql.org
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Source0:	http://pygresql.org/files/%{sname}-%{version}.tgz
+Source0:	https://pypi.python.org/packages/source/P/%{sname}/%{sname}-%{version}.zip
 Patch0:		setup.py-rpm.patch
 
 BuildRequires:	python-devel, postgresql%{pgmajorversion}-devel
@@ -56,35 +32,32 @@ database.
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
 
-# Some versions of PyGreSQL.tgz contain wrong file permissions
-chmod 755 tutorial
-chmod 644 tutorial/*.py
-chmod 755 tutorial/advanced.py tutorial/basics.py
-
 %build
-
 CFLAGS="%{optflags}" %{__python} setup.py build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc docs/*.txt
-%doc tutorial
+%doc docs/*
 %{python_sitearch}/*.so
-%{python_sitearch}/*.py
+%attr (755,root,root) %{python_sitearch}/*.py
 %{python_sitearch}/*.pyc
 %{python_sitearch}/*.pyo
 %dir %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Fri Feb 19 2016 Devrim Gündüz <devrim@gunduz.org> 0:4.2.1-1PGDG
+- Update to 4.2.1
+- Fix rpmlint warnings, update patch, clean up some macros.
+
 * Wed Sep 9 2015 Devrim Gunduz <devrim@gunduz.org> 0:4.1.1-2PGDG
 - Remove dependency of mx, per Jimmy Angelakos.
 
