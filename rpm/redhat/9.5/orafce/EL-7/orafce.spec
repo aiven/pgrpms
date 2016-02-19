@@ -2,8 +2,8 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 1
-%global orafceminver 2
+%global orafcemidver 2
+%global orafceminver 1
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
@@ -51,11 +51,11 @@ make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/orafce.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/orafce--%{orafcemajver}.%{orafcemidver}.sql
-%{pginstdir}/share/extension/orafce--unpackaged--%{orafcemajver}.%{orafcemidver}.sql
-%{pginstdir}/share/extension/orafce.sql
-%{pginstdir}/share/extension/uninstall_orafce.sql
 
 %changelog
+* Fri Feb 19 2016 - Devrim Gündüz <devrim@gunduz.org> 3.2.1-1
+- Update to 3.2.1
+
 * Mon Jul 13 2015 - Devrim GUNDUZ <devrim@gunduz.org> 3.1.2-1
 - Update to 3.1.2
 
