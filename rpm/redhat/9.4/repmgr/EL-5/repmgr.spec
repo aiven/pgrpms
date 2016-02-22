@@ -12,7 +12,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	3.0.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -148,10 +148,13 @@ fi
 %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
-%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
+%attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %changelog
+* Mon Feb 22 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-3
+- Fix permissions of sysconfig file. Per #1004.
+
 * Tue Feb 16 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-2
 - Install correct sysconfig file, instead of init script. Per
   bug report from Brett Maton.
