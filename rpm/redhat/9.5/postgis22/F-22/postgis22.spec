@@ -41,7 +41,7 @@ Requires:	SFCGAL
 BuildRequires:	gdal-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.4.2, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj, hdf5, json-c
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -226,6 +226,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Feb 22 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
+- Fix GeOS version number in Requires part, so that it *also*
+  requires GeOS >= 3.5.0. Per #1007.
+
 * Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
 - Force dependency on GeOS 3.5.0. Per report from Paul Edwards,
   and others, on PostGIS mailing list.
