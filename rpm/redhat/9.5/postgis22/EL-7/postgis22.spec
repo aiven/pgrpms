@@ -31,7 +31,7 @@ Patch0:		postgis-2.2.0-gdalfpic.patch
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0, pcre-devel
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
 %if %{sfcgal}
 BuildRequires:	SFCGAL-devel
@@ -41,7 +41,7 @@ Requires:	SFCGAL
 BuildRequires:	gdal-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj, hdf5, json-c
+Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj, hdf5, json-c, pcre
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -229,6 +229,7 @@ fi
 * Mon Feb 22 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
 - Fix GeOS version number in Requires part, so that it *also*
   requires GeOS >= 3.5.0. Per #1007.
+- Add dependency for pcre, per #1007.
 
 * Mon Jan 18 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
 - Force dependency on GeOS 3.5.0. Per report from Paul Edwards,
