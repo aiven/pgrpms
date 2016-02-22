@@ -10,6 +10,10 @@ Name:		pgbouncer
 Version:	1.7.1
 Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
+# This is only required for RHEL 5
+%if 0%{?rhel} && 0%{?rhel} <= 5
+Group:		Application/Databases
+%endif
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
 Source0:	https://pgbouncer.github.io/downloads/files/%{version}/%{name}-%{version}.tar.gz
