@@ -7,7 +7,7 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.7
+Version:	1.7.1
 Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -19,7 +19,7 @@ Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
 
-BuildRequires:	libevent-devel >= 2.0
+BuildRequires:	libevent-devel >= 2.0 openssl-devel
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -151,6 +151,12 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon Feb 22 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
+- Update to 1.7.1, per #1011.
+- Fix wrong log file name in sysconfig file, per #1008.
+- Add openssl-devel as BR.
+- Fix logrotate file, per #1009.
+
 * Wed Dec 30 2015 Devrim Gündüz <devrim@gunduz.org> - 1.7-1
 - Update to 1.7
 
