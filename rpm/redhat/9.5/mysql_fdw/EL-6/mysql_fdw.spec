@@ -2,8 +2,8 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 0
-%global mysqlfdwminver 1
+%global mysqlfdwmidver 1
+%global mysqlfdwminver 2
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
@@ -53,6 +53,9 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Feb 23 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.2-1
+- Update to 2.1.2
+
 * Thu Feb 05 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 

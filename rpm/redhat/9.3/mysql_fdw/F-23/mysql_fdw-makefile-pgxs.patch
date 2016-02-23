@@ -1,7 +1,7 @@
---- Makefile.old	2015-02-05 11:55:18.929158420 +0200
-+++ Makefile	2015-02-05 11:55:28.317044462 +0200
-@@ -25,7 +25,7 @@
- PG_CPPFLAGS := $(shell $(MYSQL_CONFIG) --include)
+--- Makefile.old	2016-02-23 19:56:44.031581908 +0200
++++ Makefile	2016-02-23 19:56:50.584515523 +0200
+@@ -42,7 +42,7 @@
+ PG_CPPFLAGS += -D _MYSQL_LIBNAME=\"lib$(MYSQL_LIB)$(DLSUFFIX)\"
  
  ifdef USE_PGXS
 -PG_CONFIG = pg_config
