@@ -11,8 +11,8 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	3.0.3
-Release:	3%{?dist}
+Version:	3.1.1
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -152,6 +152,10 @@ fi
 %endif
 
 %changelog
+
+* Thu Feb 25 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.1-1
+* Upstream release 3.1.1
+
 * Mon Feb 22 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-3
 - Fix permissions of sysconfig file. Per #1004.
 
