@@ -1,8 +1,8 @@
---- Makefile.old	2015-03-20 17:50:21.792296346 +0200
-+++ Makefile	2015-03-20 17:50:29.414214813 +0200
-@@ -62,7 +62,7 @@
- include test/Makefile
+--- Makefile.old	2016-03-02 16:44:46.792927336 +0200
++++ Makefile	2016-03-02 16:45:02.614765877 +0200
+@@ -53,7 +53,7 @@
  
+ # detect whether to build with pgxs or build in-tree
  ifndef NO_PGXS
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.5/bin/pg_config

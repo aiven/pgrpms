@@ -4,8 +4,8 @@
 
 Summary:	Easy sharding for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
-Release:	2%{?dist}
+Version:	1.2.2
+Release:	1%{?dist}
 License:	LGPLv3
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -28,9 +28,10 @@ make %{?_smp_mflags}
 %install
 %{__rm} -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
-# Let's also install documentation:
+# Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__rm} %{buildroot}%{pginstdir}/doc/extension/README.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -50,6 +51,9 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Mar 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2.2-1
+- Update to 1.2.2.
+
 * Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-2
 - Minor cosmetic updates for unified spec file.
 
