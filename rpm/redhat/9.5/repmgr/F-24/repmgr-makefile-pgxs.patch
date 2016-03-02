@@ -1,0 +1,22 @@
+--- Makefile.old	2016-01-05 15:48:08.635645469 +0200
++++ Makefile	2016-01-05 15:48:18.941531317 +0200
+@@ -21,7 +21,7 @@
+ 	$(CC) $(CFLAGS) $(repmgr_OBJS) $(PG_LIBS) $(LDFLAGS) $(LDFLAGS_EX) $(LIBS) -o repmgr
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- sql/Makefile.old	2016-01-05 15:48:24.767466787 +0200
++++ sql/Makefile	2016-01-05 15:48:30.167406975 +0200
+@@ -10,7 +10,7 @@
+ OBJS=repmgr_funcs.o
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
