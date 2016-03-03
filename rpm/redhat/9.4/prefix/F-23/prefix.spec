@@ -4,12 +4,17 @@
 
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.3
-Release:	2%{?dist}
+Version:	1.2.4
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 Patch0:		prefix-makefile-pgconfig.patch
 URL:		https://github.com/dimitri/prefix
+# This is for older spec files (RHEL <= 6)
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Group:		Application/Databases
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -26,23 +31,26 @@ searches.
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %make_install DESTDIR=%{buildroot}
-# Move docs under PostgreSQL extensions director
-%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
-%{__mv} %{buildroot}%{_docdir}/pgsql/extension/README.md %{buildroot}%{pginstdir}/share/extension/README-prefix.md
-%{__mv} %{buildroot}%{_docdir}/pgsql/extension/TESTS.md %{buildroot}%{pginstdir}/share/extension/TESTS-prefix.md
+# Rename docs to avoid conflict:
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-prefix.md
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/TESTS.md %{buildroot}%{pginstdir}/doc/extension/TESTS-prefix.md
 
 %postun -p /sbin/ldconfig
 %post -p /sbin/ldconfig
 
 %files
-%doc %{pginstdir}/share/extension/README-prefix.md
-%doc %{pginstdir}/share/extension/TESTS-prefix.md
+%%doc %{pginstdir}/doc/extension/README-prefix.md
+%%doc %{pginstdir}/doc/extension/TESTS-prefix.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Thu Mar 3 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.4-1
+- Update to 1.2.4
+- Put back Group: tag for RHEL 5.
+
 * Mon Jan 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
 - Omit deprecated Group: tags and %%clean section
 - Use %%make_install macro
