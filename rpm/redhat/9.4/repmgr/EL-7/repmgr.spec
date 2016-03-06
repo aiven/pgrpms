@@ -134,7 +134,7 @@ fi
 %endif
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
-%config %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
+%config(noreplace) %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
 %{pginstdir}/bin/repmgr
 %{pginstdir}/bin/repmgrd
 %{pginstdir}/lib/repmgr_funcs.so
