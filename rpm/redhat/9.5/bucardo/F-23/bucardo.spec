@@ -2,7 +2,7 @@
 
 %global	realname Bucardo
 Name:		bucardo
-Version:	5.4.0
+Version:	5.4.1
 Release:	1%{?dist}
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
@@ -114,23 +114,26 @@ fi
 %{_bindir}/slony_migrator.pl
 
 %changelog
-* Fri Sep 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 5.4.0-1
+* Sun Mar 6 2016 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1
+- Update to 5.4.1
+
+* Fri Sep 11 2015 Devrim Gündüz <devrim@gunduz.org> - 5.4.0-1
 - Update to 5.4.0
 - Fix rpmlint warnings.
 - Update init script per some rpmlint warnings.
 
-* Tue Dec 23 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 5.3.0-1
+* Tue Dec 23 2014 Devrim Gündüz <devrim@gunduz.org> - 5.3.0-1
 - Update to 5.3.0
 - Update download URL
 - Also install built-in scripts
 
-* Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 4.5.0-1
+* Thu Sep 6 2012 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-1
 - Update to 4.5.0
 
-* Sat Apr 7 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 4.4.8-1
+* Sat Apr 7 2012 Devrim Gündüz <devrim@gunduz.org> - 4.4.8-1
 - Update to 4.4.8
 
-* Tue Sep 27 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 4.4.6-2
+* Tue Sep 27 2011 Devrim Gündüz <devrim@gunduz.org> - 4.4.6-2
 - Fix PostgreSQL major number version. Per report from Phil Sorber .
 
 * Tue Aug 9 2011 Devrim GUNDUZ <devrim@gunduz.org> - 4.4.6-1
