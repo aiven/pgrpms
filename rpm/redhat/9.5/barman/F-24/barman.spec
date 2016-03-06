@@ -13,7 +13,7 @@ Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{
 Source1:	%{name}.cron
 Source2:	%{name}.logrotate
 BuildArch:	noarch
-Requires:	python-abi = %{pybasever}, python-argh => 0.21.2, python-psycopg2
+Requires:	python-abi = %{pybasever}, python-argh => 0.21.2, python-psycopg2 >= 2.4.2
 Requires:	python-argcomplete, python-dateutil
 Requires:	%{_sbindir}/useradd
 
