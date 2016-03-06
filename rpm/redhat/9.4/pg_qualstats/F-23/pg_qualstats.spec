@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	0.0.6
+Version:	0.0.9
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -32,29 +32,35 @@ Most of the code is a blatant rip-off of pg_stat_statements.
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Install README file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-rm -f %{buildroot}%{_docdir}/pgsql/extension/README.md
+#Avoid conflict with some other README file:
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}.md
+%%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Mar 6 2016 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.9-1
+- Update to 0.0.9
+
+* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.7-1
+- Update to 0.0.7
+- Update for 9.5 doc layout.
+
 * Thu Sep 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.6-1
 - Update to 0.0.6
 
