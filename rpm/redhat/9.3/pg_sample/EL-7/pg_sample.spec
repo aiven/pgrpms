@@ -1,4 +1,5 @@
-%global pgmajorversion 95
+%global debug_package %{nil}
+%global pgmajorversion 93
 
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
