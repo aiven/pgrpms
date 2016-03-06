@@ -41,8 +41,8 @@ make %{?_smp_mflags}
 %post -p /sbin/ldconfig
 
 %files
-%%doc %{pginstdir}/doc/extension/README-prefix.md
-%%doc %{pginstdir}/doc/extension/TESTS-prefix.md
+%doc %{pginstdir}/doc/extension/README-prefix.md
+%doc %{pginstdir}/doc/extension/TESTS-prefix.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
 
