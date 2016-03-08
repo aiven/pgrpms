@@ -12,7 +12,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	3.1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -38,7 +38,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 # This is for older spec files (RHEL <= 6)
-Group:		Application/Databases
+Group:		Applications/Databases
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:  postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
@@ -84,7 +84,7 @@ install -m 644 repmgr.conf.sample %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpacka
 
 %if %{systemd_enabled}
 install -d %{buildroot}%{_unitdir}
-install -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -97,7 +97,7 @@ install -d %{buildroot}%{_sysconfdir}/init.d
 install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 # Create the sysconfig directory and config file:
 install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
-install -m 700 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
+install -m 600 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
@@ -145,7 +145,7 @@ fi
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
-%{_unitdir}/%{name}.service
+%attr (644, root, root) %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
@@ -153,8 +153,15 @@ fi
 
 %changelog
 
+* Tue Mar 8 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.1-2
+- Don't overwrite config files on upgrade, save as .rpmnew instead (#1029, per
+  report by Brett Maton)
+- sysconfig file should not be installed executable (#1030)
+- Fix RPM group name (#1030)
+- systemd service file should not be executable (#1030)
+
 * Thu Feb 25 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.1-1
-* Upstream release 3.1.1
+- Upstream release 3.1.1
 
 * Mon Feb 22 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.3-3
 - Fix permissions of sysconfig file. Per #1004.
