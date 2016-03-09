@@ -1,11 +1,15 @@
+%if (0%{?fedora})
+%global _hardened_build 1
+%endif
+%global debug_package %{nil}
 %global pgmajorversion 92
 %global pginstdir /usr/pgsql-9.2
 %global sname cyanaudit
 
-Summary:        DML logging tool for PostgreSQL
+Summary:	DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.9.4
-Release:	2%{?dist}
+Version:	1.0.1
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -14,9 +18,11 @@ URL:		http://pgxn.org/dist/cyanaudit
 Requires:	postgresql%{pgmajorversion}-plperl
 BuildRequires:	protobuf-c-devel, postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildArch:	noarch
 
 %description
-Cyan Audit provides in-database logging of all DML activity on a column-by-column basis
+Cyan Audit provides in-database logging of all DML activity on a
+column-by-column basis.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -26,33 +32,38 @@ Cyan Audit provides in-database logging of all DML activity on a column-by-colum
 make USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
-install -m 755 README.md  %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
-install -m 755 doc/*.md  %{buildroot}%{pginstdir}/share/extension/
-rm -f %{buildroot}%{_docdir}/pgsql/extension/*.md
-
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
+%if (0%{?fedora} || 0%{?rhel} > 6)
+%license LICENSE
+%endif
+%doc README.md
 %defattr(644,root,root,755)
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_dump.pl
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_log_rotate.pl
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_restore.pl
-%attr(755, root, -) %{pginstdir}/bin/cyanaudit_tablespace_cleanup.sh
+%attr(755, root, -) %{pginstdir}/bin/Cyanaudit.pm
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_tablespace_fix.sh
-%{pginstdir}/share/extension/cyanaudit--0.3--0.4.sql
-%{pginstdir}/share/extension/cyanaudit--0.4--0.9.0.sql
-%{pginstdir}/share/extension/cyanaudit--0.9.0--0.9.1.sql
-%{pginstdir}/share/extension/cyanaudit--0.9.1--0.9.2.sql
-%{pginstdir}/share/extension/cyanaudit--0.9.2--0.9.3.sql
-%{pginstdir}/share/extension/cyanaudit--0.9.3--0.9.4.sql
-%{pginstdir}/share/extension/cyanaudit--0.9.4.sql
+%{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/cyanaudit.control
-%{pginstdir}/share/extension/*cyanaudit*.md
+%{pginstdir}/doc/extension/*cyanaudit*.md
 
 %changelog
+* Wed Mar 9 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+- Update to 1.0.0, per #1019.
+
+* Thu Nov 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.5-1
+- Update to 0.9.5 .
+- Fix various rpmlint errors/warnings.
+- Improve %%files section.
+
+* Mon Nov 9 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-3
+- Fixes for Fedora 23 and new doc layout in 9.5.
+
 * Wed Dec 17 2014 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-2
 - Add postgresql main package as BR
 

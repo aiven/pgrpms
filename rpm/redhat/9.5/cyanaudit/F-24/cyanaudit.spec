@@ -8,7 +8,7 @@
 
 Summary:	DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.9.5
+Version:	1.0.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -46,13 +46,16 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_dump.pl
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_log_rotate.pl
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_restore.pl
-%attr(755, root, -) %{pginstdir}/bin/cyanaudit_tablespace_cleanup.sh
+%attr(755, root, -) %{pginstdir}/bin/Cyanaudit.pm
 %attr(755, root, -) %{pginstdir}/bin/cyanaudit_tablespace_fix.sh
 %{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/cyanaudit.control
 %{pginstdir}/doc/extension/*cyanaudit*.md
 
 %changelog
+* Wed Mar 9 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+- Update to 1.0.0, per #1019.
+
 * Thu Nov 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.5-1
 - Update to 0.9.5 .
 - Fix various rpmlint errors/warnings.
