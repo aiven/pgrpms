@@ -47,37 +47,54 @@
 
 %{!?kerbdir:%global kerbdir "/usr"}
 
-# This is a macro to be used with find_lang and other stuff
+# These are macros to be used with find_lang and other stuff
 %global majorversion 9.6
 %global packageversion 96
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-%{!?test:%global test 1}
+
+%{!?disablepgfts:%global disablepgfts 0}
+%{!?intdatetimes:%global intdatetimes 1}
+%{!?kerberos:%global kerberos 1}
+%{!?ldap:%global ldap 1}
+%{!?nls:%global nls 1}
+%{!?pam:%global pam 1}
 %{!?plpython:%global plpython 1}
+%if 0%{?fedora} > 21
+%{!?plpython3:%global plpython3 1}
+%else
+%{!?plpython3:%global plpython3 0}
+%endif
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
-%{!?intdatetimes:%global intdatetimes 1}
-%{!?kerberos:%global kerberos 1}
-%{!?nls:%global nls 1}
-%{!?xml:%global xml 1}
-%{!?pam:%global pam 1}
-%{!?disablepgfts:%global disablepgfts 0}
+%{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
-%{!?ldap:%global ldap 1}
+%{!?xml:%global xml 1}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?systemd_enabled:%global systemd_enabled 0}
+%{!?sdt:%global sdt 0}
+%{!?selinux:%global selinux 0}
+%else
+%{!?systemd_enabled:%global systemd_enabled 1}
+%{!?sdt:%global sdt 1}
+%{!?selinux:%global selinux 1}
+%endif
+%if 0%{?fedora} > 23
+%global _hardened_build 1
+%endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6
-Release:	git20160121_1PGDG%{?dist}
+Release:	git20160310_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
 Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
-Source3:	postgresql.init
 Source4:	Makefile.regress
 Source5:	pg_config.h
 Source6:	README.rpm-dist
@@ -86,22 +103,47 @@ Source9:	postgresql-%{majorversion}-libs.conf
 Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	postgresql.pam
 Source16:	filter-requires-perl-Pg.sh
+Source17:	postgresql%{packageversion}-setup
+%if %{systemd_enabled}
+Source10:	postgresql%{packageversion}-check-db-dir
+Source18:	postgresql-%{majorversion}.service
+Source19:	postgresql.tmpfiles.d
+%else
+Source3:	postgresql.init
+%endif
 
 Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
+Patch5:		postgresql-var-run-socket.patch
 Patch6:		postgresql-perl-rpath.patch
-Patch8:		postgresql-prefer-ncurses.patch
+# This is needed only for RHEL 5
+%if 0%{?rhel} && 0%{?rhel} <= 5
+Patch7:		postgresql-prefer-ncurses.patch
+%endif
 
 BuildRequires:	perl glibc-devel bison flex
-Requires:	/sbin/ldconfig initscripts
+
+Requires:	/sbin/ldconfig
 
 %if %plperl
-BuildRequires: perl-ExtUtils-Embed
-BuildRequires: perl(ExtUtils::MakeMaker)
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	perl(ExtUtils::MakeMaker)
+%else
+BuildRequires:	perl-ExtUtils-Embed
+BuildRequires:	perl(ExtUtils::MakeMaker)
+%endif
+%if 0%{?fedora} >= 22
+BuildRequires:	perl-ExtUtils-Embed
+BuildRequires:	perl(ExtUtils::MakeMaker)
+%endif
 %endif
 
 %if %plpython
 BuildRequires:	python-devel
+%endif
+
+%if %plpython3
+BuildRequires: python3-devel
 %endif
 
 %if %pltcl
@@ -132,12 +174,40 @@ BuildRequires:	libxml2-devel libxslt-devel
 BuildRequires:	pam-devel
 %endif
 
+%if %sdt
+BuildRequires:	systemtap-sdt-devel
+%endif
+
 %if %uuid
+%if 0%{?rhel} && 0%{?rhel} <= 5
+BuildRequires:	e2fsprogs-devel
+%else
 BuildRequires:	libuuid-devel
+%endif
 %endif
 
 %if %ldap
 BuildRequires:	openldap-devel
+%endif
+
+%if %selinux
+BuildRequires: libselinux >= 2.0.93
+BuildRequires: selinux-policy >= 3.9.13
+%endif
+%if %{systemd_enabled}
+BuildRequires:		systemd
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
+Requires(postun):	initscripts
 %endif
 
 # These are required for -docs subpackage:
@@ -148,25 +218,22 @@ BuildRequires:	docbook-dtds
 BuildRequires:	docbook-style-dsssl
 BuildRequires:	libxslt
 
-Requires:	%{name}-libs = %{version}-%{release}
-Requires(post): %{_sbindir}/update-alternatives
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
+Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	postgresql
 
 %description
-PostgreSQL is an advanced Object-Relational database management system
-(DBMS) that supports almost all SQL constructs (including
-transactions, subselects and user-defined types and functions). The
-postgresql package includes the client programs and libraries that
-you'll need to access a PostgreSQL DBMS server.  These PostgreSQL
-client programs are programs that directly manipulate the internal
-structure of PostgreSQL databases on a PostgreSQL server. These client
-programs can be located on the same machine with the PostgreSQL
-server, or may be on a remote machine which accesses a PostgreSQL
-server over a network connection. This package contains the command-line
-utilities for managing PostgreSQL databases on a PostgreSQL server.
+PostgreSQL is an advanced Object-Relational database management system (DBMS).
+The base postgresql package contains the client programs that you'll need to
+access a PostgreSQL DBMS server, as well as HTML documentation for the whole
+system.  These client programs can be located on the same machine as the
+PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
+over a network connection.  The PostgreSQL server can be found in the
+postgresql%{packageversion}-server sub-package.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
@@ -186,20 +253,28 @@ PostgreSQL server.
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires(pre):	/usr/sbin/useradd
+# for /sbin/ldconfig
+Requires(post):		glibc
+Requires(postun):	glibc
+%if %{systemd_enabled}
+# pre/post stuff needs systemd too
+Requires(post):		systemd-units
+Requires(preun):	systemd-units
+Requires(postun):	systemd-units
+%else
 Requires:	/usr/sbin/useradd /sbin/chkconfig
+%endif
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 
 %description server
-The postgresql%{packageversion}-server package includes the programs needed to create
+PostgreSQL is an advanced Object-Relational database management system (DBMS).
+The postgresql%{packageversion}-server package contains the programs needed to create
 and run a PostgreSQL server, which will in turn allow you to create
-and maintain PostgreSQL databases.  PostgreSQL is an advanced
-Object-Relational database management system (DBMS) that supports
-almost all SQL constructs (including transactions, subselects and
-user-defined types and functions). You should install
-postgresql%{packageversion}-server if you want to create and maintain your own
-PostgreSQL databases and/or your own PostgreSQL server. You also need
-to install the postgresql package.
+and maintain PostgreSQL databases.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
@@ -216,71 +291,92 @@ includes HTML version of the documentation.
 %package contrib
 Summary:	Contributed source and binaries distributed with PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
 
 %description contrib
-The postgresql%{packageversion}-contrib package contains contributed packages that are
+The postgresql%{packageversion}-contrib package contains various extension modules that are
 included in the PostgreSQL distribution.
 
 %package devel
 Summary:	PostgreSQL development header files and libraries
 Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-devel
 
 %description devel
 The postgresql%{packageversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
-with a PostgreSQL database management server and the ecpg Embedded C
-Postgres preprocessor. You need to install this package if you want to
-develop applications which will interact with a PostgreSQL server.
+with a PostgreSQL database management server.  It also contains the ecpg
+Embedded C Postgres preprocessor. You need to install this package if you want
+to develop applications which will interact with a PostgreSQL server.
+
 
 %if %plperl
 %package plperl
 Summary:	The Perl procedural language for PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name}-server = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql-pl
+Obsoletes:	postgresql%{packageversion}-pl
 Provides:	postgresql-plperl
 
 %description plperl
-PostgreSQL is an advanced Object-Relational database management
-system. The postgresql%{packageversion}-plperl package contains the PL/Perl language
-for the backend.
+The postgresql%{packageversion}-plperl package contains the PL/Perl procedural language,
+which is an extension to the PostgreSQL database server.
+Install this if you want to write database functions in Perl.
+
 %endif
 
 %if %plpython
 %package plpython
 Summary:	The Python procedural language for PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
-Requires:	%{name}-server = %{version}
-Obsoletes:	postgresql-pl
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
 
 %description plpython
-PostgreSQL is an advanced Object-Relational database management
-system. The postgresql%{packageversion}-plpython package contains the PL/Python language
-for the backend.
+The postgresql%{packageversion}-plpython package contains the PL/Python procedural language,
+which is an extension to the PostgreSQL database server.
+Install this if you want to write database functions in Python.
+
+%endif
+
+%if %plpython3
+%package plpython3
+Summary:	The Python3 procedural language for PostgreSQL
+Group:		Applications/Databases
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Obsoletes:	%{name}-pl
+Provides:	postgresql-plpython3
+
+%description plpython3
+The postgresql%{packageversion}-plpython3 package contains the PL/Python3 procedural language,
+which is an extension to the PostgreSQL database server.
+Install this if you want to write database functions in Python 3.
+
 %endif
 
 %if %pltcl
 %package pltcl
 Summary:	The Tcl procedural language for PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name} = %{version}
-Requires:	%{name}-server = %{version}
-Obsoletes:	postgresql-pl
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
 
 %description pltcl
 PostgreSQL is an advanced Object-Relational database management
-system. The postgresql%{packageversion}-pltcl package contains the PL/Tcl language
+system. The %{name}-pltcl package contains the PL/Tcl language
 for the backend.
 %endif
 
@@ -288,14 +384,14 @@ for the backend.
 %package test
 Summary:	The test suite distributed with PostgreSQL
 Group:		Applications/Databases
-Requires:	%{name}-server = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test
 
 %description test
-PostgreSQL is an advanced Object-Relational database management
-system. The postgresql-test package includes the sources and pre-built
-binaries of various tests for the PostgreSQL database management
-system, including regression tests and benchmarks.
+The postgresql%{packageversion}-test package contains files needed for various tests for the
+PostgreSQL database management system, including regression tests and
+benchmarks.
 %endif
 
 %global __perl_requires %{SOURCE16}
@@ -304,27 +400,143 @@ system, including regression tests and benchmarks.
 %setup -q -n %{oname}-%{version}devel
 %patch1 -p1
 %patch3 -p1
-# patch5 is applied later
+%patch5 -p1
 %patch6 -p1
-%patch8 -p1
+%if 0%{?rhel} && 0%{?rhel} <= 5
+%patch7 -p1
+%endif
 
-cp -p %{SOURCE12} .
+%{__cp} -p %{SOURCE12} .
 
 %build
 
-CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
-CXXFLAGS="${CXXFLAGS:-%optflags}" ; export CXXFLAGS
-%if %kerberos
-CPPFLAGS="${CPPFLAGS} -I%{_includedir}/et" ; export CPPFLAGS
-CFLAGS="${CFLAGS} -I%{_includedir}/et" ; export CFLAGS
+# fail quickly and obviously if user tries to build as root
+%if %runselftest
+	if [ x"`id -u`" = x0 ]; then
+		echo "postgresql's regression tests fail if run as root."
+		echo "If you really need to build the RPM as root, use"
+		echo "--define='runselftest 0' to skip the regression tests."
+		exit 1
+	fi
 %endif
+
+CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
+
+# Strip out -ffast-math from CFLAGS....
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
+# Add LINUX_OOM_ADJ=0 to ensure child processes reset postmaster's oom_adj
+CFLAGS="$CFLAGS -DLINUX_OOM_ADJ=0"
 
 # Strip out -ffast-math from CFLAGS....
 
 CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 
-export LIBNAME=%{_lib}
-./configure --disable-rpath \
+# Use --as-needed to eliminate unnecessary link dependencies.
+# Hopefully upstream will do this for itself in some future release.
+# This is a hack for RHEL 5, and will be removed once RHEL 5 is EOLed.
+%if 0%{?rhel} && 0%{?rhel} <= 5
+export LDFLAGS
+%else
+LDFLAGS="-Wl,--as-needed"; export LDFLAGS
+%endif
+
+# plpython requires separate configure/build runs to build against python 2
+# versus python 3.  Our strategy is to do the python 3 run first, then make
+# distclean and do it again for the "normal" build.  Note that the installed
+# Makefile.global will reflect the python 2 build, which seems appropriate
+# since that's still considered the default plpython version.
+%if %plpython3
+
+export PYTHON=/usr/bin/python3
+
+# These configure options must match main build
+./configure --enable-rpath \
+	--prefix=%{pgbaseinstdir} \
+	--includedir=%{pgbaseinstdir}/include \
+	--mandir=%{pgbaseinstdir}/share/man \
+	--datadir=%{pgbaseinstdir}/share \
+	--libdir=%{pgbaseinstdir}/lib \
+%if %beta
+	--enable-debug \
+	--enable-cassert \
+%endif
+%if %plperl
+	--with-perl \
+%endif
+%if %plpython3
+	--with-python \
+%endif
+%if %pltcl
+	--with-tcl \
+	--with-tclconfig=%{_libdir} \
+%endif
+%if %ssl
+	--with-openssl \
+%endif
+%if %pam
+	--with-pam \
+%endif
+%if %kerberos
+	--with-gssapi \
+	--with-includes=%{kerbdir}/include \
+	--with-libraries=%{kerbdir}/%{_lib} \
+%endif
+%if %nls
+	--enable-nls \
+%endif
+%if %sdt
+	--enable-dtrace \
+%endif
+%if !%intdatetimes
+	--disable-integer-datetimes \
+%endif
+%if %disablepgfts
+	--disable-thread-safety \
+%endif
+%if %uuid
+	--with-uuid=e2fs \
+%endif
+%if %xml
+	--with-libxml \
+	--with-libxslt \
+%endif
+%if %ldap
+	--with-ldap \
+%endif
+%if %selinux
+	--with-selinux \
+%endif
+	--with-system-tzdata=%{_datadir}/zoneinfo \
+	--sysconfdir=/etc/sysconfig/pgsql \
+	--docdir=%{pgbaseinstdir}/doc \
+	--htmldir=%{pgbaseinstdir}/doc/html
+# Fortunately we don't need to build much except plpython itself
+cd src/backend
+make submake-errcodes
+cd ../..
+# TODO: I added the following line to fix build issue on PostgreSQL 9.6.
+# Probably we should use something wiser and better, but I am too lazy to check it now.
+# This has changed between 9.5 and 9.6. Withut the line below, we get the following error:
+# ../../../src/include/storage/lwlock.h:133:33: fatal error: storage/lwlocknames.h: No such file or directory
+make %{?_smp_mflags}
+cd src/pl/plpython
+make %{?_smp_mflags} all
+cd ..
+# save built form in a directory that "make distclean" won't touch
+%{__cp} -a plpython plpython3
+cd ../..
+
+# must also save this version of Makefile.global for later
+%{__cp} src/Makefile.global src/Makefile.global.python3
+
+make distclean
+
+%endif
+
+unset PYTHON
+
+# Normal (not python3) build begins here
+./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
 	--includedir=%{pgbaseinstdir}/include \
 	--mandir=%{pgbaseinstdir}/share/man \
@@ -357,6 +569,9 @@ export LIBNAME=%{_lib}
 %if %nls
 	--enable-nls \
 %endif
+%if %sdt
+	--enable-dtrace \
+%endif
 %if !%intdatetimes
 	--disable-integer-datetimes \
 %endif
@@ -373,6 +588,9 @@ export LIBNAME=%{_lib}
 %if %ldap
 	--with-ldap \
 %endif
+%if %selinux
+	--with-selinux \
+%endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
@@ -387,22 +605,54 @@ make %{?_smp_mflags} -C contrib/uuid-ossp all
 # Have to hack makefile to put correct path into tutorial scripts
 sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
 make %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
-rm -f src/tutorial/GNUmakefile
+%{__rm} -f src/tutorial/GNUmakefile
+
+
+# run_testsuite WHERE
+# -------------------
+# Run 'make check' in WHERE path.  When that command fails, return the logs
+# given by PostgreSQL build system and set 'test_failure=1'.
+
+run_testsuite()
+{
+	make -C "$1" MAX_CONNECTIONS=5 check && return 0
+
+	test_failure=1
+
+	(
+		set +x
+		echo "=== trying to find all regression.diffs files in build directory ==="
+		find -name 'regression.diffs' | \
+		while read line; do
+			echo "=== make failure: $line ==="
+			cat "$line"
+		done
+	)
+}
 
 %if %runselftest
-	pushd src/test/regress
-	make all
-	cp ../../../contrib/spi/refint.so .
-	cp ../../../contrib/spi/autoinc.so .
-	make MAX_CONNECTIONS=5 check
-	make clean
-	popd
-	pushd src/pl
-	make MAX_CONNECTIONS=5 check
-	popd
-	pushd contrib
-	make MAX_CONNECTIONS=5 check
-	popd
+	run_testsuite "src/test/regress"
+	make clean -C "src/test/regress"
+	run_testsuite "src/pl"
+%if %plpython3
+	# must install Makefile.global that selects python3
+	%{__mv} src/Makefile.global src/Makefile.global.save
+	%{__cp} src/Makefile.global.python3 src/Makefile.global
+	touch -r src/Makefile.global.save src/Makefile.global
+	# because "make check" does "make install" on the whole tree,
+	# we must temporarily install plpython3 as src/pl/plpython,
+	# since that is the subdirectory src/pl/Makefile knows about
+	%{__mv} src/pl/plpython src/pl/plpython2
+	%{__mv} src/pl/plpython3 src/pl/plpython
+
+	run_testsuite "src/pl/plpython"
+
+	# and clean up our mess
+	%{__mv} src/pl/plpython src/pl/plpython3
+	%{__mv} src/pl/plpython2 src/pl/plpython
+	%{__mv} -f src/Makefile.global.save src/Makefile.global
+%endif
+	run_testsuite "contrib"
 %endif
 
 %if %test
@@ -412,9 +662,20 @@ rm -f src/tutorial/GNUmakefile
 %endif
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make DESTDIR=%{buildroot} install
+
+%if %plpython3
+	%{__mv} src/Makefile.global src/Makefile.global.save
+	%{__cp} src/Makefile.global.python3 src/Makefile.global
+	touch -r src/Makefile.global.save src/Makefile.global
+	pushd src/pl/plpython3
+	make DESTDIR=%{buildroot} install
+	popd
+	%{__mv} -f src/Makefile.global.save src/Makefile.global
+%endif
+
 mkdir -p %{buildroot}%{pgbaseinstdir}/share/extensions/
 make -C contrib DESTDIR=%{buildroot} install
 %if %uuid
@@ -425,24 +686,52 @@ make -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 # we only apply this to known Red Hat multilib arches, per bug #177564
 case `uname -i` in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
-		mv %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
 		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/
-		mv %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
+		%{__mv}  %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
 		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/
-		mv %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
 		install -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/
 		;;
 	*)
 	;;
 esac
 
-install -d %{buildroot}/etc/rc.d/init.d
+# This is only for systemd supported distros:
+%if %{systemd_enabled}
+# prep the setup script, including insertion of some values it needs
+sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+	-e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
+	<%{SOURCE17} >postgresql%{packageversion}-setup
+install -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+
+# prep the startup check script, including insertion of some values it needs
+sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
+	-e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
+	<%{SOURCE10} >postgresql%{packageversion}-check-db-dir
+touch -r %{SOURCE10} postgresql%{packageversion}-check-db-dir
+install -m 755 postgresql%{packageversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
+
+install -d %{buildroot}%{_unitdir}
+install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/postgresql-%{majorversion}.service
+%else
+install -d %{buildroot}%{_initrddir}
 sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > postgresql.init
-install -m 755 postgresql.init %{buildroot}/etc/rc.d/init.d/postgresql-%{majorversion}
+install -m 755 postgresql.init %{buildroot}%{_initrddir}/postgresql-%{majorversion}
+%endif
 
 %if %pam
 install -d %{buildroot}/etc/pam.d
 install -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/postgresql%{packageversion}
+%endif
+
+# Create the directory for sockets.
+install -d -m 755 %{buildroot}/var/run/postgresql
+%if %{systemd_enabled}
+# ... and make a tmpfiles script to recreate it at reboot.
+mkdir -p %{buildroot}/%{_tmpfilesdir}
+install -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/postgresql-%{majorversion}.conf
 %endif
 
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
@@ -464,35 +753,45 @@ install -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 	# but include them anyway for completeness.  We replace the original
 	# Makefiles, however.
 	mkdir -p %{buildroot}%{pgbaseinstdir}/lib/test
-	cp -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
+	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
 	install -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	install -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
-	rm -f GNUmakefile Makefile *.o
+	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
 	popd
-	cp %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
+	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
 # Fix some more documentation
 # gzip doc/internals.ps
-cp %{SOURCE6} README.rpm-dist
+%{__cp} %{SOURCE6} README.rpm-dist
 mkdir -p %{buildroot}%{pgbaseinstdir}/share/doc/html
-mv doc/src/sgml/html doc
+%{__mv} doc/src/sgml/html doc
 mkdir -p %{buildroot}%{pgbaseinstdir}/share/man/
-mv doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
-rm -rf %{buildroot}%{_docdir}/pgsql
+%{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
+%{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
 # initialize file lists
-cp /dev/null main.lst
-cp /dev/null libs.lst
-cp /dev/null server.lst
-cp /dev/null devel.lst
-cp /dev/null plperl.lst
-cp /dev/null pltcl.lst
-cp /dev/null plpython.lst
+%{__cp} /dev/null main.lst
+%{__cp} /dev/null libs.lst
+%{__cp} /dev/null server.lst
+%{__cp} /dev/null devel.lst
+%{__cp} /dev/null plperl.lst
+%{__cp} /dev/null pltcl.lst
+%{__cp} /dev/null plpython.lst
+%{__cp} /dev/null plpython3.lst
+
+# initialize file lists
+%{__cp} /dev/null main.lst
+%{__cp} /dev/null libs.lst
+%{__cp} /dev/null server.lst
+%{__cp} /dev/null devel.lst
+%{__cp} /dev/null plperl.lst
+%{__cp} /dev/null pltcl.lst
+%{__cp} /dev/null plpython.lst
 
 %if %nls
 %find_lang ecpg-%{majorversion}
@@ -516,6 +815,12 @@ cat plperl-%{majorversion}.lang > pg_plperl.lst
 %find_lang plpython-%{majorversion}
 cat plpython-%{majorversion}.lang > pg_plpython.lst
 %endif
+%if %plpython3
+# plpython3 shares message files with plpython
+%find_lang plpython-%{majorversion}
+cat plpython-%{majorversion}.lang >> pg_plpython3.lst
+%endif
+
 %if %pltcl
 %find_lang pltcl-%{majorversion}
 cat pltcl-%{majorversion}.lang > pg_pltcl.lst
@@ -535,8 +840,17 @@ useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post server
-chkconfig --add postgresql-%{majorversion}
 /sbin/ldconfig
+if [ $1 -eq 1 ] ; then
+ %if %{systemd_enabled}
+   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %systemd_post postgresql-%{majorversion}.service
+   %tmpfiles_createa
+  %else
+   chkconfig --add postgresql-%{majorversion}
+  %endif
+fi
+
 # postgres' .bash_profile.
 # We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
 # so that package manager will be happy during upgrade to new major version.
@@ -546,20 +860,37 @@ export PGDATA
 # If you want to customize your settings,
 # Use the file below. This is not overridden
 # by the RPMS.
-[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
+#[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
-if [ $1 = 0 ] ; then
+if [ $1 -eq 0 ] ; then
+%if %{systemd_enabled}
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+%else
 	/sbin/service postgresql-%{majorversion} condstop >/dev/null 2>&1
 	chkconfig --del postgresql-%{majorversion}
+
+%endif
 fi
 
 %postun server
 /sbin/ldconfig
-if [ $1 -ge 1 ]; then
-  /sbin/service postgresql-%{majorversion} condrestart >/dev/null 2>&1
+%if %{systemd_enabled}
+ /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%else
+ sbin/service postgresql-%{majorversion} condrestart >/dev/null 2>&1
+%endif
+if [ $1 -ge 1 ] ; then
+ %if %{systemd_enabled}
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart postgresql-%{majorversion}.service >/dev/null 2>&1 || :
+ %else
+   /sbin/service postgresql-%{majorversion} condrestart >/dev/null 2>&1
+ %endif
 fi
 
 %if %plperl
@@ -584,25 +915,25 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 
 # Create alternatives entries for common binaries and man files
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/clusterdb  pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/createdb   pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropdb     pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/droplang   pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropuser   pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup    pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dump    pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/droplang pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/reindexdb  pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb   pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1  pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1   pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/reindexdb pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1     pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
@@ -619,9 +950,9 @@ chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
 
 # Drop alternatives entries for common binaries and man files
 %postun
-  if [ "$1" -eq 0 ]
-   then
-	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+if [ "$1" -eq 0 ]
+  then
+        # Only remove these links if the package is completely removed from the system (vs.just being upgraded)
 	%{_sbindir}/update-alternatives --remove pgsql-psql		%{pgbaseinstdir}/bin/psql
 	%{_sbindir}/update-alternatives --remove pgsql-clusterdb	%{pgbaseinstdir}/bin/clusterdb
 	%{_sbindir}/update-alternatives --remove pgsql-clusterdbman	%{pgbaseinstdir}/share/man/man1/clusterdb.1
@@ -660,7 +991,7 @@ if [ "$1" -eq 0 ]
 fi
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 # FILES section.
 
@@ -686,8 +1017,8 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_restore
 %{pgbaseinstdir}/bin/pg_rewind
 %{pgbaseinstdir}/bin/pg_test_fsync
-%{pgbaseinstdir}/bin/pg_receivexlog
 %{pgbaseinstdir}/bin/pg_test_timing
+%{pgbaseinstdir}/bin/pg_receivexlog
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_xlogdump
 %{pgbaseinstdir}/bin/psql
@@ -700,6 +1031,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/dropdb.*
 %{pgbaseinstdir}/share/man/man1/droplang.*
 %{pgbaseinstdir}/share/man/man1/dropuser.*
+%{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_basebackup.*
 %{pgbaseinstdir}/share/man/man1/pg_config.*
@@ -713,7 +1045,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
 %{pgbaseinstdir}/share/man/man1/pg_upgrade.1
 %{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
-%{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
 %{pgbaseinstdir}/share/man/man1/vacuumdb.*
@@ -769,10 +1100,15 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/pg_prewarm.so
 %{pgbaseinstdir}/lib/pg_stat_statements.so
 %{pgbaseinstdir}/lib/pg_trgm.so
+%{pgbaseinstdir}/lib/pg_visibility.so
 %{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
 %{pgbaseinstdir}/lib/sslinfo.so
+%if %selinux
+%{pgbaseinstdir}/lib/sepgsql.so
+%{pgbaseinstdir}/share/contrib/sepgsql.sql
+%endif
 %{pgbaseinstdir}/lib/tablefunc.so
 %{pgbaseinstdir}/lib/tcn.so
 %{pgbaseinstdir}/lib/test_decoding.so
@@ -813,6 +1149,7 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/share/extension/pg_prewarm*
 %{pgbaseinstdir}/share/extension/pg_stat_statements*
 %{pgbaseinstdir}/share/extension/pg_trgm*
+%{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pgcrypto*
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
@@ -837,7 +1174,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_standby
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
-%{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
 
@@ -852,7 +1188,14 @@ rm -rf %{buildroot}
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
-%config(noreplace) /etc/rc.d/init.d/postgresql-%{majorversion}
+%if %{systemd_enabled}
+%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
+%{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
+%{_tmpfilesdir}/postgresql-%{majorversion}.conf
+%{_unitdir}/postgresql-%{majorversion}.service
+%else
+%config(noreplace) %{_initrddir}/postgresql-%{majorversion}
+%endif
 %if %pam
 %config(noreplace) /etc/pam.d/postgresql%{packageversion}
 %endif
@@ -896,6 +1239,7 @@ rm -rf %{buildroot}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{majorversion}/backups
+%attr(755,postgres,postgres) %dir /var/run/postgresql
 %{pgbaseinstdir}/lib/*_and_*.so
 %{pgbaseinstdir}/share/conversion_create.sql
 %{pgbaseinstdir}/share/information_schema.sql
@@ -909,10 +1253,10 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/lib/libpq.so
 %{pgbaseinstdir}/lib/libecpg.so
 %{pgbaseinstdir}/lib/libpq.a
-%{pgbaseinstdir}/lib/libpgcommon.a
 %{pgbaseinstdir}/lib/libecpg.a
 %{pgbaseinstdir}/lib/libecpg_compat.so
 %{pgbaseinstdir}/lib/libecpg_compat.a
+%{pgbaseinstdir}/lib/libpgcommon.a
 %{pgbaseinstdir}/lib/libpgport.a
 %{pgbaseinstdir}/lib/libpgtypes.so
 %{pgbaseinstdir}/lib/libpgtypes.a
@@ -941,9 +1285,15 @@ rm -rf %{buildroot}
 %if %plpython
 %files plpython -f pg_plpython.lst
 %defattr(-,root,root)
-%{pgbaseinstdir}/lib/plpython*.so
+%{pgbaseinstdir}/lib/plpython2.so
 %{pgbaseinstdir}/share/extension/plpython2u*
 %{pgbaseinstdir}/share/extension/plpythonu*
+%endif
+
+%if %plpython3
+%files plpython3 -f pg_plpython3.lst
+%{pgbaseinstdir}/share/extension/plpython3*
+%{pgbaseinstdir}/lib/plpython3.so
 %endif
 
 %if %test
@@ -954,6 +1304,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Thu Mar 10 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160310_1PGDG-1
+- Sync with 9.5 spec, which is the unified one, before it is too late.
+- Update to Mar 10, 2016 tarball.
+
 * Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160121_1PGDG-1
 - Update to Jan 21, 2016 tarball.
 
