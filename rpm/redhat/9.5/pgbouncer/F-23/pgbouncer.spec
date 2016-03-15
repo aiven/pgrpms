@@ -7,7 +7,7 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.7.1
+Version:	1.7.2
 Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 # This is only required for RHEL 5
@@ -155,6 +155,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Tue Mar 15 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-1
+- Update to 1.7.2, per #1033.
+
 * Mon Feb 22 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
 - Update to 1.7.1, per #1011.
 - Fix wrong log file name in sysconfig file, per #1008.
