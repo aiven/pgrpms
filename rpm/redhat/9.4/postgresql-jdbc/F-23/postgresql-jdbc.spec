@@ -2,8 +2,8 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	9.4.1207
-Release:	3%{?dist}
+Version:	9.4.1208
+Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 Group:		Applications/Databases
@@ -71,9 +71,9 @@ mvn -DskipTests -P release-artifacts clean package
 pushd %{buildroot}%{_javadir}
 # Also, for backwards compatibility with our old postgresql-jdbc packages,
 # add these symlinks.  (Probably only the jdbc3 symlink really makes sense?)
-%{__ln_s} postgresql-jdbc.jar postgresql-jdbc2.jar
-%{__ln_s} postgresql-jdbc.jar postgresql-jdbc2ee.jar
-%{__ln_s} postgresql-jdbc.jar postgresql-jdbc3.jar
+%{__ln_s} %{name}.jar postgresql-jdbc2.jar
+%{__ln_s} %{name}.jar postgresql-jdbc2ee.jar
+%{__ln_s} %{name}.jar postgresql-jdbc3.jar
 popd
 
 # Install the pom after inserting the correct version number
@@ -111,18 +111,21 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %if 0%{?rhel} && 0%{?rhel} <= 6
 # These files are installed with the other distros, but we don't need to list
 # them on newer ones, as they are picked up by .mfiles above.
-%{_javadir}/postgresql-jdbc.jar
-%{_datadir}/maven2/poms/JPP-postgresql-jdbc.pom
+%{_javadir}/%{name}.jar
+%{_datadir}/maven2/poms/JPP-%{name}.pom
 %endif
-%{_javadir}/%{name}2.jar
-%{_javadir}/%{name}2ee.jar
-%{_javadir}/%{name}3.jar
-
+%{_javadir}/postgresql-jdbc2.jar
+%{_javadir}/postgresql-jdbc2ee.jar
+%{_javadir}/postgresql-jdbc3.jar
 %files javadoc
 %doc LICENSE
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Tue Mar 15 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1208-1
+- Update to 9.4.1208, per #1034.
+- Use more macros, per John Harvey. Closes #1017.
+
 * Wed Feb 10 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1207-3
 - Remove pgmajorversion from spec file, because this package does not
   depend on PostgreSQL version.
