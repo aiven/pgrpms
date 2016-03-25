@@ -1,6 +1,6 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	16.2
+Version:	17.2
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	GPLv3+
@@ -10,7 +10,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	perl
-Requires:	perl(DBD::Oracle) perl(DBI) perl(String::Random) perl(IO::Compress::Base)
+Requires:	perl(DBD::Oracle)
+Requires:	perl-DBD-MySQL perl(DBI) perl(String::Random) perl(IO::Compress::Base)
 
 %description
 This package contains a Perl module and a companion script to convert an
@@ -54,11 +55,17 @@ Oracle database to a PostgreSQL database.
 %{_docdir}/%{name}/*
 
 %changelog
+* Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> 17.2-1
+- Update to 17.2
+
+* Wed Mar 9 2016 Devrim Gündüz <devrim@gunduz.org> 17.1-1
+- Update to 17.1
+
 * Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 16.2-1
-- Update to 16.2.
+- Update to 16.2
 
 * Wed Dec 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 16.1-1
-- Update to 16.1.
+- Update to 16.1
 
 * Fri Feb 6 2015 Devrim GUNDUZ <devrim@gunduz.org> 15.1-1
 - Update to 15.1, per changes described at:
