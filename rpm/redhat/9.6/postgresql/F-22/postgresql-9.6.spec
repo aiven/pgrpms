@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6
-Release:	git20160310_1PGDG%{?dist}
+Release:	git20160325_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1181,6 +1181,7 @@ fi
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/libpq.so.*
 %{pgbaseinstdir}/lib/libecpg.so*
+%{pgbaseinstdir}/lib/libpgfeutils.a
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
@@ -1304,6 +1305,9 @@ fi
 %endif
 
 %changelog
+* Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160325_1PGDG-1
+- Update to Mar 25, 2016 tarball.
+
 * Thu Mar 10 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160310_1PGDG-1
 - Sync with 9.5 spec, which is the unified one, before it is too late.
 - Update to Mar 10, 2016 tarball.
