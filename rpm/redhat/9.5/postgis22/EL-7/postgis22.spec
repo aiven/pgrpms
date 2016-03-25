@@ -5,7 +5,7 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname	postgis
 %{!?utils:%global	utils 1}
-%{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
+%{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %if 0%{?fedora} >= 21 || 0%{?rhel} >= 6
 %{!?raster:%global     raster 1}
 %else
