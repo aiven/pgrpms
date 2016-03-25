@@ -5,7 +5,7 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname	postgis
 %{!?utils:%global	utils 1}
-%{!?shp2pgsql-gui:%global	shp2pgsql-gui 0}
+%{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?fedora} >= 21 || 0%{?rhel} >= 6
 %{!?raster:%global     raster 1}
 %else
@@ -34,7 +34,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0, pcre-devel
 BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
-%if %{shp2pgsql-gui}
+%if %{shp2pgsqlgui}
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
 %if %{sfcgal}
@@ -114,7 +114,7 @@ The postgis-utils package provides the utilities for PostGIS.
 %if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
 %endif
-%if %{shp2pgsql-gui}
+%if %{shp2pgsqlgui}
 	--with-gui \
 %endif
 	--disable-rpath --libdir=%{pginstdir}/lib
