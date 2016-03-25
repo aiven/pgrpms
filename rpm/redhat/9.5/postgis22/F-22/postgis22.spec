@@ -18,8 +18,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.2.1
-Release:	3%{?dist}
+Version:	2.2.2
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -172,8 +172,9 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/legacy*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_proc_set_search_path.sql
 %if %{sfcgal}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
 %endif
@@ -195,6 +196,7 @@ fi
 %if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
@@ -226,6 +228,11 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
+- Update to 2.2.2, per changes described at
+  http://postgis.net/2016/03/22/postgis-2.2.2
+- Do not attempt to install some files twice.
+
 * Mon Feb 22 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
 - Fix GeOS version number in Requires part, so that it *also*
   requires GeOS >= 3.5.0. Per #1007.
