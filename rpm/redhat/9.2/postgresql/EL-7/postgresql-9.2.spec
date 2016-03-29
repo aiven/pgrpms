@@ -1007,7 +1007,7 @@ rm -rf %{buildroot}
   9.5 branch, and maintaining spec files for 3rd party stuff
   separately for each version started to become harder.
 
-* Thu Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.2.14-1PGDG
+* Tue Oct 6 2015 Jeff Frost <jeff@pgexperts.com> - 9.2.14-1PGDG
 - Update to 9.2.14, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-14.html
 - Specify --docdir and --htmldir properly. This will require many
