@@ -69,7 +69,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.15
+Version:	9.2.16
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
