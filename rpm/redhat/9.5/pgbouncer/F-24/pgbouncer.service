@@ -27,7 +27,7 @@ Environment=BOUNCERCONF=/etc/pgbouncer/pgbouncer.ini
 # StandardOutput=syslog
 
 ExecStart=/usr/bin/pgbouncer -d -q ${BOUNCERCONF}
-ExecReload=/usr/bin/pgbouncer -R -q ${BOUNCERCONF}
+ExecReload=/usr/bin/kill -HUP $MAINPID
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
