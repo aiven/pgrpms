@@ -89,7 +89,7 @@ install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir} 0755 root root -
+d %{_varrundir} 0755 postgres postgres -
 EOF
 
 %else
@@ -148,7 +148,7 @@ fi
 %attr (644, root, root) %{_unitdir}/%{name}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
-%attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
+%config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %changelog
