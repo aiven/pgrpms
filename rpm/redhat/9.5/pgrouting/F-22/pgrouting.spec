@@ -1,12 +1,12 @@
 %global postgismajorversion 2.1
-%global pgroutingmajorversion 2.1
+%global pgroutingmajorversion 2.2
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname	pgrouting
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
@@ -14,7 +14,7 @@ Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.g
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
-BuildRequires:	boost-devel >= 1.55, CGAL-devel => 4.4, gmp-devel
+BuildRequires:	boost-devel >= 1.58, CGAL-devel => 4.4, gmp-devel
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -64,10 +64,13 @@ cd build
 %files
 %defattr(644,root,root,755)
 %doc README.md BOOST_LICENSE_1_0.txt
-%attr(755,root,root) %{pginstdir}/lib/librouting-%{pgroutingmajorversion}.so
+%attr(755,root,root) %{pginstdir}/lib/libpgrouting-%{pgroutingmajorversion}.so
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Apr 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.1-1
+- Update to 2.2.1
+
 * Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1.0-1
 - Update to 2.1.0
 - Update dependency versions
