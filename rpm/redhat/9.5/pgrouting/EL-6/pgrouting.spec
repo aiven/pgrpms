@@ -14,7 +14,7 @@ Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.g
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
-BuildRequires:	boost-devel >= 1.58, CGAL-devel => 4.4, gmp-devel
+BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -70,6 +70,7 @@ cd build
 %changelog
 * Wed Apr 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.1-1
 - Update to 2.2.1
+- Decrease boost dependency version to 1.53, per report from Regina.
 
 * Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1.0-1
 - Update to 2.1.0
