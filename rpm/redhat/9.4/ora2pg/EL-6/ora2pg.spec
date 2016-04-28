@@ -1,6 +1,6 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	17.3
+Version:	17.4
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	GPLv3+
@@ -48,12 +48,13 @@ Oracle database to a PostgreSQL database.
 %attr(0755,root,root) %{_bindir}/%{name}
 %attr(0755,root,root) %{_bindir}/%{name}_scanner
 %attr(0644,root,root) %{_mandir}/man3/%{name}.3.gz
-%config(noreplace) %{_sysconfdir}/%{name}/%{name}/%{name}.conf.dist
+%config(noreplace) %{_sysconfdir}/%{name}.conf.dist
+#%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf.dist
 %{perl_vendorlib}/Ora2Pg/MySQL.pm
 %{perl_vendorlib}/Ora2Pg/PLSQL.pm
 %{perl_vendorlib}/Ora2Pg/GEOM.pm
 %{perl_vendorlib}/Ora2Pg.pm
-%{_docdir}/%{name}/*
+%{_docdir}/%{name}-%{version}/*
 
 %changelog
 * Mon Apr 18 2016 Devrim Gündüz <devrim@gunduz.org> 17.3-1
