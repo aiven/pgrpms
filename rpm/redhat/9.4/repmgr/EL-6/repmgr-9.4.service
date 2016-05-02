@@ -11,6 +11,7 @@
 Description=A replication manager, and failover management tool for PostgreSQL
 After=syslog.target
 After=network.target
+After=postgresql-9.4.service
 
 [Service]
 Type=forking
@@ -24,12 +25,11 @@ PIDFile=/var/run/repmgr/repmgrd-9.4.pid
 # Location of repmgr conf file:
 Environment=REPMGRDCONF=/etc/repmgr/9.4/repmgr.conf
 Environment=PIDFILE=/var/run/repmgr/repmgrd-9.4.pid
-Environment=REPMGRDLOG=/var/log/repmgr/repmgrd-9.4.log
 
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
-ExecStart=/usr/pgsql-9.4/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d -m --verbose > ${REPMGRDLOG} 2>&1
+ExecStart=/usr/pgsql-9.4/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d --verbose 
 ExecStop=/usr/bin/kill -TERM $MAINPID
 ExecReload=/usr/bin/kill -HUP $MAINPID
 
