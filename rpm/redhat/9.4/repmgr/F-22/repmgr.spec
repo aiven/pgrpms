@@ -12,7 +12,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	3.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -152,6 +152,9 @@ fi
 %endif
 
 %changelog
+* Mon May 02 2016 Craig Ringer - 3.1.2-2
+- Fix shell redirection in systemd service file (#1052)
+
 
 * Tue Mar 8 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.1-2
 - Don't overwrite config files on upgrade, save as .rpmnew instead (#1029, per
