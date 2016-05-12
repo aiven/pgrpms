@@ -88,13 +88,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.6
-Release:	git20160325_1PGDG%{?dist}
+Version:	9.6beta1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	Makefile.regress
 Source5:	pg_config.h
 Source6:	README.rpm-dist
@@ -397,7 +397,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{oname}-%{version}devel
+%setup -q -n %{oname}-%{version}
 %patch1 -p1
 %patch3 -p1
 %patch5 -p1
@@ -1066,6 +1066,7 @@ fi
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
 %{pgbaseinstdir}/lib/auto_explain.so
+%{pgbaseinstdir}/lib/bloom.so
 %{pgbaseinstdir}/lib/btree_gin.so
 %{pgbaseinstdir}/lib/btree_gist.so
 %{pgbaseinstdir}/lib/chkpass.so
@@ -1124,6 +1125,7 @@ fi
 %endif
 %{pgbaseinstdir}/share/extension/adminpack*
 %{pgbaseinstdir}/share/extension/autoinc*
+%{pgbaseinstdir}/share/extension/bloom*
 %{pgbaseinstdir}/share/extension/btree_gin*
 %{pgbaseinstdir}/share/extension/btree_gist*
 %{pgbaseinstdir}/share/extension/chkpass*
@@ -1305,6 +1307,9 @@ fi
 %endif
 
 %changelog
+* Thu May 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-1PGDG-1
+- Initial cut for PostgreSQL 9.6 Beta 1
+
 * Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160325_1PGDG-1
 - Update to Mar 25, 2016 tarball.
 
