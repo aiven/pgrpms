@@ -1,0 +1,33 @@
+diff -up plruby-0.5.3/src/conversions/bitstring/plruby_bitstring.c.debug plruby-0.5.3/src/conversions/bitstring/plruby_bitstring.c
+--- plruby-0.5.3/src/conversions/bitstring/plruby_bitstring.c.debug	2007-12-26 11:26:13.000000000 +0100
++++ plruby-0.5.3/src/conversions/bitstring/plruby_bitstring.c	2012-02-15 17:16:50.098551806 +0100
+@@ -195,8 +195,8 @@ name_(VALUE obj, VALUE a)
+ }
+ 
+ BIT_OPERATOR(pl_bit_add, bitcat);
+-BIT_OPERATOR(pl_bit_and, bitand);
+-BIT_OPERATOR(pl_bit_or, bitor);
++BIT_OPERATOR(pl_bit_and, bit_and);
++BIT_OPERATOR(pl_bit_or, bit_or);
+ BIT_OPERATOR(pl_bit_xor, bitxor);
+ 
+ static VALUE
+diff -up plruby-0.5.3/src/plruby.h.debug plruby-0.5.3/src/plruby.h
+--- plruby-0.5.3/src/plruby.h.debug	2007-12-26 16:58:02.000000000 +0100
++++ plruby-0.5.3/src/plruby.h	2012-02-15 17:17:32.650551398 +0100
+@@ -316,4 +318,15 @@ extern VALUE plruby_define_void_class _(
+ #define CStringGD(a_) CStringGetDatum(a_)
+ #define TupleGD(a_,b_) TupleGetDatum((a_),(b_))
+ 
++// PostgreSQL 9.1.1 has renamed C functions bitor and bitand to bit_or 
++// and bit_and, because the former names conflicted with C++ keywords. 
++// The following aliases will fix this if needed.
++
++#if !defined(bit_and) && defined(bitand)
++#define bit_and(a_) bitand(a_)
++#endif
++
++#if !defined(bit_or) && defined(bitor)
++#define bit_or(a_) bitor(a_)
++#endif
+ 

@@ -1,0 +1,12 @@
+diff -up plruby-0.5.3/src/plruby.h.retval plruby-0.5.3/src/plruby.h
+--- plruby-0.5.3/src/plruby.h.retval	2012-02-15 17:35:06.035541372 +0100
++++ plruby-0.5.3/src/plruby.h	2012-02-15 17:35:15.346541265 +0100
+@@ -304,7 +304,7 @@ extern Datum plruby_dfc3 _((PGFunction,
+ extern VALUE plruby_classes, plruby_conversions;
+ extern Oid plruby_datum_oid _((VALUE, int *));
+ extern VALUE plruby_datum_set _((VALUE, Datum));
+-extern VALUE plruby_datum_get _((VALUE, Oid *));
++extern Datum plruby_datum_get _((VALUE, Oid *));
+ extern VALUE plruby_define_void_class _((char *, char *));
+ #endif
+ 

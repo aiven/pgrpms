@@ -1,0 +1,55 @@
+--- src/sql/Makefile.old	2014-02-20 03:20:57.286188620 +0200
++++ src/sql/Makefile	2014-02-20 03:21:03.298144673 +0200
+@@ -29,7 +29,7 @@
+ top_builddir = ..
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS = $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- src/sql/pgpool-recovery/Makefile.old	2014-02-20 03:21:09.592098664 +0200
++++ src/sql/pgpool-recovery/Makefile	2014-02-20 03:21:16.036051558 +0200
+@@ -14,7 +14,7 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS = $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- src/sql/pgpool-regclass/Makefile.old	2014-02-20 03:21:21.777009591 +0200
++++ src/sql/pgpool-regclass/Makefile	2014-02-20 03:21:27.111970591 +0200
+@@ -14,7 +14,7 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS = $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- src/sql/pgpool_adm/Makefile.old	2014-11-07 13:06:12.938873336 +0200
++++ src/sql/pgpool_adm/Makefile	2014-11-07 13:06:28.790699672 +0200
+@@ -17,7 +17,7 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
+--- src/sql/pgpool_adm/Makefile.in.old	2016-02-10 15:30:46.552341300 +0200
++++ src/sql/pgpool_adm/Makefile.in	2016-02-10 10:53:31.000000000 +0200
+@@ -16,7 +16,7 @@
+ top_builddir = ../..
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
