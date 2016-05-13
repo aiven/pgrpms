@@ -5,7 +5,7 @@
  DOCS = README.asciidoc COPYRIGHT.orafce INSTALL.orafce
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.5/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.6/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
  VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
@@ -14,7 +14,7 @@
  include $(top_srcdir)/contrib/contrib-global.mk
  else
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  endif

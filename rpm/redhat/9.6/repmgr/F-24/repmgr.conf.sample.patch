@@ -22,7 +22,7 @@
  # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
  # (if not provided, defaults to system $PATH)
 -#pg_bindir=/usr/bin/
-+pg_bindir=/usr/pgsql-9.5/bin/
++pg_bindir=/usr/pgsql-9.6/bin/
  
  # external command options
  
@@ -32,8 +32,8 @@
                      # (default: 100)
 -#promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -#follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
-+promote_command='/usr/pgsql-9.5/bin/repmgr standby promote -f /etc/repmgr/9.5/repmgr.conf'
-+follow_command='/usr/pgsql-9.5/bin/repmgr standby follow -f /etc/repmgr/9.5/repmgr.conf'
++promote_command='/usr/pgsql-9.6/bin/repmgr standby promote -f /etc/repmgr/9.5/repmgr.conf'
++follow_command='/usr/pgsql-9.6/bin/repmgr standby follow -f /etc/repmgr/9.5/repmgr.conf'
  
  # monitoring interval in seconds; default is 2
  #monitor_interval_secs=2

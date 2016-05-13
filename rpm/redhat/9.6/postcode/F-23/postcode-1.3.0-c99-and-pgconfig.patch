@@ -8,7 +8,7 @@
 +PG_CPPFLAGS = -std=c99 -Wall -Wpedantic -DEXTVERSION=$(EXTVERSION)
  
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
 --- postcode.h.old	2015-03-08 19:33:59.989651411 +0200

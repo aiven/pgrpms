@@ -5,7 +5,7 @@
  CFLAGS = -g -std=gnu99 -Wall -pedantic
  PREFIX ?= /usr
 -PGCONFIG ?= pg_config
-+PGCONFIG ?= /usr/pgsql-9.5/bin/pg_config
++PGCONFIG ?= /usr/pgsql-9.6/bin/pg_config
  PGLIBDIR = $(shell $(PGCONFIG) --libdir)
  PGINCLUDEDIR = $(shell $(PGCONFIG) --includedir)
  ifndef NCONFIG

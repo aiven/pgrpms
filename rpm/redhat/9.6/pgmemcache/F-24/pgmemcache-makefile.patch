@@ -5,7 +5,7 @@
  endif
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-9.5/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-9.6/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  

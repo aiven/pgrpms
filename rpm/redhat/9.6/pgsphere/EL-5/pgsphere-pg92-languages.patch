@@ -1,4 +1,4 @@
---- pgs_gist.sql.in.orig	2013-04-15 13:57:38.257229504 +0300
+--- pgs_gist.sql.in.orig	2013-04-15 13:57:38.257229604 +0300
 +++ pgs_gist.sql.in	2013-04-15 13:58:53.903231230 +0300
 @@ -27,27 +27,27 @@
  CREATE FUNCTION g_spherekey_decompress(internal)

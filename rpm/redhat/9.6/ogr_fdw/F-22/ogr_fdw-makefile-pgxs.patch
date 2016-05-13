@@ -5,7 +5,7 @@
  GDAL_LIBS = $(shell $(GDAL_CONFIG) --libs)
  
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.5/bin/pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
  REGRESS_OPTS = --encoding=UTF8
  
  PG_CPPFLAGS += $(GDAL_CFLAGS)
