@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6beta1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -845,7 +845,7 @@ if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %systemd_post postgresql-%{majorversion}.service
-   %tmpfiles_createa
+   %tmpfiles_create
   %else
    chkconfig --add postgresql-%{majorversion}
   %endif
@@ -1307,6 +1307,9 @@ fi
 %endif
 
 %changelog
+* Sat May 14 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-2PGDG-1
+- Fix typo in spec file, per report from Andrew Dunstan.
+
 * Thu May 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-1PGDG-1
 - Initial cut for PostgreSQL 9.6 Beta 1
 
