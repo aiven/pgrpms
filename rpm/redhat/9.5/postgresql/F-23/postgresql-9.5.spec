@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -840,7 +840,7 @@ if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %systemd_post postgresql-%{majorversion}.service
-   %tmpfiles_createa
+   %tmpfiles_create
   %else
    chkconfig --add postgresql-%{majorversion}
   %endif
@@ -1297,6 +1297,9 @@ fi
 %endif
 
 %changelog
+* Sat May 14 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.3-2PGDG
+- Fix typo in spec, per report from Andrew Dunstan.
+
 * Wed May 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.3-1PGDG
 - Update to 9.5.3, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-3.html
