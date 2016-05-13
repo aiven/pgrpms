@@ -115,7 +115,7 @@ BuildRequires: ogdi-devel
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
-BuildRequires: postgresql94-devel
+BuildRequires: postgresql96-devel
 BuildRequires: proj-devel
 BuildRequires: python2-devel
 BuildRequires: sqlite-devel
