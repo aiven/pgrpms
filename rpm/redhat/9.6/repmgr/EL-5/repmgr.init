@@ -31,7 +31,7 @@ REPMGRD_OPTS=
 REPMGRD_CONF=/etc/repmgr/9.5/repmgr.conf
 REPMGRD_LOG=/var/log/repmgr/repmgrd-9.5.log
 REPMGRD_USER=postgres
-REPMGRD_BIN=/usr/pgsql-9.5/bin/repmgrd
+REPMGRD_BIN=/usr/pgsql-9.6/bin/repmgrd
 REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-9.5.pid
 
 # Get network config.

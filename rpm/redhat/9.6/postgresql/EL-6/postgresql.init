@@ -87,7 +87,7 @@ fi
 LOCALEPARAMETER=$2
 
 # Set defaults for configuration variables
-PGENGINE=/usr/pgsql-9.5/bin
+PGENGINE=/usr/pgsql-9.6/bin
 PGDATA=/var/lib/pgsql/9.5/data
 PGLOG=/var/lib/pgsql/9.5/pgstartup.log
 # Log file for pg_upgrade

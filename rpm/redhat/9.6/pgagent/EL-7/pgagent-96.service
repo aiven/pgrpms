@@ -1,8 +1,8 @@
 # It's not recommended to modify this file in-place, because it will be
 # overwritten during package upgrades.  If you want to customize, the
-# best way is to create a file "/etc/systemd/system/pgagent-9.5.service",
+# best way is to create a file "/etc/systemd/system/pgagent-9.6.service",
 # containing
-#	.include /lib/systemd/system/pgagent-9.5.service
+#	.include /lib/systemd/system/pgagent-9.6.service
 #	...make your changes here...
 # For more info about custom unit files, see
 # http://fedoraproject.org/wiki/Systemd#How_do_I_customize_a_unit_file.2F_add_a_custom_unit_file.3F
@@ -11,7 +11,7 @@
 # configuration as well.
 
 [Unit]
-Description=PgAgent for PostgreSQL 9.5
+Description=PgAgent for PostgreSQL 9.6
 After=syslog.target
 After=network.target
 
