@@ -5,11 +5,11 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0.0
-Release:	2%{dist}
+Version:	5.1.0
+Release:	1%{dist}
 License:	AGPLv3+
 Group:		Applications/Databases
-Source0:	https://github.com/citusdata/citus/archive/v5.0.0.tar.gz
+Source0:	https://github.com/citusdata/citus/archive/v5.1.0.tar.gz
 URL:		https://github.com/citusdata/citus
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
@@ -87,6 +87,9 @@ fi
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Tue May 17 2016 - Jason Petersen <jason@citusdata.com> 5.1.0-1
+- Update to Citus 5.1.0
+
 * Thu Mar 31 2016 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-2
 - Split header files into -devel subpackage.
 - Add doc and license files.
