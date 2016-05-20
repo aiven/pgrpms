@@ -1,5 +1,5 @@
 %global pgmajorversion 96
-%global pgpackageversion 9.5
+%global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -11,8 +11,8 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.2
-Release:	2%{?dist}
+Version:	3.1.3
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
@@ -152,9 +152,11 @@ fi
 %endif
 
 %changelog
-* Mon May 02 2016 Craig Ringer - 3.1.2-2
-- Fix shell redirection in systemd service file (#1052)
+* Fri May 20 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.3-1
+- Update to 3.1.3
 
+* Mon May 02 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.2-2
+- Fix shell redirection in systemd service file (#1052)
 
 * Tue Mar 8 2016 - Craig Ringer <craig.ringer@2ndquadrant.com> 3.1.1-2
 - Don't overwrite config files on upgrade, save as .rpmnew instead (#1029, per
