@@ -9,13 +9,13 @@
 
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.2
-Release:	4%{?dist}
+Version:	3.2.6
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/3622/%{sname}-%{version}.tar.gz
+Source0:	https://github.com/markokr/skytools/archive/%{version}.tar.gz
 Source1:	%{name}.init
-URL:		http://pgfoundry.org/projects/skytools
+URL:		https://github.com/markokr/skytools/
 BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -115,6 +115,9 @@ chown -R skytools %{_logdir}/%{name}
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
+* Tue May 31 2016 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-1
+- Update to 3.2.6
+
 * Mon Jan 19 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.2.0-2
 - Update changelog for:
    Update to 3.2, per changes described at
