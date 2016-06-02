@@ -9,8 +9,8 @@ Version:	5.1.0
 Release:	1%{dist}
 License:	AGPLv3+
 Group:		Applications/Databases
-Source0:	https://github.com/citusdata/citus/archive/v5.1.0.tar.gz
-URL:		https://github.com/citusdata/citus
+Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
+URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 Requires:	postgresql%{pgmajorversion}-server

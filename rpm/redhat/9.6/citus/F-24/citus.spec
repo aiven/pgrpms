@@ -9,8 +9,8 @@ Version:	5.1.0
 Release:	1%{dist}
 License:	AGPLv3+
 Group:		Applications/Databases
-Source0:	https://github.com/citusdata/citus/archive/v5.1.0.tar.gz
-URL:		https://github.com/citusdata/citus
+Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
+URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -31,15 +31,6 @@ supports new PostgreSQL releases, allowing users to benefit from
 new features while maintaining compatibility with existing
 PostgreSQL tools. Note that Citus supports many (but not all) SQL
 commands.
-
-%package devel
-Summary:	Citus development header files and libraries
-Group:		Development/Libraries
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-
-%description devel
-The citus_%{pgmajorversion}-devel package contains the header files and libraries
-needed to compile C or C++ applications which will directly interact with Citus.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -70,29 +61,17 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%doc README.md
+%{pginstdir}/include/server/citus_config.h
+%{pginstdir}/include/server/distributed/*.h
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/bin/copy_to_distributed_table
 %{pginstdir}/bin/csql
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
-%license LICENSE
-%endif
-
-%files devel
-%{pginstdir}/include/server/citus_config.h
-%{pginstdir}/include/server/distributed/*.h
 
 %changelog
 * Tue May 17 2016 - Jason Petersen <jason@citusdata.com> 5.1.0-1
 - Update to Citus 5.1.0
-
-* Thu Mar 31 2016 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-2
-- Split header files into -devel subpackage.
-- Add doc and license files.
 
 * Fri Mar 25 2016 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository,
