@@ -4,7 +4,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4
+Version:	1.4.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -45,15 +45,18 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Jan 18 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.4-1
+* Thu Jun 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.4.1-1
+- Update to 1.4.1
+
+* Mon Jan 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
 - Update to 1.4
 - Parallel build seems to be broken, so disable it for now.
 
-* Mon Sep 07 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-1
+* Mon Sep 07 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Update to 1.3
 
-* Thu Mar 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+* Thu Mar 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
-* Fri Aug 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
+* Fri Aug 29 2014 - Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
