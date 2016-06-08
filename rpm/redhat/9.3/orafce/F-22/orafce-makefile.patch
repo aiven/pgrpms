@@ -1,7 +1,7 @@
---- Makefile.old	2016-02-19 10:43:52.256394460 +0200
-+++ Makefile	2016-02-19 10:44:06.668260656 +0200
+--- Makefile.old	2016-06-08 14:14:10.461757733 +0300
++++ Makefile	2016-06-08 14:17:44.699703827 +0300
 @@ -6,7 +6,7 @@
- DATA = orafce--3.2.sql
+ DATA = orafce--3.3.sql orafce--3.2--3.3.sql
  DOCS = README.asciidoc COPYRIGHT.orafce INSTALL.orafce
  
 -PG_CONFIG ?= pg_config
