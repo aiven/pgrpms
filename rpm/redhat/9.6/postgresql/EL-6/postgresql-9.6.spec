@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.6beta1
-Release:	2PGDG%{?dist}
+Version:	9.6beta2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1307,6 +1307,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 23 2016 Jeff Frost <jeff@pgexperts.com> - 9.6beta2-1PGDG-1
+- Initial cut for PostgreSQL 9.6 Beta 2
+
 * Sat May 14 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-2PGDG-1
 - Fix typo in spec file, per report from Andrew Dunstan.
 
