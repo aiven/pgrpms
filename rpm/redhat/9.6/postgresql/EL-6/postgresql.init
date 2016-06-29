@@ -51,12 +51,15 @@
 # Version 9.4.0 Devrim Gunduz <devrim@gunduz.org>
 # Remove PGPORT variable.
 
-# PGVERSION is the full package version, e.g., 9.5.0
+# Version 9.6.0 Jeff Frost <jeff@pgexperts.com>
+# Point data and bin directories at correct version
+
+# PGVERSION is the full package version, e.g., 9.6.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
-# PGMAJORVERSION is major version, e.g., 9.5 (this should match PG_VERSION)
+# PGMAJORVERSION is major version, e.g., 9.6 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.4
+PGPREVMAJORVERSION=9.5
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -88,8 +91,8 @@ LOCALEPARAMETER=$2
 
 # Set defaults for configuration variables
 PGENGINE=/usr/pgsql-9.6/bin
-PGDATA=/var/lib/pgsql/9.5/data
-PGLOG=/var/lib/pgsql/9.5/pgstartup.log
+PGDATA=/var/lib/pgsql/9.6/data
+PGLOG=/var/lib/pgsql/9.6/pgstartup.log
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 
