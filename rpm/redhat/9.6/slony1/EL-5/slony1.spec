@@ -7,8 +7,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2.4
-Release:	4%{?dist}
+Version:	2.2.5
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://main.slony.info/
@@ -151,6 +151,9 @@ fi
 %endif
 
 %changelog
+* Mon Jul 4 2016 Devrim Gunduz <devrim@gunduz.org> 2.2.5-1
+- Update to 2.2.5
+
 * Sun Jul 5 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-4
 - Various updates to init script, per Rob Brucks.
 - Cosmetic updates to spec file (using macros)
