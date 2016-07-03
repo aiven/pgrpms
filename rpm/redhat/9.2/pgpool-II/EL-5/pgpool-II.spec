@@ -12,7 +12,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.5.2
+Version:		3.5.3
 Release:		1%{?dist}
 License:		BSD
 Group:			Applications/Databases
@@ -279,39 +279,42 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Thu Apr 28 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.2-1
+* Mon Jul 4 2016 Devrim Gündüz <devrim@gunduz.org> - 3.5.3-1
+- Update to 3.5.3
+
+* Thu Apr 28 2016 Devrim Gündüz <devrim@gunduz.org> - 3.5.2-1
 - Update to 3.5.2
 
-* Tue Apr 5 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.1-1
+* Tue Apr 5 2016 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-1
 - Update to 3.5.1
 
-* Tue Feb 9 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
+* Tue Feb 9 2016 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0
 - Add pgpool_adm to extensions subpackage.
 
-* Mon Jan 11 2016 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-4
+* Mon Jan 11 2016 Devrim Gündüz <devrim@gunduz.org> - 3.4.3-4
 - Second time in a row: Fix typo in init script. Per report
   from Ryan Shoemaker.
 
-* Wed Dec 9 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-3
+* Wed Dec 9 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.3-3
 - Fix typo in init script. Per report from Ryan Shoemaker.
 
 * Thu Sep 17 2015 Jeff Frost <jeff@pgexperts.com> - 3.4.3-2
 - Bring init script in line with pgpool community init script
 
-* Wed Aug 5 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.3-1
+* Wed Aug 5 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.3-1
 - Update to 3.4.3, per changes described at:
   http://www.pgpool.net/docs/pgpool-II-3.4.3/NEWS.txt
 
-* Wed Apr 8 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
+* Wed Apr 8 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2, per changes described at:
   http://www.pgpool.net/docs/pgpool-II-3.4.2/NEWS.txt
 
-* Fri Feb 6 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-2
+* Fri Feb 6 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-2
 - Add missing BuildRoot macro.
 - Fix rpmlint warnings/errors.
 
-* Thu Feb 5 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-1
+* Thu Feb 5 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1
 - Remove patch3, now in upstream.
 
@@ -329,7 +332,7 @@ fi
 
 - Trim changelog
 
-* Fri Nov 7 2014 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
+* Fri Nov 7 2014 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0
 - Add patch3 to fix compilation with memcache support. This
   patch will be removed when 3.4.1 comes out.

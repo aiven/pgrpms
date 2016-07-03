@@ -53,7 +53,7 @@ fi
 
 # Set defaults for configuration variables
 PGPOOLUSER=postgres
-PGPOOLENGINE=/usr/pgpool-9.5/bin
+PGPOOLENGINE=/usr/pgpool-9.6/bin
 PGPOOLDAEMON=$PGPOOLENGINE/pgpool
 PGPOOLCONF=/etc/pgpool-II-95/pgpool.conf
 PGPOOLPIDDIR=/var/run/pgpool-II-95
