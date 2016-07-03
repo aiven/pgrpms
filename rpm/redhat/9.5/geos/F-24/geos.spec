@@ -59,6 +59,10 @@ Python module to build applications using GEOS and python
 sed -i -e 's|\/lib\/python|$libdir\/python|g' configure
 sed -i -e 's|.get_python_lib(0|.get_python_lib(1|g' configure
 
+# isnan is in math.h, std::isnan is in cmath
+sed -i -e 's|= isnan(|= std::isnan(|g' configure
+sed -i -e 's|(isnan(|(std::isnan(|g' include/geos/platform.h.in
+
 # disable internal libtool to avoid hardcoded r-path
 for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
