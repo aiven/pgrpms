@@ -1,5 +1,5 @@
 Name:		geos
-Version:	3.4.2
+Version:	3.5.0
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -18,10 +18,10 @@ BuildRequires:	gcc-c++
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %description
-GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
-Suite (JTS). As such, it aims to contain the complete functionality of 
-JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial 
-predicate functions and spatial operators, as well as specific JTS topology 
+GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
+Suite (JTS). As such, it aims to contain the complete functionality of
+JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial
+predicate functions and spatial operators, as well as specific JTS topology
 functions such as IsValid()
 
 %package devel
@@ -30,19 +30,20 @@ Group:		Development/Libraries
 Requires: 	%{name} = %{version}-%{release}
 
 %description devel
-GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology 
-Suite (JTS). As such, it aims to contain the complete functionality of 
-JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial 
-predicate functions and spatial operators, as well as specific JTS topology 
+GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
+Suite (JTS). As such, it aims to contain the complete functionality of
+JTS in C++. This includes all the OpenGIS "Simple Features for SQL" spatial
+predicate functions and spatial operators, as well as specific JTS topology
 functions such as IsValid()
 
-This package contains the development files to build applications that 
+This package contains the development files to build applications that
 use GEOS
 
 %package python
 Summary:	Python modules for GEOS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+BuildRequires:	swig
 
 %description python
 Python module to build applications using GEOS and python
@@ -57,6 +58,10 @@ Python module to build applications using GEOS and python
 # fix python path on 64bit
 sed -i -e 's|\/lib\/python|$libdir\/python|g' configure
 sed -i -e 's|.get_python_lib(0|.get_python_lib(1|g' configure
+
+# isnan is in math.h, std::isnan is in cmath
+sed -i -e 's|= isnan(|= std::isnan(|g' configure
+sed -i -e 's|(isnan(|(std::isnan(|g' include/geos/platform.h.in
 
 # disable internal libtool to avoid hardcoded r-path
 for makefile in `find . -type f -name 'Makefile.in'`; do
@@ -106,8 +111,11 @@ rm -rf %{buildroot}
 %{_libdir}/libgeos_c.so
 %exclude %{_libdir}/*.la
 %exclude %{_libdir}/*.a
+#%exclude %{python_sitearch}/%{name}/_%{name}.a
+#%exclude %{python_sitearch}/%{name}/_%{name}.la
 
 %files python
+%defattr(-,root,root,-)
 %defattr(-,root,root,-)
 %dir %{python_sitearch}/%{name}
 %exclude %{python_sitearch}/%{name}/_%{name}.a
@@ -118,6 +126,11 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/_%{name}.so
 
 %changelog
+* Tue Oct 13 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
+- Update to 3.5.0, per changes described at:
+  http://trac.osgeo.org/geos/browser/tags/3.5.0/NEWS
+- Add swig as BR to python subpackage, as it does not build without that.
+
 * Mon Sep 9 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.2/NEWS
