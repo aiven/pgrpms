@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	2.2.3
+Version:	2.4.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -40,6 +40,7 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/doc/extension/migration.md
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
@@ -47,8 +48,12 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/partition_data.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
+%attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %changelog
+* Mon Jul 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.4.1-1
+- Update to 2.4.1
+
 * Thu Mar 3 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.3-1
 - Update to 2.2.3
 
