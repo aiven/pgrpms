@@ -7,12 +7,12 @@
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.0
+Version:	1.4.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_1_4_0.tar.gz
 Patch0:		oracle_fdw-makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -59,6 +59,9 @@ make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=po
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
+- Update to 1.4.0
+
 * Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Update to 1.3.0
 - Put check into conditional, and disable it by default.
