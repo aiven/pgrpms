@@ -5,7 +5,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.1.0
+Version:	5.1.1
 Release:	1%{dist}
 License:	AGPLv3+
 Group:		Applications/Databases
@@ -70,6 +70,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Jul 7 2016 - Devrim Gündüz <devrim@gunduz.org> 5.1.1-1
+- Update to 5.1.1
+
 * Tue May 17 2016 - Jason Petersen <jason@citusdata.com> 5.1.0-1
 - Update to Citus 5.1.0
 
