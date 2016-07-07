@@ -1,7 +1,7 @@
 #################################
-# RPM-specific Makefile		#
+# RPM-specific Makefile	   	#
 # http://yum.postgresql.org	#
-#                         	#
+#				#
 # Devrim Gunduz			#
 # devrim@gunduz.org		#
 #################################
