@@ -8,7 +8,7 @@
 
 Name:		pgbouncer
 Version:	1.7.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 # This is only required for RHEL 5
 %if 0%{?rhel} && 0%{?rhel} <= 5
@@ -155,6 +155,10 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-3
+  Fix issues in systemd file, per report from Jehan-Guillaume,
+  per #1339.
+
 * Wed Mar 30 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-2
 - Fix Reload in systemd unit file, per #1042.
   Analysis and fix by Jehan-Guillaume de Rorthais.
