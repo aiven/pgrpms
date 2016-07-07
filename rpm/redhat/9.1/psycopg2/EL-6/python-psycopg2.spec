@@ -24,13 +24,13 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.6.1
+Version:	2.6.2
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
 Url:		http://www.psycopg.org/psycopg/
-Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-6/psycopg2-%{version}.tar.gz
+Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-6/%{sname}-%{version}.tar.gz
 Patch0:		setup.cfg.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -43,7 +43,7 @@ BuildRequires:	python3-debug
 
 Requires:	postgresql%{pgmajorversion}-libs
 
-Conflicts:	python-psycopg2-zope < %{version}
+Conflicts:	python-%{sname}-zope < %{version}
 
 %description
 Psycopg is the most popular PostgreSQL adapter for the Python
@@ -62,18 +62,18 @@ Group:		Applications/Databases
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
 
-%package -n python3-psycopg2
+%package -n python3-%{sname}
 Summary:	A PostgreSQL database adapter for Python 3
 
-%description  -n python3-psycopg2
+%description  -n python3-%{sname}
 This is a build of the psycopg PostgreSQL database adapter for Python 3.
 
-%package -n python3-psycopg2-debug
+%package -n python3-%{sname}-debug
 Summary:	A PostgreSQL database adapter for Python 3 (debug build)
 # Require base python 3 package, as we're sharing .py/.pyc files:
-Requires:	python3-psycopg2 = %{version}-%{release}
+Requires:	python3-%{sname} = %{version}-%{release}
 
-%description -n python3-psycopg2-debug
+%description -n python3-%{sname}-debug
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 3.
 %endif # with_python3
@@ -88,7 +88,7 @@ Documentation and example files for the psycopg python PostgreSQL
 database adapter.
 
 %prep
-%setup -q -n psycopg2-%{version}
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -110,11 +110,11 @@ DoInstall() {
 
   Python_SiteArch=$($PythonBinary -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
-  %{__mkdir} -p %{buildroot}$Python_SiteArch/psycopg2
+  %{__mkdir} -p %{buildroot}$Python_SiteArch/%{sname}
   $PythonBinary setup.py install --no-compile --root %{buildroot}
 
   # We're not currently interested in packaging the test suite.
-  %{__rm} -rf %{buildroot}$Python_SiteArch/psycopg2/tests
+  %{__rm} -rf %{buildroot}$Python_SiteArch/%{sname}/tests
 }
 
 %{__rm} -rf %{buildroot}
@@ -128,35 +128,34 @@ done
 %files
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
-%dir %{python_sitearch}/psycopg2
-%{python_sitearch}/psycopg2/*.py
-%{python_sitearch}/psycopg2/*.pyc
-%{python_sitearch}/psycopg2/_psycopg.so
-%{python_sitearch}/psycopg2/*.pyo
-%{python_sitearch}/psycopg2-%{version}-py%{pyver}.egg-info
+%dir %{python_sitearch}/%{sname}
+%{python_sitearch}/%{sname}/*.py
+%{python_sitearch}/%{sname}/*.pyc
+%{python_sitearch}/%{sname}/_psycopg.so
+%{python_sitearch}/%{sname}/*.pyo
+%{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %if 0%{?with_python3}
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
-%{python_sitearch}/psycopg2/_psycopg_d.so
+%{python_sitearch}/%{sname}/_psycopg_d.so
 %endif
 
 %if 0%{?with_python3}
-%files -n python3-psycopg2
+%files -n python3-%{sname}
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
-%dir %{python3_sitearch}/psycopg2
-%{python3_sitearch}/psycopg2/*.py
-%dir %{python3_sitearch}/psycopg2/__pycache__
-%{python3_sitearch}/psycopg2/__pycache__/*.pyc
-%{python3_sitearch}/psycopg2/__pycache__/*.pyo
-%{python3_sitearch}/psycopg2-%{version}-py%{py3ver}.egg-info
+%dir %{python3_sitearch}/%{sname}
+%{python3_sitearch}/%{sname}/*.py
+%dir %{python3_sitearch}/%{sname}/__pycache__
+%{python3_sitearch}/%{sname}/__pycache__/*.pyc
+%{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
 
-%files -n python3-psycopg2-debug
+%files -n python3-%{sname}-debug
 %defattr(-,root,root)
 %doc LICENSE
-%{python3_sitearch}/psycopg2/_psycopg.cpython-3*m*.so
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3*m*.so
 %endif # with_python3
 
 %files doc
@@ -164,6 +163,10 @@ done
 %doc doc examples/
 
 %changelog
+* Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-1
+- Update to 2.6.2, per changes described at:
+  http://www.psycopg.org/psycopg/articles/2016/07/07/psycopg-262-released/
+
 * Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.1-1
 - Update to 2.6.1
 - Create unified spec file for all distros.

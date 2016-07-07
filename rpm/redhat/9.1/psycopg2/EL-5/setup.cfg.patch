@@ -1,11 +1,10 @@
---- setup.cfg.old	2012-07-05 01:42:26.717187276 +0300
-+++ setup.cfg	2012-07-05 01:42:39.698188865 +0300
-@@ -26,7 +26,7 @@
- # libraries needed to build psycopg2. If pg_config is not in the path or
- # is installed under a different name uncomment the following option and
- # set it to the pg_config full path.
--#pg_config=
+--- setup.cfg.old	2016-07-07 12:38:54.030157753 +0300
++++ setup.cfg	2016-07-07 12:40:36.314274339 +0300
+@@ -2,6 +2,7 @@
+ define = 
+ use_pydatetime = 1
+ have_ssl = 0
 +pg_config=/usr/pgsql-9.1/bin/pg_config
  
- # If "pg_config" is not available, "include_dirs" can be used to locate
- # postgresql headers and libraries. Some extra checks on sys.platform will
+ [egg_info]
+ tag_build = 
