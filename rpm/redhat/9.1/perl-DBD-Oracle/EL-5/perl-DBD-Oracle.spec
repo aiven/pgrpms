@@ -1,65 +1,63 @@
-%define perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
-%define perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
+%global perl_vendorlib %(eval "`%{__perl} -V:installvendorlib`"; echo $installvendorlib)
+%global perl_vendorarch %(eval "`%{__perl} -V:installvendorarch`"; echo $installvendorarch)
+%global sname DBD-Oracle
 
-%define real_name DBD-Oracle
-
-Summary:	Oracle database driver for the DBI module.
-Name:		perl-DBD-Oracle
-Version:	1.22
-Release:	1
-License:	Artistic/GPL
-Group:		Applications/CPAN
-URL:		http://search.cpan.org/dist/DBD-Oracle/
-
-Source:		http://www.cpan.org/modules/by-module/DBD/DBD-Oracle-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-
-BuildRequires:	perl
-Requires:	perl-Tk
+Summary:	DBD-Oracle module for perl
+Name:		perl-%{sname}
+Version:	1.74
+Release:	1%{?dist}
+License:	GPL+ or Artistic
+Group:		Development/Libraries
+Source0:	https://github.com/pythian/%{sname}/archive/v%{version}.tar.gz
+Source1:	demo.mk
+URL:		https://github.com/pythian/%{sname}
+BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	perl >= 0:5.6.1, perl(ExtUtils::MakeMaker)
+BuildRequires:	oracle-instantclient11.2-devel
+Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+# the version requires is not automatically picked up
+Requires:	perl(DBI) >= 1.51
 
 %description
-Oracle database driver for the DBI module. 
+Oracle database driver for the DBI module.
 
 %prep
-%setup -n %{real_name}-%{version} -q
+%setup -q -n %{sname}-%{version}
+cp %{SOURCE1} .
 
 %build
-export ORACLE_HOME=/usr/lib/oracle/xe/app/oracle/product/10.2.0/server
-export ORACLE_SID=XE
-export PATH=$PATH:$ORACLE_HOME/bin
-
-CFLAGS="%{optflags}" %{__perl} Makefile.PL INSTALLDIRS="vendor" PREFIX="%{buildroot}%{_prefix}"
-%{__make} %{?_smp_mflags} OPTIMIZE="%{optflags}"
-
-%install
-%{__rm} -rf %{buildroot}
-%{__make} pure_install
-
-### Clean up buildroot
-find %{buildroot} -name .packlist -exec %{__rm} {} \;
+MKFILE=$(find /usr/share/oracle/ -name demo.mk)
+%ifarch ppc ppc64
+# the included version in oracle-instantclient-devel is bad on ppc arches
+# using the version from i386 rpm
+MKFILE=demo.mk
+%endif
+%ifarch x86_64 s390x
+ORACLE_HOME=$(find /usr/lib/oracle/ -name client64 | tail -1)
+%else
+ORACLE_HOME=$(find /usr/lib/oracle/ -name client | tail -1)
+%endif
+export ORACLE_HOME
+perl Makefile.PL -m $MKFILE INSTALLDIRS="vendor" PREFIX=%{_prefix} -V 11.2.0.4.0
+make  %{?_smp_mflags} OPTIMIZE="%{optflags}"
 
 %clean
 %{__rm} -rf %{buildroot}
 
+%install
+%{__rm} -rf %{buildroot}
+make PREFIX=%{buildroot}%{_prefix} pure_install
+
+%{__rm} -f `find %{buildroot} -type f -name perllocal.pod -o -name .packlist`
+
 %files
-%defattr(-, root, root, 0755)
-%doc Changes MANIFEST MANIFEST.SKIP README README.aix.txt
-%doc README.clients.txt README.explain.txt README.help.txt README.hpux.txt
-%doc README.java.txt README.linux.txt README.login.txt README.longs.txt
-%doc README.macosx.txt README.sec.txt README.vms.txt README.win32.txt
-%doc README.wingcc.txt Todo
-%doc %{_mandir}/man1/ora_explain.*
-%doc %{_mandir}/man3/DBD::Oracle.3pm*
-%doc %{_mandir}/man3/DBD::Oraperl.3pm*
-%{_bindir}/ora_explain
-%dir %{perl_vendorarch}/DBD/
-%{perl_vendorarch}/DBD/Oracle/GetInfo.pm
-%{perl_vendorarch}/DBD/Oracle.pm
-%dir %{perl_vendorarch}/auto/DBD/
-%{perl_vendorarch}/auto/DBD/Oracle/
-%{perl_vendorarch}/Oraperl.pm
-%{perl_vendorarch}/oraperl.ph
+%defattr(-,root,root)
+%{perl_vendorarch}/auto/DBD/
+%{perl_vendorarch}/DBD/
+%{_mandir}/man3/*
 
 %changelog
-* Tue Dec 30 2008 Devrim GUNDUZ <devrim@gunduz.org> 1.22-1
-- Initial packaging. Spec file is taken from Dries repo.
+* Tue Jul 12 2016 Devrim Gündüz <devrim@gunduz.org> 1.74-1
+- Update to 1.74
+- Fix rpmlint warnings
+- Trim changelog
