@@ -14,7 +14,7 @@ Source0:	https://github.com/tada/pljava/archive/V1_5_0.tar.gz
 Source1:	%{name}.pom
 
 BuildArch:	noarch
-BuildRequires:	java-1.8.0-openjdk-devel
+BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
 Requires:	java-headless >= 1:1.8
 
 %description
