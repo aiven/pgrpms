@@ -8,9 +8,9 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://tada.github.io/pljava/
-Patch0:		pljava-makefile.patch
+Patch0:		pljava-buildxml.patch
 
-Source0:	https://github.com/tada/pljava/archive/V1_5_0b2.tar.gz
+Source0:	https://github.com/tada/pljava/archive/V1_5_0.tar.gz
 Source1:	%{name}.pom
 
 BuildArch:	noarch
@@ -23,26 +23,29 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -c -q
+%setup -q -n pljava-1_5_0
 %patch0 -p0
-
-%{__mv} -f pljava-1_5_0b2/* .
 
 %build
 export CLASSPATH=
 mvn clean install
 
+%post
+java -jar %{_javadir}/%{name}.jar
+
 %install
 install -d %{buildroot}%{_javadir}
-# Per jpp conventions, jars have version-numbered names and we add
-# versionless symlinks.
-java -jar ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar
-#install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar %{buildroot}%{_javadir}/%{name}.jar
+#java -jar ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar
+#install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar
+install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar %{buildroot}%{_javadir}/%{name}.jar
 
 %files
 %doc COPYRIGHT README.md
 %{_javadir}/%{name}.jar
 
 %changelog
+* Thu Jul 14 2016 Devrim Gunduz <devrim@gunduz.org> 1.5.0-1
+- Update to 1.5.0
+
 * Tue Feb 23 2016 Devrim Gunduz <devrim@gunduz.org> 1.5.0beta2-1
 - Initial packaging for PostgreSQL RPM repository
