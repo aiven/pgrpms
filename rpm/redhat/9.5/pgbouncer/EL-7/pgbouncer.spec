@@ -8,7 +8,7 @@
 
 Name:		pgbouncer
 Version:	1.7.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 # This is only required for RHEL 5
 %if 0%{?rhel} && 0%{?rhel} <= 5
@@ -101,7 +101,9 @@ install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
 %endif
+if [ ! -d %{_localstatedir}/log/pgbouncer ] ; then
 %{__mkdir} -m 700 %{_localstatedir}/log/pgbouncer
+fi
 %{__chown} -R pgbouncer:pgbouncer %{_localstatedir}/log/pgbouncer
 %{__chown} -R pgbouncer:pgbouncer %{_varrundir} >/dev/null 2>&1 || :
 
@@ -121,7 +123,9 @@ fi
 %endif
 
 %postun
-%{__rm} -rf /var/run/pgbouncer
+if [ $1 -eq 0 ]; then
+%{__rm} -rf %{_varrundir}
+fi
 %if %{systemd_enabled}
 %systemd_postun_with_restart %{name}.service
 %else
@@ -155,8 +159,13 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon Jul 18 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-4
+- Don't remove /var/run/pgbouncer directory on upgrade. Per
+  report from Eric Radman.
+- Attempt to create the log directory only if does not exist.
+
 * Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-3
-  Fix issues in systemd file, per report from Jehan-Guillaume,
+-  Fix issues in systemd file, per report from Jehan-Guillaume,
   per #1339.
 
 * Wed Mar 30 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-2
