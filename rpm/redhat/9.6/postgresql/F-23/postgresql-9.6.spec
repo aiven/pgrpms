@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.6beta2
-Release:	2PGDG%{?dist}
+Version:	9.6beta3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1307,6 +1307,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-3PGDG-1
+- Update to 9.6 beta3
+
 * Wed Jun 29 2016 Jeff Frost <jeff@pgexperts.com> - 9.6beta2-2PGDG-1
 - Fix data and bin directories in init script for EL-6
 
