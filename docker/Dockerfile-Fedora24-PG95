@@ -11,6 +11,9 @@ MAINTAINER devrim@gunduz.org
 # Add the PostgreSQL PGP key to verify the official yum repository packages
 RUN rpm --import http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
 
+# Add postgres user with uid and gid 26:
+RUN groupadd -r postgres --gid=26 && useradd -r -g postgres --uid=26 postgres
+
 # Add PostgreSQL's repository. It contains the most recent stable release
 # of PostgreSQL, ``9.5``.
 RUN rpm -ivh http://download.postgresql.org/pub/repos/yum/9.5/fedora/fedora-24-x86_64/pgdg-fedora95-9.5-3.noarch.rpm
@@ -35,7 +38,6 @@ RUN echo "listen_addresses='*'" >> /var/lib/pgsql/9.5/data/postgresql.conf
 # Start the instance.
 # After start, sleep for 5 secs to make sure that postmaster is started before
 # creating the role and database:
-
 CMD systemctl start postgresql-9.5.service
 CMD sleep 5
 
@@ -53,6 +55,10 @@ EXPOSE 5432
 
 # Add VOLUMEs to allow backup of config, logs and databases
 VOLUME  ["/var/lib/pgsql/9.5"]
+
+# Environmental variables
+ENV PATH /usr/pgsql-9.5/bin/:$PATH
+ENV PGDATA /var/lib/pgsql/9.5/data
 
 # Set the default command to run when starting the container
 CMD ["/usr/pgsql-9.5/bin/postgres", "-D", "/var/lib/pgsql/9.5/data"]
