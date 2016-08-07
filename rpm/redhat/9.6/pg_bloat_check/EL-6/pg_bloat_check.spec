@@ -26,8 +26,7 @@ install -d -m 755 %{buildroot}%{_bindir}
 install -m 755 %{name}.py %{buildroot}%{_bindir}/
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%{__mkdir} -p %{buildroot}/%{_docdir}/%{name}
-install -m 644 %{SOURCE1} %{buildroot}/%{_docdir}/%{name}/LICENSE
+:
 %else
 %{__mkdir} -p %{buildroot}/%{_licensedir}/%{name}
 install -m 644 %{SOURCE1} %{buildroot}/%{_licensedir}/%{name}/LICENSE
