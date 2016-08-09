@@ -8,7 +8,7 @@
 
 Name:		pgbouncer
 Version:	1.7.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 # This is only required for RHEL 5
 %if 0%{?rhel} && 0%{?rhel} <= 5
@@ -23,7 +23,7 @@ Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
 
-BuildRequires:	libevent-devel >= 2.0 openssl-devel
+BuildRequires:	libevent-devel >= 2.0 openssl-devel c-ares-devel
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -60,7 +60,7 @@ sed -i.fedora \
  -e '/BININSTALL/s|-s||' \
  configure
 
-%configure --datadir=%{_datadir}
+%configure --datadir=%{_datadir} --disable-evdns
 
 make %{?_smp_mflags} V=1
 
@@ -159,6 +159,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Tue Aug 9 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-5
+- Switch to c-ares. Per Omar Kilani. Fixes #1444
+
 * Mon Jul 18 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-4
 - Don't remove /var/run/pgbouncer directory on upgrade. Per
   report from Eric Radman.
