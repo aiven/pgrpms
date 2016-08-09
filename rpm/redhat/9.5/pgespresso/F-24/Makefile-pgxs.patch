@@ -1,5 +1,5 @@
---- Makefile.old	2016-05-22 22:54:43.865317791 +0300
-+++ Makefile	2016-05-22 22:54:52.080237446 +0300
+--- Makefile.old	2016-08-09 18:48:57.530231422 +0300
++++ Makefile	2016-08-09 18:49:02.438186874 +0300
 @@ -3,6 +3,6 @@
  EXTENSION = pgespresso
  DATA = $(wildcard pgespresso--*.sql)
