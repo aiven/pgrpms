@@ -134,14 +134,6 @@ BuildRequires:	uuid-devel
 BuildRequires:	openldap-devel
 %endif
 
-# These are required for -docs subpackage:
-
-BuildRequires:	openjade
-BuildRequires:	opensp
-BuildRequires:	docbook-dtds
-BuildRequires:	docbook-style-dsssl
-BuildRequires:	libxslt
-
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -571,11 +563,6 @@ fi
 %postun	-p /sbin/ldconfig 	pltcl
 %endif
 
-%if %test
-%post test
-chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
-%endif
-
 # Create alternatives entries for common binaries and man files
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql 920
@@ -928,6 +915,9 @@ rm -rf %{buildroot}
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.2.18-1PGDG
 - Update to 9.2.18, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-18.html
+- Remove useless chown in %%test conditional, per report from John
+  Harvey. Fixes #1522.
+- Remove useless BR, per Peter Eisentraut. Fixes #1528.
 
 * Wed May 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.2.17-1PGDG
 - Update to 9.2.17, per changes described at:
