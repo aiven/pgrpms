@@ -134,14 +134,6 @@ BuildRequires:	e2fsprogs-devel
 BuildRequires:	openldap-devel
 %endif
 
-# These are required for -docs subpackage:
-
-BuildRequires:	openjade
-BuildRequires:	opensp
-BuildRequires:	docbook-dtds
-BuildRequires:	docbook-style-dsssl
-BuildRequires:	libxslt
-
 Requires:	%{name}-libs = %{version}-%{release}
 Requires(post): %{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -183,6 +175,7 @@ Group:		Applications/Databases
 Requires:	/usr/sbin/useradd /sbin/chkconfig
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
+Requires(pre):	/usr/sbin/useradd, /usr/sbin/groupadd
 
 %description server
 The postgresql%{packageversion}-server package includes the programs needed to create
@@ -570,11 +563,6 @@ fi
 %postun	-p /sbin/ldconfig 	pltcl
 %endif
 
-%if %test
-%post test
-chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
-%endif
-
 # Create alternatives entries for common binaries and man files
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
@@ -944,6 +932,10 @@ rm -rf %{buildroot}
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.9-1PGDG
 - Update to 9.4.9, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-9.html
+- Remove useless chown in %%test conditional, per report from John
+  Harvey. Fixes #1522.
+- Add /usr/sbin/groupadd as a dependency, per John . Fixes #1522
+- Remove useless BR, per Peter Eisentraut. Fixes #1528.
 
 * Wed May 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.8-1PGDG
 - Update to 9.4.8, per changes described at:
