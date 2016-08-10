@@ -195,7 +195,7 @@ BuildRequires: libselinux >= 2.0.93
 BuildRequires: selinux-policy >= 3.9.13
 %endif
 %if %{systemd_enabled}
-BuildRequires:		systemd
+BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 Requires(post):		systemd-sysv
@@ -209,14 +209,6 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-
-# These are required for -docs subpackage:
-
-BuildRequires:	openjade
-BuildRequires:	opensp
-BuildRequires:	docbook-dtds
-BuildRequires:	docbook-style-dsssl
-BuildRequires:	libxslt
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -255,7 +247,7 @@ Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires(pre):	/usr/sbin/useradd
+Requires(pre):	/usr/sbin/useradd, /usr/sbin/groupadd
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
@@ -265,7 +257,7 @@ Requires(post):		systemd-units
 Requires(preun):	systemd-units
 Requires(postun):	systemd-units
 %else
-Requires:	/usr/sbin/useradd /sbin/chkconfig
+Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
@@ -505,6 +497,9 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %selinux
 	--with-selinux \
+%endif
+%if %{systemd_enabled}
+	--with-systemd \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -908,11 +903,6 @@ fi
 %postun	-p /sbin/ldconfig 	pltcl
 %endif
 
-%if %test
-%post test
-chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
-%endif
-
 # Create alternatives entries for common binaries and man files
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
@@ -1309,6 +1299,12 @@ fi
 %changelog
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-4PGDG-1
 - Update to 9.6 beta4
+- Build with systemd support natively, and change the service file to
+  use the notify type. Patch from Peter Eisentraut. Fixes #1529.
+- Remove useless chown in %%test conditional, per report from John
+  Harvey. Fixes #1522.
+- Add /usr/sbin/groupadd as a dependency, per John . Fixes #1522
+- Remove useless BR, per Peter Eisentraut. Fixes #1528.
 
 * Tue Jul 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-3PGDG-1
 - Update to 9.6 beta3
