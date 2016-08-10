@@ -8,7 +8,7 @@ Version:	1.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	https://github.com/2ndquadrant-it/%{name}/archive/%{version}.tar.gz
+Source0:	https://github.com/2ndquadrant-it/%{sname}/archive/%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
 URL:		https://github.com/2ndquadrant-it/%{name}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -54,6 +54,9 @@ install -m 755 README.asciidoc  %{buildroot}%{pginstdir}/share/extension/README-
 %changelog
 * Tue Aug 9 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
 - Update to 1.2
+
+* Sun May 22 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
+- Update to 1.1
 
 * Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-2
 - Remove barman dependency

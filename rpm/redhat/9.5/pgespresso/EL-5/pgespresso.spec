@@ -8,7 +8,7 @@ Version:	1.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	https://github.com/2ndquadrant-it/%{name}/archive/%{version}.tar.gz
+Source0:	https://github.com/2ndquadrant-it/%{sname}/archive/%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
 URL:		https://github.com/2ndquadrant-it/%{name}
 BuildRequires:	postgresql%{pgmajorversion}-devel
