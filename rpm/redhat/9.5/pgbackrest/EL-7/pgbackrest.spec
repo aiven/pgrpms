@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.01
+Version:	1.05
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -44,6 +44,9 @@ cp -a bin/%{name} %{buildroot}%{_bindir}/%{name}
 %{perl_vendorlib}/pgBackRest/
 
 %changelog
+* Fri Aug 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-2
+- Update to 1.05
+
 * Fri May 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-1
 - Initial packaging for PostgreSQL RPM Repository
 
