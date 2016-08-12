@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6beta4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -585,6 +585,9 @@ unset PYTHON
 %endif
 %if %selinux
 	--with-selinux \
+%endif
+%if %{systemd_enabled}
+	--with-systemd \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -1297,6 +1300,9 @@ fi
 %endif
 
 %changelog
+* Fri Aug 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-4PGDG-2
+- Put systemd support to both build parts. This fixes the startup issue.
+
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-4PGDG-1
 - Update to 9.6 beta4
 - Build with systemd support natively, and change the service file to
