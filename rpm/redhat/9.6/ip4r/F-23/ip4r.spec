@@ -4,8 +4,8 @@
 
 Name:           %{sname}%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
-Version:	2.0.2
-Release:	2%{?dist}
+Version:	2.0.3
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
@@ -43,6 +43,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/ip4r*
 
 %changelog
+* Sat Aug 13 2016 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
+- Update to 2.0.3
+
 * Mon Nov 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-2
 - Fixes for Fedora 23 and new doc layout in 9.5.
 
