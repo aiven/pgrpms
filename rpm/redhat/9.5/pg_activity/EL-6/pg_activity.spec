@@ -5,7 +5,7 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	1.2.0
+Version:	1.3.0
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -14,7 +14,7 @@ Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python > 2.6, python-psutil > 0.4.1, python-psycopg2 >= 2.2.1
-BuildRequires:	python-setuptools >= 0.6.10
+BuildRequires:	python-setuptools >= 0.6.14
 
 %description
 top like application for PostgreSQL server activity monitoring.
@@ -40,18 +40,21 @@ rm -rf %{buildroot}
 %{python_sitelib}/pgactivity/*.py*
 
 %changelog
-* Wed Feb 4 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
+* Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
+- Update to 1.3.0
+
+* Wed Feb 4 2015 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
 - Update to 1.2.0
 - Remove patch0
 - Fix rpmlint warnings in spec file.
 
-* Thu Feb 27 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.1-1
+* Thu Feb 27 2014 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
 - Update to 1.1.1
 
-* Sat Dec 28 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
+* Sat Dec 28 2013 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 - Fix packaging issues
 - Update description and summary
 
-* Thu Dec 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 0.2.0-1
+* Thu Dec 20 2012 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
 - Initial packaging, based on the spec by Marco Neciarini
