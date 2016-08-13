@@ -1,6 +1,6 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.4
+Version:	2.5
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Sat Aug 13 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.5-1
+- Update to 2.5
+
 * Fri Sep 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.4-1
 - Update to 2.4
 - Fix rpmlint warning (add %%build section)
