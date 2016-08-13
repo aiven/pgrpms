@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL extension to partition tables following a foreign key
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.0
+Version:	1.5.0
 Release:	1%{?dist}
 License:	GPLv2
 Source0:	https://github.com/lemoineat/%{sname}/archive/%{version}.tar.gz
@@ -44,6 +44,9 @@ install -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Sat Aug 13 2016 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
+- Update to 1.5.0
+
 * Thu Mar 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Update to 1.3.0
 
