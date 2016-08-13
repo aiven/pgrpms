@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
+Version:	1.0.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -53,6 +53,9 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
+- Update to 1.0.2
+
 * Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 
