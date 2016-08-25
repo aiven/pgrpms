@@ -11,7 +11,7 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.3
+Version:	3.1.5
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -152,6 +152,9 @@ fi
 %endif
 
 %changelog
+* Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.5-1
+- Update to 3.1.5
+
 * Fri May 20 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.3-1
 - Update to 3.1.3
 
