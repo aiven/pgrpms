@@ -1,33 +1,10 @@
-# Conventions for PostgreSQL Global Development Group RPM releases:
-
-# Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-
-# Major Contributors:
-# ---------------
-# Tom Lane
-# Devrim Gunduz
-
-# This spec file and ancilliary files are licensed in accordance with
-# The PostgreSQL license.
-# In this file you can find the default build package list macros.  These can be
-# overridden by defining on
-
 %global pgmajorversion 95
 %global	pginstdir /usr/pgsql-9.5
 %global debug_package %{nil}
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.05.0200
+Version:	09.05.0400
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
@@ -105,6 +82,10 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 
 %changelog
+* Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> - 09.05.0400-1
+- Update to 09.05.0400
+- Remove ancient comments from the header of the spec file.
+
 * Mon Apr 18 2016 - Devrim Gündüz <devrim@gunduz.org> - 09.05.0200-1
 - Update to 09.05.0200
 
@@ -130,8 +111,7 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 * Sat Nov 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.02.0200
 - Update to 09.02.0200
 
-* Mon Sep 10 2012 - De
-vrim GUNDUZ <devrim@gunduz.org> - 09.01.0200
+* Mon Sep 10 2012 - Devrim GUNDUZ <devrim@gunduz.org> - 09.01.0200
 - Update to 09.01.0200
 
 * Tue Nov 8 2011 - Devrim GUNDUZ <devrim@gunduz.org> - 09.00.0310
