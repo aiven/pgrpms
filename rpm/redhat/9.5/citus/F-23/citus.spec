@@ -5,9 +5,9 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.1.1
+Version:	5.2.0
 Release:	1%{dist}
-License:	AGPLv3+
+License:	AGPLv3
 Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
@@ -41,6 +41,9 @@ make %{?_smp_mflags}
 
 %install
 %make_install
+# Install documentation with a better name:
+%{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
+%{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -61,6 +64,13 @@ fi
 
 %files
 %defattr(-,root,root,-)
+%doc CHANGELOG.md
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE
+%else
+%license LICENSE
+%endif
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/include/server/citus_config.h
 %{pginstdir}/include/server/distributed/*.h
 %{pginstdir}/lib/%{sname}.so
@@ -70,6 +80,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> 5.2.0-1
+- Update to 5.2.0. Fixes #1566.
+- Update license and install docs. Fixes #1385.
+
 * Thu Jul 7 2016 - Devrim Gündüz <devrim@gunduz.org> 5.1.1-1
 - Update to 5.1.1
 
