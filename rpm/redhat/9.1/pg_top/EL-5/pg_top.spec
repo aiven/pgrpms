@@ -5,7 +5,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
@@ -14,6 +14,8 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sd
 BuildRequires:	autoconf
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Requires(post):	%{_sbindir}/update-alternatives
+Requires(postun):	%{_sbindir}/update-alternatives
 
 Obsoletes:	ptop => 3.5.0
 
@@ -37,15 +39,17 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__rm} -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/pg_top%{pgmajorversion} pg_top %{_bindir}/bin/pg_top %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install /usr/bin/pg_top pg_top %{pginstdir}/bin/%{sname} %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 %{pgmajorversion}0
 
+# Drop alternatives entries for common binaries and man files
 %postun
-unlink %{_bindir}/%{sname}
-
-%preun
-%{_sbindir}/update-alternatives --remove pg_top %{pginstdir}/bin/%{sname}
-%{_sbindir}/update-alternatives --remove pg_topman  %{pginstdir}/share/man/man1/pg_top.1
+if [ "$1" -eq 0 ]
+then
+      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	%{_sbindir}/update-alternatives --remove pg_top %{pginstdir}/bin/%{sname}
+	%{_sbindir}/update-alternatives --remove pg_topman  %{pginstdir}/share/man/man1/pg_top.1
+fi
 
 %files
 %defattr(-,root,root,-)
@@ -59,6 +63,10 @@ unlink %{_bindir}/%{sname}
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.7.0-5
+- Fix alternatives link, per report from  Dmitriy Sarafannikov.
+  Fixes #1604.
+
 * Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.7.0-4
 - Cosmetic updates, and simplify %%doc section.
 
