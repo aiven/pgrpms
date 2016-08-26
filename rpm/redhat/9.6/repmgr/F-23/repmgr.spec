@@ -41,9 +41,9 @@ Requires(postun):	initscripts
 Group:		Applications/Databases
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
-BuildRequires:  postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel, pam-devel, openssl-devel, readline-devel
-Requires:       postgresql%{pgmajorversion}-server
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 repmgr is an open-source tool suite to manage replication and failover in a
