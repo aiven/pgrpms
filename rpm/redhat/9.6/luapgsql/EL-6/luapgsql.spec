@@ -47,7 +47,7 @@ A Lua Binding for PostgreSQL.
 %{__rm} -rf %{buildroot}
 
 %files
-%{_libdir}/lua/5.3/pgsql.so
+%{_libdir}/lua/%{luaver}/pgsql.so
 %doc README.md
 
 %changelog
