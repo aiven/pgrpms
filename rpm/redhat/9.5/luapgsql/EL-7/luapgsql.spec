@@ -47,15 +47,9 @@ A Lua Binding for PostgreSQL.
 %{__rm} -rf %{buildroot}
 
 %files
-%{_libdir}/lua/5.3/pgsql.so
 %doc README.md
+%{lualibdir}/pgsql.so
 
 %changelog
-* Sun Oct 18 2015 - Devrim Gündüz <devrim@gunduz.org> 1.5-1
-- Update to 1.5
-
-* Sun Apr 19 2015 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
-- Update to 1.4
-
-* Sun Mar 29 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
+* Sat Aug 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
