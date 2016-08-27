@@ -47,7 +47,7 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
-* Sat Aug 17 2016 - Devrim GÜNDÜZ <devrim@gunduz.org> 8.3-1
+* Sat Aug 27 2016 - Devrim GÜNDÜZ <devrim@gunduz.org> 8.3-1
 - Update to 8.3
 
 * Sat Aug 13 2016 - Devrim GÜNDÜZ <devrim@gunduz.org> 8.2-1
