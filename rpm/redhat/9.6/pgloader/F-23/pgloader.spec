@@ -1,3 +1,5 @@
+%global __os_install_post %{nil}
+
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
@@ -36,13 +38,15 @@ make %{?_smp_mflags}
 %install
 %{__rm} -rf %{buildroot}
 install -m 755 -d %{buildroot}/%{_bindir}
-%{__cp} bin/%{name} %{buildroot}/%{_bindir}/%{name}
 install -m 755 -d %{buildroot}/%{_docdir}/%{name}
-%{__cp} -rp local-projects/%{name}-%{version}/docs/dist \
+install -m 755 -d %{buildroot}/%{_mandir}/man1
+%{__mv} bin/%{name} %{buildroot}/%{_bindir}/%{name}
+%{__mv} local-projects/%{name}-%{version}/docs/dist \
 	local-projects/%{name}-%{version}/docs/howto \
 	local-projects/%{name}-%{version}/docs/src \
 	local-projects/%{name}-%{version}/docs/*.html \
 	%{buildroot}/%{_docdir}/%{name}
+%{__mv} local-projects/%{name}-%{version}/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -50,7 +54,8 @@ install -m 755 -d %{buildroot}/%{_docdir}/%{name}
 %files
 %doc README.md
 %doc %{_docdir}/%{name}/*
-%{_bindir}/*
+%{_mandir}/man1/%{name}.1
+%{_bindir}/%{name}
 
 %changelog
 * Mon Aug 29 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.1-1
