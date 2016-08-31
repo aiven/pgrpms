@@ -4,13 +4,13 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	2.4.1
+Version:	2.6.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Source0:	https://github.com/keithf4/%{name}/archive/v%{version}/%{sname}-%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_partman/
+URL:		https://github.com/keithf4/%{name}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -51,6 +51,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %changelog
+* Wed Aug 31 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.0-1
+- Update to 2.6.0
+
 * Mon Jul 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.4.1-1
 - Update to 2.4.1
 
