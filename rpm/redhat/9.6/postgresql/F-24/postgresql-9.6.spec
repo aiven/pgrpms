@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.6beta4
-Release:	2PGDG%{?dist}
+Version:	9.6rc1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -259,7 +259,6 @@ Requires(postun):	systemd-units
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
-Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 
 %description server
@@ -858,7 +857,7 @@ export PGDATA
 # If you want to customize your settings,
 # Use the file below. This is not overridden
 # by the RPMS.
-#[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
+[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
@@ -1300,10 +1299,14 @@ fi
 %endif
 
 %changelog
-* Fri Aug 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-4PGDG-2
+* Tue Aug 30 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6rc1-1PGDG-1
+- Update to 9.6 rc1
+- Don't remove .pgsql_profile line in .bash_profile each time. Fixes #1215.
+
+* Fri Aug 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta4-1PGDG-1
 - Put systemd support to both build parts. This fixes the startup issue.
 
-* Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-4PGDG-1
+* Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta4-1PGDG-1
 - Update to 9.6 beta4
 - Build with systemd support natively, and change the service file to
   use the notify type. Patch from Peter Eisentraut. Fixes #1529.
@@ -1312,7 +1315,7 @@ fi
 - Add /usr/sbin/groupadd as a dependency, per John . Fixes #1522
 - Remove useless BR, per Peter Eisentraut. Fixes #1528.
 
-* Tue Jul 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-3PGDG-1
+* Tue Jul 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta3-1PGDG-1
 - Update to 9.6 beta3
 
 * Wed Jun 29 2016 Jeff Frost <jeff@pgexperts.com> - 9.6beta2-2PGDG-1
