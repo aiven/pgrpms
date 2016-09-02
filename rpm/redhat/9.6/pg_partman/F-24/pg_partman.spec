@@ -8,7 +8,7 @@ Version:	2.6.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/keithf4/%{name}/archive/v%{version}/%{sname}-%{version}.tar.gz
+Source0:	https://github.com/keithf4/%{sname}/archive/v%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
 URL:		https://github.com/keithf4/%{name}
 BuildRequires:	postgresql%{pgmajorversion}-devel
