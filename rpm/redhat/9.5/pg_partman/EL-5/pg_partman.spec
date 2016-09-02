@@ -10,7 +10,7 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/keithf4/%{sname}/archive/v%{version}.tar.gz
 Patch0:		Makefile-pgxs.patch
-URL:		https://github.com/keithf4/%{name}
+URL:		https://github.com/keithf4/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
