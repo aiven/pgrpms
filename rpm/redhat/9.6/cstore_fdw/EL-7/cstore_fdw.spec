@@ -31,8 +31,8 @@ make
 %{__rm} -rf %{buildroot}
 make %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Let's also install documentation:
-%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
-%{__cp} README.md %{buildroot}%{pginstdir}/share/extension/README-cstore_fdw.md
+%{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
+%{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-cstore_fdw.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -40,10 +40,10 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 %files
 %defattr(-,root,root,-)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc %{pginstdir}/share/extension/README-%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %doc LICENSE
 %else
-%doc %{pginstdir}/share/extension/README-%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
