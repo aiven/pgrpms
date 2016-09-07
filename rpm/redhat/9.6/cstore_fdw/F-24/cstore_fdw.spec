@@ -4,7 +4,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.1
+Version:	1.5.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -39,12 +39,22 @@ make %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc %{pginstdir}/share/extension/README-%{sname}.md
+%doc LICENSE
+%else
+%doc %{pginstdir}/share/extension/README-%{sname}.md
+%license LICENSE
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Sep 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
+- Update to 1.5.0
+- Add LICENSE among installed files.
+
 * Thu Jun 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.4.1-1
 - Update to 1.4.1
 
