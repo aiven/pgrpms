@@ -7,7 +7,7 @@
 # install the repo RPM for the user of the PostgreSQL 	#
 # YUM repository located at http://yum.PostgreSQL.org	#
 #							#
-# Devrim Gündüz <devrim@gunduz.org> - 2015		#
+# Devrim Gündüz <devrim@gunduz.org> - 2015-2016		#
 #							#
 #########################################################
 
@@ -60,11 +60,11 @@ lsb_distro_name=`echo $lsb_distro_name | awk '{print tolower($0)}'`
 
 #Ask for which PostgreSQL version is needed"
 echo "Please enter the ${red}major${reset} PostgreSQL version that you want to install:"
-echo -n "${blue}(9.4, 9.3, 9.2, etc)${reset}: "
+echo -n "${blue}(9.6,9.5,9.4, 9.3, 9.2, etc)${reset}: "
 
 read pgversion
 
-if [[ "$pgversion" =~ ^(9.4|9.3|9.2|9.1|9.0)$ ]]; then
+if [[ "$pgversion" =~ ^(9.6|9.5|9.4|9.3|9.2)$ ]]; then
 	echo
 	echo "${green}$pgversion is currently supported, will continue...${reset}"
 	echo
