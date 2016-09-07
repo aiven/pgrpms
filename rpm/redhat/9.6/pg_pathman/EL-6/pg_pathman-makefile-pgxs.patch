@@ -1,0 +1,11 @@
+--- Makefile.old	2016-09-07 11:12:44.127992073 +0300
++++ Makefile	2016-09-07 11:12:54.614867969 +0300
+@@ -15,7 +15,7 @@
+ EXTRA_CLEAN = $(EXTENSION)--$(EXTVERSION).sql ./isolation_output
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
