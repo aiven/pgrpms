@@ -54,7 +54,8 @@ Requires:	qt >= 4.6
 %endif
 
 %description
-pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the PostgreSQL (http://www.postgresql.org) database.
+pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the PostgreSQL
+(http://www.postgresql.org) database.
 pgAdmin 4 is being written as a web application in Python, using jQuery and
 Bootstrap for the client side processing and UI. On the server side, Flask is
 being utilised.
@@ -90,14 +91,14 @@ Requires:	python3-dateutil
 Requires:	python3-werkzeug
 Requires:	python3-sqlparse
 Requires:	python3-flask-babel
-#Requires:  python3-speaklater
 Requires:	python3-passlib
-#Requires:  python3-flask-gravatar
-Requires:	Flask-mail
+Requires:	python3-flask-gravatar
+Requires:	python3-flask-mail
 Requires:	python3-flask-security
 Requires:	python3-flask-login
 Requires:	python3-flask-principal
 Requires:	python3-django-htmlmin
+Requires:	python3-wsgiref
 %else
 Requires:	python-babel
 Requires:	python-flask
@@ -120,17 +121,14 @@ Requires:	python-werkzeug
 Requires:	pytz
 Requires:	python-sqlparse
 Requires:	python-flask-babel
-#Requires:  python-speaklater
 Requires:	python-passlib
-#Requires:  python-flask-gravatar
-Requires:	Flask-mail
+Requires:	python-flask-gravatar
+Requires:	python-flask-mail
 Requires:	python-flask-security
 Requires: 	python-flask-login
 Requires:	python-flask-principal
 Requires:	python-django-htmlmin
-#Requires:  python-argparse
-#Requires:  python-importlib
-#Requires:  python-wsgiref
+Requires:	python-wsgiref
 %endif
 
 %if 0%{?with_python3}
@@ -142,45 +140,62 @@ Requires:	python-django-htmlmin
 %description    -n pgadmin4-web
 This package contains the required files to run pgAdmin4 as a web application
 
+%package	-n pgadmin4-docs
+Summary:	pgAdmin4 documentation
+BuildArch:	noarch
+
+%description -n pgadmin4-docs
+Documentation of pgadmin4.
+
 %prep
 %setup -q -n pgadmin4-1.0-rc1/runtime
 
 %build
 cd ../runtime
+%if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
+%else
+export PYTHON_CONFIG=/usr/bin/python2-config
+%endif
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
-#chrpath -d pgAdmin4
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
+install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/
+%{__cp} -pr ../docs/* %{buildroot}%{_docdir}/%{name}-docs
 install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
-cp pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
+%{__cp} pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
 install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
-cp -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
+%{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 cd %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
-rm -f pgadmin4.db config_local.*
+%{__rm} -f pgadmin4.db config_local.*
 echo "SERVER_MODE = False" > config_local.py
-#echo "HTML_HELP = '../../../docs/en_US/html/'" >> config_local.py
-#echo "
-#[General]
-#ApplicationPath=%{PYTHON_SITELIB}/pgadmin4-web
-#PythonPath=
-#" > %{buildroot}%{pgadmin4instdir}/runtime/pgadmin4.ini
+echo "HTML_HELP = '/usr/share/doc/pgadmin4-docs/en_US/html/'" >> config_local.py
+echo "
+[General]
+ApplicationPath=%{PYTHON_SITELIB}/pgadmin4-web
+PythonPath=
+" > %{buildroot}%{pgadmin4instdir}/runtime/pgadmin4.ini
+
+# docs
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
-#%{pgadmin4instdir}/runtime/pgadmin4.ini
+%{pgadmin4instdir}/runtime/pgadmin4.ini
 
 %files -n pgadmin4-web
 %defattr(-,root,root,-)
 %{PYTHON_SITELIB}/pgadmin4-web
-%doc
 
-%doc
+%files -n pgadmin4-docs
+%defattr(-,root,root,-)
+%doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Fri Sep 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-1
+- Initial spec file, based on Sandeep Thakkar's spec.
