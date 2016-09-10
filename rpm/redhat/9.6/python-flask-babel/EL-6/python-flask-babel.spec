@@ -26,8 +26,7 @@ Group:		Development/Libraries
 License:	BSD
 URL:		http://github.com/mitsuhiko/%{pkg_name}/
 Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
-Patch0:		python-%{pkg_name}-tests.patch
-Patch1:		python-%{pkg_name}-more-tests.patch
+Patch0:		python-%{pkg_name}-more-tests.patch
 BuildArch:	noarch
 
 %if 0%{?with_python3}
@@ -51,11 +50,8 @@ Adds i18n/l10n support to Flask applications with the help of the Babel library.
 
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%if 0%{?rhel} == 7
-%patch0 -p1 -R
-%endif
 %if 0%{?fedora} > 24
-%patch1 -p1
+%patch0 -p1
 %endif
 
 %build
