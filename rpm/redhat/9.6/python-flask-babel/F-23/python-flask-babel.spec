@@ -11,9 +11,6 @@
 %global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
 %global pkg_name	flask-babel
 %global mod_name	Flask-Babel
 
@@ -75,7 +72,7 @@ Adds i18n/l10n support to Flask applications with the help of the Babel library.
 %{python3_sitelib}/flask_babel/*
 %else
 %{python2_sitelib}/*.egg-info/
-%{python2_sitelib}/flask_babel/*.
+%{python2_sitelib}/flask_babel/*
 %endif
 
 %changelog
