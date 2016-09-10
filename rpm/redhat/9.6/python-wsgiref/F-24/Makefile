@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
-SPECFILE="wsgiref.spec"
+DIST=.f24
+SPECFILE="python-wsgiref.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
