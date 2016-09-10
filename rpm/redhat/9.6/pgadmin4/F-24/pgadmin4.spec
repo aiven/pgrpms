@@ -18,12 +18,13 @@
 
 Name:		%{sname}
 Version:	1.0
-Release:	rc1_1%{?dist}
+Release:	rc1_2%{?dist}
 Summary:	Management tool for the PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
 Source0:	https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v1.0-rc1/src/pgadmin4-%{version}-rc1.tar.gz
+Source1:	%{name}.conf
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -168,6 +169,8 @@ install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
 install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
+install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
+install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 cd %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__rm} -f pgadmin4.db config_local.*
 echo "SERVER_MODE = False" > config_local.py
@@ -191,11 +194,15 @@ PythonPath=
 %files -n pgadmin4-web
 %defattr(-,root,root,-)
 %{PYTHON_SITELIB}/pgadmin4-web
+%config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %files -n pgadmin4-docs
 %defattr(-,root,root,-)
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Sat Sep 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-2
+- Add httpd config file, per Dave.
+
 * Fri Sep 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-1
 - Initial spec file, based on Sandeep Thakkar's spec.
