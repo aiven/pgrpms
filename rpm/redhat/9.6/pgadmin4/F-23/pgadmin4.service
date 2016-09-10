@@ -1,0 +1,21 @@
+[Unit]
+Description=pgAdmin4
+After=syslog.target
+After=network.target
+
+[Service]
+Type=daemon
+
+User=root
+Group=root
+ExecStart=/usr/bin/python3 /usr/lib/python3.5/site-packages/pgadmin4-web/pgAdmin4.py
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=mixed
+KillSignal=SIGINT
+ 
+
+# Give a reasonable amount of time for the server to start up/shut down
+TimeoutSec=300
+
+[Install]
+WantedBy=multi-user.target
