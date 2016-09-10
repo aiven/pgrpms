@@ -42,7 +42,7 @@ BuildRequires:	python-babel, python-devel
 BuildRequires:	python-flask, python-setuptools
 BuildRequires:	python-speaklater, pytz
 Requires:	python-babel, python-flask
-Requires:	python-speaklater, python-pytz
+Requires:	python-speaklater, pytz
 %endif
 
 %description
