@@ -30,6 +30,7 @@ URL:		http://www.pgadmin.org
 Source0:	https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v1.0-rc1/src/pgadmin4-%{version}-rc1.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.service
+Source3:	%{name}.tmpfiles.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -185,7 +186,11 @@ install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
 # Reserved for init script
 ::
 %endif
-
+%if %{systemd_enabled}
+# ... and make a tmpfiles script to recreate it at reboot.
+mkdir -p %{buildroot}/%{_tmpfilesdir}
+install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/pgadmin4.conf
+%endif
 cd %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__rm} -f pgadmin4.db config_local.*
 echo "SERVER_MODE = False" > config_local.py
@@ -199,6 +204,48 @@ PythonPath=
 %clean
 %{__rm} -rf %{buildroot}
 
+%post
+if [ $1 -eq 1 ] ; then
+ %if %{systemd_enabled}
+   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %systemd_post %{name}.service
+   %tmpfiles_create
+  %else
+   ::
+   #chkconfig --add pgadmin4
+  %endif
+fi
+
+%preun
+if [ $1 -eq 0 ] ; then
+%if %{systemd_enabled}
+        # Package removal, not upgrade
+        /bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+        /bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+%else
+	::
+	#/sbin/service pgadmin4 condstop >/dev/null 2>&1
+	#chkconfig --del pgadmin4
+%endif
+fi
+
+%postun
+%if %{systemd_enabled}
+ /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%else
+ ::
+ #sbin/service pgadmin4 >/dev/null 2>&1
+%endif
+if [ $1 -ge 1 ] ; then
+ %if %{systemd_enabled}
+        # Package upgrade, not uninstall
+        /bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+ %else
+    ::
+   #/sbin/service pgadmin4 condrestart >/dev/null 2>&1
+ %endif
+fi
+
 %files
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
@@ -208,6 +255,7 @@ PythonPath=
 %defattr(-,root,root,-)
 %{PYTHON_SITELIB}/pgadmin4-web
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%{_unitdir}/%{name}.service
 
 %files -n pgadmin4-docs
 %defattr(-,root,root,-)
