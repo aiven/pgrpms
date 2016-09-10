@@ -8,10 +8,16 @@
 Summary:	Graphical client for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.22.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source:		https://download.postgresql.org/pub/%{sname}/release/v%{version}/src/%{sname}-%{version}.tar.gz
 Patch2:		%{sname}-desktop.patch
+# Move this == null check to a static function.  This works, but I opted
+# for the compiler flag since it "fixes" all cases, and pgadmin4 is on the
+# way.
+%if (0%{?fedora})
+Patch3:		%{sname}-nullthis.patch
+%endif
 URL:		http://www.pgadmin.org/
 %if 0%{?rhel} && 0%{?rhel} <= 5
 Group:		Applications/Databases
@@ -56,6 +62,9 @@ which are in html format.
 # touch to avoid autotools re-run
 for f in configure{,.ac} ; do touch -r $f $f.stamp ; done
 %patch2 -p0
+%if (0%{?fedora})
+%patch3 -p0
+%endif
 # extract 48x48 png from ico
 convert "pgadmin/include/images/pgAdmin3.ico[3]" pgadmin/include/images/pgAdmin3-48.png
 
@@ -125,6 +134,9 @@ gtk-update-icon-cache %{_datadir}/icons/hicolor &>/dev/null || :
 %doc docs/*
 
 %changelog
+* Sat Sep 10 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.1-2
+- Add a patch to fix crashes on Fedora 23+
+
 * Wed Feb 17 2016 Devrim GUNDUZ <devrim@gunduz.org> - 1.22.1-1
 - Update to 1.22.1
 - Put Fedora-related compile flags into conditionals for unified spec file.
