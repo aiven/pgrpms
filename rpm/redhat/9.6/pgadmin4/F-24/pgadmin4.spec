@@ -1,6 +1,10 @@
-%global	name pgadmin4
 %global	pgadmin4instdir /usr/pgadmin4-%{version}
-%global	sname pgadmin4
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?systemd_enabled:%global systemd_enabled 0}
+%else
+%{!?systemd_enabled:%global systemd_enabled 1}
+%endif
 
 %if 0%{?fedora}
 %global with_python3 1
@@ -16,7 +20,7 @@
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
 %endif # with_python3
 
-Name:		%{sname}
+Name:		pgadmin4
 Version:	1.0
 Release:	rc1_2%{?dist}
 Summary:	Management tool for the PostgreSQL
@@ -25,6 +29,7 @@ License:	PostgreSQL
 URL:		http://www.pgadmin.org
 Source0:	https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v1.0-rc1/src/pgadmin4-%{version}-rc1.tar.gz
 Source1:	%{name}.conf
+Source2:	%{name}.service
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -171,6 +176,16 @@ install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+# Install unit file/init script
+%if %{systemd_enabled}
+# This is only for systemd supported distros:
+install -d %{buildroot}%{_unitdir}
+install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
+%else
+# Reserved for init script
+::
+%endif
+
 cd %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__rm} -f pgadmin4.db config_local.*
 echo "SERVER_MODE = False" > config_local.py
@@ -180,8 +195,6 @@ echo "
 ApplicationPath=%{PYTHON_SITELIB}/pgadmin4-web
 PythonPath=
 " > %{buildroot}%{pgadmin4instdir}/runtime/pgadmin4.ini
-
-# docs
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -203,6 +216,7 @@ PythonPath=
 %changelog
 * Sat Sep 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-2
 - Add httpd config file, per Dave.
+- Add unit file support for systemd distros.
 
 * Fri Sep 2 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-1
 - Initial spec file, based on Sandeep Thakkar's spec.
