@@ -132,12 +132,6 @@ popd
 
 %{__python} setup.py install --skip-build --no-compile --root %{buildroot}
 
-%if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py test
-popd
-%endif
-
 %clean
 rm -rf %{buildroot}
 
