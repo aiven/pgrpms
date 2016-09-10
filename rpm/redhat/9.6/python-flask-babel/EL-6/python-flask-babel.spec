@@ -29,8 +29,8 @@ Group:		Development/Libraries
 License:	BSD
 URL:		http://github.com/mitsuhiko/%{pkg_name}/
 Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
-Patch0:		%{name}-tests.patch
-Patch1:		%{name}-more-tests.patch
+Patch0:		python-%{pkg_name}-tests.patch
+Patch1:		python-%{pkg_name}-more-tests.patch
 BuildArch:	noarch
 
 %if 0%{?with_python3}
