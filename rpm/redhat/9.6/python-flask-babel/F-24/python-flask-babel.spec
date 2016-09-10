@@ -1,19 +1,27 @@
-%if 0%{?fedora} > 21
+%if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
+%{expand: %%global py2ver %(echo `%{__python} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
-%{!?with_python3:%global with_python3 0}
+%{!?with_python3:%global with_python3 2}
 %global __ospython %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-
 %global pkg_name	flask-babel
 %global mod_name	Flask-Babel
 
-Name:		python-%{pkg_name}
+%if 0%{?with_python3}
+Name:           python3-%{pkg_name}
+%else
+Name:           python2-%{pkg_name}
+%endif
 Version:	0.11.1
 Release:	1%{?dist}
 Summary:	Adds i18n/l10n support to Flask applications
@@ -21,35 +29,32 @@ Group:		Development/Libraries
 License:	BSD
 URL:		http://github.com/mitsuhiko/%{pkg_name}/
 Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
-BuildArch:	noarch
-
-BuildRequires:	python2-babel, python3-babel
-BuildRequires:	python2-devel, python3-devel
-BuildRequires:	python-flask, python3-flask
-BuildRequires:	python-setuptools
-BuildRequires:	python2-speaklater, python3-speaklater
-BuildRequires:	pytz, python3-pytz
 Patch0:		%{name}-tests.patch
 Patch1:		%{name}-more-tests.patch
+BuildArch:	noarch
+
+%if 0%{?with_python3}
+%{?python_provide:%python_provide python3-%{pkg_name}}
+BuildRequires:	python3-babel, python3-devel
+BuildRequires:	python3-flask, python3-setuptools
+BuildRequires:	python3-speaklater, python3-pytz
+Requires:	python3-babel, python3-flask
+Requires:	python3-speaklater, python3-pytz
+%else
 %{?python_provide:%python_provide python-%{pkg_name}}
+BuildRequires:	python-babel, python-devel
+BuildRequires:	python-flask, python-setuptools
+BuildRequires:	python-speaklater, pytz
+Requires:	python-babel, python-flask
+Requires:	python-speaklater, python-pytz
+%endif
 
 %description
 Adds i18n/l10n support to Flask applications with the help of the Babel library.
 
-%package -n python3-%{pkg_name}
-Summary:	Adds i18n/l10n support to Flask applications
-Requires:	python3-babel
-Requires:	python3-flask
-Requires:	python3-speaklater
-Requires:	python3-pytz
-%{?python_provide:%python_provide python3-%{pkg_name}}
-
-%description -n python3-%{pkg_name}
-Adds i18n/l10n support to Flask applications with the help of the Babel library.
-
 %prep
 %setup -q -n %{pkg_name}-%{version}
-%if 0%{?epel} == 7
+%if 0%{?rhel} == 7
 %patch0 -p1 -R
 %endif
 %if 0%{?fedora} > 24
@@ -57,24 +62,26 @@ Adds i18n/l10n support to Flask applications with the help of the Babel library.
 %endif
 
 %build
-%py2_build
-%py3_build
+%{__ospython} setup.py build
 
 %install
-%py2_install
-%py3_install
+%{__rm} -rf %{buildroot}
+%{__ospython} setup.py install --skip-build --root %{buildroot}
 
 %files
 %doc docs LICENSE
-%{python2_sitelib}/*.egg-info/
-%{python2_sitelib}/flask_babel/*.py*
-
-%files -n python3-%{pkg_name}
-%doc docs LICENSE
+%if 0%{?with_python3}
 %{python3_sitelib}/*.egg-info/
 %{python3_sitelib}/flask_babel/*
+%else
+%{python2_sitelib}/*.egg-info/
+%{python2_sitelib}/flask_babel/*.
+%endif
 
 %changelog
+* Sat Sep 10 2016 Devrim Gündüz <devrim@gunduz.org> 0.11.1-2
+- Various updates for pgadmin4 packaging.
+
 * Fri Sep 2 2016 Devrim Gündüz <devrim@gunduz.org> 0.11.1-1
 - Update to 0.11.1
 
