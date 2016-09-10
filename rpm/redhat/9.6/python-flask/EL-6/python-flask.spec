@@ -1,7 +1,24 @@
+%if 0%{?fedora} > 23
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__python} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%else
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python3
+%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%endif
+
 %global modname flask
 %global srcname Flask
 
+%if 0%{?with_python3}
 Name:           python-%{modname}
+%else
+Name:           python-%{modname}
+%endif
 Version:        0.11.1
 Release:        3%{?dist}
 Epoch:          1
@@ -13,39 +30,18 @@ Source0:        https://files.pythonhosted.org/packages/source/%(n=%{srcname}; e
 
 BuildArch:      noarch
 
-%global _description \
-Flask is called a “micro-framework” because the idea to keep the core\
-simple but extensible. There is no database abstraction layer, no form\
-validation or anything else where different libraries already exist\
-that can handle that. However Flask knows the concept of extensions\
-that can add this functionality into your application as if it was\
-implemented in Flask itself. There are currently extensions for object\
-relational mappers, form validation, upload handling, various open\
+%description
+Flask is called a “micro-framework” because the idea to keep the core
+simple but extensible. There is no database abstraction layer, no form
+validation or anything else where different libraries already exist
+that can handle that. However Flask knows the concept of extensions
+that can add this functionality into your application as if it was
+implemented in Flask itself. There are currently extensions for object
+relational mappers, form validation, upload handling, various open
 authentication technologies and more.
 
-%description %{_description}
-
-%package -n python2-%{modname}
-Summary:        %{summary}
-%{?python_provide:%python_provide python2-%{modname}}
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-pytest
-BuildRequires:  python-jinja2
-BuildRequires:  python-werkzeug
-BuildRequires:  python-itsdangerous
-BuildRequires:  python-click
-Requires:       python-jinja2
-Requires:       python-werkzeug
-Requires:       python-itsdangerous
-Requires:       python-click
-
-%description -n python2-%{modname} %{_description}
-
-Python 2 version.
-
-%package -n python3-%{modname}
-Summary:        %{summary}
+%if 0%{?with_python3}
+%{?python_provide:%python_provide python3-%{modname}}
 %{?python_provide:%python_provide python3-%{modname}}
 BuildRequires:  python3-devel
 BuildRequires:  python3-setuptools
@@ -58,10 +54,19 @@ Requires:       python3-jinja2
 Requires:       python3-werkzeug
 Requires:       python3-itsdangerous
 Requires:       python3-click
-
-%description -n python3-%{modname} %{_description}
-
-Python 3 version.
+%else
+BuildRequires:  python2-devel
+BuildRequires:  python2-setuptools
+BuildRequires:  python2-pytest
+BuildRequires:  python-jinja2
+BuildRequires:  python-werkzeug
+BuildRequires:  python-itsdangerous
+BuildRequires:  python-click
+Requires:       python-jinja2
+Requires:       python-werkzeug
+Requires:       python-itsdangerous
+Requires:       python-click
+%endif
 
 %package doc
 Summary:        Documentation for %{name}
@@ -73,47 +78,45 @@ Documentation and examples for %{name}.
 
 %prep
 %autosetup -n %{srcname}-%{version}
-rm -vf examples/flaskr/.gitignore
+%{__rm} -vf examples/flaskr/.gitignore
 
 %build
-%py2_build
+%if 0%{?with_python3}
 %py3_build
 PYTHONPATH=`pwd` sphinx-build -b html docs/ docs/_build/html/
-rm -rf docs/_build/html/{.buildinfo,.doctrees}
+%{__rm} -rf docs/_build/html/{.buildinfo,.doctrees}
+%else
+%{__ospython} setup.py build
+%endif
 
 %install
-%py2_install
-mv %{buildroot}%{_bindir}/%{modname}{,-%{python2_version}}
-ln -s %{modname}-%{python2_version} %{buildroot}%{_bindir}/%{modname}-2
-
+%if 0%{?with_python3}
 %py3_install
 mv %{buildroot}%{_bindir}/%{modname}{,-%{python3_version}}
 ln -s %{modname}-%{python3_version} %{buildroot}%{_bindir}/%{modname}-3
 
 ln -sf %{modname}-2 %{buildroot}%{_bindir}/%{modname}
+%else
+%{__rm} -rf %{buildroot}
+%{__ospython} setup.py install --skip-build --root %{buildroot}
+%endif
 
-%check
-export LC_ALL=C.UTF-8
-PYTHONPATH=%{buildroot}%{python2_sitelib} py.test-%{python2_version} -v
-PYTHONPATH=%{buildroot}%{python3_sitelib} py.test-%{python3_version} -v
-
-%files -n python2-%{modname}
-%license LICENSE
-%doc CHANGES README
-%{_bindir}/%{modname}-2
-%{_bindir}/%{modname}-%{python2_version}
-%{python2_sitelib}/%{srcname}-*.egg-info/
-%{python2_sitelib}/%{modname}/
-
+%files
 %{_bindir}/%{modname}
-
-%files -n python3-%{modname}
+%if 0%{?with_python3}
 %license LICENSE
 %doc CHANGES README
 %{_bindir}/%{modname}-3
 %{_bindir}/%{modname}-%{python3_version}
 %{python3_sitelib}/%{srcname}-*.egg-info/
 %{python3_sitelib}/%{modname}/
+%else
+%doc CHANGES README LICENSE
+#%{_bindir}/%{modname}-%{python2_version}
+%{python2_sitelib}/%{srcname}-*.egg-info/
+%{python2_sitelib}/%{modname}/
+%endif
+
 
 %files doc
 %license LICENSE
