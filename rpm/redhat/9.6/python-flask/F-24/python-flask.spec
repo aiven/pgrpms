@@ -68,14 +68,6 @@ Requires:       python-itsdangerous
 Requires:       python-click
 %endif
 
-%package doc
-Summary:        Documentation for %{name}
-Obsoletes:      python3-%{modname}-doc < 1:0.11.1-3
-BuildRequires:  python-sphinx
-
-%description doc
-Documentation and examples for %{name}.
-
 %prep
 %autosetup -n %{srcname}-%{version}
 %{__rm} -vf examples/flaskr/.gitignore
@@ -83,8 +75,6 @@ Documentation and examples for %{name}.
 %build
 %if 0%{?with_python3}
 %py3_build
-PYTHONPATH=`pwd` sphinx-build -b html docs/ docs/_build/html/
-%{__rm} -rf docs/_build/html/{.buildinfo,.doctrees}
 %else
 %{__ospython} setup.py build
 %endif
@@ -116,11 +106,6 @@ ln -sf %{modname}-2 %{buildroot}%{_bindir}/%{modname}
 %{python2_sitelib}/%{srcname}-*.egg-info/
 %{python2_sitelib}/%{modname}/
 %endif
-
-
-%files doc
-%license LICENSE
-%doc docs/_build/html examples
 
 %changelog
 * Mon Aug 22 2016 Igor Gnatenko <ignatenko@redhat.com> - 1:0.11.1-3
