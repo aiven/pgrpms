@@ -17,7 +17,7 @@
 %if 0%{?with_python3}
 Name:           python3-%{pkg_name}
 %else
-Name:           python2-%{pkg_name}
+Name:           python-%{pkg_name}
 %endif
 Version:	0.11.1
 Release:	1%{?dist}
