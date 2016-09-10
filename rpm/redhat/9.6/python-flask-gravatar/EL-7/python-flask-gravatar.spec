@@ -1,6 +1,6 @@
 %global pypi_name Flask-Gravatar
 
-%if 0%{?fedora}
+%if 0%{?fedora} > 23
 %global with_python3 1
 %else
 # EL doesn't have Python 3
