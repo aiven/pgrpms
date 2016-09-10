@@ -1,17 +1,23 @@
-%if 0%{?fedora} > 21
+%if 0%{?fedora}
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
+%{expand: %%global py2ver %(echo `%{__python} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
-
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 %global	pypi_name Flask-Principal
 %global	sum Identity management for Flask applications
-Name:		python-flask-principal
+%if 0%{?with_python3}
+Name:		python3-flask-principal
+%else
+Name:		python2-flask-principal
+%endif
 Version:	0.4.0
 Release:	11%{?dist}
 Summary:	%{sum}
@@ -25,14 +31,12 @@ Source1:	LICENSE
 
 BuildArch:	noarch
 
-%if 0%{?with_python2}
-BuildRequires:	python2-devel
-BuildRequires:	python2-setuptools
-%endif
-
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
+%else
+BuildRequires:	python2-devel
+BuildRequires:	python-setuptools
 %endif
 
 %description
@@ -40,30 +44,14 @@ Flask-Principal provides a very loose framework to tie in authentication
 and user information providers, often located in different parts of a web
 application.
 
-%if 0%{?with_python2}
-%package -n python2-flask-principal
-Summary:	%{sum}
-Requires:	python-flask
-Requires:	python-blinker
-%{?python_provide:%python_provide python2-flask-principal}
-
-%description -n python2-flask-principal
-Flask-Principal provides a very loose framework to tie in authentication
-and user information providers, often located in different parts of a web
-application.
-%endif
-
 %if 0%{?with_python3}
-%package -n python3-flask-principal
-Summary:	%{sum}
 Requires:	python3-flask
 Requires:	python3-blinker
 %{?python_provide:%python_provide python3-flask-principal}
-
-%description -n python3-flask-principal
-Flask-Principal provides a very loose framework to tie in authentication
-and user information providers, often located in different parts of a web
-application.
+%else
+Requires:	python-flask
+Requires:	python-blinker
+%{?python_provide:%python_provide python2-flask-principal}
 %endif
 
 %prep
@@ -81,16 +69,13 @@ application.
 %clean
 %{__rm} -rf %{buildroot}
 
-%if 0%{?with_python2}
-%files -n python2-flask-principal
-%doc LICENSE README.rst
-%{python2_sitelib}/*
-%endif
-
+%files
 %if 0%{?with_python3}
-%files -n python3-flask-principal
 %doc LICENSE README.rst
 %{python3_sitelib}/*
+%else
+%doc LICENSE README.rst
+%{python2_sitelib}/*
 %endif
 
 %changelog
