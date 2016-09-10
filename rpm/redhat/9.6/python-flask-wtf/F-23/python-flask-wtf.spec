@@ -5,6 +5,12 @@
 %{!?with_python3:%global with_python3 0}
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} < 7
+# EL 6 doesn't have this macro
+%global __python2	%{__python}
+%global python2_sitelib %{python_sitelib}
+%endif
+
 Name:		python-flask-wtf
 Version:	0.11
 Release:	1%{?dist}
