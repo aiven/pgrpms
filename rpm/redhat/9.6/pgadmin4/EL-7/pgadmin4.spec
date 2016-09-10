@@ -254,8 +254,11 @@ fi
 %files -n pgadmin4-web
 %defattr(-,root,root,-)
 %{PYTHON_SITELIB}/pgadmin4-web
+%if %{systemd_enabled}
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_unitdir}/%{name}.service
+%{_tmpfilesdir}/%{name}.conf
+%endif
 
 %files -n pgadmin4-docs
 %defattr(-,root,root,-)
