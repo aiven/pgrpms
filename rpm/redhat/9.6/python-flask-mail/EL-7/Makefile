@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
-SPECFILE="Flask-Mail.spec"
+SPECFILE="python-flask-mail.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
