@@ -184,7 +184,7 @@ install -d %{buildroot}%{_unitdir}
 install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
 %else
 # Reserved for init script
-::
+:
 %endif
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
@@ -211,7 +211,7 @@ if [ $1 -eq 1 ] ; then
    %systemd_post %{name}.service
    %tmpfiles_create
   %else
-   ::
+   :
    #chkconfig --add pgadmin4
   %endif
 fi
@@ -223,7 +223,7 @@ if [ $1 -eq 0 ] ; then
         /bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
         /bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 %else
-	::
+	:
 	#/sbin/service pgadmin4 condstop >/dev/null 2>&1
 	#chkconfig --del pgadmin4
 %endif
@@ -233,7 +233,7 @@ fi
 %if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
- ::
+ :
  #sbin/service pgadmin4 >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
@@ -241,7 +241,7 @@ if [ $1 -ge 1 ] ; then
         # Package upgrade, not uninstall
         /bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
  %else
-    ::
+    :
    #/sbin/service pgadmin4 condrestart >/dev/null 2>&1
  %endif
 fi
