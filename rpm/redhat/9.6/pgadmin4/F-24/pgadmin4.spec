@@ -6,23 +6,27 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %endif
 
-%if 0%{?fedora}
-%global with_python3 1
+%if 0%{?fedora} > 23
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
-%global with_python3 0
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-# Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
 %if 0%{?with_python3}
-%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
-%endif # with_python3
+%global PYTHON_SITELIB %{python3_sitelib}
+%else
+%global PYTHON_SITELIB %{python2_sitelib}
+%endif
 
 Name:		pgadmin4
 Version:	1.0
-Release:	rc1_2%{?dist}
+Release:	rc1_3%{?dist}
 Summary:	Management tool for the PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -63,9 +67,8 @@ Requires:	qt >= 4.6
 %description
 pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the PostgreSQL
 (http://www.postgresql.org) database.
-pgAdmin 4 is being written as a web application in Python, using jQuery and
-Bootstrap for the client side processing and UI. On the server side, Flask is
-being utilised.
+pgAdmin 4 is written as a web application in Python, using jQuery and Bootstrap
+for the client side processing and UI. On the server side, Flask is being utilised.
 
 Although developed using web technologies, we intend for pgAdmin 4 to be usable
 either on a web server using a browser, or standalone on a workstation. The
@@ -136,12 +139,6 @@ Requires: 	python-flask-login
 Requires:	python-flask-principal
 Requires:	python-django-htmlmin
 Requires:	python-wsgiref
-%endif
-
-%if 0%{?with_python3}
-%global PYTHON_SITELIB %{python3_sitelib}
-%else
-%global PYTHON_SITELIB %{python2_sitelib}
 %endif
 
 %description    -n pgadmin4-web
@@ -265,6 +262,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Sun Sep 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-3
+- Properly detect python sitelib
+
 * Sat Sep 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-2
 - Add httpd config file, per Dave.
 - Add unit file support for systemd distros.
