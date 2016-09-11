@@ -12,7 +12,7 @@
 %endif
 
 Name:		python-flask-wtf
-Version:	0.11
+Version:	0.12
 Release:	1%{?dist}
 Summary:	Simple integration of Flask and WTForms
 
@@ -94,6 +94,9 @@ popd
 %endif
 
 %changelog
+* Sun Sep 11 2016 Devrim Gündüz <devrim@gunduz.org> - 0.12-1
+- Update to 0.12, to satisfy pgadmin4 dependency.
+
 * Tue May 31 2016 Devrim Gündüz <devrim@gunduz.org> - 0.11-1
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
