@@ -31,15 +31,15 @@ Summary:	Management tool for the PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
-Source0:	https://ftp.postgresql.org/pub/pgadmin3/pgadmin4/v1.0-rc1/src/pgadmin4-%{version}-rc1.tar.gz
+Source0:	https://ftp.postgresql.org/pub/pgadmin3/%{name}/v%{version}-rc1/src/%{name}-%{version}-rc1.tar.gz
 Source1:	%{name}.conf
-Source2:	%{name}.service
+Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
-Requires:	pgadmin4-web
+Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel
@@ -77,7 +77,7 @@ this - it is essentially a browser and Python interpretor in one package which
 will be capable of hosting the Python application and presenting it to the user
 as a desktop application.
 
-%package	-n pgadmin4-web
+%package	-n %{name}-web
 Summary:	pgAdmin4 web package
 BuildArch:	noarch
 %if 0%{?with_python3}
@@ -108,7 +108,8 @@ Requires:	python3-flask-security
 Requires:	python3-flask-login
 Requires:	python3-flask-principal
 Requires:	django-htmlmin
-Requires:	python3-wsgiref
+Requires:	python-wsgiref
+Requires:	python3-click
 %else
 Requires:	python-babel
 Requires:	python-flask
@@ -139,20 +140,21 @@ Requires: 	python-flask-login
 Requires:	python-flask-principal
 Requires:	django-htmlmin
 Requires:	python-wsgiref
+Requires:	python-click
 %endif
 
-%description    -n pgadmin4-web
+%description    -n %{name}-web
 This package contains the required files to run pgAdmin4 as a web application
 
-%package	-n pgadmin4-docs
+%package	-n %{name}-docs
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
-%description -n pgadmin4-docs
+%description -n %{name}-docs
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n pgadmin4-1.0-rc1/runtime
+%setup -q -n %{name}-%{version}-rc1/runtime
 
 %build
 cd ../runtime
@@ -178,7 +180,7 @@ install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.con
 %if %{systemd_enabled}
 # This is only for systemd supported distros:
 install -d %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
+sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_unitdir}/%{name}.service
 %else
 # Reserved for init script
 :
@@ -186,17 +188,17 @@ install -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{name}.service
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
 mkdir -p %{buildroot}/%{_tmpfilesdir}
-install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/pgadmin4.conf
+install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
-cd %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
-%{__rm} -f pgadmin4.db config_local.*
+cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
+%{__rm} -f %{name}.db config_local.*
 echo "SERVER_MODE = False" > config_local.py
-echo "HTML_HELP = '/usr/share/doc/pgadmin4-docs/en_US/html/'" >> config_local.py
+echo "HTML_HELP = '/usr/share/doc/%{name}-docs/en_US/html/'" >> config_local.py
 echo "
 [General]
-ApplicationPath=%{PYTHON_SITELIB}/pgadmin4-web
+ApplicationPath=%{PYTHON_SITELIB}/%{name}-web
 PythonPath=
-" > %{buildroot}%{pgadmin4instdir}/runtime/pgadmin4.ini
+" > %{buildroot}%{pgadmin4instdir}/runtime/%{name}.ini
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -209,7 +211,7 @@ if [ $1 -eq 1 ] ; then
    %tmpfiles_create
   %else
    :
-   #chkconfig --add pgadmin4
+   #chkconfig --add %{name}
   %endif
 fi
 
@@ -221,8 +223,8 @@ if [ $1 -eq 0 ] ; then
         /bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 %else
 	:
-	#/sbin/service pgadmin4 condstop >/dev/null 2>&1
-	#chkconfig --del pgadmin4
+	#/sbin/service %{name} condstop >/dev/null 2>&1
+	#chkconfig --del %{name}
 %endif
 fi
 
@@ -231,7 +233,7 @@ fi
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
  :
- #sbin/service pgadmin4 >/dev/null 2>&1
+ #sbin/service %{name} >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
@@ -239,7 +241,7 @@ if [ $1 -ge 1 ] ; then
         /bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
  %else
     :
-   #/sbin/service pgadmin4 condrestart >/dev/null 2>&1
+   #/sbin/service %{name} condrestart >/dev/null 2>&1
  %endif
 fi
 
@@ -248,16 +250,16 @@ fi
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{pgadmin4instdir}/runtime/pgadmin4.ini
 
-%files -n pgadmin4-web
+%files -n %{name}-web
 %defattr(-,root,root,-)
-%{PYTHON_SITELIB}/pgadmin4-web
+%{PYTHON_SITELIB}/%{name}-web
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %if %{systemd_enabled}
 %{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{name}.conf
 %endif
 
-%files -n pgadmin4-docs
+%files -n %{name}-docs
 %defattr(-,root,root,-)
 %doc	%{_docdir}/%{name}-docs/*
 
