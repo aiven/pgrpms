@@ -43,7 +43,7 @@ BuildRequires:	qt5-qtwebkit-devel
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
-%global QMAKE	/usr/lib64/qt4/bin/qmake
+%global QMAKE	/usr/bin/qmake-qt4
 %endif
 
 %if 0%{?with_python3}
