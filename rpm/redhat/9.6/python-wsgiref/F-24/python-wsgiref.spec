@@ -1,5 +1,15 @@
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%if 0%{?fedora} > 23
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%else
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%endif
+
+%global sname Flask-Mail
+
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 %global sname	wsgiref
 
@@ -10,7 +20,7 @@ Name:		python3-%{sname}
 Name:		python-%{sname}
 %endif
 Version:	0.1.2
-Release:	16%{?dist}
+Release:	17%{?dist}
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/%{sname}
@@ -46,6 +56,9 @@ wsgiref.util.test() utility function.
 %{python_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Sun Sep 11 2016 Devrim Gündüz <devrim@gunduz.org> - 0.1.2-17
+- Use proper macros.
+
 * Sat Sep 10 2016 Devrim Gündüz <devrim@gunduz.org> - 0.1.2-16
 - Add Python3 support, and also bump up the release number to
   override Fedora/EPEL repos.
