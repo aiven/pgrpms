@@ -16,7 +16,7 @@
 %if 0%{?with_python3}
 Name:		python3-flask-principal
 %else
-Name:		python2-flask-principal
+Name:		python-flask-principal
 %endif
 Version:	0.4.0
 Release:	11%{?dist}
