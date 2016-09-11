@@ -162,7 +162,7 @@ cd ../runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
 %else
-export PYTHON_CONFIG=/usr/bin/python2-config
+export PYTHON_CONFIG=/usr/bin/python-config
 %endif
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
