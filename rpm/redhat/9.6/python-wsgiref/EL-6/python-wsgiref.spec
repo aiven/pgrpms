@@ -5,9 +5,9 @@
 
 Summary:	WSGI (PEP 333) Reference Library
 %if 0%{?with_python3}
-Name:		python-%{sname}
-%else
 Name:		python3-%{sname}
+%else
+Name:		python-%{sname}
 %endif
 Version:	0.1.2
 Release:	16%{?dist}
