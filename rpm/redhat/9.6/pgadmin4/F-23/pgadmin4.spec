@@ -26,7 +26,7 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	rc1_3%{?dist}
+Release:	rc1_4%{?dist}
 Summary:	Management tool for the PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -94,6 +94,7 @@ Requires:	python3-blinker
 Requires:	python3-html5lib
 Requires:	python3-itsdangerous
 Requires:	python3-psycopg2
+Requires:	python3-psycopg2-debug
 Requires:	python3-six
 Requires:	python3-crypto
 Requires:	python3-simplejson
@@ -124,6 +125,7 @@ Requires:	python-blinker
 Requires:	python-html5lib
 Requires:	python-itsdangerous
 Requires:	python-psycopg2
+Requires:	python-psycopg2-debug
 Requires:	python-six
 Requires:	python-crypto
 Requires:	python-simplejson
@@ -264,6 +266,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Sun Sep 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-4
+- Add dependency for psycopg2-debug package.
+
 * Sun Sep 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-3
 - Properly detect python sitelib
 
