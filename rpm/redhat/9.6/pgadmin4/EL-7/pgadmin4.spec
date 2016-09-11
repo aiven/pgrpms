@@ -107,7 +107,7 @@ Requires:	python3-flask-mail
 Requires:	python3-flask-security
 Requires:	python3-flask-login
 Requires:	python3-flask-principal
-Requires:	python3-django-htmlmin
+Requires:	django-htmlmin
 Requires:	python3-wsgiref
 %else
 Requires:	python-babel
@@ -137,7 +137,7 @@ Requires:	python-flask-mail
 Requires:	python-flask-security
 Requires: 	python-flask-login
 Requires:	python-flask-principal
-Requires:	python-django-htmlmin
+Requires:	django-htmlmin
 Requires:	python-wsgiref
 %endif
 
