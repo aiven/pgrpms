@@ -1,0 +1,10 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=pgAdmin III
+Exec==PYTHONDIR PYTHONSITELIB/pgadmin4-web/pgAdmin4.py
+Icon=PYTHONSITELIB/pgadmin4-web/pgadmin/static/img/logo-256.png
+Type=Application
+Categories=Application;Development;
+MimeType=text/html
+Comment=Management tool for PostgreSQL
+Keywords=database;db;sql;query;administration;development;

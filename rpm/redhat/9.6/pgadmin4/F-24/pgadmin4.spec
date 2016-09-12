@@ -26,8 +26,8 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	rc1_4%{?dist}
-Summary:	Management tool for the PostgreSQL
+Release:	rc1_5%{?dist}
+Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
@@ -35,6 +35,7 @@ Source0:	https://ftp.postgresql.org/pub/pgadmin3/%{name}/v%{version}-rc1/src/%{n
 Source1:	%{name}.conf
 Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
+Source4:	%{name}.desktop.in
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -81,68 +82,82 @@ as a desktop application.
 Summary:	pgAdmin4 web package
 BuildArch:	noarch
 %if 0%{?with_python3}
-Requires:	python3-babel
-Requires:	python3-flask
-Requires:	python3-flask-sqlalchemy
-Requires:	python3-flask-wtf >= 0.11
-Requires:	python3-jinja2
-Requires:	python3-markupsafe
-Requires:	python3-sqlalchemy
-Requires:	python3-wtforms
-Requires:	python3-beautifulsoup4
-Requires:	python3-blinker
-Requires:	python3-html5lib
-Requires:	python3-itsdangerous
-Requires:	python3-psycopg2
-Requires:	python3-psycopg2-debug
-Requires:	python3-six
-Requires:	python3-crypto
-Requires:	python3-simplejson
-Requires:	python3-dateutil
-Requires:	python3-werkzeug
-Requires:	python3-sqlparse
-Requires:	python3-flask-babel
-Requires:	python3-passlib
-Requires:	python3-flask-gravatar
-Requires:	python3-flask-mail
-Requires:	python3-flask-security
-Requires:	python3-flask-login
-Requires:	python3-flask-principal
-Requires:	django-htmlmin
-Requires:	python-wsgiref
+Requires:	python3-babel >= 1.3
+Requires:	python3-flask >= 0.11.1
+Requires:	python3-flask-sqlalchemy >= 2.1
+Requires:	python3-flask-wtf >= 0.12
+Requires:	python3-jinja2 >= 2.7.3
+Requires:	python3-markupsafe >= 0.23
+Requires:	python3-sqlalchemy >= 1.0.14
+Requires:	python3-wtforms >= 2.0.2
+Requires:	python3-beautifulsoup4 >= 4.4.1
+Requires:	python3-blinker >= 1.3
+Requires:	python3-html5lib >= 1.0b3
+Requires:	python3-itsdangerous >= 0.24
+Requires:	python3-psycopg2 >= 2.6.2
+Requires:	python3-psycopg2-debug >= 2.6.2
+Requires:	python3-six >= 1.9.0
+Requires:	python3-crypto >= 2.6.1
+Requires:	python3-simplejson >= 3.6.5
+Requires:	python3-dateutil >= 2.5.0
+Requires:	python3-werkzeug >= 0.9.6
+Requires:	python3-sqlparse >= 0.1.19
+Requires:	python3-flask-babel >= 0.11.1
+Requires:	python3-passlib >= 1.6.2
+Requires:	python3-flask-gravatar >= 0.4.2
+Requires:	python3-flask-mail >= 0.9.2
+Requires:	python3-flask-security >= 1.7.5
+Requires:	python3-flask-login >= 0.3.2
+Requires:	python3-flask-principal >= 0.4.0
+Requires:	django-htmlmin >= 0.8.0
+Requires:	python-wsgiref >= 0.1.2
+Requires:	pytz >= 2014.10
 Requires:	python3-click
+Requires:	python3-extras >= 0.0.3
+Requires:	python3-fixtures >= 2.0.0
+Requires:	python3-importlib >= 1.0.3
+Requires:	python3-pyrsistent >= 0.11.13
+Requires:	python3-mimeparse >= 1.5.1
+Requires:	python3-speaklater >= 1.3
+# TODO: Confirm dependencies of: testscenarios, testtools, traceback2, unittest2
 %else
-Requires:	python-babel
-Requires:	python-flask
-Requires:	python-flask-sqlalchemy
-Requires:	python-flask-wtf => 0.11
-Requires:	python-jinja2
-Requires:	python-markupsafe
-Requires:	python-sqlalchemy
-Requires:	python-wtforms
-Requires:	python-beautifulsoup4
-Requires:	python-blinker
-Requires:	python-html5lib
-Requires:	python-itsdangerous
-Requires:	python-psycopg2
-Requires:	python-psycopg2-debug
-Requires:	python-six
-Requires:	python-crypto
-Requires:	python-simplejson
-Requires:	python-dateutil
-Requires:	python-werkzeug
-Requires:	pytz
-Requires:	python-sqlparse
-Requires:	python-flask-babel
-Requires:	python-passlib
-Requires:	python-flask-gravatar
-Requires:	python-flask-mail
-Requires:	python-flask-security
-Requires: 	python-flask-login
-Requires:	python-flask-principal
-Requires:	django-htmlmin
-Requires:	python-wsgiref
+Requires:	python-babel >= 1.3
+Requires:	python-flask >= 0.11.1
+Requires:	python-flask-sqlalchemy >= 2.1
+Requires:	python-flask-wtf >= 0.12
+Requires:	python-jinja2 >= 2.7.3
+Requires:	python-markupsafe >= 0.23
+Requires:	python-sqlalchemy >= 1.0.14
+Requires:	python-wtforms >= 2.0.2
+Requires:	python-beautifulsoup4 >= 4.4.1
+Requires:	python-blinker >= 1.3
+Requires:	python-html5lib >= 1.0b3
+Requires:	python-itsdangerous >= 0.24
+Requires:	python-psycopg2 >= 2.6.2
+Requires:	python-psycopg2-debug >= 2.6.2
+Requires:	python-six >= 1.9.0
+Requires:	python-crypto >= 2.6.1
+Requires:	python-simplejson >= 3.6.5
+Requires:	python-dateutil >= 2.5.0
+Requires:	python-werkzeug >= 0.9.6
+Requires:	pytz >= 2014.10
+Requires:	python-sqlparse >= 0.1.19
+Requires:	python-flask-babel >= 0.11.1
+Requires:	python-passlib >= 1.6.2
+Requires:	python-flask-gravatar >= 0.4.2
+Requires:	python-flask-mail >= 0.9.1
+Requires:	python-flask-security >= 1.7.5
+Requires: 	python-flask-login >= 0.3.2
+Requires:	python-flask-principal >= 0.4.0
+Requires:	django-htmlmin >= 0.8.0
+Requires:	python-wsgiref >= 0.1.2
 Requires:	python-click
+Requires:	python-extras >= 0.0.3
+Requires:	python-fixtures >= 2.0.0
+Requires:	python-importlib >= 1.0.3
+Requires:	python-pyrsistent >= 0.11.13
+Requires:	python-mimeparse >= 1.5.1
+Requires:	python-speaklater >= 1.3
 %endif
 
 %description    -n %{name}-web
@@ -178,6 +193,9 @@ install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+# Install desktop file
+install -d %{buildroot}%{_datadir}/applications/
+sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
 # Install unit file/init script
 %if %{systemd_enabled}
 # This is only for systemd supported distros:
@@ -251,6 +269,7 @@ fi
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{pgadmin4instdir}/runtime/pgadmin4.ini
+%{_datadir}/applications/%{name}.desktop
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
@@ -266,8 +285,13 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Mon Sep 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-5
+- Add .desktop file
+- Fix typo in -dateutil dependency
+
+
 * Sun Sep 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-4
-- Add dependency for psycopg2-debug package.
+- Add actual dependencies for packages.
 
 * Sun Sep 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-3
 - Properly detect python sitelib
