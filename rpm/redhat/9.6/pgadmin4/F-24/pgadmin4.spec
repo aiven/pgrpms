@@ -212,8 +212,8 @@ install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
 cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
 %{__rm} -f %{name}.db config_local.*
-echo "SERVER_MODE = False" > config_local.py
-echo "HTML_HELP = '/usr/share/doc/%{name}-docs/en_US/html/'" >> config_local.py
+echo "SERVER_MODE = False" > config_distro.py
+echo "HTML_HELP = '/usr/share/doc/%{name}-docs/en_US/html/'" >> config_distro.py
 echo "
 [General]
 ApplicationPath=%{PYTHON_SITELIB}/%{name}-web
@@ -287,6 +287,7 @@ fi
 %changelog
 * Mon Sep 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-5
 - Add .desktop file
+- Move contents of config_local.py to config_distro.py, per Dave.
 - Fix typo in -dateutil dependency
 
 
