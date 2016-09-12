@@ -1,5 +1,5 @@
 # only Fedora 20 has Babel >= 1.0 which is the first version supporting Python 3
-%if 0%{?fedora} >= 20
+%if 0%{?fedora} >= 24
 %global with_python3 1
 %endif
 
