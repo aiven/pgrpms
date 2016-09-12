@@ -115,7 +115,6 @@ Requires:	pytz >= 2014.10
 Requires:	python3-click
 Requires:	python3-extras >= 0.0.3
 Requires:	python3-fixtures >= 2.0.0
-Requires:	python3-importlib >= 1.0.3
 Requires:	python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
@@ -154,7 +153,9 @@ Requires:	python-wsgiref >= 0.1.2
 Requires:	python-click
 Requires:	python-extras >= 0.0.3
 Requires:	python-fixtures >= 2.0.0
+%if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3
+%endif
 Requires:	python-pyrsistent >= 0.11.13
 Requires:	python-mimeparse >= 1.5.1
 Requires:	python-speaklater >= 1.3
