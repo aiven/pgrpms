@@ -37,8 +37,6 @@ Source0:        http://pypi.python.org/packages/source/p/%{pypi_name}/%{pypi_nam
 
 BuildArch:      noarch
 
-BuildRequires: python-sphinx >= 1.1.3
-
 %description
 PBR is a library that injects some useful and sensible default behaviors into
 your setuptools run. It started off life as the chunks of code that were copied
@@ -99,12 +97,6 @@ pushd %{py3dir}
 popd
 %endif
 
-# generate html docs
-sphinx-build doc/source html
-# remove the sphinx-build leftovers
-rm -rf html/.{doctrees,buildinfo}
-
-
 %install
 # Must do the python3 install first because the scripts in /usr/bin are
 # overwritten with every setup.py install (and we want the python2 version
@@ -124,7 +116,7 @@ rm -rf %{buildroot}%{python_sitelib}/pbr/tests
 
 %files -n python2-%{pypi_name}
 %license LICENSE
-%doc html README.rst
+%doc README.rst
 %{_bindir}/pbr
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/%{pypi_name}
@@ -132,7 +124,7 @@ rm -rf %{buildroot}%{python_sitelib}/pbr/tests
 %if 0%{?with_python3}
 %files -n python3-pbr
 %license LICENSE
-%doc html README.rst
+%doc README.rst
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}
 %endif
