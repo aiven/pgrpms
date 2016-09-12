@@ -13,7 +13,7 @@
 
 Name:		python-%{modname}
 Version:	2.5.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 Summary:	Powerful extensions to the standard datetime module
 
@@ -31,9 +31,7 @@ module available in Python 2.3+.
 
 This is the version for Python 2.
 
-%package -n python2-%{modname}
-Summary:	Powerful extensions to the standard datetime module
-%{?python_provide:%python_provide python2-%{modname}}
+%{?python_provide:%python_provide python-%{modname}}
 BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-six
@@ -45,7 +43,7 @@ BuildRequires:	python-setuptools
 Requires:	tzdata
 Requires:	python2-six
 
-%description -n python2-%{modname}
+%description -n python-%{modname}
 The dateutil module provides powerful extensions to the standard datetime
 module available in Python 2.3+.
 
@@ -103,7 +101,7 @@ mv NEWS.new NEWS
 %{python_sitelib}/*.egg-info
 %else
 #if Python 2:
-%files -n python2-%{modname}
+%files -n python-%{modname}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE
 %else
@@ -123,6 +121,9 @@ mv NEWS.new NEWS
 %endif
 
 %changelog
+* Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-2
+- Change PY2 package name.
+
 * Tue May 31 2016 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-1
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
