@@ -1,6 +1,6 @@
 %global modname dateutil
 
-%if 0%{?fedora} > 21
+%if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %else
