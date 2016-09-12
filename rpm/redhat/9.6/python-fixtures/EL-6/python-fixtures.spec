@@ -81,22 +81,19 @@ contract in unit test compatible test cases easy and straight forward.
 %autosetup -n %{pypi_name}-%{version}
 
 %build
-%py2_build
+%{__python2} setup.py build
+
 %if 0%{?with_python3}
-%py3_build
-%endif
+%{__python3} setup.py build
+%endif # with_python3
 
 %install
-%py2_install
+%{__rm} -rf %{buildroot}
 %if 0%{?with_python3}
-%py3_install
+%{__ospython} setup.py install --skip-build --root %{buildroot}
 %endif
 
-%check
-%{__ospython} -m testtools.run fixtures.test_suite
-%if 0%{?with_python3}
-%{__python3} -m testtools.run fixtures.test_suite
-%endif
+%{__python2} setup.py install --skip-build --root %{buildroot}
 
 %files
 %doc README GOALS NEWS Apache-2.0 BSD COPYING
