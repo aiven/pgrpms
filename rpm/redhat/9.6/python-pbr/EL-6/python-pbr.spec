@@ -115,16 +115,14 @@ rm -rf %{buildroot}%{python_sitelib}/pbr/tests
 %endif
 
 %files -n python2-%{pypi_name}
-%license LICENSE
-%doc README.rst
+%doc README.rst LICENSE
 %{_bindir}/pbr
 %{python_sitelib}/*.egg-info
 %{python_sitelib}/%{pypi_name}
 
 %if 0%{?with_python3}
 %files -n python3-pbr
-%license LICENSE
-%doc README.rst
+%doc README.rst LICENSE
 %{python3_sitelib}/*.egg-info
 %{python3_sitelib}/%{pypi_name}
 %endif
