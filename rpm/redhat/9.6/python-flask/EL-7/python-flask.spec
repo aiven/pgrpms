@@ -18,7 +18,7 @@
 
 Name:           python-%{modname}
 Version:        0.11.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Epoch:          1
 Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
