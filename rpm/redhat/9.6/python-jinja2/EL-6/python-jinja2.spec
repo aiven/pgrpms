@@ -49,7 +49,7 @@ sed -i 's|\r$||g' LICENSE
 popd
 %build
 pushd python2
-%{__python2} setup.py build
+%{__python} setup.py build
 
 # for now, we build docs using Python 2.x and use that for both
 # packages.
@@ -60,7 +60,7 @@ popd
 
 %install
 pushd python2
-%{__python2} setup.py install -O1 --skip-build \
+%{__python} setup.py install -O1 --skip-build \
             --root %{buildroot}
 
 # remove hidden file
@@ -89,5 +89,3 @@ popd
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 2.8-7
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
-
-
