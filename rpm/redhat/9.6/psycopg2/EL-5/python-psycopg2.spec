@@ -11,7 +11,7 @@
 %if 0%{?with_python3}
 %global	python_runtimes	python python-debug python3 python3-debug
 %else
-%global python_runtimes	python
+%global python_runtimes	python python-debug
 %endif # with_python3
 
 # Python major version.
