@@ -3,17 +3,14 @@
 %global srcname Werkzeug
 
 Name:		python-werkzeug
-Version:	0.11.10
-Release:	3%{?dist}
+Version:	0.11.11
+Release:	1%{?dist}
 Summary:	The Swiss Army knife of Python web development
 
 Group:		Development/Libraries
 License:	BSD
 URL:		http://werkzeug.pocoo.org/
-Source0:	http://pypi.python.org/packages/source/W/Werkzeug/%{srcname}-%{version}.tar.gz
-# Pypi version of werkzeug is missing _themes folder needed to build werkzeug sphinx docs
-# See https://github.com/mitsuhiko/werkzeug/issues/761
-Source1:	werkzeug-sphinx-theme.tar.gz
+Source0:	https://github.com/pallets/werkzeug/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -49,10 +46,9 @@ Requires:	%{name} = %{version}-%{release}
 Documentation and examples for %{name}.
 
 %prep
-%setup -q -n %{srcname}-%{version}
+%setup -q -n werkzeug-%{version}
 %{__sed} -i 's/\r//' LICENSE
 %{__sed} -i '1d' tests/multipart/test_collect.py
-tar -xf %{SOURCE1}
 
 %build
 %{__python} setup.py build
@@ -73,7 +69,7 @@ popd
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS LICENSE PKG-INFO CHANGES
+%doc AUTHORS LICENSE
 %{python_sitelib}/*
 
 %files doc
@@ -81,7 +77,10 @@ popd
 %doc docs/_build/html examples
 
 %changelog
+* Wed Sep 14 2016 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-1
+- Update to 0.11.11
+- Use github version, so we don't need the themes tarball anymore.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 0.11.10-4
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
-
