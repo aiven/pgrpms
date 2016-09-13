@@ -1,4 +1,5 @@
 %global __ospython2 %{_bindir}/python2
+%global python2_sitearch %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
