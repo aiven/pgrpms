@@ -26,7 +26,7 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	rc1_5%{?dist}
+Release:	rc1_6%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -286,6 +286,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Wed Sep 14 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-6
+- Fix Type in systemd unit file.
+
 * Mon Sep 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-5
 - Add .desktop file
 - Move contents of config_local.py to config_distro.py, per Dave.
