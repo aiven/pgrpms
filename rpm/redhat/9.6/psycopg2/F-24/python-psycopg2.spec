@@ -2,7 +2,7 @@
 %global pginstdir /usr/pgsql-9.6
 %global sname psycopg2
 
-%if 0%{?fedora} > 22
+%if 0%{?fedora} > 23
 %global with_python3 1
 %else
 %global with_python3 0
