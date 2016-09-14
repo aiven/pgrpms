@@ -1,8 +1,10 @@
 %global __ospython2 %{_bindir}/python2
-%global python2_sitearch %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")
+%global python2_sitearch %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
 %global	srcname	pyrsistent
@@ -10,7 +12,7 @@
 Summary:	Persistent/Functional/Immutable data structures
 Name:		python-%{srcname}
 Version:	0.11.13
-Release:	1
+Release:	2
 License:	MIT
 Group:		Libraries/Python
 Source0:	https://pypi.python.org/packages/source/p/%{srcname}/%{srcname}-%{version}.tar.gz
@@ -64,15 +66,29 @@ Python 3 version.
 
 %files
 %doc README.rst
-%{python2_sitearch}/*
+%{python2_sitearch}/_%{srcname}_*
+%{python2_sitearch}/pvectorc.so
+%dir %{python2_sitearch}/%{srcname}/
+%{python2_sitearch}/%{srcname}/*.py*
+%{python2_sitearch}/%{srcname}-%{version}-py%{py2ver}.egg-info/*
 
 %if 0%{?with_python3}
 %files -n python3-%{srcname}
 %doc README.rst
-%{python3_sitearch}/*
+%{python3_sitearch}/__pycache__/_%{srcname}_*.pyc
+%{python3_sitearch}/_%{srcname}_version.py
+%dir %{python3_sitearch}/%{srcname}/
+%{python3_sitearch}/%{srcname}/*.py*
+%{python3_sitearch}/%{srcname}-%{version}-py%{py3ver}.egg-info/*
+%{python3_sitearch}/pvectorc.cpython*.so
+%{python3_sitearch}/%{srcname}/__pycache__/*.py*
+
 %endif # with_python3
 
 %changelog
+* Wed Sep 14 2016 Devrim Gündüz <devrim@gunduz.org> 0.11.13-2
+- Fix packaging errors, that would own /usr/lib64 or so.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> 0.11.13-1
 - Initial packaging for PostgreSQL YUM repository, to satisfy
   pgadmin4 dependency.
