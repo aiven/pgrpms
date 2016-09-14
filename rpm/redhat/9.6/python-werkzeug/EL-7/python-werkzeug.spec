@@ -4,7 +4,7 @@
 
 Name:		python-werkzeug
 Version:	0.11.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	The Swiss Army knife of Python web development
 
 Group:		Development/Libraries
@@ -16,7 +16,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 BuildRequires:	python-devel
 BuildRequires:	python-setuptools
-BuildRequires:	python-sphinx
 
 %description
 Werkzeug
@@ -36,15 +35,6 @@ developer. It's most useful for end user applications which should work
 on as many server environments as possible (such as blogs, wikis,
 bulletin boards, etc.).
 
-
-%package doc
-Summary:	Documentation for %{name}
-Group:		Documentation
-Requires:	%{name} = %{version}-%{release}
-
-%description doc
-Documentation and examples for %{name}.
-
 %prep
 %setup -q -n werkzeug-%{version}
 %{__sed} -i 's/\r//' LICENSE
@@ -54,9 +44,6 @@ Documentation and examples for %{name}.
 %{__python} setup.py build
 find examples/ -name '*.py' -executable | xargs chmod -x
 find examples/ -name '*.png' -executable | xargs chmod -x
-pushd docs
-make html
-popd
 
 %install
 %{__rm} -rf %{buildroot}
@@ -72,11 +59,11 @@ popd
 %doc AUTHORS LICENSE
 %{python_sitelib}/*
 
-%files doc
-%defattr(-,root,root,-)
-%doc docs/_build/html examples
-
 %changelog
+* Wed Sep 14 2016 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-2
+- Remove -docs subpackage, sphinx throws out errors on RHEL*.
+
+- Update to 0.11.11
 * Wed Sep 14 2016 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-1
 - Update to 0.11.11
 - Use github version, so we don't need the themes tarball anymore.
