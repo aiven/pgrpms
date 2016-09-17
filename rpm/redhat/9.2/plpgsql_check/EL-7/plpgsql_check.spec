@@ -3,7 +3,7 @@
 %global sname plpgsql_check
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.5
+Version:	1.0.6
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -50,6 +50,9 @@ make USE_PGXS=1 DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Sep 17 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.6-1
+- Update to 1.0.6
+
 * Wed Jun 8 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.5-1
 - Update to 1.0.5
 
