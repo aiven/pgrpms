@@ -8,7 +8,7 @@
 
 Summary:	DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
+Version:	1.0.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -53,19 +53,22 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/*cyanaudit*.md
 
 %changelog
-* Wed Mar 9 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+* Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
+- Update to 1.0.2
+
+* Wed Mar 9 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Update to 1.0.0, per #1019.
 
-* Thu Nov 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.5-1
+* Thu Nov 12 2015 - Devrim Gündüz <devrim@gunduz.org> 0.9.5-1
 - Update to 0.9.5 .
 - Fix various rpmlint errors/warnings.
 - Improve %%files section.
 
-* Mon Nov 9 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-3
+* Mon Nov 9 2015 - Devrim Gündüz <devrim@gunduz.org> 0.9.4-3
 - Fixes for Fedora 23 and new doc layout in 9.5.
 
-* Wed Dec 17 2014 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-2
+* Wed Dec 17 2014 - Devrim Gündüz <devrim@gunduz.org> 0.9.4-2
 - Add postgresql main package as BR
 
-* Tue Apr 8 2014 - Devrim GUNDUZ <devrim@gunduz.org> 0.9.4-1
+* Tue Apr 8 2014 - Devrim Gündüz <devrim@gunduz.org> 0.9.4-1
 - Initial RPM packaging for PostgreSQL RPM Repository
