@@ -1,5 +1,5 @@
 %global pgmajorversion 93
-%global pginstdir /usr/pgsql-93
+%global pginstdir /usr/pgsql-9.3
 %global sname ip4r
 
 Name:           %{sname}%{pgmajorversion}
