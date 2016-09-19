@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.05
+Version:	1.08
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -30,8 +30,8 @@ are required to perform a backup which increases security.
 
 %install
 install -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
-cp -a lib/*       %{buildroot}%{perl_vendorlib}/
-cp -a bin/%{name} %{buildroot}%{_bindir}/%{name}
+%{__cp} -a lib/*       %{buildroot}%{perl_vendorlib}/
+%{__cp} -a bin/%{name} %{buildroot}%{_bindir}/%{name}
 
 %files
 %defattr(-,root,root)
@@ -44,7 +44,10 @@ cp -a bin/%{name} %{buildroot}%{_bindir}/%{name}
 %{perl_vendorlib}/pgBackRest/
 
 %changelog
-* Fri Aug 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-2
+* Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.08-1
+- Update to 1.08
+
+* Fri Aug 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.05-1
 - Update to 1.05
 
 * Fri May 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-1
