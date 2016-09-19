@@ -2,7 +2,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	9.4.1208
+Version:	9.4.1211
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -34,8 +34,8 @@ system. The postgresql-jdbc package includes the .jar files needed for
 Java programs to access a PostgreSQL database.
 
 %package javadoc
-Summary:        API docs for %{name}
-Group:          Documentation
+Summary:	API docs for %{name}
+Group:		Documentation
 
 %description javadoc
 This package contains the API Documentation for %{name}.
@@ -122,6 +122,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Mon Sep 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1211-1
+- Update to 9.4.1211
+
 * Tue Mar 15 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1208-1
 - Update to 9.4.1208, per #1034.
 - Use more macros, per John Harvey. Closes #1017.
