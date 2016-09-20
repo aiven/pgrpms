@@ -1,6 +1,6 @@
 Name:		pgdg-centos96
 Version:	9.6
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.6.X PGDG RPMs for CentOS - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -43,5 +43,9 @@ install -pm 644 %{SOURCE2}  \
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Tue Sep 20 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6-2
+- Add updates testing repo for RPMs and SRPMS. They are disabled
+  by default.
+
 * Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6-1
 - Initial set for 9.6
