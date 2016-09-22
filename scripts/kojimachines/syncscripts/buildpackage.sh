@@ -1,14 +1,14 @@
 #!/bin/bash
 
 pgrelease=9.6
-os=EL-7
+os=EL-7 #options: EL-7, EL-6, F-24, F-23
 package=$1
 
 if [ "$1" == "" ]
 then
         echo "Please specify a package name as a parameter"
         echo "i.e. buildpackage.sh postgresql"
-        echo 
+        echo
         exit 1
 fi
 
