@@ -1,0 +1,11 @@
+--- Makefile.old	2016-09-22 17:58:29.192335256 +0300
++++ Makefile	2016-09-22 17:58:38.133257432 +0300
+@@ -5,7 +5,7 @@
+ REGRESS = unit prefix functions derived compare aggregate
+ EXTRA_CLEAN = unitparse.yy.* powers powers.o unittest unittest.o # unitparse.tab.*
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
