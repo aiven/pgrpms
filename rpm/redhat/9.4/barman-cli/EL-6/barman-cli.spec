@@ -76,7 +76,7 @@ by 2ndQuadrant.
 %doc %{_mandir}/man1/barman-wal-restore.1.gz
 
 %changelog
-* Wed Sep 16 2016 - Francesco Canovai <francesco.canovai@2ndquadrant.it> 1.1-2
+* Fri Sep 16 2016 - Francesco Canovai <francesco.canovai@2ndquadrant.it> 1.1-2
 - Fixed dependency on python-argparse
 
 * Wed Sep 14 2016 - Marco Nenciarini <marco.nenciarini@2ndquadrant.it> 1.1-1
