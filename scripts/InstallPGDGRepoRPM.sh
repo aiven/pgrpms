@@ -4,8 +4,8 @@
 #							#
 # Very simple bash script that detects OS, version and	#
 # arch, and then asks for the PostgreSQL version, then	#
-# install the repo RPM for the user of the PostgreSQL 	#
-# YUM repository located at http://yum.PostgreSQL.org	#
+# creates .repo file for the PostgreSQL YUM repository 	#
+# located at http://yum.PostgreSQL.org			#
 #							#
 # Devrim Gündüz <devrim@gunduz.org> - 2015-2016		#
 #							#
@@ -80,37 +80,17 @@ fi
 pgshortversion=`echo $pgversion | tr -d . `
 
 # We need to check the distro name, and make some changes in the URL for some of them.
-# CentOS 6: We need to change first occurence of centos to redhat, 2nd to rhel:
-# CentOS 7: CentOS 7 includes an extra string (1406), so we need to omit that.
-# Fedora: No need to change.
-# RHEL 7: RedHatEnterpriseServer
-# RHEL 6: Not checked yet.
-# SL: Not checked yet.
 # Oracle Linux: Not checked yet.
 
-# CentOS 6,7 and RHEL 7
-if [ "$lsb_distro_name" = "centos" ]
+# CentOS/RHEL 6 and 7 (tested)
+if [ "$lsb_distro_name" = "centos" ] || [ "$lsb_distro_name" = "redhatenterpriseserver" ] || [ "$lsb_distro_name" = "scientific" ]
 then
 	lsb_distro_url_first="redhat"
 	lsb_distro_url_second="rhel"
 	lsb_distro_url_third="centos"
 fi
 
-# RHEL 7
-if [ "$lsb_distro_name" = "redhatenterpriseserver" ]
-then
-	lsb_distro_url_first="redhat"
-	lsb_distro_url_second="rhel"
-	lsb_distro_url_third="redhat"
-fi
-
-# SL 6
-if [ "$lsb_distro_name" = "scientific" ]
-then
-	lsb_distro_url_first="redhat"
-	lsb_distro_url_second="rhel"
-	lsb_distro_url_third="redhat"
-fi
+# Fedora
 
 if [ "$lsb_distro_name" = "fedora" ]
 then
@@ -119,40 +99,66 @@ then
 	lsb_distro_url_third="fedora"
 fi
 
-# RHEL 7.0:
-if [ "$lsb_distro_version" = "7.0.1406" ]
-then
-	lsb_distro_version="7.0"
-fi
-
 # Give confirmation to the user about the platform:
-echo "Installer will now install the repository RPM for ${green}$lsb_distro_name $lsb_distro_version${reset} for ${green}$distro_arch${reset} architecture"
+echo "Installer will now create repository file for PostgreSQL $pgversion on ${green}$lsb_distro_name $lsb_distro_version${reset} for ${green}$distro_arch${reset} architecture"
 
-# Install the repository RPM
-echo "Please stand by while installing the repository RPM. It may take a while."
+echo "[pgdg$pgshortversion]
+name=PostgreSQL $pgversion \$releasever - \$basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-\$releasever-\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-$pgshortversion
+
+[pgdg$pgshortversion-source]
+name=PostgreSQL $pgversion \$releasever - \$basearch - Source
+failovermethod=priority
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-\$releasever-\$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-$pgshortversion
+
+[pgdg$pgshortversion-updates-testing]
+name=PostgreSQL $pgversion \$releasever - \$basearch - Updates Testing
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-\$releasever-\$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-$pgshortversion
+
+[pgdg$pgshortversion-source-updates-testing]
+name=PostgreSQL $pgversion \$releasever - \$basearch - Source Testing
+failovermethod=priority
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-\$releasever-\$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-$pgshortversion
+
+" > /etc/yum.repos.d/pgdg-temp-$pgshortversion.repo
+
 echo
-yum --quiet -y install http://yum.postgresql.org/$pgversion/$lsb_distro_url_first/$lsb_distro_url_second-$lsb_distro_version-$distro_arch/pgdg-$lsb_distro_url_third$pgshortversion-$pgversion-latest.noarch.rpm
-
-# Check whether the repo RPM has been installed or not:
-if [ $? != 0 ]
-then
-	# Throw error messages:
-	echo
-	echo "${red}Error installing the repository RPM. See the message above for details."
-	echo "This distro/arch may not be supported for PostgreSQL $pgversion${reset}"
-	exit 1
-fi
-
-# RPM has been installed successfully.
+echo "Temporary repository has been successfully configured."
+echo "${red}Important:Please remove /etc/yum.repos.d/pgdg-temp-$pgshortversion.repo file after installing yum repo RPM manually.${reset}"
+echo "Please visit http://yum.PostgreSQL.org/repopackages.php to install the repo RPM."
 echo
-echo "Repository RPM successfully installed. You can now install PostgreSQL server by running"
-echo "${blue}yum groupinstall \"PostgreSQL Database Server $pgversion PGDG\"${reset}"
+echo "We are now ready to install PostgreSQL $pgversion."
 
 read -r -p "Are you sure? [y/N] " response
 case $response in
 	[yY][eE][sS]|[yY])
 	echo "Please wait while we are installing PostgreSQL $pgversion RPMs."
+if [ "$lsb_distro_name" = "fedora" ]
+then
+	dnf -y groupinstall "PostgreSQL Database Server $pgversion PGDG"
+else
 	yum -y groupinstall "PostgreSQL Database Server $pgversion PGDG"
+fi
+	# Check whether the packages have been installed or not:
+	if [ $? != 0 ]
+	then
+		echo
+		echo "${red}There is an error installing PostgreSQL $pgversion. Please check the messages above.${reset}"
+		echo "${red}Tip: PostgreSQL $pgversion may not be available for your platform.${reset}"
+		exit 1
+	fi
         ;;
     *)
 	echo
