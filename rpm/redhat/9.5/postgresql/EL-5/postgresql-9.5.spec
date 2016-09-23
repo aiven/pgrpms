@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -847,7 +847,7 @@ export PGDATA
 # If you want to customize your settings,
 # Use the file below. This is not overridden
 # by the RPMS.
-#[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
+[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
@@ -1284,6 +1284,9 @@ fi
 %endif
 
 %changelog
+* Fri Sep 23 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.4-2PGDG
+- Don't remove .pgsql_profile line in .bash_profile each time. Fixes #1215.
+
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.4-1PGDG
 - Update to 9.5.4, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-4.html
