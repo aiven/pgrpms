@@ -297,7 +297,7 @@ split out, depending upon function and dependencies.
 MORE INFORMATION
 -------------------------------------------------------------------------------
 You can get more information at http://www.postgresql.org and 
-http://yum.pgrpms.org
+https://yum.postgresql.org
 
 Please help make this packaging better -- let us know if you find problems, or
 better ways of doing thing. You can reach us by e-mail at
