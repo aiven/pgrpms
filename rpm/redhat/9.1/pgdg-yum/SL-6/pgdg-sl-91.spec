@@ -1,11 +1,11 @@
 Name:		pgdg-sl91
 Version:	9.1
-Release:	8
+Release:	9
 Summary:	PostgreSQL 9.1.X PGDG RPMs for Scientific Linux - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-91
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-91
 Source2:	pgdg-91-sl.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.1-9
+- Website is now https, per #1742
+
 * Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.1-8
 - Point the download URL in repo file to new location.
 
@@ -58,5 +61,5 @@ rm -rf %{buildroot}
 - Trim changelog
 
 * Mon Aug 22 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1-5
-- Now use http://yum.postgresql.org as the new repo URL.
+- Now use https://yum.postgresql.org as the new repo URL.
 

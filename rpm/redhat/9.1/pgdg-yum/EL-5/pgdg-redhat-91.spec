@@ -1,11 +1,11 @@
 Name:		pgdg-redhat91
 Version:	9.1
-Release:	7
+Release:	8
 Summary:	PostgreSQL 9.1.X PGDG RPMs for RHEL - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-91
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-91
 Source2:	pgdg-91-redhat.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -44,6 +44,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.1-8
+- Website is now https, per #1742
+
 * Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.1-7
 - Point the download URL in repo file to new location.
 
@@ -58,7 +61,7 @@ rm -rf %{buildroot}
 - Trim changelog
 
 * Mon Aug 22 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1-3
-- Now use http://yum.postgresql.org as the new repo URL.
+- Now use https://yum.postgresql.org as the new repo URL.
 
 * Mon Jan 10 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.1-2
 - Use full path for rpm command. Noted while testing 9.0 live CD.

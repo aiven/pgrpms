@@ -1,11 +1,11 @@
 Name:		pgdg-centos96
 Version:	9.6
-Release:	2
+Release:	3
 Summary:	PostgreSQL 9.6.X PGDG RPMs for CentOS - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-96
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-96
 Source2:	pgdg-96-centos.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -43,6 +43,9 @@ install -pm 644 %{SOURCE2}  \
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6-3
+- Website is now https, per #1742
+
 * Tue Sep 20 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6-2
 - Add updates testing repo for RPMs and SRPMS. They are disabled
   by default.

@@ -1,11 +1,11 @@
 Name:		pgdg-fedora94
 Version:	9.4
-Release:	4
+Release:	5
 Summary:	PostgreSQL 9.4.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-94
 Source2:	pgdg-94-fedora.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4-5
+- Website is now https, per #1742
+
 * Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.4-4
 - Point the download URL in repo file to new location.
 
@@ -69,7 +72,7 @@ rm -rf %{buildroot}
 - Trim changelog
 
 * Mon Aug 22 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-3
-- Now use http://yum.postgresql.org as the new repo URL.
+- Now use https://yum.postgresql.org as the new repo URL.
 
 * Mon Jan 10 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-2
 - Use full path for rpm command. Noted while testing 9.0 live CD.

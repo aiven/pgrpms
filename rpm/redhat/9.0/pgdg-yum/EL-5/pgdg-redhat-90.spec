@@ -4,8 +4,8 @@ Release:	6
 Summary:	PostgreSQL 9.0.X PGDG RPMs for RHEL - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-90
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-90
 Source2:	pgdg-90-redhat.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch

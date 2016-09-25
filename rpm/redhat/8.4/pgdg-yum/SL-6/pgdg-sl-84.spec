@@ -4,8 +4,8 @@ Release:	4
 Summary:	PostgreSQL 8.4.X PGDG RPMs for Scientific Linux - Yum Repository Configuration
 Group:		System Environment/Base 
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-84
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-84
 Source2:	pgdg-84-sl.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch

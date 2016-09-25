@@ -4,8 +4,8 @@ Release:	8
 Summary:	PostgreSQL 8.3.X PGDG RPMs for RHEL - Yum Repository Configuration
 Group:		System Environment/Base 
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-83-redhat.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -45,7 +45,7 @@ rpm --import %{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %changelog
 * Sun Sep 25 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.3-8
-- Use http://yum.postgresql.org as the new repo URL..
+- Use https://yum.postgresql.org as the new repo URL..
 
 * Tue Mar 02 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 8.3-7
 - Bump up version for the new repo URL.

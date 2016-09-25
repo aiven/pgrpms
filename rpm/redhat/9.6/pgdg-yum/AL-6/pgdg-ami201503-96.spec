@@ -1,10 +1,10 @@
 Name:		pgdg-ami201503-96
 Version:	9.6
-Release:	1
+Release:	2
 Summary:	PostgreSQL 9.6.X PGDG RPMs for Amazon Linux AMI 2015.03 - Yum Repository Configuration
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-96
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-96
 Source2:	pgdg-96-ami201503.repo
 BuildArch:	noarch
 Requires:	system-release
@@ -37,5 +37,8 @@ install -pm 644 %{SOURCE2}  \
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6-2
+- Website is now https, per #1742
+
 * Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6-1
 - Initial set for 9.6

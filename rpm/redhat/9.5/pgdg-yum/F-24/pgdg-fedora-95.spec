@@ -1,11 +1,11 @@
 Name:		pgdg-fedora95
 Version:	9.5
-Release:	3
+Release:	4
 Summary:	PostgreSQL 9.5.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
-URL:		http://yum.postgresql.org
-Source0:	http://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-95
 Source2:	pgdg-95-fedora.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5-4
+- Website is now https, per #1742
+
 * Wed Oct 21 2015 Devrim Gündüz <devrim@gunduz.org> - 9.5-3
 - Point the download URL in repo file to new location.
 
