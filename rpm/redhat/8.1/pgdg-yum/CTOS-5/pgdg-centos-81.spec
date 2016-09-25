@@ -4,8 +4,8 @@ Release:	5
 Summary:	PostgreSQL 8.1.X PGDG RPMs for CentOS - Yum Repository Configuration
 Group:		System Environment/Base 
 License:	BSD
-URL:		http://yum.pgrpms.org
-Source0:	http://yum.pgrpms.org/RPM-GPG-KEY-PGDG
+URL:		https://yum.postgresql.org
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-81-centos.repo
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
