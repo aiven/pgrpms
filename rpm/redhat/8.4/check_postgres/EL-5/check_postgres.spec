@@ -123,4 +123,4 @@ rm -rf %{buildroot}
 - Update to 2.2.1
 
 * Tue Sep 23 2008 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.4-1
-- Initial RPM packaging for yum.pgsqlrpms.org
+- Initial RPM packaging for yum.postgresql.org

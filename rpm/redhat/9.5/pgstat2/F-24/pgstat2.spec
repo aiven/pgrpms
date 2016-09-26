@@ -56,4 +56,4 @@ monitoring or performance tuning.
 - Add a README file -- tarball does not include one.
 
 * Wed Feb 25 2009 - Devrim GUNDUZ <devrim@gunduz.org> 0.7beta-1
-- Initial RPM packaging for yum.pgsqlrpms.org
+- Initial RPM packaging for yum.postgresql.org

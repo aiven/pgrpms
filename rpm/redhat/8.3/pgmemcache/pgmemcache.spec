@@ -45,7 +45,7 @@ rm -rf %{buildroot}
 
 %changelog
 * Wed Apr 9 2008 - Devrim GUNDUZ <devrim@gunduz.org> 0.4.4-3
-- Initial commit for pgsqlrpms.org repo.
+- Initial commit for yum.postgresql.org repo.
 
 * Sat Jun 17 2007 - Devrim GUNDUZ <devrim@gunduz.org> 0.4.4-2
 - Added Requires, per bugzilla review #244536 (Thanks Ruben)

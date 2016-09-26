@@ -166,5 +166,5 @@ rm -rf %{buildroot}
 - Enable and run testsuite during build
 
 * Thu Apr 3 2008 Devrim GUNDUZ <devrim@gunduz.org> - 0:2.2.3-2
-- Initial build for pgsqlrpms.org, based on Fedora/EPEL spec.
+- Initial build for yum.postgresql.org, based on Fedora/EPEL spec.
 

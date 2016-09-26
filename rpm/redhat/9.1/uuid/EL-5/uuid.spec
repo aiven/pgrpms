@@ -218,4 +218,4 @@ rm -rf %{buildroot}
 
 %changelog
 * Tue Oct 7 2008 Devrim GUNDUZ <devrim@gunduz.org> 1.5.1-4
-- Initial build for yum.pgsqlrpms.org, based on EPEL spec
+- Initial build for yum.postgresql.org, based on EPEL spec

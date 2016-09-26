@@ -135,5 +135,5 @@ rm -rf %{buildroot}
 - Update URLs
 
 * Thu Apr 3 2008 - Devrim GUNDUZ <devrim@gunduz.org> - 0:4.6.0-1
-- Initial build for pgsqlrpms.org, based on Fedora/EPEL spec.
+- Initial build for yum.postgresql.org, based on Fedora/EPEL spec.
 

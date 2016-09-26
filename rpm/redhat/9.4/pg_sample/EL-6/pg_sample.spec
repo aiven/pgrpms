@@ -37,4 +37,4 @@ install -m 644 README.md %{buildroot}%{_docdir}/%{name}
 
 %changelog
 * Thu Mar 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.09-1
-- Initial RPM packaging for yum.pgsqlrpms.org
+- Initial RPM packaging for yum.postgresql.org
