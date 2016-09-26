@@ -42,7 +42,7 @@
 # rpm --define 'packagename 0' .... to force the package NOT to build.
 # The base package, the lib package, the devel package, and the server package always get built.
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -88,7 +88,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.6rc1
+Version:	9.6.0
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -1299,6 +1299,10 @@ fi
 %endif
 
 %changelog
+* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1PGDG-1
+- Update to 9.6.0,  per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-6.html
+
 * Tue Aug 30 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6rc1-1PGDG-1
 - Update to 9.6 rc1
 - Don't remove .pgsql_profile line in .bash_profile each time. Fixes #1215.
