@@ -53,8 +53,8 @@
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-
 %{!?disablepgfts:%global disablepgfts 0}
+%{!?enabletaptests:%global enabletaptests 1}
 %{!?intdatetimes:%global intdatetimes 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
@@ -295,6 +295,9 @@ Summary:	PostgreSQL development header files and libraries
 Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%if %enabletaptests
+Requires:	perl-IPC-Run
+%endif
 Provides:	postgresql-devel
 
 %description devel
@@ -451,6 +454,9 @@ export PYTHON=/usr/bin/python3
 	--enable-debug \
 	--enable-cassert \
 %endif
+%if %enabletaptests
+	--enable-tap-tests \
+%endif
 %if %plperl
 	--with-perl \
 %endif
@@ -538,6 +544,9 @@ unset PYTHON
 %if %beta
 	--enable-debug \
 	--enable-cassert \
+%endif
+%if %enabletaptests
+	--enable-tap-tests \
 %endif
 %if %plperl
 	--with-perl \
@@ -1302,6 +1311,7 @@ fi
 * Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1PGDG-1
 - Update to 9.6.0,  per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6.html
+- Compile with --enable-tap-tests, per suggestion from Tom Lane.
 
 * Tue Aug 30 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6rc1-1PGDG-1
 - Update to 9.6 rc1
