@@ -1,5 +1,5 @@
-%global pgmajorversion 95
-%global pginstdir /usr/pgsql-9.5
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname	oracle_fdw
 
 # Disable tests by default.
@@ -7,7 +7,7 @@
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	1.4.0
+Version:	1.5.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -59,6 +59,9 @@ make installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=po
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
+- Update to 1.5.0
+
 * Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
 - Update to 1.4.0
 
