@@ -9,7 +9,7 @@ Release:       3%{?dist}
 License:       Python
 Group:         Development/Languages
 URL:           http://code.google.com/p/argparse/
-Source0:       http://argparse.googlecode.com/files/argparse-%{version}.tar.gz
+Source0:       https://storage.googleapis.com/google-code-archive-downloads/v2/code.google.com/argparse/argparse-%{version}.tar.gz
 BuildRequires: python-setuptools
 BuildRequires: dos2unix
 BuildArch:     noarch
