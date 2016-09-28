@@ -1,11 +1,11 @@
 %global modname dateutil
 
 %if 0%{?fedora} > 23
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%else
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
+%else
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
 %endif
 
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
