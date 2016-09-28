@@ -168,7 +168,8 @@ fi
 - Depend on libevent2 on RHEL 6, which is available as of
   RHEL 6.8. This change means we ask all users to upgrade to
   at least to RHEL 6.8. We require this for other packages already,
-  so it should not be an issue. Fixes #1718.
+  so it should not be an issue. This also will eliminate the need
+  for compat-libevent14 package that we ship in our repo. Fixes #1718.
 
 * Tue Aug 9 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-5
 - Switch to c-ares. Per Omar Kilani. Fixes #1444
