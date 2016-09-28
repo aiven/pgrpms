@@ -54,7 +54,7 @@
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
 %{!?disablepgfts:%global disablepgfts 0}
-%if 0%{?rhel} == 7
+%if 0%{?rhel}
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -399,7 +399,7 @@ benchmarks.
 %setup -q -n %{oname}-%{version}
 %patch1 -p1
 %patch3 -p1
-%patch5 -p1
+%patch5 -p0
 %patch6 -p1
 %if 0%{?rhel} && 0%{?rhel} <= 5
 %patch7 -p1
@@ -1317,7 +1317,7 @@ fi
 - Update to 9.6.0,  per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6.html
 - Compile with --enable-tap-tests, per suggestion from Tom Lane.
-- Disable tap tests  on RHEL 7, because Red Hat does not ship with the
+- Disable tap tests on RHEL, because Red Hat does not ship with the
   necessary deps. CentOS has them, but we cannot ask RHEL users to use
   CentOS packages.  Per John Harvey.
 
