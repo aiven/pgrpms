@@ -8,7 +8,7 @@
 
 Name:		pgbouncer
 Version:	1.7.2
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 # This is only required for RHEL 5
 %if 0%{?rhel} && 0%{?rhel} <= 5
@@ -23,7 +23,12 @@ Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
 
-BuildRequires:	libevent-devel >= 2.0 openssl-devel c-ares-devel
+BuildRequires:	openssl-devel c-ares-devel
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	libevent2-devel >= 2.0
+%else
+BuildRequires:	libevent-devel >= 2.0
+%endif
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -159,6 +164,12 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-6
+- Depend on libevent2 on RHEL 6, which is available as of
+  RHEL 6.8. This change means we ask all users to upgrade to
+  at least to RHEL 6.8. We require this for other packages already,
+  so it should not be an issue. Fixes #1718.
+
 * Tue Aug 9 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-5
 - Switch to c-ares. Per Omar Kilani. Fixes #1444
 
