@@ -1,4 +1,4 @@
-%global	pgmajorversion 91
+%global	pgmajorversion 96
 %global	_pgpoolAdmindir	%{_datadir}/%{name}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -9,7 +9,7 @@
 
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	3.5.0
+Version:	3.5.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -109,6 +109,9 @@ fi
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> 3.5.3-1
+- Update to 3.5.3
+
 * Wed Feb 10 2016 Devrim Gündüz <devrim@gunduz.org> 3.5.0-1
 - Update to 3.5.0
 - Make sure that the right version of pgpool-II is picked up.
