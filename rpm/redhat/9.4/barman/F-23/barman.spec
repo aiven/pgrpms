@@ -37,7 +37,7 @@ Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
-Source0:	%{name}-%{version}%{?extra_version:%{extra_version}}.tar.gz
+Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Vendor:		2ndQuadrant Italia Srl <info@2ndquadrant.it>
