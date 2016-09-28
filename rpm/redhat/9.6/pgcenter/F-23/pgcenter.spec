@@ -10,7 +10,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/lesovsky/%{name}/archive/%{version}.tar.gz
-Patch0:		%{name}-pgxs.patch
+Patch0:		%{name}-makefile.patch
 URL:		https://github.com/lesovsky/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	postgresql%{pgmajorversion}-libs
