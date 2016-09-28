@@ -27,7 +27,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel tcl-devel
 BuildRequires:	autoconf
 
-Requires:	tcl(abi) = 8.5
+Requires:	tcl(abi) >= 8.5
 
 %{!?tcl_version: %global tcl_version %(echo 'puts $tcl_version' | tclsh)}
 %{!?tcl_sitearch: %global tcl_sitearch %{_libdir}/tcl%{tcl_version}}
