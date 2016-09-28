@@ -4,13 +4,13 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.16
+Version:	8.3.0.17
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://www.joeconway.com/%{sname}/%{sname}-%{version}.tar.gz
-Patch0:		Makefile-pgxs.patch
-URL:		http://www.joeconway.com/plr/
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_3_0_17.tar.gz
+Patch0:		plr-makefile-pgxs.patch
+URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -20,8 +20,8 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}
-%patch0 -p1
+%setup -q -n %{sname}-REL8_3_0_17
+%patch0 -p0
 
 %build
 make USE_PGXS=1 %{?_smp_mflags}
@@ -43,6 +43,9 @@ make USE_PGXS=1 DESTDIR=%{buildroot}/ install
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Sep 28 2016 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-17-1
+- Update to 8.3.0.17
+
 * Mon Feb 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-16-1
 - Update to 8.3.0.16
 
