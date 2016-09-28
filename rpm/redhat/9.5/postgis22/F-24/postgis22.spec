@@ -237,7 +237,7 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-w
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
 - Remove wildcard in -client subpackage, per John. Fixes #1769.
 
 * Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
