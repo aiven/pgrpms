@@ -25,13 +25,6 @@ Requires at least Python 2.6 and the pgstattuple contrib module.
 install -d -m 755 %{buildroot}%{_bindir}
 install -m 755 %{name}.py %{buildroot}%{_bindir}/
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-:
-%else
-%{__mkdir} -p %{buildroot}/%{_licensedir}/%{name}
-install -m 644 %{SOURCE1} %{buildroot}/%{_licensedir}/%{name}/LICENSE
-%endif
-
 %clean
 %{__rm} -rf %{buildroot}
 
