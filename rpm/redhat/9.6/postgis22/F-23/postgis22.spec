@@ -20,7 +20,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.2.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -214,7 +214,9 @@ fi
 
 %files client
 %defattr(644,root,root)
-%attr(755,root,root) %{pginstdir}/bin/*
+%attr(755,root,root) %{pginstdir}/bin/pgsql2shp
+%attr(755,root,root) %{pginstdir}/bin/raster2pgsql
+%attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 
 %files devel
 %defattr(644,root,root)
@@ -235,6 +237,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-w
+- Remove wildcard in -client subpackage, per John. Fixes #1769.
+
 * Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
 - Update to 2.2.2, per changes described at
   http://postgis.net/2016/03/22/postgis-2.2.2
