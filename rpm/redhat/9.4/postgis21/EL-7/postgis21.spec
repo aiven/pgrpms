@@ -10,13 +10,14 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.1.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
+Patch0:		postgis-2.1-gdalfpic.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,8 +37,8 @@ Provides:	%{sname} = %{version}-%{release}
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
 database. In effect, PostGIS "spatially enables" the PostgreSQL server,
 allowing it to be used as a backend spatial database for geographic information
-systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS 
-follows the OpenGIS "Simple Features Specification for SQL" and has been 
+systems (GIS), much like ESRI's SDE or Oracle's Spatial extension. PostGIS
+follows the OpenGIS "Simple Features Specification for SQL" and has been
 certified as compliant with the "Types and Functions" profile.
 
 %package client
@@ -83,6 +84,7 @@ The postgis-utils package provides the utilities for PostGIS.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 # Copy .pdf file to top directory before installing.
 cp -p %{SOURCE2} .
 
@@ -112,7 +114,7 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship 
+# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship
 # postgis-2.0.so file along with 2.1 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
@@ -148,6 +150,7 @@ rm -rf %{buildroot}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
@@ -171,7 +174,9 @@ rm -rf %{buildroot}
 
 %files client
 %defattr(644,root,root)
-%attr(755,root,root) %{pginstdir}/bin/*
+%attr(755,root,root) %{pginstdir}/bin/pgsql2shp
+%attr(755,root,root) %{pginstdir}/bin/raster2pgsql
+%attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 
 %files devel
 %defattr(644,root,root)
@@ -191,49 +196,56 @@ rm -rf %{buildroot}
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Tue Jul 7 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.8-1
+* Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.1.8-2
+- Remove wildcard in -client subpackage, per John. Fixes #1769.
+
 - Update to 2.1.8, per changes described at:
   http://postgis.net/2015/07/07/postgis-2.1.8
+- Add a patch for F-24 to compile with -fPIC
 
-* Thu Apr 2 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.7-1
+* Thu Apr 2 2015 Devrim Gündüz <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.7
 
-* Sun Dec 21 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.5-1
+* Fri Mar 27 2015 Devrim Gündüz <devrim@gunduz.org> - 2.1.6-1
+- Update to 2.1.6, per changes described at:
+  http://postgis.net/2015/03/20/postgis-2.1.6
+
+* Sun Dec 21 2014 Devrim Gündüz <devrim@gunduz.org> - 2.1.5-1
 - Update to 2.1.5, per changes described at:
   http://postgis.net/2014/12/18/postgis-2.1.5
 
-* Wed Sep 17 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.4-1
+* Wed Sep 17 2014 Devrim Gündüz <devrim@gunduz.org> - 2.1.4-1
 - Update to 2.1.4, per changes described at:
   http://postgis.net/2014/09/10/postgis-2.1.4
 
-* Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.3-1
+* Mon May 19 2014 Devrim Gündüz <devrim@gunduz.org> - 2.1.3-1
 - Update to 2.1.3, for bug and security fixes.
 - Bump up postgisprevversion to 2.0.6
 
-* Wed Apr 2 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
+* Wed Apr 2 2014 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-2
 - Bump up postgisprevversion to	2.0.5
 
-* Sat Mar 29 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-1
+* Sat Mar 29 2014 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1
 - Update to 2.1.2
 
-* Sat Nov 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.1-1
+* Sat Nov 9 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-1
 - Update to 2.1.1
 
-* Mon Oct 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-3
+* Mon Oct 7 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-3
 - Install postgis-2.0.so file, by compiling it from 2.0 sources.
   Per lots of complaints to maintainers and pgsql-bugs lists.
 
-* Tue Sep 10 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-2
+* Tue Sep 10 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-2
 - Remove ruby bindings, per
   http://lists.osgeo.org/pipermail/postgis-devel/2013-August/023690.html
 - Move extension related files under main package,
   per report from Daryl Herzmann
 
-* Mon Sep 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0-1
+* Mon Sep 9 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
-* Fri Aug 9 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0rc2
+* Fri Aug 9 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.0rc2
 - Update to 2.1.0rc2
 - Remove patch0, it is now in upstream.
 
@@ -241,7 +253,7 @@ rm -rf %{buildroot}
 - Fixed "provides postgis" to avoid self-conflicts
 - BuildRequires: libxml2-devel
 
-* Sun Jun 30 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.0beta3-1
+* Sun Jun 30 2013 Devrim Gündüz <devrim@gunduz.org> - 2.1.0beta3-1
 - Update to 2.1.0 beta3
 - Support multiple version installation 
 - Split "client" tools into a separate subpackage, per
@@ -256,18 +268,18 @@ rm -rf %{buildroot}
   http://lists.osgeo.org/pipermail/postgis-devel/2013-June/023605.html
   and a tweet from Mike Toews.
 
-* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-2
+* Thu Apr 11 2013 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-2
 - Provide postgis, to satisfy OS dependencies. Per #79.
 
-* Thu Mar 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.3-1
+* Thu Mar 14 2013 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3 
 
-* Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.2-1
+* Mon Dec 10 2012 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2.
 - Update download URL.
 - Add deps for JSON-C support.
 
-* Wed Nov 07 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.1-2
+* Wed Nov 07 2012 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
 
 * Wed Jul 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-1
