@@ -26,12 +26,12 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	rc1_6%{?dist}
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
-Source0:	https://ftp.postgresql.org/pub/pgadmin3/%{name}/v%{version}-rc1/src/%{name}-%{version}-rc1.tar.gz
+Source0:	https://ftp.postgresql.org/pub/pgadmin3/%{name}/v%{version}/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
@@ -172,7 +172,7 @@ BuildArch:	noarch
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n %{name}-%{version}-rc1/runtime
+%setup -q -n %{name}-%{version}/runtime
 
 %build
 cd ../runtime
@@ -286,6 +286,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Wed Sep 28 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
+- Update to pgadmin4 1.0 Gold!
+
 * Wed Sep 14 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0rc1-6
 - Fix Type in systemd unit file.
 
