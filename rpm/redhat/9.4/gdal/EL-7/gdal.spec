@@ -41,7 +41,7 @@
 
 Name:      gdal
 Version:   1.11.0
-Release:   3%{?dist}
+Release:   4%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -760,11 +760,13 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-4
+- Rebuilt for new libgeotiff
+
 * Tue Nov 25 2014 Devrim Gündüz <devrimgundu<z.org> - 1.11.0-3
 - Remove mysql support.
 - Disable tests.
 
-%changelog
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 

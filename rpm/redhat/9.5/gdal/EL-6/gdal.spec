@@ -36,7 +36,7 @@
 
 Name:      gdal
 Version:   1.9.2
-Release:   7%{?dist}
+Release:   8%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -808,6 +808,9 @@ rm -rf %{buildroot}
 #Or as before, using ldconfig
 
 %changelog
+* Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.9.2-8
+- Rebuilt for new libgeotiff
+
 * Wed Jun 17 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.2-7
 - Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
 - Re-add MySQL support.
