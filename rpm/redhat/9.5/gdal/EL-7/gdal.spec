@@ -21,13 +21,12 @@
 # Sadly noarch doesn't work in EL 5, see
 # http://fedoraproject.org/wiki/EPEL/GuidelinesAndPolicies
 
-#TODO: EvenR suggested to drop Ruby bindings, as they are unmaintained
 # He also suggest to use --with-static-proj4 to actually link to proj, instead of dlopen()ing it.
 
 
 # Tests can be of a different version
-%global testversion 1.11.0
-%global run_tests 0
+%global testversion 1.11.4
+%global run_tests 1
 
 %global with_spatialite 1
 %global spatialite "--with-spatialite"
@@ -43,17 +42,17 @@
  
 
 Name:      gdal
-Version:   1.11.0
-Release:   4%{?dist}
+Version:   1.11.4
+Release:   10%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
 URL:       http://www.gdal.org
-# Source0:   http://download.osgeo.org/gdal/gdal-%%{version}.tar.gz
+# Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:   %{name}-%{version}-fedora.tar.xz
-Source1:   http://download.osgeo.org/%{name}/%{name}autotest-%{testversion}.tar.gz
+Source1:   http://download.osgeo.org/%{name}/%{testversion}/%{name}autotest-%{testversion}.tar.gz
 Source2:   %{name}.pom
 
 # Cleaner script for the tarball
@@ -65,6 +64,9 @@ Source4:   PROVENANCE.TXT-fedora
 Patch1:    %{name}-g2clib.patch
 # Patch for Fedora JNI library location
 Patch2:    %{name}-jni.patch
+
+# https://trac.osgeo.org/gdal/ticket/6159#ticket
+Patch3:    %{name}-2.0.1-iso8211-include.patch
 
 # Fedora uses Alternatives for Java
 Patch8:    %{name}-1.9.0-java.patch
@@ -116,6 +118,7 @@ BuildRequires: mysql-devel
 BuildRequires: numpy
 BuildRequires: pcre-devel
 BuildRequires: ogdi-devel
+BuildRequires: openjpeg2-devel
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
@@ -268,6 +271,7 @@ rm -r frmts/grib/degrib18/g2clib-1.0.4
 
 %patch1 -p1 -b .g2clib~
 %patch2 -p1 -b .jni~
+%patch3 -p1 -b .iso8211~
 %patch8 -p1 -b .java~
 
 # Copy in PROVENANCE.TXT-fedora
@@ -312,7 +316,10 @@ sed -i '/^swig-modules:/s/lib-target/apps-target/' GNUmakefile
 sed -i 's|if test -z "`${CXX} testarmadillo.cpp -o testarmadillo -larmadillo 2>&1`"|if true|' configure
 
 # Replace hard-coded library- and include paths
+%ifnarch aarch64 ppc64le
+# workaround libtool bug in RHEL 7.2 (rhbz#1287191)
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' GDALmake.opt.in
+%endif
 sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
 sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' configure
 sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' configure
@@ -375,7 +382,6 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
-# openjpeg 2.0 necessary, 1.4 is in Fedora
 # Building without pgeo driver, because it drags in Java
 
 %configure \
@@ -405,14 +411,14 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-libtiff=external   \
         --with-libz               \
         --without-mdb             \
-	--with-mysql		  \
+        --with-mysql              \
         --with-netcdf             \
         --with-odbc               \
         --with-ogdi               \
         --without-msg             \
-        --without-openjpeg        \
+        --with-openjpeg           \
         --with-pcraster           \
-        --with-pg=%{pginstdir}/bin/pg_config                 \
+        --with-pg=%{pginstdir}/bin/pg_config		\
         --with-png                \
         --with-poppler            \
         %{spatialite}             \
@@ -435,6 +441,15 @@ make docs
 pushd swig/perl
   perl Makefile.PL;  make;
   echo > Makefile.PL;
+popd
+
+# Build some utilities, as requested in BZ #1271906
+pushd ogr/ogrsf_frmts/s57/
+  make all
+popd
+
+pushd frmts/iso8211/
+  make all
 popd
 
 # Install the Perl modules in the right place
@@ -491,11 +506,17 @@ make    DESTDIR=%{buildroot} \
         install \
         install-man
 
+install -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{_bindir}
+install -pm 755 frmts/iso8211/8211createfromxml %{buildroot}%{_bindir}
+install -pm 755 frmts/iso8211/8211dump %{buildroot}%{_bindir}
+install -pm 755 frmts/iso8211/8211view %{buildroot}%{_bindir}
+
 # Directory for auto-loading plugins
 mkdir -p %{buildroot}%{_libdir}/%{name}plugins
 
 #TODO: Don't do that?
 find %{buildroot}%{perl_vendorarch} -name "*.dox" -exec rm -rf '{}' \;
+rm -f %{buildroot}%{perl_archlib}/perllocal.pod
 
 # Correct permissions
 #TODO and potential ticket: Why are the permissions not correct?
@@ -610,7 +631,7 @@ cat > %{buildroot}%{_bindir}/%{name}-config <<EOF
 
 ARCH=\$(uname -m)
 case \$ARCH in
-x86_64 | ppc64 | ia64 | s390x | sparc64 | alpha | alphaev6 )
+x86_64 | ppc64 | ppc64le | ia64 | s390x | sparc64 | alpha | alphaev6 | aarch64 )
 %{name}-config-64 \${*}
 ;;
 *)
@@ -640,6 +661,7 @@ for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetPropert
 done
 #TODO: What's that?
 rm -f %{buildroot}%{_mandir}/man1/*_%{name}-%{version}-fedora_apps_*
+rm -f %{buildroot}%{_mandir}/man1/_home_rouault_dist_wrk_gdal_apps_.1*
 
 %check
 %if %{run_tests}
@@ -663,6 +685,7 @@ pushd %{name}autotest-%{testversion}
 
   # Remove some test cases that would require special preparation
   rm -rf ogr/ogr_pg.py        # No database available
+  rm -rf ogr/ogr_mysql.py     # No database available
   rm -rf osr/osr_esri.py      # ESRI datum absent
   rm -rf osr/osr_erm.py       # File from ECW absent
 
@@ -696,6 +719,8 @@ popd
 %{_bindir}/gdaltransform
 %{_bindir}/nearblack
 %{_bindir}/ogr*
+%{_bindir}/8211*
+%{_bindir}/s57*
 %{_bindir}/testepsg
 %{_mandir}/man1/gdal*.1*
 %exclude %{_mandir}/man1/gdal-config.1*
@@ -765,14 +790,30 @@ popd
 #Or as before, using ldconfig
 
 %changelog
-* Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-4
-- Rebuilt for new libgeotiff
 
-* Tue Nov 25 2014 Devrim Gündüz <devrimgundu<z.org> - 1.11.0-3
-- Remove mysql support.
-- Disable tests.
-- Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
-- Re-add MySQL support.
+* Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.11.4-10
+- Rebuilt for new libgeotiff
+- Sync with community spec.
+
+* Sun Feb 14 2016 Volker Froehlich <volker27@gmx.at> - 1.11.4-1
+- New release
+
+* Thu Feb 04 2016 Volker Froehlich <volker27@gmx.at> - 1.11.3-1
+- New release
+- Solve BZ #1271906 (Build iso8211 and s57 utilities)
+- Support openjpeg2
+
+* Thu Dec 10 2015 Dan Horák <dan[at]danny.cz> - 1.11.2-2
+- workaround libtool bug in RHEL 7.2 (rhbz#1287191)
+
+* Tue Jul  7 2015 Volker Fröhlich <volker27@gmx.at> - 1.11.2-1
+- New release
+- Rebuild for g2clib (bz 1203582)
+- Update gdal-config for aarch64 and ppc64le (bz 1227642)
+
+* Tue Nov 18 2014 Volker Fröhlich <volker27@gmx.at> - 1.11.1-1
+- New release
+- Correct test suite source URL
 
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
@@ -787,3 +828,256 @@ popd
 - Explicitly create HTML documentation with Doxygen
 - Make test execution conditional
 - Truncate changelog
+
+* Thu Apr 24 2014 Vít Ondruch <vondruch@redhat.com> - 1.10.1-7
+- Rebuilt for https://fedoraproject.org/wiki/Changes/Ruby_2.1
+
+* Fri Mar 28 2014 Michael Simacek <msimacek@redhat.com> - 1.10.1-6
+- Use Requires: java-headless rebuild (#1067528)
+
+* Fri Jan 10 2014 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-5
+- Rebuild for armadillo soname bump
+
+* Wed Jan 08 2014 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-4
+- Rebuild for cfitsio 3.360
+
+* Thu Jan 02 2014 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-3
+- Rebuild for libwebp soname bump
+
+* Sat Sep 21 2013 Orion Poplawski <orion@cora.nwra.com> - 1.10.1-2
+- Rebuild to pick up atlas 3.10 changes
+
+* Sun Sep  8 2013 Volker Fröhlich <volker27@gmx.at> - 1.10.1-1
+- New upstream release
+
+* Fri Aug 23 2013 Orion Poplawski <orion@cora.nwra.com> - 1.10.0-1
+- Update to 1.10.0
+- Enable PCRE support
+- Drop man patch applied upstream
+- Drop dods patch fixed upstream
+- Add more tex BRs to handle changes in texlive packaging
+- Fix man page install location
+
+* Mon Aug 19 2013 Marek Kasik <mkasik@redhat.com> - 1.9.2-12
+- Rebuild (poppler-0.24.0)
+
+* Sat Aug 03 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.2-11
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_20_Mass_Rebuild
+
+* Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 1.9.2-10
+- Perl 5.18 rebuild
+
+* Thu Jul 11 2013 Orion Poplawski <orion@cora.nwra.com> - 1.9.2-9
+- Rebuild for cfitsio 3.350
+
+* Mon Jun 24 2013 Volker Fröhlich <volker27@gmx.at> - 1.9.2-8
+- Rebuild for poppler 0.22.5
+
+* Wed Jun 12 2013 Orion Poplawski <orion@cora.nwra.com> - 1.9.2-7
+- Update Java/JNI for new guidelines, also fixes bug #908065
+
+* Thu May 16 2013 Orion Poplawski <orion@cora.nwra.com> - 1.9.2-6
+- Rebuild for hdf5 1.8.11
+
+* Mon Apr 29 2013 Peter Robinson <pbrobinson@fedoraproject.org> - 1.9.2-5
+- Rebuild for ARM libspatialite issue
+
+* Tue Mar 26 2013 Volker Fröhlich <volker27@gmx.at> - 1.9.2-4
+- Rebuild for cfitsio 3.340
+
+* Sun Mar 24 2013 Peter Robinson <pbrobinson@fedoraproject.org> - 1.9.2-3
+- rebuild (libcfitsio)
+
+* Wed Mar 13 2013 Vít Ondruch <vondruch@redhat.com> - 1.9.2-2
+- Rebuild for https://fedoraproject.org/wiki/Features/Ruby_2.0.0
+
+* Sun Mar 10 2013 Orion Poplawski <orion@cora.nwra.com> - 1.9.2-1
+- Update to 1.9.2
+- Drop poppler and java-swig patches applied upstream
+
+* Fri Jan 25 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.9.1-18
+- Rebuild with geos 3.3.7.
+
+* Mon Jan 21 2013 Volker Fröhlich <volker27@gmx.at> - 1.9.1-17
+- Rebuild due to libpoppler 0.22
+
+* Fri Jan 18 2013 Adam Tkac <atkac redhat com> - 1.9.1-16
+- rebuild due to "jpeg8-ABI" feature drop
+
+* Fri Dec 28 2012 Richard W.M. Jones <rjones@redhat.com> - 1.9.1-15
+- Rebuild, see
+  http://lists.fedoraproject.org/pipermail/devel/2012-December/175685.html
+
+* Thu Dec 13 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 1.9.1-14
+- Tweak -fpic CFLAGS to fix FTBFS on ARM
+
+* Mon Dec  3 2012 Orion Poplawski <orion@cora.nwra.com> - 1.9.1-13
+- Rebuild for hdf5 1.8.10
+
+* Sun Dec  2 2012 Bruno Wolff III <bruno@wolff.to> - 1.9.1-12
+- Rebuild for libspatialite soname bump
+
+* Thu Aug  9 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.1-11
+- Correct and extend conditionals for ppc andd ppc64, considering libspatialite
+  Related to BZ #846301
+
+* Sun Jul 29 2012 José Matos <jamatos@fedoraproject.org> - 1.9.1-10
+- Use the correct shell idiom "if true" instead of "if 1"
+
+* Sun Jul 29 2012 José Matos <jamatos@fedoraproject.org> - 1.9.1-9
+- Ignore for the moment the test for armadillo (to be removed after gcc 4.7.2 release)
+
+* Fri Jul 27 2012 José Matos <jamatos@fedoraproject.org> - 1.9.1-8
+- Rebuild for new armadillo
+
+* Fri Jul 20 2012 Peter Robinson <pbrobinson@fedoraproject.org> - 1.9.1-7
+- Build with PIC
+
+* Thu Jul 19 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.9.1-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
+
+* Tue Jul 10 2012 Petr Pisar <ppisar@redhat.com> - 1.9.1-5
+- Perl 5.16 rebuild
+
+* Sat Jul  7 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.1-4
+- Delete unnecessary manpage, that seems to be created with
+  new Doxygen (1.8.1 or 1.8.1.1)
+
+* Mon Jul  2 2012 Marek Kasik <mkasik@redhat.com> - 1.9.1-3
+- Rebuild (poppler-0.20.1)
+
+* Mon Jun 11 2012 Petr Pisar <ppisar@redhat.com> - 1.9.1-2
+- Perl 5.16 rebuild
+
+* Wed May 23 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.1-1
+- New upstream release
+- Update poppler patch
+- Add cleaner script
+
+* Sun May 20 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.0-5
+- Patches for libpoppler 0.20, libdap 3.11.3 and swig 2.0.6
+
+* Thu May 10 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.0-4
+- Correct provides-filtering as of https://fedoraproject.org/wiki/Packaging:AutoProvidesAndRequiresFiltering#Usage
+- Support webp
+- Remove bogus libjpeg-turbo conditional
+- Update Ruby ABI version to 1.9.1
+- Install Ruby bindings to vendorarchdir on F17 and later
+- Conditionals for Ruby specific elements for versions prior F17 and for EPEL
+- Correct quotes for CFLAGS and Ruby
+- Disable ogdi, until BZ#816282 is resolved
+
+* Wed Apr 25 2012 Orion Poplawski <orion@cora.nwra.com> - 1.9.0-2
+- Rebuild for cfitsio 3.300
+
+* Sun Feb 26 2012 Volker Fröhlich <volker27@gmx.at> - 1.9.0-1
+- Completely re-work the original spec-file
+  The major changes are:
+- Add a libs sub-package
+- Move Python scripts to python sub-package
+- Install the documentation in a better way and with less slack
+- jar's filename is versionless
+- Update the version in the Maven pom automatically
+- Add a plugins directory
+- Add javadoc package and make the man sub-package noarch
+- Support many additional formats
+- Drop static sub-package as no other package uses it as BR
+- Delete included libs before building
+- Drop all patches, switch to a patch for the manpages, patch for JAVA path
+- Harmonize the use of buildroot and RPM_BUILD_ROOT
+- Introduce testversion macro
+
+* Sun Feb 19 2012 Volker Fröhlich <volker27@gmx.at> - 1.7.3-14
+- Require Ruby abi
+- Add patch for Ruby 1.9 include dir, back-ported from GDAL 1.9
+- Change version string for gdal-config from <version>-fedora to
+  <version>
+- Revert installation path for Ruby modules, as it proofed wrong
+- Use libjpeg-turbo
+
+* Thu Feb  9 2012 Volker Fröhlich <volker27@gmx.at> - 1.7.3-13
+- Rebuild for Ruby 1.9
+  http://lists.fedoraproject.org/pipermail/ruby-sig/2012-January/000805.html
+
+* Tue Jan 10 2012 Volker Fröhlich <volker27@gmx.at> - 1.7.3-12
+- Remove FC10 specific patch0
+- Versioned MODULE_COMPAT_ Requires for Perl (BZ 768265)
+- Add isa macro to base package Requires
+- Remove conditional for xerces_c in EL6, as EL6 has xerces_c
+  even for ppc64 via EPEL
+- Remove EL4 conditionals
+- Replace the python_lib macro definition and install Python bindings
+  to sitearch directory, where they belong
+- Use correct dap library names for linking
+- Correct Ruby installation path in the Makefile instead of moving it later
+- Use libdir variable in ppc64 Python path
+- Delete obsolete chmod for Python libraries
+- Move correction for Doxygen footer to prep section
+- Delete bundled libraries before building
+- Build without bsb and remove it from the tarball
+- Use mavenpomdir macro and be a bit more precise on manpages in
+  the files section
+- Remove elements for grass support --> Will be replaced by plug-in
+- Remove unnecessary defattr
+- Correct version number in POM
+- Allow for libpng 1.5
+
+* Tue Dec 06 2011 Adam Jackson <ajax@redhat.com> - 1.7.3-11
+- Rebuild for new libpng
+
+* Tue May 17 2011 Orion Poplawski <orion@cora.nwra.com> - 1.7.3-10
+- Rebuild for hdf5 1.8.7
+
+* Fri Apr 22 2011 Volker Fröhlich <volker27@gmx.at> - 1.7.3-9
+- Patched spaces problem for Mapinfo files (mif)
+  (http://trac.osgeo.org/gdal/ticket/3694)
+- Replaced all define macros with global
+- Corrected ruby_sitelib to ruby_sitearch
+- Use python_lib and ruby_sitearch instead of generating lists
+- Added man-pages for binaries
+- Replaced mkdir and install macros
+- Removed Python files from main package files section, that
+  effectively already belonged to the Python sub-package
+
+* Mon Apr 11 2011 Volker Fröhlich <volker27@gmx.at> - 1.7.3-8
+- Solved image path problem with Latex
+- Removed with-tiff and updated with-sqlite to with-sqlite3
+- Add more refman documents
+- Adapted refman loop to actual directories
+- Harmonized buildroot macro use
+
+* Thu Mar 31 2011 Orion Poplawski <orion@cora.nwra.com> - 1.7.3-7
+- Rebuild for netcdf 4.1.2
+
+* Wed Mar 23 2011 Dan Horák <dan@danny.cz> - 1.7.3-6
+- rebuilt for mysql 5.5.10 (soname bump in libmysqlclient)
+
+* Sun Mar 20 2011 Volker Fröhlich <volker27@gmx.at> - 1.7.3-5
+- Dropped unnecessary encoding conversion for Russian refman
+- Install Russian refman
+- Don't try to install refman for sdts and dgn, as they fail to compile
+- Added -p to post and postun
+- Remove private-shared-object-provides for Python and Perl
+- Remove installdox scripts
+- gcc 4.6 doesn't accept -Xcompiler
+
+* Thu Mar 10 2011 Kalev Lember <kalev@smartlink.ee> - 1.7.3-4
+- Rebuilt with xerces-c 3.1
+
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.7.3-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
+* Sun Nov 21 2010 Viji Nair <viji [AT] fedoraproject DOT org> - 1.7.3-2
+- Install all the generated pdf documentation.
+- Build documentation as a separate package.
+- Spec cleanup
+
+* Fri Nov 19 2010 Viji Nair <viji [AT] fedoraproject DOT org> - 1.7.3-1
+- Update to latest upstream version
+- Added jnis
+- Patches updated with proper version info
+- Added suggestions from Ralph Apel <r.apel@r-apel.de>
+        + Versionless symlink for gdal.jar
+        + Maven2 pom
+        + JPP-style depmap
+        + Use -f XX.files for ruby and python
