@@ -86,7 +86,7 @@ BuildRequires: ghostscript
 BuildRequires: hdf-devel
 BuildRequires: hdf-static
 BuildRequires: hdf5-devel
-BuildRequires: java-devel >= 1:1.6.0
+BuildRequires: java-1.5.0-gcj-devel
 BuildRequires: jasper-devel
 BuildRequires: jpackage-utils
 BuildRequires: libgcj
