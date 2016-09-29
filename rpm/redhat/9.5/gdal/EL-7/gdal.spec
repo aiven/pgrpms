@@ -1,3 +1,6 @@
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
+
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
 #TODO: Create script to make clean tarball
@@ -109,13 +112,14 @@ BuildRequires: giflib-devel
 BuildRequires: netcdf-devel
 BuildRequires: libdap-devel
 BuildRequires: librx-devel
+BuildRequires: mysql-devel
 BuildRequires: numpy
 BuildRequires: pcre-devel
 BuildRequires: ogdi-devel
 BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
-BuildRequires: postgresql94-devel
+BuildRequires: postgresql%{pgmajorversion}-devel
 BuildRequires: proj-devel
 BuildRequires: python2-devel
 BuildRequires: sqlite-devel
@@ -401,13 +405,14 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-libtiff=external   \
         --with-libz               \
         --without-mdb             \
+	--with-mysql		  \
         --with-netcdf             \
         --with-odbc               \
         --with-ogdi               \
         --without-msg             \
         --without-openjpeg        \
         --with-pcraster           \
-        --with-pg                 \
+        --with-pg=%{pginstdir}/bin/pg_config                 \
         --with-png                \
         --with-poppler            \
         %{spatialite}             \
@@ -766,6 +771,8 @@ popd
 * Tue Nov 25 2014 Devrim Gündüz <devrimgundu<z.org> - 1.11.0-3
 - Remove mysql support.
 - Disable tests.
+- Fix PostgreSQL support. Per im4LF <him4lf@gmail.com>
+- Re-add MySQL support.
 
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.11.0-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
