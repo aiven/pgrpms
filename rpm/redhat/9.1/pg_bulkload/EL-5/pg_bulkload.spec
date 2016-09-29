@@ -2,11 +2,11 @@
 %global pginstdir /usr/pgsql-9.1
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_9
+%global pgbulkloadpackagever 3_1_10
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.9
+Version:	3.1.10
 Release:	1%{?dist}
 URL:		https://github.com/ossc-db/pg_bulkload
 Source0:	https://github.com/ossc-db/pg_bulkload/archive/VERSION%{pgbulkloadpackagever}.tar.gz
@@ -52,6 +52,9 @@ make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
 
 %changelog
+* Thu Sep 29 2016 Devrim GUNDUZ <devrim@gunduz.org> 3.1.10-1
+- Update to 3.1.10
+
 * Thu Feb 11 2016 Devrim GUNDUZ <devrim@gunduz.org> 3.1.9-1
 - Update to 3.1.9
 
