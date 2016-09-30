@@ -1,23 +1,25 @@
---- repmgr.conf.sample	2016-04-12 10:17:50.000000000 +0300
-+++ repmgr.conf.sample.old	2016-04-18 23:28:08.266727540 +0300
-@@ -30,6 +30,7 @@
- # This must be accessible to all servers in the cluster; for details see:
- #   http://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
+--- repmgr.conf.sample.old	2016-08-26 00:33:07.750529955 +0300
++++ repmgr.conf.sample	2016-08-26 00:34:38.142692420 +0300
+@@ -32,7 +32,8 @@
+ #   https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
+ #
  #conninfo='host=192.168.204.104 dbname=repmgr_db user=repmgr_usr'
+-#
 +conninfo='host=localhost dbname=repmgr_db user=repmgr_usr'
- 
- # Optional configuration items
- # ============================
-@@ -64,7 +65,7 @@
++
+ # If repmgrd is in use, consider explicitly setting `connect_timeout` in the
+ # conninfo string to determine the length of time which elapses before
+ # a network connection attempt is abandoned; for details see:
+@@ -72,7 +73,7 @@
  
  # stderr can be redirected to an arbitrary file:
  #
 -#logfile='/var/log/repmgr/repmgr.log'
-+logfile='/var/log/repmgr/repmgr-9.5.log'
++logfile='/var/log/repmgr/repmgr-9.5.log
  
  # event notifications can be passed to an arbitrary external program
  # together with the following parameters:
-@@ -91,7 +92,7 @@
+@@ -99,7 +100,7 @@
  
  # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
  # (if not provided, defaults to system $PATH)
@@ -26,10 +28,10 @@
  
  # external command options
  
-@@ -136,8 +137,8 @@
-                     # (default: manual)
- #priority=100       # a value of zero or less prevents the node being promoted to primary
+@@ -156,8 +157,8 @@
+                     # a value of zero or less prevents the node being promoted to primary
                      # (default: 100)
+ 
 -#promote_command='repmgr standby promote -f /path/to/repmgr.conf'
 -#follow_command='repmgr standby follow -f /path/to/repmgr.conf -W'
 +promote_command='/usr/pgsql-9.5/bin/repmgr standby promote -f /etc/repmgr/9.5/repmgr.conf'
