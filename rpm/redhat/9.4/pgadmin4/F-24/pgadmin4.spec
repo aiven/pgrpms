@@ -31,7 +31,7 @@ Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
-Source0:	https://ftp.postgresql.org/pub/pgadmin3/%{name}/v%{version}/src/%{name}-%{version}.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin3/%{name}/v1.0/source/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
