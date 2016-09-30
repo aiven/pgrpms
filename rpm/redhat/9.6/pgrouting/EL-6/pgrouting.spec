@@ -1,20 +1,29 @@
-%global postgismajorversion 2.3
-%global pgroutingmajorversion 2.3
+%global postgismajorversion 2.1
+%global pgroutingmajorversion 2.0
 %global pgmajorversion 96
 %global pginstdir /usr/pgsql-9.6
 %global sname	pgrouting
 
+# Add Traveling Salesperson functionality
+%{!?tsp_support:%global	tsp_support 1}
+# Add Driving Distance functionality
+%{!?dd_support:%global	dd_support 1}
+
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
+Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
-BuildRequires:	gcc-c++, cmake => 2.8.8
+BuildRequires:	gcc-c++, cmake
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
-BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
+BuildRequires:	boost-devel >= 1.33
+%if %{dd_support}
+BuildRequires:	CGAL-devel
+%endif
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,15 +43,22 @@ engine. There is no need for precalculation.
 value can come from multiple fields or tables.
 
 %prep
+
 %setup -q -n %{sname}-%{sname}-%{version}
+%patch0 -p0
 
 %build
 install -d build
 cd build
 %cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DPOSTGRESQL_BIN=%{pginstdir}/bin \
+%if %{tsp_support}
+	-DWITH_TSP=ON \
+%endif
 	-DCMAKE_BUILD_TYPE=Release \
+%if %{dd_support}
+	-DWITH_DD=ON \
+%endif
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64
 %endif
@@ -64,28 +80,22 @@ cd build
 %files
 %defattr(644,root,root,755)
 %doc README.md BOOST_LICENSE_1_0.txt
-%attr(755,root,root) %{pginstdir}/lib/libpgrouting-%{pgroutingmajorversion}.so
+%attr(755,root,root) %{pginstdir}/lib/librouting.so
+%if %{tsp_support}
+%attr(755,root,root) %{pginstdir}/lib/librouting_tsp.so
+%endif
+%if %{dd_support}
+%attr(755,root,root) %{pginstdir}/lib/librouting_dd.so
+%endif
+%attr(755,root,root) %{pginstdir}/lib/librouting_bd.so
+%attr(755,root,root) %{pginstdir}/lib/librouting_ksp.so
+%{pginstdir}/share/contrib/pgrouting-%{pgroutingmajorversion}/%{sname}*
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Mon Sep 26 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.3.0-1
-- Update to 2.3.0
-- Update postgis dependency to 2.3
-
-* Sat Aug 13 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.4-1
-- Update to 2.2.4
-
-* Fri May 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.3-1
-- Update to 2.2.3
-
-* Wed Apr 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.1-1
-- Update to 2.2.1
-- Decrease boost dependency version to 1.53, per report from Regina.
-
-* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1.0-1
-- Update to 2.1.0
-- Update dependency versions
-- Remove patch0, and pass PostgreSQL directory to cmake.
+* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+- Improve description
 
 * Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
@@ -108,7 +118,7 @@ cd build
 - Update to 1.05
 
 * Wed Jan 20 2010 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.3-5
-- Initial import to PostgreSQL RPM repository, with very little cosmetic
+- Initial import to PostgreSQL RPM repository, with very little cosmetic 
   changes Thanks Peter	for sending spec to me.
 
 * Wed Dec 09 2009 Peter HOPFGARTNER <peter.hopfgartner@r3-gis.com> - 1.0.3-4
