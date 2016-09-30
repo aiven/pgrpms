@@ -1,5 +1,5 @@
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
+%global pgmajorversion 92
+%global pginstdir /usr/pgsql-9.2
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
