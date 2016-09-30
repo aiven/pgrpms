@@ -146,7 +146,7 @@ Requires:	python-passlib >= 1.6.2
 Requires:	python-flask-gravatar >= 0.4.2
 Requires:	python-flask-mail >= 0.9.1
 Requires:	python-flask-security >= 1.7.5
-Requires: 	python-flask-login >= 0.3.2
+Requires:	python-flask-login >= 0.3.2
 Requires:	python-flask-principal >= 0.4.0
 Requires:	django-htmlmin >= 0.8.0
 Requires:	python-wsgiref >= 0.1.2
@@ -232,20 +232,20 @@ if [ $1 -eq 1 ] ; then
    %tmpfiles_create
   %else
    :
-   #chkconfig --add %{name}
+   #chkconfig --add %%{name}
   %endif
 fi
 
 %preun
 if [ $1 -eq 0 ] ; then
 %if %{systemd_enabled}
-        # Package removal, not upgrade
-        /bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
-        /bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 %else
 	:
-	#/sbin/service %{name} condstop >/dev/null 2>&1
-	#chkconfig --del %{name}
+	#/sbin/service %%{name} condstop >/dev/null 2>&1
+	#chkconfig --del %%{name}
 %endif
 fi
 
@@ -254,15 +254,15 @@ fi
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
  :
- #sbin/service %{name} >/dev/null 2>&1
+ #sbin/service %%{name} >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
-        # Package upgrade, not uninstall
-        /bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
  %else
     :
-   #/sbin/service %{name} condrestart >/dev/null 2>&1
+	#/sbin/service %%{name} condrestart >/dev/null 2>&1
  %endif
 fi
 
