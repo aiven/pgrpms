@@ -12,7 +12,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
@@ -93,6 +93,9 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Sat Oct 1 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-2
+- Rebuilt for CGAL 4.7
+
 * Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 - Improve description
