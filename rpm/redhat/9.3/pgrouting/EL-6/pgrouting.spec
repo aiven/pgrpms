@@ -11,14 +11,14 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
-Release:	1%{dist}
+Version:	%{pgroutingmajorversion}.1
+Release:	2%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
 Patch0:		pgrouting-cmake-pgconfig-path.patch
 URL:		http://pgrouting.org/
-BuildRequires:	gcc-c++, cmake28
+BuildRequires:	gcc-c++, cmake
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
 BuildRequires:	boost-devel >= 1.33
 %if %{dd_support}
@@ -29,46 +29,57 @@ Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Routing functionality for PostgreSQL/PostGIS system.
+pgRouting extends the PostGIS / PostgreSQL geospatial database to
+provide geospatial routing functionality.
+
+Advantages of the database routing approach are:
+
+- Data and attributes can be modified by many clients, like QGIS and
+uDig through JDBC, ODBC, or directly using Pl/pgSQL. The clients can
+either be PCs or mobile devices)
+- Data changes can be reflected instantaneously through the routing
+engine. There is no need for precalculation.
+- The “cost” parameter can be dynamically calculated through SQL and its
+value can come from multiple fields or tables.
 
 %prep
 
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{sname}-%{version}
 %patch0 -p0
 
 %build
 install -d build
 cd build
-cmake28 .. \
+%cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 %if %{tsp_support}
 	-DWITH_TSP=ON \
 %endif
 	-DCMAKE_BUILD_TYPE=Release \
 %if %{dd_support}
-	-DWITH_DD=ON -DBoost_NO_BOOST_CMAKE=ON \
+	-DWITH_DD=ON \
 %endif
-#%if "%{_lib}" == "lib64"
-#	-DLIB_SUFFIX=64
-#%endif
+%if "%{_lib}" == "lib64"
+	-DLIB_SUFFIX=64
+%endif
 
 %{__make}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %{__make} -C build install \
 	DESTDIR=%{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%doc README.md BOOST_LICENSE_1_0.txt 
+%doc README.md BOOST_LICENSE_1_0.txt
 %attr(755,root,root) %{pginstdir}/lib/librouting.so
 %if %{tsp_support}
 %attr(755,root,root) %{pginstdir}/lib/librouting_tsp.so
@@ -82,9 +93,15 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Sat Oct 1 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-2
+- Rebuilt for CGAL 4.7
+
+* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+- Improve description
+
 * Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
-- Add (-DBoost_NO_BOOST_CMAKE=ON) to cmake28, per Dirk Lohbeck
 
 * Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
 - Update to 2.0.0 rc1
