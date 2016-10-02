@@ -72,11 +72,11 @@ rm -rf %{buildroot}
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
 popd
 %endif
 
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
 
  
 %files
