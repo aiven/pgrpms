@@ -20,7 +20,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	2.2.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -237,6 +237,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sun Oct 02 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-3
+- Rebuilt for new gdal
+
 * Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
 - Remove wildcard in -client subpackage, per John. Fixes #1769.
 
