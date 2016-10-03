@@ -1,18 +1,18 @@
---- Makefile.old	2016-09-29 00:37:58.775073239 +0300
-+++ Makefile	2016-09-29 00:38:22.037869435 +0300
-@@ -3,12 +3,14 @@
- CC ?= gcc
- CFLAGS = -g -std=gnu99 -Wall -pedantic
- PREFIX ?= /usr
+--- Makefile.old	2016-10-03 18:28:08.278690023 +0300
++++ Makefile	2016-10-03 18:28:16.993619422 +0300
+@@ -8,7 +8,7 @@
+ MANDIR = /usr/share/man/man1
+ 
+ # PostgreSQL stuff
 -PGCONFIG ?= pg_config
 +PGCONFIG ?= /usr/pgsql-9.6/bin/pg_config
  PGLIBDIR = $(shell $(PGCONFIG) --libdir)
  PGINCLUDEDIR = $(shell $(PGCONFIG) --includedir)
- ifndef NCONFIG
- 	ifeq ($(shell sh -c 'which ncurses5-config>/dev/null 2>/dev/null && echo y'), y)
- 		NCONFIG = ncurses5-config
-+	else ifeq ($(shell sh -c 'which ncurses6-config>/dev/null 2>/dev/null && echo y'), y)
-+		NCONFIG = ncurses6-config
- 	else ifeq ($(shell sh -c 'which ncursesw5-config>/dev/null 2>/dev/null && echo y'), y)
- 		NCONFIG = ncursesw5-config
- 	endif
+ PGLIBS = -lpq
+@@ -74,4 +74,4 @@
+ 
+ uninstall:
+ 	rm -f $(DESTDIR)$(PREFIX)/bin/$(PROGRAM_NAME)
+-	rm -f $(MANDIR)/$(PROGRAM_NAME).1.gz
+\ No newline at end of file
++	rm -f $(MANDIR)/$(PROGRAM_NAME).1.gz

@@ -5,7 +5,7 @@
 
 Summary:	top-like PostgreSQL statistics viewer.
 Name:		pgcenter
-Version:	0.2.0
+Version:	0.3.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -57,5 +57,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct 3 2016 - Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
+- Update to 0.3.0
+- Update patch0, and remove portions that are included ino
+  upstream.
+
 * Wed Jan 06 2016 - Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
