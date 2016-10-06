@@ -19,8 +19,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.2.2
-Release:	3%{?dist}
+Version:	2.2.3
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -135,8 +135,8 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship
-# postgis-2.0.so file along with 2.1 package, so that we can upgrade:
+# PostGIS 2.2 breaks compatibility with 2.1, and we need to ship
+# postgis-2.1.so file along with 2.2 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
 
@@ -144,7 +144,7 @@ cd %{sname}-%{postgisprevversion}
 	 --disable-rpath --libdir=%{pginstdir}/lib
 
 make LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
-# Install postgis-2.0.so file manually:
+# Install postgis-2.1.so file manually:
 %{__mkdir} -p %{buildroot}/%{pginstdir}/lib/
 %{__install} -m 644 postgis/postgis-%{postgisprevmajorversion}.so %{buildroot}/%{pginstdir}/lib/postgis-%{postgisprevmajorversion}.so
 
@@ -237,6 +237,12 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Oct 6 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-1
+- Update to 2.2.3, per changes described at:
+  http://postgis.net/2016/10/06/postgis-2.2.3/
+- Update comments about the previous version to point to the
+  new releases.
+
 * Sun Oct 02 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-3
 - Rebuilt for new gdal
 
