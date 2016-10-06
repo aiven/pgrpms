@@ -240,7 +240,7 @@ fi
 %changelog
 * Thu Oct 6 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-3
 - Update previous PostGIS version to 2.2.3
-- Update commands about the previous version to point to the
+- Update comments about the previous version to point to the
   new releases.
 
 * Sat Oct 01 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-2
