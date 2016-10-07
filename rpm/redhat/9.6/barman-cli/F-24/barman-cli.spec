@@ -20,11 +20,11 @@
 %global __python_ver python
 %endif
 
-%global main_version 1.1
+%global main_version 1.2
 # comment out the next line if not a pre-release (use '#%%global ...')
 #%%global extra_version a1
 # Usually 1 - unique sequence for all pre-release version
-%global package_release 2
+%global package_release 1
 
 %{!?pybasever: %define pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
 %{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
@@ -76,6 +76,9 @@ by 2ndQuadrant.
 %doc %{_mandir}/man1/barman-wal-restore.1.gz
 
 %changelog
+* Fri Oct 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
+- Update to 1.2. Fixes #1799.
+
 * Fri Sep 16 2016 - Francesco Canovai <francesco.canovai@2ndquadrant.it> 1.1-2
 - Fixed dependency on python-argparse
 
