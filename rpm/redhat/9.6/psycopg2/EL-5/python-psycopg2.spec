@@ -176,6 +176,7 @@ done
 - Move one .so file into python3-psycopg2 subpackage, per report
   from Oskari Saarenmaa.
 - Fix RHEL 6 builds, with custom conditionals.
+- Add BR for Python 2.7 environments.
 
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-2
 - Move python-debug (PY2 version) package into non-py3 builds.
