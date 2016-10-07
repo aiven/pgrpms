@@ -1,18 +1,22 @@
-%global pgmajorversion 91
-%global pginstdir /usr/pgsql-9.1
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname psycopg2
 
-%if 0%{?fedora} > 22
+%if 0%{?fedora} > 23
 %global with_python3 1
 %else
 %global with_python3 0
 %endif
 
 %if 0%{?with_python3}
-%global	python_runtimes	python python-debug python3 python3-debug
+ %global	python_runtimes	python python-debug python3 python3-debug
 %else
-%global python_runtimes	python
-%endif # with_python3
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+    %global	python_runtimes	python
+   %else
+    %global python_runtimes python python-debug
+  %endif
+%endif
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
@@ -25,7 +29,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
 Version:	2.6.2
-Release:	1%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -51,7 +55,6 @@ programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
-%if 0%{?with_python3}
 %package debug
 Summary:	A PostgreSQL database adapter for Python 2 (debug build)
 # Require the base package, as we're sharing .py/.pyc files:
@@ -62,6 +65,7 @@ Group:		Applications/Databases
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
 
+%if 0%{?with_python3}
 %package -n python3-%{sname}
 Summary:	A PostgreSQL database adapter for Python 3
 
@@ -140,9 +144,7 @@ done
 %defattr(-,root,root)
 %doc LICENSE
 %{python_sitearch}/%{sname}/_psycopg_d.so
-%endif
 
-%if 0%{?with_python3}
 %files -n python3-%{sname}
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
@@ -151,11 +153,12 @@ done
 %dir %{python3_sitearch}/%{sname}/__pycache__
 %{python3_sitearch}/%{sname}/__pycache__/*.pyc
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
 %doc LICENSE
-%{python3_sitearch}/%{sname}/_psycopg.cpython-3*m*.so
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3*dm*.so
 %endif # with_python3
 
 %files doc
@@ -163,6 +166,15 @@ done
 %doc doc examples/
 
 %changelog
+* Fri Oct 7 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-3
+- Move one .so file into python3-psycopg2 subpackage, per report
+  from Oskari Saarenmaa.
+- Fix RHEL 6 builds, with custom conditionals.
+
+* Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-2
+- Move python-debug (PY2 version) package into non-py3 builds.
+  We need this at least for pgadmin4.
+
 * Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-1
 - Update to 2.6.2, per changes described at:
   http://www.psycopg.org/psycopg/articles/2016/07/07/psycopg-262-released/

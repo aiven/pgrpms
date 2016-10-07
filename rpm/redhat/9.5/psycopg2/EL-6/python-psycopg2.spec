@@ -1,5 +1,5 @@
-%global pgmajorversion 95
-%global pginstdir /usr/pgsql-9.5
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname psycopg2
 
 %if 0%{?fedora} > 23
@@ -9,10 +9,14 @@
 %endif
 
 %if 0%{?with_python3}
-%global	python_runtimes	python python-debug python3 python3-debug
+ %global	python_runtimes	python python-debug python3 python3-debug
 %else
-%global python_runtimes	python python-debug
-%endif # with_python3
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+    %global	python_runtimes	python
+   %else
+    %global python_runtimes python python-debug
+  %endif
+%endif
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
@@ -25,7 +29,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
 Version:	2.6.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -135,12 +139,12 @@ done
 %{python_sitearch}/%{sname}/*.pyo
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
+%if 0%{?with_python3}
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
 %{python_sitearch}/%{sname}/_psycopg_d.so
 
-%if 0%{?with_python3}
 %files -n python3-%{sname}
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
@@ -149,11 +153,12 @@ done
 %dir %{python3_sitearch}/%{sname}/__pycache__
 %{python3_sitearch}/%{sname}/__pycache__/*.pyc
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
 %doc LICENSE
-%{python3_sitearch}/%{sname}/_psycopg.cpython-3*m*.so
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3*dm*.so
 %endif # with_python3
 
 %files doc
@@ -161,6 +166,11 @@ done
 %doc doc examples/
 
 %changelog
+* Fri Oct 7 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-3
+- Move one .so file into python3-psycopg2 subpackage, per report
+  from Oskari Saarenmaa.
+- Fix RHEL 6 builds, with custom conditionals.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-2
 - Move python-debug (PY2 version) package into non-py3 builds.
   We need this at least for pgadmin4.
