@@ -5,13 +5,12 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	1.3.0
-Release:	2%{?dist}
+Version:	1.3.1
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		https://github.com/julmon/pg_activity/
 Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
-Patch0:		pg_activity-%{version}-pg96.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python > 2.6, python-psutil > 0.4.1, python-psycopg2 >= 2.2.1
@@ -22,7 +21,6 @@ top like application for PostgreSQL server activity monitoring.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
 
 %build
 %{__python} setup.py build
@@ -42,6 +40,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/pgactivity/*.py*
 
 %changelog
+* Fri Oct 7 2016 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+
 * Mon Oct 3 2016 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
 - Add a patch to fix compatibility with PostgreSQL 9.6. This
   patch will be removed when next version is out.
