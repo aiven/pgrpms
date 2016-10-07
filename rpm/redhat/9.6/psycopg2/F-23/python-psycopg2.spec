@@ -45,6 +45,10 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
 
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
+BuildRequires:	python-debug
+%endif # Python 2.7
+
 Requires:	postgresql%{pgmajorversion}-libs
 
 Conflicts:	python-%{sname}-zope < %{version}
