@@ -26,7 +26,7 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -36,6 +36,7 @@ Source1:	%{name}.conf
 Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
 Source4:	%{name}.desktop.in
+Source5:	%{name}.config_local.py.in
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -95,7 +96,6 @@ Requires:	python3-blinker >= 1.3
 Requires:	python3-html5lib >= 1.0b3
 Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
-Requires:	python3-psycopg2-debug >= 2.6.2
 Requires:	python3-six >= 1.9.0
 Requires:	python3-crypto >= 2.6.1
 Requires:	python3-simplejson >= 3.6.5
@@ -133,7 +133,6 @@ Requires:	python-blinker >= 1.3
 Requires:	python-html5lib >= 1.0b3
 Requires:	python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2
-Requires:	python-psycopg2-debug >= 2.6.2
 Requires:	python-six >= 1.9.0
 Requires:	python-crypto >= 2.6.1
 Requires:	python-simplejson >= 3.6.5
@@ -146,7 +145,7 @@ Requires:	python-passlib >= 1.6.2
 Requires:	python-flask-gravatar >= 0.4.2
 Requires:	python-flask-mail >= 0.9.1
 Requires:	python-flask-security >= 1.7.5
-Requires: 	python-flask-login >= 0.3.2
+Requires:	python-flask-login >= 0.3.2
 Requires:	python-flask-principal >= 0.4.0
 Requires:	django-htmlmin >= 0.8.0
 Requires:	python-wsgiref >= 0.1.2
@@ -188,15 +187,23 @@ make
 %{__rm} -rf %{buildroot}
 install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/
 %{__cp} -pr ../docs/* %{buildroot}%{_docdir}/%{name}-docs
+
 install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
+
 install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
 %{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/pgadmin4-web
+
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 install -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+
 # Install desktop file
 install -d %{buildroot}%{_datadir}/applications/
 sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
+
+# Install config_local
+install -m 755 %{SOURCE5} %{buildroot}%{PYTHON_SITELIB}/%{name}-web/config_local.py
+
 # Install unit file/init script
 %if %{systemd_enabled}
 # This is only for systemd supported distros:
@@ -212,7 +219,7 @@ mkdir -p %{buildroot}/%{_tmpfilesdir}
 install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
 cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
-%{__rm} -f %{name}.db config_local.*
+%{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
 echo "HTML_HELP = '/usr/share/doc/%{name}-docs/en_US/html/'" >> config_distro.py
 echo "
@@ -232,20 +239,20 @@ if [ $1 -eq 1 ] ; then
    %tmpfiles_create
   %else
    :
-   #chkconfig --add %{name}
+   #chkconfig --add %%{name}
   %endif
 fi
 
 %preun
 if [ $1 -eq 0 ] ; then
 %if %{systemd_enabled}
-        # Package removal, not upgrade
-        /bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
-        /bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 %else
 	:
-	#/sbin/service %{name} condstop >/dev/null 2>&1
-	#chkconfig --del %{name}
+	#/sbin/service %%{name} condstop >/dev/null 2>&1
+	#chkconfig --del %%{name}
 %endif
 fi
 
@@ -254,15 +261,15 @@ fi
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
  :
- #sbin/service %{name} >/dev/null 2>&1
+ #sbin/service %%{name} >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
-        # Package upgrade, not uninstall
-        /bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
  %else
     :
-   #/sbin/service %{name} condrestart >/dev/null 2>&1
+	#/sbin/service %%{name} condrestart >/dev/null 2>&1
  %endif
 fi
 
@@ -274,7 +281,8 @@ fi
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
-%{PYTHON_SITELIB}/%{name}-web
+%dir %{PYTHON_SITELIB}/%{name}-web/
+%{PYTHON_SITELIB}/%{name}-web/*
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %if %{systemd_enabled}
 %{_unitdir}/%{name}.service
@@ -286,6 +294,11 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Oct 6 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-2
+- Fix various packaging issues:
+  - Install config_local.py with some default values. Fixes #1820.
+  - Fix desktop file. Fixes #1829.
+
 * Wed Sep 28 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Update to pgadmin4 1.0 Gold!
 
