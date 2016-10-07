@@ -28,16 +28,16 @@
 +pg_bindir=/usr/pgsql-9.3/bin/
  #
  # Debian/Ubuntu users: you will probably need to set this to the directory
- # where `pg_ctl` is located, e.g. /usr/lib/postgresql/9.3/bin/
+ # where `pg_ctl` is located, e.g. /usr/lib/postgresql/9.5/bin/
 @@ -123,11 +125,11 @@
- #       /usr/bin/systemctl start postgresql-9.3, \
- #       /usr/bin/systemctl restart postgresql-9.3
+ #       /usr/bin/systemctl start postgresql-9.5, \
+ #       /usr/bin/systemctl restart postgresql-9.5
  #
--# service_start_command = systemctl start postgresql-9.3
--# service_stop_command = systemctl stop postgresql-9.3
--# service_restart_command = systemctl restart postgresql-9.3
--# service_reload_command = pg_ctlcluster 9.3 main reload
--# service_promote_command = pg_ctlcluster 9.3 main promote
+-# service_start_command = systemctl start postgresql-9.5
+-# service_stop_command = systemctl stop postgresql-9.5
+-# service_restart_command = systemctl restart postgresql-9.5
+-# service_reload_command = pg_ctlcluster 9.5 main reload
+-# service_promote_command = pg_ctlcluster 9.5 main promote
 +# service_start_command = systemctl start postgresql-9.3
 +# service_stop_command = systemctl stop postgresql-9.3
 +# service_restart_command = systemctl restart postgresql-9.3
