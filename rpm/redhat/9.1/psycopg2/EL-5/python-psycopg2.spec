@@ -1,5 +1,5 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 91
+%global pginstdir /usr/pgsql-9.1
 %global sname psycopg2
 
 %if 0%{?fedora} > 23
