@@ -45,6 +45,10 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
 
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
+BuildRequires:	python-debug
+%endif # Python 2.7
+
 Requires:	postgresql%{pgmajorversion}-libs
 
 Conflicts:	python-%{sname}-zope < %{version}
@@ -139,12 +143,14 @@ done
 %{python_sitearch}/%{sname}/*.pyo
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
-%if 0%{?with_python3}
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
 %{python_sitearch}/%{sname}/_psycopg_d.so
+%endif
 
+%if 0%{?with_python3}
 %files -n python3-%{sname}
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
@@ -170,6 +176,7 @@ done
 - Move one .so file into python3-psycopg2 subpackage, per report
   from Oskari Saarenmaa.
 - Fix RHEL 6 builds, with custom conditionals.
+- Add BR for Python 2.7 environments.
 
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-2
 - Move python-debug (PY2 version) package into non-py3 builds.
