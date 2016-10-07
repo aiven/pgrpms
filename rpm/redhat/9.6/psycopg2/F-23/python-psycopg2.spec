@@ -139,12 +139,14 @@ done
 %{python_sitearch}/%{sname}/*.pyo
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
-%if 0%{?with_python3}
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
 %{python_sitearch}/%{sname}/_psycopg_d.so
+%endif
 
+%if 0%{?with_python3}
 %files -n python3-%{sname}
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
