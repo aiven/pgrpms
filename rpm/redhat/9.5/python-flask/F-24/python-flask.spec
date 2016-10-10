@@ -43,8 +43,8 @@ Requires:	python3-itsdangerous
 Requires:	python3-click
 %else
 BuildRequires:	python2-devel
-BuildRequires:	python2-setuptools
-BuildRequires:	python2-pytest
+BuildRequires:	python-setuptools
+BuildRequires:	pytest
 BuildRequires:	python-jinja2
 BuildRequires:	python-werkzeug
 BuildRequires:	python-itsdangerous
@@ -112,6 +112,7 @@ CFLAGS="%{optflags}" %{__ospython3} setup.py build
 - Fix unmet dependencies issue in spec file. Fixes #1738.
   Patch by Martin Collins.
 - Fix rpmlint warnings (convert spaces to tabs)
+- Fix PY2 dependencies.
 
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-4
 - Initial packaging for PostgreSQL YUM repo, to satisfy pgadmin4 dependency.
