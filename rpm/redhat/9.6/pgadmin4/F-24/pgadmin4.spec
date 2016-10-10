@@ -11,22 +11,22 @@
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global PYTHON_SITELIB %{python3_sitelib}
+%global PYTHON_SITELIB64 %{python3_sitelib64}
 %else
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%endif
-
-%if 0%{?with_python3}
-%global PYTHON_SITELIB %{python3_sitelib}
-%else
+%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global PYTHON_SITELIB %{python2_sitelib}
+%global PYTHON_SITELIB64 %{python2_sitelib64}
 %endif
 
 Name:		pgadmin4
 Version:	1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -37,6 +37,7 @@ Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
 Source4:	%{name}.desktop.in
 Source5:	%{name}.config_local.py.in
+Source6:	%{name}.qt.conf.in
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -81,6 +82,7 @@ as a desktop application.
 
 %package	-n %{name}-web
 Summary:	pgAdmin4 web package
+Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-babel >= 1.3
@@ -118,6 +120,7 @@ Requires:	python3-fixtures >= 2.0.0
 Requires:	python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
+Requires:	python3-mod_wsgi
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2, unittest2
 %else
 Requires:	python-babel >= 1.3
@@ -158,6 +161,7 @@ Requires:	python-importlib >= 1.0.3
 Requires:	python-pyrsistent >= 0.11.13
 Requires:	python-mimeparse >= 1.5.1
 Requires:	python-speaklater >= 1.3
+Requires:	mod_wsgi
 %endif
 
 %description    -n %{name}-web
@@ -203,6 +207,11 @@ sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < 
 
 # Install config_local
 install -m 755 %{SOURCE5} %{buildroot}%{PYTHON_SITELIB}/%{name}-web/config_local.py
+
+# Install QT conf file
+# This directory will/may change in future releases.
+install -d "%{buildroot}%{_sysconfdir}/pgAdmin Development Team/"
+sed -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgAdmin Development Team/pgAdmin 4.conf"
 
 # Install unit file/init script
 %if %{systemd_enabled}
@@ -278,6 +287,7 @@ fi
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{pgadmin4instdir}/runtime/pgadmin4.ini
 %{_datadir}/applications/%{name}.desktop
+"%{_sysconfdir}/pgAdmin Development Team/pgAdmin 4.conf"
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
@@ -294,6 +304,12 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Mon Oct 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-3
+- Fix more packaging issues:
+  - Add dependency for mod_wsgi, per report from Josh Berkus.
+  - Add QT conf file for desktop application to work. Per Dave Page.
+  - Add -docs subpacage as Requires: to main package. Per Dave.
+
 * Thu Oct 6 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-2
 - Fix various packaging issues:
   - Install config_local.py with some default values. Fixes #1820.
