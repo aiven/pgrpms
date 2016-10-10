@@ -1,6 +1,6 @@
 %global pginstdir /usr/pgsql-9.6
 %global pgmajorversion 96
-%global sname   skytools
+%global sname skytools
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
@@ -33,7 +33,7 @@ This package has PostgreSQL modules of skytools.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%setup -T -D -a 1 -n %{sname}-%{version}
+%setup -q -T -D -a 1 -n %{sname}-%{version}
 
 %build
 rmdir lib

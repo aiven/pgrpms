@@ -18,10 +18,10 @@
 [ "$NETWORKING" = "no" ] && exit 0
 
 skyuser=skytools
-skytools3="/usr/skytools-95/bin/scriptmgr3"
+skytools3="/usr/skytools-96/bin/scriptmgr3"
 prog=$(basename $skytools3)
 
-SKYTOOLS3_CONF_FILE="/etc/skytools-95/skytools.ini"
+SKYTOOLS3_CONF_FILE="/etc/skytools-96/skytools.ini"
 
 lockfile=/var/run/skytools/skytools3
 
