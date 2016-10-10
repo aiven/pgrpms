@@ -26,7 +26,7 @@
 
 Name:		pgadmin4
 Version:	1.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -304,6 +304,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Mon Oct 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-4
+- Fix Exec path in desktop file.
+
 * Mon Oct 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-3
 - Fix more packaging issues:
   - Add dependency for mod_wsgi, per report from Josh Berkus.
