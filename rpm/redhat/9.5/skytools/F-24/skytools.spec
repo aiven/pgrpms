@@ -1,7 +1,6 @@
-%global	pginstdir /usr/pgsql-9.5
-%global	pgmajorversion 95
-%global	stinstdir /usr/%{name}
-%global	sname	skytools
+%global pginstdir /usr/pgsql-9.5
+%global pgmajorversion 95
+%global sname skytools
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
@@ -9,19 +8,19 @@
 
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.2
-Release:	4%{?dist}
+Version:	3.2.6
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/3622/%{sname}-%{version}.tar.gz
-Source1:	%{name}.init
-URL:		http://pgfoundry.org/projects/skytools
-BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel
+Source0:	https://github.com/markokr/%{sname}/archive/%{version}.tar.gz
+Source1:	https://github.com/markokr/libusual/archive/2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b.zip
+URL:		https://github.com/markokr/skytools
+BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel, xmlto, asciidoc
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-Database management tools from Skype:WAL shipping, queueing, replication.
+Database management tools from Skype: WAL shipping, queueing, replication.
 The tools are named walmgr, PgQ and Londiste, respectively.
 
 %package modules
@@ -34,37 +33,64 @@ This package has PostgreSQL modules of skytools.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%setup -q -T -D -a 1 -n %{sname}-%{version}
 
 %build
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --prefix=%{stinstdir} \
-	--with-python=%{_bindir}/python
+rmdir lib
+%{__mv} libusual-2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b lib
+sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:' sql/pgq/triggers/stringutil.c
+./autogen.sh
+%configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-asciidoc
 
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 make %{?_smp_mflags} DESTDIR=%{buildroot} python-install modules-install
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-%post
-useradd -r skytools
-mkdir -p %{_logdir}/%{name}
-chown -R skytools %{_logdir}/%{name}
-/sbin/ldconfig
-
+%post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
-%{_bindir}/pgqd
-%{stinstdir}/bin/
+%attr(755,root,root) %{_bindir}/data_maintainer3
+%attr(755,root,root) %{_bindir}/londiste3
+%attr(755,root,root) %{_bindir}/pgqd
+%attr(755,root,root) %{_bindir}/qadmin
+%attr(755,root,root) %{_bindir}/queue_mover3
+%attr(755,root,root) %{_bindir}/queue_splitter3
+%attr(755,root,root) %{_bindir}/scriptmgr3
+%attr(755,root,root) %{_bindir}/simple_consumer3
+%attr(755,root,root) %{_bindir}/simple_local_consumer3
+%attr(755,root,root) %{_bindir}/skytools_upgrade3
+%attr(755,root,root) %{_bindir}/walmgr3
+%dir %{_libdir}/python%{pyver}/site-packages/londiste
+/usr/lib//python%{pyver}/site-packages/pkgloader.py*
+%{_libdir}/python%{pyver}/site-packages/londiste/*.py*
+%{_libdir}/python%{pyver}/site-packages/londiste/handlers/*.py*
+%{_libdir}/python%{pyver}/site-packages/pgq/*.py*
+%{_libdir}/python%{pyver}/site-packages/skytools/*.py*
+%{_libdir}/python%{pyver}/site-packages/skytools/*.so
+%{_libdir}/python%{pyver}/site-packages/pgq/cascade/*.py*
+/usr/lib/python%{pyver}/site-packages/pkgloader-1.0-py%{pyver}.egg-info
+%{_libdir}/python%{pyver}/site-packages/skytools-%{version}-py%{pyver}.egg-info
 %{pginstdir}/share/contrib/londiste.sql
 %{pginstdir}/share/contrib/londiste.upgrade.sql
-%{pginstdir}/share/contrib/newgrants_*.sql
-%{pginstdir}/share/contrib/oldgrants_*.sql
+%{pginstdir}/share/contrib/newgrants_londiste.sql
+%{pginstdir}/share/contrib/newgrants_pgq.sql
+%{pginstdir}/share/contrib/newgrants_pgq_coop.sql
+%{pginstdir}/share/contrib/newgrants_pgq_ext.sql
+%{pginstdir}/share/contrib/newgrants_pgq_node.sql
+%{pginstdir}/share/contrib/oldgrants_londiste.sql
+%{pginstdir}/share/contrib/oldgrants_pgq.sql
+%{pginstdir}/share/contrib/oldgrants_pgq_coop.sql
+%{pginstdir}/share/contrib/oldgrants_pgq_ext.sql
+%{pginstdir}/share/contrib/oldgrants_pgq_node.sql
+%{pginstdir}/share/contrib/pgq.sql
 %{pginstdir}/share/contrib/pgq.upgrade.sql
 %{pginstdir}/share/contrib/pgq_coop.sql
 %{pginstdir}/share/contrib/pgq_coop.upgrade.sql
@@ -74,17 +100,45 @@ chown -R skytools %{_logdir}/%{name}
 %{pginstdir}/share/contrib/pgq_node.upgrade.sql
 %{pginstdir}/share/contrib/txid.sql
 %{pginstdir}/share/contrib/uninstall_pgq.sql
-%{pginstdir}/share/contrib/pgq.sql
+%{pginstdir}/share/extension/londiste--3.1--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.1.1--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.1.3--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.1.4--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.1.6--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.2--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.2.3--3.2.4.sql
+%{pginstdir}/share/extension/londiste--3.2.4.sql
+%{pginstdir}/share/extension/londiste--unpackaged--3.2.4.sql
 %{pginstdir}/share/extension/londiste.control
-%{pginstdir}/share/extension/londiste*.sql
-%{pginstdir}/share/extension/pgq-*.sql
 %{pginstdir}/share/extension/pgq.control
-%{pginstdir}/share/extension/pgq_coop-*.sql
+%{pginstdir}/share/extension/pgq--3.1--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.1.1--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.1.2--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.1.3--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.1.6--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.2--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.2.3--3.2.6.sql
+%{pginstdir}/share/extension/pgq--3.2.6.sql
+%{pginstdir}/share/extension/pgq--unpackaged--3.2.6.sql
+%{pginstdir}/share/extension/pgq_coop--3.1--3.1.1.sql
+%{pginstdir}/share/extension/pgq_coop--3.1.1.sql
+%{pginstdir}/share/extension/pgq_coop--unpackaged--3.1.1.sql
 %{pginstdir}/share/extension/pgq_coop.control
-%{pginstdir}/share/extension/pgq_node-*.sql
-%{pginstdir}/share/extension/pgq_node.control
-%{pginstdir}/share/extension/pgq_ext-*.sql
+%{pginstdir}/share/extension/pgq_ext--3.1.sql
+%{pginstdir}/share/extension/pgq_ext--unpackaged--3.1.sql
 %{pginstdir}/share/extension/pgq_ext.control
+%{pginstdir}/share/extension/pgq_node.control
+%{pginstdir}/share/extension/pgq_node--3.1--3.2.5.sql
+%{pginstdir}/share/extension/pgq_node--3.1.3--3.2.5.sql
+%{pginstdir}/share/extension/pgq_node--3.1.6--3.2.5.sql
+%{pginstdir}/share/extension/pgq_node--3.2--3.2.5.sql
+%{pginstdir}/share/extension/pgq_node--3.2.5.sql
+%{pginstdir}/share/extension/pgq_node--unpackaged--3.2.5.sql
+%{pginstdir}/doc/extension/README.pgq
+%{pginstdir}/doc/extension/README.pgq_ext
+%{_docdir}/skytools3/conf/pgqd.ini.templ
+%{_docdir}/skytools3/conf/wal-master.ini
+%{_docdir}/skytools3/conf/wal-slave.ini
 %{_mandir}/man1/londiste3.1.gz
 %{_mandir}/man1/pgqd.1.gz
 %{_mandir}/man1/qadmin.1.gz
@@ -95,18 +149,19 @@ chown -R skytools %{_logdir}/%{name}
 %{_mandir}/man1/simple_local_consumer3.1.gz
 %{_mandir}/man1/skytools_upgrade3.1.gz
 %{_mandir}/man1/walmgr3.1.gz
-%{stinstdir}/lib/python2.7/site-packages/pkgloader-1.0-py2.7.egg-info
-%{stinstdir}/lib64/python2.7/site-packages/skytools-3.2-py2.7.egg-info
-%{stinstdir}/lib/python2.7/site-packages/pkgloader.py
-%{stinstdir}/lib/python2.7/site-packages/pkgloader.pyc
-%{stinstdir}/lib/python2.7/site-packages/pkgloader.pyo
-%{stinstdir}/lib64/python2.7/site-packages/londiste/
-%{stinstdir}/lib64/python2.7/site-packages/pgq/
-%{stinstdir}/lib64/python2.7/site-packages/skytools/
-%{stinstdir}/share/doc/skytools3/conf/
-%{stinstdir}/share/skytools3
-/usr/share/doc/pgsql/extension/README.pgq
-/usr/share/doc/pgsql/extension/README.pgq_ext
+%{_datadir}/skytools3/londiste.upgrade_2.1_to_3.1.sql
+%{_datadir}/skytools3/pgq.upgrade_2.1_to_3.0.sql
+
+%{_datadir}/skytools3/londiste.sql
+%{_datadir}/skytools3/londiste.upgrade.sql
+%{_datadir}/skytools3/pgq.sql
+%{_datadir}/skytools3/pgq.upgrade.sql
+%{_datadir}/skytools3/pgq_coop.sql
+%{_datadir}/skytools3/pgq_coop.upgrade.sql
+%{_datadir}/skytools3/pgq_ext.sql
+%{_datadir}/skytools3/pgq_ext.upgrade.sql
+%{_datadir}/skytools3/pgq_node.sql
+%{_datadir}/skytools3/pgq_node.upgrade.sql
 
 %files modules
 %{pginstdir}/lib/pgq_lowlevel.so
@@ -115,12 +170,8 @@ chown -R skytools %{_logdir}/%{name}
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
-* Mon Jan 19 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.2.0-2
-- Update changelog for:
-   Update to 3.2, per changes described at
-   http://pgfoundry.org/frs/shownotes.php?release_id=2078
-- Simplify the spec file a bit
-- Create unified spec file for all distros, with help of some macros.
+* Wed Sep 28 2016 Victor Yegorov <vyegorov@gmail.com> - 3.2.6-1
+- Update to 3.2.6
 
 * Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.1.5-1
 - Update to 3.1.5, per changes described at
