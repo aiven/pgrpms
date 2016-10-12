@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.2
+Version:	2.0.3
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -48,11 +48,13 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.rst
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--%{version}.sql
-%{pginstdir}/share/extension/%{sname}--2.0.1--2.0.2.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Oct 12 2016 - Devrim Gündüz <devrim@gunduz.org> 2.0.3-1
+- Update to 2.0.3
+
 * Fri Mar 27 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
 - Update to 2.0.2
 
