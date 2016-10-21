@@ -1,5 +1,5 @@
---- Makefile.old	2015-02-06 23:50:15.350412689 +0200
-+++ Makefile	2015-02-06 23:50:28.409271819 +0200
+--- Makefile.old	2016-10-21 23:28:03.519468652 +0300
++++ Makefile	2016-10-21 23:28:18.099317788 +0300
 @@ -18,7 +18,7 @@
  include $(top_builddir)/src/Makefile.global
  include $(top_srcdir)/contrib/contrib-global.mk

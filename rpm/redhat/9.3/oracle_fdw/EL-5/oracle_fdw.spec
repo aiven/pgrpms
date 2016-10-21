@@ -1,18 +1,21 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global sname	oracle_fdw
+%global ofdwmajver 1
+%global ofdwmidver 5
+%global ofdwminver 0
 
 # Disable tests by default.
 %{!?runselftest:%global runselftest 0}
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
-Version:	1.5.0
+Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
-Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_1_4_0.tar.gz
+Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
 Patch0:		oracle_fdw-makefile.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -21,7 +24,7 @@ BuildRequires:	postgresql%{pgmajorversion}-server
 #BuildRequires:	oracle-instantclient11.2-basic
 #BuildRequires:	oracle-instantclient11.2-devel
 Requires:	postgresql%{pgmajorversion}-server
-Requires:	oracle-instantclient11.2-basic
+#Requires:	oracle-instantclient11.2-basic
 
 # Override RPM dependency generation to filter out libclntsh.so.
 # http://fedoraproject.org/wiki/PackagingDrafts/FilteringAutomaticDependencies
@@ -33,7 +36,7 @@ PostgreSQL to Oracle databases, including pushdown of WHERE conditions and
 required columns as well as comprehensive EXPLAIN support.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}
 %patch0 -p0
 
 %build
