@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.4
-Release:	2PGDG%{?dist}
+Version:	9.5.5
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1284,6 +1284,10 @@ fi
 %endif
 
 %changelog
+* Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.5-1PGDG
+- Update to 9.5.5, per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-5-5.html
+
 * Fri Sep 23 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5.4-2PGDG
 - Don't remove .pgsql_profile line in .bash_profile each time. Fixes #1215.
 
