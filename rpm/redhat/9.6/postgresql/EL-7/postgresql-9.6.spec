@@ -1313,7 +1313,7 @@ fi
 %endif
 
 %changelog
-* Mon Oct 246 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-1PGDG-1
+* Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-1PGDG-1
 - Update to 9.6.0,  per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6-1.html
 
