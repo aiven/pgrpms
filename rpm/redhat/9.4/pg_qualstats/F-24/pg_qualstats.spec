@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
+Version:	1.0.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -63,6 +63,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 24 2016 - Devrim GUNDUZ <devrim@gunduz.org> - 1.0.2-1
+- Update to 1.0.2
+
 * Wed Sep 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 - Add LICENSE file
