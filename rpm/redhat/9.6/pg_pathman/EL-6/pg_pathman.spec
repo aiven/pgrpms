@@ -4,7 +4,7 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
+Version:	1.1.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
