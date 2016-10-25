@@ -9,6 +9,7 @@ URL:		http://bucardo.org/pgsi
 Requires:	postgresql-server
 Requires:	perl(Data::Dumper) perl(Getopt::Long) perl(IO::Handle) perl(Time::Local)
 BuildRequires:	perl-Test-Simple >= 0.80 perl-ExtUtils-MakeMaker
+BuildRequires:	perl-Pod-Html
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
