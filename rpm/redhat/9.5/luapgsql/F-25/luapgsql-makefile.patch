@@ -1,0 +1,32 @@
+--- GNUmakefile.old	2016-08-27 14:24:02.788712114 +0300
++++ GNUmakefile	2016-08-27 14:25:03.520186072 +0300
+@@ -1,15 +1,19 @@
++libdir.x86_64=	/usr/lib64
++libdir.i686=	/usr/lib
++MACHINE :=	$(shell uname -m)
++
+ SRCS=		luapgsql.c
+ LIB=		pgsql
+ 
+ LUAVER=		$(shell lua -v 2>&1 | cut -c 5-7)
+ 
+ CFLAGS+=	-O3 -Wall -fPIC -I/usr/include -I/usr/include/lua${LUAVER} \
+-		-I/usr/include/postgresql
++		-I$(shell /usr/pgsql-9.5/bin/pg_config --includedir)
+ 
+-LDADD+=		-L/usr/lib -lpq
++LDADD+=		-L$(shell /usr/pgsql-9.5/bin/pg_config --libdir) -lpq
+ 
+ LIBDIR=		/usr/lib
+-LUADIR=		/usr/lib/lua/${LUAVER}
++LUADIR=		$(libdir.$(MACHINE))/lua/${LUAVER}
+ 
+ ${LIB}.so:	${SRCS:.c=.o} luapgsql.h
+ 		cc -shared -o ${LIB}.so ${CFLAGS} ${SRCS:.c=.o} ${LDADD}
+@@ -17,5 +21,5 @@
+ clean:
+ 		rm -f *.o *.so
+ install:
+-	install -d ${DESTDIR}${LIBDIR}
++	install -d ${DESTDIR}${LUADIR}
+ 	install -m 755 ${LIB}.so ${DESTDIR}${LUADIR}/${LIB}.so

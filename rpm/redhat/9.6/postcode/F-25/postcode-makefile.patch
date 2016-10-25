@@ -1,0 +1,10 @@
+--- Makefile.old	2015-03-06 19:49:26.000000000 +0200
++++ Makefile	2015-03-07 01:10:59.573634537 +0200
+@@ -8,6 +8,6 @@
+ REGRESS_OPTS = --load-extension=$(EXTENSION)
+ PG_CPPFLAGS  = -Wall -Wpedantic -DEXTVERSION=$(EXTVERSION)
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)

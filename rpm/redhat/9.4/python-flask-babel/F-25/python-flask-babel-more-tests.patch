@@ -1,0 +1,30 @@
+diff -up Flask-Babel-0.9/tests/tests.py.orig Flask-Babel-0.9/tests/tests.py
+--- Flask-Babel-0.9/tests/tests.py.orig	2016-06-28 14:56:25.004831791 -0300
++++ Flask-Babel-0.9/tests/tests.py	2016-06-28 14:56:58.157833060 -0300
+@@ -35,7 +35,7 @@ class DateFormattingTestCase(unittest.Te
+         with app.test_request_context():
+             app.config['BABEL_DEFAULT_LOCALE'] = 'de_DE'
+             assert babel.format_datetime(d, 'long') == \
+-                '12. April 2010 15:46:00 MESZ'
++                '12. April 2010 um 15:46:00 MESZ'
+ 
+     def test_init_app(self):
+         b = babel.Babel()
+@@ -57,7 +57,7 @@ class DateFormattingTestCase(unittest.Te
+         with app.test_request_context():
+             app.config['BABEL_DEFAULT_LOCALE'] = 'de_DE'
+             assert babel.format_datetime(d, 'long') == \
+-                '12. April 2010 15:46:00 MESZ'
++                '12. April 2010 um 15:46:00 MESZ'
+ 
+     def test_custom_formats(self):
+         app = flask.Flask(__name__)
+@@ -95,7 +95,7 @@ class DateFormattingTestCase(unittest.Te
+         the_timezone = 'Europe/Vienna'
+ 
+         with app.test_request_context():
+-            assert babel.format_datetime(d) == '12.04.2010 15:46:00'
++            assert babel.format_datetime(d) == '12.04.2010, 15:46:00'
+ 
+     def test_refreshing(self):
+         app = flask.Flask(__name__)

@@ -1,0 +1,120 @@
+--- bin/pgbackrest.old	2016-09-18 00:23:24.042709526 +0300
++++ bin/pgbackrest	2016-09-18 00:23:29.835655890 +0300
+@@ -16,7 +16,6 @@
+ 
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Archive;
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Exit;
+--- lib/pgBackRest/Common/Lock.pm.old	2016-09-18 00:28:40.401801648 +0300
++++ lib/pgBackRest/Common/Lock.pm	2016-09-18 00:29:02.668603531 +0300
+@@ -12,7 +12,6 @@
+ use Fcntl qw(:DEFAULT :flock);
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Log;
+ use pgBackRest::Common::String;
+--- lib/pgBackRest/Common/Log.pm.old	2016-09-18 00:28:46.617746342 +0300
++++ lib/pgBackRest/Common/Log.pm	2016-09-18 00:29:06.071573254 +0300
+@@ -14,7 +14,6 @@
+ use Scalar::Util qw(blessed reftype);
+ use Time::HiRes qw(gettimeofday usleep);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::String;
+ 
+--- lib/pgBackRest/Common/Wait.pm.old	2016-09-18 00:28:55.559666782 +0300
++++ lib/pgBackRest/Common/Wait.pm	2016-09-18 00:29:08.832548688 +0300
+@@ -13,7 +13,6 @@
+ use POSIX qw(ceil);
+ use Time::HiRes qw(gettimeofday usleep);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Log;
+ 
+ ####################################################################################################################################
+--- lib/pgBackRest/Config/Config.pm.old	2016-09-18 00:30:55.193602352 +0300
++++ lib/pgBackRest/Config/Config.pm	2016-09-18 00:31:28.972301810 +0300
+@@ -14,7 +14,6 @@
+ use Getopt::Long qw(GetOptions);
+ use Storable qw(dclone);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Ini;
+ use pgBackRest::Common::Log;
+--- lib/pgBackRest/Config/ConfigHelp.pm.old	2016-09-18 00:31:04.425520212 +0300
++++ lib/pgBackRest/Config/ConfigHelp.pm	2016-09-18 00:31:32.060274335 +0300
+@@ -11,7 +11,6 @@
+     our @EXPORT = qw();
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Ini;
+ use pgBackRest::Common::Log;
+--- lib/pgBackRest/File.pm.old	2016-09-18 00:32:52.271560663 +0300
++++ lib/pgBackRest/File.pm	2016-09-18 00:33:07.951421153 +0300
+@@ -17,7 +17,6 @@
+ use File::stat;
+ use IO::Handle;
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Log;
+ use pgBackRest::Common::String;
+--- lib/pgBackRest/FileCommon.pm.old	2016-09-18 00:32:58.325506799 +0300
++++ lib/pgBackRest/FileCommon.pm	2016-09-18 00:33:11.555389087 +0300
+@@ -16,7 +16,6 @@
+ use File::stat;
+ use IO::Handle;
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Log;
+ 
+--- lib/pgBackRest/Protocol/Common.pm.old	2016-09-18 00:34:45.140556423 +0300
++++ lib/pgBackRest/Protocol/Common.pm	2016-09-18 00:34:58.882434156 +0300
+@@ -12,7 +12,6 @@
+ use Compress::Raw::Zlib qw(WANT_GZIP Z_OK Z_BUF_ERROR Z_STREAM_END);
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Ini;
+ use pgBackRest::Common::Log;
+--- lib/pgBackRest/Protocol/IO.pm.old	2016-09-18 00:36:26.237656815 +0300
++++ lib/pgBackRest/Protocol/IO.pm	2016-09-18 00:36:34.332584701 +0300
+@@ -17,7 +17,6 @@
+ use Symbol 'gensym';
+ use Time::HiRes qw(gettimeofday);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Log;
+ use pgBackRest::Common::String;
+--- lib/pgBackRest/Protocol/RemoteMaster.pm.old	2016-09-18 00:37:13.150238893 +0300
++++ lib/pgBackRest/Protocol/RemoteMaster.pm	2016-09-18 00:38:00.925813282 +0300
+@@ -10,7 +10,6 @@
+ 
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Log;
+ use pgBackRest::Config::Config;
+ use pgBackRest::Protocol::CommonMaster;
+--- lib/pgBackRest/Protocol/RemoteMinion.pm.old	2016-09-18 00:37:29.310094932 +0300
++++ lib/pgBackRest/Protocol/RemoteMinion.pm	2016-09-18 00:38:03.528790094 +0300
+@@ -10,7 +10,6 @@
+ 
+ use File::Basename qw(dirname);
+ 
+-use lib dirname($0) . '/../lib';
+ use pgBackRest::Common::Exception;
+ use pgBackRest::Common::Log;
+ use pgBackRest::Archive;
