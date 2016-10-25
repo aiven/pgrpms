@@ -519,11 +519,6 @@ export PYTHON=/usr/bin/python3
 cd src/backend
 make submake-errcodes
 cd ../..
-# TODO: I added the following line to fix build issue on PostgreSQL 9.6.
-# Probably we should use something wiser and better, but I am too lazy to check it now.
-# This has changed between 9.5 and 9.6. Withut the line below, we get the following error:
-# ../../../src/include/storage/lwlock.h:133:33: fatal error: storage/lwlocknames.h: No such file or directory
-make %{?_smp_mflags}
 cd src/pl/plpython
 make %{?_smp_mflags} all
 cd ..
@@ -1316,6 +1311,7 @@ fi
 * Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-1PGDG-1
 - Update to 9.6.0,  per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6-1.html
+- Remove the hack in spec file for PL/Python builds. Fixed upstream.
 
 * Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1PGDG-1
 - Update to 9.6.0,  per changes described at:
