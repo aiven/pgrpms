@@ -1,5 +1,5 @@
 Name:		proj
-Version:	4.9.1
+Version:	4.9.3
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
@@ -105,7 +105,7 @@ rm -rf %{buildroot}
 %doc NEWS AUTHORS COPYING README ChangeLog
 %{_bindir}/*
 %{_mandir}/man1/*.1*
-%{_libdir}/libproj.so.9*
+%{_libdir}/libproj.so.12*
 
 %files devel
 %defattr(-,root,root,-)
@@ -138,6 +138,9 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_datadir}/%{name}/epsg
 
 %changelog
+* Tue Oct 25 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 4.9.3-1
+- Update to 4.9.3
+
 * Wed Mar 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 4.9.1-1
 - Update to 4.9.1
 - track soname so bumps are not a suprise.
