@@ -174,7 +174,7 @@ if you're installing the postgresql%{packageversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
-Provides:	postgresql-libs
+Provides:	postgresql-libs = %{majorversion}
 
 %description libs
 The postgresql%{packageversion}-libs package provides the essential shared libraries for any
@@ -637,6 +637,11 @@ fi
 %postun	-p /sbin/ldconfig 	pltcl
 %endif
 
+%if %test
+%post test
+chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
+%endif
+
 # Create alternatives entries for common binaries and man files
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
@@ -1013,6 +1018,9 @@ rm -rf %{buildroot}
 * Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.10-1PGDG
 - Update to 9.4.10, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-10.html
+- Put back a useless block, to supress ldconfig issues temporarily until
+  we have a good fix. Per John.
+- Append PostgreSQL major version number to -libs provides.
 
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.9-1PGDG
 - Update to 9.4.9, per changes described at:
