@@ -630,6 +630,11 @@ fi
 %postun	-p /sbin/ldconfig 	pltcl
 %endif
 
+%if %test
+%post test
+chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
+%endif
+
 # Create alternatives entries for common binaries and man files
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/psql pgsql-psql %{pgbaseinstdir}/bin/psql 930
@@ -996,6 +1001,8 @@ rm -rf %{buildroot}
 * Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.3.15-1PGDG
 - Update to 9.3.15, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-15.html
+- Put back a useless block, to supress ldconfig issues temporarily until
+  we have a good fix. Per John.
 
 * Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.3.14-1PGDG
 - Update to 9.3.14, per changes described at:
