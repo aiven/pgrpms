@@ -4,7 +4,7 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.0.4
+Version:	1.0.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -45,5 +45,8 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Fri Oct 21 2016 - Devrim Gündüz <devrim@gunduz.org> 0.0.4
+* Thu Oct 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
+- Update to 1.0.0
+
+* Fri Oct 21 2016 - Devrim Gündüz <devrim@gunduz.org> 0.0.4-1
 - Initial RPM packaging for PostgreSQL RPM Repository
