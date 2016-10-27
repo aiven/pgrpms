@@ -11,8 +11,8 @@ Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
-Requires:	postgresql%{pgmajorversion}-server, freetds
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
