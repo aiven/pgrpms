@@ -19,7 +19,7 @@ User=root
 Group=root
 
 # Location of powa conf file:
-Environment=POWAWEBLOG=/var/log/powa-9.5.log
+Environment=POWAWEBLOG=/var/log/powa-9.6.log
 
 # Where to send early-startup messages from the server 
 # This is normally controlled by the global default set by systemd

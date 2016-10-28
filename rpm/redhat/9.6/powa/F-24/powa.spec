@@ -5,10 +5,10 @@
 %global swebname powa-web
 # Powa version
 %global powamajorversion 3
-%global powamidversion 0
-%global powaminorversion 1
+%global powamidversion 1
+%global powaminorversion 0
 # powa-web version
-%global powawebversion 3.0.2
+%global powawebversion 3.1.0
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -23,7 +23,7 @@ Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
-Source1:	https://pypi.python.org/packages/source/p/%{swebname}/%{swebname}-%{powawebversion}.tar.gz
+Source1:	https://github.com/dalibo/%{swebname}/archive/%{powawebversion}.tar.gz
 Patch0:		%{sname}-makefile.patch
 URL:		http://dalibo.github.io/powa/
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -91,6 +91,9 @@ popd
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 
 %changelog
+* Fri Oct 28 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-1
+- Update both components to 3.1.0
+
 * Wed Feb 10 2016 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
 - Update to 3.0.1
 
@@ -98,13 +101,13 @@ popd
 - Update to 3.0.0
 - Improve spec file, to fix multiple issues.
 
-* Mon Jan 19 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.1-1
+* Mon Jan 19 2015 - Devrim Gündüz <devrim@gunduz.org> 1.2.1-1
 - Update to 1.2.1
 - Fix a stupid oversight in spec file: This package contains
   3 digit version number.
 
-* Tue Oct 28 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+* Tue Oct 28 2014 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
-* Wed Aug 27 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
+* Wed Aug 27 2014 - Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository

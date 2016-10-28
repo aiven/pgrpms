@@ -1,10 +1,11 @@
---- Makefile.old	2014-10-28 19:50:24.468878296 +0200
-+++ Makefile	2014-10-28 19:50:31.041805837 +0200
-@@ -3,6 +3,6 @@
- DATA = powa--1.1.sql powa--1.2.sql powa--1.1--1.2.sql
- DOCS = README.md
+--- Makefile.old	2016-01-27 01:55:53.157652805 +0200
++++ Makefile	2016-01-27 01:55:58.833590728 +0200
+@@ -5,7 +5,7 @@
+ REGRESS_OPTS = --inputdir=test
+ DOCS         = $(wildcard *.md)
  
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.4/bin/pg_config
- PGXS := $(shell $(PG_CONFIG) --pgxs)
- include $(PGXS)
+ 
+ MODULES = powa
+ 
