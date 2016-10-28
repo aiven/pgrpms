@@ -4,13 +4,13 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.7
+Version:	1.0.8
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/tds_fdw/
+URL:		https://github.com/tds-fdw/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
 Requires:	postgresql%{pgmajorversion}-server, freetds
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -54,6 +54,10 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Fri Oct 28 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.8-1
+- Update to 1.0.8
+- Change links to point to github.
+
 * Thu Jan 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.7-1
 - Update to 1.0.7
 - Apply 9.5 doc layout.
