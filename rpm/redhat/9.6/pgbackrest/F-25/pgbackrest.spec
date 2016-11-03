@@ -1,12 +1,12 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.08
+Version:	1.09
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
-Patch0:		pgbackrest-changeperldir.patch
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
+Source1:	pgbackrest.conf.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	perl
@@ -24,12 +24,16 @@ are required to perform a backup which increases security.
 
 %prep
 %setup -q -n %{name}-release-%{version}
-%patch0 -p0
 
 %build
 
 %install
 install -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
+install -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
+install -D -d -m 0700 %{buildroot}/var/log/%{name}
+install -D -d -m 0700 %{buildroot}/var/spool/%{name}
+install -D -d -m 0755 %{buildroot}%{_sysconfdir}
+install %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 %{__cp} -a lib/*       %{buildroot}%{perl_vendorlib}/
 %{__cp} -a bin/%{name} %{buildroot}%{_bindir}/%{name}
 
@@ -41,9 +45,18 @@ install -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %license LICENSE
 %endif
 %{_bindir}/%{name}
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
 %{perl_vendorlib}/pgBackRest/
+%attr(-,postgres,postgres) /var/log/%{name}
+%attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
+%attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Nov 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.09-1
+- Update to 1.09
+- Install default conf file, per David Steele.
+- Install default directories, per David Steele.
+
 * Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.08-1
 - Update to 1.08
 
