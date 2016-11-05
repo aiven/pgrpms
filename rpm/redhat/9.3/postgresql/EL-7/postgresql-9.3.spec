@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.3.15
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -173,7 +173,7 @@ if you're installing the postgresql93-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
 Provides:	libpq.so
-Provides:	postgresql-libs
+Provides:	postgresql-libs = %{majorversion}
 
 %description libs
 The postgresql93-libs package provides the essential shared libraries for any
@@ -998,6 +998,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sat Nov 5 2016 Devrim Gündüz <devrim@gunduz.org> - 9.3.15-2PGDG
+- Append PostgreSQL major version number to -libs provides.
+
 * Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.3.15-1PGDG
 - Update to 9.3.15, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-15.html
