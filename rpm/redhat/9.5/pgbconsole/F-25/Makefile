@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f24
+DIST=.f25
 SPECFILE="pgbconsole.spec"
 
 # Now, include global Makefile
