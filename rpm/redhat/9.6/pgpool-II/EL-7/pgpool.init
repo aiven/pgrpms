@@ -55,16 +55,16 @@ fi
 PGPOOLUSER=postgres
 PGPOOLENGINE=/usr/pgpool-9.6/bin
 PGPOOLDAEMON=$PGPOOLENGINE/pgpool
-PGPOOLCONF=/etc/pgpool-II-95/pgpool.conf
-PGPOOLPIDDIR=/var/run/pgpool-II-95
-PGPOOLLOG=/var/log/pgpool-II-95.log
+PGPOOLCONF=/etc/pgpool-II-96/pgpool.conf
+PGPOOLPIDDIR=/var/run/pgpool-II-96
+PGPOOLLOG=/var/log/pgpool-II-96.log
 
 lockfile=/var/lock/subsys/${NAME}
 pidfile="$PGPOOLPIDDIR/pgpool.pid"
 
 # Import configuration from /etc/sysconfig, if it exists
-if [ -r /etc/sysconfig/pgpool-II-95 ]; then
-    . /etc/sysconfig/pgpool-II-95
+if [ -r /etc/sysconfig/pgpool-II-96 ]; then
+    . /etc/sysconfig/pgpool-II-96
 fi
 
 test -x $PGPOOLDAEMON || exit 5
