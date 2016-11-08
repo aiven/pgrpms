@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.09
+Version:	1.10
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -52,6 +52,9 @@ install %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Nov 8 2016 - Devrim Gündüz <devrim@gunduz.org> 1.10-1
+- Update to 1.10
+
 * Thu Nov 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.09-1
 - Update to 1.09
 - Install default conf file, per David Steele.
