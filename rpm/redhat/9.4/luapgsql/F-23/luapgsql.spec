@@ -10,7 +10,7 @@
 
 Summary:	Lua binding for PostgreSQL
 Name:		luapgsql
-Version:	1.6.0
+Version:	1.6.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -51,5 +51,8 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Wed Nov 9 2016 - Devrim Gündüz <devrim@gunduz.org> 1.6.1-1
+- Update to 1.6.1
+
 * Sat Aug 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
