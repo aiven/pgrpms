@@ -13,7 +13,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -146,6 +146,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Oct 19 2016 Devrim Gündüz <devrim@gunduz.org> 3.4.0-4
+- Fix PostgreSQL version in unit file and init script. Per
+  report from Alf Normann Klausen, pgsql bug #14370.
+
 * Fri Jan 22 2016 Devrim Gündüz <devrim@gunduz.org> 3.4.0-3
 - Create unified spec file that works with all distros.
 - Fix an issue with user and group creation.

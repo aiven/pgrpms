@@ -30,7 +30,7 @@ DBNAME=${DBNAME- postgres}
 DBUSER=${DBUSER- postgres}
 DBHOST=${DBHOST- 127.0.0.1}
 DBPORT=${DBPORT- 5432}
-LOGFILE=${LOGFILE- /var/log/pgagent_94.log}
+LOGFILE=${LOGFILE- /var/log/pgagent_95.log}
 lockfile="/var/lock/subsys/${NAME}"
 
 # Override defaults from /etc/sysconfig/pgagent/ directory,  if file is present:
@@ -51,7 +51,7 @@ start() {
 
     echo $"Starting ${NAME} service: "
 
-    $SU pgagent -c "/usr/bin/pgagent_94 -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
+    $SU pgagent -c "/usr/bin/pgagent_95 -s $LOGFILE hostaddr=$DBHOST dbname=$DBNAME user=$DBUSER port=$DBPORT"
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
 	then
@@ -68,7 +68,7 @@ start() {
 stop(){
     echo $"Stopping ${NAME} service: "
 
-    killproc /usr/bin/pgagent_94
+    killproc /usr/bin/pgagent_95
 
     RETVAL=$?
     if [ $RETVAL -eq 0 ]
@@ -99,7 +99,7 @@ case "$1" in
     RETVAL=$?
     ;;
   status)
-    status /usr/bin/pgagent_94
+    status /usr/bin/pgagent_95
     RETVAL=$?
     ;;
   *)
