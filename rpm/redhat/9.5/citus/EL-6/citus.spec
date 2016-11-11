@@ -5,7 +5,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.1
+Version:	5.2.2
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -80,6 +80,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Nov 9 2016 - Devrim Gündüz <devrim@gunduz.org> 5.2.2-1
+- Update to 5.2.2
+
 * Sat Sep 17 2016 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-1
 - Update to 5.2.1
 
