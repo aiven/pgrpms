@@ -13,7 +13,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -89,7 +89,7 @@ EOF
 %else
 # install init script
 install -d %{buildroot}%{_initrddir}
-install -m 755 %{SOURCE2} %{buildroot}/%{_initrddir}/%{name}
+install -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{name}
 %endif
 
 %post
@@ -146,6 +146,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Nov 11 2016 Devrim Gündüz <devrim@gunduz.org> 3.4.0-5
+- Install init script on RHEL <= 6, not unit file.
+
 * Wed Oct 19 2016 Devrim Gündüz <devrim@gunduz.org> 3.4.0-4
 - Fix PostgreSQL version in unit file and init script. Per
   report from Alf Normann Klausen, pgsql bug #14370.
