@@ -25,13 +25,13 @@
 %endif
 
 Name:		pgadmin4
-Version:	1.0
-Release:	4%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://www.pgadmin.org
-Source0:	https://download.postgresql.org/pub/pgadmin3/%{name}/v1.0/source/%{name}-%{version}.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin3/%{name}/v1.1/source/%{name}-%{version}.tar.gz
 Source1:	%{name}.conf
 Source2:	%{name}.service.in
 Source3:	%{name}.tmpfiles.d
@@ -304,6 +304,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Fri Nov 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-1
+- Update to 1.1
+
 * Mon Oct 10 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-4
 - Fix Exec path in desktop file.
 
