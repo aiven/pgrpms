@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.1
-Release:	2%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -190,11 +190,13 @@ export PYTHON_CONFIG=/usr/bin/python-config
 %endif
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
+cd ../
+make docs
 
 %install
 %{__rm} -rf %{buildroot}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/
-%{__cp} -pr ../docs/* %{buildroot}%{_docdir}/%{name}-docs
+install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
+%{__cp} -pr ../docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
 
 install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
@@ -206,7 +208,9 @@ install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 sed -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1}  > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
-# Install desktop file
+# Install desktop file, and its icon
+install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
+install -m 755 ../runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
 install -d %{buildroot}%{_datadir}/applications/
 sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -233,7 +237,7 @@ cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
 echo "MINIFY_HTML = False" >> config_distro.py
-echo "HTML_HELP = '/usr/share/doc/%{name}-docs/en_US/html/'" >> config_distro.py
+echo "HELP_PATH = '/usr/share/doc/pgadmin4-v1-docs/en_US/html'" >> config_distro.py
 echo "
 [General]
 ApplicationPath=%{PYTHON_SITELIB}/%{name}-web
@@ -309,6 +313,12 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Sat Nov 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-4
+- Use the actual icon in menu, per Dave.
+
+* Fri Nov 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-3
+- Fix -docs content, install html files.
+
 * Fri Nov 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-2
 - Change the package name, so that multiple major versions
   can be installed in parallel.
