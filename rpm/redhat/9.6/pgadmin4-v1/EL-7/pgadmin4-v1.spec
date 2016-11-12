@@ -43,6 +43,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
+# These are for docs:
+BuildRequires:	python-flask-security, python-flask-gravatar, python-flask-mail
+BuildRequires:	python-flask-wtf, django-htmlmin
+
 Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
@@ -315,6 +319,7 @@ fi
 %changelog
 * Sat Nov 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-4
 - Use the actual icon in menu, per Dave.
+- Add more BR for -docs subpackage.
 
 * Fri Nov 11 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-3
 - Fix -docs content, install html files.
