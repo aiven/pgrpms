@@ -1,25 +1,28 @@
+%if 0%{?rhel} && 0%{?rhel} < 6
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%endif
+
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global py2ver %(echo `%{__python} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
 %{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
 %global	pypi_name Flask-Principal
 %global	sum Identity management for Flask applications
-%if 0%{?with_python3}
-Name:		python3-flask-principal
-%else
+
 Name:		python-flask-principal
-%endif
 Version:	0.4.0
-Release:	11%{?dist}
+Release:	12%{?dist}
 Summary:	%{sum}
 
 Group:		Development/Languages
@@ -45,6 +48,16 @@ and user information providers, often located in different parts of a web
 application.
 
 %if 0%{?with_python3}
+%package -n python3-flask-principal
+Summary:	%{sum} for Python3
+
+%description -n python3-flask-principal
+Flask-Principal provides a very loose framework to tie in authentication
+and user information providers, often located in different parts of a web
+application. This is Python3 version.
+%endif
+
+%if 0%{?with_python3}
 Requires:	python3-flask
 Requires:	python3-blinker
 %{?python_provide:%python_provide python3-flask-principal}
@@ -59,26 +72,45 @@ Requires:	python-blinker
 %{__rm} -rf %{pypi_name}.egg-info
 %{__cp} %{SOURCE1} .
 
+%if 0%{?with_python3}
+%{__rm} -rf %{py3dir}
+%{__cp} -a . %{py3dir}
+%endif
+
 %build
-%{__ospython} setup.py build
+%{__ospython2} setup.py build
+
+%if 0%{?with_python3}
+%{__ospython3} setup.py build
+%endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython} setup.py install --skip-build --root %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+
+%if 0%{?with_python3}
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
-%if 0%{?with_python3}
-%doc LICENSE README.rst
-%{python3_sitelib}/*
-%else
 %doc LICENSE README.rst
 %{python2_sitelib}/*
+
+%if 0%{?with_python3}
+%files -n python3-flask-principal
+%{python3_sitelib}/Flask_Principal-%{version}-py%{py3ver}.egg-info/*
+%{python3_sitelib}/__pycache__/flask_principal*
+%{python3_sitelib}/flask_principal.py
 %endif
 
 %changelog
+* Sat Nov 12 2016 Devrim Gündüz <devrim@gunduz.org> 0.4.0-12
+- Install both PY2 and PY3 versions for Fedora 24+. Needed to
+  build pgadmin3 docs.
+
 * Fri Sep 2 2016 Devrim Gündüz <devrim@gunduz.org> 0.4.0-11
 - Update spec for pgadmin4 dependency
 
