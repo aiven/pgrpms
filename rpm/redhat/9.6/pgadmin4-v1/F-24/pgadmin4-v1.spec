@@ -45,16 +45,19 @@ BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
 # These are for docs:
 BuildRequires:	python-flask-security, python-flask-gravatar, python-flask-mail
-BuildRequires:	python-flask-wtf, django-htmlmin
+BuildRequires:	python-flask-wtf, django-htmlmin, python-blinker
+BuildRequires:	python-beautifulsoup4, python-dateutil, python-simplejson
 
 Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel
+BuildRequires:	python2-passlib
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
+BuildRequires:	python-passlib
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
