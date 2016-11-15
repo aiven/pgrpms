@@ -39,6 +39,8 @@ Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
 Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
+# Adding this patch to be able to build docs on < Fedora 24.
+Patch0:		%{sname}-sphinx-theme.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -186,10 +188,14 @@ BuildArch:	noarch
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n %{sname}-%{version}/runtime
+%setup -q -n %{sname}-%{version}
+# Apply this patch only to RHEL 6,7  and Fedora 23:
+%if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
+%patch0 -p0
+%endif
 
 %build
-cd ../runtime
+cd runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
 %else
@@ -203,13 +209,13 @@ make docs
 %install
 %{__rm} -rf %{buildroot}
 install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
-%{__cp} -pr ../docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
+%{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
 
 install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
-%{__cp} pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
+%{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
 
 install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
-%{__cp} -pR ../web/* %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
+%{__cp} -pR web/* %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 
 # Install Apache sample config file
 install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
@@ -217,7 +223,7 @@ sed -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1}  > %{buildroot}%{_sysc
 
 # Install desktop file, and its icon
 install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
-install -m 755 ../runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
+install -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
 install -d %{buildroot}%{_datadir}/applications/
 sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
 
@@ -320,6 +326,12 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Nov 15 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-5
+- Add a patch to conf.py to pick up the default theme, instead
+  of classic theme. We need this to build docs on older sphinx
+  versions.
+- Modify the spec file a bit to be able to apply the patch.
+
 * Sat Nov 12 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-4
 - Use the actual icon in menu, per Dave.
 - Add more BR for -docs subpackage.
