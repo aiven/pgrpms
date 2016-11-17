@@ -2,7 +2,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	9.4.1211
+Version:	9.4.1212
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -122,6 +122,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Thu Nov 17 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1212-1
+- Update to 9.4.1212
+
 * Mon Sep 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.4.1211-1
 - Update to 9.4.1211
 
