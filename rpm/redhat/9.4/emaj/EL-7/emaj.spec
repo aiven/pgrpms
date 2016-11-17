@@ -2,7 +2,7 @@
 %global sname e-maj
 
 Name:		emaj
-Version:	1.3.1
+Version:	2.0.0
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
@@ -36,24 +36,28 @@ in time.
 %dir %{_datadir}/%{name}-%{version}
 %dir %{_datadir}/%{name}-%{version}/sql
 %dir %{_datadir}/%{name}-%{version}/php
+%{_datadir}/%{name}-%{version}/sql/%{name}.control
 %{_datadir}/%{name}-%{version}/sql/*.sql
 %{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
-* Sat Sep 17 2016 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.1-1
+* Wed Nov 16 2016 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
+- Update to 2.0.0
+
+* Sat Sep 17 2016 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
 - Update to 1.3.1
 
-* Mon Jan 4 2016 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.2.0-1
+* Mon Jan 4 2016 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
 - Update to 1.2.0
 
-* Mon Nov 9 2015 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-2
+* Mon Nov 9 2015 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Fixes for Fedora 23 and new doc layout in 9.5.
 
-* Wed Jan 22 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.1.0-1
+* Wed Jan 22 2014 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 
-* Mon Jan 7 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.0.1-1
+* Mon Jan 7 2013 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 
-* Tue Dec 11 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.0.0-1
+* Tue Dec 11 2012 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM repository.
