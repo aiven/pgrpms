@@ -1,4 +1,4 @@
-%global postgismajorversion 2.3
+%global postgismajorversion 2.2
 %global pgroutingmajorversion 2.3
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
@@ -6,11 +6,11 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
-Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
 BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
@@ -34,7 +34,7 @@ engine. There is no need for precalculation.
 value can come from multiple fields or tables.
 
 %prep
-%setup -q -n %{sname}-%{sname}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 install -d build
@@ -68,33 +68,39 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Mon Sep 26 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.3.0-1
+* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
+- Update to 2.3.1
+- Decrease postgis dependency to 2.2, because 9.5 branch does
+  has 2.2, not 2.3.
+- Update Source0 URL for this version.
+
+* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
 - Update to 2.3.0
 - Update postgis dependency to 2.3
 
-* Sat Aug 13 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.4-1
+* Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.2.4-1
 - Update to 2.2.4
 
-* Fri May 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.3-1
+* Fri May 20 2016 Devrim Gündüz <devrim@gunduz.org> 2.2.3-1
 - Update to 2.2.3
 
-* Wed Apr 20 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2.1-1
+* Wed Apr 20 2016 Devrim Gündüz <devrim@gunduz.org> 2.2.1-1
 - Update to 2.2.1
 - Decrease boost dependency version to 1.53, per report from Regina.
 
-* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1.0-1
+* Tue Sep 8 2015 Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
 - Update to 2.1.0
 - Update dependency versions
 - Remove patch0, and pass PostgreSQL directory to cmake.
 
-* Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
+* Wed Oct 23 2013 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 
-* Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
+* Mon Sep 2 2013 Devrim Gündüz <devrim@gunduz.org> 2.0.0-rc1-1
 - Update to 2.0.0 rc1
 - Remove patch1 -- already in upstream.
 
-* Mon Nov 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.5-2
+* Mon Nov 12 2012 Devrim Gündüz <devrim@gunduz.org> 1.0.5-2
 - Add the following features, sponsored by "Norsk institutt for skog og landskap":
  -- Add Traveling Salesperson functionality
  -- Add Driving Distance functionality
@@ -104,10 +110,10 @@ cd build
 - Remove obsoleted patch (pgrouting-pg84.patch) -- already in upstream.
 - Add a patch for 9.2, that removes quotes around LANGUAGE 'C'.
 
-* Sat Sep 15 2012 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.5-1
+* Sat Sep 15 2012 Devrim Gündüz <devrim@gunduz.org> 1.0.5-1
 - Update to 1.05
 
-* Wed Jan 20 2010 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.3-5
+* Wed Jan 20 2010 Devrim Gündüz <devrim@gunduz.org> 1.0.3-5
 - Initial import to PostgreSQL RPM repository, with very little cosmetic
   changes Thanks Peter	for sending spec to me.
 
