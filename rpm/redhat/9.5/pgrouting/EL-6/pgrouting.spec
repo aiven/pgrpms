@@ -1,7 +1,7 @@
 %global postgismajorversion 2.2
 %global pgroutingmajorversion 2.3
-%global pgmajorversion 95
-%global pginstdir /usr/pgsql-9.5
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname	pgrouting
 
 Summary:	Routing functionality for PostGIS
