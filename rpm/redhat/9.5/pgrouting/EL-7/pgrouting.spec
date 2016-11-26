@@ -68,7 +68,7 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
+* Sat Nov 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
 - Update to 2.3.1
 - Decrease postgis dependency to 2.2, because 9.5 branch does
   has 2.2, not 2.3.
