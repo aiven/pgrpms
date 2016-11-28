@@ -239,7 +239,8 @@ fi
 
 %changelog
 * Mon Nov 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
-- Update to 2.3.1
+- Update to 2.3.1, per changes described at
+  http://postgis.net/2016/11/28/postgis-2.3.1/
 - Update previous PostGIS version to 2.2.4
 
 * Thu Oct 6 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-3
