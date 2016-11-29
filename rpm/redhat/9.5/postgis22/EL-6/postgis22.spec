@@ -19,7 +19,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.2.3
+Version:	2.2.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -237,11 +237,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Thu Oct 6 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-1
-- Update to 2.2.3, per changes described at:
-  http://postgis.net/2016/10/06/postgis-2.2.3/
-- Update comments about the previous version to point to the
-  new releases.
+* Tue Nov 29 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.4-1
+- Update to 2.2.4, per changes described at:
+  http://postgis.net/2016/11/26/postgis-2.2.4/
 
 * Sun Oct 02 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-3
 - Rebuilt for new gdal
