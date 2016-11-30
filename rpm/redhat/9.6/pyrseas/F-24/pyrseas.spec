@@ -75,12 +75,13 @@ Andromeda Project. This is Python 3 version.
 %{_bindir}/yamltodb
 %{python2_sitelib}/%{cname}-%{version}-py%{py2ver}*.egg-info/*
 %{python2_sitelib}/%{sname}
-/usr/lib/python3.5/site-packages/pyrseas/yamltodb.py
+
 %if 0%{?with_python3}
 %files -n python3-pyrseas
 %doc docs/ README.rst
 %{python3_sitelib}/%{cname}-%{version}-py%{py3ver}*.egg-info/*
 %{python3_sitelib}/%{sname}
+%{python3_sitelib}/%{sname}/yamltodb.py
 %endif
 
 %changelog
