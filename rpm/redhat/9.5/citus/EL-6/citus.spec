@@ -1,5 +1,5 @@
-%global pgmajorversion 96
-%global pgpackageversion 9.6
+%global pgmajorversion 95
+%global pgpackageversion 9.5
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname citus
 
