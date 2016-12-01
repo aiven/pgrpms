@@ -1,11 +1,11 @@
-%global pgmajorversion 95
-%global pgpackageversion 9.5
+%global pgmajorversion 96
+%global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname citus
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.2
+Version:	6.0.0
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -32,6 +32,14 @@ new features while maintaining compatibility with existing
 PostgreSQL tools. Note that Citus supports many (but not all) SQL
 commands.
 
+%package devel
+Summary:	Citus development header files and libraries
+Group:		Development/Libraries
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+This package includes development libraries for Citus.
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -48,20 +56,6 @@ make %{?_smp_mflags}
 %clean
 %{__rm} -rf %{buildroot}
 
-%post
-%{_sbindir}/update-alternatives --install %{_bindir}/csql \
-    %{sname}-csql %{pginstdir}/bin/csql %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/copy_to_distributed_table \
-    %{sname}-copy_to_distributed_table %{pginstdir}/bin/copy_to_distributed_table %{pgmajorversion}0
-
-%postun
-if [ $1 -eq 0 ] ; then
-    %{_sbindir}/update-alternatives --remove %{sname}-csql \
-	%{pginstdir}/bin/csql
-    %{_sbindir}/update-alternatives --remove %{sname}-copy_to_distributed_table \
-	%{pginstdir}/bin/copy_to_distributed_table
-fi
-
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG.md
@@ -71,15 +65,20 @@ fi
 %license LICENSE
 %endif
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%{pginstdir}/include/server/citus_config.h
-%{pginstdir}/include/server/distributed/*.h
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/bin/copy_to_distributed_table
-%{pginstdir}/bin/csql
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
+%files devel
+%defattr(-,root,root,-)
+%{pginstdir}/include/server/citus_config.h
+%{pginstdir}/include/server/distributed/*.h
+
 %changelog
+* Wed Nov 9 2016 - Devrim Gündüz <devrim@gunduz.org> 6.0.0-1
+- Update to 6.0.0
+- Split development headers into separate subpackage.
+
 * Wed Nov 9 2016 - Devrim Gündüz <devrim@gunduz.org> 5.2.2-1
 - Update to 5.2.2
 
