@@ -4,7 +4,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	2.6.1
+Version:	2.6.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -51,6 +51,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %changelog
+* Sat Dec 3 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.2-1
+- Update to 2.6.2
+
 * Mon Oct 24 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.1-1
 - Update to 2.6.1
 
