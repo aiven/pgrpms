@@ -2,9 +2,9 @@
 %global pginstdir /usr/pgsql-9.6
 %global sname	plv8
 
-Summary:	 V8 Engine Javascript Procedural Language add-on for PostgreSQL
+Summary:	V8 Engine Javascript Procedural Language add-on for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.0
+Version:	1.5.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -14,6 +14,7 @@ URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
+BuildRequires:	platform-devel
 Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
 
 %description
@@ -53,7 +54,10 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Wed Mar 9 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
+* Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.4-1
+- Update to 1.5.4
+
+* Thu Mar 3 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
 - Update to 1.5.0
 
 * Thu Jul 23 2015 Devrim Gündüz <devrim@gunduz.org> 1.4.4-1
