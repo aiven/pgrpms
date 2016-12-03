@@ -1,66 +1,69 @@
+%global __os_install_post %{nil}
+
 # Python major version.
-%{expand: %%define pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	2.3.2
+Version:	3.3.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://pgfoundry.org/projects/pgloader/
-Source0:	http://ftp.postgresql.org/pub/projects/pgFoundry/%{name}/%{name}/%{version}/%{name}-%{version}.tar.gz
-Patch1:		pgloader-makefile.patch
+URL:		http://pgloader.io
+Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python
+BuildRequires:	python sbcl
 Requires:	python-psycopg2
 
 %description
-The PostgreSQL Loader project is a fast data loader for PostgreSQL, 
-with the ability to generate files of rejected rows. It currently 
-requires Python and Psycopg (version 1 or version 2, latter preferred).
+pgloader imports data from different kind of sources and COPY it into
+PostgreSQL.
+
+The command language is described in the manual page and allows to describe
+where to find the data source, its format, and to describe data processing
+and transformation.
+
+Supported source formats include SQL Server, CSV, fixed width flat files,
+dBase3 files (DBF), and SQLite and MySQL databases. In most of those formats,
+pgloader is able to auto-discover the schema and create the tables and the
+indexes in PostgreSQL. In the MySQL case it's possible to edit CASTing rules
+from the pgloader command directly.
 
 %prep
-%setup -q -n %{name}-%{version}
-%patch1 -p0
+%setup -q -n %{name}-bundle-%{version}
+make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
-#export LIBDIR=%{python_sitearch}/
-#export EXDIR=%{_docdir}/%{name}-%{version}
-install -d %{buildroot}%{_bindir}
-install -d %{buildroot}%{_docdir}/%{name}
-install -d %{buildroot}/%{python_sitearch}/%{name}/
-install -d %{buildroot}/%{python_sitearch}/%{name}/reformat
-install -d %{buildroot}/%{_mandir}/man1/
-install -m 755 pgloader.py %{buildroot}%{_bindir}/pgloader
-install -m 644 pgloader/*.py %{buildroot}/%{python_sitearch}/%{name}/
-install -m 644 reformat/*.py %{buildroot}/%{python_sitearch}/%{name}/reformat/
-%{__cp} -r  examples/* %{buildroot}%{_docdir}/%{name}
-install -m 644 TODO.txt BUGS.txt %{buildroot}%{_docdir}/%{name}
-%{__gzip} -q pgloader.1
-install -m 644 pgloader.1.gz %{buildroot}/%{_mandir}/man1/
+%{__rm} -rf %{buildroot}
+install -m 755 -d %{buildroot}/%{_bindir}
+install -m 755 -d %{buildroot}/%{_docdir}/%{name}
+install -m 755 -d %{buildroot}/%{_mandir}/man1
+%{__mv} bin/%{name} %{buildroot}/%{_bindir}/%{name}
+%{__mv} local-projects/%{name}-%{version}/docs/dist \
+	local-projects/%{name}-%{version}/docs/howto \
+	local-projects/%{name}-%{version}/docs/src \
+	local-projects/%{name}-%{version}/docs/*.html \
+	%{buildroot}/%{_docdir}/%{name}
+%{__mv} local-projects/%{name}-%{version}/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
-%defattr(-,root,root,-)
-#%doc BUGS.txt BUGS.txt TODO.txt
-%{_bindir}/pgloader
-%{_docdir}/%{name}/*
-%dir %{python_sitearch}/%{name}/
-%dir %{python_sitearch}/%{name}/reformat
-%{python_sitearch}/%{name}/*.py
-%{python_sitearch}/%{name}/*.pyo
-%{python_sitearch}/%{name}/*.pyc
-%{python_sitearch}/%{name}/reformat/*.py
-%{python_sitearch}/%{name}/reformat/*.pyo
-%{python_sitearch}/%{name}/reformat/*.pyc
-%{_mandir}/man1/pgloader.1.gz
+%doc README.md
+%doc %{_docdir}/%{name}/*
+%{_mandir}/man1/%{name}.1
+%{_bindir}/%{name}
 
 %changelog
+* Sat Dec 3 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.2-1
+- Update to 3.3.2 (bundle release)
+
+* Mon Aug 29 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.1-1
+- Update to 3.3.1 (bundle release)
+
 * Tue Jul 28 2009 Devrim Gunduz <devrim@gunduz.org> 2.3.2-1
 - Update to 2.3.2
 

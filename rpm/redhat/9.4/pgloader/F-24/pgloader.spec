@@ -6,7 +6,7 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.3.1
+Version:	3.3.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -58,6 +58,9 @@ install -m 755 -d %{buildroot}/%{_mandir}/man1
 %{_bindir}/%{name}
 
 %changelog
+* Sat Dec 3 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.2-1
+- Update to 3.3.2 (bundle release)
+
 * Mon Aug 29 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.1-1
 - Update to 3.3.1 (bundle release)
 
