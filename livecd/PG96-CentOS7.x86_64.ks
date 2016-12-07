@@ -64,6 +64,7 @@ repo --name=pgdg96  --baseurl=https://download.postgresql.org/pub/repos/yum/9.6/
 @base
 @core
 @Desktop
+coreutils
 kernel
 @base
 check_postgres
