@@ -54,7 +54,6 @@ repo --name=pgdg95  --baseurl=https://download.postgresql.org/pub/repos/yum/9.5/
 @base
 @core
 @Desktop
-@"Internet Applications"
 kernel
 @base
 #@sql-server
