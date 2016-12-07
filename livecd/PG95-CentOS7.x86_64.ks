@@ -1,3 +1,5 @@
+#version=RHEL7
+
 ##########################################################################
 #    Kickstart file for CentOS PostgreSQL Spin, with PGDG packages.	 #
 #            Devrim GUNDUZ <devrim@gunduz.org>				 #
