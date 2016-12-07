@@ -77,7 +77,6 @@ ip4r96
 boxinfo
 check_postgres
 pagila96
-phpPgAdmin
 pgadmin4-v1
 pgadmin4-v1-docs
 pgadmin4-v1-web
@@ -86,7 +85,6 @@ pgbadger
 pgbouncer
 pgdg-centos96
 pgbadger
-plr96
 postgis2_96
 postgis2_96-utils
 postgresql96
