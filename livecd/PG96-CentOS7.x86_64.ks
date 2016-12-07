@@ -34,9 +34,19 @@ timezone  America/New_York
 xconfig  --defaultdesktop=GNOME --startxonboot 
 # System bootloader configuration
 bootloader --location=mbr
+zerombr
 # Partition clearing information
-clearpart --all  
-part / --size 4096
+clearpart --all   --initlabel
+part swap --asprimary --fstype="swap" --size=1024
+part /boot --fstype xfs --size=500
+part pv.01 --size=1 --grow
+volgroup rootvg01 pv.01
+logvol / --fstype xfs --name=lv01 --vgname=rootvg01 --size=1 --grow
+
+services --enabled=NetworkManager,sshd
+eula --agreed
+ignoredisk --only-use=sda
+reboot
 
 # List of repositories.
 
@@ -50,7 +60,7 @@ repo --name=a-epel    --baseurl=http://download.fedoraproject.org/pub/epel/7/$ba
 # PGDG RPM Repository
 repo --name=pgdg96  --baseurl=https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64
 
-%packages
+%packages --ignoremissing
 @base
 @core
 @Desktop
