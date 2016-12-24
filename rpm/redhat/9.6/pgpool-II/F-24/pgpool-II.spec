@@ -12,7 +12,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.5.4
+Version:		3.6.0
 Release:		1%{?dist}
 License:		BSD
 Group:			Applications/Databases
@@ -221,7 +221,7 @@ fi
 %endif
 
 %files
-%doc README TODO INSTALL AUTHORS ChangeLog NEWS doc/pgpool-en.html doc/pgpool-ja.html doc/pgpool.css doc/tutorial-en.html doc/tutorial-ja.html
+%doc README TODO INSTALL AUTHORS ChangeLog NEWS
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc COPYING
 %else
@@ -241,7 +241,8 @@ fi
 %{pgpoolinstdir}/bin/pcp_stop_pgpool
 %{pgpoolinstdir}/bin/pcp_watchdog_info
 %{pgpoolinstdir}/bin/pg_md5
-%{pgpoolinstdir}/man/man8/pgpool.8
+%{pgpoolinstdir}/bin/pgpool_setup
+%{pgpoolinstdir}/bin/watchdog_setup
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
 %{_sysconfdir}/%{name}/*.sample*
@@ -279,6 +280,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Sat Dec 24 2016 Devrim Gündüz <devrim@gunduz.org> - 3.6.0-1
+- Update to 3.6.0, fixes pgrpms #2029.
+
 * Fri Sep 2 2016 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-1
 - Update to 3.5.4
 
