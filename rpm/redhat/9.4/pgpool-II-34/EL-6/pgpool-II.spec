@@ -11,7 +11,7 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
-Name:			%{sname}-%{pgmajorversion}
+Name:			%{sname}-%{pgmajorversion}-34
 Version:		3.4.9
 Release:		1%{?dist}
 License:		BSD
