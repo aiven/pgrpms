@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -125,20 +125,17 @@ Patch6:		postgresql-perl-rpath.patch
 Patch7:		postgresql-prefer-ncurses.patch
 %endif
 
-BuildRequires:	perl glibc-devel bison flex
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl(ExtUtils::MakeMaker)
 
 Requires:	/sbin/ldconfig
 
 %if %plperl
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	perl(ExtUtils::MakeMaker)
-%else
-BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker)
+%if 0%{?rhel} && 0%{?rhel} >= 7
+BuildRequires:  perl-ExtUtils-Embed
 %endif
 %if 0%{?fedora} >= 22
-BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:  perl-ExtUtils-Embed
 %endif
 %endif
 
@@ -251,7 +248,7 @@ Summary:	The programs needed to create and run a PostgreSQL server
 Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires(pre):	/usr/sbin/useradd, /usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
@@ -425,10 +422,6 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 # Add LINUX_OOM_ADJ=0 to ensure child processes reset postmaster's oom_adj
 CFLAGS="$CFLAGS -DLINUX_OOM_ADJ=0"
-
-# Strip out -ffast-math from CFLAGS....
-
-CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 
 # Use --as-needed to eliminate unnecessary link dependencies.
 # Hopefully upstream will do this for itself in some future release.
@@ -707,7 +700,7 @@ esac
 %if %{systemd_enabled}
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
-	-e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
+	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
 	<%{SOURCE17} >postgresql%{packageversion}-setup
 install -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 
@@ -788,16 +781,7 @@ mkdir -p %{buildroot}%{pgbaseinstdir}/share/man/
 %{__cp} /dev/null plperl.lst
 %{__cp} /dev/null pltcl.lst
 %{__cp} /dev/null plpython.lst
-%{__cp} /dev/null plpython3.lst
-
-# initialize file lists
-%{__cp} /dev/null main.lst
-%{__cp} /dev/null libs.lst
-%{__cp} /dev/null server.lst
-%{__cp} /dev/null devel.lst
-%{__cp} /dev/null plperl.lst
-%{__cp} /dev/null pltcl.lst
-%{__cp} /dev/null plpython.lst
+%{__cp} /dev/null pg_plpython3.lst
 
 %if %nls
 %find_lang ecpg-%{majorversion}
@@ -833,12 +817,12 @@ cat pltcl-%{majorversion}.lang > pg_pltcl.lst
 %endif
 %find_lang postgres-%{majorversion}
 %find_lang psql-%{majorversion}
-%endif
 
 cat libpq5-%{majorversion}.lang > pg_libpq5.lst
 cat pg_config-%{majorversion}.lang ecpg-%{majorversion}.lang ecpglib6-%{majorversion}.lang > pg_devel.lst
 cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pg_basebackup-%{majorversion}.lang pg_rewind-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
 cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
+%endif
 
 %pre server
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
@@ -899,56 +883,36 @@ if [ $1 -ge 1 ] ; then
  %endif
 fi
 
-%if %plperl
-%post 	-p /sbin/ldconfig	plperl
-%postun	-p /sbin/ldconfig 	plperl
-%endif
-
-%if %plpython
-%post 	-p /sbin/ldconfig	plpython
-%postun	-p /sbin/ldconfig 	plpython
-%endif
-
-%if %pltcl
-%post 	-p /sbin/ldconfig	pltcl
-%postun	-p /sbin/ldconfig 	pltcl
-%endif
-
-%if %test
-%post test
-chown -R postgres:postgres /usr/share/pgsql/test >/dev/null 2>&1 || :
-%endif
-
 # Create alternatives entries for common binaries and man files
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/droplang pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/reindexdb pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_dumpall.1 pgsql-pg_dumpallman    %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_restore.1 pgsql-pg_restoreman    %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/droplang pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/reindexdb pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dumpall.1 pgsql-pg_dumpallman    %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_restore.1 pgsql-pg_restoreman    %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 %{packageversion}0
 
 %post libs
 %{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf %{packageversion}0
@@ -1111,7 +1075,9 @@ fi
 %{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
+%if %ssl
 %{pgbaseinstdir}/lib/sslinfo.so
+%endif
 %if %selinux
 %{pgbaseinstdir}/lib/sepgsql.so
 %{pgbaseinstdir}/share/contrib/sepgsql.sql
@@ -1164,7 +1130,9 @@ fi
 %{pgbaseinstdir}/share/extension/postgres_fdw*
 %{pgbaseinstdir}/share/extension/refint*
 %{pgbaseinstdir}/share/extension/seg*
+%if %ssl
 %{pgbaseinstdir}/share/extension/sslinfo*
+%endif
 %{pgbaseinstdir}/share/extension/tablefunc*
 %{pgbaseinstdir}/share/extension/tcn*
 %{pgbaseinstdir}/share/extension/timetravel*
@@ -1175,7 +1143,9 @@ fi
 %if %uuid
 %{pgbaseinstdir}/share/extension/uuid-ossp*
 %endif
+%if %xml
 %{pgbaseinstdir}/share/extension/xml2*
+%endif
 %{pgbaseinstdir}/bin/oid2name
 %{pgbaseinstdir}/bin/vacuumlo
 %{pgbaseinstdir}/bin/pg_recvlogical
@@ -1313,6 +1283,18 @@ fi
 %endif
 
 %changelog
+* Sat Dec 31 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-2PGDG-1
+- Remove unnecessary ldconfig calls, per
+  https://bugzilla.redhat.com/show_bug.cgi?id=849344
+- Fix build when some macros are disabled. Per report and patch from
+  Tomoaki Sato.
+- Various cleanup and improvements, Jonathon Nelson:
+  - Add min version to flex dependency
+  - Remove redundant strip of -ffast-math from CFLAGS
+  - Aesthetic cleanup in a Requires line (groupadd)
+  - Remove redundant translation file list init.
+  - Use %{mandir} and %{bindir} in update-alternatives section.
+
 * Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-1PGDG-1
 - Update to 9.6.1,  per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6-1.html
