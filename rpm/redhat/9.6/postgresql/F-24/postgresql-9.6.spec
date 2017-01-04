@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.6.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -120,10 +120,6 @@ Patch1:		rpm-pgsql.patch
 Patch3:		postgresql-logging.patch
 Patch5:		postgresql-var-run-socket.patch
 Patch6:		postgresql-perl-rpath.patch
-# This is needed only for RHEL 5
-%if 0%{?rhel} && 0%{?rhel} <= 5
-Patch7:		postgresql-prefer-ncurses.patch
-%endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -180,9 +176,7 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %uuid
-%if 0%{?rhel} && 0%{?rhel} <= 5
-BuildRequires:	e2fsprogs-devel
-%else
+%if 0%{?rhel}
 BuildRequires:	libuuid-devel
 %endif
 %endif
@@ -423,12 +417,7 @@ CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 # Add LINUX_OOM_ADJ=0 to ensure child processes reset postmaster's oom_adj
 CFLAGS="$CFLAGS -DLINUX_OOM_ADJ=0"
 
-# Use --as-needed to eliminate unnecessary link dependencies.
-# Hopefully upstream will do this for itself in some future release.
-# This is a hack for RHEL 5, and will be removed once RHEL 5 is EOLed.
-%if 0%{?rhel} && 0%{?rhel} <= 5
-export LDFLAGS
-%else
+%if 0%{?rhel}
 LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 %endif
 
@@ -1283,6 +1272,9 @@ fi
 %endif
 
 %changelog
+* Thu Jan 5 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-3PGDG-1
+- Remove various hacks for RHEL 5.
+
 * Sat Dec 31 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-2PGDG-1
 - Remove unnecessary ldconfig calls, per
   https://bugzilla.redhat.com/show_bug.cgi?id=849344
