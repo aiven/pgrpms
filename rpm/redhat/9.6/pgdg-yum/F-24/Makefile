@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f23
+DIST=.f24
 SPECFILE="pgdg-fedora-96.spec"
 
 # Now, include global Makefile
