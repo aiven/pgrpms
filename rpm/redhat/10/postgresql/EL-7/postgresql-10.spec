@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	20170301_1PGDG%{?dist}
+Release:	20170401_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
