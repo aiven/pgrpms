@@ -20,7 +20,7 @@
 %global __python_ver python
 %endif
 
-%global main_version 2.0
+%global main_version 2.1
 # comment out the next line if not a pre-release (use '#%%global ...')
 #%%global extra_version b1
 # Usually 1 - unique sequence for all pre-release version
@@ -114,6 +114,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %changelog
+* Fri Jan 6 2017 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
+- Update to 2.1
+
 * Tue Sep 27 2016 - Gabriele Bartolini <gabriele.bartolini@2ndquadrant.it> 2.0-1
 - New release 2.0-1
 - Trim changelog for releases 1.X
