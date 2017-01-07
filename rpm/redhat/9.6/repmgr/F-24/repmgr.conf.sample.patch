@@ -1,35 +1,24 @@
---- repmgr.conf.sample.old	2016-10-07 12:30:32.799754257 +0300
-+++ repmgr.conf.sample	2016-10-07 12:32:49.642534244 +0300
-@@ -32,7 +32,9 @@
- #   https://www.postgresql.org/docs/current/static/libpq-connect.html#LIBPQ-CONNSTRING
- #
- #conninfo='host=192.168.204.104 dbname=repmgr user=repmgr'
--#
-+
-+conninfo='host=localhost dbname=repmgr_db user=repmgr_usr'
-+
- # If repmgrd is in use, consider explicitly setting `connect_timeout` in the
- # conninfo string to determine the length of time which elapses before
- # a network connection attempt is abandoned; for details see:
-@@ -72,7 +74,7 @@
+--- repmgr.conf.sample.old	2017-01-07 16:47:17.116581773 +0300
++++ repmgr.conf.sample	2017-01-07 16:49:17.986512563 +0300
+@@ -78,7 +78,7 @@
  
  # stderr can be redirected to an arbitrary file:
  #
 -#logfile='/var/log/repmgr/repmgr.log'
 +logfile='/var/log/repmgr/repmgr-9.6.log
  
- # event notifications can be passed to an arbitrary external program
- # together with the following parameters:
-@@ -99,7 +101,7 @@
- 
+ # By default only repmgrd log output will be written to a file,
+ # if defined in "logfile"
+@@ -112,6 +112,8 @@
  # path to PostgreSQL binary directory (location of pg_ctl, pg_basebackup etc.)
  # (if not provided, defaults to system $PATH)
--#pg_bindir=/usr/bin/
+ #pg_bindir=/usr/bin/
 +pg_bindir=/usr/pgsql-9.6/bin/
++
  #
  # Debian/Ubuntu users: you will probably need to set this to the directory
  # where `pg_ctl` is located, e.g. /usr/lib/postgresql/9.5/bin/
-@@ -123,11 +125,11 @@
+@@ -135,11 +137,11 @@
  #       /usr/bin/systemctl start postgresql-9.5, \
  #       /usr/bin/systemctl restart postgresql-9.5
  #
@@ -46,7 +35,7 @@
  
  # external command options
  
-@@ -187,8 +189,8 @@
+@@ -198,8 +200,8 @@
                      # a value of zero or less prevents the node being promoted to primary
                      # (default: 100)
  
