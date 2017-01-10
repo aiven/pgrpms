@@ -4,7 +4,7 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0
+Version:	2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -49,5 +49,8 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/share/extension/unit.control
 
 %changelog
-* Thu Sep 22 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
+* Tue Jan 10 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
+- Update to 2.0
+
+* Thu Sep 22 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL YUM Repository
