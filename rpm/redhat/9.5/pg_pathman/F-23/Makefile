@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f24
+DIST=.f23
 SPECFILE="pg_pathman.spec"
 
 # Now, include global Makefile
