@@ -5,7 +5,7 @@
  EXTRA_CLEAN = unitparse.yy.* powers powers.o unittest unittest.o unit-*.dump # unitparse.tab.*
  
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  
