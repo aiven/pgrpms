@@ -1,5 +1,5 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 10
+%global pginstdir /usr/pgsql-10
 %global sname postgresql-unit
 
 Summary:	SI Units for PostgreSQL
