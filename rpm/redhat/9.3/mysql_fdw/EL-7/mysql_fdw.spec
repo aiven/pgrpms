@@ -2,8 +2,8 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 1
-%global mysqlfdwminver 2
+%global mysqlfdwmidver 2
+%global mysqlfdwminver 0
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
@@ -53,11 +53,14 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Feb 23 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.2-1
+* Tue Jan 17 2017 - Devrim Gündüz <devrim@gunduz.org> 2.1.2-1
+- Update to 2.2.0
+
+* Tue Feb 23 2016 - Devrim Gündüz <devrim@gunduz.org> 2.1.2-1
 - Update to 2.1.2
 
-* Thu Feb 05 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.1-1
+* Thu Feb 05 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 
-* Fri Oct 10 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-1
+* Fri Oct 10 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
