@@ -39,19 +39,17 @@ You can run the image in foreground by running this command:
 docker run -rm -P --name pg_yum_test pgdg_postgresql
 
 
-4)Connecting to the PostgreSQL server container
+4) Connecting to the PostgreSQL server container
 -----------------------------------------------------------------------------
-
 There are two ways to connect to the PostgreSQL server container:
 
-a)Using container linking
+a) Using container linking
 
 Containers can be linked to another container’s ports directly using 
 -link remote_name:local_alias in the client’s docker run. This will set 
 a number of environment variables that can then be used to connect:
 
 $ docker run --rm -t -i --link pg_yum_test:pg pgdg_postgresql bash
-
 $ psql -h $PG_PORT_5432_TCP_ADDR -p $PG_PORT_5432_TCP_PORT -d docker -U docker --password
 
 
@@ -77,7 +75,6 @@ If everything goes normal, you should see the psql prompt.
 
 5) Further information resource
 -----------------------------------------------------------------------------
-
 You can get more information at https://www.pgdocker.org and 
 https://yum.postgresql.org
 
