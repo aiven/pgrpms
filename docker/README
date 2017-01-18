@@ -1,11 +1,87 @@
-This directory contains the dockerfiles for PostgreSQL.
+-----------------------------------------------------------------------------
+Dockerfiles for Fedora PostgreSQL Spin, with PGDG RPM packages
+Devrim Gündüz <devrim@gunduz.org>
 
-The naming convention is:
+Parts of this document is taken from: 
+https://docs.docker.com/engine/examples/postgresql_service/
+-----------------------------------------------------------------------------
 
-Dockerfile-$DISTRO_NAME-PG$PG_VERSION
+Contents:
+---------
+1) Introduction
+2) Building an image from the Dockerfile
+3) Running the PostgreSQL server container
+4) Connecting to the PostgreSQL server container
+5) Further information resource
 
-i.e.,
+1) Introduction
+-----------------------------------------------------------------------------
+This document exists to explain the layout of the Docker images for 
+PostgreSQL, based on PGDG RPMs, and the document the procedures.
 
-Dockerfile-Fedora-PG93
+PostgreSQL YUM Repository Project provides Dockerfiles for the latest 
+Fedora and CentOS distributions. More may/will come later.
 
-More will come later.
+2) Building an image from the Dockerfile
+-----------------------------------------------------------------------------
+After downloading the suitable Dockerfile (and renaming it to 
+"Dockerfile", run this command to build an image from the Dockerfile:
+
+docker build -t pgdg_postgresql .
+
+
+3) Running the PostgreSQL server container
+-----------------------------------------------------------------------------
+After creating the image, run this image in the background:
+docker run -d -P --name pg_yum_test pgdg_postgresql
+
+You can run the image in foreground by running this command:
+docker run -rm -P --name pg_yum_test pgdg_postgresql
+
+
+4)Connecting to the PostgreSQL server container
+-----------------------------------------------------------------------------
+
+There are two ways to connect to the PostgreSQL server container:
+
+a)Using container linking
+
+Containers can be linked to another container’s ports directly using 
+-link remote_name:local_alias in the client’s docker run. This will set 
+a number of environment variables that can then be used to connect:
+
+$ docker run --rm -t -i --link pg_yum_test:pg pgdg_postgresql bash
+
+$ psql -h $PG_PORT_5432_TCP_ADDR -p $PG_PORT_5432_TCP_PORT -d docker -U docker --password
+
+
+b) Connecting from your host system
+
+Assuming you have the postgresql-client installed, you can use the 
+host-mapped port to test as well. You need to use docker ps to find out 
+what local host port the container is mapped to first. See the PORTS 
+section in the output. An example is:
+
+$ docker ps
+CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                     NAMES
+fe9158def36b        eg_postgresql       "/usr/pgsql-9.6/bin/p"   About a minute ago   Up About a minute   0.0.0.0:32773->5432/tcp   pg_yum_test
+d0db3c1a6d0f        e032033e68fa        "/usr/pgsql-9.6/bin/p"   26 minutes ago       Up 26 minutes       0.0.0.0:32772->5432/tcp   pg_test
+
+In these examples, 32772 and 32773 are the ports for the PostgreSQL 
+instance. Now, connect to the instance by:
+
+psql -h localhost -p 32773 -d docker -U docker --password
+
+If everything goes normal, you should see the psql prompt.
+
+
+5) Further information resource
+-----------------------------------------------------------------------------
+
+You can get more information at https://www.pgdocker.org and 
+https://yum.postgresql.org
+
+Please help make this images better -- let us know if you find 
+problems, or better ways of doing things. You can reach us by e-mail at
+pgsql-pkg-yum@postgresql.org.
+
