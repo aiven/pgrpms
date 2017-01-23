@@ -36,7 +36,7 @@ After creating the image, run this image in the background:
 docker run -d -P --name pg_yum_test pgdg_postgresql
 
 You can run the image in foreground by running this command:
-docker run -rm -P --name pg_yum_test pgdg_postgresql
+docker run --rm -P --name pg_yum_test pgdg_postgresql
 
 
 4) Connecting to the PostgreSQL server container
@@ -55,20 +55,22 @@ $ psql -h $PG_PORT_5432_TCP_ADDR -p $PG_PORT_5432_TCP_PORT -d docker -U docker -
 
 b) Connecting from your host system
 
-Assuming you have the postgresql-client installed, you can use the 
-host-mapped port to test as well. You need to use docker ps to find out 
-what local host port the container is mapped to first. See the PORTS 
-section in the output. An example is:
+Assuming you have the postgresql96/postgresql10 packages installed, you
+can use the host-mapped port to test as well. You need to use docker ps
+to find out what local host port the container is mapped to first. See
+the PORTS section in the output. An example is:
 
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                     NAMES
 fe9158def36b        eg_postgresql       "/usr/pgsql-9.6/bin/p"   About a minute ago   Up About a minute   0.0.0.0:32773->5432/tcp   pg_yum_test
-d0db3c1a6d0f        e032033e68fa        "/usr/pgsql-9.6/bin/p"   26 minutes ago       Up 26 minutes       0.0.0.0:32772->5432/tcp   pg_test
 
-In these examples, 32772 and 32773 are the ports for the PostgreSQL 
-instance. Now, connect to the instance by:
+In this example, 32773 is the port for the PostgreSQL instance. Now,
+connect to the instance by:
 
 psql -h localhost -p 32773 -d docker -U docker --password
+
+Please note that you may change "localhost" to the host address on some
+platforms.
 
 If everything goes normal, you should see the psql prompt.
 
@@ -81,4 +83,3 @@ https://yum.postgresql.org
 Please help make this images better -- let us know if you find 
 problems, or better ways of doing things. You can reach us by e-mail at
 pgsql-pkg-yum@postgresql.org.
-
