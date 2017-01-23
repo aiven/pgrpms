@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	20170401_1PGDG%{?dist}
+Release:	20172301_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1194,6 +1194,7 @@ fi
 %{pgbaseinstdir}/lib/dict_snowball.so
 %{pgbaseinstdir}/lib/dict_xsyn.so
 %{pgbaseinstdir}/lib/euc2004_sjis2004.so
+%{pgbaseinstdir}/lib/pgoutput.so
 %{pgbaseinstdir}/lib/plpgsql.so
 %dir %{pgbaseinstdir}/share/extension
 %{pgbaseinstdir}/share/extension/plpgsql*
@@ -1270,6 +1271,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 23 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20172301_1PGDG
+- Update to Jan 23, 2017 snapshot
+
 * Wed Jan 4 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170301_1PGDG
 - Initial cut for 10.0 development
 
