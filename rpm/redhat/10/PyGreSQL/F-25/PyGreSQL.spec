@@ -9,15 +9,15 @@
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global __ospython2 %{_bindir}/python2
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %else
 %{!?with_python3:%global with_python3 0}
 %global __ospython2 %{_bindir}/python2
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
 %global sum	A Python client library for PostgreSQL
@@ -49,18 +49,23 @@ Provides:	python2-%{name} = %{version}-%{release}
 Provides:	python2-%{name}%{?_isa} = %{version}-%{release}
 %{?python_provide:%python_provide python2-%{srcname}}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel python2-devel python3-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel python2-devel
+%if 0%{?with_python3}
+BuildRequires:	python3-devel
+%endif
 
 %description
 PostgreSQL is an advanced Object-Relational database management system.
 The PyGreSQL package provides a module for developers to use when writing
 Python code for accessing a PostgreSQL database.
 
+%if 0%{?with_python3}
 %package -n python3-%{srcname}
 Summary:	%{sum}
 %{?python_provide:%python_provide python3-%{srcname}}
 
 %description -n python3-%{srcname}
+%endif
 
 %prep
 %setup -q -n %{srcname}-%{version}
@@ -87,14 +92,19 @@ find -type f -exec chmod 644 {} +
 %clean
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc docs/copyright.rst docs/*.rst
+%else
 %license docs/copyright.rst
 %doc docs/*.rst
-%{python2_sitearch}/*.so
-%{python2_sitearch}/*.py
-%{python2_sitearch}/*.pyc
-%{python2_sitearch}/*.pyo
-%{python2_sitearch}/*.egg-info
+%endif
+%{python2_sitelib}/*.so
+%{python2_sitelib}/*.py
+%{python2_sitelib}/*.pyc
+%{python2_sitelib}/*.pyo
+%{python2_sitelib}/*.egg-info
 
+%if 0%{?with_python3}
 %files -n python3-%{srcname}
 %license docs/copyright.rst
 %doc docs/*.rst
@@ -102,6 +112,7 @@ find -type f -exec chmod 644 {} +
 %{python3_sitearch}/*.py
 %{python3_sitearch}/__pycache__/*.py{c,o}
 %{python3_sitearch}/*.egg-info
+%endif
 
 %changelog
 * Wed Jan 25 2017 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-1
