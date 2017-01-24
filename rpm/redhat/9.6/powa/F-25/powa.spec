@@ -19,7 +19,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
@@ -30,8 +30,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
 Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
-# These are required by powa-web:
-Requires:	python-tornado >= 2.0, python-psycopg2, python-sqlalchemy
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -43,6 +41,8 @@ It is similar to Oracle AWR or SQL Server MDW.
 %package web
 Summary:	The user interface of powa
 Group:		Applications/Databases
+BuildRequires:	python-setuptools
+Requires:	python-tornado >= 2.0, python-psycopg2, python-sqlalchemy
 
 %description web
 This is the user interface of POWA.
@@ -91,6 +91,9 @@ popd
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 
 %changelog
+* Wed Jan 25 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-2
+- Fix dependencies, per patch from Thomas Reiss. Per #2072.
+
 * Fri Oct 28 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-1
 - Update both components to 3.1.0
 
