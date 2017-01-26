@@ -1,6 +1,6 @@
 %global debug_package %{nil}
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 9.6
+%global pginstdir /usr/pgsql-96
 %global sname powa
 %global swebname powa-web
 # Powa version
@@ -30,6 +30,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
 Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
+Requires:	hypopg_%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -93,6 +94,7 @@ popd
 %changelog
 * Wed Jan 25 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-2
 - Fix dependencies, per patch from Thomas Reiss. Per #2072.
+- Add dependency for hypopg, per #2073.
 
 * Fri Oct 28 2016 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-1
 - Update both components to 3.1.0
