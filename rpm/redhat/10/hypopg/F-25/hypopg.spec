@@ -14,9 +14,6 @@ URL:		https://github.com/dalibo/%{sname}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
-This software is EXPERIMENTAL and therefore NOT production ready.
-Use at your own risk.
-
 HypoPG is a PostgreSQL extension adding support for hypothetical indexes.
 
 %prep
