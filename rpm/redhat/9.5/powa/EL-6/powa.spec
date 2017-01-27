@@ -1,6 +1,6 @@
 %global debug_package %{nil}
-%global pgmajorversion 9.5
-%global pginstdir /usr/pgsql-95
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
 %global sname powa
 %global swebname powa-web
 # Powa version
@@ -8,7 +8,7 @@
 %global powamidversion 1
 %global powaminorversion 0
 # powa-web version
-%global powawebversion 3.1.0
+%global powawebversion 3.1.1
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -19,7 +19,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
@@ -92,6 +92,9 @@ popd
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 
 %changelog
+* Fri Jan 27 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-3
+- Update powa-web to 3.1.1
+
 * Wed Jan 25 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-2
 - Fix dependencies, per patch from Thomas Reiss. Per #2072.
 - Add dependency for hypopg, per #2073.
