@@ -1,6 +1,6 @@
 %global postgismajorversion 2.3
 %global postgisprevmajorversion 2.2
-%global postgisprevversion 2.2.4
+%global postgisprevversion 2.2.5
 %global pgmajorversion 10
 %global pginstdir /usr/pgsql-10
 %global sname	postgis
@@ -19,7 +19,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	%{postgismajorversion}.1
+Version:	%{postgismajorversion}.2
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -42,10 +42,17 @@ BuildRequires:	SFCGAL-devel
 Requires:	SFCGAL
 %endif
 %if %{raster}
-BuildRequires:	gdal-devel
+BuildRequires:	gdal-devel >= 1.9.0
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj, hdf5, json-c, pcre
+Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj
+%if 0%{?rhel} && 0%{?rhel} < 6
+Requires:	hdf5 < 1.8.7
+%else
+Requires:	hdf5
+%endif
+
+Requires:	gdal-libs > 1.9.0, json-c, pcre
 Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
@@ -238,6 +245,12 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Nov 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
+- Update to 2.3.2, per changes described at
+  http://postgis.net/2017/01/31/postgis-2.3.2
+- Update previous PostGIS version to 2.2.5, per changes described at
+  http://postgis.net/2017/01/30/postgis-2.2.5
+
 * Mon Nov 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
 - Update to 2.3.1, per changes described at
   http://postgis.net/2016/11/28/postgis-2.3.1/
