@@ -19,7 +19,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
-Version:	2.2.4
+Version:	%{postgismajorversion}.5
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -27,7 +27,7 @@ Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-Patch0:		postgis-2.2.0-gdalfpic.patch
+Patch0:		postgis-%{postgismajorversion}.0-gdalfpic.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -194,8 +194,8 @@ fi
 %endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so.*
-%{pginstdir}/lib/postgis_topology-2.2.so
-%{pginstdir}/lib/address_standardizer-2.2.so
+%{pginstdir}/lib/postgis_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/address_standardizer-%{postgismajorversion}.so
 %{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
@@ -237,6 +237,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Jan 31 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.5-1
+- Update to 2.2.5, per changes described at
+  http://postgis.net/2017/01/30/postgis-2.2.5
+
 * Tue Nov 29 2016 Devrim Gündüz <devrim@gunduz.org> - 2.2.4-1
 - Update to 2.2.4, per changes described at:
   http://postgis.net/2016/11/26/postgis-2.2.4/
