@@ -69,8 +69,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.2.19
-Release:	2PGDG%{?dist}
+Version:	9.2.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -917,6 +917,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.2.20-1PGDG
+- Update to 9.2.20, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-20.html
+
 * Sat Nov 5 2016 Devrim Gündüz <devrim@gunduz.org> - 9.2.19-2PGDG
 - Append PostgreSQL major version number to -libs provides.
 
