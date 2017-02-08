@@ -4,7 +4,7 @@
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.05.0400
+Version:	09.06.0100
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
@@ -82,6 +82,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 
 %changelog
+* Wed Feb 8 2017 - Devrim Gündüz <devrim@gunduz.org> - 09.06.0100-1
+- Update to 09.06.0100
+
 * Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> - 09.05.0400-1
 - Update to 09.05.0400
 - Remove ancient comments from the header of the spec file.
