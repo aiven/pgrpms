@@ -43,10 +43,10 @@ your deployment config to minify html and text responses of your flask
 application.
 
 %if 0%{?with_python3}
-%package -n python3-%{name}
+%package -n python3-%{pkg_name}
 Summary:	Flask html response minifier
 
-%description -n python3-%{name}
+%description -n python3-%{pkg_name}
 Minify flask text/html mime types responses. Just add MINIFY_PAGE = True to
 your deployment config to minify html and text responses of your flask
 application.
@@ -80,7 +80,7 @@ application.
 %{python2_sitelib}/*.egg-info/
 %{python2_sitelib}/flask_htmlmin.py*
 %if 0%{?with_python3}
-%files -n python3-%{name}
+%files -n python3-%{pkg_name}
 %doc LICENSE README.md
 %{python3_sitelib}/*.egg-info/
 %{python3_sitelib}/flask_htmlmin.py
