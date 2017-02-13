@@ -105,6 +105,7 @@ BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-babel >= 1.3
 Requires:	python3-flask >= 0.11.1
+Requires:	python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	python3-flask-wtf >= 0.12
 Requires:	python3-jinja2 >= 2.7.3
@@ -142,6 +143,7 @@ Requires:	python3-mod_wsgi
 %else
 Requires:	python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
+Requires:       python3-flask-htmlmin >= 1.2
 Requires:	python-flask-sqlalchemy >= 2.1
 Requires:	python-flask-wtf >= 0.12
 Requires:	python-jinja2 >= 2.7.3
@@ -238,8 +240,8 @@ sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < 
 
 # Install QT conf file
 # This directory will/may change in future releases.
-install -d "%{buildroot}%{_sysconfdir}/pgAdmin Development Team/"
-sed -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgAdmin Development Team/pgAdmin 4.conf"
+install -d "%{buildroot}%{_sysconfdir}/pgadmin/"
+sed -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/pgadmin4.conf"
 
 # Install unit file/init script
 %if %{systemd_enabled}
@@ -258,13 +260,7 @@ install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
-echo "MINIFY_HTML = False" >> config_distro.py
 echo "HELP_PATH = '/usr/share/doc/pgadmin4-v1-docs/en_US/html'" >> config_distro.py
-echo "
-[General]
-ApplicationPath=%{PYTHON_SITELIB}/%{name}-web
-PythonPath=%{PYTHON_SITELIB};%{PYTHON_SITELIB64}
-" > %{buildroot}%{pgadmin4instdir}/runtime/%{sname}.ini
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -316,9 +312,8 @@ fi
 %files
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
-%{pgadmin4instdir}/runtime/%{sname}.ini
 %{_datadir}/applications/%{name}.desktop
-"%{_sysconfdir}/pgAdmin Development Team/pgAdmin 4.conf"
+"%{_sysconfdir}/pgadmin/pgadmin4.conf"
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
@@ -337,6 +332,7 @@ fi
 %changelog
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
+- Various fixes to spec file and qt patch. Patch from Dave Page.
 
 * Tue Nov 15 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-5
 - Add a patch to conf.py to pick up the default theme, instead
