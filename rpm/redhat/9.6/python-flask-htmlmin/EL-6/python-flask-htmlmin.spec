@@ -30,6 +30,10 @@ License:	BSD
 URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
+Requires:	python-htmlmin
+%if 0%{?with_python3}
+Requires:	python3-htmlmin
+%endif
 
 %if 0%{?with_python3}
 %{?python_provide:%python_provide python3-%{pkg_name}}
