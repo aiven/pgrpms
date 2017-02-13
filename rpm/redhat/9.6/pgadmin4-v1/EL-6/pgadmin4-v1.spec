@@ -27,8 +27,8 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.1
-Release:	5%{?dist}
+Version:	%{pgadminmajorversion}.2
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -41,21 +41,26 @@ Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
+# The following two patches will be removed in next pgadmin4 version
+Patch1:		pgadmin4-webenginewidgets.patch
+Patch2:		pgadmin4-sphinx-makefile-pyver.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
 # These are for docs:
 BuildRequires:	python-flask-security, python-flask-gravatar, python-flask-mail
-BuildRequires:	python-flask-wtf, django-htmlmin, python-blinker
+BuildRequires:	python-flask-wtf, python-flask-htmlmin, python-blinker
 BuildRequires:	python-beautifulsoup4, python-dateutil, python-simplejson
+BuildRequires:	python-flask >= 0.11.1, python-jinja2 >= 2.7.3, python-itsdangerous >= 0.24
+BuildRequires:	python-werkzeug >= 0.9.6, python-click, python-flask-babel
 
 Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel
 BuildRequires:	python2-passlib
-%global QMAKE	/usr/bin/qmake-qt5
+%global QMAKE	/usr/bin/qmake-qt5 "DEFINES += PGADMIN4_USE_WEBKIT"
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
@@ -124,7 +129,6 @@ Requires:	python3-flask-mail >= 0.9.1
 Requires:	python3-flask-security >= 1.7.5
 Requires:	python3-flask-login >= 0.3.2
 Requires:	python3-flask-principal >= 0.4.0
-Requires:	django-htmlmin >= 0.8.0
 Requires:	python-wsgiref >= 0.1.2
 Requires:	pytz >= 2014.10
 Requires:	python3-click
@@ -163,7 +167,6 @@ Requires:	python-flask-mail >= 0.9.1
 Requires:	python-flask-security >= 1.7.5
 Requires:	python-flask-login >= 0.3.2
 Requires:	python-flask-principal >= 0.4.0
-Requires:	django-htmlmin >= 0.8.0
 Requires:	python-wsgiref >= 0.1.2
 Requires:	python-click
 Requires:	python-extras >= 0.0.3
@@ -193,6 +196,8 @@ Documentation of pgadmin4.
 %if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
 %patch0 -p0
 %endif
+%patch1 -p1
+%patch2 -p1
 
 %build
 cd runtime
@@ -204,7 +209,11 @@ export PYTHON_CONFIG=/usr/bin/python-config
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
 cd ../
-make docs
+%if 0%{?with_python3}
+make PYTHON=/usr/bin/python3 docs
+%else
+make PYTHON=/usr/bin/python docs
+%endif
 
 %install
 %{__rm} -rf %{buildroot}
@@ -326,6 +335,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
+- Update to 1.2
+
 * Tue Nov 15 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-5
 - Add a patch to conf.py to pick up the default theme, instead
   of classic theme. We need this to build docs on older sphinx
