@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -143,7 +143,7 @@ Requires:	python3-mod_wsgi
 %else
 Requires:	python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
-Requires:       python3-flask-htmlmin >= 1.2
+Requires:       python-flask-htmlmin >= 1.2
 Requires:	python-flask-sqlalchemy >= 2.1
 Requires:	python-flask-wtf >= 0.12
 Requires:	python-jinja2 >= 2.7.3
@@ -330,6 +330,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-2
+- Fix dependency issue on RHEL 7.
+
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 - Various fixes to spec file and qt patch. Patch from Dave Page.
