@@ -23,7 +23,7 @@
 
 Name:		python-%{pkg_name}
 Version:	1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -92,5 +92,8 @@ application.
 %endif
 
 %changelog
+* Fri Feb 17 2017 Devrim Gündüz <devrim@gunduz.org> 1.2-2
+- Bump up package version for python-htmlmin dependency.
+
 * Mon Feb 13 2017 Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Initial packaging for pgadmin4.
