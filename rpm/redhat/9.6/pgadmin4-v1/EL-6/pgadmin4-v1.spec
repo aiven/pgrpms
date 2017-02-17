@@ -325,7 +325,7 @@ fi
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora} > 23
-%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf"
+%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf
 %else
 %{_sysconfdir}/pgadmin/pgadmin4.conf
 %endif
