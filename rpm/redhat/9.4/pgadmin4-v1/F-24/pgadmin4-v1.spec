@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.2
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -59,8 +59,9 @@ Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel
+BuildRequires:	qt5-qtwebengine-devel
 BuildRequires:	python2-passlib
-%global QMAKE	/usr/bin/qmake-qt5 "DEFINES += PGADMIN4_USE_WEBKIT"
+%global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
@@ -139,11 +140,12 @@ Requires:	python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi
+Requires:	qt5-qtwebengine
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2, unittest2
 %else
 Requires:	python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
-Requires:       python3-flask-htmlmin >= 1.2
+Requires:	python-flask-htmlmin >= 1.2
 Requires:	python-flask-sqlalchemy >= 2.1
 Requires:	python-flask-wtf >= 0.12
 Requires:	python-jinja2 >= 2.7.3
@@ -219,44 +221,53 @@ make PYTHON=/usr/bin/python docs
 
 %install
 %{__rm} -rf %{buildroot}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
+%{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
 %{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
 
-install -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
+%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
 
-install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
+%{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__cp} -pR web/* %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 
 # Install Apache sample config file
-install -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
-sed -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1}  > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
 # Install desktop file, and its icon
-install -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
-install -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
-install -d %{buildroot}%{_datadir}/applications/
-sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
+%{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
+%{__install} -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
+%{__install} -d %{buildroot}%{_datadir}/applications/
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
 
-# Install QT conf file
-# This directory will/may change in future releases.
-install -d "%{buildroot}%{_sysconfdir}/pgadmin/"
-sed -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/pgadmin4.conf"
+# Install QT conf file.
+# Directories are different on RHEL 7 and Fedora 24+.
+%if 0%{?fedora} > 23
+# Fedora 24+
+%{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
+%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf"
+%else
+# CentOS 7
+%{__install} -d "%{buildroot}%{_sysconfdir}/pgadmin/"
+%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/pgadmin4.conf"
+%endif
 
 # Install unit file/init script
 %if %{systemd_enabled}
 # This is only for systemd supported distros:
-install -d %{buildroot}%{_unitdir}
-sed -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_unitdir}/%{name}.service
+%{__install} -d %{buildroot}%{_unitdir}
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_unitdir}/%{name}.service
 %else
 # Reserved for init script
 :
 %endif
+
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
-mkdir -p %{buildroot}/%{_tmpfilesdir}
-install -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
+
 cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
@@ -313,7 +324,11 @@ fi
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
-"%{_sysconfdir}/pgadmin/pgadmin4.conf"
+%if 0%{?fedora} > 23
+%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf
+%else
+%{_sysconfdir}/pgadmin/pgadmin4.conf
+%endif
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
@@ -330,6 +345,15 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-3
+* Fix Fedora 25 issues, per Dave Page:
+ - Install runtime conf file under /etc/xdg/pgadmin4
+ - Add qt5-qtwebengine as BR and R.
+- Use more macros in spec file.
+
+* Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-2
+- Fix dependency issue on RHEL 7.
+
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 - Various fixes to spec file and qt patch. Patch from Dave Page.
