@@ -23,7 +23,7 @@
 
 Name:		python-%{pkg_name}
 Version:	1.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -31,9 +31,6 @@ URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python-htmlmin
-%if 0%{?with_python3}
-Requires:	python3-htmlmin
-%endif
 
 %if 0%{?with_python3}
 %{?python_provide:%python_provide python3-%{pkg_name}}
@@ -49,6 +46,7 @@ application.
 %if 0%{?with_python3}
 %package -n python3-%{pkg_name}
 Summary:	Flask html response minifier
+Requires:	python3-htmlmin
 
 %description -n python3-%{pkg_name}
 Minify flask text/html mime types responses. Just add MINIFY_PAGE = True to
@@ -92,6 +90,9 @@ application.
 %endif
 
 %changelog
+* Fri Feb 17 2017 Devrim Gündüz <devrim@gunduz.org> 1.2-3
+- Another attempt to fix python3-htmlmin dependency on Fedora 24+
+
 * Fri Feb 17 2017 Devrim Gündüz <devrim@gunduz.org> 1.2-2
 - Bump up package version for python-htmlmin dependency.
 
