@@ -1,0 +1,336 @@
+diff --git a/runtime/BrowserWindow.cpp b/runtime/BrowserWindow.cpp
+index 4b96abe5..98a1dc59 100644
+--- a/runtime/BrowserWindow.cpp
++++ b/runtime/BrowserWindow.cpp
+@@ -13,7 +13,7 @@
+ 
+ #if QT_VERSION >= 0x050000
+ #include <QtWidgets>
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ #include <QtWebEngineWidgets>
+ #else
+ #include <QtWebKitWidgets>
+@@ -57,7 +57,7 @@ BrowserWindow::BrowserWindow(QString url)
+     m_last_open_folder_path = "";
+     m_dir = "";
+     m_reply = NULL;
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     m_download = NULL;
+ #endif
+ 
+@@ -73,7 +73,7 @@ BrowserWindow::BrowserWindow(QString url)
+     m_tabGridLayout = new QGridLayout(m_pgAdminMainTab);
+     m_tabGridLayout->setContentsMargins(0, 0, 0, 0);
+     m_mainWebView = new WebViewWindow(m_pgAdminMainTab);
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     m_mainWebView->setPage(new WebEnginePage());
+ #endif
+ 
+@@ -81,7 +81,7 @@ BrowserWindow::BrowserWindow(QString url)
+     // If pgAdmin4 is run in debug mode, then we should enable the
+     // "Inspect" option, when the user right clicks on QWebView widget.
+     // This option is useful to debug the pgAdmin4 desktop application and open the developer tools.
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     // With QWebEngine, run with QTWEBENGINE_REMOTE_DEBUGGING=<port> and then point Google
+     // Chrome at 127.0.0.1:<port> to debug the runtime's web engine
+ #else
+@@ -103,7 +103,7 @@ BrowserWindow::BrowserWindow(QString url)
+ 
+     connect(m_mainWebView, SIGNAL(loadFinished(bool)), SLOT(finishLoading(bool)));
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     // Register the slot when click on the URL link for QWebEnginePage
+     connect(m_mainWebView->page(), SIGNAL(createTabWindow(QWebEnginePage * &)),SLOT(createNewTabWindow(QWebEnginePage * &)));
+ #else
+@@ -115,7 +115,7 @@ BrowserWindow::BrowserWindow(QString url)
+     connect(m_tabWidget,SIGNAL(currentChanged(int )),this,SLOT(tabIndexChanged(int )));
+ 
+     // Listen for download file request from the web page
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     // Register downloadRequested signal of QWenEngineProfile to start download file to client side.
+     connect(m_mainWebView->page()->profile(),SIGNAL(downloadRequested(QWebEngineDownloadItem*)),this,SLOT(downloadRequested(QWebEngineDownloadItem*)));
+ #else
+@@ -198,7 +198,7 @@ void BrowserWindow::createActions()
+     connect(zoomOutShortcut, SIGNAL(activated()), this, SLOT(zoomOut()));
+ 
+ #ifdef __APPLE__
+-  #if QT_VERSION >= 0x050500
++  #ifdef PGADMIN4_USE_WEBENGINE
+     QShortcut *cut_shortcut = new QShortcut(QKeySequence("Ctrl+X"), this);
+     QObject::connect(cut_shortcut, SIGNAL(activated()), this, SLOT(onMacCut()));
+ 
+@@ -213,7 +213,7 @@ void BrowserWindow::createActions()
+ }
+ 
+ #ifdef __APPLE__
+-  #if QT_VERSION >= 0x050500
++  #ifdef PGADMIN4_USE_WEBENGINE
+ // Find current tab widget's webview widget and trigger the respective events of web page
+ void BrowserWindow::triggerWebViewWindowEvents(QWebEnginePage::WebAction action)
+ {
+@@ -335,7 +335,7 @@ int BrowserWindow::findURLTab(const QUrl &name)
+     return 0;
+ }
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ // Below slot will be called when user start download (Only for QWebEngine. Qt version >= 5.5)
+ void BrowserWindow::downloadRequested(QWebEngineDownloadItem *download)
+ {
+@@ -493,14 +493,14 @@ void BrowserWindow::download(const QNetworkRequest &request)
+         QObject *obj_web_page = QObject::sender();
+         if (obj_web_page != NULL)
+         {
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+             WebEnginePage *sender_web_page = dynamic_cast<WebEnginePage*>(obj_web_page);
+ #else
+             QWebPage *sender_web_page = dynamic_cast<QWebPage*>(obj_web_page);
+ #endif
+             if (sender_web_page != NULL)
+             {
+-#if QT_VERSION < 0x050500
++#ifdef PGADMIN4_USE_WEBKIT
+                 QNetworkAccessManager *networkManager = sender_web_page->networkAccessManager();
+                 QNetworkReply *reply = networkManager->get(newRequest);
+                 if (reply != NULL)
+@@ -518,7 +518,7 @@ void BrowserWindow::download(const QNetworkRequest &request)
+     }
+ }
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ // Below slot will be called when file download is in progress ( Only for QWebEngine Qt version >= 5.5 )
+ void BrowserWindow::downloadEngineFileProgress(qint64 readData, qint64 totalData)
+ {
+@@ -636,7 +636,7 @@ void BrowserWindow::progressCanceled()
+         m_progressDialog = NULL;
+     }
+ 
+-#if QT_VERSION < 0x050500
++#ifdef PGADMIN4_USE_WEBKIT
+     if (m_file)
+     {
+         m_file->close();
+@@ -660,8 +660,8 @@ void BrowserWindow::progressCanceled()
+     m_downloadStarted = 0;
+ }
+ 
+-#if QT_VERSION >= 0x050500
+-// Below slot will called when file download is finished ( Only for QWebEngine, Qt version >= 5.5 )
++#ifdef PGADMIN4_USE_WEBENGINE
++// Below slot will called when file download is finished (Only for QWebEngine)
+ void BrowserWindow::downloadEngineFinished()
+ {
+     // Check download finished state.
+@@ -955,7 +955,7 @@ void BrowserWindow::current_dir_path(const QString &dir)
+     settings.setValue("Browser/LastSaveLocation", m_last_open_folder_path);
+ }
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ // Below slot will be called when link is required to open in new tab.
+ void BrowserWindow::createNewTabWindow(QWebEnginePage * &p)
+ {
+@@ -1037,7 +1037,7 @@ void BrowserWindow::urlLinkClicked(const QUrl &name)
+         m_addNewWebView->setZoomFactor(m_mainWebView->zoomFactor());
+ 
+         // Listen for the download request from the web page
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+         connect(m_addNewWebView->page()->profile(),SIGNAL(downloadRequested(QWebEngineDownloadItem*)),this,SLOT(downloadRequested(QWebEngineDownloadItem*)));
+ #else
+         m_addNewWebView->page()->setForwardUnsupportedContent(true);
+diff --git a/runtime/BrowserWindow.h b/runtime/BrowserWindow.h
+index 9d2375c9..f0b0eacd 100644
+--- a/runtime/BrowserWindow.h
++++ b/runtime/BrowserWindow.h
+@@ -18,14 +18,14 @@
+ 
+ #if QT_VERSION >= 0x050000
+ #include <QtWidgets>
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ #include <QtWebEngineWidgets>
+ #else
+ #include <QtWebKitWidgets>
+ #endif
+ #else
+ #include <QMainWindow>
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ #include <QtWebEngineView>
+ #else
+ #include <QWebView>
+@@ -53,7 +53,7 @@ protected slots:
+     void closetabs();
+     void tabTitleChanged(const QString &);
+ #ifdef __APPLE__
+-  #if QT_VERSION >= 0x050500
++  #ifdef PGADMIN4_USE_WEBENGINE
+     void onMacCut();
+     void onMacCopy();
+     void onMacPaste();
+@@ -66,7 +66,7 @@ private slots:
+     void about();
+     void zoomIn();
+     void zoomOut();
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     void downloadRequested(QWebEngineDownloadItem *download);
+ #endif
+ 
+@@ -80,7 +80,7 @@ public slots:
+     void downloadFileProgress(qint64 , qint64 );
+     void progressCanceled();
+     void current_dir_path(const QString &dir);
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     void createNewTabWindow(QWebEnginePage * &);
+     void downloadEngineFileProgress(qint64 , qint64 );
+     void downloadEngineFinished();
+@@ -121,7 +121,7 @@ private:
+     QString m_last_open_folder_path;
+     QString m_dir;
+     QNetworkReply *m_reply;
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     QWebEngineDownloadItem *m_download;
+ #endif
+ 
+@@ -130,7 +130,7 @@ private:
+     int  findURLTab(const QUrl &name);
+ 
+ #ifdef __APPLE__
+-  #if QT_VERSION >= 0x050500
++  #ifdef PGADMIN4_USE_WEBENGINE
+     void triggerWebViewWindowEvents(QWebEnginePage::WebAction action);
+   #endif
+ #endif
+diff --git a/runtime/TabWindow.cpp b/runtime/TabWindow.cpp
+index 4488b681..f32b3330 100644
+--- a/runtime/TabWindow.cpp
++++ b/runtime/TabWindow.cpp
+@@ -14,7 +14,7 @@
+ // App headers
+ #include "TabWindow.h"
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ #include <QWebEngineHistory>
+ #else
+ #include <QWebHistory>
+diff --git a/runtime/WebViewWindow.cpp b/runtime/WebViewWindow.cpp
+index 5a43861b..689ab31d 100644
+--- a/runtime/WebViewWindow.cpp
++++ b/runtime/WebViewWindow.cpp
+@@ -15,7 +15,7 @@
+ #include "WebViewWindow.h"
+ 
+ // Override QWebEnginePage to handle link delegation
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ bool WebEnginePage::acceptNavigationRequest(const QUrl & url, NavigationType type, bool isMainFrame)
+ {
+     Q_UNUSED(type);
+@@ -38,7 +38,7 @@ QWebEnginePage *WebEnginePage::createWindow(QWebEnginePage::WebWindowType type)
+ #endif
+ 
+ WebViewWindow::WebViewWindow(QWidget *parent) :
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+     QWebEngineView(parent)
+ #else
+     QWebView(parent)
+diff --git a/runtime/WebViewWindow.h b/runtime/WebViewWindow.h
+index 93875900..c4575016 100644
+--- a/runtime/WebViewWindow.h
++++ b/runtime/WebViewWindow.h
+@@ -15,7 +15,7 @@
+ #include "pgAdmin4.h"
+ 
+ #if QT_VERSION >= 0x050000
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ #include <QtWebEngineWidgets>
+ #else
+ #include <QtWebKitWidgets>
+@@ -25,7 +25,7 @@
+ #endif
+ 
+ // Override QWebEnginePage to handle link delegation
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ class WebEnginePage : public QWebEnginePage
+ {
+     Q_OBJECT
+@@ -38,7 +38,7 @@ signals:
+ };
+ #endif
+ 
+-#if QT_VERSION >= 0x050500
++#ifdef PGADMIN4_USE_WEBENGINE
+ class WebViewWindow : public QWebEngineView
+ #else
+ class WebViewWindow : public QWebView
+diff --git a/runtime/pgAdmin4.pro b/runtime/pgAdmin4.pro
+index 8f0d4c8a..a6adf1ef 100644
+--- a/runtime/pgAdmin4.pro
++++ b/runtime/pgAdmin4.pro
+@@ -7,23 +7,42 @@ QMAKE_TARGET_COPYRIGHT = "Copyright 2013 - 2017, The pgAdmin Development Team"
+ # Configure QT modules for the appropriate version of QT
+ greaterThan(QT_MAJOR_VERSION, 4) {
+     message(Building for QT5+...)
+-    greaterThan(QT_MINOR_VERSION, 4) {
+-        message(Using QWebEngine...)
+-        QT += webenginewidgets network widgets
+-    } else {
+-        message(Using QWebKit...)
++    contains(DEFINES, PGADMIN4_USE_WEBKIT) {
++        message(Forcing use of QWebKit...)
+         message()
+         message(************************************** WARNING **************************************)
+         message(* It is strongly advised that Qt 5.5.0 or later is used to build the pgAdmin runtime.)
+         message(*************************************************************************************)
+         message()
+         QT += webkitwidgets network widgets
+-    }
+-    win32 {
+-      RC_ICONS += pgAdmin4.ico
++    } else {
++        greaterThan(QT_MINOR_VERSION, 4) {
++            message(Using QWebEngine...)
++            DEFINES += PGADMIN4_USE_WEBENGINE
++            QT += webenginewidgets network widgets
++        } else {
++            message(Using QWebKit...)
++            message()
++            message(************************************** WARNING **************************************)
++            message(* It is strongly advised that Qt 5.5.0 or later is used to build the pgAdmin runtime.)
++            message(*************************************************************************************)
++            message()
++            DEFINES *= PGADMIN4_USE_WEBKIT
++            QT += webkitwidgets network widgets
++        }
++        win32 {
++          RC_ICONS += pgAdmin4.ico
++        }
+     }
+ } else { 
+     message(Building for QT4...)
++    message(Using QWebKit...)
++    message()
++    message(************************************** WARNING **************************************)
++    message(* It is strongly advised that Qt 5.5.0 or later is used to build the pgAdmin runtime.)
++    message(*************************************************************************************)
++    message()
++    DEFINES += PGADMIN4_USE_WEBKIT
+     QT += webkit network
+     win32 {
+       RC_FILE += pgAdmin4.rc
