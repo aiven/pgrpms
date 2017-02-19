@@ -1,5 +1,5 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
 %global sname	plv8
 
 Summary:	V8 Engine Javascript Procedural Language add-on for PostgreSQL
