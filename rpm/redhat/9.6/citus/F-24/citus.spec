@@ -5,7 +5,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	6.0.1
+Version:	6.1.0
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -75,6 +75,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Sun Feb 19 2017 - Devrim Gündüz <devrim@gunduz.org> 6.1.0-1
+- Update to 6.1.0
+
 * Thu Dec 1 2016 - Devrim Gündüz <devrim@gunduz.org> 6.0.1-1
 - Update to 6.0.1
 
