@@ -4,7 +4,7 @@
 
 Summary:	V8 Engine Javascript Procedural Language add-on for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.4
+Version:	2.0.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -39,7 +39,7 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 
 %files
 %defattr(-,root,root)
-%doc README Changes doc/%{sname}.md
+%doc README.md doc/%{sname}.md
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc COPYRIGHT
 %else
@@ -54,6 +54,9 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Feb 19 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
+- Update to 2.0.0
+
 * Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.4-1
 - Update to 1.5.4
 
