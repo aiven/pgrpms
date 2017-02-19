@@ -5,11 +5,11 @@
 # Install WAL-E with the following command:
 # yum --enablerepo extras install wal-e
 Requires:	python34, python-gevent
-BuildRequires:	python34-devel
+BuildRequires:	python34-devel, python34-setuptools
 %global __python3	/usr/bin/python3.4
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %else
-BuildRequires:	python3-devel
+BuildRequires:	python3-devel, python3-setuptools
 Requires:	python3-gevent => 1.1.1
 %endif
 
@@ -53,6 +53,7 @@ WAL files and base backups.
 * Sun Feb 19 2017 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
 - Add RHEL 7 support, per request from Martín Marqués.
+- Add missing BR
 
 * Mon Nov 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
