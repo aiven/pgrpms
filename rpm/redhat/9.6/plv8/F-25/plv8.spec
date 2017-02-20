@@ -14,7 +14,7 @@ URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
-BuildRequires:	platform-devel
+BuildRequires:	platform-devel, ncurses-compat-libs || ncurses-libs
 Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
 
 %description
@@ -33,9 +33,6 @@ make %{?_smp_mflags} static
 %{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %{__rm} -f  %{buildroot}%{_datadir}/*.sql
-
-%check
-make %{?_smp_mflags} installcheck
 
 %clean
 %{__rm} -rf %{buildroot}
