@@ -13,9 +13,14 @@ Patch0:		%{sname}-makefile.patch
 URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
-BuildRequires:	platform-devel, ncurses-compat-libs || ncurses-libs
-Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
+BuildRequires:	postgresql%{pgmajorversion}-devel, gcc-c++
+BuildRequires:	platform-devel
+%if 0%{?rhel} && 0%{?rhel} <= 7
+BuildRequires:	ncurses-libs
+%else
+BuildRequires:	ncurses-compat-libs
+%endif
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 plv8 is a shared library that provides a PostgreSQL procedural language
