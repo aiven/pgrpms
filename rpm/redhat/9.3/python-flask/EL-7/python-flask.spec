@@ -16,17 +16,44 @@
 %global modname flask
 %global srcname Flask
 
-Name:           python-%{modname}
-Version:        0.11.1
-Release:        4%{?dist}
-Epoch:          1
-Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
+Name:		python-%{modname}
+Version:	0.11.1
+Release:	5%{?dist}
+Epoch:		1
+Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
-License:        BSD
-URL:            http://flask.pocoo.org/
-Source0:        https://files.pythonhosted.org/packages/source/%(n=%{srcname}; echo ${n:0:1})/%{srcname}/%{srcname}-%{version}.tar.gz
+License:	BSD
+URL:		http://flask.pocoo.org/
+Source0:	https://files.pythonhosted.org/packages/source/%(n=%{srcname}; echo ${n:0:1})/%{srcname}/%{srcname}-%{version}.tar.gz
 
-BuildArch:      noarch
+BuildArch:	noarch
+
+%if 0%{?with_python3}
+%{?python_provide:%python_provide python3-%{modname}}
+BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
+BuildRequires:	python3-pytest
+BuildRequires:	python3-jinja2
+BuildRequires:	python3-werkzeug
+BuildRequires:	python3-itsdangerous
+BuildRequires:	python3-click
+Requires:	python3-jinja2
+Requires:	python3-werkzeug
+Requires:	python3-itsdangerous
+Requires:	python3-click
+%else
+BuildRequires:	python2-devel
+BuildRequires:	python-setuptools
+BuildRequires:	pytest
+BuildRequires:	python-jinja2
+BuildRequires:	python-werkzeug
+BuildRequires:	python-itsdangerous
+BuildRequires:	python-click
+Requires:	python-jinja2
+Requires:	python-werkzeug
+Requires:	python-itsdangerous
+Requires:	python-click
+%endif
 
 %description
 Flask is called a “micro-framework” because the idea to keep the core
@@ -40,40 +67,13 @@ authentication technologies and more.
 
 %if 0%{?with_python3}
 %package -n python3-%{modname}
-Summary:        A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
-Group:          Development/Languages
+Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
+Group:		Development/Languages
 
 %description -n python3-%{modname}
 This module provides basic functions for parsing mime-type names
 and matching them against a list of media-ranges.
 %endif # with_python3
-
-%if 0%{?with_python3}
-%{?python_provide:%python_provide python3-%{modname}}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-pytest
-BuildRequires:  python3-jinja2
-BuildRequires:  python3-werkzeug
-BuildRequires:  python3-itsdangerous
-BuildRequires:  python3-click
-Requires:       python3-jinja2
-Requires:       python3-werkzeug
-Requires:       python3-itsdangerous
-Requires:       python3-click
-%else
-BuildRequires:  python2-devel
-BuildRequires:  python2-setuptools
-BuildRequires:  python2-pytest
-BuildRequires:  python-jinja2
-BuildRequires:  python-werkzeug
-BuildRequires:  python-itsdangerous
-BuildRequires:  python-click
-Requires:       python-jinja2
-Requires:       python-werkzeug
-Requires:       python-itsdangerous
-Requires:       python-click
-%endif
 
 %prep
 %setup -q -n %{srcname}-%{version}
@@ -108,6 +108,12 @@ CFLAGS="%{optflags}" %{__ospython3} setup.py build
 %endif
 
 %changelog
+* Mon Oct 10 2016 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-5
+- Fix unmet dependencies issue in spec file. Fixes #1738.
+  Patch by Martin Collins.
+- Fix rpmlint warnings (convert spaces to tabs)
+- Fix PY2 dependencies.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-4
 - Initial packaging for PostgreSQL YUM repo, to satisfy pgadmin4 dependency.
   Previous packaging had some conflicts.

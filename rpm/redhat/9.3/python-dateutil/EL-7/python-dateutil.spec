@@ -13,23 +13,15 @@
 
 Name:		python-%{modname}
 Version:	2.5.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 Summary:	Powerful extensions to the standard datetime module
-
-Group:		Development/Languages
 License:	Python
 URL:		https://github.com/dateutil/dateutil
 Source0:	https://github.com/dateutil/dateutil/archive/%{version}/%{modname}-%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	python-sphinx
-
-%description
-The dateutil module provides powerful extensions to the standard datetime
-module available in Python 2.3+.
-
-This is the version for Python 2.
 
 %{?python_provide:%python_provide python-%{modname}}
 BuildRequires:	python2-devel
@@ -41,9 +33,9 @@ BuildRequires:	python-six
 BuildRequires:	python-setuptools
 %endif
 Requires:	tzdata
-Requires:	python2-six
+Requires:	python-six
 
-%description -n python-%{modname}
+%description
 The dateutil module provides powerful extensions to the standard datetime
 module available in Python 2.3+.
 
@@ -121,6 +113,9 @@ mv NEWS.new NEWS
 %endif
 
 %changelog
+* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-3
+- Fix spec file, description part, package part, etc. Fixes #1706.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-2
 - Change PY2 package name.
 

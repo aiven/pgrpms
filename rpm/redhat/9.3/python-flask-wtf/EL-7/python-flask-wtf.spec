@@ -1,15 +1,23 @@
-%global mod_name Flask-WTF
-%if 0%{?fedora} > 23
-%{!?with_python3:%global with_python3 1}
-%else
-%{!?with_python3:%global with_python3 0}
+%if 0%{?rhel} && 0%{?rhel} < 6
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} < 7
-# EL 6 doesn't have this macro
-%global __python2	%{__python}
-%global python2_sitelib %{python_sitelib}
+%if 0%{?fedora} > 23
+%{!?with_python3:%global with_python3 1}
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%else
+%{!?with_python3:%global with_python3 0}
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
+
+%global mod_name Flask-WTF
 
 Name:		python-flask-wtf
 Version:	0.12
@@ -64,21 +72,18 @@ rm -f docs/index.rst.orig
 %endif
 
 %build
-%{__python2} setup.py build
+%{__ospython2} setup.py build
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py build
-popd
+%{__ospython3} setup.py build
 %endif
 
 %install
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
+%{__rm} -rf %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
 
 %if 0%{?with_python3}
-pushd %{py3dir}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
-popd
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
 %endif
 
 %files
