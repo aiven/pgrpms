@@ -27,12 +27,15 @@ your function that is callable from SQL.
 %patch0 -p0
 
 %build
-make %{?_smp_mflags}
+make %{?_smp_mflags} static
 
 %install
 %{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %{__rm} -f  %{buildroot}%{_datadir}/*.sql
+
+%check
+make %{?_smp_mflags} installcheck
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -56,6 +59,8 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %changelog
 * Sun Feb 19 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
+- Use "make static", so that plv8 will be built and will work
+  on every platform we support.
 
 * Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.4-1
 - Update to 1.5.4
