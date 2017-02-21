@@ -1,14 +1,15 @@
 %global pgmajorversion 96
 %global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
+%global sname	pgbconsole
 
 Summary:	command line tool for import XML, TEXT and BYTEA documents to PostgreSQL
 Name:		pgimportdoc
-Version:	0.1.2
+Version:	0.1.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/okbob/%{name}/archive/%{version}.tar.gz
+Source0:	https://github.com/okbob/%{name}/archive/v%{version}.tar.gz
 Patch0:		%{name}-makefile.patch
 URL:		https://github.com/okbob/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -38,16 +39,14 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %files
 %defattr(-,root,root,-)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md LICENSE
+%doc README.md COPYRIGHT
 %else
 %doc README.md
-%license LICENSE
+%license LICENCE
 %endif
-%{pginstdir}/bin/%{name}
+
+%{_bindir}/%{name}
 
 %changelog
-* Tue Feb 21 2017 - Devrim Gündüz <devrim@gunduz.org> 0.1.2-1
-- Update to 0.1.2
-
 * Tue Feb 21 2017 - Pavel Stehule <pavel.stehule@gmail.com> 0.1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository

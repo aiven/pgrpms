@@ -4,7 +4,7 @@
 
 Summary:	command line tool for import XML, TEXT and BYTEA documents to PostgreSQL
 Name:		pgimportdoc
-Version:	0.1.1
+Version:	0.1.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -46,5 +46,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/bin/%{name}
 
 %changelog
+* Tue Feb 21 2017 - Devrim Gündüz <devrim@gunduz.org> 0.1.2-1
+- Update to 0.1.2
+
 * Tue Feb 21 2017 - Pavel Stehule <pavel.stehule@gmail.com> 0.1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
