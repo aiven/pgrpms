@@ -780,7 +780,7 @@ mkdir -p %{buildroot}%{pgbaseinstdir}/share/man/
 %find_lang pg_controldata-%{majorversion}
 %find_lang pg_ctl-%{majorversion}
 %find_lang pg_dump-%{majorversion}
-%find_lang pg_resetxlog-%{majorversion}
+%find_lang pg_resetwal-%{majorversion}
 %find_lang pg_rewind-%{majorversion}
 %find_lang pgscripts-%{majorversion}
 %if %plperl
@@ -808,7 +808,7 @@ cat pltcl-%{majorversion}.lang > pg_pltcl.lst
 cat libpq5-%{majorversion}.lang > pg_libpq5.lst
 cat pg_config-%{majorversion}.lang ecpg-%{majorversion}.lang ecpglib6-%{majorversion}.lang > pg_devel.lst
 cat initdb-%{majorversion}.lang pg_ctl-%{majorversion}.lang psql-%{majorversion}.lang pg_dump-%{majorversion}.lang pg_basebackup-%{majorversion}.lang pg_rewind-%{majorversion}.lang pgscripts-%{majorversion}.lang > pg_main.lst
-cat postgres-%{majorversion}.lang pg_resetxlog-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
+cat postgres-%{majorversion}.lang pg_resetwal-%{majorversion}.lang pg_controldata-%{majorversion}.lang plpgsql-%{majorversion}.lang > pg_server.lst
 %endif
 
 %pre server
@@ -975,9 +975,9 @@ fi
 %{pgbaseinstdir}/bin/pg_rewind
 %{pgbaseinstdir}/bin/pg_test_fsync
 %{pgbaseinstdir}/bin/pg_test_timing
-%{pgbaseinstdir}/bin/pg_receivexlog
+%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_upgrade
-%{pgbaseinstdir}/bin/pg_xlogdump
+%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -995,13 +995,13 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
-%{pgbaseinstdir}/share/man/man1/pg_receivexlog.*
+%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
 %{pgbaseinstdir}/share/man/man1/pg_rewind.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
 %{pgbaseinstdir}/share/man/man1/pg_upgrade.1
-%{pgbaseinstdir}/share/man/man1/pg_xlogdump.1
+%{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
 %{pgbaseinstdir}/share/man/man1/vacuumdb.*
@@ -1169,13 +1169,13 @@ fi
 %{pgbaseinstdir}/bin/initdb
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
-%{pgbaseinstdir}/bin/pg_resetxlog
+%{pgbaseinstdir}/bin/pg_resetwal
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
-%{pgbaseinstdir}/share/man/man1/pg_resetxlog.*
+%{pgbaseinstdir}/share/man/man1/pg_resetwal.*
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
