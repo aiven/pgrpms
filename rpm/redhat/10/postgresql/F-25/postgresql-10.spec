@@ -1123,7 +1123,6 @@ fi
 %{pgbaseinstdir}/share/extension/tablefunc*
 %{pgbaseinstdir}/share/extension/tcn*
 %{pgbaseinstdir}/share/extension/timetravel*
-%{pgbaseinstdir}/share/extension/tsearch2*
 %{pgbaseinstdir}/share/extension/tsm_system_rows*
 %{pgbaseinstdir}/share/extension/tsm_system_time*
 %{pgbaseinstdir}/share/extension/unaccent*
@@ -1198,7 +1197,6 @@ fi
 %{pgbaseinstdir}/lib/plpgsql.so
 %dir %{pgbaseinstdir}/share/extension
 %{pgbaseinstdir}/share/extension/plpgsql*
-%{pgbaseinstdir}/lib/tsearch2.so
 
 %dir %{pgbaseinstdir}/lib
 %dir %{pgbaseinstdir}/share
