@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	20170208_1PGDG%{?dist}
+Release:	20170227_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1271,6 +1271,11 @@ fi
 %endif
 
 %changelog
+* Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170222_1PGDG
+- Update to Feb 22 2017 snapshot
+- Fix creating parent directory issue in setup script, per report and fix
+  from Magnus. Fixes #2188
+
 * Wed Feb 8 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170208_1PGDG
 - Update to Feb 8 2017 snapshot
 - Fix version numbering (MMMYYYDD)

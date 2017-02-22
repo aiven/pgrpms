@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.6
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1289,6 +1289,10 @@ fi
 %endif
 
 %changelog
+* Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.6-2PGDG
+- Fix creating parent directory issue in setup script, per report and fix
+  from Magnus. Fixes #2188
+
 * Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.6-1PGDG
 - Update to 9.5.6, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-6.html

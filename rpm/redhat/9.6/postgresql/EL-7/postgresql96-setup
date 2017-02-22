@@ -74,7 +74,7 @@ case "$1" in
 esac
 
 # this parsing technique fails for PGDATA pathnames containing spaces,
-# but there's not much I can do about it given systemctl's output format...
+# but there's not much we can do about it given systemctl's output format...
 PGDATA=`systemctl show -p Environment "${SERVICE_NAME}.service" |
                 sed 's/^Environment=//' | tr ' ' '\n' |
                 sed -n 's/^PGDATA=//p' | tail -n 1`
@@ -118,7 +118,7 @@ script_result=0
 # code shared between initdb and upgrade actions
 perform_initdb(){
     if [ ! -e "$PGDATA" ]; then
-        mkdir "$PGDATA" || return 1
+        mkdir -p "$PGDATA" || return 1
         chown postgres:postgres "$PGDATA"
         chmod go-rwx "$PGDATA"
     fi

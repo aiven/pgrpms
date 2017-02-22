@@ -72,7 +72,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.11
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -489,7 +489,7 @@ install -d -m 755 %{buildroot}/var/run/postgresql
 
 # ... and make a tmpfiles script to recreate it at reboot.
 mkdir -p %{buildroot}/%{_tmpfilesdir}
-install -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/postgresql-9.4.conf
+install -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/postgresql-%{majorversion}.conf
 
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
 install -d -m 700 %{buildroot}/var/lib/pgsql/%{majorversion}/data
@@ -908,7 +908,7 @@ rm -rf %{buildroot}
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
-%{_tmpfilesdir}/postgresql-9.4.conf
+%{_tmpfilesdir}/postgresql-%{majorversion}.conf
 %{_unitdir}/postgresql-%{majorversion}.service
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 %{pgbaseinstdir}/bin/postgresql%{packageversion}-check-db-dir
@@ -1016,6 +1016,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.11-2PGDG
+- Fix creating parent directory issue in setup script, per report and fix
+  from Magnus. Fixes #2188
+
 * Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.11-1PGDG
 - Update to 9.4.11, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-11.html
