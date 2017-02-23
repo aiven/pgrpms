@@ -13,9 +13,14 @@ Patch0:		%{sname}-makefile.patch
 URL:		https://github.com/plv8/plv8
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
+BuildRequires:	postgresql%{pgmajorversion}-devel, gcc-c++
 BuildRequires:	platform-devel
-Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
+%if 0%{?rhel} && 0%{?rhel} <= 7
+BuildRequires:	ncurses-libs
+%else
+BuildRequires:	ncurses-compat-libs
+%endif
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 plv8 is a shared library that provides a PostgreSQL procedural language
@@ -27,7 +32,7 @@ your function that is callable from SQL.
 %patch0 -p0
 
 %build
-make %{?_smp_mflags}
+make %{?_smp_mflags} static
 
 %install
 %{__rm} -rf %{buildroot}
@@ -56,6 +61,8 @@ make install DESTDIR=%{buildroot} %{?_smp_mflags}
 %changelog
 * Sun Feb 19 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
+- Use "make static", so that plv8 will be built and will work
+  on every platform we support.
 
 * Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 1.5.4-1
 - Update to 1.5.4
