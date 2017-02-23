@@ -59,7 +59,6 @@
 %else
 %{!?enabletaptests:%global enabletaptests 1}
 %endif
-%{!?intdatetimes:%global intdatetimes 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
@@ -469,9 +468,6 @@ export PYTHON=/usr/bin/python3
 %if %sdt
 	--enable-dtrace \
 %endif
-%if !%intdatetimes
-	--disable-integer-datetimes \
-%endif
 %if %disablepgfts
 	--disable-thread-safety \
 %endif
@@ -554,9 +550,6 @@ unset PYTHON
 %endif
 %if %sdt
 	--enable-dtrace \
-%endif
-%if !%intdatetimes
-	--disable-integer-datetimes \
 %endif
 %if %disablepgfts
 	--disable-thread-safety \
