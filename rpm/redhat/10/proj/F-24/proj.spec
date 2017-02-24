@@ -1,5 +1,5 @@
 Name:		proj
-Version:	4.9.3
+Version:	4.9.2
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
@@ -138,30 +138,33 @@ rm -rf %{buildroot}
 %attr(0644,root,root) %{_datadir}/%{name}/epsg
 
 %changelog
-* Tue Oct 25 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 4.9.3-1
+* Fri Feb 24 2017 Devrim Gündüz <devrim@gunduz.org> 4.9.2-1
+- Revert back to 4.9.2, otherwise many packages would be broken.
+
+* Tue Oct 25 2016 Devrim Gündüz <devrim@gunduz.org> 4.9.3-1
 - Update to 4.9.3
 
-* Wed Mar 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 4.9.1-1
+* Wed Mar 11 2015 Devrim Gündüz <devrim@gunduz.org> 4.9.1-1
 - Update to 4.9.1
 - track soname so bumps are not a suprise.
 - -devel: include .pc file here (left copy in -nad too)
 
 
-* Thu Jul 26 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 0:4.8.0-2
+* Thu Jul 26 2012 Devrim Gündüz <devrim@gunduz.org> - 0:4.8.0-2
 - Add --without-jni to configure, for clean build..
 
-* Wed Apr 04 2012 - Devrim GUNDUZ <devrim@gunduz.org> - 0:4.8.0-1
+* Wed Apr 04 2012 - Devrim Gündüz <devrim@gunduz.org> - 0:4.8.0-1
 - Update to 4.8.0
 
-* Thu Dec 10 2009 - Devrim GUNDUZ <devrim@gunduz.org> - 0:4.7.0-1
+* Thu Dec 10 2009 - Devrim Gündüz <devrim@gunduz.org> - 0:4.7.0-1
 - Update to 4.7.0
 - Update proj-datumgrid to 1.5
 - Fix attr issue for epsg package.
 
-* Tue Dec 2 2008 - Devrim GUNDUZ <devrim@gunduz.org> - 0:4.6.1-1
+* Tue Dec 2 2008 - Devrim Gündüz <devrim@gunduz.org> - 0:4.6.1-1
 - Update to 4.6.1
 - Update URLs
 
-* Thu Apr 3 2008 - Devrim GUNDUZ <devrim@gunduz.org> - 0:4.6.0-1
+* Thu Apr 3 2008 - Devrim Gündüz <devrim@gunduz.org> - 0:4.6.0-1
 - Initial build for yum.postgresql.org, based on Fedora/EPEL spec.
 
