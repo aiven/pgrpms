@@ -1,6 +1,6 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
-Version:	2.3.2
+Version:	2.3.3
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -45,6 +45,9 @@ install -m 644 %{SOURCE1} %{buildroot}/%{_licensedir}/%{name}/LICENSE
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Sun Feb 26 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3.3-1
+- Update to 2.3.3
+
 * Sun Aug 7 2016 - Devrim Gündüz <devrim@gunduz.org> 2.3.2-1
 - Update to 2.3.2
 
