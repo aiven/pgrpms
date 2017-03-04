@@ -9,7 +9,7 @@
 
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	3.5.3
+Version:	3.6.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -109,6 +109,10 @@ fi
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Sat Mar 4 2017 Devrim Gündüz <devrim@gunduz.org> 3.6.0-1
+- Update to 3.6.0, per #2217.
+- Update Apache conf file for newer Apache versions.
+
 * Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> 3.5.3-1
 - Update to 3.5.3
 
