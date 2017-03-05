@@ -1,5 +1,5 @@
-%global pgmajorversion 10
-%global pginstdir /usr/pgsql-10
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname psycopg2
 
 %if 0%{?fedora} > 23
@@ -28,7 +28,7 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.7b2
+Version:	2.7
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -172,6 +172,9 @@ done
 %doc doc examples/
 
 %changelog
+* Sun Mar 05 2017 Devrim Gündüz <devrim@gunduz.org> 2.7-1
+- Update to 2.7, per #2223.
+
 * Fri Feb 24 2017 Devrim Gündüz <devrim@gunduz.org> 2.7b2-1
 - Update to 2.7 beta 2
 

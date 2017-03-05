@@ -1,10 +1,10 @@
---- setup.cfg.old	2016-07-07 12:38:54.030157753 +0300
-+++ setup.cfg	2016-07-07 12:40:36.314274339 +0300
-@@ -2,6 +2,7 @@
+--- setup.cfg.old	2017-02-24 10:52:39.173789959 +0300
++++ setup.cfg	2017-02-24 10:52:45.732734871 +0300
+@@ -1,6 +1,6 @@
+ [build_ext]
  define = 
- use_pydatetime = 1
- have_ssl = 0
+-pg_config = 
 +pg_config=/usr/pgsql-9.4/bin/pg_config
- 
- [egg_info]
- tag_build = 
+ use_pydatetime = 1
+ mx_include_dir = 
+ have_ssl = 0

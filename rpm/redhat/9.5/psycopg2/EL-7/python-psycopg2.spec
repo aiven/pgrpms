@@ -28,13 +28,13 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.6.2
-Release:	3%{?dist}
+Version:	2.7
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
 Url:		http://www.psycopg.org/psycopg/
-Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-6/%{sname}-%{version}.tar.gz
+Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-7/%{sname}-%{version}.tar.gz
 Patch0:		setup.cfg.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -172,6 +172,9 @@ done
 %doc doc examples/
 
 %changelog
+* Sun Mar 05 2017 Devrim Gündüz <devrim@gunduz.org> 2.7-1
+- Update to 2.7, per #2223.
+
 * Fri Oct 7 2016 Devrim Gündüz <devrim@gunduz.org> 2.6.2-3
 - Move one .so file into python3-psycopg2 subpackage, per report
   from Oskari Saarenmaa.
