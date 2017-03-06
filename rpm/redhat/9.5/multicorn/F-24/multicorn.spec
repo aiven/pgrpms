@@ -1,5 +1,5 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
+%global pgmajorversion 95
+%global pginstdir /usr/pgsql-9.5
 %global sname multicorn
 %if 0%{?fedora} > 21
 %global with_python3 1
