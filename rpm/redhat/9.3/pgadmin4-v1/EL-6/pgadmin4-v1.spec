@@ -27,8 +27,8 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.2
-Release:	3%{?dist}
+Version:	%{pgadminmajorversion}.3
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -41,9 +41,7 @@ Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
-# The following two patches will be removed in next pgadmin4 version
-Patch1:		pgadmin4-webenginewidgets.patch
-Patch2:		pgadmin4-sphinx-makefile-pyver.patch
+Patch1:		%{sname}-py35-regression.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -141,6 +139,8 @@ Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi
 Requires:	qt5-qtwebengine
+Requires:	python-flask-login, python-flask-principal, python-flask-sqlalchemy
+
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2, unittest2
 %else
 Requires:	python-babel >= 1.3
@@ -200,8 +200,12 @@ Documentation of pgadmin4.
 %if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
 %patch0 -p0
 %endif
+
+# Use this patch until the next release.
+# Only for Python 3.5+.
+%if 0%{?with_python3}
 %patch1 -p1
-%patch2 -p1
+%endif
 
 %build
 cd runtime
@@ -345,6 +349,11 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Wed Mar 8 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
+- Update to 1.3
+- Add a temp patch (patch1) to fix a Python 3.5 regression issue.
+- Remove obsoleted patches
+
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-3
 * Fix Fedora 25 issues, per Dave Page:
  - Install runtime conf file under /etc/xdg/pgadmin4
