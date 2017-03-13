@@ -5,7 +5,7 @@
  # stderr can be redirected to an arbitrary file:
  #
 -#logfile='/var/log/repmgr/repmgr.log'
-+logfile='/var/log/repmgr/repmgr-9.4.log
++logfile='/var/log/repmgr/repmgr-9.4.log'
  
  # By default only repmgrd log output will be written to a file,
  # if defined in "logfile"
