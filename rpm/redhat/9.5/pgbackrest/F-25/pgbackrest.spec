@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.16
+Version:	1.17
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -52,6 +52,9 @@ install %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Mar 14 2017 - Devrim Gündüz <devrim@gunduz.org> 1.17-1
+- Update to 1.17
+
 * Fri Mar 3 2017 - Devrim Gündüz <devrim@gunduz.org> 1.16-1
 - Update to 1.16
 
