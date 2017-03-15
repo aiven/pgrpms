@@ -100,10 +100,10 @@ popd
 %doc python2/ext
 %doc python2/examples
 %{python2_sitelib}/jinja2
+%if 0%{?rhel} && 0%{?rhel} > 6
 %{python2_sitelib}/Jinja2-%{version}-py?.?.egg-info
-%exclude %{python2_sitelib}/jinja2/_debugsupport.c
+%endif
 
-%changelog
 %changelog
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 2.8-7
 - Initial version for PostgreSQL RPM repository to satisfy
