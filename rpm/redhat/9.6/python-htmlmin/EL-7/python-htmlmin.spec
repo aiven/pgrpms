@@ -1,5 +1,8 @@
 %if 0%{?rhel} && 0%{?rhel} < 6
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%global with_docs 0
+%else
+%global with_docs 1
 %endif
 
 %if 0%{?fedora} > 23
@@ -26,7 +29,7 @@
 
 Name:           python-%{pypi_name}
 Version:        0.1.10
-Release:        5.gitcc611c3%{?dist}
+Release:        6.gitcc611c3%{?dist}
 Summary:        HTML Minifier
 
 License:        BSD
@@ -41,6 +44,7 @@ BuildRequires:  python2-devel
 
 %{?python_provide:%python_provide python2-%{pypi_name}}
 
+%if 0%{?with_docs}
 %package       doc
 Summary:       %{summary}
 BuildRequires: python-sphinx
@@ -49,6 +53,7 @@ BuildRequires: python-sphinx
 %{desc}
 
 Documentation package.
+%endif
 
 %prep
 %setup -q -n %{github_name}-%{commit}
@@ -57,34 +62,49 @@ Documentation package.
 %build
 %{__ospython2} setup.py build
 
+%if 0%{?with_docs}
 # Build doc
 cd docs
 make html
 make man
 # Remove hidden dir in doc not to install it
 %{__rm} -rf _build/html/.buildinfo
+%endif
 
 %install
 %{__rm} -rf %{buildroot}
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
 
+%if 0%{?with_docs}
 # Install man
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
+%endif
 
 %files -n python-%{pypi_name}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE README.rst
+%else
 %license LICENSE
 %doc README.rst
+%endif
 %{_bindir}/htmlmin
+%if 0%{?with_docs}
 %{_mandir}/man1/*
+%endif
 %{python2_sitelib}/%{pypi_name}-%{version}-py%{py2ver}.egg-info/
 %{python2_sitelib}/%{pypi_name}/
 
+%if 0%{?with_docs}
 %files doc
 %license LICENSE
 %doc docs/_build/html
+%endif
 
 %changelog
+* Thu Mar 16 2017 Devrim Gündüz <devrim@gunduz.org> - 0.1.10-6.gitcc611c3
+- Add a macro for docs, and enable in on RHEL 7 and onwards.
+
 * Mon Feb 13 2017 Devrim Gündüz <devrim@gunduz.org> - 0.1.10-5.gitcc611c3
 - Initial packaging for PostgreSQL YUM repo, based on Fedora rawhide spec.
 
