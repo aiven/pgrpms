@@ -100,8 +100,9 @@ popd
 %doc python2/ext
 %doc python2/examples
 %{python2_sitelib}/jinja2
-%if 0%{?rhel} && 0%{?rhel} > 6
 %{python2_sitelib}/Jinja2-%{version}-py?.?.egg-info
+%if 0%{?rhel} && 0%{?rhel} > 6
+%exclude %{python2_sitelib}/jinja2/_debugsupport.c
 %endif
 
 %changelog
