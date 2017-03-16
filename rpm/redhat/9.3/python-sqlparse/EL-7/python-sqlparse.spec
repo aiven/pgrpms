@@ -1,5 +1,11 @@
 %global         shortname sqlparse
 
+%if 0%{?rhel} && 0%{?rhel} < 7
+# EL 6 doesn't have this macro
+%global __python2	%{__python}
+%global python2_sitelib %{python_sitelib}
+%endif
+
 Name:           python-%{shortname}
 Version:        0.2.1
 Release:        2%{?dist}
@@ -38,7 +44,6 @@ It is a python module, together with a command-line tool.
 %license LICENSE
 %doc AUTHORS CHANGELOG README.rst
 %endif
-
 %{python2_sitelib}/*
 %{_bindir}/sqlformat
 
@@ -46,4 +51,3 @@ It is a python module, together with a command-line tool.
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-2
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
-
