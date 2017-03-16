@@ -42,6 +42,7 @@ Source6:	%{sname}.qt.conf.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
 Patch1:		%{sname}-py35-regression.patch
+Patch2:		%{sname}-rhel6-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -52,6 +53,11 @@ BuildRequires:	python-flask-wtf, python-flask-htmlmin, python-blinker
 BuildRequires:	python-beautifulsoup4, python-dateutil, python-simplejson
 BuildRequires:	python-flask >= 0.11.1, python-jinja2 >= 2.7.3, python-itsdangerous >= 0.24
 BuildRequires:	python-werkzeug >= 0.9.6, python-click, python-flask-babel
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# this package comes from EPEL
+BuildRequires:	python-sphinx10
+%else
+BuildRequires:	python-sphinx
 
 Requires:	%{name}-web
 %if 0%{?with_python3}
@@ -208,6 +214,11 @@ Documentation of pgadmin4.
 %patch1 -p1
 %endif
 
+# Apply this patch only to RHEL 6
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%patch2 -p0
+%endif
+
 %build
 cd runtime
 %if 0%{?with_python3}
@@ -354,6 +365,7 @@ fi
 - Update to 1.3
 - Add a temp patch (patch1) to fix a Python 3.5 regression issue.
 - Remove obsoleted patches
+- Add a new patch to build pgadmin4-v1 on RHEL 6.
 
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-3
 * Fix Fedora 25 issues, per Dave Page:

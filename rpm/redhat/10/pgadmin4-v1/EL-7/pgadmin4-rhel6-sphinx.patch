@@ -1,0 +1,11 @@
+--- docs/en_US/Makefile.sphinx.old	2017-03-15 21:20:49.070000973 -0400
++++ docs/en_US/Makefile.sphinx	2017-03-15 21:20:59.779001510 -0400
+@@ -4,7 +4,7 @@
+ # You can set these variables from the command line.
+ PYTHON        = python
+ SPHINXOPTS    =
+-SPHINXBUILD   = sphinx-build
++SPHINXBUILD   = sphinx-1.0-build
+ PAPER         =
+ BUILDDIR      = _build
+ 
