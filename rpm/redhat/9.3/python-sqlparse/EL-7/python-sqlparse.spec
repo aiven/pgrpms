@@ -32,8 +32,13 @@ It is a python module, together with a command-line tool.
 %{__python2} setup.py install --skip-build --root %{buildroot}
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc AUTHORS CHANGELOG README.rst LICENSE
+%else
 %license LICENSE
 %doc AUTHORS CHANGELOG README.rst
+%endif
+
 %{python2_sitelib}/*
 %{_bindir}/sqlformat
 
