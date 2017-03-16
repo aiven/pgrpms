@@ -1,8 +1,5 @@
 %global _docdir_fmt %{name}
 
-# For consistency and completeness
-%global python2_pkgversion 2
-
 Summary:	Cryptography library for Python
 Name:		python-crypto
 Version:	2.6.1
@@ -20,19 +17,19 @@ BuildRequires:	findutils
 BuildRequires:	gcc
 BuildRequires:	gmp-devel >= 4.1
 BuildRequires:	libtomcrypt-devel >= 1.16
-BuildRequires:	python%{python2_pkgversion}-devel >= 2.4
+BuildRequires:	python-devel >= 2.4
 BuildRequires:	python-tools
 
 %description
 PyCrypto is a collection of both secure hash functions (such as MD5 and
 SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
 
-%package -n python%{python2_pkgversion}-crypto
+%package -n python-crypto
 Summary:	Cryptography library for Python 2
 Provides:	pycrypto = %{version}-%{release}
 %{?python_provide:%python_provide python2-crypto}
 
-%description -n python%{python2_pkgversion}-crypto
+%description -n python-crypto
 PyCrypto is a collection of both secure hash functions (such as MD5 and
 SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
 
@@ -70,7 +67,7 @@ cp pct-speedtest.py pct-speedtest3.py
 # Remove group write permissions on shared objects
 find %{buildroot}%{python_sitearch} -name '*.so' -exec chmod -c g-w {} \;
 
-%files -n python%{python2_pkgversion}-crypto
+%files -n python-crypto
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc README TODO ACKS ChangeLog Doc/ COPYRIGHT LEGAL/
 %else
