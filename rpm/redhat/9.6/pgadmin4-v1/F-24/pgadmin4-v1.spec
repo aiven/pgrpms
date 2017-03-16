@@ -140,8 +140,8 @@ Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi
 Requires:	qt5-qtwebengine
 Requires:	python-flask-login, python-flask-principal, python-flask-sqlalchemy
-
-# TODO: Confirm dependencies of: testscenarios, testtools, traceback2, unittest2
+Requires:	python3-unittest2
+# TODO: Confirm dependencies of: testscenarios, testtools, traceback2
 %else
 Requires:	python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
@@ -177,6 +177,7 @@ Requires:	python-extras >= 0.0.3
 Requires:	python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3
+Requires:	python-unittest2
 %endif
 Requires:	python-pyrsistent >= 0.11.13
 Requires:	python-mimeparse >= 1.5.1
