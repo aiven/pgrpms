@@ -1,0 +1,11 @@
+--- web/config.py.old	2017-03-16 11:44:25.339996270 -0400
++++ web/config.py	2017-03-16 11:44:35.160000965 -0400
+@@ -171,7 +171,7 @@
+ #       configuration databases 'keys' table and are auto-generated.
+ 
+ # Should HTML be minified on the fly when not in debug mode?
+-MINIFY_PAGE = True
++MINIFY_PAGE = False
+ 
+ ##########################################################################
+ # Server Connection Driver Settings

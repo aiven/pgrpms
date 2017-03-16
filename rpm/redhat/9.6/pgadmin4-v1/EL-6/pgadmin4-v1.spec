@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -43,6 +43,7 @@ Source6:	%{sname}.qt.conf.in
 Patch0:		%{sname}-sphinx-theme.patch
 Patch1:		%{sname}-py35-regression.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
+Patch3:		%{sname}-rhel6-htmlminify.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -215,9 +216,10 @@ Documentation of pgadmin4.
 %patch1 -p1
 %endif
 
-# Apply this patch only to RHEL 6
+# Apply these patch only to RHEL 6
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %patch2 -p0
+%patch3 -p0
 %endif
 
 %build
@@ -362,11 +364,14 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Fri Mar 17 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3-2
+- Apply patches to spec file, to build and run pgadmin4
+  on RHEL 6.
+
 * Wed Mar 8 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Update to 1.3
 - Add a temp patch (patch1) to fix a Python 3.5 regression issue.
 - Remove obsoleted patches
-- Add a new patch to build pgadmin4-v1 on RHEL 6.
 
 * Tue Feb 7 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-3
 * Fix Fedora 25 issues, per Dave Page:
