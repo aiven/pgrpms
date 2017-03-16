@@ -24,17 +24,6 @@ BuildRequires:	python-tools
 PyCrypto is a collection of both secure hash functions (such as MD5 and
 SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
 
-%package -n python-crypto
-Summary:	Cryptography library for Python 2
-Provides:	pycrypto = %{version}-%{release}
-%{?python_provide:%python_provide python2-crypto}
-
-%description -n python-crypto
-PyCrypto is a collection of both secure hash functions (such as MD5 and
-SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
-
-This is the Python 2 build of the package.
-
 %prep
 %setup -n pycrypto-%{version} -q
 
@@ -67,7 +56,7 @@ cp pct-speedtest.py pct-speedtest3.py
 # Remove group write permissions on shared objects
 find %{buildroot}%{python_sitearch} -name '*.so' -exec chmod -c g-w {} \;
 
-%files -n python-crypto
+%files
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc README TODO ACKS ChangeLog Doc/ COPYRIGHT LEGAL/
 %else
