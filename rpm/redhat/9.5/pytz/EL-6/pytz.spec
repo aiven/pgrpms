@@ -40,8 +40,12 @@ chmod +x %{buildroot}%{python2_sitelib}/pytz/*.py
 %{__rm} -r %{buildroot}%{python2_sitelib}/pytz/zoneinfo
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE.txt README.txt CHANGES.txt
+%else
 %license LICENSE.txt
 %doc CHANGES.txt README.txt
+%endif
 %{python2_sitelib}/pytz/
 %{python2_sitelib}/*.egg-info
 
