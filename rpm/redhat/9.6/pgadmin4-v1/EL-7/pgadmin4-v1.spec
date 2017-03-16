@@ -58,6 +58,7 @@ BuildRequires:	python-werkzeug >= 0.9.6, python-click, python-flask-babel
 BuildRequires:	python-sphinx10
 %else
 BuildRequires:	python-sphinx
+%endif
 
 Requires:	%{name}-web
 %if 0%{?with_python3}
