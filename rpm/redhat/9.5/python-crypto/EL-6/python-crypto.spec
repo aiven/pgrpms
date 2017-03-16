@@ -68,7 +68,7 @@ cp pct-speedtest.py pct-speedtest3.py
 %{__python} setup.py install --skip-build --root %{buildroot}
 
 # Remove group write permissions on shared objects
-find %{buildroot}%{python2_sitearch} -name '*.so' -exec chmod -c g-w {} \;
+find %{buildroot}%{python_sitearch} -name '*.so' -exec chmod -c g-w {} \;
 
 %files -n python%{python2_pkgversion}-crypto
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -77,8 +77,8 @@ find %{buildroot}%{python2_sitearch} -name '*.so' -exec chmod -c g-w {} \;
 %license COPYRIGHT LEGAL/
 %doc README TODO ACKS ChangeLog Doc/
 %endif
-%{python2_sitearch}/Crypto/
-%{python2_sitearch}/pycrypto-%{version}-py2.*.egg-info
+%{python_sitearch}/Crypto/
+%{python_sitearch}/pycrypto-%{version}-py2.*.egg-info
 
 %changelog
 * Thu Mar 16 2017 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-13
