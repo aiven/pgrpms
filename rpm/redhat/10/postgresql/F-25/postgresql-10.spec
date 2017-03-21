@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}
+Release:	%{build_timestamp}_1PGDG%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1014,6 +1014,7 @@ fi
 %doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
 %{pgbaseinstdir}/lib/adminpack.so
+%{pgbaseinstdir}/lib/amcheck.so
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
 %{pgbaseinstdir}/lib/auto_explain.so
@@ -1077,6 +1078,7 @@ fi
 %{pgbaseinstdir}/lib/uuid-ossp.so
 %endif
 %{pgbaseinstdir}/share/extension/adminpack*
+%{pgbaseinstdir}/share/extension/amcheck*
 %{pgbaseinstdir}/share/extension/autoinc*
 %{pgbaseinstdir}/share/extension/bloom*
 %{pgbaseinstdir}/share/extension/btree_gin*
@@ -1234,10 +1236,6 @@ fi
 %files pltcl -f pg_pltcl.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/pltcl.so
-%{pgbaseinstdir}/bin/pltcl_delmod
-%{pgbaseinstdir}/bin/pltcl_listmod
-%{pgbaseinstdir}/bin/pltcl_loadmod
-%{pgbaseinstdir}/share/unknown.pltcl
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
@@ -1263,6 +1261,9 @@ fi
 %endif
 
 %changelog
+* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.1
+- Update to March 21 2017 snapshot
+
 * Sun Mar 5 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170305_1PGDG
 - Update to March 05, 2017 snapshot
 

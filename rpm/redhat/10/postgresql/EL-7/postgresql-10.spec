@@ -1014,6 +1014,7 @@ fi
 %doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
 %{pgbaseinstdir}/lib/adminpack.so
+%{pgbaseinstdir}/lib/amcheck.so
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
 %{pgbaseinstdir}/lib/auto_explain.so
@@ -1077,6 +1078,7 @@ fi
 %{pgbaseinstdir}/lib/uuid-ossp.so
 %endif
 %{pgbaseinstdir}/share/extension/adminpack*
+%{pgbaseinstdir}/share/extension/amcheck*
 %{pgbaseinstdir}/share/extension/autoinc*
 %{pgbaseinstdir}/share/extension/bloom*
 %{pgbaseinstdir}/share/extension/btree_gin*
@@ -1234,10 +1236,6 @@ fi
 %files pltcl -f pg_pltcl.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/pltcl.so
-%{pgbaseinstdir}/bin/pltcl_delmod
-%{pgbaseinstdir}/bin/pltcl_listmod
-%{pgbaseinstdir}/bin/pltcl_loadmod
-%{pgbaseinstdir}/share/unknown.pltcl
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
