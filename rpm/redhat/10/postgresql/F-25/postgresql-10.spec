@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}.3
+Release:	%{build_timestamp}_1PGDG%{?dist}.5
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1261,6 +1261,12 @@ fi
 %endif
 
 %changelog
+* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.5
+- Update to March 23 2017 snapshot
+
+* Wed Mar 22 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170322_1PGDG.4
+- Update to March 22 2017 snapshot
+
 * Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.3
 - Update to March 21 2017 snapshot
 
