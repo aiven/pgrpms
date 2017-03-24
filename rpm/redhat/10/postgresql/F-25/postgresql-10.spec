@@ -869,10 +869,8 @@ fi
 %{_sbindir}/update-alternatives --install %{_bindir}/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/createlang pgsql-createlang %{pgbaseinstdir}/bin/createlang %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/droplang pgsql-droplang   %{pgbaseinstdir}/bin/droplang %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
@@ -882,10 +880,8 @@ fi
 %{_sbindir}/update-alternatives --install %{_bindir}/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/createlang.1 pgsql-createlangman    %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/droplang.1   pgsql-droplangman	  %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
@@ -909,14 +905,10 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-clusterdbman	%{pgbaseinstdir}/share/man/man1/clusterdb.1
 	%{_sbindir}/update-alternatives --remove pgsql-createdb		%{pgbaseinstdir}/bin/createdb
 	%{_sbindir}/update-alternatives --remove pgsql-createdbman	%{pgbaseinstdir}/share/man/man1/createdb.1
-	%{_sbindir}/update-alternatives --remove pgsql-createlang	%{pgbaseinstdir}/bin/createlang
-	%{_sbindir}/update-alternatives --remove pgsql-createlangman	%{pgbaseinstdir}/share/man/man1/createlang.1
 	%{_sbindir}/update-alternatives --remove pgsql-createuser	%{pgbaseinstdir}/bin/createuser
 	%{_sbindir}/update-alternatives --remove pgsql-createuserman	%{pgbaseinstdir}/share/man/man1/createuser.1
 	%{_sbindir}/update-alternatives --remove pgsql-dropdb		%{pgbaseinstdir}/bin/dropdb
 	%{_sbindir}/update-alternatives --remove pgsql-dropdbman	%{pgbaseinstdir}/share/man/man1/dropdb.1
-	%{_sbindir}/update-alternatives --remove pgsql-droplang		%{pgbaseinstdir}/bin/droplang
-	%{_sbindir}/update-alternatives --remove pgsql-droplangman	%{pgbaseinstdir}/share/man/man1/droplang.1
 	%{_sbindir}/update-alternatives --remove pgsql-dropuser		%{pgbaseinstdir}/bin/dropuser
 	%{_sbindir}/update-alternatives --remove pgsql-dropuserman	%{pgbaseinstdir}/share/man/man1/dropuser.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_basebackup	%{pgbaseinstdir}/bin/pg_basebackup
@@ -953,10 +945,8 @@ fi
 %doc README.rpm-dist
 %{pgbaseinstdir}/bin/clusterdb
 %{pgbaseinstdir}/bin/createdb
-%{pgbaseinstdir}/bin/createlang
 %{pgbaseinstdir}/bin/createuser
 %{pgbaseinstdir}/bin/dropdb
-%{pgbaseinstdir}/bin/droplang
 %{pgbaseinstdir}/bin/dropuser
 %{pgbaseinstdir}/bin/pgbench
 %{pgbaseinstdir}/bin/pg_archivecleanup
@@ -977,10 +967,8 @@ fi
 %{pgbaseinstdir}/bin/vacuumdb
 %{pgbaseinstdir}/share/man/man1/clusterdb.*
 %{pgbaseinstdir}/share/man/man1/createdb.*
-%{pgbaseinstdir}/share/man/man1/createlang.*
 %{pgbaseinstdir}/share/man/man1/createuser.*
 %{pgbaseinstdir}/share/man/man1/dropdb.*
-%{pgbaseinstdir}/share/man/man1/droplang.*
 %{pgbaseinstdir}/share/man/man1/dropuser.*
 %{pgbaseinstdir}/share/man/man1/pgbench.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
@@ -1267,11 +1255,11 @@ fi
 * Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.5
 - Update to March 23 2017 snapshot
 
-* Wed Mar 22 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170322_1PGDG.4
-- Update to March 22 2017 snapshot
+* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.4
+- Update to March 23 2017 snapshot
 
-* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.3
-- Update to March 21 2017 snapshot
+* Wed Mar 22 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170322_1PGDG.3
+- Update to March 22 2017 snapshot
 
 * Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.2
 - Update to March 21 2017 snapshot
