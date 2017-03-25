@@ -1,6 +1,6 @@
 Name:		pgdg-redhat10
 Version:	10
-Release:	1
+Release:	1%{dist}
 Summary:	PostgreSQL 10.X PGDG RPMs for RHEL - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD

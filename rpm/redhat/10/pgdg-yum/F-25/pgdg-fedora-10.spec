@@ -1,6 +1,6 @@
 Name:		pgdg-fedora10
 Version:	10
-Release:	2
+Release:	2%{dist}
 Summary:	PostgreSQL 10.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
