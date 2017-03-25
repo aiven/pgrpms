@@ -394,7 +394,7 @@ benchmarks.
 %prep
 %setup -q -n %{oname}-%{majorversion}devel
 %patch1 -p1
-%patch3 -p1
+%patch3 -p0
 %patch5 -p0
 %patch6 -p1
 
