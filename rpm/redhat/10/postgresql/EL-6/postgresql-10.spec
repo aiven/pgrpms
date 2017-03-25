@@ -60,6 +60,7 @@
 %else
 %{!?enabletaptests:%global enabletaptests 1}
 %endif
+%{!?icu:%global icu 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
@@ -124,8 +125,30 @@ Patch6:		postgresql-perl-rpath.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
 Requires:	/sbin/ldconfig
+
+%if %icu
+BuildRequires:	libicu-devel
+%endif
+
+%if %kerberos
+BuildRequires:	krb5-devel
+BuildRequires:	e2fsprogs-devel
+%endif
+
+%if %ldap
+BuildRequires:	openldap-devel
+%endif
+
+%if %nls
+BuildRequires:	gettext >= 0.10.35
+%endif
+
+%if %pam
+BuildRequires:	pam-devel
+%endif
 
 %if %plperl
 %if 0%{?rhel} && 0%{?rhel} >= 7
@@ -148,32 +171,17 @@ BuildRequires: python3-devel
 BuildRequires:	tcl-devel
 %endif
 
-BuildRequires:	readline-devel
-BuildRequires:	zlib-devel >= 1.0.4
+%if %sdt
+BuildRequires:	systemtap-sdt-devel
+%endif
+
+%if %selinux
+BuildRequires: libselinux >= 2.0.93
+BuildRequires: selinux-policy >= 3.9.13
+%endif
 
 %if %ssl
 BuildRequires:	openssl-devel
-%endif
-
-%if %kerberos
-BuildRequires:	krb5-devel
-BuildRequires:	e2fsprogs-devel
-%endif
-
-%if %nls
-BuildRequires:	gettext >= 0.10.35
-%endif
-
-%if %xml
-BuildRequires:	libxml2-devel libxslt-devel
-%endif
-
-%if %pam
-BuildRequires:	pam-devel
-%endif
-
-%if %sdt
-BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %uuid
@@ -182,14 +190,10 @@ BuildRequires:	libuuid-devel
 %endif
 %endif
 
-%if %ldap
-BuildRequires:	openldap-devel
+%if %xml
+BuildRequires:	libxml2-devel libxslt-devel
 %endif
 
-%if %selinux
-BuildRequires: libselinux >= 2.0.93
-BuildRequires: selinux-policy >= 3.9.13
-%endif
 %if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
@@ -442,6 +446,9 @@ export PYTHON=/usr/bin/python3
 %if %enabletaptests
 	--enable-tap-tests \
 %endif
+%if %icu
+	--with-icu \
+%endif
 %if %plperl
 	--with-perl \
 %endif
@@ -524,6 +531,9 @@ unset PYTHON
 %endif
 %if %enabletaptests
 	--enable-tap-tests \
+%endif
+%if %icu
+	--with-icu \
 %endif
 %if %plperl
 	--with-perl \
@@ -1251,6 +1261,7 @@ fi
 %changelog
 * Sat Mar 25 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170325_1PGDG.8
 - Update to March 25 2017 snapshot
+- Shuffle BR a bit, add support for icu.
 
 * Fri Mar 24 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170324_1PGDG.7
 - Update to March 24 2017 snapshot
