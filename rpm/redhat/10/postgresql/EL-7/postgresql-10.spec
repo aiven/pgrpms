@@ -94,7 +94,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}.8
+Release:	%{build_timestamp}_1PGDG%{?dist}.9
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1259,6 +1259,9 @@ fi
 %endif
 
 %changelog
+* Sun Mar 26 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170326_1PGDG.9
+- Update to March 26 2017 snapshot
+
 * Sat Mar 25 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170325_1PGDG.8
 - Update to March 25 2017 snapshot
 - Shuffle BR a bit, add support for icu.
