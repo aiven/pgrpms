@@ -5,7 +5,7 @@
          var pgc = properties.getProperty('pgconfig');
          if ( null === pgc )
 -            pgc = 'pg_config';
-+            pgc = '/usr/pgsql-9.5/bin/pg_config';
++            pgc = '/usr/pgsql-9.6/bin/pg_config';
          var pb = new java.lang.ProcessBuilder(pgc, '--'+key);
          pb.redirectErrorStream(true);
          var proc = pb.start();
@@ -16,27 +16,27 @@
  	<target name="pg_config" depends="configure_msvc_options">
  		<!-- First gather all values from the pg_config executable. -->
 -		<exec executable="pg_config" outputproperty="PGSQL_BINDIR">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_BINDIR">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_BINDIR">
  			<arg line="--bindir"/>
  		</exec>
 -		<exec executable="pg_config" outputproperty="PGSQL_PKGLIBDIR">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_PKGLIBDIR">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_PKGLIBDIR">
  			<arg line="--pkglibdir"/>
  		</exec>
 -		<exec executable="pg_config" outputproperty="PGSQL_LIBDIR">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_LIBDIR">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_LIBDIR">
  			<arg line="--libdir"/>
  		</exec>
 -		<exec executable="pg_config" outputproperty="PGSQL_INCLUDEDIR">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR">
  			<arg line="--includedir"/>
  		</exec>
 -		<exec executable="pg_config" outputproperty="PGSQL_INCLUDEDIR-SERVER">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR-SERVER">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR-SERVER">
  			<arg line="--includedir-server"/>
  		</exec>
 -		<exec executable="pg_config" outputproperty="PGSQL_VER">
-+		<exec executable="/usr/pgsql-9.5/bin/pg_config" outputproperty="PGSQL_VER">
++		<exec executable="/usr/pgsql-9.6/bin/pg_config" outputproperty="PGSQL_VER">
  			<arg line="--version"/>
  		</exec>
  		<loadresource property="PGSQL_VER_CLASSIFIER">

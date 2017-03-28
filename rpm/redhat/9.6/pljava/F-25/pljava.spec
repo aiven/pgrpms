@@ -1,4 +1,4 @@
-%global pgmajorversion	95
+%global pgmajorversion	96
 %global sname		pljava
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
@@ -37,7 +37,7 @@ java -jar %{_javadir}/%{name}.jar
 install -d %{buildroot}%{_javadir}
 #java -jar ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar
 #install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar
-install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.5-amd64-Linux-gpp.jar %{buildroot}%{_javadir}/%{name}.jar
+install -m 644 ./%{sname}-packaging/target/%{sname}-pg9.6-amd64-Linux-gpp.jar %{buildroot}%{_javadir}/%{name}.jar
 
 %files
 %doc COPYRIGHT README.md
