@@ -7,12 +7,12 @@
   <name>pljava JDBC Driver</name>
 
   <version>UPSTREAM_VERSION</version>
-  <url>http://jdbc.postgresql.org</url>
+  <url>https://jdbc.postgresql.org</url>
   <description>The pljava Driver JDBC4</description>
   <licenses>
     <license>
       <name>BSD License</name>
-      <url>http://jdbc.postgresql.org/license.html</url>
+      <url>https://jdbc.postgresql.org/license.html</url>
 
       <distribution>repo</distribution>
     </license>
