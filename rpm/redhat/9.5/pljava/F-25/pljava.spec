@@ -41,6 +41,7 @@ install -d %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}-api/target/%{sname}-api-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}-packaging/target/classes/pljava.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
 %{__cp} -f %{sname}-packaging/target/classes/pljava--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
+%{__cp} -f %{sname}-examples/target/%{sname}-examples-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
 
 install -d %{buildroot}%{pginstdir}/share/extension
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.control %{buildroot}%{pginstdir}/share/extension
@@ -61,8 +62,12 @@ install -d %{buildroot}%{pginstdir}/share/extension
 %{pginstdir}/share/pljava/pljava--unpackaged--%{version}.sql
 %{pginstdir}/share/pljava/pljava-%{version}.jar
 %{pginstdir}/share/pljava/pljava-api-%{version}.jar
+%{pginstdir}/share/pljava/pljava-examples-%{version}.jar
 
 %changelog
+* Fri Mar 31 2017 Devrim Gunduz <devrim@gunduz.org> 1.5.0-3
+- Also install PL/Java example jar file.
+
 * Tue Mar 28 2017 Devrim Gunduz <devrim@gunduz.org> 1.5.0-2
 - Fix packaging, per EnterpriseDB's spec file.
 
