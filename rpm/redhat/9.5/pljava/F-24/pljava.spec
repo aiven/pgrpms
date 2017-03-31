@@ -5,7 +5,7 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
 Version:	1.5.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://tada.github.io/pljava/
