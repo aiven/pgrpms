@@ -94,7 +94,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}.8
+Release:	%{build_timestamp}_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1259,33 +1259,8 @@ fi
 %endif
 
 %changelog
-* Sat Mar 25 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170325_1PGDG.8
-- Update to March 25 2017 snapshot
-- Shuffle BR a bit, add support for icu.
-
-* Fri Mar 24 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170324_1PGDG.7
-- Update to March 24 2017 snapshot
-
-* Fri Mar 24 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170324_1PGDG.6
-- Update to March 24 2017 snapshot
-
-* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.5
-- Update to March 23 2017 snapshot
-
-* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.4
-- Update to March 23 2017 snapshot
-
-* Wed Mar 22 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170322_1PGDG.3
-- Update to March 22 2017 snapshot
-
-* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.2
-- Update to March 21 2017 snapshot
-
-* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.1
-- Update to March 21 2017 snapshot
-
-* Sun Mar 5 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170305_1PGDG
-- Update to March 05, 2017 snapshot
+* Wed Apr 05 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170405_1PGDG
+- Update to April 05 2017 snapshot
 
 * Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170222_1PGDG
 - Update to Feb 22 2017 snapshot

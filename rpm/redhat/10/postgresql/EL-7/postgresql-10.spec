@@ -94,7 +94,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}.19
+Release:	%{build_timestamp}_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1259,66 +1259,8 @@ fi
 %endif
 
 %changelog
-* Wed Apr 05 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170405_1PGDG.19
+* Wed Apr 05 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170405_1PGDG
 - Update to April 05 2017 snapshot
-
-* Tue Apr 04 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170404_1PGDG.18
-- Update to April 04 2017 snapshot
-
-* Mon Apr 03 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170403_1PGDG.17
-- Update to April 03 2017 snapshot
-
-* Sun Apr 02 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170402_1PGDG.16
-- Update to April 02 2017 snapshot
-
-* Sat Apr 01 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170401_1PGDG.15
-- Update to April 01 2017 snapshot
-
-* Fri Mar 31 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170331_1PGDG.14
-- Update to March 31 2017 snapshot
-
-* Thu Mar 30 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170330_1PGDG.13
-- Update to March 30 2017 snapshot
-
-* Wed Mar 29 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170329_1PGDG.12
-- Update to March 29 2017 snapshot
-
-* Tue Mar 28 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170328_1PGDG.11
-- Update to March 28 2017 snapshot
-
-* Mon Mar 27 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170327_1PGDG.10
-- Update to March 27 2017 snapshot
-
-* Sun Mar 26 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170326_1PGDG.9
-- Update to March 26 2017 snapshot
-
-* Sat Mar 25 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170325_1PGDG.8
-- Update to March 25 2017 snapshot
-- Shuffle BR a bit, add support for icu.
-
-* Fri Mar 24 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170324_1PGDG.7
-- Update to March 24 2017 snapshot
-
-* Fri Mar 24 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170324_1PGDG.6
-- Update to March 24 2017 snapshot
-
-* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.5
-- Update to March 23 2017 snapshot
-
-* Thu Mar 23 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170323_1PGDG.4
-- Update to March 23 2017 snapshot
-
-* Wed Mar 22 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170322_1PGDG.3
-- Update to March 22 2017 snapshot
-
-* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.2
-- Update to March 21 2017 snapshot
-
-* Tue Mar 21 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170321_1PGDG.1
-- Update to March 21 2017 snapshot
-
-* Sun Mar 5 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170305_1PGDG
-- Update to March 05, 2017 snapshot
 
 * Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170222_1PGDG
 - Update to Feb 22 2017 snapshot
