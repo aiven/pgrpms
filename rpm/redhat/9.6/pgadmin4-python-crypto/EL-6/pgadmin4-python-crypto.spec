@@ -1,9 +1,14 @@
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global __ospython2 %{_bindir}/python2
+
 %global _docdir_fmt %{name}
+%global sname Crypto
 
 Summary:	Cryptography library for Python
-Name:		python-crypto
+Name:		pgadmin4-python-crypto
 Version:	2.6.1
-Release:	13%{?dist}
+Release:	14%{?dist}
 # Mostly Public Domain apart from parts of HMAC.py and setup.py, which are Python
 License:	Public Domain and Python
 URL:		http://www.pycrypto.org/
@@ -39,34 +44,37 @@ SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
 %patch2 -p1
 
 # Unbundle libtomcrypt (#1087557)
-rm -rf src/libtom
+%{__rm} -rf src/libtom
 %patch3
 
 # setup.py doesn't run 2to3 on pct-speedtest.py
-cp pct-speedtest.py pct-speedtest3.py
+%{__cp} pct-speedtest.py pct-speedtest3.py
 2to3 -wn pct-speedtest3.py
 
 %build
 %global optflags %{optflags} -fno-strict-aliasing
-%{__python} setup.py build
+%{__ospython2} setup.py build
 
 %install
-%{__python} setup.py install --skip-build --root %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
 
 # Remove group write permissions on shared objects
 find %{buildroot}%{python_sitearch} -name '*.so' -exec chmod -c g-w {} \;
 
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python_sitearch}/%{sname} %{buildroot}%{python_sitearch}/pycrypto-%{version}-py2.*.egg-info %{buildroot}/%{pgadmin4py2instdir}
+
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc README TODO ACKS ChangeLog Doc/ COPYRIGHT LEGAL/
-%else
-%license COPYRIGHT LEGAL/
-%doc README TODO ACKS ChangeLog Doc/
-%endif
-%{python_sitearch}/Crypto/
-%{python_sitearch}/pycrypto-%{version}-py2.*.egg-info
+%{pgadmin4py2instdir}/Crypto/
+%{pgadmin4py2instdir}/pycrypto-%{version}-py2.*.egg-info
 
 %changelog
+* Mon Apr 10 2017 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-14
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Thu Mar 16 2017 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-13
 - Initial packaging for PostgreSQL YUM repository, to satisfy
   dependency of pgadmin4. Spec file is based on EPEL 7.
