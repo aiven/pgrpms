@@ -1,14 +1,16 @@
-%global __ospython %{_bindir}/python2
+%global __ospython2 %{_bindir}/python2
 
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%{expand: %%global pyver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 
 %global sname	wsgiref
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 
 Summary:	WSGI (PEP 333) Reference Library
-Name:		python-%{sname}
+Name:		pgadmin4-python-%{sname}
 Version:	0.1.2
-Release:	17%{?dist}
+Release:	18%{?dist}
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/%{sname}
@@ -27,11 +29,15 @@ wsgiref.util.test() utility function.
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__ospython} setup.py build
+%{__ospython2} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython} setup.py install --skip-build --root %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -39,11 +45,13 @@ wsgiref.util.test() utility function.
 %files
 %defattr(-, root, root, -)
 %doc README.txt
-%dir %{python_sitelib}/%{sname}/
-%{python_sitelib}/%{sname}/*
-%{python_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info/*
+%{pgadmin4py2instdir}/*%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 
 %changelog
+* Tue Apr 11 2017 Devrim Gündüz <devrim@gunduz.org> - 0.1.2-18
+- Move the components under pgadmin web directory, per #2332.
+
 * Sun Sep 11 2016 Devrim Gündüz <devrim@gunduz.org> - 0.1.2-17
 - Use proper macros.
 
