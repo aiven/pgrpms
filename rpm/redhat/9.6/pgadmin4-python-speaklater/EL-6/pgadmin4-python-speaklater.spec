@@ -1,17 +1,18 @@
-%if ! (0%{?fedora} > 12 || 0%{?rhel} > 5)
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%endif
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 
-%global tarName speaklater
+%global sname speaklater
 
-Name:           python-%{tarName}
+Name:           pgadmin4-python-%{sname}
 Version:        1.3
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Implements a lazy string for python useful for use with get-text
 Group:          Development/Libraries
 License:        BSD
 URL:            http://github.com/mitsuhiko/speaklater
-Source0:        http://pypi.python.org/packages/source/s/%{tarName}/%{tarName}-%{version}.tar.gz
+Source0:        http://pypi.python.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel
@@ -22,24 +23,33 @@ object that appears to be a string but changes the value every time the value
 is evaluated based on a callable you provide.
 
 %prep
-%setup -qn %{tarName}-%{version}
+%setup -qn %{sname}-%{version}
 
 %build
-%{__python} setup.py build
+%{__ospython2} setup.py build
 
 %install
-rm -rf %{buildroot}
-%{__python} setup.py install --root=%{buildroot}
+%{__rm} -rf %{buildroot}
+%{__ospython2} setup.py install --root=%{buildroot}
+
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname}* %{buildroot}/%{pgadmin4py2instdir}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
-%{python_sitelib}/speaklater*
 %doc PKG-INFO README LICENSE
+%{pgadmin4py2instdir}/*%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}.py*
 
 %changelog
+* Tue Apr 11 2017 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Thu Apr 11 2013 Luke Macken <lmacken@redhat.com> - 1.3-1
 - Update to 1.3
 - Add the README and LICENSE
