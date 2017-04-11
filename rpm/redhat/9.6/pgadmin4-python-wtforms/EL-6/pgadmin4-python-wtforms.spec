@@ -1,7 +1,5 @@
 %global mod_name WTForms
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
+%global sname wtforms
 
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
@@ -18,9 +16,16 @@
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-Name:		python-wtforms
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
+
+%if 0%{?with_python3}
+Name:		pgadmin4-python3-wtforms
+%else
+Name:		pgadmin4-python-wtforms
+%endif
 Version:	2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Forms validation and rendering library for python
 
 Group:		Development/Libraries
@@ -41,16 +46,6 @@ With wtforms, your form field HTML can be generated for you.
 This allows you to maintain separation of code and presentation,
 and keep those messy parameters out of your python code.
 
-%if 0%{?with_python3}
-%package -n python3-wtforms
-Summary:	Forms validation and rendering library for python
-
-%description -n python3-wtforms
-With wtforms, your form field HTML can be generated for you.
-This allows you to maintain separation of code and presentation,
-and keep those messy parameters out of your python code.
-%endif
-
 %prep
 %setup -q -n %{mod_name}-%{version}
 sed -i "s|\r||g" docs/html/_sources/index.txt
@@ -66,38 +61,46 @@ sed -i "s|\r||g" docs/html/_static/jquery.js
 %endif
 
 %build
-%{__ospython2} setup.py build
-
 %if 0%{?with_python3}
+pushd %{py3dir}
 %{__ospython3} setup.py build
+popd
+%else
+%{__ospython2} setup.py build
 %endif
 
 %install
-%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
-
-%{__mkdir} -p %{buildroot}/%{_datadir}
-%{__mv} %{buildroot}/%{python_sitelib}/wtforms/locale %{buildroot}%{_datadir}
-find %{buildroot}%{_datadir}/locale -name '*.po*' -delete
-
 %if 0%{?with_python3}
+pushd %{py3dir}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
-%{__rm} -rf %{buildroot}/%{python3_sitelib}/wtforms/locale
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/%{mod_name}-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+popd
+%else
+%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{mod_name}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %find_lang wtforms
 
-%files -f wtforms.lang
-%doc docs/ LICENSE.txt PKG-INFO
-%{python_sitelib}/*.egg-info
-%{python_sitelib}/wtforms/
-
+%files
 %if 0%{?with_python3}
-%files -n python3-wtforms -f wtforms.lang
 %doc docs/ LICENSE.txt PKG-INFO
-%{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/wtforms/
+%{pgadmin4py3instdir}/*%{mod_name}*.egg-info
+%{pgadmin4py3instdir}/%{sname}
+%else
+%doc docs/ LICENSE.txt PKG-INFO
+%{pgadmin4py2instdir}/*%{mod_name}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 %endif
 
 %changelog
+* Mon Apr 10 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1-2
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 2.1-1
 - Initial packaging for PostgreSQL YUM repository, to satisfy pgadmin4 dependency.
