@@ -1,20 +1,21 @@
-%global         shortname sqlparse
+%global         sname sqlparse
 
-%if 0%{?rhel} && 0%{?rhel} < 7
-# EL 6 doesn't have this macro
-%global __python2	%{__python}
-%global python2_sitelib %{python_sitelib}
-%endif
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-Name:           python-%{shortname}
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+
+
+Name:           pgadmin4-python-%{sname}
 Version:        0.2.1
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Non-validating SQL parser for Python
 
 Group:          Development/Languages
 License:        BSD
-URL:            https://github.com/andialbrecht/%{shortname}
-Source0:        https://github.com/andialbrecht/%{shortname}/archive/%{version}/%{shortname}-%{version}.tar.gz
+URL:            https://github.com/andialbrecht/%{sname}
+Source0:        https://github.com/andialbrecht/%{sname}/archive/%{version}/%{sname}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
@@ -29,13 +30,17 @@ renderings of SQL in various formats.
 It is a python module, together with a command-line tool.
 
 %prep
-%setup -q -n %{shortname}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
-%{__python2} setup.py build
+%{__ospython2} setup.py build
 
 %install
-%{__python2} setup.py install --skip-build --root %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -44,10 +49,14 @@ It is a python module, together with a command-line tool.
 %license LICENSE
 %doc AUTHORS CHANGELOG README.rst
 %endif
-%{python2_sitelib}/*
+%{pgadmin4py2instdir}/*%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 %{_bindir}/sqlformat
 
 %changelog
+* Tue Apr 11 2017 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-3
+- Move the components under pgadmin web directory, per #2332.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-2
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
