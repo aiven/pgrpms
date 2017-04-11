@@ -1,14 +1,15 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?__python2: %global __python2 %{__python}}
-%{!?python2_sitelib: %global python2_sitelib %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
-%endif
 
 %global srcname SQLAlchemy
+%global sname sqlalchemy
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 
 Name:           python-sqlalchemy
 Version:        1.0.14
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Modular and flexible ORM library for python
 
 Group:          Development/Libraries
@@ -46,16 +47,20 @@ This package includes the python 2 version of the module.
 %setup -q -n %{srcname}-%{version}
 
 %build
-CFLAGS="%{optflags}" %{__python2} setup.py --with-cextensions build
+CFLAGS="%{optflags}" %{__ospython2} setup.py --with-cextensions build
 
 %install
 %{__rm} -rf %{buildroot}
 
 %{__mkdir} -p %{buildroot}%{python2_sitelib}
-%{__python2} setup.py --with-cextensions install --skip-build --root %{buildroot}
+%{__ospython2} setup.py --with-cextensions install --skip-build --root %{buildroot}
 
 # remove unnecessary scripts for building documentation
 %{__rm} -rf doc/build
+
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitearch}/%{sname} %{buildroot}%{python2_sitearch}/*%{srcname}-%{version}*-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -63,9 +68,13 @@ CFLAGS="%{optflags}" %{__python2} setup.py --with-cextensions build
 %files
 %defattr(-,root,root,-)
 %doc README.rst LICENSE PKG-INFO CHANGES doc examples
-%{python2_sitearch}/*
+%{pgadmin4py2instdir}/*%{srcname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 
 %changelog
+* Mon Apr 10 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.14-2
+- Move the components under pgadmin web directory, per #2332.
+
 * Thu Aug 18 2016 Nils Philippsen <nils@redhat.com> - 1.0.14-1
 - version 1.0.14
 
