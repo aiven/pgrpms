@@ -1,7 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
@@ -17,13 +13,17 @@
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global mod_name Jinja2
+%global sname jinja2
+
 # Enable building without docs to avoid a circular dependency between this
 # and python-sphinx:
 %global with_docs 1
 
-Name:		python-jinja2
+Name:		pgadmin4-python-%{sname}
 Version:	2.8
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	General purpose template engine
 Group:		Development/Languages
 License:	BSD
@@ -31,16 +31,12 @@ URL:		http://jinja.pocoo.org/
 Source0:	http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%{version}.tar.gz
 
 BuildArch:	noarch
-BuildRequires:	python2-devel
-BuildRequires:	python-setuptools
-BuildRequires:	python-markupsafe
+BuildRequires:	python2-devel python-setuptools python-markupsafe
 BuildRequires:	pytest
 %if 0%{?with_docs}
 BuildRequires:	python-sphinx
 %endif # with_docs
-Requires:	python-babel >= 0.8
-Requires:	python-markupsafe
-Requires:	python-setuptools
+Requires:	python-babel >= 0.8 python-markupsafe python-setuptools
 
 %description
 Jinja2 is a template engine written in pure Python.  It provides a
@@ -54,8 +50,8 @@ principles and adding functionality useful for templating
 environments.
 
 %prep
-%setup -qc -n Jinja2-%{version}
-%{__mv} Jinja2-%{version} python2
+%setup -qc -n %{mod_name}-%{version}
+%{__mv} %{mod_name}-%{version} python2
 
 pushd python2
 
@@ -66,6 +62,7 @@ find . -name '*.pyo' -o -name '*.pyc' -delete
 sed -i 's|\r$||g' LICENSE
 
 popd
+
 %build
 pushd python2
 %{__python} setup.py build
@@ -79,33 +76,34 @@ popd
 
 %install
 pushd python2
-%{__python} setup.py install -O1 --skip-build \
-            --root %{buildroot}
-
+%{__python} setup.py install -O1 --skip-build --root %{buildroot}
 # remove hidden file
 %{__rm} -rf docs/_build/html/.buildinfo
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{mod_name}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 popd
 
 %files
 %doc python2/AUTHORS
 %doc python2/CHANGES
-%if 0%{?_licensedir:1}
-%license python2/LICENSE
-%else
 %doc python2/LICENSE
-%endif # licensedir
 %if 0%{?with_docs}
 %doc python2/docs/_build/html
 %endif # with_docs
 %doc python2/ext
 %doc python2/examples
-%{python2_sitelib}/jinja2
-%{python2_sitelib}/Jinja2-%{version}-py?.?.egg-info
+%{pgadmin4py2instdir}/*%{mod_name}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 %if 0%{?rhel} && 0%{?rhel} > 6
 %exclude %{python2_sitelib}/jinja2/_debugsupport.c
 %endif
 
 %changelog
+* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 2.8-8
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Tue Sep 13 2016 Devrim Gündüz <devrim@gunduz.org> - 2.8-7
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.
