@@ -95,6 +95,12 @@
 %global _hardened_build 1
 %endif
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
@@ -132,7 +138,7 @@ BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-at10.0-devel
+BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	/sbin/ldconfig
@@ -232,7 +238,7 @@ Provides:	postgresql
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description
@@ -255,7 +261,7 @@ Provides:	postgresql-libs = %{majorversion}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description libs
@@ -285,7 +291,7 @@ Provides:	postgresql-server
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description server
@@ -315,7 +321,7 @@ Provides:	postgresql-contrib
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description contrib
@@ -335,7 +341,7 @@ Provides:	postgresql-devel
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description devel
@@ -359,7 +365,7 @@ Provides:	postgresql-plperl
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plperl
@@ -380,7 +386,7 @@ Provides:	postgresql-plpython
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plpython
@@ -401,7 +407,7 @@ Provides:	postgresql-plpython3
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plpython3
@@ -422,7 +428,7 @@ Provides:	postgresql-pltcl
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description pltcl
@@ -441,7 +447,7 @@ Provides:	postgresql-test
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-at10.0-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description test
@@ -475,10 +481,10 @@ benchmarks.
 
 CFLAGS="${CFLAGS:-%optflags}"
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I/opt/at10.0/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I/opt/at10.0/include"
-	LDFLAGS="-L/opt/at10.0/%{_lib}"
-	CC=/opt/at10.0/bin/gcc; export CC
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
 %else
 	# Strip out -ffast-math from CFLAGS....
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
@@ -564,8 +570,8 @@ export PYTHON=/usr/bin/python3
 	--with-systemd \
 %endif
 %ifarch ppc64 ppc64le
-	--with-includes=/opt/at10.0/include \
-	--with-libraries=/opt/at10.0/lib64 \
+	--with-includes=%{atpath}/include \
+	--with-libraries=%{atpath}/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -654,8 +660,8 @@ unset PYTHON
 	--with-systemd \
 %endif
 %ifarch ppc64 ppc64le
-	--with-includes=/opt/at10.0/include \
-	--with-libraries=/opt/at10.0/lib64 \
+	--with-includes=%{atpath}/include \
+	--with-libraries=%{atpath}/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
