@@ -23,20 +23,22 @@
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-%global pypi_name htmlmin
+%global sname htmlmin
 %global desc A configurable HTML Minifier with safety features.
 %global github_owner mankyd
-%global github_name %{pypi_name}
+%global github_name %{sname}
 %global commit cc611c3c6eabac97aaa4e4e249be6e8910b12abd
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-Name:           python-%{pypi_name}
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+
+Name:           python-%{sname}
 Version:        0.1.10
-Release:        6.gitcc611c3%{?dist}
+Release:        7.gitcc611c3%{?dist}
 Summary:        HTML Minifier
 
 License:        BSD
-URL:            https://pypi.python.org/pypi/%{pypi_name}
+URL:            https://pypi.python.org/pypi/%{sname}
 Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{commit}/%{github_name}-%{commit}.tar.gz
 
 BuildArch:      noarch
@@ -45,7 +47,7 @@ BuildRequires:  python2-devel
 %description
 %{desc}
 
-%{?python_provide:%python_provide python2-%{pypi_name}}
+%{?python_provide:%python_provide python2-%{sname}}
 
 %if 0%{?with_docs}
 %package       doc
@@ -77,6 +79,9 @@ make man
 %install
 %{__rm} -rf %{buildroot}
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
 %if 0%{?with_docs}
 # Install man
@@ -84,7 +89,7 @@ make man
 install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %endif
 
-%files -n python-%{pypi_name}
+%files -n python-%{sname}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE README.rst
 %else
@@ -95,8 +100,8 @@ install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %if 0%{?with_docs}
 %{_mandir}/man1/*
 %endif
-%{python2_sitelib}/%{pypi_name}-%{version}-py%{py2ver}.egg-info/
-%{python2_sitelib}/%{pypi_name}/
+%{pgadmin4py2instdir}/*%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 
 %if 0%{?with_docs}
 %files doc
@@ -105,6 +110,9 @@ install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %endif
 
 %changelog
+* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 0.1.10-6.gitcc611c3
+- Move the components under pgadmin web directory, per #2332.
+
 * Thu Mar 16 2017 Devrim Gündüz <devrim@gunduz.org> - 0.1.10-6.gitcc611c3
 - Add a macro for docs, and enable in on RHEL 7 and onwards.
 
