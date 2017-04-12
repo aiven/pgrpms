@@ -98,7 +98,6 @@
 # Define the AT version and path.
 %global atstring	at10.0
 %global atpath		/opt/%{atstring}
-
 %endif
 
 Summary:	PostgreSQL client programs and libraries
