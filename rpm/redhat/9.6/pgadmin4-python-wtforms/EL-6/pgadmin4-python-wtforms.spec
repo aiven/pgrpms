@@ -20,9 +20,9 @@
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
 %if 0%{?with_python3}
-Name:		pgadmin4-python3-wtforms
+Name:		pgadmin4-python3-%{sname}
 %else
-Name:		pgadmin4-python-wtforms
+Name:		pgadmin4-python-%{sname}
 %endif
 Version:	2.1
 Release:	2%{?dist}
