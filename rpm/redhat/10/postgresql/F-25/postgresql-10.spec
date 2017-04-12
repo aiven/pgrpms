@@ -84,7 +84,11 @@
 %{!?selinux:%global selinux 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
-%{!?sdt:%global sdt 1}
+%ifarch ppc64 ppc64le
+%{!?sdt:%global sdt 0}
+%else
+ %{!?sdt:%global sdt 1}
+%endif
 %{!?selinux:%global selinux 1}
 %endif
 %if 0%{?fedora} > 23
@@ -94,7 +98,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}.7
+Release:	%{build_timestamp}_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -127,6 +131,10 @@ BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-at10.0-devel
+%endif
+
 Requires:	/sbin/ldconfig
 
 %if %icu
@@ -152,10 +160,10 @@ BuildRequires:	pam-devel
 
 %if %plperl
 %if 0%{?rhel} && 0%{?rhel} >= 7
-BuildRequires:  perl-ExtUtils-Embed
+BuildRequires:	perl-ExtUtils-Embed
 %endif
 %if 0%{?fedora} >= 22
-BuildRequires:  perl-ExtUtils-Embed
+BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
 
@@ -181,7 +189,11 @@ BuildRequires: selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
+# We depend un the SSL libraries provided by Advance Toolchain on PPC,
+# so use openssl-devel only on other platforms:
+%ifnarch ppc64 ppc64le
 BuildRequires:	openssl-devel
+%endif
 %endif
 
 %if %uuid
@@ -218,6 +230,11 @@ Requires(postun):	%{_sbindir}/update-alternatives
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	postgresql
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The base postgresql package contains the client programs that you'll need to
@@ -235,6 +252,11 @@ if you're installing the postgresql%{majorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
 Provides:	postgresql-libs = %{majorversion}
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
 
 %description libs
 The postgresql%{majorversion}-libs package provides the essential shared libraries for any
@@ -261,6 +283,11 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Provides:	postgresql-server
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The postgresql%{majorversion}-server package contains the programs needed to create
@@ -286,6 +313,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description contrib
 The postgresql%{majorversion}-contrib package contains various extension modules that are
 included in the PostgreSQL distribution.
@@ -301,13 +333,17 @@ Requires:	perl-Test-Simple
 %endif
 Provides:	postgresql-devel
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description devel
 The postgresql%{majorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with a PostgreSQL database management server.  It also contains the ecpg
 Embedded C Postgres preprocessor. You need to install this package if you want
 to develop applications which will interact with a PostgreSQL server.
-
 
 %if %plperl
 %package plperl
@@ -320,6 +356,11 @@ BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{majorversion}-pl
 Provides:	postgresql-plperl
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
 
 %description plperl
 The postgresql%{majorversion}-plperl package contains the PL/Perl procedural language,
@@ -337,6 +378,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description plpython
 The postgresql%{majorversion}-plpython package contains the PL/Python procedural language,
 which is an extension to the PostgreSQL database server.
@@ -352,6 +398,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython3
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
 
 %description plpython3
 The postgresql%{majorversion}-plpython3 package contains the PL/Python3 procedural language,
@@ -369,6 +420,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
+
 %description pltcl
 PostgreSQL is an advanced Object-Relational database management
 system. The %{name}-pltcl package contains the PL/Tcl language
@@ -382,6 +438,11 @@ Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-at10.0-runtime
+%endif
 
 %description test
 The postgresql%{majorversion}-test package contains files needed for various tests for the
@@ -412,16 +473,23 @@ benchmarks.
 	fi
 %endif
 
-CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
-
-# Strip out -ffast-math from CFLAGS....
-CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-# Add LINUX_OOM_ADJ=0 to ensure child processes reset postmaster's oom_adj
-CFLAGS="$CFLAGS -DLINUX_OOM_ADJ=0"
-
-%if 0%{?rhel}
-LDFLAGS="-Wl,--as-needed"; export LDFLAGS
+CFLAGS="${CFLAGS:-%optflags}"
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I/opt/at10.0/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I/opt/at10.0/include"
+	LDFLAGS="-L/opt/at10.0/%{_lib}"
+	CC=/opt/at10.0/bin/gcc; export CC
+%else
+	# Strip out -ffast-math from CFLAGS....
+	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
+	# Add LINUX_OOM_SCORE_ADJ=0 to ensure child processes reset postmaster's oom_score_adj
+	CFLAGS="$CFLAGS -DLINUX_OOM_SCORE_ADJ=0"
+	%if 0%{?rhel}
+	LDFLAGS="-Wl,--as-needed"; export LDFLAGS
+	%endif
 %endif
+
+export CFLAGS
 
 # plpython requires separate configure/build runs to build against python 2
 # versus python 3.  Our strategy is to do the python 3 run first, then make
@@ -494,6 +562,10 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %{systemd_enabled}
 	--with-systemd \
+%endif
+%ifarch ppc64 ppc64le
+	--with-includes=/opt/at10.0/include \
+	--with-libraries=/opt/at10.0/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -580,6 +652,10 @@ unset PYTHON
 %endif
 %if %{systemd_enabled}
 	--with-systemd \
+%endif
+%ifarch ppc64 ppc64le
+	--with-includes=/opt/at10.0/include \
+	--with-libraries=/opt/at10.0/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -678,7 +754,7 @@ case `uname -i` in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
 		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/
-		%{__mv}  %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
 		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
 		install -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/
@@ -841,7 +917,7 @@ export PGDATA
 # If you want to customize your settings,
 # Use the file below. This is not overridden
 # by the RPMS.
-[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" >  /var/lib/pgsql/.bash_profile
+[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" > /var/lib/pgsql/.bash_profile
 chown postgres: /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
@@ -876,40 +952,43 @@ fi
 
 # Create alternatives entries for common binaries and man files
 %post
-%{_sbindir}/update-alternatives --install %{_bindir}/psql	pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/clusterdb pgsql-clusterdb  %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/createdb pgsql-createdb   %{pgbaseinstdir}/bin/createdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/psql pgsql-psql %{pgbaseinstdir}/bin/psql %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/clusterdb pgsql-clusterdb %{pgbaseinstdir}/bin/clusterdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/createdb pgsql-createdb %{pgbaseinstdir}/bin/createdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/createuser pgsql-createuser %{pgbaseinstdir}/bin/createuser %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/dropdb pgsql-dropdb     %{pgbaseinstdir}/bin/dropdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/dropuser pgsql-dropuser   %{pgbaseinstdir}/bin/dropuser %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/pg_basebackup pgsql-pg_basebackup    %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump    %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/dropdb pgsql-dropdb %{pgbaseinstdir}/bin/dropdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/droplang pgsql-droplang %{pgbaseinstdir}/bin/droplang %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/dropuser pgsql-dropuser %{pgbaseinstdir}/bin/dropuser %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_basebackup pgsql-pg_basebackup %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/reindexdb pgsql-reindexdb  %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_bindir}/vacuumdb pgsql-vacuumdb   %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/clusterdb.1 pgsql-clusterdbman     %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/createdb.1 pgsql-createdbman	  %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/createuser.1 pgsql-createuserman    %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropdb.1	pgsql-dropdbman        %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropuser.1   pgsql-dropuserman	  %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_basebackup.1    pgsql-pg_basebackupman	  %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1    pgsql-pg_dumpman	  %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dumpall.1 pgsql-pg_dumpallman    %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_restore.1 pgsql-pg_restoreman    %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/psql.1	   pgsql-psqlman          %{pgbaseinstdir}/share/man/man1/psql.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/reindexdb.1  pgsql-reindexdbman     %{pgbaseinstdir}/share/man/man1/reindexdb.1 %{packageversion}0
-%{_sbindir}/update-alternatives --install %{_mandir}/man1/vacuumdb.1   pgsql-vacuumdbman	  %{pgbaseinstdir}/share/man/man1/vacuumdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/reindexdb pgsql-reindexdb %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/vacuumdb pgsql-vacuumdb %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/clusterdb.1 pgsql-clusterdbman %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createdb.1 pgsql-createdbman %{pgbaseinstdir}/share/man/man1/createdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createlang.1 pgsql-createlangman %{pgbaseinstdir}/share/man/man1/createlang.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/createuser.1 pgsql-createuserman %{pgbaseinstdir}/share/man/man1/createuser.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropdb.1 pgsql-dropdbman %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/droplang.1 pgsql-droplangman %{pgbaseinstdir}/share/man/man1/droplang.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/dropuser.1 pgsql-dropuserman %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_basebackup.1 pgsql-pg_basebackupman %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1 pgsql-pg_dumpman %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dumpall.1 pgsql-pg_dumpallman %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_restore.1 pgsql-pg_restoreman %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/psql.1 pgsql-psqlman %{pgbaseinstdir}/share/man/man1/psql.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/reindexdb.1 pgsql-reindexdbman %{pgbaseinstdir}/share/man/man1/reindexdb.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/vacuumdb.1 pgsql-vacuumdbman %{pgbaseinstdir}/share/man/man1/vacuumdb.1 %{packageversion}0
 
 %post libs
-%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf   pgsql-ld-conf        %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf %{packageversion}0
+%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/postgresql-pgdg-libs.conf pgsql-ld-conf %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf %{packageversion}0
 /sbin/ldconfig
 
 # Drop alternatives entries for common binaries and man files
 %postun
 if [ "$1" -eq 0 ]
   then
-        # Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
 	%{_sbindir}/update-alternatives --remove pgsql-psql		%{pgbaseinstdir}/bin/psql
 	%{_sbindir}/update-alternatives --remove pgsql-clusterdb	%{pgbaseinstdir}/bin/clusterdb
 	%{_sbindir}/update-alternatives --remove pgsql-clusterdbman	%{pgbaseinstdir}/share/man/man1/clusterdb.1
@@ -939,7 +1018,7 @@ if [ "$1" -eq 0 ]
 %postun libs
 if [ "$1" -eq 0 ]
   then
-	%{_sbindir}/update-alternatives --remove pgsql-ld-conf          %{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
+	%{_sbindir}/update-alternatives --remove pgsql-ld-conf		%{pgbaseinstdir}/share/postgresql-%{majorversion}-libs.conf
 	/sbin/ldconfig
 fi
 
@@ -1259,29 +1338,9 @@ fi
 %endif
 
 %changelog
-* Wed Apr 12 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170412_1PGDG.7
-- Update to April 12 2017 snapshot
-
-* Tue Apr 11 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170411_1PGDG.6
-- Update to April 11 2017 snapshot
-
-* Mon Apr 10 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170410_1PGDG.5
-- Update to April 10 2017 snapshot
-
-* Sun Apr 09 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170409_1PGDG.4
-- Update to April 09 2017 snapshot
-
-* Sat Apr 08 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170408_1PGDG.3
-- Update to April 08 2017 snapshot
-
-* Fri Apr 07 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170407_1PGDG.2
-- Update to April 07 2017 snapshot
-
-* Thu Apr 06 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170406_1PGDG.1
-- Update to April 06 2017 snapshot
-
-* Wed Apr 05 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170405_1PGDG
-- Update to April 05 2017 snapshot
+* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> -10.0-20170412_1PGDG
+- Initial attempt for Power RPMs.
+- Cleanups for rpmlint warnings
 
 * Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170222_1PGDG
 - Update to Feb 22 2017 snapshot
