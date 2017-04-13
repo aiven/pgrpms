@@ -41,14 +41,14 @@ contract in unit test compatible test cases easy and straight forward.
 
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
-BuildRequires:	python3-pbr >= 0.11
+BuildRequires:	pgadmin4-python3-pbr >= 0.11
 BuildRequires:	python3-mock
 BuildRequires:	python3-testtools >= 0.9.22
 Requires:	python3-testtools >= 0.9.22
 Requires:	python3-six
 %else
 BuildRequires:	python2-devel
-BuildRequires:	python-pbr >= 0.11
+BuildRequires:	pgadmin4-python-pbr >= 0.11
 BuildRequires:	python-mock
 BuildRequires:	python-testtools >= 0.9.22
 Requires:	python-testtools >= 0.9.22
