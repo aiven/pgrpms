@@ -95,9 +95,11 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{srcname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif # with_python3
 
+# Remove binary, we don't need it in pgadmin4 packaging.
+%{__rm} %{buildroot}%{_bindir}/%{sname}
+
 
 %files
-%{_bindir}/%{sname}
 %doc CHANGES README LICENSE
 %if 0%{?with_python3}
 %license LICENSE
@@ -112,6 +114,7 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %changelog
 * Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-6
 - Move the components under pgadmin web directory, per #2332.
+- Remove flask binary, we don't need it in pgadmin4 packaging.
 
 * Mon Oct 10 2016 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-5
 - Fix unmet dependencies issue in spec file. Fixes #1738.
