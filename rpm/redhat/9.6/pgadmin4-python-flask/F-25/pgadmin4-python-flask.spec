@@ -24,7 +24,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.11.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Epoch:		1
 Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 
@@ -105,10 +105,9 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %license LICENSE
 %{pgadmin4py3instdir}/*%{srcname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}
-
 %else
-%{pgadmin4py3instdir}/*%{srcname}*.egg-info
-%{pgadmin4py3instdir}/%{sname}
+%{pgadmin4py2instdir}/*%{srcname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 %endif
 
 %changelog
