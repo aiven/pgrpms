@@ -1,73 +1,99 @@
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 29
 %{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global py2ver %(echo `%{__python} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
 %{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-%global pkg_name	flask-babel
+%global sname	flask-babel
 %global mod_name	Flask-Babel
 
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
+
 %if 0%{?with_python3}
-Name:           python3-%{pkg_name}
+Name:		pgadmin4-python3-%{sname}
 %else
-Name:           python-%{pkg_name}
+Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.11.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Summary:	Adds i18n/l10n support to Flask applications
 Group:		Development/Libraries
 License:	BSD
-URL:		http://github.com/mitsuhiko/%{pkg_name}/
+URL:		http://github.com/mitsuhiko/%{sname}/
 Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 %if 0%{?with_python3}
-%{?python_provide:%python_provide python3-%{pkg_name}}
+%{?python_provide:%python_provide python3-%{sname}}
 BuildRequires:	python3-babel, python3-devel
-BuildRequires:	python3-flask, python3-setuptools
+BuildRequires:	pgadmin4-python3-flask, python3-setuptools
 BuildRequires:	python3-speaklater, python3-pytz
-Requires:	python3-babel, python3-flask
-Requires:	python3-speaklater, python3-pytz
+Requires:	python3-babel, pgadmin4-python3-flask
+Requires:	speaklater, python3-pytz
 %else
-%{?python_provide:%python_provide python-%{pkg_name}}
-BuildRequires:	python-babel, python-devel
-BuildRequires:	python-flask, python-setuptools
-BuildRequires:	python-speaklater, pytz
-Requires:	python-babel, python-flask
-Requires:	python-speaklater, pytz
+%{?python_provide:%python_provide python-%{sname}}
+###BuildRequires:	pgadmin4-python-babel, python-devel
+###BuildRequires:	pgadmin4-python-flask, python-setuptools
+%if 0%{?rhel} && 0%{?rhel} <= 6
+###BuildRequires:	pgadmin4-python-speaklater
+%else
+###BuildRequires:	python-speaklater
+%endif
+Requires:	pgadmin4-python-babel, pgadmin4-python-flask
+Requires:	pgadmin4-python-speaklater, pgadmin4-pytz
 %endif
 
 %description
 Adds i18n/l10n support to Flask applications with the help of the Babel library.
 
 %prep
-%setup -q -n %{pkg_name}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
-%{__ospython} setup.py build
+%if 0%{?with_python3}
+%{__ospython3} setup.py build
+%else
+%{__ospython2} setup.py build
+%endif
 
 %install
-%{__rm} -rf %{buildroot}
-%{__ospython} setup.py install --skip-build --root %{buildroot}
+%if 0%{?with_python3}
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_babel %{buildroot}%{python3_sitelib}/Flask_Babel-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%else
+%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_babel %{buildroot}%{python2_sitelib}/Flask_Babel-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%endif
 
 %files
 %doc docs LICENSE
 %if 0%{?with_python3}
-%{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/flask_babel/*
+%{pgadmin4py3instdir}/*.egg-info/
+%{pgadmin4py3instdir}/flask_babel/*
 %else
-%{python2_sitelib}/*.egg-info/
-%{python2_sitelib}/flask_babel/*
+%{pgadmin4py2instdir}/*.egg-info/
+%{pgadmin4py2instdir}/flask_babel/*
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 0.11.1-3
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Sat Sep 10 2016 Devrim Gündüz <devrim@gunduz.org> 0.11.1-2
 - Various updates for pgadmin4 packaging.
 
