@@ -1,7 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
@@ -18,10 +14,17 @@
 %endif
 
 %global mod_name Flask-WTF
+%global sname	flask_wtf
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-Name:		python-flask-wtf
+%if 0%{?with_python3}
+Name:		pgadmin4-python3-%{sname}
+%else
+Name:		pgadmin4-python-%{sname}
+%endif
 Version:	0.12
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Simple integration of Flask and WTForms
 
 Group:		Development/Libraries
@@ -30,41 +33,35 @@ URL:		https://github.com/lepture/flask-wtf
 Source0:	http://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:	noarch
-BuildRequires:	python2-devel
-BuildRequires:	python-wtforms > 1.0
-BuildRequires:	python-setuptools
-BuildRequires:	python-flask
-BuildRequires:	python-nose
-BuildRequires:	python-flask-babel
 %if 0%{?with_python3}
+#FIXME: Add pgadmin4- prefixes where necessary
 BuildRequires:	python3-devel
-BuildRequires:	python3-wtforms > 1.0
+BuildRequires:	pgadmin4-python3-wtforms > 1.0
 BuildRequires:	python3-setuptools
-BuildRequires:	python3-flask
+BuildRequires:	pgadmin4-python3-flask
 BuildRequires:	python3-nose
+%else
+BuildRequires:	python2-devel
+BuildRequires:	pgadmin4-python-wtforms > 1.0
+BuildRequires:	python-setuptools
+BuildRequires:	pgadmin4-python-flask
+BuildRequires:	python-nose
+BuildRequires:	pgadmin4-python-flask-babel
 %endif
 
-Requires:	python-wtforms > 1.0
 %if 0%{?with_python3}
-Requires:	python-wtforms > 1.0
+Requires:	pgadmin4-python-wtforms > 1.0
+%else
+Requires:	pgadmin4-python-wtforms > 1.0
 %endif
 
 %description
 Flask-WTF offers simple integration with WTForms. This integration
 includes optional CSRF handling for greater security.
 
-%if 0%{?with_python3}
-%package -n python3-flask-wtf
-Summary:	Simple integration of Flask and WTForms
-
-%description -n python3-flask-wtf
-Flask-WTF offers simple integration with WTForms. This integration
-includes optional CSRF handling for greater security.
-%endif
-
 %prep
 %setup -q -n %{mod_name}-%{version}
-rm -f docs/index.rst.orig
+%{__rm} -f docs/index.rst.orig
 
 %if 0%{?with_python3}
 %{__rm} -rf %{py3dir}
@@ -72,33 +69,47 @@ rm -f docs/index.rst.orig
 %endif
 
 %build
-%{__ospython2} setup.py build
-
 %if 0%{?with_python3}
 %{__ospython3} setup.py build
+%else
+%{__ospython2} setup.py build
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
 
 %if 0%{?with_python3}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+pushd %{py3dir}
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+popd
+%else
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/Flask_WTF-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
+
+%clean
+%{__rm} -rf %{buildroot}
 
 %files
 %doc docs/ LICENSE PKG-INFO
-%{python2_sitelib}/*.egg-info/
-%{python2_sitelib}/flask_wtf/
-
 %if 0%{?with_python3}
-%files -n python3-flask-wtf
-%doc docs/ LICENSE PKG-INFO
-%{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/flask_wtf/
+%{pgadmin4py3instdir}/*Flask_WTF*.egg-info
+%{pgadmin4py3instdir}/%{sname}
+%else
+%{pgadmin4py2instdir}/*Flask_WTF*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 0.12-2
+- Move the components under pgadmin web directory, per #2332.
+
 * Sun Sep 11 2016 Devrim Gündüz <devrim@gunduz.org> - 0.12-1
 - Update to 0.12, to satisfy pgadmin4 dependency.
 
