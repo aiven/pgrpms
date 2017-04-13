@@ -104,7 +104,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{majorversion}
 Version:	10.0
-Release:	%{build_timestamp}_1PGDG%{?dist}
+Release:	%{build_timestamp}_1PGDG%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1344,6 +1344,9 @@ fi
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gunduz <devrim@gunduz.org> - 10.0-20170413_1PGDG.1
+- Update to April 13 2017 snapshot
+
 * Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> -10.0-20170412_1PGDG
 - Initial attempt for Power RPMs.
 - Cleanups for rpmlint warnings
