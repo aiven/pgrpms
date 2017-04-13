@@ -115,7 +115,7 @@ popd
 %endif
 
 %changelog
-* Sat Nov 12 2016 evrim Gündüz <devrim@gunduz.org> 0.4.0-13
+* Thu Apr 13 2017 evrim Gündüz <devrim@gunduz.org> 0.4.0-13
 - Move the components under pgadmin web directory, per #2332.
 - Don't install PY2 version on Fedora systems, because we can
   avoid the need by using Sphinx 3 on them.
