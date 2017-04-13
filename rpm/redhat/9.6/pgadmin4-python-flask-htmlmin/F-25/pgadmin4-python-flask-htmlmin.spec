@@ -1,7 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
@@ -18,41 +14,42 @@
 %endif
 
 
-%global pkg_name	flask-htmlmin
+%global sname	flask-htmlmin
 %global mod_name	Flask-HTMLmin
 
-Name:		python-%{pkg_name}
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
+
+%if 0%{?with_python3}
+Name:		pgadmin4-python3-%{sname}
+%else
+Name:		pgadmin4-python-%{sname}
+%endif
+
 Version:	1.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
 URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
-Requires:	python-htmlmin
+%if 0%{?with_python3}
+Requires:	pgadmin4-python3-htmlmin
+%else
+Requires:	pgadmin4-python-htmlmin
+%endif
 
 %if 0%{?with_python3}
-%{?python_provide:%python_provide python3-%{pkg_name}}
+%{?python_provide:%python_provide python3-%{sname}}
 %else
-%{?python_provide:%python_provide python-%{pkg_name}}
+%{?python_provide:%python_provide python-%{sname}}
 %endif
 
 %description
 Minify flask text/html mime types responses. Just add MINIFY_PAGE = True to
 your deployment config to minify html and text responses of your flask
 application.
-
-%if 0%{?with_python3}
-%package -n python3-%{pkg_name}
-Summary:	Flask html response minifier
-Requires:	python3-htmlmin
-
-%description -n python3-%{pkg_name}
-Minify flask text/html mime types responses. Just add MINIFY_PAGE = True to
-your deployment config to minify html and text responses of your flask
-application.
-%endif
 
 %prep
 %setup -q -n %{mod_name}-%{version}
@@ -63,33 +60,43 @@ application.
 %endif
 
 %build
-%{__ospython2} setup.py build
-
 %if 0%{?with_python3}
 %{__ospython3} setup.py build
+%else
+%{__ospython2} setup.py build
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
 
 %if 0%{?with_python3}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/__pycache__/flask_htmlmin* %{buildroot}%{python3_sitelib}/flask_htmlmin.py* %{buildroot}%{python3_sitelib}/Flask_HTMLmin-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%else
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_htmlmin.py* %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
 %doc LICENSE README.md
-%{python2_sitelib}/*.egg-info/
-%{python2_sitelib}/flask_htmlmin.py*
 %if 0%{?with_python3}
-%files -n python3-%{pkg_name}
-%doc LICENSE README.md
-%{python3_sitelib}/*.egg-info/
-%{python3_sitelib}/flask_htmlmin.py
-%{python3_sitelib}/__pycache__/flask_htmlmin.cpython-*.pyc
+%{pgadmin4py3instdir}/Flask_HTMLmin*.egg-info/
+%{pgadmin4py3instdir}/flask_htmlmin.py*
+%{pgadmin4py3instdir}/__pycache__/flask_htmlmin.cpython-*.pyc
+%{pgadmin4py3instdir}/flask_htmlmin.cpython-*.pyc
+%else
+%{pgadmin4py2instdir}/Flask_HTMLmin*.egg-info/
+%{pgadmin4py2instdir}/flask_htmlmin.py*
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 1.2-4
+- Move the components under pgadmin web directory, per #2332.
+
 * Fri Feb 17 2017 Devrim Gündüz <devrim@gunduz.org> 1.2-3
 - Another attempt to fix python3-htmlmin dependency on Fedora 24+
 
