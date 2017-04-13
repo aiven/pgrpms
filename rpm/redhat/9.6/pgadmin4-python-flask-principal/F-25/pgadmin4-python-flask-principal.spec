@@ -18,11 +18,19 @@
 %endif
 
 %global	pypi_name Flask-Principal
+%global sname	flask-principal
 %global	sum Identity management for Flask applications
 
-Name:		python-flask-principal
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
+
+%if 0%{?with_python3}
+Name:		pgadmin4-python3-%{sname}
+%else
+Name:		pgadmin4-python-%{sname}
+%endif
 Version:	0.4.0
-Release:	12%{?dist}
+Release:	13%{?dist}
 Summary:	%{sum}
 
 Group:		Development/Languages
@@ -48,16 +56,6 @@ and user information providers, often located in different parts of a web
 application.
 
 %if 0%{?with_python3}
-%package -n python3-flask-principal
-Summary:	%{sum} for Python3
-
-%description -n python3-flask-principal
-Flask-Principal provides a very loose framework to tie in authentication
-and user information providers, often located in different parts of a web
-application. This is Python3 version.
-%endif
-
-%if 0%{?with_python3}
 Requires:	python3-flask
 Requires:	python3-blinker
 %{?python_provide:%python_provide python3-flask-principal}
@@ -78,18 +76,28 @@ Requires:	python-blinker
 %endif
 
 %build
-%{__ospython2} setup.py build
 
 %if 0%{?with_python3}
 %{__ospython3} setup.py build
+%else
+%{__ospython2} setup.py build
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
-
 %if 0%{?with_python3}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+pushd %{py3dir}
+%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_principal* %{buildroot}%{python3_sitelib}/__pycache__/flask_principal* %{buildroot}%{python3_sitelib}/Flask_Principal-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+popd
+%else
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_principal* %{buildroot}%{python2_sitelib}/Flask_Principal-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %clean
@@ -97,17 +105,22 @@ Requires:	python-blinker
 
 %files
 %doc LICENSE README.rst
-%{python2_sitelib}/*
-
 %if 0%{?with_python3}
-%files -n python3-flask-principal
-%{python3_sitelib}/Flask_Principal-%{version}-py%{py3ver}.egg-info/*
-%{python3_sitelib}/__pycache__/flask_principal*
-%{python3_sitelib}/flask_principal.py
+%{pgadmin4py3instdir}/Flask_Principal*.egg-info
+%{pgadmin4py3instdir}/flask_principal*
+%{pgadmin4py3instdir}/__pycache__/flask_principal*
+%else
+%{pgadmin4py2instdir}/Flask_Principal*.egg-info
+%{pgadmin4py2instdir}/flask_principal*
 %endif
 
 %changelog
-* Sat Nov 12 2016 Devrim Gündüz <devrim@gunduz.org> 0.4.0-12
+* Sat Nov 12 2016 evrim Gündüz <devrim@gunduz.org> 0.4.0-13
+- Move the components under pgadmin web directory, per #2332.
+- Don't install PY2 version on Fedora systems, because we can
+  avoid the need by using Sphinx 3 on them.
+
+* Sat Nov 12 2016 evrim Gündüz <devrim@gunduz.org> 0.4.0-12
 - Install both PY2 and PY3 versions for Fedora 24+. Needed to
   build pgadmin3 docs.
 
