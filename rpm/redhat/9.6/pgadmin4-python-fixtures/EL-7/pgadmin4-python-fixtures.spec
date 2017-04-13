@@ -48,7 +48,9 @@ Requires:	python3-testtools >= 0.9.22
 Requires:	python3-six
 %else
 BuildRequires:	python2-devel
+%if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	pgadmin4-python-pbr >= 0.11
+%endif
 BuildRequires:	python-mock
 BuildRequires:	python-testtools >= 0.9.22
 Requires:	python-testtools >= 0.9.22
