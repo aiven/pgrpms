@@ -16,17 +16,24 @@
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%global sname Flask-Security
+%global mod_name Flask-Security
+%global sname	flask-security
 
-Name:		python-flask-security
+%if 0%{?with_python3}
+Name:		pgadmin4-python3-%{sname}
+%else
+Name:		pgadmin4-python-%{sname}
+%endif
 Summary:	Simple security for Flask apps
 Version:	1.7.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	Python
 Group:		Development/Languages
-URL:		https://pypi.python.org/pypi/%{sname}
-Source0:	https://pypi.python.org/packages/source/F/%{sname}/%{sname}-%{version}.tar.gz
+URL:		https://pypi.python.org/pypi/%{mod_name}
+Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildRequires:	python-setuptools
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -34,17 +41,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %description
 Flask-Security quickly adds security features to your Flask application.
 
-%if 0%{?with_python3}
-%package -n python3-flask-security
-Summary:	Simple security for Flask apps, python3 version
-
-%description -n python3-flask-security
-Flask-Security quickly adds security features to your Flask application.
-This is the Python3 version.
-%endif
-
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{mod_name}-%{version}
 # Remove irrelevant files:
 find . -name "*DS_Store*" -exec rm -rf {} \;
 
@@ -54,18 +52,24 @@ find . -name "*DS_Store*" -exec rm -rf {} \;
 %endif
 
 %build
-%{__ospython2} setup.py build
-
 %if 0%{?with_python3}
 %{__ospython3} setup.py build
+%else
+%{__ospython2} setup.py build
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
-
 %if 0%{?with_python3}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_security %{buildroot}%{python3_sitelib}/Flask_Security-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%else
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_security %{buildroot}%{python2_sitelib}/Flask_Security-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %clean
@@ -74,18 +78,18 @@ find . -name "*DS_Store*" -exec rm -rf {} \;
 %files
 %defattr(-, root, root, -)
 %doc README.rst
-%dir %{python_sitelib}/flask_security/
-%{python2_sitelib}/flask_security/*
-%{python2_sitelib}/Flask_Security-%{version}-py%{py2ver}.egg-info/*
-
 %if 0%{?with_python3}
-%files -n python3-flask-security
-%dir %{python3_sitelib}/flask_security/
-%{python3_sitelib}/flask_security/*
-%{python3_sitelib}/Flask_Security-%{version}-py%{py3ver}.egg-info/*
+%{pgadmin4py3instdir}/flask_security
+%{pgadmin4py3instdir}/Flask_Security-%{version}-py%{py3ver}.egg-info
+%else
+%{pgadmin4py2instdir}/flask_security
+%{pgadmin4py2instdir}/Flask_Security-%{version}-py%{py2ver}.egg-info
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 1.7.5-6
+- Move the components under pgadmin web directory, per #2332.
+
 * Sat Nov 12 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.5-2
 - Install both PY2 and PY3 versions for Fedora 24+. Needed to
   build pgadmin3 docs.
