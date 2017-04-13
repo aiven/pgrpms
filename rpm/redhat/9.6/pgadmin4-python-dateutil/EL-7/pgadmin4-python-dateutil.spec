@@ -1,37 +1,38 @@
-%global modname dateutil
-
+%global sname dateutil
 %if 0%{?fedora} > 23
 %{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %else
 %{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-Name:		python-%{modname}
+Name:		pgadmin4-python-%{sname}
 Version:	2.5.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 Summary:	Powerful extensions to the standard datetime module
 License:	Python
 URL:		https://github.com/dateutil/dateutil
-Source0:	https://github.com/dateutil/dateutil/archive/%{version}/%{modname}-%{version}.tar.gz
+Source0:	https://github.com/dateutil/dateutil/archive/%{version}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	python-sphinx
 
-%{?python_provide:%python_provide python-%{modname}}
+%{?python_provide:%python_provide python-%{sname}}
 BuildRequires:	python2-devel
-%if 0%{?with_python3}
-BuildRequires:	python3-six
-BuildRequires:	python3-setuptools
-%else
 BuildRequires:	python-six
 BuildRequires:	python-setuptools
-%endif
 Requires:	tzdata
 Requires:	python-six
 
@@ -41,30 +42,13 @@ module available in Python 2.3+.
 
 This is the version for Python 2.
 
-%if 0%{?with_python3}
-%package -n python3-%{modname}
-Summary:	Powerful extensions to the standard datetime module
-%{?python_provide:%python_provide python3-%{modname}}
-BuildRequires:	python3-devel
-BuildRequires:	python3-six
-BuildRequires:	python3-setuptools
-Requires:	tzdata
-Requires:	python3-six
-
-%description -n python3-dateutil
-The dateutil module provides powerful extensions to the standard datetime
-module available in Python 2.3+.
-
-This is the version for Python 3.
-%endif #with py3
-
 %package doc
 Summary:	API documentation for python-dateutil
 %description doc
 This package contains %{summary}.
 
 %prep
-%autosetup -p0 -n %{modname}-%{version}
+%autosetup -p0 -n %{sname}-%{version}
 iconv --from=ISO-8859-1 --to=UTF-8 NEWS > NEWS.new
 mv NEWS.new NEWS
 
@@ -74,35 +58,23 @@ mv NEWS.new NEWS
 %else
 %{__make} -C docs html
 %endif
-%{__ospython} setup.py build
+%{__ospython2} setup.py build
 
 %install
-%{__ospython} setup.py install --skip-build --root %{buildroot}
+%{__ospython2} setup.py install --skip-build --root %{buildroot}
+# Move everything under pgadmin4 web/ directory.
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/python_%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
-# If Py3:
-%if 0%{?with_python3}
-%files -n python3-%{modname}
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
-%license LICENSE
-#endif for license tag
-%endif
-%doc NEWS README.rst
-%{python_sitelib}/%{modname}/
-%{python_sitelib}/*.egg-info
-%else
-#if Python 2:
-%files -n python-%{modname}
+%files
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE
 %else
 %license LICENSE
 %endif
 %doc NEWS README.rst
-%{python_sitelib}/%{modname}/
-%{python_sitelib}/*.egg-info
-%endif
+%{pgadmin4py2instdir}/python_%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
 
 %files doc
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -113,6 +85,10 @@ mv NEWS.new NEWS
 %endif
 
 %changelog
+* Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-4
+- Move the components under pgadmin web directory, per #2332.
+- Do a spring cleanup in the spec file.
+
 * Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-3
 - Fix spec file, description part, package part, etc. Fixes #1706.
 
