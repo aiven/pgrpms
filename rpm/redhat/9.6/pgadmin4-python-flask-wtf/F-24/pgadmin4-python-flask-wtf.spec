@@ -50,7 +50,7 @@ BuildRequires:	pgadmin4-python-flask-babel
 %endif
 
 %if 0%{?with_python3}
-Requires:	pgadmin4-python-wtforms > 1.0
+Requires:	pgadmin4-python3-wtforms > 1.0
 %else
 Requires:	pgadmin4-python-wtforms > 1.0
 %endif
