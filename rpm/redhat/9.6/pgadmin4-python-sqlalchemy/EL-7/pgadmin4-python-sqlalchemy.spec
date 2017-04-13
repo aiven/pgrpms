@@ -1,7 +1,18 @@
+%if 0%{?fedora} > 23
+%{!?with_python3:%global with_python3 1}
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global __ospython2 %{_bindir}/python2
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%{!?python2_sitearch: %global python2_sitearch %(%{__python2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%{!?python_sitearch: %global python2_sitearch %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%else
+%{!?with_python3:%global with_python3 0}
+%global __ospython2 %{_bindir}/python2
+%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%endif
 
 %global srcname SQLAlchemy
 %global sname sqlalchemy
@@ -22,12 +33,6 @@ BuildRequires:  python2-devel >= 2.6
 BuildRequires:  python-setuptools
 BuildRequires:  python-mock
 BuildRequires:  pytest
-
-%if 0%{?with_python3}
-BuildRequires:  python3-devel
-BuildRequires:  python3-setuptools
-BuildRequires:  python3-pytest
-%endif
 
 %description
 SQLAlchemy is an Object Relational Mappper (ORM) that provides a flexible,
