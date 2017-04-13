@@ -84,8 +84,6 @@ popd
 %{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{mod_name}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
-%find_lang wtforms
-
 %files
 %if 0%{?with_python3}
 %doc docs/ LICENSE.txt PKG-INFO
