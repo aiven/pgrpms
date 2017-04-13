@@ -12,6 +12,7 @@
 %global __ospython2 %{_bindir}/python2
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%{!?python_sitearch: %global python2_sitearch %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
 %global srcname SQLAlchemy
