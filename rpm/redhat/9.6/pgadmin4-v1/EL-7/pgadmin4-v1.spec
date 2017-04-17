@@ -27,8 +27,8 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.3
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.4
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -41,24 +41,21 @@ Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
-Patch1:		%{sname}-py35-regression.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
 Patch3:		%{sname}-rhel6-htmlminify.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
-# These are for docs:
-BuildRequires:	python-flask-security, python-flask-gravatar, python-flask-mail
-BuildRequires:	python-flask-wtf, python-flask-htmlmin, python-blinker
-BuildRequires:	python-beautifulsoup4, python-dateutil, python-simplejson
-BuildRequires:	python-flask >= 0.11.1, python-jinja2 >= 2.7.3, python-itsdangerous >= 0.24
-BuildRequires:	python-werkzeug >= 0.9.6, python-click, python-flask-babel
-%if 0%{?rhel} && 0%{?rhel} <= 6
-# this package comes from EPEL
-BuildRequires:	python-sphinx10
-%else
+%if 0%{?with_python3}
 BuildRequires:	python-sphinx
+%else
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ # this package comes from EPEL
+ BuildRequires:	python-sphinx10
+ %else
+ BuildRequires:	python-sphinx
+ %endif
 %endif
 
 Requires:	%{name}-web
@@ -71,7 +68,6 @@ BuildRequires:	python2-passlib
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
-BuildRequires:	python-passlib
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
@@ -110,18 +106,19 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
+#FIXME: add pgadmin4- prefix to related dependencies
 Requires:	python3-babel >= 1.3
 Requires:	python3-flask >= 0.11.1
-Requires:	python3-flask-htmlmin >= 1.2
-Requires:	python3-flask-sqlalchemy >= 2.1
-Requires:	python3-flask-wtf >= 0.12
-Requires:	python3-jinja2 >= 2.7.3
-Requires:	python3-markupsafe >= 0.23
-Requires:	python3-sqlalchemy >= 1.0.14
-Requires:	python3-wtforms >= 2.0.2
-Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	python3-blinker >= 1.3
-Requires:	python3-html5lib >= 1.0b3
+Requires:	pgadmin4-python3-flask-htmlmin >= 1.2
+Requires:	pgadmin4-python3-flask-sqlalchemy >= 2.1
+Requires:	pgadmin4-python3-flask-wtf >= 0.12
+Requires:	pgadmin4-python3-jinja2 >= 2.7.3
+Requires:	pgadmin4-python3-markupsafe >= 0.23
+Requires:	pgadmin4-python3-sqlalchemy >= 1.0.14
+Requires:	pgadmin4-python3-wtforms >= 2.0.2
+Requires:	pgadmin4-python3-beautifulsoup4 >= 4.4.1
+Requires:	pgadmin4-python3-blinker >= 1.3
+Requires:	pgadmin4-python3-html5lib >= 1.0b3
 Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
 Requires:	python3-six >= 1.9.0
@@ -130,35 +127,34 @@ Requires:	python3-simplejson >= 3.6.5
 Requires:	python3-dateutil >= 2.5.0
 Requires:	python3-werkzeug >= 0.9.6
 Requires:	python3-sqlparse >= 0.1.19
-Requires:	python3-flask-babel >= 0.11.1
+Requires:	pgadmin4-python3-flask-babel >= 0.11.1
 Requires:	python3-passlib >= 1.6.2
-Requires:	python3-flask-gravatar >= 0.4.2
-Requires:	python3-flask-mail >= 0.9.1
-Requires:	python3-flask-security >= 1.7.5
-Requires:	python3-flask-login >= 0.3.2
-Requires:	python3-flask-principal >= 0.4.0
+Requires:	pgadmin4-python3-flask-gravatar >= 0.4.2
+Requires:	pgadmin4-python3-flask-mail >= 0.9.1
+Requires:	pgadmin4-python3-flask-security >= 1.7.5
+Requires:	pgadmin4-python3-flask-login >= 0.3.2
+Requires:	pgadmin4-python3-flask-principal >= 0.4.0
 Requires:	python-wsgiref >= 0.1.2
 Requires:	pytz >= 2014.10
 Requires:	python3-click
 Requires:	python3-extras >= 0.0.3
-Requires:	python3-fixtures >= 2.0.0
-Requires:	python3-pyrsistent >= 0.11.13
+Requires:	pgadmin4-python3-fixtures >= 2.0.0
+Requires:	pgadmin4-python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi
 Requires:	qt5-qtwebengine
-Requires:	python-flask-login, python-flask-principal, python-flask-sqlalchemy
 Requires:	python3-unittest2
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2
 %else
 Requires:	python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
 Requires:	python-flask-htmlmin >= 1.2
-Requires:	python-flask-sqlalchemy >= 2.1
+Requires:	pgadmin4-python-flask-sqlalchemy >= 2.1
 Requires:	python-flask-wtf >= 0.12
 Requires:	python-jinja2 >= 2.7.3
 Requires:	python-markupsafe >= 0.23
-Requires:	python-sqlalchemy >= 1.0.14
+Requires:	pgadmin4-python-sqlalchemy >= 1.0.14
 Requires:	python-wtforms >= 2.0.2
 Requires:	python-beautifulsoup4 >= 4.4.1
 Requires:	python-blinker >= 1.3
@@ -167,13 +163,12 @@ Requires:	python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2
 Requires:	python-six >= 1.9.0
 Requires:	python-crypto >= 2.6.1
-Requires:	python-simplejson >= 3.6.5
+Requires:	pgadmin4-python-simplejson >= 3.6.5
 Requires:	python-dateutil >= 2.5.0
-Requires:	python-werkzeug >= 0.9.6
+Requires:	pgadmin4-python-werkzeug >= 0.9.6
 Requires:	pytz >= 2014.10
-Requires:	python-sqlparse >= 0.1.19
+Requires:	pgadmin4-python-sqlparse >= 0.1.19
 Requires:	python-flask-babel >= 0.11.1
-Requires:	python-passlib >= 1.6.2
 Requires:	python-flask-gravatar >= 0.4.2
 Requires:	python-flask-mail >= 0.9.1
 Requires:	python-flask-security >= 1.7.5
@@ -186,10 +181,16 @@ Requires:	python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3
 Requires:	python-unittest2
+Requires:	pgamdin4-python-passlib
 %endif
-Requires:	python-pyrsistent >= 0.11.13
+Requires:	pgadmin4-python-pyrsistent >= 0.11.13
 Requires:	python-mimeparse >= 1.5.1
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	pgadmin4-python-speaklater >= 1.3
+%else
 Requires:	python-speaklater >= 1.3
+%endif
+
 Requires:	mod_wsgi
 %endif
 
@@ -210,12 +211,6 @@ Documentation of pgadmin4.
 %patch0 -p0
 %endif
 
-# Use this patch until the next release.
-# Only for Python 3.5+.
-%if 0%{?with_python3}
-%patch1 -p1
-%endif
-
 # Apply these patch only to RHEL 6
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %patch2 -p0
@@ -233,7 +228,7 @@ export PYTHON_CONFIG=/usr/bin/python-config
 make
 cd ../
 %if 0%{?with_python3}
-make PYTHON=/usr/bin/python3 docs
+make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3.5 docs
 %else
 make PYTHON=/usr/bin/python docs
 %endif
@@ -364,6 +359,11 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Apr 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
+- Update to 1.4
+- Adjust dependencies for new package naming.
+- Remove patch1, now it is in upstream.
+
 * Fri Mar 17 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3-2
 - Apply patches to spec file, to build and run pgadmin4
   on RHEL 6.
