@@ -50,12 +50,12 @@ BuildRequires:	gcc-c++
 %if 0%{?with_python3}
 BuildRequires:	python-sphinx
 %else
- %if 0%{?rhel} && 0%{?rhel} <= 6
- # this package comes from EPEL
- BuildRequires:	python-sphinx10
- %else
- BuildRequires:	python-sphinx
- %endif
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# this package comes from EPEL
+BuildRequires:	python-sphinx10
+%else
+BuildRequires:	python-sphinx
+%endif
 %endif
 
 Requires:	%{name}-web
