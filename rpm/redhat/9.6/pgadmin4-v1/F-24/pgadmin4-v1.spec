@@ -48,7 +48,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
 %if 0%{?with_python3}
-BuildRequires:	python-sphinx
+BuildRequires:	python3-sphinx
 %else
 %if 0%{?rhel} && 0%{?rhel} <= 6
 # this package comes from EPEL
