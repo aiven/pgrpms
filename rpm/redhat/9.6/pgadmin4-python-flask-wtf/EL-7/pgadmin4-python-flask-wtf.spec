@@ -36,9 +36,9 @@ BuildArch:	noarch
 %if 0%{?with_python3}
 #FIXME: Add pgadmin4- prefixes where necessary
 BuildRequires:	python3-devel
-BuildRequires:	pgadmin4-python3-wtforms > 1.0
+BuildRequires:	python3-wtforms > 1.0
 BuildRequires:	python3-setuptools
-BuildRequires:	pgadmin4-python3-flask
+BuildRequires:	python3-flask
 BuildRequires:	python3-nose
 %else
 BuildRequires:	python2-devel
