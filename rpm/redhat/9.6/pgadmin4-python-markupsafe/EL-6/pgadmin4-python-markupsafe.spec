@@ -27,11 +27,11 @@ A library for safe markup escaping.
 %setup -q -n %{mod_name}-%{version}
 
 %build
-CFLAGS="$RPM_OPT_FLAGS" %{__python} setup.py build
+CFLAGS="$RPM_OPT_FLAGS" %{__ospython2} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
 # C code errantly gets installed
 %{__rm} %{buildroot}/%{python_sitearch}/markupsafe/*.c
 # Move everything under pgadmin4 web/ directory.
