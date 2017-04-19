@@ -181,7 +181,7 @@ Requires:	python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3
 Requires:	python-unittest2
-Requires:	pgamdin4-python-passlib
+Requires:	pgadmin4-python-passlib
 %endif
 Requires:	pgadmin4-python-pyrsistent >= 0.11.13
 Requires:	python-mimeparse >= 1.5.1
