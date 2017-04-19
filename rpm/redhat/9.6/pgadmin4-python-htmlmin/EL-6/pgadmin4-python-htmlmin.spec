@@ -43,6 +43,7 @@ Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{comm
 
 BuildArch:      noarch
 BuildRequires:  python2-devel
+Obsoletes:	python-htmlmin => 0.1.10
 
 %description
 %{desc}
