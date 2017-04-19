@@ -113,12 +113,12 @@ Requires:	pgadmin4-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	pgadmin4-python3-flask-wtf >= 0.12
 Requires:	python3-jinja2 >= 2.7.3
-Requires:	pgadmin4-python3-markupsafe >= 0.23
+Requires:	python3-markupsafe >= 0.23
 Requires:	python3-sqlalchemy >= 1.0.14
 Requires:	pgadmin4-python3-wtforms >= 2.0.2
 Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	pgadmin4-python3-blinker >= 1.3
-Requires:	pgadmin4-python3-html5lib >= 1.0b3
+Requires:	python3-blinker >= 1.3
+Requires:	python3-html5lib >= 1.0b3
 Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
 Requires:	python3-six >= 1.9.0
@@ -127,7 +127,7 @@ Requires:	python3-simplejson >= 3.6.5
 Requires:	python3-dateutil >= 2.5.0
 Requires:	python3-werkzeug >= 0.9.6
 Requires:	python3-sqlparse >= 0.1.19
-Requires:	pgadmin4-python3-flask-babel >= 0.11.1
+Requires:	python3-flask-babel >= 0.11.1
 Requires:	python3-passlib >= 1.6.2
 Requires:	pgadmin4-python3-flask-gravatar >= 0.4.2
 Requires:	pgadmin4-python3-Flask-Mail >= 0.9.1
@@ -138,7 +138,7 @@ Requires:	python-wsgiref >= 0.1.2
 Requires:	pytz >= 2014.10
 Requires:	python3-click
 Requires:	python3-extras >= 0.0.3
-Requires:	pgadmin4-python3-fixtures >= 2.0.0
+Requires:	python3-fixtures >= 2.0.0
 Requires:	pgadmin4-python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1
 Requires:	python3-speaklater >= 1.3
@@ -147,13 +147,13 @@ Requires:	qt5-qtwebengine
 Requires:	python3-unittest2
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2
 %else
-Requires:	python-babel >= 1.3
+Requires:	pgadmin4-python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
 Requires:	pgadmin4-python-flask-htmlmin >= 1.2
 Requires:	pgadmin4-python-flask-sqlalchemy >= 2.1
 Requires:	python-flask-wtf >= 0.12
 Requires:	pgadmin4-python-jinja2 >= 2.7.3
-Requires:	python-markupsafe >= 0.23
+Requires:	pgadmin4-python-markupsafe >= 0.23
 Requires:	pgadmin4-python-sqlalchemy >= 1.0.14
 Requires:	python-wtforms >= 2.0.2
 Requires:	python-beautifulsoup4 >= 4.4.1
@@ -173,7 +173,7 @@ Requires:	pgadmin4-python-flask-gravatar >= 0.4.2
 Requires:	pgadmin4-python-Flask-Mail >= 0.9.1
 Requires:	python-flask-security >= 1.7.5
 Requires:	pgadmin4-python-flask-login >= 0.3.2
-Requires:	pgadmin4-python-flask-principal >= 0.4.0
+Requires:	python-flask-principal >= 0.4.0
 Requires:	python-wsgiref >= 0.1.2
 Requires:	python-click
 Requires:	python-extras >= 0.0.3
