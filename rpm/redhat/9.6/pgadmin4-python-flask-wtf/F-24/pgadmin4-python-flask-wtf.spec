@@ -14,7 +14,7 @@
 %endif
 
 %global mod_name Flask-WTF
-%global sname	flask_wtf
+%global sname	flask-wtf
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
@@ -84,13 +84,13 @@ pushd %{py3dir}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_wtf %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 popd
 %else
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/Flask_WTF-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_wtf %{buildroot}%{python2_sitelib}/Flask_WTF-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %clean
@@ -100,10 +100,10 @@ popd
 %doc docs/ LICENSE PKG-INFO
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*Flask_WTF*.egg-info
-%{pgadmin4py3instdir}/%{sname}
+%{pgadmin4py3instdir}/flask_wtf
 %else
 %{pgadmin4py2instdir}/*Flask_WTF*.egg-info
-%{pgadmin4py2instdir}/%{sname}
+%{pgadmin4py2instdir}/flask_wtf
 %endif
 
 %changelog
