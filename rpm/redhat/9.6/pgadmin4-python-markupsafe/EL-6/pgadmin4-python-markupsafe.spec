@@ -1,7 +1,7 @@
 %global __ospython2 %{_bindir}/python2
 %{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%{!?python_sitearch: %global python_sitearch %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
+%{!?python2_sitearch: %global python2_sitearch %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global sname	markupsafe
@@ -33,7 +33,7 @@ CFLAGS="$RPM_OPT_FLAGS" %{__ospython2} setup.py build
 %{__rm} -rf %{buildroot}
 %{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
 # C code errantly gets installed
-%{__rm} %{buildroot}/%{python_sitearch}/markupsafe/*.c
+%{__rm} %{buildroot}/%{python2_sitearch}/markupsafe/*.c
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
 %{__mv} %{buildroot}%{python2_sitearch}/%{sname} %{buildroot}%{python2_sitearch}/%{mod_name}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
