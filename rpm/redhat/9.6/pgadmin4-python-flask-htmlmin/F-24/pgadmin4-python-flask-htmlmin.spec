@@ -35,7 +35,7 @@ URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 %if 0%{?with_python3}
-Requires:	pgadmin4-python3-htmlmin
+Requires:	python3-htmlmin
 %else
 Requires:	pgadmin4-python-htmlmin
 %endif
