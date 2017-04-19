@@ -89,7 +89,7 @@ make man
 install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %endif
 
-%files -n python-%{sname}
+%files -n pgadmin4-python-%{sname}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE README.rst
 %else
