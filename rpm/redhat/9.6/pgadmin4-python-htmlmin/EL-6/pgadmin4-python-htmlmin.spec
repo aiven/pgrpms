@@ -32,7 +32,7 @@
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 
-Name:           python-%{sname}
+Name:           pgadmin4-python-%{sname}
 Version:        0.1.10
 Release:        7.gitcc611c3%{?dist}
 Summary:        HTML Minifier
