@@ -1,9 +1,9 @@
---- web/config.py.old	2017-03-16 11:44:25.339996270 -0400
-+++ web/config.py	2017-03-16 11:44:35.160000965 -0400
-@@ -171,7 +171,7 @@
- #       configuration databases 'keys' table and are auto-generated.
- 
+--- web/config.py.old	2017-04-17 23:36:01.121816301 +0300
++++ web/config.py	2017-04-17 23:36:12.234723617 +0300
+@@ -175,7 +175,7 @@
  # Should HTML be minified on the fly when not in debug mode?
+ # NOTE: The HTMLMIN module doesn't work with Python 2.6, so this option
+ #       has no effect on <= Python 2.7.
 -MINIFY_PAGE = True
 +MINIFY_PAGE = False
  
