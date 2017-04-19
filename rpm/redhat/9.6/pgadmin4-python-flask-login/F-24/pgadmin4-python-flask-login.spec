@@ -43,7 +43,7 @@ BuildRequires:	python-setuptools
 %endif
 
 %if %{?with_python3}
-Requires:	pgadmin4-python-flask
+Requires:	pgadmin4-python3-flask
 %else
 Requires:	pgadmin4-python-flask
 %endif
