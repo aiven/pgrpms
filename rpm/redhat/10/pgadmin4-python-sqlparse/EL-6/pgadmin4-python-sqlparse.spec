@@ -9,7 +9,7 @@
 
 Name:           pgadmin4-python-%{sname}
 Version:        0.2.1
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Non-validating SQL parser for Python
 
 Group:          Development/Languages
@@ -41,6 +41,8 @@ It is a python module, together with a command-line tool.
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
 %{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+# Remove binary, we don't need it.
+%{__rm} -f %{buildroot}%{_bindir}/sqlformat
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -51,9 +53,11 @@ It is a python module, together with a command-line tool.
 %endif
 %{pgadmin4py2instdir}/*%{sname}*.egg-info
 %{pgadmin4py2instdir}/%{sname}
-%{_bindir}/sqlformat
 
 %changelog
+* Fri Apr 21 2017 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-4
+- Remove binary, we don't need it in this package.
+
 * Tue Apr 11 2017 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-3
 - Move the components under pgadmin web directory, per #2332.
 
