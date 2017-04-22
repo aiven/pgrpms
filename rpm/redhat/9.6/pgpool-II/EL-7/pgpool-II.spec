@@ -50,6 +50,15 @@ Requires(postun):	initscripts
 %endif
 Obsoletes:		postgresql-pgpool > 1.0.0
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 pgpool-II is a inherited project of pgpool (to classify from
 pgpool-II, it is sometimes called as pgpool-I). For those of
@@ -197,6 +206,10 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
+%ifarch ppc64 ppc64le
+/opt/%(echo ${PPC_AT})/sbin/ldconfig
+%endif
+
 %if %{systemd_enabled}
 %systemd_postun_with_restart %{sname}-%{pgmajorversion}.service
 %else
