@@ -100,7 +100,7 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %endif
 ./configure \
 %ifarch ppc64 ppc64le
-	--build=ppc64le
+	--build=ppc64le \
 %endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
