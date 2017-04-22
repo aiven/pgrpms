@@ -99,6 +99,9 @@ Postgresql extensions libraries and sql files for pgpool-II.
         CC=%{atpath}/bin/gcc; export CC
 %endif
 ./configure \
+%ifarch ppc64 ppc64le
+	--build=ppc64le
+%endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
 	--exec-prefix=%{pgpoolinstdir} \
@@ -109,10 +112,6 @@ Postgresql extensions libraries and sql files for pgpool-II.
 	--with-memcached=%{_includedir}/libmemcached \
 	--with-openssl \
 	--with-pam \
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
-%endif
 	--with-pgsql=%{pginstdir}
 
 # https://fedoraproject.org/wiki/Packaging:Guidelines#Removing_Rpath
