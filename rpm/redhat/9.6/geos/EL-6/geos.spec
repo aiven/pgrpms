@@ -1,3 +1,9 @@
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Name:		geos
 Version:	3.5.0
 Release:	1%{?dist}
@@ -13,7 +19,16 @@ Patch2:		geos-3.3.2-php-5.4.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%else
 BuildRequires:	gcc-c++
+%endif
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
@@ -28,6 +43,10 @@ functions such as IsValid()
 Summary:	Development files for GEOS
 Group:		Development/Libraries
 Requires: 	%{name} = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description devel
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -44,6 +63,10 @@ Summary:	Python modules for GEOS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 BuildRequires:	swig
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description python
 Python module to build applications using GEOS and python
@@ -54,6 +77,12 @@ Python module to build applications using GEOS and python
 %patch2 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 # fix python path on 64bit
 sed -i -e 's|\/lib\/python|$libdir\/python|g' configure
@@ -76,7 +105,7 @@ cd doc
 make doxygen-html
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make DESTDIR=%{buildroot} install
 
 %check
@@ -85,11 +114,21 @@ make DESTDIR=%{buildroot} install
 make %{?_smp_mflags} check || exit 0
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-%post -p /sbin/ldconfig
+%post
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
-%postun -p /sbin/ldconfig
+%postun
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root,-)
