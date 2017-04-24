@@ -184,6 +184,12 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 # postgis-2.2.so file along with 2.2 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
 	 --disable-rpath --libdir=%{pginstdir}/lib
