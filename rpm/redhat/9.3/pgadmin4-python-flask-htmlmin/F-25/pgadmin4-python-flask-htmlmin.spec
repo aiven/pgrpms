@@ -33,7 +33,7 @@ BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-htmlmin
 %else
-Requires:	pgadmin4-python-htmlmin
+Requires:	python-htmlmin
 %endif
 
 %if 0%{?with_python3}
