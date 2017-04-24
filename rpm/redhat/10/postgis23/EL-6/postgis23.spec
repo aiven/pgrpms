@@ -1,8 +1,8 @@
 %global postgismajorversion 2.3
 %global postgisprevmajorversion 2.2
 %global postgisprevversion 2.2.5
-%global pgmajorversion 10
-%global pginstdir /usr/pgsql-10
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
 %global sname	postgis
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
@@ -17,6 +17,12 @@
 %{!?sfcgal:%global    sfcgal 0}
 %endif
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}2_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
@@ -27,7 +33,7 @@ Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	filter-requires-perl-Pg.sh
-Patch0:		postgis-2.3.0-gdalfpic.patch
+Patch0:		postgis-%{postgismajorversion}.0-gdalfpic.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -45,6 +51,10 @@ Requires:	SFCGAL
 BuildRequires:	gdal-devel >= 1.9.0
 %endif
 
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -54,6 +64,11 @@ Requires:	hdf5
 
 Requires:	gdal-libs > 1.9.0, json-c, pcre
 Requires(post):	%{_sbindir}/update-alternatives
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 Provides:	%{sname} = %{version}-%{release}
 
@@ -70,6 +85,10 @@ Summary:	Client tools and their libraries of PostGIS
 Group:		Applications/Databases
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description client
 The postgis-client package contains the client tools and their libraries
@@ -80,6 +99,10 @@ Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description devel
 The postgis-devel package contains the header files and libraries
@@ -89,6 +112,10 @@ with PostGIS.
 %package docs
 Summary:	Extra documentation for PostGIS
 Group:		Applications/Databases
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description docs
 The postgis-docs package includes PDF documentation of PostGIS.
@@ -99,6 +126,10 @@ Summary:	The utils for PostGIS
 Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description utils
 The postgis-utils package provides the utilities for PostGIS.
@@ -113,6 +144,13 @@ The postgis-utils package provides the utilities for PostGIS.
 %patch0 -p0
 
 %build
+
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -146,6 +184,12 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 # postgis-2.2.so file along with 2.2 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
 	 --disable-rpath --libdir=%{pginstdir}/lib
