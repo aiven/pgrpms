@@ -1,3 +1,9 @@
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 Version:	1.2.2
@@ -10,6 +16,15 @@ BuildRequires:	cmake, CGAL-devel
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 SFCGAL is a C++ wrapper library around CGAL with the aim of supporting
@@ -26,6 +41,10 @@ can be either 2D or 3D.
 %package libs
 Summary:	The shared libraries required for SFCGAL
 Group:		Applications/Databases
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description libs
 The sfcgal-libs package provides the essential shared libraries for SFCGAL.
@@ -34,6 +53,10 @@ The sfcgal-libs package provides the essential shared libraries for SFCGAL.
 Summary:	The development files for SFCGAL
 Group:		Development/Libraries
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description devel
 Development headers and libraries for SFCGAL.
@@ -49,10 +72,30 @@ make %{?_smp_mflags}
 %install
 make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
-%post -p /sbin/ldconfig
-%post libs -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%post libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%postun
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%postun libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %doc AUTHORS README.md NEWS
