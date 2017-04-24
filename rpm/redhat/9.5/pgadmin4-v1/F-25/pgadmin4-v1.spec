@@ -232,8 +232,10 @@ Documentation of pgadmin4.
 cd runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
+export PYTHONPATH=%{python3_sitelib}/pgadmin4-web/:$PYTHONPATH
 %else
 export PYTHON_CONFIG=/usr/bin/python-config
+export PYTHONPATH=%{python2_sitelib}/pgadmin4-web/:$PYTHONPATH
 %endif
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
