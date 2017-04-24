@@ -30,9 +30,7 @@
 %global commit cc611c3c6eabac97aaa4e4e249be6e8910b12abd
 %global shortcommit %(c=%{commit}; echo ${c:0:7})
 
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
-
-Name:           pgadmin4-python-%{sname}
+Name:           python-%{sname}
 Version:        0.1.10
 Release:        7.gitcc611c3%{?dist}
 Summary:        HTML Minifier
@@ -81,9 +79,6 @@ make man
 %install
 %{__rm} -rf %{buildroot}
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
-# Move everything under pgadmin4 web/ directory.
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 
 %if 0%{?with_docs}
 # Install man
@@ -91,7 +86,7 @@ make man
 install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %endif
 
-%files -n pgadmin4-python-%{sname}
+%files -n python-%{sname}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE README.rst
 %else
@@ -102,8 +97,8 @@ install -p -m0644 docs/_build/man/htmlmin.1 %{buildroot}%{_mandir}/man1
 %if 0%{?with_docs}
 %{_mandir}/man1/*
 %endif
-%{pgadmin4py2instdir}/*%{sname}*.egg-info
-%{pgadmin4py2instdir}/%{sname}
+%{python2_sitelib}/*%{sname}*.egg-info
+%{python2_sitelib}/%{sname}
 
 %if 0%{?with_docs}
 %files doc
