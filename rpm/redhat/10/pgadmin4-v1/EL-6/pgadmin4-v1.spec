@@ -142,7 +142,7 @@ Requires:	pgadmin4-python3-flask-security >= 1.7.5
 Requires:	pgadmin4-python3-flask-login >= 0.3.2
 Requires:	pgadmin4-python3-flask-principal >= 0.4.0
 Requires:	python-wsgiref >= 0.1.2
-Requires:	pytz >= 2014.10
+Requires:	pgadmin4-pytz >= 2014.10
 Requires:	python3-click
 Requires:	python3-extras >= 0.0.3
 Requires:	python3-fixtures >= 2.0.0
@@ -158,13 +158,13 @@ Requires:	pgadmin4-python-babel >= 1.3
 Requires:	python-flask >= 0.11.1
 Requires:	pgadmin4-python-flask-htmlmin >= 1.2
 Requires:	pgadmin4-python-flask-sqlalchemy >= 2.1
-Requires:	python-flask-wtf >= 0.12
+Requires:	pgadmin4-python-flask-wtf >= 0.12
 Requires:	pgadmin4-python-jinja2 >= 2.7.3
 Requires:	pgadmin4-python-markupsafe >= 0.23
 Requires:	pgadmin4-python-sqlalchemy >= 1.0.14
 Requires:	python-wtforms >= 2.0.2
-Requires:	python-beautifulsoup4 >= 4.4.1
-Requires:	python-blinker >= 1.3
+Requires:	pgadmin4-python-beautifulsoup4 >= 4.4.1
+Requires:	pgadmin4-python-blinker >= 1.3
 Requires:	python-html5lib >= 1.0b3
 Requires:	python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2
@@ -173,7 +173,7 @@ Requires:	python-crypto >= 2.6.1
 Requires:	pgadmin4-python-simplejson >= 3.6.5
 Requires:	python-dateutil >= 2.5.0
 Requires:	pgadmin4-python-werkzeug >= 0.9.6
-Requires:	pytz >= 2014.10
+Requires:	pgadmin4-pytz >= 2014.10
 Requires:	pgadmin4-python-sqlparse >= 0.1.19
 Requires:	pgadmin4-python-flask-babel >= 0.11.1
 Requires:	pgadmin4-python-flask-gravatar >= 0.4.2
@@ -184,14 +184,14 @@ Requires:	python-flask-principal >= 0.4.0
 Requires:	python-wsgiref >= 0.1.2
 Requires:	python-click
 Requires:	python-extras >= 0.0.3
-Requires:	python-fixtures >= 2.0.0
+Requires:	pgadmin4-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3
 Requires:	python-unittest2
 Requires:	pgadmin4-python-passlib
 %endif
 Requires:	pgadmin4-python-pyrsistent >= 0.11.13
-Requires:	python-mimeparse >= 1.5.1
+Requires:	pgadmin4-python-mimeparse >= 1.5.1
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	pgadmin4-python-speaklater >= 1.3
 %else
