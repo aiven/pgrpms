@@ -42,7 +42,7 @@ Requires:	python3-babel, pgadmin4-python3-flask
 Requires:	speaklater, python3-pytz
 %else
 %{?python_provide:%python_provide python-%{sname}}
-BuildRequires:	pgadmin4-python-babel, python-devel
+BuildRequires:	pgadmin4-babel, python-devel
 BuildRequires:	pgadmin4-python-flask, python-setuptools
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	pgadmin4-python-speaklater
