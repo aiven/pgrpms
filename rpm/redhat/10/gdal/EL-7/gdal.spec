@@ -1,5 +1,10 @@
-%global pgmajorversion 10
-%global pginstdir /usr/pgsql-10
+%global pgmajorversion 96
+%global pginstdir /usr/pgsql-9.6
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Python 3 modules should be possible since 1.7
@@ -149,6 +154,15 @@ Requires: gpsbabel
 
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 # Enable/disable generating refmans
 %global build_refman 1
 
@@ -179,6 +193,10 @@ GDAL/OGR is the most widely used geospatial data access library.
 %package devel
 Summary: Development files for the GDAL file format library
 Group: Development/Libraries
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 # Old rpm didn't figure out
 %if 0%{?rhel} < 6
@@ -196,6 +214,10 @@ This package contains development files for GDAL.
 Summary: GDAL file format library
 Group: System Environment/Libraries
 Obsoletes: %{name}-ruby < 1.11.0-1
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description libs
 This package contains the GDAL file format library.
@@ -206,6 +228,10 @@ Summary: Java modules for the GDAL file format library
 Group: Development/Libraries
 Requires: jpackage-utils
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description java
 The GDAL Java modules provide support to handle multiple GIS file formats.
@@ -216,6 +242,10 @@ Summary: Javadocs for %{name}
 Group: Documentation
 Requires: jpackage-utils
 BuildArch: noarch
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description javadoc
 This package contains the API documentation for %{name}.
@@ -226,6 +256,10 @@ Summary: Perl modules for the GDAL file format library
 Group:   Development/Libraries
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Requires: perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description perl
 The GDAL Perl modules provide support to handle multiple GIS file formats.
@@ -236,6 +270,10 @@ Summary: Python modules for the GDAL file format library
 Group:   Development/Libraries
 Requires: numpy
 Requires: %{name}-libs%{?_isa} = %{version}-%{release}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description python
 The GDAL Python modules provide support to handle multiple GIS file formats.
@@ -246,6 +284,10 @@ The package also includes a couple of useful utilities in Python.
 Summary: Documentation for GDAL
 Group:   Documentation
 BuildArch: noarch
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description doc
 This package contains HTML and PDF documentation for GDAL.
@@ -379,6 +421,12 @@ export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
 export CXXFLAGS="$CFLAGS -I%{_includedir}/libgeotiff"
 export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
@@ -695,10 +743,19 @@ popd
 %endif #%{run_tests}
 
 
-%post libs -p /sbin/ldconfig
+%post libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
-%postun libs -p /sbin/ldconfig
-
+%postun libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %{_bindir}/gdallocationinfo
