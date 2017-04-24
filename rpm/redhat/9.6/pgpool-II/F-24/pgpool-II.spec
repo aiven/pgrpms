@@ -207,7 +207,7 @@ if [ "$1" -eq 0 ]
 fi
 /sbin/ldconfig
 %ifarch ppc64 ppc64le
-/opt/%(echo ${PPC_AT})/sbin/ldconfig
+%{atpath}/sbin/ldconfig
 %endif
 
 %if %{systemd_enabled}
