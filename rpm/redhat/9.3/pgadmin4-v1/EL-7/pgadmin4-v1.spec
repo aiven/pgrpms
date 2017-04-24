@@ -43,6 +43,7 @@ Source6:	%{sname}.qt.conf.in
 Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
 Patch3:		%{sname}-rhel6-htmlminify.patch
+Patch4:		%{sname}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	mesa-libGL-devel
@@ -68,6 +69,12 @@ BuildRequires:	python2-passlib
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
+BuildRequires:	python-flask >= 0.11.1 python-flask-babel
+BuildRequires:	python-itsdangerous python-flask-htmlmin
+BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
+BuildRequires:	python-passlib pgadmin4-python-flask-login
+BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
+BuildRequires:	pgadmin4-python-flask-sqlalchemy
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
@@ -215,6 +222,10 @@ Documentation of pgadmin4.
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %patch2 -p0
 %patch3 -p0
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} >= 7
+%patch4 -p0
 %endif
 
 %build
