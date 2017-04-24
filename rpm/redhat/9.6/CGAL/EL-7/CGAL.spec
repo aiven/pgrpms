@@ -22,6 +22,12 @@ Source10:	CGAL-README.Fedora
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 # Required devel packages.
 BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_version}
 BuildRequires:	qt3-devel qt-devel >= %{qt_version} zlib-devel
@@ -81,7 +87,6 @@ pushd build
 make VERBOSE=1 %{?_smp_mflags}
 popd
 
-
 %install
 %{__rm} -rf %{buildroot}
 
@@ -100,18 +105,24 @@ touch -r demo %{buildroot}%{_datadir}/CGAL/
 %clean
 %{__rm} -rf %{buildroot}
 
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
-
+%post
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%postun
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS LICENSE LICENSE.FREE_USE LICENSE.LGPL LICENSE.GPL CHANGES README.Fedora
 %{_libdir}/libCGAL*.so.%{soname}
 %{_libdir}/libCGAL*.so.%{soversion}
-
 
 %files devel
 %defattr(-,root,root,-)
@@ -122,7 +133,6 @@ touch -r demo %{buildroot}%{_datadir}/CGAL/
 %{_bindir}/*
 %exclude %{_bindir}/cgal_make_macosx_app
 %{_mandir}/man1/cgal_create_cmake_script.1.gz
-
 
 %files demos-source
 %defattr(-,root,root,-)
