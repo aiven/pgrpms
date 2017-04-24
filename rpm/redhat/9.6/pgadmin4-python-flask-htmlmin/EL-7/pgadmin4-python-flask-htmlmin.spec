@@ -13,17 +13,13 @@
 %global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %endif
 
-
 %global sname	flask-htmlmin
 %global mod_name	Flask-HTMLmin
 
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
-%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
-
 %if 0%{?with_python3}
-Name:		pgadmin4-python3-%{sname}
+Name:		python3-%{sname}
 %else
-Name:		pgadmin4-python-%{sname}
+Name:		python-%{sname}
 %endif
 
 Version:	1.2
@@ -71,26 +67,19 @@ application.
 
 %if 0%{?with_python3}
 %{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
-# Move everything under pgadmin4 web/ directory.
-%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/__pycache__/flask_htmlmin* %{buildroot}%{python3_sitelib}/flask_htmlmin.py* %{buildroot}%{python3_sitelib}/Flask_HTMLmin-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
-# Move everything under pgadmin4 web/ directory.
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_htmlmin.py* %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
 %doc LICENSE README.md
 %if 0%{?with_python3}
-%{pgadmin4py3instdir}/Flask_HTMLmin*.egg-info/
-%{pgadmin4py3instdir}/flask_htmlmin.py*
-%{pgadmin4py3instdir}/__pycache__/flask_htmlmin.cpython-*.pyc
-%{pgadmin4py3instdir}/flask_htmlmin.cpython-*.pyc
+%{python3_sitelib}/Flask_HTMLmin*.egg-info/
+%{python3_sitelib}/flask_htmlmin.py*
+%{python3_sitelib}/__pycache__/flask_htmlmin.cpython-*.pyc
 %else
-%{pgadmin4py2instdir}/Flask_HTMLmin*.egg-info/
-%{pgadmin4py2instdir}/flask_htmlmin.py*
+%{python2_sitelib}/Flask_HTMLmin*.egg-info/
+%{python2_sitelib}/flask_htmlmin.py*
 %endif
 
 %changelog
