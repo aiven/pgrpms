@@ -49,7 +49,7 @@ BuildRequires:	pgadmin4-python-speaklater
 %else
 BuildRequires:	python-speaklater
 %endif
-Requires:	pgadmin4-python-babel, pgadmin4-python-flask
+Requires:	pgadmin4-babel, pgadmin4-python-flask
 Requires:	pgadmin4-pytz
 %endif
 
