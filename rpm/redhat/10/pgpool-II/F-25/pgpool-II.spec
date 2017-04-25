@@ -8,6 +8,12 @@
 %global systemd_enabled 1
 %endif
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
@@ -43,6 +49,15 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 Obsoletes:		postgresql-pgpool > 1.0.0
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 pgpool-II is a inherited project of pgpool (to classify from
@@ -86,7 +101,16 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %patch2 -p0
 
 %build
+%ifarch ppc64 ppc64le
+        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+        CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+        LDFLAGS="-L%{atpath}/%{_lib}"
+        CC=%{atpath}/bin/gcc; export CC
+%endif
 ./configure \
+%ifarch ppc64 ppc64le
+	--build=ppc64le \
+%endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
 	--exec-prefix=%{pgpoolinstdir} \
@@ -182,6 +206,10 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%endif
+
 %if %{systemd_enabled}
 %systemd_postun_with_restart %{sname}-%{pgmajorversion}.service
 %else
