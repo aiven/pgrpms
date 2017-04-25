@@ -3,9 +3,15 @@
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname citus
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	6.0.1
+Version:	6.1.0
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -17,6 +23,15 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 Citus horizontally scales PostgreSQL across commodity servers
@@ -44,6 +59,13 @@ This package includes development libraries for Citus.
 %setup -q -n %{sname}-%{version}
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
+
 %configure PG_CONFIG=%{pginstdir}/bin/pg_config
 make %{?_smp_mflags}
 
@@ -75,6 +97,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Tue Apr 25 2017 -  Devrim Gündüz <devrim@gunduz.org> 6.1.0-1
+- Update to 6.1.0
+
 * Thu Dec 1 2016 - Devrim Gündüz <devrim@gunduz.org> 6.0.1-1
 - Update to 6.0.1
 
