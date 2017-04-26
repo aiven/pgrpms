@@ -6,6 +6,12 @@
 %global pginstdir /usr/pgsql-9.3
 %global sname cyanaudit
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.2
@@ -29,11 +35,18 @@ column-by-column basis.
 %patch0 -p0
 
 %build
-make USE_PGXS=1 %{?_smp_mflags}
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
+
+%{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %clean
 %{__rm} -rf %{buildroot}
 
