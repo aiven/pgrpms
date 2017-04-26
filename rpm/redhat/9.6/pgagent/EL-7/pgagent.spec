@@ -10,6 +10,12 @@
 
 %global _varrundir %{_localstatedir}/run/%{name}
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
@@ -41,6 +47,11 @@ Group:			Applications/Databases
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
 %description
 pgAgent is a job scheduler for PostgreSQL which may be managed
 using pgAdmin.
@@ -59,10 +70,15 @@ fi
 %setup -q -n pgAgent-%{version}-Source
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-export CFLAGS
-export CXXFLAGS
+%ifarch ppc64 ppc64le
+	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
+	CC=%{atpath}/bin/gcc; export CC
+%else
+	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+	export CFLAGS
+	export CXXFLAGS
+%endif
 cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config -D STATIC_BUILD:BOOL=OFF .
 
 %install
