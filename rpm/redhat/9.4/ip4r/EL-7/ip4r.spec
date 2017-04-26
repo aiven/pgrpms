@@ -2,9 +2,15 @@
 %global pginstdir /usr/pgsql-9.4
 %global sname ip4r
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Name:           %{sname}%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
-Version:	2.1
+Version:	2.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -17,6 +23,15 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Provides:	postgresql-ip4r
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 ip4, ip4r, ip6, ip6r, ipaddress and iprange are types that contain a single
 IPv4/IPv6 address and a range of IPv4/IPv6 addresses respectively. They can
@@ -27,11 +42,18 @@ be used as a more flexible, indexable version of the cidr type.
 %patch0 -p0
 
 %build
-make USE_PGXS=1 %{?_smp_mflags}
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
+
+%{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -43,6 +65,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/ip4r*
 
 %changelog
+* Wed Apr 26 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2-1
+- Update to 2.2
+
 * Sun Sep 18 2016 Devrim Gündüz <devrim@gunduz.org> - 2.1-1
 - Update to 2.1
 
