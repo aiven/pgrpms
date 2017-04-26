@@ -2,6 +2,13 @@
 %global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname bgw_replstatus
+
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
 Release:	1%{?dist}
@@ -13,6 +20,15 @@ Patch0:		%{sname}-makefile.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 bgw_replstatus is a tiny background worker to cheaply report the
@@ -35,11 +51,17 @@ checking the status.
 %patch0 -p0
 
 %build
-make %{?_smp_mflags}
+%ifarch ppc64 ppc64le
+        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+        CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+        LDFLAGS="-L%{atpath}/%{_lib}"
+        CC=%{atpath}/bin/gcc; export CC
+%endif
+%{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-make %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
