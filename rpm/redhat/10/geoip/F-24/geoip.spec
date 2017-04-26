@@ -2,6 +2,12 @@
 %global pginstdir /usr/pgsql-10
 %global sname geoip
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	Geolocation using GeoIP for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.2.4
@@ -14,6 +20,15 @@ URL:		http://pgxn.org/dist/geoip/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 This extension provides IP-based geolocation, i.e. you provide an IPv4 address
@@ -28,12 +43,18 @@ from MaxMind (available at www.maxmind.com).
 %patch0 -p0
 
 %build
-make USE_PGXS=1 %{?_smp_mflags}
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
+%{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-make  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
 %clean
 rm -rf %{buildroot}
