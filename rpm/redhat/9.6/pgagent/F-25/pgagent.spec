@@ -15,7 +15,7 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
 Release:	5%{?dist}
 License:	PostgreSQL
-Source0:	https://download.postgresql.org/pub/pgadmin3/release/%{sname}/pgAgent-%{version}-Source.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
 Source3:	%{sname}.init
 URL:		http://www.pgadmin.org/
