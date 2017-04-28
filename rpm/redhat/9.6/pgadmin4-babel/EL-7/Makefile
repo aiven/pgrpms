@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
-SPECFILE="babel.spec"
+SPECFILE="pgadmin4-babel.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
