@@ -1,18 +1,32 @@
 %global pgmajorversion 95
 %global pginstdir /usr/pgsql-9.5
 %global sname pg_fkpart
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
 
 Summary:	PostgreSQL extension to partition tables following a foreign key
 Name:		%{sname}%{pgmajorversion}
-Version:	1.5.0
+Version:	1.6.0
 Release:	1%{?dist}
 License:	GPLv2
-Source0:	https://github.com/lemoineat/%{sname}/archive/%{version}.tar.gz
+Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-makefile.patch
 URL:		http://pgxn.org/dist/pg_fkpart/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 
 %description
 pg_fkpart is a PostgreSQL extension to partition tables following a foreign key
@@ -23,11 +37,16 @@ of a table.
 %patch0 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-
 USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 install -d %{buildroot}%{pginstdir}/doc/extension
@@ -44,6 +63,9 @@ install -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Fri Apr 28 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
+- Update to 1.6.0
+
 * Sat Aug 13 2016 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
 - Update to 1.5.0
 
