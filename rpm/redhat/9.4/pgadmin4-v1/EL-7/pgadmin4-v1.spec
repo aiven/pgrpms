@@ -62,9 +62,8 @@ BuildRequires:	python-sphinx
 Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
-BuildRequires:	qt5-qtwebkit-devel
-BuildRequires:	qt5-qtwebengine-devel
-BuildRequires:	python2-passlib
+BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
+BuildRequires:	python2-passlib pgadmin4-python3-Flask-Mail
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
@@ -74,7 +73,7 @@ BuildRequires:	python-itsdangerous pgadmin4-python-flask-htmlmin
 BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
 BuildRequires:	python-passlib pgadmin4-python-flask-login
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
-BuildRequires:	pgadmin4-python-flask-sqlalchemy
+BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
