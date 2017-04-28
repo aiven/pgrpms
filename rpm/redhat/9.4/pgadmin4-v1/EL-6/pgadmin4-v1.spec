@@ -64,7 +64,7 @@ Requires:	%{name}-web
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
 BuildRequires:	python2-passlib pgadmin4-python3-Flask-Mail
-BuildRequires:	python3-dateutil
+BuildRequires:	python3-dateutil pgadmin4-python3-flask-gravatar
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
@@ -75,7 +75,7 @@ BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
 BuildRequires:	python-passlib pgadmin4-python-flask-login
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
 BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
-BuildRequires:	pgadmin4-python-dateutil
+BuildRequires:	pgadmin4-python-dateutil pgadmin4-python-flask-gravatar
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
