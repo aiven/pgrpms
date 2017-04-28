@@ -2,8 +2,13 @@
 %global pginstdir /usr/pgsql-9.5
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 3
-%global orafceminver 1
+%global orafcemidver 4
+%global orafceminver 0
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
@@ -20,6 +25,15 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, krb5-devel, bison, flex
 Requires:	postgresql%{pgmajorversion}
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 The goal of this project is implementation some functions from Oracle database.
 Some date functions (next_day, last_day, trunc, round, ...) are implemented
@@ -33,7 +47,12 @@ for production work.
 
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
-
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install
@@ -53,6 +72,10 @@ make USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/orafce--*.sql
 
 %changelog
+* Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 3.3.1-1
+- Update to 3.4.0, per #2343.
+- Add support for Power RPMs.
+
 * Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 3.3.1-1
 - Update to 3.3.1
 
