@@ -65,17 +65,19 @@ BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
 BuildRequires:	python2-passlib pgadmin4-python3-Flask-Mail
 BuildRequires:	python3-dateutil pgadmin4-python3-flask-gravatar
+BuildRequires:	python3-simplejson
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
 BuildRequires:	python-flask >= 0.11.1 python-flask-babel
-BuildRequires:	python-itsdangerous pgadmin4-python-flask-htmlmin
+BuildRequires:	python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
 BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
 BuildRequires:	python-passlib pgadmin4-python-flask-login
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
 BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
 BuildRequires:	pgadmin4-python-dateutil pgadmin4-python-flask-gravatar
+BuildRequires:	pgadmin4-python-simplejson
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
@@ -97,17 +99,20 @@ Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 %description
-pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the PostgreSQL
-(http://www.postgresql.org) database.
-pgAdmin 4 is written as a web application in Python, using jQuery and Bootstrap
-for the client side processing and UI. On the server side, Flask is being utilised.
+pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the
+PostgreSQL (http://www.postgresql.org) database.
 
-Although developed using web technologies, we intend for pgAdmin 4 to be usable
-either on a web server using a browser, or standalone on a workstation. The
-runtime/ subdirectory contains a QT based runtime application intended to allow
-this - it is essentially a browser and Python interpretor in one package which
-will be capable of hosting the Python application and presenting it to the user
-as a desktop application.
+pgAdmin 4 is written as a web application in Python, using jQuery and
+Bootstrap for the client side processing and UI. On the server side,
+Flask is being utilised.
+
+Although developed using web technologies, we intend for pgAdmin 4 to
+be usable either on a web server using a browser, or standalone on a
+workstation. The runtime/ subdirectory contains a QT based runtime
+application intended to allow this - it is essentially a browser and
+Python interpretor in one package which will be capable of hosting the
+Python application and presenting it to the user as a desktop
+application.
 
 %package	-n %{name}-web
 Summary:	pgAdmin4 web package
@@ -115,47 +120,34 @@ Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
 #FIXME: add pgadmin4- prefix to related dependencies
-Requires:	python3-babel >= 1.3
-Requires:	python3-flask >= 0.11.1
+Requires:	python3-babel >= 1.3 python3-flask >= 0.11.1
 Requires:	pgadmin4-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	pgadmin4-python3-flask-wtf >= 0.12
-Requires:	python3-jinja2 >= 2.7.3
-Requires:	python3-markupsafe >= 0.23
+Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-sqlalchemy >= 1.0.14
 Requires:	pgadmin4-python3-wtforms >= 2.0.2
 Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	python3-blinker >= 1.3
-Requires:	python3-html5lib >= 1.0b3
+Requires:	python3-blinker >= 1.3	python3-html5lib >= 1.0b3
 Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
-Requires:	python3-six >= 1.9.0
-Requires:	python3-crypto >= 2.6.1
-Requires:	python3-simplejson >= 3.6.5
-Requires:	python3-dateutil >= 2.5.0
-Requires:	python3-werkzeug >= 0.9.6
-Requires:	python3-sqlparse >= 0.1.19
-Requires:	python3-flask-babel >= 0.11.1
-Requires:	python3-passlib >= 1.6.2
+Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
+Requires:	python3-simplejson >= 3.6.5 python3-dateutil >= 2.5.0
+Requires:	python3-werkzeug >= 0.9.6 python3-sqlparse >= 0.1.19
+Requires:	python3-flask-babel >= 0.11.1 python3-passlib >= 1.6.2
 Requires:	pgadmin4-python3-flask-gravatar >= 0.4.2
 Requires:	pgadmin4-python3-Flask-Mail >= 0.9.1
 Requires:	pgadmin4-python3-flask-security >= 1.7.5
 Requires:	pgadmin4-python3-flask-login >= 0.3.2
 Requires:	pgadmin4-python3-flask-principal >= 0.4.0
-Requires:	pgadmin4-pytz >= 2014.10
-Requires:	python3-click
-Requires:	python3-extras >= 0.0.3
-Requires:	python3-fixtures >= 2.0.0
+Requires:	pgadmin4-pytz >= 2014.10 python3-click
+Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
 Requires:	pgadmin4-python3-pyrsistent >= 0.11.13
-Requires:	python3-mimeparse >= 1.5.1
-Requires:	python3-speaklater >= 1.3
-Requires:	python3-mod_wsgi
-Requires:	qt5-qtwebengine
-Requires:	python3-unittest2
+Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
+Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2
 %else
-Requires:	pgadmin4-python-babel >= 1.3
-Requires:	python-flask >= 0.11.1
+Requires:	pgadmin4-python-babel >= 1.3 python-flask >= 0.11.1
 Requires:	pgadmin4-python-flask-htmlmin >= 1.2
 Requires:	pgadmin4-python-flask-sqlalchemy >= 2.1
 Requires:	pgadmin4-python-flask-wtf >= 0.12
@@ -165,11 +157,9 @@ Requires:	pgadmin4-python-sqlalchemy >= 1.0.14
 Requires:	pgadmin4-python-wtforms >= 2.0.2
 Requires:	pgadmin4-python-beautifulsoup4 >= 4.4.1
 Requires:	pgadmin4-python-blinker >= 1.3
-Requires:	python-html5lib >= 1.0b3
-Requires:	python-itsdangerous >= 0.24
-Requires:	python-psycopg2 >= 2.6.2
-Requires:	python-six >= 1.9.0
-Requires:	python-crypto >= 2.6.1
+Requires:	python-html5lib >= 1.0b3 python-six >= 1.9.0
+Requires:	pgadmin4-python-itsdangerous >= 0.24
+Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
 Requires:	pgadmin4-python-simplejson >= 3.6.5
 Requires:	pgadmin4-python-dateutil >= 2.5.0
 Requires:	pgadmin4-python-werkzeug >= 0.9.6
@@ -181,12 +171,10 @@ Requires:	pgadmin4-python-Flask-Mail >= 0.9.1
 Requires:	pgadmin4-python-flask-security >= 1.7.5
 Requires:	pgadmin4-python-flask-login >= 0.3.2
 Requires:	pgadmin4-python-flask-principal >= 0.4.0
-Requires:	python-click
-Requires:	python-extras >= 0.0.3
+Requires:	python-click python-extras >= 0.0.3
 Requires:	pgadmin4-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	python-importlib >= 1.0.3
-Requires:	python-unittest2
+Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	pgadmin4-python-passlib
 %endif
 Requires:	pgadmin4-python-pyrsistent >= 0.11.13
