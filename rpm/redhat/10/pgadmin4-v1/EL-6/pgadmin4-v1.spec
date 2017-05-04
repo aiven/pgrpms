@@ -71,7 +71,7 @@ BuildRequires:	python3-simplejson
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
 BuildRequires:	python-flask >= 0.11.1 python-flask-babel
-BuildRequires:	python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
+BuildRequires:	pgadmin4-python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
 BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
 BuildRequires:	python-passlib pgadmin4-python-flask-login
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
