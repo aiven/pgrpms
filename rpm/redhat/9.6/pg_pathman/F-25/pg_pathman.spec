@@ -4,7 +4,7 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.1
+Version:	1.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -44,6 +44,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat May 6 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
+- Update to 1.3.1
+
 * Wed Dec 21 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2.1-1
 - Update to 1.2.1
 
