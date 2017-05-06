@@ -39,7 +39,7 @@ BuildRequires:	python3-babel, python3-devel
 BuildRequires:	pgadmin4-python3-flask, python3-setuptools
 BuildRequires:	python3-speaklater, python3-pytz
 Requires:	python3-babel, pgadmin4-python3-flask
-Requires:	speaklater, python3-pytz
+Requires:	python3-speaklater, python3-pytz
 %else
 %{?python_provide:%python_provide python-%{sname}}
 BuildRequires:	pgadmin4-babel, python-devel
