@@ -1,3 +1,1 @@
-ApplicationPath="PYTHONSITELIB/pgadmin4-web/"
-PythonPath="PYTHONSITELIB:PYTHONSITELIB64"
-
+../F-25/pgadmin4.qt.conf.in

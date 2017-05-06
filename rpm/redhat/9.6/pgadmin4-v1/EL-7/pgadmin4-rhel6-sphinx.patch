@@ -1,11 +1,1 @@
---- docs/en_US/Makefile.sphinx.old	2017-04-17 23:33:36.443022944 +0300
-+++ docs/en_US/Makefile.sphinx	2017-04-17 23:33:45.018951419 +0300
-@@ -4,7 +4,7 @@
- # You can set these variables from the command line.
- PYTHON        = python
- SPHINXOPTS    =
--SPHINXBUILD   = sphinx-build -W
-+SPHINXBUILD   = sphinx-1.0-build
- PAPER         =
- BUILDDIR      = _build
- 
+../F-25/pgadmin4-rhel6-sphinx.patch

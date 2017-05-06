@@ -1,11 +1,1 @@
---- web/config.py.old	2017-04-17 23:36:01.121816301 +0300
-+++ web/config.py	2017-04-17 23:36:12.234723617 +0300
-@@ -175,7 +175,7 @@
- # Should HTML be minified on the fly when not in debug mode?
- # NOTE: The HTMLMIN module doesn't work with Python 2.6, so this option
- #       has no effect on <= Python 2.7.
--MINIFY_PAGE = True
-+MINIFY_PAGE = False
- 
- ##########################################################################
- # Server Connection Driver Settings
+../F-25/pgadmin4-rhel6-htmlminify.patch
