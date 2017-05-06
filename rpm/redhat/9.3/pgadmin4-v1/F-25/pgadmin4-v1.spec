@@ -65,19 +65,29 @@ BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
 BuildRequires:	python2-passlib pgadmin4-python3-Flask-Mail
 BuildRequires:	python3-dateutil pgadmin4-python3-flask-gravatar
-BuildRequires:	python3-simplejson
+BuildRequires:	python3-simplejson pgadmin4-python3-flask-babel
+BuildRequires:	pgadmin4-python3-flask-htmlmin pgadmin4-python3-flask-login >= 0.3.2
+BuildRequires:	pgadmin4-python3-flask-security pgadmin4-python3-flask-principal
+BuildRequires:	pgadmin4-python3-flask-wtf pgadmin4-python3-flask >= 0.11.1
+BuildRequires:	python3-itsdangerous python3-blinker pgadmin4-python3-flask-sqlalchemy
+BuildRequires:	python3-dateutil
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
-BuildRequires:	python-flask >= 0.11.1 python-flask-babel
+BuildRequires:	pgadmin4-python-flask >= 0.11.1 pgadmin4-python-flask-babel
 BuildRequires:	pgadmin4-python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
 BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
-BuildRequires:	python-passlib pgadmin4-python-flask-login
+BuildRequires:	pgadmin4-python-flask-login >= 0.3.2 pgadmin4-python-simplejson
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
 BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
 BuildRequires:	pgadmin4-python-dateutil pgadmin4-python-flask-gravatar
-BuildRequires:	pgadmin4-python-simplejson
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	pgadmin4-python-passlib
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 7
+BuildRequires:	python-passlib
+%endif
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
