@@ -63,7 +63,7 @@ Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
-BuildRequires:	python2-passlib pgadmin4-python3-Flask-Mail
+BuildRequires:	python3-passlib pgadmin4-python3-Flask-Mail
 BuildRequires:	python3-dateutil pgadmin4-python3-flask-gravatar
 BuildRequires:	python3-simplejson pgadmin4-python3-flask-babel
 BuildRequires:	pgadmin4-python3-flask-htmlmin pgadmin4-python3-flask-login >= 0.3.2
