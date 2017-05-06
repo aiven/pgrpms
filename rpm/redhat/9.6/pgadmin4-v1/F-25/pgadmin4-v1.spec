@@ -73,7 +73,12 @@ BuildRequires:	qtwebkit-devel
 BuildRequires:	pgadmin4-python-flask >= 0.11.1 pgadmin4-python-flask-babel
 BuildRequires:	pgadmin4-python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
 BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
-BuildRequires:	pgadmin4-python-passlib pgadmin4-python-flask-login
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	pgadmin4-python-passlib
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 7
+BuildRequires:	python-passlib
+%endif
 BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
 BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
 BuildRequires:	pgadmin4-python-dateutil pgadmin4-python-flask-gravatar
