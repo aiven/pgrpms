@@ -69,7 +69,7 @@ BuildRequires:	python3-simplejson pgadmin4-python3-flask-babel
 BuildRequires:	pgadmin4-python3-flask-htmlmin pgadmin4-python3-flask-login >= 0.3.2
 BuildRequires:	pgadmin4-python3-flask-security pgadmin4-python3-flask-principal
 BuildRequires:	pgadmin4-python3-flask-wtf pgadmin4-python3-flask >= 0.11.1
-BuildRequires:	python3-itsdangerous python3-blinker pgadmin4-python3-flask-sqlalchemy
+BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-dateutil
 %global QMAKE	/usr/bin/qmake-qt5
 %else
