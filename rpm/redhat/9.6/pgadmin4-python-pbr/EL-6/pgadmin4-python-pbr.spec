@@ -7,7 +7,7 @@
 
 Name:		pgadmin4-python-%{sname}
 Version:	1.8.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Python Build Reasonableness
 
 License:	ASL 2.0
@@ -55,14 +55,18 @@ export SKIP_PIP_INSTALL=1
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
 %{__mv} %{buildroot}%{python_sitelib}/%{sname} %{buildroot}%{python_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+# Remove binary, we don't need it in this package:
+%{__rm} %{buildroot}%{_bindir}/pbr
 
 %files
 %doc README.rst LICENSE
-%{_bindir}/pbr
 %{pgadmin4py2instdir}/*%{sname}*.egg-info
 %{pgadmin4py2instdir}/%{sname}
 
 %changelog
+* Sat May 6 2017 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-7
+- Remove binary, we don't need it in this spec file.
+
 * Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-6
 - Move the components under pgadmin web directory, per #2332.
 - Do a spring cleanup in the spec file.
