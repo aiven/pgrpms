@@ -1,3 +1,1 @@
-#!/bin/sh
-
-/usr/lib/rpm/perl.req $* | grep -v 'perl(Pg'
+../F-25/filter-requires-perl-Pg.sh

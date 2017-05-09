@@ -1,3 +1,1 @@
-#%PAM-1.0
-auth		include		password-auth
-account		include		password-auth
+../F-25/postgresql.pam
