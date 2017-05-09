@@ -19,7 +19,7 @@
 # -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
-# Copyright 2003-2014 Devrim GÜNDÜZ <devrim@gunduz.org>
+# Copyright 2003-2014 Devrim Gündüz <devrim@gunduz.org>
 # and others listed.
 
 # Major Contributors:
@@ -70,7 +70,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.11
+Version:	9.4.12
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -938,6 +938,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.12-1PGDG
+- Update to 9.4.12, per changes described at:
+  http://www.postgresql.org/docs/9.4/static/release-9-4-12.html
+
 * Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.11-1PGDG
 - Update to 9.4.11, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-11.html
@@ -1023,44 +1027,44 @@ rm -rf %{buildroot}
 - Update to 9.4 beta 1
 - Fix permissions of postgresql-94-libs.conf, per Christoph Berg.
 
-* Tue Mar 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.4-1PGDG
+* Tue Mar 18 2014 Devrim Gündüz <devrim@gunduz.org> - 9.3.4-1PGDG
 - Update to 9.3.4, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-4.html
 
-* Tue Feb 18 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.3-1PGDG
+* Tue Feb 18 2014 Devrim Gündüz <devrim@gunduz.org> - 9.3.3-1PGDG
 - Update to 9.3.3, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-3.html
 
-* Thu Dec 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-2PGDG
+* Thu Dec 12 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3.2-2PGDG
 - Fix builds when uuid support is disabled, by adding missing conditional.
 - Add process name to the status() call in init script.
   Patch from Darrin Smart
 
-* Wed Dec 04 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.2-1PGDG
+* Wed Dec 04 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3.2-1PGDG
 - Update to 9.3.2, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-2.html
 
-* Tue Oct 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.1-1PGDG
+* Tue Oct 8 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3.1-1PGDG
 - Update to 9.3.1, per changes described at:
   http://www.postgresql.org/docs/9.3/static/release-9-3-1.html
 - Fix issues with init script, per http://wiki.pgrpms.org/ticket/136.
 
-* Tue Sep 3 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3.0-1PGDG
+* Tue Sep 3 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3.0-1PGDG
 - Update to 9.3.0
 
-* Tue Aug 20 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3rc1-1PGDG
+* Tue Aug 20 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3rc1-1PGDG
 - Update to 9.3 RC1
 
 * Wed Jun 26 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta2-1PGDG
 - Update to 9.3 beta 2
 
-* Tue May 14 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-4PGDG
+* Tue May 14 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3beta1-4PGDG
 - Revert #90. Per a report in pgsql-bugs mailing list.
 
-* Mon May 13 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-3PGDG
+* Mon May 13 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3beta1-3PGDG
 - Fix paths in init script. Per repor from Vibhor Kumar.
 
-* Sun May 12 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.3beta1-2PGDG
+* Sun May 12 2013 Devrim Gündüz <devrim@gunduz.org> - 9.3beta1-2PGDG
 - Support separated xlog directory at initdb. Per suggestion from
   Magnus Hagander. Fixes #90.
 - Remove hardcoded script names in init script. Fixes #102.
@@ -1072,11 +1076,11 @@ rm -rf %{buildroot}
 * Tue May 07 2013 Jeff Frost <jeff@pgexperts.com> - 9.3beta1-1PGDG
 - Initial cut for 9.3 beta 1
 
-* Wed Apr 17 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-3PGDG
+* Wed Apr 17 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.4-3PGDG
 - Fix pid file name in init script, so that it is more suitable for multiple
   postmasters. Per suggestion from Andrew Dunstan. Fixes #92.
 
-* Thu Apr 11 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.4-2PGDG
+* Thu Apr 11 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.4-2PGDG
 - Add pg_basebackup to $PATH, per #75.
 
 * Tue Apr 02 2013 Jeff Frost <jeff@pgexperts.com> - 9.2.4-1PGDG
@@ -1085,11 +1089,11 @@ rm -rf %{buildroot}
   which also includes fixes for CVE-2013-1899, CVE-2013-1900, and
   CVE-2013-1901.
 
-* Fri Feb 8 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-2PGDG
+* Fri Feb 8 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.3-2PGDG
 - Fix bug in new installations, that prevents ld.so.conf.d file
   to be installed.
 
-* Wed Feb 6 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.3-1PGDG
+* Wed Feb 6 2013 Devrim Gündüz <devrim@gunduz.org> - 9.2.3-1PGDG
 - Update to 9.2.3, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-3.html
 - Fix -libs issue while installing 9.1+ in parallel. Per various
@@ -1097,41 +1101,41 @@ rm -rf %{buildroot}
 - Move $pidfile and $lockfile definitions before sysconfig call,
   so that they can be included in sysconfig file.
 
-* Thu Dec 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.2-1PGDG
+* Thu Dec 6 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2.2-1PGDG
 - Update to 9.2.2, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-2.html
 
-* Thu Sep 20 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.1-1PGDG
+* Thu Sep 20 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2.1-1PGDG
 - Update to 9.2.1, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-1.html
 - Add new functionality: Upgrade from previous version.
   Usage: service postgresql-9.2 upgrade
 - Fix version number in initdb warning message, per Jose Pedro Oliveira.
 
-* Thu Sep 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2.0-1PGDG
+* Thu Sep 6 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2.0-1PGDG
 - Update to 9.2.0
 - Split .control files in appropriate packages. This is a late port
   from 9.1 branch. With this patch, pls can be created w/o installing
   -contrib subpackage.
 - Re-enable -test subpackage, removed accidentally.
 
-* Tue Aug 28 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-2
+* Tue Aug 28 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2rc1-2
 - Install linker conf file with alternatives, so that the latest
   version will always be used. Fixes #77.
 
-* Fri Aug 24 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2rc1-1
+* Fri Aug 24 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2rc1-1
 - Update to 9.2 RC1
 
-* Thu Aug 16 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta4-1
+* Thu Aug 16 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2beta4-1
 - Update to 9.2 beta4, which also includes fixes for CVE-2012-3489
   and CVE-2012-3488.
 
-* Mon Aug 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta3-1
+* Mon Aug 6 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2beta3-1
 - Update to 9.2 beta3
 
-* Wed Jun 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta2-1
+* Wed Jun 6 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2beta2-1
 - Update to 9.2 beta2,  which also includes fixes for CVE-2012-2143,
   CVE-2012-2655.
 
-* Fri May 18 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2beta1-1
+* Fri May 18 2012 Devrim Gündüz <devrim@gunduz.org> - 9.2beta1-1
 - Initial cut for 9.2 Beta 1
