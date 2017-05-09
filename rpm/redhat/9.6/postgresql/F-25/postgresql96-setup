@@ -100,9 +100,6 @@ PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
 PGLOG=/var/lib/pgsql/9.6/initdb.log
 
-# Get data directory from the service file
-PGDATA=`sed -n 's/Environment=PGDATA=//p' "${SERVICE_FILE}"`
-
 export PGDATA
 
 # For SELinux we need to use 'runuser' not 'su'
