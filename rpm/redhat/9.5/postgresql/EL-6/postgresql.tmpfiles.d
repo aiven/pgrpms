@@ -1,1 +1,1 @@
-d /var/run/postgresql 0755 postgres postgres -
+../master/postgresql.tmpfiles.d
