@@ -51,12 +51,18 @@
 # Version 9.4.0 Devrim Gunduz <devrim@gunduz.org>
 # Remove PGPORT variable.
 
+# Version 9.6 Devrim Gunduz <devrim@gunduz.org>
+# Add PGSETUP_INITDB_OPTIONS support, per #2383.
+#  PGSETUP_INITDB_OPTIONS     Options carried by this variable are passed to
+#                             subsequent call of \`initdb\` binary (see man
+#                             initdb(1)).
+
 # PGVERSION is the full package version, e.g., 9.6.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
 # PGMAJORVERSION is major version, e.g., 9.6 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-PGPREVMAJORVERSION=9.5
+PGPREVMAJORVERSION=9.6
 
 # Source function library.
 INITD=/etc/rc.d/init.d
@@ -238,7 +244,10 @@ initdb(){
 			fi
 
 			# Initialize the database
-			$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" >> "$PGLOG" 2>&1 < /dev/null
+			initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING"
+			initdbcmd+=" $PGSETUP_INITDB_OPTIONS"
+
+			$SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
 
 			# Create directory for postmaster log
 			mkdir "$PGDATA/pg_log"
