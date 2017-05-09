@@ -917,6 +917,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.2.21-1PGDG
+- Update to 9.2.21, per changes described at:
+  http://www.postgresql.org/docs/9.2/static/release-9-2-21.html
+
 * Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.2.20-1PGDG
 - Update to 9.2.20, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-20.html
