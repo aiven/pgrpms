@@ -1352,6 +1352,7 @@ fi
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
 - Update to 9.6.3, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6-3.html
+- Fix #2189 and #2384.
 
 * Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.2-3PGDG-1
 - Initial attempt for Power RPMs.
