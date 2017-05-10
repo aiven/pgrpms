@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.f24
 SPECFILE="ora2pg.spec"
 
 # Now, include global Makefile
