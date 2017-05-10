@@ -1,5 +1,1 @@
-[global]
-repo-path=/var/lib/pgbackrest
-
-#[main]
-#db-path=/var/lib/pgsql/10/data
+../master/pgbackrest.conf.patch
