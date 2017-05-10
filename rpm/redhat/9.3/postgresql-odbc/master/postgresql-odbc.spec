@@ -1,10 +1,10 @@
-%global pgmajorversion 95
-%global	pginstdir /usr/pgsql-9.5
+%global pgmajorversion 93
+%global pginstdir /usr/pgsql-9.3
 %global debug_package %{nil}
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	09.06.0200
+Version:	09.06.0300
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
@@ -19,7 +19,7 @@ BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
 Requires:	postgresql%{pgmajorversion}-libs
-Provides:	postgresql-odbc
+Provides:	postgresql-odbc%{?_isa} >= 08.00.0100
 
 # This spec file and ancillary files are licensed in accordance with
 # the psqlodbc license.
@@ -60,6 +60,7 @@ pushd %{buildroot}%{pginstdir}/lib
 	ln -s psqlodbcw.so psqlodbc.so
 	mv %{buildroot}%{_libdir}/psqlodbc*.so %{buildroot}%{pginstdir}/lib
 	rm %{buildroot}%{_libdir}/psqlodbcw.la
+	rm %{buildroot}%{_libdir}/psqlodbca.la
 popd
 strip %{buildroot}%{pginstdir}/lib/*.so
 
@@ -73,6 +74,7 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %defattr(-,root,root)
 %attr(755,root,root) %{pginstdir}/lib/psqlodbcw.so
 %{pginstdir}/lib/psqlodbc.so
+%{pginstdir}/lib/psqlodbca.so
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc license.txt readme.txt
 %else
@@ -80,8 +82,10 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %license license.txt
 %endif
 
-
 %changelog
+* Wed May 10 2017 - Devrim Gündüz <devrim@gunduz.org> - 09.06.0300-1
+- Update to 09.06.0300
+
 * Thu Apr 6 2017 - Devrim Gündüz <devrim@gunduz.org> - 09.06.0200-1
 - Update to 09.06.0200
 
