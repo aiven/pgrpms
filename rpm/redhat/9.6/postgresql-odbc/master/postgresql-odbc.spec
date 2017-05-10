@@ -2,6 +2,12 @@
 %global pginstdir /usr/pgsql-9.6
 %global debug_package %{nil}
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	09.06.0300
@@ -18,6 +24,15 @@ BuildRequires:	unixODBC-devel
 BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 Requires:	postgresql%{pgmajorversion}-libs
 Provides:	postgresql-odbc%{?_isa} >= 08.00.0100
 
@@ -30,6 +45,9 @@ PostgreSQL system via ODBC (Open Database Connectivity).
 
 %prep
 %setup -q -n psqlodbc-%{version}
+%ifarch ppc64le
+sed -i "s:elf64ppc:elf64lppc:g" configure
+%endif
 
 # Some missing macros.  Courtesy Owen Taylor <otaylor@redhat.com>.
 %{__cp} -p %{SOURCE1} .
@@ -44,8 +62,14 @@ autoheader
 
 %build
 
-./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
-
+chmod +x configure
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -DENABLE_NLS -O3 -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
+        ./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
 make
 
 %install
