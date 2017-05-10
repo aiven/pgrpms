@@ -1,6 +1,6 @@
 #################################
-# General Makefile 	   	#
-# for RPM packaging	   	#
+# Makefile for PostgreSQL 9.6	#
+# packaging	  	 	#
 # https://yum.postgresql.org	#
 #			   	#
 # Devrim Gunduz		   	#
@@ -14,63 +14,55 @@
 #			   	#
 #################################
 
-prep:
-	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
 
-	# Update spec file, patches, etc, before running spectool:
-	git pull
+## PostgreSQL 9.6
 
-	# Use spectool to download source files, especially tarballs.
-	spectool -g -S $(SPECFILE)
-
-allclean:
-	git clean -df
-
-clean:
-	rm -rf i386/ i586/ i686/ x86_64/ noarch/
-	rm -f *.src.rpm
-	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
-
-srpm: prep
-	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
-
-bfsrpm: prep
-	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
-
-bfnosignsrpm: prep
-	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
-
-rpm: prep
-	rpmbuild --define "_sourcedir $(PWD)" \
-	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
-	--define "_srcrpmdir $(PWD)" \
-	--define "_rpmdir $(PWD)" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
-
-build: bfsrpm
+build96: bfsrpm
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm/RPMS/" --sign \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild: bfnosignsrpm
+srpm96: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfsrpm96: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfnosignsrpm96: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+rpm96: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nosignbuild96: bfnosignsrpm
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm/RPMS/" \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-noprepbuild:
+noprepbuild96:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -80,24 +72,21 @@ noprepbuild:
 	--define  "_builddir $(HOME)/rpm/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm/RPMS/" --sign \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nopreprpm:
+nopreprpm96:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-noprepsrpm:
+noprepsrpm96:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-include ../../../common/Makefile.global-PG92
-include ../../../common/Makefile.global-PG93
-include ../../../common/Makefile.global-PG94
-include ../../../common/Makefile.global-PG95
-include ../../../common/Makefile.global-PG96
-include ../../../common/Makefile.global-PG10
