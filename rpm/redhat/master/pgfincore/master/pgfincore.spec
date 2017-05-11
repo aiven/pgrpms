@@ -7,7 +7,7 @@ Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
-Patch0:		Makefile-pgxs.patch
+Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/klando/pgfincore
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
