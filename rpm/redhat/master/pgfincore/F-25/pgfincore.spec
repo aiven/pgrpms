@@ -1,5 +1,3 @@
-%global pgmajorversion 10
-%global pginstdir /usr/pgsql-10
 %global sname pgfincore
 
 Summary:	PgFincore is a set of functions to manage blocks in memory
