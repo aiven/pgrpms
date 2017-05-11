@@ -17,7 +17,7 @@
 
 ## PostgreSQL 9.5
 
-build95: bfsrpm
+build95: bfsrpm95
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \
@@ -65,6 +65,7 @@ nosignbuild95: bfnosignsrpm
 noprepbuild95:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm/SRPMS" --sign \
+	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
