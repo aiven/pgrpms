@@ -53,7 +53,7 @@ rpm92: prep
 	--define "pgmajorversion 92" --define "pginstdir /usr/pgsql-9.2" --define "pgpackageversion 9.2" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild92: bfnosignsrpm
+nosignbuild92: bfnosignsrpm92
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \

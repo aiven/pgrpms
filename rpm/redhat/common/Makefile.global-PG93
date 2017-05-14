@@ -53,7 +53,7 @@ rpm93: prep
 	--define "pgmajorversion 93" --define "pginstdir /usr/pgsql-9.3" --define "pgpackageversion 9.3" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild93: bfnosignsrpm
+nosignbuild93: bfnosignsrpm93
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \

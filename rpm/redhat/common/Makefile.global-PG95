@@ -53,7 +53,7 @@ rpm95: prep
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild95: bfnosignsrpm
+nosignbuild95: bfnosignsrpm95
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \

@@ -53,7 +53,7 @@ rpm10: prep
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10" --define "pgpackageversion 10" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild10: bfnosignsrpm
+nosignbuild10: bfnosignsrpm10
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \

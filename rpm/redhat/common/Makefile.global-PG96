@@ -53,7 +53,7 @@ rpm96: prep
 	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" --define "pgpackageversion 9.6" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild96: bfnosignsrpm
+nosignbuild96: bfnosignsrpm96
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm/BUILD" \
