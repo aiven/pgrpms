@@ -1,6 +1,3 @@
-%global pgmajorversion 10
-%global pgpackageversion 10
-%global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname citus
 
 %ifarch ppc64 ppc64le
