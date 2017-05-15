@@ -26,7 +26,7 @@ License:	MIT
 URL:		http://pytz.sourceforge.net/
 Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 # Patch to use the system supplied zoneinfo files
-Patch0:		%{sname}-zoneinfo.patch
+Patch0:		%{name}-zoneinfo.patch
 
 BuildArch:	noarch
 BuildRequires:	python2-devel
