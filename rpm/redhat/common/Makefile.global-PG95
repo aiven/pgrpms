@@ -20,7 +20,8 @@
 build95: bfsrpm95
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(HOME)/rpm95/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
+	--define "_builddir $(HOME)/rpm95/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm95/RPMS/" --sign \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
@@ -29,17 +30,20 @@ build95: bfsrpm95
 srpm95: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5"  --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm95: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" --sign \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5"  --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfnosignsrpm95: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5"  --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -48,6 +52,7 @@ rpm95: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
@@ -57,6 +62,7 @@ nosignbuild95: bfnosignsrpm95
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm95/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm95/RPMS/" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
@@ -65,12 +71,14 @@ nosignbuild95: bfnosignsrpm95
 noprepbuild95:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" --sign \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm95/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm95/RPMS/" --sign \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
@@ -80,6 +88,7 @@ nopreprpm95:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
@@ -88,6 +97,7 @@ nopreprpm95:
 noprepsrpm95:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
