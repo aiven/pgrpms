@@ -1,4 +1,4 @@
-%global pgpoolinstdir /usr/pgpool-10
+%global pgpoolinstdir /usr/pgpool-%{pgpackageversion}
 %global sname pgpool-II
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
