@@ -53,6 +53,11 @@
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
 
 %{!?disablepgfts:%global disablepgfts 0}
 %{!?intdatetimes:%global intdatetimes 1}
@@ -205,10 +210,22 @@ Requires(postun):	systemd
 %else
 Requires(post):		chkconfig
 Requires(preun):	chkconfig
+
 # This is for /sbin/service
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
+
+
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -235,6 +252,10 @@ if you're installing the postgresql%{packageversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
 Provides:	postgresql-libs = %{majorversion}
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description libs
 The postgresql%{packageversion}-libs package provides the essential shared libraries for any
@@ -261,6 +282,10 @@ Requires:	/usr/sbin/useradd /sbin/chkconfig
 %endif
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
@@ -286,6 +311,10 @@ Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description contrib
 The postgresql%{packageversion}-contrib package contains various extension modules that are
@@ -297,6 +326,10 @@ Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-devel
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description devel
 The postgresql%{packageversion}-devel package contains the header files and libraries
@@ -317,6 +350,10 @@ BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{packageversion}-pl
 Provides:	postgresql-plperl
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description plperl
 The postgresql%{packageversion}-plperl package contains the PL/Perl procedural language,
@@ -333,6 +370,10 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description plpython
 The postgresql%{packageversion}-plpython package contains the PL/Python procedural language,
@@ -349,6 +390,10 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython3
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description plpython3
 The postgresql%{packageversion}-plpython3 package contains the PL/Python3 procedural language,
@@ -365,6 +410,10 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description pltcl
 PostgreSQL is an advanced Object-Relational database management
@@ -379,6 +428,10 @@ Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description test
 The postgresql%{packageversion}-test package contains files needed for various tests for the
@@ -401,6 +454,12 @@ benchmarks.
 %{__cp} -p %{SOURCE12} .
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 
 # fail quickly and obviously if user tries to build as root
 %if %runselftest
