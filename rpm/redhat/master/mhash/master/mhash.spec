@@ -6,7 +6,7 @@ URL:		http://mhash.sourceforge.net/
 License:	LGPL
 Group:		System Environment/Libraries
 Source:		http://easynews.dl.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
-Buildroot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 Provides:	libmhash = %{version}-%{release}
 
 %description
@@ -41,7 +41,7 @@ develop programs that use the mhash library.
 make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 %makeinstall
 
 %post -n %{name} -p /sbin/ldconfig
@@ -49,7 +49,7 @@ rm -rf %{buildroot}
 %postun -n %{name} -p /sbin/ldconfig
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files -n %{name}
 %defattr(-,root,root,-)
