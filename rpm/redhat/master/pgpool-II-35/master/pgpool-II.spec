@@ -6,6 +6,12 @@
 %global systemd_enabled 1
 %endif
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
@@ -42,6 +48,15 @@ Requires(postun):	initscripts
 %endif
 Obsoletes:		postgresql-pgpool > 1.0.0
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 pgpool-II is a inherited project of pgpool (to classify from
 pgpool-II, it is sometimes called as pgpool-I). For those of
@@ -74,6 +89,10 @@ Group:		Applications/Databases
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description extensions
 Postgresql extensions libraries and sql files for pgpool-II.
@@ -84,6 +103,12 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %patch2 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 ./configure \
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
@@ -101,16 +126,16 @@ Postgresql extensions libraries and sql files for pgpool-II.
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-USE_PGXS=1 make %{?_smp_mflags}
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool_adm
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-recovery
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-regclass
+USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool_adm
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-recovery
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 
 %install
-make %{?_smp_mflags} DESTDIR=%{buildroot} install
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
