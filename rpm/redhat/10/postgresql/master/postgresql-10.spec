@@ -40,7 +40,13 @@
 %else
 %{!?enabletaptests:%global enabletaptests 1}
 %endif
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# Disable ICU support in RHEL 6. The ICU library version is not enough
+# to build PostgreSQL on this platform.
+%{!?icu:%global icu 0}
+%else
 %{!?icu:%global icu 1}
+%endif
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
