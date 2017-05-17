@@ -98,7 +98,7 @@ Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgmajorversion}/%{sname}-%{pgmajorversion}-A4.pdf
 Source14:	%{sname}-%{pgmajorversion}.pam
-Source16:	%{sname}-%{pgmajorversion}filter-requires-perl-Pg.sh
+Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
