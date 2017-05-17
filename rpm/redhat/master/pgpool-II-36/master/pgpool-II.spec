@@ -22,7 +22,7 @@ License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Source1:		%{sname}-%{pgmajorversion}.service
+Source1:		%{sname}-pg%{pgmajorversion}.service
 Source2:		%{sname}.sysconfig
 Source3:		%{sname}-pg%{pgmajorversion}.init
 Source9:		%{sname}-pg%{pgmajorversion}-libs.conf
