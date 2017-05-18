@@ -1,6 +1,6 @@
 Name:		pgdg-sl10
 Version:	10
-Release:	1%{dist}
+Release:	1
 Summary:	PostgreSQL 10.X PGDG RPMs for Scientific Linux - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
