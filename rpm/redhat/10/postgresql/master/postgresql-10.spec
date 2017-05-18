@@ -745,11 +745,11 @@ make -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 case `uname -i` in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/
+		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/pg_config.h
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/
+		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
-		install -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/
+		install -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h
 		;;
 	*)
 	;;
