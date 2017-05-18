@@ -7,7 +7,7 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.0
+Version:	1.0.1
 Release:	1%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
@@ -49,10 +49,10 @@ checking the status.
 
 %build
 %ifarch ppc64 ppc64le
-        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-        CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-        LDFLAGS="-L%{atpath}/%{_lib}"
-        CC=%{atpath}/bin/gcc; export CC
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
 %endif
 %{__make} %{?_smp_mflags}
 
@@ -73,6 +73,9 @@ checking the status.
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Thu May 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
+- Update to 1.0.1
+
 * Fri Mar 31 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for PostgreSQL YUM repository.
 
