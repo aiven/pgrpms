@@ -27,7 +27,7 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.4
+Version:	%{pgadminmajorversion}.5
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
@@ -372,6 +372,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu May 18 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-1
+- Update to 1.5
+
 * Thu Apr 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
 - Update to 1.4
 - Adjust dependencies for new package naming.
