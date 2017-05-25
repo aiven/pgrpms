@@ -17,7 +17,7 @@ Group:		Applications/Databases
 URL:		http://main.slony.info/
 Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-22-filter-requires-perl-Pg.sh
-Source3:	%{sname}-22.init
+Source3:	%{sname}-22-%{pgmajorversion}.init
 Source4:	%{sname}-22-%{pgmajorversion}.sysconfig
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, initscripts, byacc, flex
