@@ -90,7 +90,7 @@ make %{?_smp_mflags}
 
 %files devel
 %defattr(-,root,root,-)
-%{pginstdir}/include/server/citus_config.h
+%{pginstdir}/include/server/citus_version.h
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
