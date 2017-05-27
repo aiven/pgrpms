@@ -1,1 +1,0 @@
-../master/postgresql-odbc.spec
