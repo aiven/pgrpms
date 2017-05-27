@@ -1,3 +1,9 @@
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 Version:	1.2.2
@@ -10,6 +16,15 @@ BuildRequires:	cmake, CGAL-devel
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %description
 SFCGAL is a C++ wrapper library around CGAL with the aim of supporting
@@ -26,6 +41,10 @@ can be either 2D or 3D.
 %package libs
 Summary:	The shared libraries required for SFCGAL
 Group:		Applications/Databases
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %description libs
 The sfcgal-libs package provides the essential shared libraries for SFCGAL.
@@ -42,6 +61,12 @@ Development headers and libraries for SFCGAL.
 %setup -q
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 %cmake	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
 make %{?_smp_mflags}
