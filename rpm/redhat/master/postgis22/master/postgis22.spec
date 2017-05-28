@@ -190,8 +190,8 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.1 breaks compatibility with 2.0, and we need to ship
-# postgis-2.0.so file along with 2.1 package, so that we can upgrade:
+# PostGIS 2.2 breaks compatibility with 2.1, and we need to ship
+# postgis-2.1.so file along with 2.2 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
 %ifarch ppc64 ppc64le
@@ -205,7 +205,7 @@ cd %{sname}-%{postgisprevversion}
 	 --disable-rpath --libdir=%{pginstdir}/lib
 
 %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
-# Install postgis-2.2.so file manually:
+# Install postgis-2.1.so file manually:
 %{__mkdir} -p %{buildroot}/%{pginstdir}/lib/
 %{__install} -m 644 postgis/postgis-%{postgisprevmajorversion}.so %{buildroot}/%{pginstdir}/lib/postgis-%{postgisprevmajorversion}.so
 
