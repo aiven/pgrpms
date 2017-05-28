@@ -46,7 +46,7 @@ performance issues.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-%{__make} USE_PGXS=1 make %{?_smp_mflags}
+%{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
