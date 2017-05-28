@@ -1,0 +1,1 @@
+../master/plruby.spec
