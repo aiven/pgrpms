@@ -10,7 +10,7 @@ URL:		http://tada.github.io/pljava/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
 Source0:	https://github.com/tada/pljava/archive/V1_5_0.tar.gz
-Source1:	%{name}.pom
+Source1:	%{sname}.pom
 
 BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
 Requires:	java-headless >= 1:1.8
