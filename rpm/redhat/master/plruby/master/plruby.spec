@@ -51,6 +51,7 @@ Documentation for plruby.
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+        PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
 ## Using safe-level=3, since Ruby 2.1+ and later does not support safe level
 ## bigger than 3.
