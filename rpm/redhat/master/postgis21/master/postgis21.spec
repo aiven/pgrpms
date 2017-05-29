@@ -251,7 +251,9 @@ fi
 %if %raster
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal.sql
+%endif
 %{pginstdir}/share/extension/postgis--*.sql
 %{pginstdir}/share/extension/postgis.control
 %endif
