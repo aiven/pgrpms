@@ -11,7 +11,7 @@
 Summary:	PostgreSQL Ruby Procedural Language
 Name:		%{sname}%{pgmajorversion}
 Version:	0.5.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source0:	https://github.com/devrimgunduz/postgresql-%{sname}/archive/%{version}.tar.gz
 Source1:	plruby.control
 License:	Ruby or GPL+
@@ -70,7 +70,7 @@ ruby extconf.rb --vendor --with-pg-config=%{pginstdir}/bin/pg_config --with-safe
 # ruby_headers= applied as workaround for rhbz#921650.
 %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} ruby_headers= install
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
-install %{SOURCE1}  %{buildroot}%{pginstdir}/share/extension
+%{__install} extension/* %{buildroot}%{pginstdir}/share/extension/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -82,12 +82,16 @@ install %{SOURCE1}  %{buildroot}%{pginstdir}/share/extension
 %{ruby_vendorarchdir}/plruby.so
 %{ruby_vendorarchdir}/plruby/plruby_*.so
 %{pginstdir}/share/extension/plruby.control
+%{pginstdir}/share/extension/plruby*.sql
 
 %files doc
 %defattr(-,root,root,-)
 %doc docs/plruby.rb plruby.html
 
 %changelog
+* Mon May 29 2017 Devrim Gündüz <devrim@gunduz.org> 0.5.7-2
+- Also install .sql file so that extensions can be created.
+
 * Sun May 28 2017 Devrim Gündüz <devrim@gunduz.org> 0.5.7-1
 - Update to 0.5.7, which includes a few more fixes from Fedora
   so that it can be compiled against all supported PostgreSQL
