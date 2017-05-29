@@ -14,6 +14,10 @@ Version:	0.5.7
 Release:	2%{?dist}
 Source0:	https://github.com/devrimgunduz/postgresql-%{sname}/archive/%{version}.tar.gz
 Source1:	plruby.control
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# plruby.so fails to build w/o this patch on RHEL 6.
+Patch0:		%{sname}-rhel6-include.patch
+%endif
 License:	Ruby or GPL+
 Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -44,6 +48,9 @@ Documentation for plruby.
 
 %prep
 %setup -q -n postgresql-%{sname}-%{version}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%patch0 -p0
+%endif
 
 %build
 %ifarch ppc64 ppc64le
