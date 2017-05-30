@@ -1,7 +1,7 @@
-%global _tag v1.1.0
+%global _tag v2.1.0
 %global _ocfroot /usr/lib/ocf
 Name:		resource-agents-paf
-Version:	1.1.0
+Version:	2.1.0
 Release:	1%{dist}
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
@@ -42,6 +42,9 @@ PostgreSQL resource agent for Pacemaker.
 %{_datadir}/resource-agents/ocft/configs/pgsqlms
 
 %changelog
+* Tue May 30 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
+- Update to 2.1.0
+
 * Tue May 30 2017 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Fix all rpmlint warnings, and use more macros. This is the initial
   build for PostgreSQL YUM repository.
@@ -63,4 +66,3 @@ PostgreSQL resource agent for Pacemaker.
 
 * Tue Mar 01 2016 Jehan-Guillaume de Rorthais <jgdr@dalibo.com> 0.99.0-1
 - Initial version
-
