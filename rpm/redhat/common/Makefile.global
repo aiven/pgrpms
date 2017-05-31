@@ -37,4 +37,6 @@ include ../../../common/Makefile.global-PG94
 include ../../../common/Makefile.global-PG95
 include ../../../common/Makefile.global-PG96
 include ../../../common/Makefile.global-PG96-testing
+include ../../../common/Makefile.global-PG10-testing
 include ../../../common/Makefile.global-PG10
+
