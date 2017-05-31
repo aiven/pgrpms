@@ -150,7 +150,7 @@ Requires:	pgadmin4-python3-Flask-Mail >= 0.9.1
 Requires:	pgadmin4-python3-flask-security >= 1.7.5
 Requires:	pgadmin4-python3-flask-login >= 0.3.2
 Requires:	pgadmin4-python3-flask-principal >= 0.4.0
-Requires:	pgadmin4-pytz >= 2014.10 python3-click
+Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
 Requires:	pgadmin4-python3-pyrsistent >= 0.11.13
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
