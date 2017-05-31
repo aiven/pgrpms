@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -152,7 +152,7 @@ Requires:	pgadmin4-python3-flask-login >= 0.3.2
 Requires:	pgadmin4-python3-flask-principal >= 0.4.0
 Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
-Requires:	pgadmin4-python3-pyrsistent >= 0.11.13
+Requires:	pgadmin4-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
 # TODO: Confirm dependencies of: testscenarios, testtools, traceback2
@@ -185,10 +185,10 @@ Requires:	python-click python-extras >= 0.0.3
 Requires:	pgadmin4-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3 python-unittest2
-Requires:	pgadmin4-python-passlib
+Requires:	pgadmin4-python-passlib pgadmin4-python-flask-migrate
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 7
-Requires:	python-passlib
+Requires:	python-passlib python2-flask-migrate
 %endif
 Requires:	pgadmin4-python-pyrsistent >= 0.11.13
 Requires:	pgadmin4-python-mimeparse >= 1.5.1
@@ -372,6 +372,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Wed May 31 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-2
+- Add new dependencies.
+
 * Thu May 18 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-1
 - Update to 1.5
 
