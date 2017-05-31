@@ -255,8 +255,8 @@ fi
 %endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so.*
-%{pginstdir}/lib/postgis_topology-2.2.so
-%{pginstdir}/lib/address_standardizer-2.2.so
+%{pginstdir}/lib/postgis_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/address_standardizer-%{postgismajorversion}.so
 %{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
