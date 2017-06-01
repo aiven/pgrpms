@@ -6,7 +6,7 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
+Version:	1.0.2
 Release:	1%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 Group:		Applications/Databases
@@ -49,5 +49,5 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
-* Tue May 30 2017 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
+* Tue May 30 2017 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Initial packaging
