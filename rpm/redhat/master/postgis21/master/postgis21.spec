@@ -241,8 +241,9 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
+%if %{sfcgal}
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
+%endif
 %{pginstdir}/lib/liblwgeom*.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
