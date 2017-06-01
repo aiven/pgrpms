@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f24
 SPECFILE="pgpoolAdmin-36.spec"
 
 # Now, include global Makefile
