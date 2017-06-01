@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.rhel6
 SPECFILE="pg_qualstats.spec"
 
 # Now, include global Makefile
