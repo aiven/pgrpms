@@ -46,12 +46,16 @@ query plans, issued locks, and table and index statistics.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 sh autogen.sh
-PG_CONFIG=%{pginstdir}/bin/pg_config ./configure --prefix=%{pginstdir}
-make %{?_smp_mflags} CFLAGS="%{optflags}"
+PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
+%ifarch ppc64 ppc64le
+	--build=power \
+%endif
+	--prefix=%{pginstdir}
+%{__make} %{?_smp_mflags} CFLAGS="%{optflags}"
 
 %install
 %{__rm} -rf %{buildroot}
-make %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
