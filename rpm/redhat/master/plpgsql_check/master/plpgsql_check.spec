@@ -1,4 +1,5 @@
 %global sname plpgsql_check
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -6,7 +7,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.6
+Version:	1.2.0
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -64,10 +65,13 @@ performance issues.
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Jun 1 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+
 * Sat Sep 17 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.6-1
 - Update to 1.0.6
 
