@@ -48,7 +48,6 @@ affect you.
 
 %prep
 %setup -q -n %{sname}-%{vname}
-%configure --with-postgres=%{pginstdir}/bin
 
 %build
 %ifarch ppc64 ppc64le
@@ -57,6 +56,7 @@ affect you.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
+%configure --with-postgres=%{pginstdir}/bin
 %{__make} %{?_smp_mflags}
 
 %install
