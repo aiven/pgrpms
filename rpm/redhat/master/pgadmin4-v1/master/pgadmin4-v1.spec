@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -129,7 +129,6 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
-#FIXME: add pgadmin4- prefix to related dependencies
 Requires:	python3-babel >= 1.3 python3-flask >= 0.11.1
 Requires:	pgadmin4-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
@@ -155,7 +154,6 @@ Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
 Requires:	pgadmin4-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
-# TODO: Confirm dependencies of: testscenarios, testtools, traceback2
 %else
 Requires:	pgadmin4-python-babel >= 1.3 python-flask >= 0.11.1
 Requires:	pgadmin4-python-flask-htmlmin >= 1.2
@@ -170,19 +168,13 @@ Requires:	pgadmin4-python-blinker >= 1.3
 Requires:	python-html5lib >= 1.0b3 python-six >= 1.9.0
 Requires:	pgadmin4-python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
-Requires:	pgadmin4-python-simplejson >= 3.6.5
-Requires:	pgadmin4-python-dateutil >= 2.5.0
-Requires:	pgadmin4-python-werkzeug >= 0.9.6
-Requires:	pgadmin4-pytz >= 2014.10
-Requires:	pgadmin4-python-sqlparse >= 0.1.19
-Requires:	pgadmin4-python-flask-babel >= 0.11.1
-Requires:	pgadmin4-python-flask-gravatar >= 0.4.2
-Requires:	pgadmin4-python-Flask-Mail >= 0.9.1
-Requires:	pgadmin4-python-flask-security >= 1.7.5
-Requires:	pgadmin4-python-flask-login >= 0.3.2
-Requires:	pgadmin4-python-flask-principal >= 0.4.0
-Requires:	python-click python-extras >= 0.0.3
-Requires:	pgadmin4-python-fixtures >= 2.0.0
+Requires:	pgadmin4-python-simplejson >= 3.6.5 pgadmin4-python-dateutil >= 2.5.0
+Requires:	pgadmin4-python-werkzeug >= 0.9.6 pgadmin4-python-backports-csv >= 1.0.5
+Requires:	pgadmin4-pytz >= 2014.10 pgadmin4-python-sqlparse >= 0.1.19
+Requires:	pgadmin4-python-flask-babel >= 0.11.1 pgadmin4-python-flask-gravatar >= 0.4.2
+Requires:	pgadmin4-python-Flask-Mail >= 0.9.1 pgadmin4-python-flask-security >= 1.7.5
+Requires:	pgadmin4-python-flask-login >= 0.3.2 pgadmin4-python-flask-principal >= 0.4.0
+Requires:	python-click python-extras >= 0.0.3 pgadmin4-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	pgadmin4-python-passlib pgadmin4-python-flask-migrate
@@ -372,6 +364,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Jun 1 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-3
+- Add pgadmin4-python-backports-csv dependency for RHEL 6 and RHEL 7.
+
 * Wed May 31 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-2
 - Add new dependencies.
 
