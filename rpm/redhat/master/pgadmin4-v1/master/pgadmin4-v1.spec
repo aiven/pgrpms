@@ -169,7 +169,7 @@ Requires:	python-html5lib >= 1.0b3 python-six >= 1.9.0
 Requires:	pgadmin4-python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
 Requires:	pgadmin4-python-simplejson >= 3.6.5 pgadmin4-python-dateutil >= 2.5.0
-Requires:	pgadmin4-python-werkzeug >= 0.9.6 pgadmin4-python-backports-csv >= 1.0.5
+Requires:	pgadmin4-python-werkzeug >= 0.9.6 pgadmin4-python-backports.csv >= 1.0.5
 Requires:	pgadmin4-pytz >= 2014.10 pgadmin4-python-sqlparse >= 0.1.19
 Requires:	pgadmin4-python-flask-babel >= 0.11.1 pgadmin4-python-flask-gravatar >= 0.4.2
 Requires:	pgadmin4-python-Flask-Mail >= 0.9.1 pgadmin4-python-flask-security >= 1.7.5
