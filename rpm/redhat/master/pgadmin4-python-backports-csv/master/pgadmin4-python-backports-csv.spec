@@ -24,7 +24,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.0.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 Summary:	Backport of Python 3 csv module
 
@@ -92,5 +92,8 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %endif
 
 %changelog
+* Thu Jun 1 2017 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.5-2
+- Also install __init__py. manually.
+
 * Thu Jun 1 2017 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.5-1
 - Initial packaging for PostgreSQL YUM repo, to satisfy pgadmin4 dependency.
