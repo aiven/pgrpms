@@ -6,10 +6,8 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/pgsi
-Requires:	postgresql-server
 Requires:	perl(Data::Dumper) perl(Getopt::Long) perl(IO::Handle) perl(Time::Local)
 BuildRequires:	perl-Test-Simple >= 0.80 perl-ExtUtils-MakeMaker
-BuildRequires:	perl-Pod-Html
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -21,7 +19,7 @@ produce wiki-ready system impact reports.
 %setup -q
 
 %build
-perl Makefile.PL
+%{__perl} Makefile.PL
 %{__make}
 
 %install
