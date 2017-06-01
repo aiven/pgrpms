@@ -67,11 +67,14 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
 %{__mv} %{buildroot}%{python3_sitelib}/backports %{buildroot}%{python3_sitelib}/%{sname}-%{version}-py%{py3ver}-nspkg.pth %{buildroot}%{python3_sitelib}/%{sname}-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} build/lib/backports/__init__.py %{buildroot}/%{pgadmin4py3instdir}/backports
+
 %else
 %{__ospython2} setup.py install --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
 %{__mv} %{buildroot}%{python2_sitelib}/backports %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}-nspkg.pth %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} build/lib/backports/__init__.py %{buildroot}/%{pgadmin4py2instdir}/backports
 %endif # with_python3
 
 %files
