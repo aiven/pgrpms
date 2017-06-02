@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.f25
 SPECFILE="pg_filedump.spec"
 
 # Now, include global Makefile
