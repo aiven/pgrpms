@@ -62,7 +62,8 @@ install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{s
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc %{pginstdir}/doc/extension/README.%{sname} LICENSE
+%doc %{pginstdir}/doc/extension/README.%{sname}
+%doc LICENSE
 %else
 %doc %{pginstdir}/doc/extension/README.%{sname}
 %license LICENSE
