@@ -1,5 +1,11 @@
 %global sname pam-pgsql
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}%{pgmajorversion}
 Version:	0.7.3.2
@@ -18,6 +24,15 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Patch1:		%{sname}-getservice.patch
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 This module provides support to authenticate against PostgreSQL
 tables for PAM-enabled applications.
@@ -27,6 +42,12 @@ tables for PAM-enabled applications.
 %patch1 -p1
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 sh autogen.sh
 %configure --with-postgresql=%{pginstdir}/bin/pg_config --prefix=%{pginstdir} --libdir=%{pginstdir}/lib/
 %{__make} %{?_smp_mflags}
