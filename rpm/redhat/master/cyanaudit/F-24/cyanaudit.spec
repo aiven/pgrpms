@@ -1,0 +1,1 @@
+../master/cyanaudit.spec
