@@ -64,6 +64,7 @@ in python.
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
 %{__make} %{?_smp_mflags}
 
