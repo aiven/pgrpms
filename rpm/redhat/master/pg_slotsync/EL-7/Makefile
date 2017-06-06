@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rel7
+DIST=.rhel7
 SPECFILE="pg_slotsync.spec"
 
 # Now, include global Makefile
