@@ -12,6 +12,7 @@ Source1:	%{sname}-config.h
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mongo_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	mongo-c-driver libbson
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
