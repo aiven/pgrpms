@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.rhel7
 SPECFILE="pgcluu.spec"
 
 # Now, include global Makefile
