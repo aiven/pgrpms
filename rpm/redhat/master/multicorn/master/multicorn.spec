@@ -17,6 +17,13 @@
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
 %endif # with_python3
 
+
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	Multicorn Python bindings for Postgres 9.2+ FDW
 Name:		%{sname}%{pgmajorversion}
 Version:	1.3.3
@@ -34,6 +41,15 @@ BuildRequires:	python3-debug
 %endif # with_python3
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 The Multicorn Foreign Data Wrapper allows you to write foreign data wrappers
 in python.
@@ -43,6 +59,12 @@ in python.
 %patch0 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 %{__make} %{?_smp_mflags}
 
 %install
