@@ -1,0 +1,11 @@
+--- build.xml.old	2017-06-06 17:28:39.376189102 +0100
++++ build.xml	2017-06-06 17:28:56.372044274 +0100
+@@ -24,6 +24,8 @@
+ 				  <or>
+ 					  <equals arg1="${java.specification.version}" arg2="1.5"/>
+ 					  <equals arg1="${java.specification.version}" arg2="1.6"/>
++					  <equals arg1="${java.specification.version}" arg2="1.7"/>
++					  <equals arg1="${java.specification.version}" arg2="1.8"/>
+ 				  </or>
+     			  </condition>
+ 		  </target>
