@@ -27,7 +27,7 @@
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	1.2.0
+Version:	1.6.0
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -42,13 +42,22 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
 
+%if 0%{?with_python3}
+Requires:	python3-click => 3.2, python3-pygments => 2.0
+Requires:	python3-sqlparse >= 0.1.14, python3-%{name}
+Requires:	python3-jedi => 0.8.1 python3-setproctitle >= 1.1.9
+Requires:	python3-wcwidth >= 0.1.6 python3-humanize >= 0.5.1
+Requires:	python3-configobj >= 5.0.6 python3-prompt_toolkit >= 1.0.10
+%else
 Requires:	python-click => 3.2, python-pygments => 2.0
-Requires:	python-sqlparse >= 0.1.14, pyython-%{name} >= 2.5.4
-Requires:	python-jedi => 0.8.1
+Requires:	python-sqlparse >= 0.1.14, python-%{name} >= 2.5.4
+Requires:	python-jedi => 0.8.1 python-setproctitle >= 1.1.9
+Requires:	python-wcwidth >= 0.1.6 python-humanize >= 0.5.1
+Requires:	python-configobj >= 5.0.6 python-prompt_toolkit >= 1.0.10
+%endif
 
 %description
 This is a PostgreSQL client that does auto-completion and syntax highlighting.
-
 
 %if 0%{?fedora} && 0%{?rhel} >= 7
 %package debug
@@ -137,6 +146,9 @@ rm -rf %{buildroot}
 %endif # with_python3
 
 %changelog
+* Tue Jun 6 2017 Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
+- Update to 1.6.0
+
 * Mon Sep 19 2016 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 - Fix packaging errors, spec file errors, etc.
