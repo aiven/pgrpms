@@ -12,7 +12,7 @@ Source1:	%{sname}-config.h
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mongo_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	mongo-c-driver libbson
+BuildRequires:	mongo-c-driver-devel libbson-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -31,7 +31,7 @@ MongoDB.
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
