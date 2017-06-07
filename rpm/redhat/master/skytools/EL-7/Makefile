@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.rhel7
 SPECFILE="skytools.spec"
 
 # Now, include global Makefile
