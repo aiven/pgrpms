@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
+DIST=.f24
 SPECFILE="pguri.spec"
 
 # Now, include global Makefile
