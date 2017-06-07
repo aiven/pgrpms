@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
+DIST=.rhel6
 SPECFILE="pgadmin4-python-htmlmin.spec"
 
 # Now, include global Makefile
