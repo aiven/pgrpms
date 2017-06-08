@@ -15,7 +15,13 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+%ifarch ppc64 ppc64le
+Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-ppc64le.patch
+%else
+Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
+%ifarch ppc64 ppc64le
+Patch1:		mongo_fdw-autogen-ppc64le.patch
+%endif
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -37,12 +43,15 @@ MongoDB.
 %prep
 %setup -q -n %{sname}-REL-%{relver}
 %patch0 -p0
+%ifarch ppc64 ppc64le
+%patch1 -p0
+%endif
 %{__cp} %{SOURCE1} ./config.h
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -fPIC -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -fPIC -I%{atpath}/include"; export CFLAGS
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"; export CXXFLAGS
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %else
