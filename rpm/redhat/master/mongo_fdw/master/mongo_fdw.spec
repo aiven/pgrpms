@@ -19,6 +19,7 @@ Source1:	%{sname}-config.h
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-ppc64le.patch
 %else
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
+%endif
 %ifarch ppc64 ppc64le
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
