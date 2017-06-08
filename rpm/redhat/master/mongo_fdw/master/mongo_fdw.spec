@@ -18,7 +18,6 @@ Source1:	%{sname}-config.h
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mongo_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	mongo-c-driver-devel libbson-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -42,11 +41,14 @@ MongoDB.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -fPIC -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+%else
+	CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
 %endif
+sh autogen.sh --with-master
 %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags}
 
 %install
