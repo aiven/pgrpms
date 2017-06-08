@@ -16,7 +16,7 @@ Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/EnterpriseDB/mongo_fdw
+URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -70,10 +70,10 @@ sh autogen.sh --with-master
 %files
 %defattr(644,root,root,755)
 %doc LICENSE
-%{pginstdir}/lib/mongo_fdw.so
+%{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/README-%{sname}.md
-%{pginstdir}/share/extension/mongo_fdw--1.0.sql
-%{pginstdir}/share/extension/mongo_fdw.control
+%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/%{sname}.control
 
 %changelog
 * Tue Jun 6 2017 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
