@@ -1,6 +1,3 @@
-%global pgmajorversion 10
-%global pgpackageversion 10
-%global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname repmgr
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -17,11 +14,11 @@ Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		http://www.repmgr.org
 Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
-Source1:	repmgr-%{pgpackageversion}.service
-Source2:	repmgr.init
-Source3:	repmgr.sysconfig
-Patch0:		repmgr-makefile-pgxs.patch
-Patch1:		repmgr.conf.sample.patch
+Source1:	repmgr-pg%{pgmajorversion}.service
+Source2:	repmgr-pg%{pgmajorversion}.init
+Source3:	repmgr-pg%{pgmajorversion}.sysconfig
+Patch0:		repmgr-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch1:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
