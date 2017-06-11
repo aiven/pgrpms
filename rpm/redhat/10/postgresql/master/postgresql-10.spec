@@ -95,8 +95,7 @@ License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-#Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
-Source0:	https://download.postgresql.org/pub/source/v%{version}/%{sname}-10beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{pgmajorversion}beta1/%{sname}-%{pgmajorversion}beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README.rpm-dist
