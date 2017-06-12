@@ -1,1 +1,0 @@
-../F-25/ecpg_config.h
