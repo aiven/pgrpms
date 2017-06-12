@@ -415,9 +415,6 @@ benchmarks.
 %patch3 -p1
 %patch5 -p0
 %patch6 -p1
-%if 0%{?rhel} && 0%{?rhel} <= 5
-%patch7 -p1
-%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1314,6 +1311,7 @@ fi
 - Rename all patches, and add the same prefix to them.
 - Rename some macros for consistency with other packages.
 - Use separate README files for RHEL6 and others. Fixes #2471.
+- Remove nonexistent Patch7 reference
 
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
 - Update to 9.6.3, per changes described at:
