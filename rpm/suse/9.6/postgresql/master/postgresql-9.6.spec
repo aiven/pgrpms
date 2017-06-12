@@ -161,7 +161,7 @@ BuildRequires: selinux-policy >= 3.9.13
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-Requires(post):		systemd-sysv
+Requires(post):		systemd-sysvinit
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
@@ -226,9 +226,9 @@ Requires(post):		glibc
 Requires(postun):	glibc
 %if %{systemd_enabled}
 # pre/post stuff needs systemd too
-Requires(post):		systemd-units
-Requires(preun):	systemd-units
-Requires(postun):	systemd-units
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
@@ -840,7 +840,7 @@ cat postgres-%{pgpackageversion}.lang pg_resetxlog-%{pgpackageversion}.lang pg_c
 
 %pre server
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
-useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post server
@@ -865,7 +865,7 @@ export PGDATA
 # Use the file below. This is not overridden
 # by the RPMS.
 [ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" > /var/lib/pgsql/.bash_profile
-chown postgres: /var/lib/pgsql/.bash_profile
+chown postgres:postgres /var/lib/pgsql/.bash_profile
 chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
