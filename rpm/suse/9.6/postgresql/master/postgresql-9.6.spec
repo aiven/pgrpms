@@ -38,7 +38,8 @@
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
-%else
+%endif
+%if 0%{?sle_version} >= 120000 && 0%{?is_opensuse}
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le
 %{!?sdt:%global sdt 0}
@@ -99,10 +100,10 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 Requires:	/sbin/ldconfig
 
 %if %plperl
-%if 0%{?rhel} && 0%{?rhel} >= 7
++%if 0%{?sle_version} >= 120000 && 0%{?is_opensuse}
 BuildRequires:	perl-ExtUtils-Embed
 %endif
-%if 0%{?fedora} >= 22
+%if 0%{?is_opensuse}
 BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
@@ -152,7 +153,7 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %uuid
-%if 0%{?rhel}
+%if 0%{?sle_version} >= 120000 && 0%{?is_opensuse}
 BuildRequires:	libuuid-devel
 %endif
 %endif
@@ -438,7 +439,7 @@ CFLAGS="${CFLAGS:-%optflags}"
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 	# Add LINUX_OOM_SCORE_ADJ=0 to ensure child processes reset postmaster's oom_score_adj
 	CFLAGS="$CFLAGS -DLINUX_OOM_SCORE_ADJ=0"
-	%if 0%{?rhel}
+	%if 0%{?sle_version} >= 120000
 		LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 	%endif
 %endif
@@ -1305,111 +1306,5 @@ fi
 %endif
 
 %changelog
-* Mon Jun 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-2PGDG-1
-- Rename all patches, and add the same prefix to them.
-- Rename some macros for consistency with other packages.
-- Use separate README files for RHEL6 and others. Fixes #2471.
-- Remove nonexistent Patch7 reference
-
-* Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
-- Update to 9.6.3, per changes described at:
-  http://www.postgresql.org/docs/devel/static/release-9-6-3.html
-- Fix #2189 and #2384.
-
-* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.2-3PGDG-1
-- Initial attempt for Power RPMs.
-
-* Wed Feb 22 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.2-2PGDG-1
-- Fix creating parent directory issue in setup script, per report and fix
-  from Magnus. Fixes #2188
-
-* Tue Feb 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.2-1PGDG-1
-- Update to 9.6.2,  per changes described at:
-  http://www.postgresql.org/docs/devel/static/release-9-6-2.html
-
-* Thu Jan 5 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-3PGDG-1
-- Remove various hacks for RHEL 5.
-
-* Sat Dec 31 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-2PGDG-1
-- Remove unnecessary ldconfig calls, per
-  https://bugzilla.redhat.com/show_bug.cgi?id=849344
-- Fix build when some macros are disabled. Per report and patch from
-  Tomoaki Sato.
-- Various cleanup and improvements, Jonathon Nelson:
-  - Add min version to flex dependency
-  - Remove redundant strip of -ffast-math from CFLAGS
-  - Aesthetic cleanup in a Requires line (groupadd)
-  - Remove redundant translation file list init.
-  - Use %%{mandir} and %%{bindir} in update-alternatives section.
-
-* Mon Oct 24 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.1-1PGDG-1
-- Update to 9.6.1,  per changes described at:
-  http://www.postgresql.org/docs/devel/static/release-9-6-1.html
-- Remove the hack in spec file for PL/Python builds. Fixed upstream.
-- Put back a useless block, to supress ldconfig issues temporarily until
-  we have a good fix. Per John.
-- Append PostgreSQL major version number to -libs provides.
-
-* Mon Sep 26 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1PGDG-1
-- Update to 9.6.0,  per changes described at:
-  http://www.postgresql.org/docs/devel/static/release-9-6.html
-- Compile with --enable-tap-tests, per suggestion from Tom Lane.
-- Disable tap tests on RHEL, because Red Hat does not ship with the
-  necessary deps. CentOS has them, but we cannot ask RHEL users to use
-  CentOS packages.  Per John Harvey.
-
-* Tue Aug 30 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6rc1-1PGDG-1
-- Update to 9.6 rc1
-- Don't remove .pgsql_profile line in .bash_profile each time. Fixes #1215.
-
-* Fri Aug 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta4-1PGDG-1
-- Put systemd support to both build parts. This fixes the startup issue.
-
-* Thu Aug 11 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta4-1PGDG-1
-- Update to 9.6 beta4
-- Build with systemd support natively, and change the service file to
-  use the notify type. Patch from Peter Eisentraut. Fixes #1529.
-- Remove useless chown in %%test conditional, per report from John
-  Harvey. Fixes #1522.
-- Add /usr/sbin/groupadd as a dependency, per John . Fixes #1522
-- Remove useless BR, per Peter Eisentraut. Fixes #1528.
-
-* Tue Jul 19 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta3-1PGDG-1
-- Update to 9.6 beta3
-
-* Wed Jun 29 2016 Jeff Frost <jeff@pgexperts.com> - 9.6beta2-2PGDG-1
-- Fix data and bin directories in init script for EL-6
-
-* Thu Jun 23 2016 Jeff Frost <jeff@pgexperts.com> - 9.6beta2-1PGDG-1
-- Initial cut for PostgreSQL 9.6 Beta 2
-
-* Sat May 14 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-2PGDG-1
-- Fix typo in spec file, per report from Andrew Dunstan.
-
-* Thu May 12 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6beta1-1PGDG-1
-- Initial cut for PostgreSQL 9.6 Beta 1
-
-* Fri Mar 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160325_1PGDG-1
-- Update to Mar 25, 2016 tarball.
-
-* Thu Mar 10 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160310_1PGDG-1
-- Sync with 9.5 spec, which is the unified one, before it is too late.
-- Update to Mar 10, 2016 tarball.
-
-* Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20160121_1PGDG-1
-- Update to Jan 21, 2016 tarball.
-
-* Mon Dec 28 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151228_1PGDG-1
-- Update to Dec 28, 2015 tarball.
-
-* Wed Nov 18 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151118_1PGDG-1
-- Update to Nov 18, 2015 tarball.
-- Enable debug and cassert builds.
-- Start pg_ctl with -c parameter, so that it produces core dumps.
-
-* Mon Nov 16 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151116_1PGDG-1
-- Update to Nov 16, 2015 tarball.
-
-* Fri Nov 13 2015 Devrim Gündüz <devrim@gunduz.org> - 9.6devel-git20151113_1PGDG-1
-- Initial cut for PostgreSQL 9.6devel.
-
+* Tue Jun 13 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-2PGDG-1
+- Initial spec file for SLES and OpenSuSE.
