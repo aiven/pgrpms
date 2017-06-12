@@ -554,6 +554,7 @@ unset PYTHON
 	--includedir=%{pginstdir}/include \
 	--mandir=%{pginstdir}/share/man \
 	--datadir=%{pginstdir}/share \
+	--libdir=%{pginstdir}/lib \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
