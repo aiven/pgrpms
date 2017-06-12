@@ -1,58 +1,15 @@
-# Conventions for PostgreSQL Global Development Group RPM releases:
-
-# Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-# but the tarball is different.
-
-# Test releases are where PostgreSQL itself is not in beta, but certain parts of
-# the RPM packaging (such as the spec file, the initscript, etc) are in beta.
-
-# Pre-release RPM's should not be put up on the public ftp.postgresql.org server
-# -- only test releases or full releases should be.
-# This is the PostgreSQL Global Development Group Official RPMset spec file,
-# or a derivative thereof.
-# Copyright 2003-2016 Devrim GÜNDÜZ <devrim@gunduz.org>
-# and others listed.
-
-# Major Contributors:
-# ---------------
-# Lamar Owen
-# Tom Lane
-# Jeff Frost
-# Peter Eisentraut
-# Alvaro Herrera
-# David Fetter
-# Greg Smith
-# and others in the Changelog....
-
-# This spec file and ancilliary files are licensed in accordance with
-# The PostgreSQL license.
-
-# In this file you can find the default build package list macros.  These can be overridden by defining
-# on the rpm command line:
-# rpm --define 'packagename 1' .... to force the package to build.
-# rpm --define 'packagename 0' .... to force the package NOT to build.
-# The base package, the lib package, the devel package, and the server package always get built.
-
-%global beta 0
-%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
-
-%{!?kerbdir:%global kerbdir "/usr"}
-
 # These are macros to be used with find_lang and other stuff
 %global sname postgresql
 %global pgmajorversion 96
 %global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 
+
+%global beta 0
+%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
+
+# Macros that define the configure parameters:
+%{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 %if 0%{?rhel}
 %{!?enabletaptests:%global enabletaptests 0}
@@ -103,7 +60,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -111,7 +68,11 @@ Url:		https://www.postgresql.org/
 Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
-Source6:	%{sname}-%{pgmajorversion}-README.rpm-dist
+%if %{systemd_enabled}
+Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
+%else
+Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
+%endif
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
@@ -1349,6 +1310,11 @@ fi
 %endif
 
 %changelog
+* Mon Jun 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-2PGDG-1
+- Rename all patches, and add the same prefix to them.
+- Rename some macros for consistency with other packages.
+- Use separate README files for RHEL6 and others.
+
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
 - Update to 9.6.3, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-6-3.html

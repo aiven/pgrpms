@@ -36,7 +36,7 @@ want to use PGDG set, instead of the binaries supplied by distribution.
 
 These RPMs do not support any sort of major version upgrading process
 other than that documented in the regular documentation.  That is, you
-must dump, upgrade,initdb, and restore your data if you are
+must dump, upgrade, initdb, and restore your data if you are
 performing a major version update. This is not needed for minor version
 updates.
 
@@ -51,16 +51,16 @@ need to start PostgreSQL. Again as root, run:
 
 	systemctl start postgresql-9.6.service
 
-This command will start a postmaster that willl listen on localhost and Unix 
-socket 5432 only.  Edit /var/lib/pgsql/9.6/data/postgresql.conf and pg_hba.conf 
-if you want to allow remote access -- see the section on Grand Unified 
-Configuration.
-
 You will probably also want to do
 
 	systemctl enable postgresql-9.6.service
 
 so that the postmaster is automatically started during future reboots.
+
+These commands will start a postmaster that will listen on localhost and Unix 
+socket 5432 only.  Edit /var/lib/pgsql/9.6/data/postgresql.conf and pg_hba.conf 
+if you want to allow remote access -- see the section on Grand Unified 
+Configuration.
 
 The file /var/lib/pgsql/9.6/.bash_profile is packaged to help with the
 setting of environment variables. Users should not edit this file, because
@@ -111,12 +111,12 @@ requires more effort.
 
 If you are upgrading across more than one major release of PostgreSQL
 (for example, from 9.1.x to 9.6.x), you will need to follow the "traditional"
-dump and reload process to bring your data into the new version.  That is:
+dump and reload process to bring your data into the new version. That is:
 *before* upgrading, run pg_dumpall to extract all your data into a SQL file.
 Shut down the old postmaster, upgrade to the new version RPMs, initdb,
 and run the dump file through psql to restore your data.
 
-In 9.1+, the RPMs also support in-place upgrade from th immediately 
+In 9.1+, the RPMs also support in-place upgrade from the immediately 
 previous major release.  Currently, you can upgrade in-place
 from 9.2.x to 9.6.x.  Just run:
 $ /usr/pgsql-9.6/bin/postgresql96-setup upgrade
@@ -193,33 +193,36 @@ mailing list.
 -------------------------------------------------------------------------------
 MULTIPLE POSTMASTERS (For the same PostgreSQL version)
 -------------------------------------------------------------------------------
-The postgresql-server RPM contains an 'initscript' that is used to start the
+The postgresql-server RPM contains a 'unit file' that is used to start the
 postmaster.  The current version of this script has logic to be able to start
 multiple postmasters, with different data areas, listening on different ports,
 etc.  To use this functionality requires root access.
 
-As an example, let us create a secondary postmaster called, creatively enough,
-'secondary'.  Here are the steps:
-1.)     create a hard link in /etc/rc.d/init.d (or equivalent location)
-        to postgresql-9.6 named 'secondary-9.6' : ln postgresql secondary   Pick
-        a name not already used in /etc/rc.d/init.d!
-2.)     create a file in /etc/sysconfig/pgsql named secondary.  This file is
-        a shell script -- typically you would define PGDATA, and PGOPTS
-        here.  Since $PGDATA/postgresql.conf will override many of these
-        settings, except PGDATA, you might be surprised on startup.
-3.)     create the target PGDATA.
-4.)     Initdb the targe PGDATA as documented in the main documentation.
-        Automatic initdb may or may not work for you, so a manual one is
-        preferred.  This must be done as user 'postgres'
-5.)     Edit postgresql.conf to change the port, address, tcpip settings, etc.
-6.)     Start the postmaster with 'service secondary-9.6 start'.
+Here are the steps:
 
-Note that there may be problems with the standard symlink -- consider this
-support experimental at this point in time.
+1.)     First, you will need to create a new unit file for the new cluster.
+	You can give any name in here. To distinguish the cluster, you can
+	add the service name or port value to the unit file name:
+
+	cp /lib/systemd/system/postgresql-9.6.service /etc/systemd/system/postgresql-9.6-secondary.service 
+
+2.)	Edit this file, and change PGDATA. Please note that you can give
+	any directory name in here that postgres can access. You don't
+	have to create this directory now, it will be created in the next step:
+
+	Environment=PGDATA=/var/lib/pgsql/9.6/data-secondary
+
+3.)     Initialize the cluster:
+
+	/usr/pgsql-9.6/bin/postgresql96-setup initdb postgresql-9.6-secondary
+
+4.)     Edit postgresql.conf to change the port, address, tcpip settings, etc.
+
+5.)     Start the postmaster with 'systemctl start postgresql-9.6-secondary.service'
 
 When doing a major-version upgrade of a secondary postmaster, mention the
-service name in the postgresql-setup command, for example 'postgresql-setup
-upgrade secondary'.  This will let postgresql-setup find the correct data
+service name in the postgresql96-setup command, for example 'postgresql96-setup
+upgrade secondary'.  This will let postgresql96-setup find the correct data
 directory from the service file.
 
 REGRESSION TESTING
@@ -318,7 +321,7 @@ uuid		1	#build contrib/uuid-ossp
 To use these defines, invoke a rebuild like this:
 rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
 	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
-	postgresql96-9.6.0-1PGDG.f20.src.rpm
+	postgresql96-9.6.3-1PGDG.rhel7.src.rpm
 This line would disable the python, tcl, and test subpackages, disable 
 the regression test run during build, and disable kerberos support.
 
