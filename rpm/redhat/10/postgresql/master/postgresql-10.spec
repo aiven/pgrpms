@@ -64,7 +64,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta1PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -72,7 +72,11 @@ Url:		http://www.postgresql.org/
 Source0:	https://download.postgresql.org/pub/source/v10beta1/%{sname}-10beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
-Source6:	%{sname}-%{pgmajorversion}-README.rpm-dist
+%if %{systemd_enabled}
+Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
+%else
+Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
+%endif
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgmajorversion}/%{sname}-%{pgmajorversion}-A4.pdf
@@ -1309,6 +1313,9 @@ fi
 %endif
 
 %changelog
+* Mon Jun 12  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-2PGDG
+- Use separate README files for RHEL6 and others. Fixes #2471.
+
 * Wed May 17 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-1PGDG
 - Initial cut for PostgreSQL 10 Beta 1
 - Rename all patches and sources, and add the same prefix to all of them.
