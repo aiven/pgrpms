@@ -1313,7 +1313,7 @@ fi
 * Mon Jun 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-2PGDG-1
 - Rename all patches, and add the same prefix to them.
 - Rename some macros for consistency with other packages.
-- Use separate README files for RHEL6 and others.
+- Use separate README files for RHEL6 and others. Fixes #2471.
 
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
 - Update to 9.6.3, per changes described at:
