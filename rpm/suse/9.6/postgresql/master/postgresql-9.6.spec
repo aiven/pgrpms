@@ -99,15 +99,6 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 
 Requires:	/sbin/ldconfig
 
-%if %plperl
-+%if 0%{?sle_version} >= 120000 && 0%{?is_opensuse}
-BuildRequires:	perl-ExtUtils-Embed
-%endif
-%if 0%{?is_opensuse}
-BuildRequires:	perl-ExtUtils-Embed
-%endif
-%endif
-
 %if %plpython
 BuildRequires:	python-devel
 %endif
