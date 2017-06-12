@@ -1,39 +1,13 @@
-# This is the PostgreSQL Global Development Group Official RPMset spec file,
-# or a derivative thereof.
-# Copyright 2003-2017 Devrim Gündüz <devrim@gunduz.org>
-# and others listed.
-
-# Major Contributors:
-# ---------------
-# Lamar Owen
-# Tom Lane
-# Jeff Frost
-# Peter Eisentraut
-# Alvaro Herrera
-# David Fetter
-# Greg Smith
-# and others in the Changelog....
-
-# This spec file and ancilliary files are licensed in accordance with
-# The PostgreSQL license.
-
-# In this file you can find the default build package list macros.  These can be overridden by defining
-# on the rpm command line:
-# rpm --define 'packagename 1' .... to force the package to build.
-# rpm --define 'packagename 0' .... to force the package NOT to build.
-# The base package, the lib package, the devel package, and the server package always get built.
-
-#%global build_timestamp %(date +"%Y%m%d")
-%global beta 1
-%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
-
-%{!?kerbdir:%global kerbdir "/usr"}
-
 # These are macros to be used with find_lang and other stuff
 %global packageversion 100
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
+%global beta 1
+%{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
+
+# Macros that define the configure parameters:
+%{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 %if 0%{?rhel}
 %{!?enabletaptests:%global enabletaptests 0}
