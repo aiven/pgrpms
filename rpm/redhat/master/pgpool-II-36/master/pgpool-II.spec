@@ -308,6 +308,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Jun 12 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.4-1
+- Update to 3.6.4.
+
 * Sat May 6 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1
 - Update to 3.6.3.
 
