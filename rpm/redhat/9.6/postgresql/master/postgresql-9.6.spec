@@ -708,14 +708,14 @@ make -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 
 # multilib header hack; note pg_config.h is installed in two places!
 # we only apply this to known Red Hat multilib arches, per bug #177564
-case `uname -i` in
+case $(uname -i) in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
-		%{__mv} %{buildroot}%{pginstdir}/include/pg_config.h %{buildroot}%{pginstdir}/include/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pginstdir}/include/
-		%{__mv} %{buildroot}%{pginstdir}/include/server/pg_config.h %{buildroot}%{pginstdir}/include/server/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pginstdir}/include/server/
-		%{__mv} %{buildroot}%{pginstdir}/include/ecpg_config.h %{buildroot}%{pginstdir}/include/ecpg_config_`uname -i`.h
-		install -m 644 %{SOURCE7} %{buildroot}%{pginstdir}/include/
+		%{__mv} %{buildroot}%{pginstdir}/include/pg_config.h %{buildroot}%{pginstdir}/include/pg_config_$(uname -i).h
+		install -m 644 %{SOURCE5} %{buildroot}%{pginstdir}/include/pg_config.h
+		%{__mv} %{buildroot}%{pginstdir}/include/server/pg_config.h %{buildroot}%{pginstdir}/include/server/pg_config_$(uname -i).h
+		install -m 644 %{SOURCE5} %{buildroot}%{pginstdir}/include/server/pg_config.h
+		%{__mv} %{buildroot}%{pginstdir}/include/ecpg_config.h %{buildroot}%{pginstdir}/include/ecpg_config_$(uname -i).h
+		install -m 644 %{SOURCE7} %{buildroot}%{pginstdir}/include/ecpg_config.h
 		;;
 	*)
 	;;
