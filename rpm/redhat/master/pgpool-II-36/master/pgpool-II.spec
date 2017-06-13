@@ -105,12 +105,14 @@ Postgresql extensions libraries and sql files for pgpool-II.
         LDFLAGS="-L%{atpath}/%{_lib}"
         CC=%{atpath}/bin/gcc; export CC
 %endif
-./configure \
 %ifarch ppc64 ppc64le
-	--build=ppc64le \
+%configure --build=ppc64le \
+%else
+./configure
 %endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
+	--bindir=%{pgpoolinstdir}/bin \
 	--exec-prefix=%{pgpoolinstdir} \
 	--includedir=%{pgpoolinstdir}/include \
 	--libdir=%{pgpoolinstdir}/lib \
@@ -125,23 +127,23 @@ Postgresql extensions libraries and sql files for pgpool-II.
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
-USE_PGXS=1 make %{?_smp_mflags}
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool_adm
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-recovery
-USE_PGXS=1 make %{?_smp_mflags} -C src/sql/pgpool-regclass
+USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool_adm
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-recovery
+USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 
 %install
-make %{?_smp_mflags} DESTDIR=%{buildroot} install
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
-make %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool_adm
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
+%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
-mkdir -p %{buildroot}%{_tmpfilesdir}
+%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_varrundir} 0755 root root -
 EOF
@@ -198,7 +200,7 @@ if [ $1 -eq 0 ] ; then
 fi
 %endif
 
-%postun 
+%postun
 if [ "$1" -eq 0 ]
   then
 	%{_sbindir}/update-alternatives --remove pgpool-ld-conf	%{pgpoolinstdir}/share/pgpool-II-pg%{pgmajorversion}-libs.conf
