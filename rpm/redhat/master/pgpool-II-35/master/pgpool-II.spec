@@ -109,7 +109,11 @@ Postgresql extensions libraries and sql files for pgpool-II.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-./configure \
+%ifarch ppc64 ppc64le
+%configure --build=ppc64le \
+%else
+./configure
+%endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
 	--exec-prefix=%{pgpoolinstdir} \
@@ -142,7 +146,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 %{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
-mkdir -p %{buildroot}%{_tmpfilesdir}
+%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_varrundir} 0755 root root -
 EOF
