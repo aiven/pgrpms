@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.18
+Version:	1.19
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -9,7 +9,7 @@ Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar
 Source1:	pgbackrest-conf.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	perl
+Requires:	perl perl-XML-LibXML perl-IO-Socket-SSL
 
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
@@ -52,6 +52,8 @@ are required to perform a backup which increases security.
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Jun 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.19-1
+- Update to 1.19, per #2483.
 * Wed May 10 2017 - Devrim Gündüz <devrim@gunduz.org> 1.18-1
 - Update to 1.18
 
