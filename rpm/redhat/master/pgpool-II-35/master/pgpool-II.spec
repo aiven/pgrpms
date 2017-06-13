@@ -116,6 +116,7 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %endif
 	--datadir=%{pgpoolinstdir}/share \
 	--disable-static \
+        --bindir=%{pgpoolinstdir}/bin \
 	--exec-prefix=%{pgpoolinstdir} \
 	--includedir=%{pgpoolinstdir}/include \
 	--libdir=%{pgpoolinstdir}/lib \
