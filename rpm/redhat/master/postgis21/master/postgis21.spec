@@ -11,11 +11,9 @@
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
-%{!?sfcgal:%global     sfcgal 1}
-%else
+# The RPM's for PostGIS 2.1 generally do not build with sfcgal on
+# However, this can optionally be overrideen for fedora >= 24 or rhel >= 7
 %{!?sfcgal:%global    sfcgal 0}
-%endif
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -26,7 +24,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -34,6 +32,8 @@ Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
+# To be removed when 2.0.8 is out:
+Patch1:		postgis21-2.0.7-pg95.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -194,6 +194,8 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 # postgis-2.0.so file along with 2.1 package, so that we can upgrade:
 tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
+# To be removed when 2.0.8 is out:
+patch -p0 -s < %{PATCH1}
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
@@ -235,14 +237,20 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*legacy*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/legacy.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/legacy_*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/topology*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_topology.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
+%{pginstdir}/share/extension/postgis--*.sql
+%{pginstdir}/share/extension/postgis.control
 %if %{sfcgal}
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal.sql
 %endif
 %{pginstdir}/lib/liblwgeom*.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
@@ -250,13 +258,11 @@ fi
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
 %if %raster
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/rtpostgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/rtpostgis_upgrade*.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_rtpostgis.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/rtpostgis_legacy.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal.sql
-%endif
-%{pginstdir}/share/extension/postgis--*.sql
-%{pginstdir}/share/extension/postgis.control
 %endif
 
 %files client
@@ -276,7 +282,14 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/*.pl
 %endif
 
+%files docs
+%defattr(-,root,root)
+%doc %{sname}-%{version}.pdf
+
 %changelog
+* Wed Jun 14 2017 John Harvey <john.harvey@crunchydata.com> - 2.1.8-2
+- Re-add missing patch, some reorganizaton
+
 * Tue Jul 7 2015 Devrim Gündüz <devrim@gunduz.org> - 2.1.8-1
 - Update to 2.1.8, per changes described at:
   http://postgis.net/2015/07/07/postgis-2.1.8
