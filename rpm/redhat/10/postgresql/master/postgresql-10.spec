@@ -268,7 +268,6 @@ and maintain PostgreSQL databases.
 Summary:	Extra documentation for PostgreSQL
 Group:		Applications/Databases
 Provides:	postgresql-docs
-BuildRequires:	fop
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
