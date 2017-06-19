@@ -6,9 +6,9 @@ Version:	2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	hdfs_fdw.tar.gz
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/EnterpriseDB/hdfs_fdw
+URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
