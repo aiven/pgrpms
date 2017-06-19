@@ -19,7 +19,7 @@ BuildRequires:	flex
 BuildRequires:	bison
 BuildRequires:	python-sphinx
 BuildRequires:	memcached
-BuildRequires:	libevent-devel
+BuildRequires:	libevent2-devel
 
 %description
 libmemcached is a C/C++ client library and tools for the memcached server
