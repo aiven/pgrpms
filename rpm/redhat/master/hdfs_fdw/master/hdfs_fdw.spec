@@ -19,7 +19,7 @@ This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 the hdfs.
 
 %prep
-%setup -q -n %{sname}
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
