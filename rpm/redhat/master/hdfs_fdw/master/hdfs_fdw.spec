@@ -23,7 +23,7 @@ the hdfs.
 %patch0 -p0
 
 %build
-export JDK_INCLUDE="/usr/java/latest/include"
+export JDK_INCLUDE="/etc/alternatives/java_sdk_openjdk/include"
 pushd libhive
 %{__make} %{?_smp_mflags}
 popd
