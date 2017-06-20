@@ -2,7 +2,7 @@
 
 Summary:	A sample database for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0
+Version:	2.0.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,14 +41,17 @@ books, tutorials, articles, samples, etc.
 %attr(644,root,root) %{_pagiladir}/*.sql
 
 %changelog
-* Tue Jun 6 2017 Devrim Gunduz <devrim@gunduz.org> 2.0-1
+* Tue Jun 20 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+
+* Tue Jun 6 2017 Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Update to 2.0, which is the version that I forked.
 
-* Mon Sep 27 2010 Devrim Gunduz <devrim@gunduz.org> 0.10.1-2
+* Mon Sep 27 2010 Devrim Gündüz <devrim@gunduz.org> 0.10.1-2
 - Apply some minor fixes for new PostgreSQL RPM layout.
 
-* Sat Jun 14 2008 Devrim Gunduz <devrim@gunduz.org> 0.10.1-1
+* Sat Jun 14 2008 Devrim Gündüz <devrim@gunduz.org> 0.10.1-1
 - Update to 0.10.1
 
-* Fri Feb 1 2008 Devrim Gunduz <devrim@gunduz.org> 0.10.0-1
+* Fri Feb 1 2008 Devrim Gündüz <devrim@gunduz.org> 0.10.0-1
 - Initial packaging for Fedora/EPEL
