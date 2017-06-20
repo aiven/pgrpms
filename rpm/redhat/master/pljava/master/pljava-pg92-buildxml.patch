@@ -5,7 +5,7 @@
          var pgc = properties.getProperty('pgconfig');
          if ( null === pgc )
 -            pgc = 'pg_config';
-+            pgc = '/usr/pgsql-10/bin/pg_config';
++            pgc = '/usr/pgsql-9.2/bin/pg_config';
          var pb = new java.lang.ProcessBuilder(pgc, '--'+key);
          pb.redirectErrorStream(true);
          var proc = pb.start();
@@ -16,7 +16,7 @@
  			</activation>
  			<properties>
 -				<pgsql.pgconfig>pg_config</pgsql.pgconfig>
-+				<pgsql.pgconfig>/usr/pgsql-10/bin/pg_config</pgsql.pgconfig>
++				<pgsql.pgconfig>/usr/pgsql-9.2/bin/pg_config</pgsql.pgconfig>
  			</properties>
  		</profile>
  	</profiles>

@@ -1,42 +1,22 @@
---- pljava-packaging/build.xml.old	2016-07-14 18:01:40.424545854 +0300
-+++ pljava-packaging/build.xml	2016-07-14 18:01:54.934403964 +0300
-@@ -322,7 +322,7 @@
+--- pljava-packaging/build.xml.old	2017-06-20 10:34:40.710494632 +0100
++++ pljava-packaging/build.xml	2017-06-20 10:34:55.801378215 +0100
+@@ -326,7 +326,7 @@
      if ( null === replacement ) {
          var pgc = properties.getProperty('pgconfig');
          if ( null === pgc )
 -            pgc = 'pg_config';
-+            pgc = '/usr/pgsql-9.4/bin/pg_config';
++            pgc = '/usr/pgsql-9.3/bin/pg_config';
          var pb = new java.lang.ProcessBuilder(pgc, '--'+key);
          pb.redirectErrorStream(true);
          var proc = pb.start();
---- pljava-so/build.xml.old	2016-07-14 18:02:04.079314538 +0300
-+++ pljava-so/build.xml	2016-07-14 18:02:41.749946164 +0300
-@@ -38,22 +38,22 @@
- 
- 	<target name="pg_config" depends="configure_msvc_options">
- 		<!-- First gather all values from the pg_config executable. -->
--		<exec executable="pg_config" outputproperty="PGSQL_BINDIR">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_BINDIR">
- 			<arg line="--bindir"/>
- 		</exec>
--		<exec executable="pg_config" outputproperty="PGSQL_PKGLIBDIR">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_PKGLIBDIR">
- 			<arg line="--pkglibdir"/>
- 		</exec>
--		<exec executable="pg_config" outputproperty="PGSQL_LIBDIR">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_LIBDIR">
- 			<arg line="--libdir"/>
- 		</exec>
--		<exec executable="pg_config" outputproperty="PGSQL_INCLUDEDIR">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR">
- 			<arg line="--includedir"/>
- 		</exec>
--		<exec executable="pg_config" outputproperty="PGSQL_INCLUDEDIR-SERVER">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_INCLUDEDIR-SERVER">
- 			<arg line="--includedir-server"/>
- 		</exec>
--		<exec executable="pg_config" outputproperty="PGSQL_VER">
-+		<exec executable="/usr/pgsql-9.4/bin/pg_config" outputproperty="PGSQL_VER">
- 			<arg line="--version"/>
- 		</exec>
- 		<loadresource property="PGSQL_VER_CLASSIFIER">
+--- pljava-so/pom.xml.old	2017-06-20 10:41:14.013582588 +0100
++++ pljava-so/pom.xml	2017-06-20 10:41:24.722515260 +0100
+@@ -269,7 +269,7 @@
+ 				</property>
+ 			</activation>
+ 			<properties>
+-				<pgsql.pgconfig>pg_config</pgsql.pgconfig>
++				<pgsql.pgconfig>/usr/pgsql-9.3/bin/pg_config</pgsql.pgconfig>
+ 			</properties>
+ 		</profile>
+ 	</profiles>

@@ -2,14 +2,14 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	1.5.0
-Release:	2%{?dist}
+Version:	1.5.1
+Release:	b1_1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://tada.github.io/pljava/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
-Source0:	https://github.com/tada/pljava/archive/V1_5_0.tar.gz
+Source0:	https://github.com/tada/pljava/archive/V1_5_1b1.tar.gz
 Source1:	%{sname}.pom
 
 BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
@@ -21,7 +21,7 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -q -n pljava-1_5_0
+%setup -q -n pljava-1_5_1b1
 %patch0 -p0
 
 %build
@@ -31,16 +31,16 @@ mvn clean install
 %install
 %{__rm} -rf %{buildroot}
 
-install -d %{buildroot}%{pginstdir}/lib
-%{__cp} -f %{sname}-so/target/nar/%{sname}-so-%{version}-amd64-Linux-gpp-plugin/lib/amd64-Linux-gpp/plugin/libpljava-so-%{version}.so %{buildroot}%{pginstdir}/lib
+%{__install} -d %{buildroot}%{pginstdir}/lib
+%{__cp} -f %{sname}-so/target/nar/%{sname}-so-%{version}-BETA1-amd64-Linux-gpp-plugin/lib/amd64-Linux-gpp/plugin/libpljava-so-%{version}-BETA1.so %{buildroot}%{pginstdir}/lib
 
-install -d %{buildroot}%{pginstdir}/share/%{sname}
-%{__cp} -f %{sname}/target/%{sname}-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
-%{__cp} -f %{sname}-api/target/%{sname}-api-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
+%{__install} -d %{buildroot}%{pginstdir}/share/%{sname}
+%{__cp} -f %{sname}/target/%{sname}-%{version}-BETA1.jar %{buildroot}%{pginstdir}/share/%{sname}
+%{__cp} -f %{sname}-api/target/%{sname}-api-%{version}-BETA1.jar %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}-packaging/target/classes/pljava.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
 %{__cp} -f %{sname}-packaging/target/classes/pljava--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 
-install -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.control %{buildroot}%{pginstdir}/share/extension
 
 %clean
@@ -53,14 +53,17 @@ install -d %{buildroot}%{pginstdir}/share/extension
 %doc README.md
 %license COPYRIGHT
 %endif
-%{pginstdir}/lib/libpljava-so-%{version}.so
+%{pginstdir}/lib/libpljava-so-%{version}-BETA1.so
 %{pginstdir}/share/extension/pljava.control
 %{pginstdir}/share/pljava/pljava--%{version}.sql
 %{pginstdir}/share/pljava/pljava--unpackaged--%{version}.sql
-%{pginstdir}/share/pljava/pljava-%{version}.jar
-%{pginstdir}/share/pljava/pljava-api-%{version}.jar
+%{pginstdir}/share/pljava/pljava-%{version}-BETA1.jar
+%{pginstdir}/share/pljava/pljava-api-%{version}-BETA1.jar
 
 %changelog
+* Tue Jun 20 2017 Devrim Gunduz <devrim@gunduz.org> 1.5.1-b1-1
+- Update to 1.5.1 Beta 1
+
 * Tue Mar 28 2017 Devrim Gunduz <devrim@gunduz.org> 1.5.0-2
 - Fix packaging, per EnterpriseDB's spec file.
 
