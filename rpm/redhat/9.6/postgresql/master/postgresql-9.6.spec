@@ -747,7 +747,7 @@ install -m 755 postgresql.init %{buildroot}%{_initrddir}/postgresql-%{pgpackagev
 
 %if %pam
 install -d %{buildroot}/etc/pam.d
-install -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/postgresql%{pgmajorversion}
+install -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/%{sname}
 %endif
 
 # Create the directory for sockets.
@@ -1201,7 +1201,7 @@ fi
 %config(noreplace) %{_initrddir}/postgresql-%{pgpackageversion}
 %endif
 %if %pam
-%config(noreplace) /etc/pam.d/postgresql%{pgmajorversion}
+%config(noreplace) /etc/pam.d/%{sname}
 %endif
 %attr (755,root,root) %dir /etc/sysconfig/pgsql
 %{pginstdir}/bin/initdb
