@@ -1,8 +1,8 @@
---- Makefile.old	2017-06-12 17:11:03.527977777 +0300
-+++ Makefile	2017-06-12 17:11:10.002925081 +0300
-@@ -18,7 +18,7 @@
+--- Makefile.old	2017-06-29 12:35:02.577896332 +0300
++++ Makefile	2017-06-29 12:35:10.300833924 +0300
+@@ -19,7 +19,7 @@
  EXTENSION = hdfs_fdw
- DATA = hdfs_fdw--1.0.sql
+ DATA = hdfs_fdw--2.0.1.sql hdfs_fdw--2.0--2.0.1.sql hdfs_fdw--1.0--2.0.sql hdfs_fdw--1.0.sql
  
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
