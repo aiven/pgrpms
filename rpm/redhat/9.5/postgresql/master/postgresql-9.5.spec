@@ -52,6 +52,7 @@
 
 # These are macros to be used with find_lang and other stuff
 %global majorversion 9.5
+%global prevmajorversion 9.4
 %global packageversion 95
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
@@ -97,7 +98,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1351,6 +1352,9 @@ fi
 %endif
 
 %changelog
+* Sun Jul 2 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.7-2PGDG
+- Add missing macro, per #2416 .
+
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.7-1PGDG
 - Update to 9.5.7, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-7.html

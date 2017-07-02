@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.2.21
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -912,6 +912,9 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Jul 2 2017 Devrim Gündüz <devrim@gunduz.org> - 9.2.21-2PGDG
+- Add missing macro, per #2416 .
+
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.2.21-1PGDG
 - Update to 9.2.21, per changes described at:
   http://www.postgresql.org/docs/9.2/static/release-9-2-21.html

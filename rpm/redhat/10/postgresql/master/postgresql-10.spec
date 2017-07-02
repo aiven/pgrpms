@@ -1,5 +1,6 @@
 # These are macros to be used with find_lang and other stuff
 %global packageversion 100
+%global prevmajorversion 9.6
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
@@ -1314,6 +1315,7 @@ fi
 %changelog
 * Mon Jun 12  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-2PGDG
 - Use separate README files for RHEL6 and others. Fixes #2471.
+- Add missing macro, per #2416 .
 
 * Wed May 17 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-1PGDG
 - Initial cut for PostgreSQL 10 Beta 1
