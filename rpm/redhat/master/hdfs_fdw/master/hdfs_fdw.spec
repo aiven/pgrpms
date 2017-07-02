@@ -1,4 +1,9 @@
 %global sname hdfs_fdw
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
@@ -14,6 +19,15 @@ BuildRequires:	libxml2-devel java-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 the hdfs.
@@ -23,9 +37,16 @@ the hdfs.
 %patch0 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
+%endif
 export JDK_INCLUDE="/etc/alternatives/java_sdk_openjdk/include"
-export JVM_LIB="/etc/alternatives/jre_1.8.0_exports/lib/amd64/server"
-export LD_RUN_PATH="\${ORIGIN}"
+export JRE_LIBDIR="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
+export JVM_LIB="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
+#export JVM_LIB="/etc/alternatives/jre_1.8.0_exports/lib/amd64/server"
 pushd libhive
 %{__make} %{?_smp_mflags}
 popd
