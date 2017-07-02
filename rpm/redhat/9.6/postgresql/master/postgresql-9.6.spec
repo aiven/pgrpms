@@ -1,6 +1,7 @@
 # These are macros to be used with find_lang and other stuff
 %global sname postgresql
 %global pgmajorversion 96
+%global prevmajorversion 9.5
 %global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 
@@ -1313,6 +1314,7 @@ fi
 - Rename some macros for consistency with other packages.
 - Use separate README files for RHEL6 and others. Fixes #2471.
 - Remove nonexistent Patch7 reference
+- Add missing prevversion macro, per #2416.
 
 * Tue May 9 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-1PGDG-1
 - Update to 9.6.3, per changes described at:
