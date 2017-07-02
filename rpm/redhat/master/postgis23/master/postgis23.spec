@@ -25,8 +25,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.2
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.3
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -299,10 +299,13 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Sun May 28 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-2
+* Sun Jul 2 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.3-1
+- Update to 2.3.3, per #2525 .
+
+* Sun May 28 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-2
 - Rename package so that it also includes the Postgis major version.
 
-* Mon Nov 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
+* Mon Nov 28 2016 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-1
 - Update to 2.3.2, per changes described at
   http://postgis.net/2017/01/31/postgis-2.3.2
 - Update previous PostGIS version to 2.2.5, per changes described at
