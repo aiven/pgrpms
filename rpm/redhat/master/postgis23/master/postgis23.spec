@@ -5,7 +5,11 @@
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
+%{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
+%else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
+%endif
 %if 0%{?fedora} >= 24 || 0%{?rhel} >= 6
 %{!?raster:%global     raster 1}
 %else
@@ -272,6 +276,11 @@ fi
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
+%endif
+%if %shp2pgsqlgui
+%{pginstdir}/bin/shp2pgsql-gui
+%{pginstdir}/share/applications/shp2pgsql-gui.desktop
+%{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
 %endif
 
 %files client
