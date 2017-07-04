@@ -210,7 +210,7 @@ Documentation of pgadmin4.
 %patch0 -p0
 %endif
 
-# Apply these patch only to RHEL 6
+# Apply these patches only to RHEL 6
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %patch2 -p0
 %patch3 -p0
