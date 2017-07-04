@@ -61,7 +61,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.3
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1309,6 +1309,10 @@ fi
 %endif
 
 %changelog
+* Tue Jul 4 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-3PGDG-1
+- Bump up the version to fix breakage on RHEL 6 - i386. The other
+  distros will not be updated.
+
 * Mon Jun 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-2PGDG-1
 - Rename all patches, and add the same prefix to them.
 - Rename some macros for consistency with other packages.
