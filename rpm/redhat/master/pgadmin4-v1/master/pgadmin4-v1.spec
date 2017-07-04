@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -291,6 +291,12 @@ cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
 echo "HELP_PATH = '/usr/share/doc/pgadmin4-v1-docs/en_US/html'" >> config_distro.py
+echo "SQLITE_PATH = '/var/lib/pgadmin4/pgadmin4.db'
+SESSION_DB_PATH = '/var/lib/pgadmin4/sessions'
+STORAGE_DIR = '/var/lib/pgadmin4/storage'" >> config_local.py
+
+# Create this directory for the -web subpackage:
+%{__mkdir} -p %{buildroot}/var/lib/pgadmin
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -351,6 +357,7 @@ fi
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
+%attr (700,apache,apache) %dir /var/lib/pgadmin
 %dir %{PYTHON_SITELIB}/%{sname}-web/
 %{PYTHON_SITELIB}/%{sname}-web/*
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
@@ -364,6 +371,14 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Jul 4 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-4
+- Various fixes to -web package:
+  - Create /var/lib/pgadmin directory, and add config_local.py
+    which includes references to that directory. Per Josh.
+    Fixes #2495.
+- Fix systemd unit file, so that pgadmin4 unit is run by apache,
+  not root. Per Josh. Fixes #2495.
+
 * Thu Jun 1 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-3
 - Add pgadmin4-python-backports-csv dependency for RHEL 6 and RHEL 7.
 
