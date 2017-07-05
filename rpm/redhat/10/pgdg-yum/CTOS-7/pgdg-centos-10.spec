@@ -23,11 +23,11 @@ key for PGDG RPMs.
 %install
 %{__rm} -rf %{buildroot}
 
-install -Dpm 644 %{SOURCE0} \
+%{__install} -Dpm 644 %{SOURCE0} \
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
 
-install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-install -pm 644 %{SOURCE2}  \
+%{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+%{__install} -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %clean
