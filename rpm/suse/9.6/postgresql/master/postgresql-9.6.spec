@@ -11,7 +11,7 @@
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
-%if 0%{?sle_version} == 120000
+%if 0%{?suse_version} == 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -34,12 +34,12 @@
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
-%if 0%{?sle_version} < 120000
+%if 0%{?suse_version} < 1315
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
 %endif
-%if 0%{?sle_version} >= 120000 && 0%{?is_opensuse}
+%if 0%{?suse_version} >= 1315 && 0%{?is_opensuse}
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le
 %{!?sdt:%global sdt 0}
