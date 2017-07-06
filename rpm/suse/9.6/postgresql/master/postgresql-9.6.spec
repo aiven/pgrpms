@@ -34,20 +34,13 @@
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
-%if 0%{?suse_version} < 1315
-%{!?systemd_enabled:%global systemd_enabled 0}
-%{!?sdt:%global sdt 0}
-%{!?selinux:%global selinux 0}
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?is_opensuse}
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le
 %{!?sdt:%global sdt 0}
 %else
 %{!?sdt:%global sdt 1}
 %endif
-%{!?selinux:%global selinux 0}
-%endif
+%{!?selinux:%global selinux 1}
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -154,7 +147,7 @@ BuildRequires:	openldap2-devel
 %endif
 
 %if %selinux
-BuildRequires: libselinux >= 2.0.93
+BuildRequires: libselinux1 >= 2.0.93
 BuildRequires: selinux-policy >= 3.9.13
 %endif
 %if %{systemd_enabled}
@@ -848,7 +841,7 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %systemd_post postgresql-%{pgpackageversion}.service
+   %service_add_pre postgresql-%{pgpackageversion}.service
    %tmpfiles_create
   %else
    chkconfig --add postgresql-%{pgpackageversion}
@@ -1228,7 +1221,7 @@ fi
 
 %dir %{pginstdir}/lib
 %dir %{pginstdir}/share
-%attr(700,postgres,postgres) %dir /var/lib/pgsql
+#%attr(700,postgres,postgres) %dir /var/lib/pgsql
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/backups
