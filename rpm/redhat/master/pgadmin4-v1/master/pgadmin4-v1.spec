@@ -1,6 +1,6 @@
 %global sname pgadmin4
 %global pgadminmajorversion 1
-%global	pgadmin4instdir /usr/pgadmin4-v%{pgadminmajorversion}
+%global	pgadmin4instdir /usr/%{sname}-v%{pgadminmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -63,27 +63,27 @@ Requires:	%{name}-web
 %if 0%{?with_python3}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
-BuildRequires:	python3-passlib pgadmin4-python3-Flask-Mail
-BuildRequires:	python3-dateutil pgadmin4-python3-flask-gravatar
-BuildRequires:	python3-simplejson pgadmin4-python3-flask-babel
-BuildRequires:	pgadmin4-python3-flask-htmlmin pgadmin4-python3-flask-login >= 0.3.2
-BuildRequires:	pgadmin4-python3-flask-security pgadmin4-python3-flask-principal
-BuildRequires:	pgadmin4-python3-flask-wtf python3-flask >= 0.11.1
+BuildRequires:	python3-passlib %{sname}-python3-Flask-Mail
+BuildRequires:	python3-dateutil %{sname}-python3-flask-gravatar
+BuildRequires:	python3-simplejson %{sname}-python3-flask-babel
+BuildRequires:	%{sname}-python3-flask-htmlmin %{sname}-python3-flask-login >= 0.3.2
+BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
+BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-dateutil
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
-BuildRequires:	pgadmin4-python-flask >= 0.11.1 pgadmin4-python-flask-babel
-BuildRequires:	pgadmin4-python-itsdangerous >= 0.24 pgadmin4-python-flask-htmlmin
-BuildRequires:	pgadmin4-python-flask-security pgadmin4-python-flask-principal
-BuildRequires:	pgadmin4-python-flask-login >= 0.3.2 pgadmin4-python-simplejson
-BuildRequires:	pgadmin4-python-blinker pgadmin4-python-flask-wtf
-BuildRequires:	pgadmin4-python-flask-sqlalchemy pgadmin4-python-Flask-Mail
-BuildRequires:	pgadmin4-python-dateutil pgadmin4-python-flask-gravatar
+BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
+BuildRequires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-flask-htmlmin
+BuildRequires:	%{sname}-python-flask-security %{sname}-python-flask-principal
+BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson
+BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
+BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
+BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
 %if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	pgadmin4-python-passlib
+BuildRequires:	%{sname}-python-passlib
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 7
 BuildRequires:	python-passlib
@@ -130,12 +130,12 @@ Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-babel >= 1.3 python3-flask >= 0.11.1
-Requires:	pgadmin4-python3-flask-htmlmin >= 1.2
+Requires:	%{sname}-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
-Requires:	pgadmin4-python3-flask-wtf >= 0.12
+Requires:	%{sname}-python3-flask-wtf >= 0.12
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-sqlalchemy >= 1.0.14
-Requires:	pgadmin4-python3-wtforms >= 2.0.2
+Requires:	%{sname}-python3-wtforms >= 2.0.2
 Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.3	python3-html5lib >= 1.0b3
 Requires:	python3-itsdangerous >= 0.24
@@ -144,48 +144,48 @@ Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
 Requires:	python3-simplejson >= 3.6.5 python3-dateutil >= 2.5.0
 Requires:	python3-werkzeug >= 0.9.6 python3-sqlparse >= 0.1.19
 Requires:	python3-flask-babel >= 0.11.1 python3-passlib >= 1.6.2
-Requires:	pgadmin4-python3-flask-gravatar >= 0.4.2
-Requires:	pgadmin4-python3-Flask-Mail >= 0.9.1
-Requires:	pgadmin4-python3-flask-security >= 1.7.5
-Requires:	pgadmin4-python3-flask-login >= 0.3.2
-Requires:	pgadmin4-python3-flask-principal >= 0.4.0
+Requires:	%{sname}-python3-flask-gravatar >= 0.4.2
+Requires:	%{sname}-python3-Flask-Mail >= 0.9.1
+Requires:	%{sname}-python3-flask-security >= 1.7.5
+Requires:	%{sname}-python3-flask-login >= 0.3.2
+Requires:	%{sname}-python3-flask-principal >= 0.4.0
 Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
-Requires:	pgadmin4-python3-pyrsistent >= 0.11.13 python3-flask-migrate
+Requires:	%{sname}-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
 %else
-Requires:	pgadmin4-python-babel >= 1.3 python-flask >= 0.11.1
-Requires:	pgadmin4-python-flask-htmlmin >= 1.2
-Requires:	pgadmin4-python-flask-sqlalchemy >= 2.1
-Requires:	pgadmin4-python-flask-wtf >= 0.12
-Requires:	pgadmin4-python-jinja2 >= 2.7.3
-Requires:	pgadmin4-python-markupsafe >= 0.23
-Requires:	pgadmin4-python-sqlalchemy >= 1.0.14
-Requires:	pgadmin4-python-wtforms >= 2.0.2
-Requires:	pgadmin4-python-beautifulsoup4 >= 4.4.1
-Requires:	pgadmin4-python-blinker >= 1.3
+Requires:	%{sname}-python-babel >= 1.3 python-flask >= 0.11.1
+Requires:	%{sname}-python-flask-htmlmin >= 1.2
+Requires:	%{sname}-python-flask-sqlalchemy >= 2.1
+Requires:	%{sname}-python-flask-wtf >= 0.12
+Requires:	%{sname}-python-jinja2 >= 2.7.3
+Requires:	%{sname}-python-markupsafe >= 0.23
+Requires:	%{sname}-python-sqlalchemy >= 1.0.14
+Requires:	%{sname}-python-wtforms >= 2.0.2
+Requires:	%{sname}-python-beautifulsoup4 >= 4.4.1
+Requires:	%{sname}-python-blinker >= 1.3
 Requires:	python-html5lib >= 1.0b3 python-six >= 1.9.0
-Requires:	pgadmin4-python-itsdangerous >= 0.24
+Requires:	%{sname}-python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
-Requires:	pgadmin4-python-simplejson >= 3.6.5 pgadmin4-python-dateutil >= 2.5.0
-Requires:	pgadmin4-python-werkzeug >= 0.9.6 pgadmin4-python-backports.csv >= 1.0.5
-Requires:	pgadmin4-pytz >= 2014.10 pgadmin4-python-sqlparse >= 0.1.19
-Requires:	pgadmin4-python-flask-babel >= 0.11.1 pgadmin4-python-flask-gravatar >= 0.4.2
-Requires:	pgadmin4-python-Flask-Mail >= 0.9.1 pgadmin4-python-flask-security >= 1.7.5
-Requires:	pgadmin4-python-flask-login >= 0.3.2 pgadmin4-python-flask-principal >= 0.4.0
-Requires:	python-click python-extras >= 0.0.3 pgadmin4-python-fixtures >= 2.0.0
+Requires:	%{sname}-python-simplejson >= 3.6.5 %{sname}-python-dateutil >= 2.5.0
+Requires:	%{sname}-python-werkzeug >= 0.9.6 %{sname}-python-backports.csv >= 1.0.5
+Requires:	%{sname}-pytz >= 2014.10 %{sname}-python-sqlparse >= 0.1.19
+Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >= 0.4.2
+Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 1.7.5
+Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
+Requires:	python-click python-extras >= 0.0.3 %{sname}-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3 python-unittest2
-Requires:	pgadmin4-python-passlib pgadmin4-python-flask-migrate
+Requires:	%{sname}-python-passlib %{sname}-python-flask-migrate
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 7
 Requires:	python-passlib python2-flask-migrate
 %endif
-Requires:	pgadmin4-python-pyrsistent >= 0.11.13
-Requires:	pgadmin4-python-mimeparse >= 1.5.1
+Requires:	%{sname}-python-pyrsistent >= 0.11.13
+Requires:	%{sname}-python-mimeparse >= 1.5.1
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	pgadmin4-python-speaklater >= 1.3
+Requires:	%{sname}-python-speaklater >= 1.3
 %else
 Requires:	python-speaklater >= 1.3
 %endif
@@ -224,10 +224,10 @@ Documentation of pgadmin4.
 cd runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
-export PYTHONPATH=%{python3_sitelib}/pgadmin4-web/:$PYTHONPATH
+export PYTHONPATH=%{python3_sitelib}/%{sname}-web/:$PYTHONPATH
 %else
 export PYTHON_CONFIG=/usr/bin/python-config
-export PYTHONPATH=%{python2_sitelib}/pgadmin4-web/:$PYTHONPATH
+export PYTHONPATH=%{python2_sitelib}/%{sname}-web/:$PYTHONPATH
 %endif
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
@@ -264,11 +264,11 @@ make PYTHON=/usr/bin/python docs
 %if 0%{?fedora} > 23
 # Fedora 24+
 %{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
-%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf"
+%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{sname}.conf"
 %else
 # CentOS 7
 %{__install} -d "%{buildroot}%{_sysconfdir}/pgadmin/"
-%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/pgadmin4.conf"
+%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/%{sname}.conf"
 %endif
 
 # Install unit file/init script
@@ -290,13 +290,14 @@ make PYTHON=/usr/bin/python docs
 cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
-echo "HELP_PATH = '/usr/share/doc/pgadmin4-v1-docs/en_US/html'" >> config_distro.py
-echo "SQLITE_PATH = '/var/lib/pgadmin4/pgadmin4.db'
-SESSION_DB_PATH = '/var/lib/pgadmin4/sessions'
-STORAGE_DIR = '/var/lib/pgadmin4/storage'" >> config_local.py
+echo "HELP_PATH = '/usr/share/doc/%{sname}-v1-docs/en_US/html'" >> config_distro.py
+echo "SQLITE_PATH = '/var/lib/%{sname}/%{sname}.db'
+SESSION_DB_PATH = '/var/lib/%{sname}/sessions'
+STORAGE_DIR = '/var/lib/%{sname}/storage'" >> config_local.py
 
 # Create this directory for the -web subpackage:
-%{__mkdir} -p %{buildroot}/var/lib/pgadmin
+%{__mkdir} -p %{buildroot}/var/lib/%{sname}
+%{__install} -m 700 -d %{buildroot}/usr/share/httpd/.pgadmin
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -350,14 +351,15 @@ fi
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora} > 23
-%{_sysconfdir}/xdg/pgadmin/pgadmin4.conf
+%{_sysconfdir}/xdg/pgadmin/%{sname}.conf
 %else
-%{_sysconfdir}/pgadmin/pgadmin4.conf
+%{_sysconfdir}/pgadmin/%{sname}.conf
 %endif
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
-%attr (700,apache,apache) %dir /var/lib/pgadmin
+%attr (700,apache,apache) %dir /var/lib/%{sname}
+%attr (700,apache,apache) %dir /usr/share/httpd/.pgadmin
 %dir %{PYTHON_SITELIB}/%{sname}-web/
 %{PYTHON_SITELIB}/%{sname}-web/*
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
@@ -371,6 +373,10 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Jul 6 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-5
+- More fixes to -web package, per John Harvey.
+- Replace pgadmin4 with %%{sname} macros.
+
 * Tue Jul 4 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-4
 - Various fixes to -web package:
   - Create /var/lib/pgadmin directory, and add config_local.py
