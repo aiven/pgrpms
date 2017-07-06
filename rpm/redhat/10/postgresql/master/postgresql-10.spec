@@ -269,9 +269,16 @@ Requires(post):		glibc
 Requires(postun):	glibc
 %if %{systemd_enabled}
 # pre/post stuff needs systemd too
-Requires(post):		systemd-units
-Requires(preun):	systemd-units
-Requires(postun):	systemd-units
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+Requires(post):		systemd
+%endif
+%else
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
