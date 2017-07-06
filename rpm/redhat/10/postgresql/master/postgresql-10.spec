@@ -32,6 +32,11 @@
 %else
 %{!?plpython3:%global plpython3 0}
 %endif
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+%{!?plpython3:%global plpython3 0}
+%endif
+%endif
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
@@ -118,7 +123,13 @@ BuildRequires:	e2fsprogs-devel
 %endif
 
 %if %ldap
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+BuildRequires:	openldap2-devel
+%endif
+%else
 BuildRequires:	openldap-devel
+%endif
 %endif
 
 %if %nls
@@ -155,7 +166,13 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %selinux
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+BuildRequires: libselinux1 >= 2.0.93
+%endif
+%else
 BuildRequires: libselinux >= 2.0.93
+%endif
 BuildRequires: selinux-policy >= 3.9.13
 %endif
 
@@ -181,10 +198,16 @@ BuildRequires:	libxml2-devel libxslt-devel
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
 Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+%endif
 %else
 Requires(post):		chkconfig
 Requires(preun):	chkconfig
@@ -876,8 +899,14 @@ useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} => 1315
+   %service_add_pre postgresql-%{pgpackageversion}.service
+   %endif
+   %else
    %systemd_post %{sname}-%{pgmajorversion}.service
    %tmpfiles_create
+   %endif
   %else
    chkconfig --add %{sname}-%{pgmajorversion}
   %endif
@@ -1248,7 +1277,13 @@ fi
 
 %dir %{pgbaseinstdir}/lib
 %dir %{pgbaseinstdir}/share
+%if 0%{?suse_version}
+%if 0%{?suse_version} => 1315
+#%attr(700,postgres,postgres) %dir /var/lib/pgsql
+%endif
+%else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
+%endif
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
