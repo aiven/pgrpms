@@ -6,7 +6,7 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.3.2
+Version:	3.4.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -58,6 +58,9 @@ from the pgloader command directly.
 %{_bindir}/%{name}
 
 %changelog
+* Thu Jul 6 2017 Devrim Gunduz <devrim@gunduz.org> 3.4.1-1
+- Update to 3.4.1 (bundle release)
+
 * Sat Dec 3 2016 Devrim Gunduz <devrim@gunduz.org> 3.3.2-1
 - Update to 3.3.2 (bundle release)
 
