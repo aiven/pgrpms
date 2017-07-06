@@ -33,7 +33,7 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 %{!?plpython3:%global plpython3 0}
 %endif
 %endif
@@ -124,7 +124,7 @@ BuildRequires:	e2fsprogs-devel
 
 %if %ldap
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 BuildRequires:	openldap2-devel
 %endif
 %else
@@ -167,7 +167,7 @@ BuildRequires:	systemtap-sdt-devel
 
 %if %selinux
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 BuildRequires: libselinux1 >= 2.0.93
 %endif
 %else
@@ -199,7 +199,7 @@ BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 Requires(post):		systemd-sysvinit
 %endif
 %else
@@ -271,7 +271,7 @@ Requires(postun):	glibc
 # pre/post stuff needs systemd too
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 Requires(post):		systemd
 %endif
 %else
@@ -907,7 +907,7 @@ if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
-   %if 0%{?suse_version} => 1315
+   %if 0%{?suse_version} >= 1315
    %service_add_pre postgresql-%{pgpackageversion}.service
    %endif
    %else
@@ -1285,7 +1285,7 @@ fi
 %dir %{pgbaseinstdir}/lib
 %dir %{pgbaseinstdir}/share
 %if 0%{?suse_version}
-%if 0%{?suse_version} => 1315
+%if 0%{?suse_version} >= 1315
 #%attr(700,postgres,postgres) %dir /var/lib/pgsql
 %endif
 %else
