@@ -34,6 +34,14 @@ Oracle database to a PostgreSQL database.
 %install
 %{__rm} -rf %{buildroot}
 %{__make} install DESTDIR=%{buildroot}
+# SLES suggest these macros to be used:
+# https://en.opensuse.org/openSUSE:Packaging_Perl
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+ %perl_process_packlist
+ %perl_gen_filelist
+%endif
+%endif
 
 # Remove unpackaged files.
 %{__rm} -f `find %{buildroot}/%{_libdir}/perl*/ -name .packlist -type f`
