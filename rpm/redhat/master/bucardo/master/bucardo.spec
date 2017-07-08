@@ -29,8 +29,14 @@ Requires:	perl(ExtUtils::MakeMaker)
 Requires:	postgresql%{pgmajorversion}-plperl
 
 Requires:	perl(DBI)
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:	libdbi-drivers-dbd-pgsql
+%endif
+%else
 Requires:	perl(DBD::Pg)
 Requires:	perl(DBIx::Safe)
+%endif
 Requires:	perl(IO::Handle)
 Requires:	perl(Sys::Hostname)
 Requires:	perl(Sys::Syslog)
