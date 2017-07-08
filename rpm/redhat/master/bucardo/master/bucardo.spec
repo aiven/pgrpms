@@ -18,12 +18,18 @@ BuildArch:	noarch
 
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	perl(DBI)
-BuildRequires:	perl(DBD::Pg)
 BuildRequires:	perl(IO::Handle)
 BuildRequires:	perl(Sys::Hostname)
 BuildRequires:	perl(Sys::Syslog)
 BuildRequires:	perl(Net::SMTP)
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libdbi-drivers-dbd-pgsql
+%endif
+%else
+BuildRequires:	perl(DBD::Pg)
 BuildRequires:	perl(DBIx::Safe)
+%endif
 
 Requires:	perl(ExtUtils::MakeMaker)
 Requires:	postgresql%{pgmajorversion}-plperl
