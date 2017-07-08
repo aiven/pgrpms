@@ -24,7 +24,14 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Required devel packages.
 BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_version}
-BuildRequires:	qt3-devel qt-devel >= %{qt_version} zlib-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libqt4-devel
+%endif
+%else
+BuildRequires:	qt3-devel
+%endif
+BuildRequires:	qt-devel >= %{qt_version} zlib-devel
 BuildRequires:	blas-devel lapack-devel mpfr-devel gcc-c++
 
 %description
