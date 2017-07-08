@@ -5,7 +5,7 @@ Release:	1%{dist}
 URL:		http://mhash.sourceforge.net/
 License:	LGPL
 Group:		System Environment/Libraries
-Source:		http://easynews.dl.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
+Source:		http://downloads.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 Provides:	libmhash = %{version}-%{release}
 
