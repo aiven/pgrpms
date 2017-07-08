@@ -20,7 +20,13 @@ Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/%{sname}
 Requires:	postgresql%{pgmajorversion}-plperl
-BuildRequires:	protobuf-c-devel, postgresql%{pgmajorversion}
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	protobuf-devel postgresql%{pgmajorversion}
+%endif
+%else
+BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
+%endif
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
