@@ -10,33 +10,45 @@
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
+
 %if 0%{?rhel}
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
 %endif
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 # Disable ICU support in RHEL 6. The ICU library version is not enough
 # to build PostgreSQL on this platform.
 %{!?icu:%global icu 0}
 %else
+# Enable ICU on RHEL 7, SLES 12 and Fedora:
 %{!?icu:%global icu 1}
 %endif
+
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 %{!?plpython:%global plpython 1}
-%if 0%{?fedora} > 23
-%{!?plpython3:%global plpython3 1}
-%else
+
+%if 0%{?rhel} && 0%{?rhel} <= 7
+# RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %endif
+
+%if 0%{?fedora} > 23
+# All Fedora releases now use Python3
+%{!?plpython3:%global plpython3 1}
+%endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
+# Disable PL/Python 3 on SLES 12
 %{!?plpython3:%global plpython3 0}
 %endif
 %endif
+
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
@@ -44,6 +56,7 @@
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
@@ -57,6 +70,7 @@
 %endif
 %{!?selinux:%global selinux 1}
 %endif
+
 %if 0%{?fedora} > 23
 %global _hardened_build 1
 %endif
@@ -70,7 +84,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta1_2PGDG%{?dist}
+Release:	beta1_3PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1355,6 +1369,9 @@ fi
 %endif
 
 %changelog
+* Sat Jul 8  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-3PGDG
+- Bump up the version for SLES support.
+
 * Mon Jun 12  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-2PGDG
 - Use separate README files for RHEL6 and others. Fixes #2471.
 - Add missing macro, per #2416 .
