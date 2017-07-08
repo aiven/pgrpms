@@ -28,13 +28,17 @@ Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
-
-BuildRequires:	openssl-devel c-ares-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libcares-devel libevent-devel
+%endif
+%endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
 %else
 BuildRequires:	libevent-devel >= 2.0
 %endif
+BuildRequires:	openssl-devel
 Requires:	initscripts
 
 %if %{systemd_enabled}
