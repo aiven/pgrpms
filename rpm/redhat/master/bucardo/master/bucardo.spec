@@ -116,7 +116,7 @@ fi
 %doc bucardo-master-master-replication-example.txt
 %{perl_vendorlib}/*
 %{_datadir}/bucardo/bucardo.schema
-%{_initrddir}/bucardo
+/etc/rc.d/init.d/%{name}
 %{_mandir}/man1/*
 %{_mandir}/man3/*
 %{_sbindir}/bucardo
