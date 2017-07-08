@@ -13,7 +13,14 @@ Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 URL:		http://sfcgal.org/
 BuildRequires:	cmake, CGAL-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libboost_date_time1_54_0 libboost_thread1_54_0
+BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
+%endif
+%else
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
+%endif
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
