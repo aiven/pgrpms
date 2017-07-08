@@ -343,11 +343,13 @@ Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %enabletaptests
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 # Disable PL/Python 3 on SLES 12
 Requires:	perl-IPC-Run3
 %endif
+%else
 Requires:	perl-IPC-Run
 %endif
 Requires:	perl-Test-Simple
