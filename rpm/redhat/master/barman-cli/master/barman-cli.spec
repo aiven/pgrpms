@@ -8,6 +8,12 @@
   %endif
 %endif
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+  %global pybasever 2.7
+%endif
+%endif
+
 %if 0%{?rhel} == 5
 %global with_python26 1
 %endif
