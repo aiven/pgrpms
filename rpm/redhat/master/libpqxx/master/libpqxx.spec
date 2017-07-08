@@ -19,7 +19,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Patch3:		%{name}-2.6.8-multilib.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	pkgconfig
+BuildRequires:	pkgconfig doxygen
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
