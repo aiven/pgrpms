@@ -4,6 +4,12 @@
 %global systemd_enabled 1
 %endif
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%global systemd_enabled 1
+%endif
+%endif
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -16,10 +22,6 @@ Name:		pgbouncer
 Version:	1.7.2
 Release:	6%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
-# This is only required for RHEL 5
-%if 0%{?rhel} && 0%{?rhel} <= 5
-Group:		Application/Databases
-%endif
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
 Source0:	https://pgbouncer.github.io/downloads/files/%{version}/%{name}-%{version}.tar.gz
@@ -42,7 +44,7 @@ BuildRequires:	openssl-devel
 Requires:	initscripts
 
 %if %{systemd_enabled}
-BuildRequires:		systemd, systemd-units
+BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 Requires(post):		systemd-sysv
