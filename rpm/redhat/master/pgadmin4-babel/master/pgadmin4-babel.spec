@@ -31,9 +31,14 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:      noarch
 
-BuildRequires:  python2-devel
 BuildRequires:  python-setuptools
-BuildRequires:  pytz
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel python-pytz
+%endif
+%else
+BuildRequires:	python2-devel pytz
+%endif
 
 # build the documentation
 BuildRequires:  make
