@@ -31,8 +31,14 @@ URL:		http://jinja.pocoo.org/
 Source0:	http://pypi.python.org/packages/source/J/Jinja2/Jinja2-%{version}.tar.gz
 
 BuildArch:	noarch
-BuildRequires:	python2-devel python-setuptools python-markupsafe
-BuildRequires:	pytest
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel python-pytest
+%endif
+%else
+BuildRequires:	python2-devel pytest
+%endif
+BuildRequires:	python-setuptools python-markupsafe
 %if 0%{?with_docs}
 BuildRequires:	python-sphinx
 %endif # with_docs
