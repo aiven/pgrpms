@@ -30,10 +30,16 @@ URL:            http://www.sqlalchemy.org/
 Source0:        https://files.pythonhosted.org/packages/source/S/%{srcname}/%{srcname}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:  python2-devel >= 2.6
 BuildRequires:  python-setuptools
-BuildRequires:  python-mock
-BuildRequires:  pytest
+
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel python-mock python-pytest
+%endif
+%else
+BuildRequires:	python2-devel pytest python-mock
+%endif
 
 %description
 SQLAlchemy is an Object Relational Mappper (ORM) that provides a flexible,
