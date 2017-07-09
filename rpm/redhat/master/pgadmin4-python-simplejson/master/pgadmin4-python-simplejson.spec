@@ -42,7 +42,13 @@ URL:            http://undefined.org/python/#simplejson
 Source0:        http://pypi.python.org/packages/source/s/simplejson/simplejson-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python2-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:  python-devel
+%endif
+%else
+BuildRequires:  python2-devel
+%endif
 BuildRequires:	python-setuptools
 BuildRequires:	python-nose
 BuildRequires:	python-sphinx
