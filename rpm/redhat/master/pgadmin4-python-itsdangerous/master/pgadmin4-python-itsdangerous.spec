@@ -12,7 +12,14 @@ License:        BSD
 URL:            http://pythonhosted.org/itsdangerous/
 Source0:        http://pypi.python.org/packages/source/i/%{sname}/%{sname}-%{version}.tar.gz
 BuildArch:      noarch
-BuildRequires:  python2-devel python-setuptools
+BuildRequires:  python-setuptools
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
+BuildRequires:	python2-devel
+%endif
 
 %description
 Itsdangerous is a Python library for passing data through untrusted
