@@ -48,9 +48,14 @@ Requires:	python3-werkzeug
 Requires:	python3-itsdangerous
 Requires:	python3-click
 %else
-BuildRequires:	python2-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel python-pytest
+%endif
+%else
+BuildRequires:	python2-devel pytest
+%endif
 BuildRequires:	python-setuptools
-BuildRequires:	pytest
 BuildRequires:	pgadmin4-python-jinja2
 BuildRequires:	pgadmin4-python-werkzeug
 BuildRequires:	pgadmin4-python-itsdangerous
