@@ -171,7 +171,7 @@ fi
 %{__rm} -rf %{buildroot}
 
 %files
-%doc %{_docdir}/pgbouncer
+%doc %{_defaultdocdir}/pgbouncer
 %if %{systemd_enabled}
 %license COPYRIGHT
 %endif
