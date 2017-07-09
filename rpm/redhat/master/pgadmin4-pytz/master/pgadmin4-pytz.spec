@@ -29,8 +29,13 @@ Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 Patch0:		%{name}-zoneinfo.patch
 
 BuildArch:	noarch
-BuildRequires:	python2-devel
-BuildRequires:	pytest
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:  python-devel python-pytest
+%endif
+%else
+BuildRequires:  python2-devel pytest
+%endif
 Requires:	tzdata
 Provides:	python2-%{sname} = %{version}-%{release}
 
