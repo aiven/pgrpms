@@ -1,4 +1,4 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
+%%if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
 %else
 %global systemd_enabled 1
@@ -101,15 +101,15 @@ make %{?_smp_mflags} V=1
 %{__rm} -rf %{buildroot}
 make install DESTDIR=%{buildroot}
 # Install sysconfig file
-install -p -d %{buildroot}%{_sysconfdir}/%{name}/
-install -p -d %{buildroot}%{_sysconfdir}/sysconfig
-install -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-install -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
-install -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
+%{__install} -p -d %{buildroot}%{_sysconfdir}/%{name}/
+%{__install} -p -d %{buildroot}%{_sysconfdir}/sysconfig
+%{__install} -p -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+%{__install} -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
+%{__install} -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 
 %if %{systemd_enabled}
-install -d %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -118,13 +118,13 @@ d %{_varrundir} 0700 pgbouncer pgbouncer -
 EOF
 
 %else
-install -p -d %{buildroot}%{_initrddir}
-install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
+%{__install} -p -d %{buildroot}%{_initrddir}
+%{__install} -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
 %endif
 
 # Install logrotate file:
-install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
-install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+%{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
+%{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 # It seems we need to do this manually on SuSE:
 %if 0%{?suse_version}
