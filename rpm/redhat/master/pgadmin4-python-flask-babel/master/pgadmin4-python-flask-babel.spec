@@ -57,6 +57,7 @@ Requires:	pgadmin4-babel, pgadmin4-python-flask
 Requires:	pgadmin4-babel, pgadmin4-python-flask
 Requires:	pgadmin4-pytz
 %endif
+%endif
 
 %description
 Adds i18n/l10n support to Flask applications with the help of the Babel library.
