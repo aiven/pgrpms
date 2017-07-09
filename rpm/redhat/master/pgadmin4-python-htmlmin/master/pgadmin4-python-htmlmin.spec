@@ -42,7 +42,13 @@ URL:            https://pypi.python.org/pypi/%{sname}
 Source0:        https://github.com/%{github_owner}/%{github_name}/archive/%{commit}/%{github_name}-%{commit}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
+BuildRequires:	python2-devel
+%endif
 Provides:	python-htmlmin => 0.1.10
 Obsoletes:	python-htmlmin => 0.1.10
 
