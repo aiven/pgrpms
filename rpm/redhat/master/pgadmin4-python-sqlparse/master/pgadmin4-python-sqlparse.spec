@@ -18,8 +18,14 @@ URL:            https://github.com/andialbrecht/%{sname}
 Source0:        https://github.com/andialbrecht/%{sname}/archive/%{version}/%{sname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
-BuildRequires:  python-tools
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel python-pytools
+%endif
+%else
+BuildRequires:	python2-devel python-tools
+%endif
 BuildRequires:  python-setuptools
 BuildRequires:  python-py
 
