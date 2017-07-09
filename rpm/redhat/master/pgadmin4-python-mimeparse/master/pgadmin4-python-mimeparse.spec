@@ -35,7 +35,13 @@ BuildArch:	noarch
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 %else
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
 BuildRequires:	python2-devel
+%endif
 Provides:	python2-mimeparse
 %endif # if with_python3
 
