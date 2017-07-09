@@ -126,6 +126,12 @@ install -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
 install -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 install -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+# It seems we need to do this manually on SuSE:
+%if 0%{?suse_version}
+%{__mkdir} -p %{buildroot}%{_defaultdocdir}
+%{__mv} %{buildroot}/usr/share/doc/%{name} %{buildroot}%{_defaultdocdir}/
+%endif
+
 %post
 %if %{systemd_enabled}
 %systemd_post %{name}.service
