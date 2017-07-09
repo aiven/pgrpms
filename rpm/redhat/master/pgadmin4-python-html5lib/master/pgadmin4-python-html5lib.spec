@@ -43,8 +43,15 @@ Requires:	python-six
 BuildRequires:	python3-setuptools python3-devel
 BuildRequires:	python3-six python3-nose
 %else
-BuildRequires:	python-setuptools python2-devel
+BuildRequires:	python-setuptools
 BuildRequires:	python-six python-nose
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
+BuildRequires:	python2-devel
+%endif
 %endif
 
 %description
