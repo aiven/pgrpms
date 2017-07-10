@@ -34,9 +34,9 @@ BuildArch:	noarch
 BuildRequires:	python-devel python-pytest
 %endif
 %else
+Requires:	tzdata
 BuildRequires:	python2-devel pytest
 %endif
-Requires:	tzdata
 Provides:	python2-%{sname} = %{version}-%{release}
 
 %description
