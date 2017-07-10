@@ -335,11 +335,17 @@ STORAGE_DIR = '/var/lib/%{sname}/storage'" >> config_local.py
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} >= 1315
+   %service_add_pre %{name}.service
+   %endif
+   %else
    %systemd_post %{name}.service
    %tmpfiles_create
   %else
    :
    #chkconfig --add %%{name}
+  %endif
   %endif
 fi
 
@@ -388,8 +394,8 @@ fi
 %defattr(-,root,root,-)
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-%attr (700,wwwrun,wwwrun) %dir /var/lib/%{sname}
-%attr (700,wwwrun,wwwrun) %dir /usr/share/httpd/.pgadmin
+%attr (700,wwwrun,www) %dir /var/lib/%{sname}
+%attr (700,wwwrun,www) %dir /usr/share/httpd/.pgadmin
 %endif
 %else
 %endif
