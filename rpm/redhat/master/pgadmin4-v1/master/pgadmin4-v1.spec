@@ -111,7 +111,13 @@ Requires:	python >= 2.6
 %if 0%{?with_python3}
 Requires:	qt >= 5.1
 %else
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:  libqt4 >= 4.6
+%endif
+%else
 Requires:	qt >= 4.6
+%endif
 %endif
 
 Requires(post):	%{_sbindir}/update-alternatives
@@ -174,7 +180,15 @@ Requires:	%{sname}-python-sqlalchemy >= 1.0.14
 Requires:	%{sname}-python-wtforms >= 2.0.2
 Requires:	%{sname}-python-beautifulsoup4 >= 4.4.1
 Requires:	%{sname}-python-blinker >= 1.3
-Requires:	python-html5lib >= 1.0b3 python-six >= 1.9.0
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:  pgadmin4-python-html5lib >= 1.0b3
+%endif
+%else
+Requires:	python-html5lib >= 1.0b3
+%endif
+Requires:	python-six >= 1.9.0
 Requires:	%{sname}-python-itsdangerous >= 0.24
 Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
 Requires:	%{sname}-python-simplejson >= 3.6.5 %{sname}-python-dateutil >= 2.5.0
@@ -198,8 +212,14 @@ Requires:	%{sname}-python-speaklater >= 1.3
 %else
 Requires:	python-speaklater >= 1.3
 %endif
-
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+# TODO: Find replacement of this package in SLES
+:
+%endif
+%else
 Requires:	mod_wsgi
+%endif
 %endif
 
 %description    -n %{name}-web
