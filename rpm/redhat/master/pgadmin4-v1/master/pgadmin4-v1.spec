@@ -386,8 +386,13 @@ fi
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
-%attr (700,apache,apache) %dir /var/lib/%{sname}
-%attr (700,apache,apache) %dir /usr/share/httpd/.pgadmin
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%attr (700,wwwrun,wwwrun) %dir /var/lib/%{sname}
+%attr (700,wwwrun,wwwrun) %dir /usr/share/httpd/.pgadmin
+%endif
+%else
+%endif
 %dir %{PYTHON_SITELIB}/%{sname}-web/
 %{PYTHON_SITELIB}/%{sname}-web/*
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
