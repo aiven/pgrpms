@@ -214,8 +214,7 @@ Requires:	python-speaklater >= 1.3
 %endif
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-# TODO: Find replacement of this package in SLES
-:
+Requires:	apache2-mod_wsgi
 %endif
 %else
 Requires:	mod_wsgi
