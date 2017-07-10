@@ -61,7 +61,13 @@ Summary:        Library for internationalizing Python applications
 Group:          Development/Languages
 
 Requires:       python-setuptools
-Requires:       pytz
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:	python-pytz
+%endif
+%else
+Requires:	pytz
+%endif
 
 %description -n pgadmin4-python-babel
 Babel is composed of two major parts:
