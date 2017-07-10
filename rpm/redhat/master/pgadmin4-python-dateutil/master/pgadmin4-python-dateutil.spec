@@ -30,7 +30,13 @@ BuildArch:	noarch
 BuildRequires:	python-sphinx
 
 %{?python_provide:%python_provide python-%{sname}}
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
 BuildRequires:	python2-devel
+%endif
 BuildRequires:	python-six
 BuildRequires:	python-setuptools
 Requires:	tzdata
