@@ -23,11 +23,24 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 %{!?plpython:%global plpython 1}
-%if 0%{?fedora} > 21
-%{!?plpython3:%global plpython3 1}
-%else
+
+%if 0%{?rhel} && 0%{?rhel} <= 7
+# RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %endif
+
+%if 0%{?fedora} > 23
+# All Fedora releases now use Python3
+%{!?plpython3:%global plpython3 1}
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+# Disable PL/Python 3 on SLES 12
+%{!?plpython3:%global plpython3 0}
+%endif
+%endif
+
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
@@ -162,21 +175,40 @@ BuildRequires:	libuuid-devel
 %endif
 
 %if %ldap
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	openldap2-devel
+%endif
+%else
 BuildRequires:	openldap-devel
+%endif
 %endif
 
 %if %selinux
-BuildRequires: libselinux >= 2.0.93
-BuildRequires: selinux-policy >= 3.9.13
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libselinux1 >= 2.0.93
 %endif
+%else
+BuildRequires:	libselinux >= 2.0.93
+%endif
+BuildRequires:	selinux-policy >= 3.9.13
+%endif
+
 %if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
 Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+%endif
 %else
 Requires(post):		chkconfig
 Requires(preun):	chkconfig
@@ -238,9 +270,16 @@ Requires(post):		glibc
 Requires(postun):	glibc
 %if %{systemd_enabled}
 # pre/post stuff needs systemd too
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd
+%endif
+%else
 Requires(post):		systemd-units
 Requires(preun):	systemd-units
 Requires(postun):	systemd-units
+%endif
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
@@ -291,7 +330,13 @@ Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %enabletaptests
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:	perl-IPC-Run3
+%endif
+%else
 Requires:	perl-IPC-Run
+%endif
 Requires:	perl-Test-Simple
 %endif
 Provides:	postgresql-devel
@@ -860,10 +905,16 @@ useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %systemd_post postgresql-%{pgpackageversion}.service
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} >= 1315
+   %service_add_pre postgresql-%{pgpackageversion}.service
+   %endif
+   %else
+   %systemd_post %{sname}-%{pgmajorversion}.service
    %tmpfiles_create
+   %endif
   %else
-   chkconfig --add postgresql-%{pgpackageversion}
+   chkconfig --add %{sname}-%{pgmajorversion}
   %endif
 fi
 
@@ -1240,7 +1291,13 @@ fi
 
 %dir %{pginstdir}/lib
 %dir %{pginstdir}/share
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+#%attr(700,postgres,postgres) %dir /var/lib/pgsql
+%endif
+%else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
+%endif
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/backups
