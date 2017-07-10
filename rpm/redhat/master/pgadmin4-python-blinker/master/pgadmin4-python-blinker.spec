@@ -33,7 +33,13 @@ URL:            http://discorporate.us/projects/Blinker/
 Source0:        http://pypi.python.org/packages/source/b/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:      noarch
-BuildRequires:  python2-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
+BuildRequires:	python2-devel
+%endif
 BuildRequires:  python-setuptools
 %if 0%{?with_python3}
 BuildRequires:  python3-devel
