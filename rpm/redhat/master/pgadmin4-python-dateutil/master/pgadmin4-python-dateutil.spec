@@ -36,10 +36,10 @@ BuildRequires:	python-devel
 %endif
 %else
 BuildRequires:	python2-devel
+Requires:	tzdata
 %endif
 BuildRequires:	python-six
 BuildRequires:	python-setuptools
-Requires:	tzdata
 Requires:	python-six
 
 %description
