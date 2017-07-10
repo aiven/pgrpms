@@ -46,7 +46,6 @@ Patch3:		%{sname}-rhel6-htmlminify.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	mesa-libGL-devel
 BuildRequires:	gcc-c++
 %if 0%{?with_python3}
 BuildRequires:	python3-sphinx
@@ -73,6 +72,14 @@ BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-dateutil
 %global QMAKE	/usr/bin/qmake-qt5
 %else
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	Mesa-libGL-devel libQtWebKit-devel
+BuildRequires:	libqt4-devel
+%endif
+%else
+BuildRequires:	mesa-libGL-devel
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	qtwebkit-devel
 BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
@@ -89,6 +96,7 @@ BuildRequires:	%{sname}-python-passlib
 BuildRequires:	python-passlib
 %endif
 %global QMAKE	/usr/bin/qmake-qt4
+%endif
 %endif
 
 %if 0%{?with_python3}
