@@ -39,7 +39,13 @@ BuildArch:	noarch
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
 %else
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
 BuildRequires:	python2-devel
+%endif
 BuildRequires:	python-setuptools
 %endif
 
