@@ -41,7 +41,13 @@ BuildRequires:	python3-setuptools
 BuildRequires:	python3-flask
 BuildRequires:	python3-nose
 %else
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	python-devel
+%endif
+%else
 BuildRequires:	python2-devel
+%endif
 BuildRequires:	pgadmin4-python-wtforms > 1.0
 BuildRequires:	python-setuptools
 BuildRequires:	pgadmin4-python-flask
