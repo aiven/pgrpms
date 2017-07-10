@@ -77,6 +77,7 @@ BuildRequires:	python3-dateutil
 %if 0%{?suse_version} >= 1315
 BuildRequires:	Mesa-libGL-devel libQtWebKit-devel
 BuildRequires:	libqt4-devel
+%global QMAKE  /usr/bin/qmake
 %endif
 %else
 BuildRequires:	mesa-libGL-devel
