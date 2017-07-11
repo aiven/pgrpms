@@ -42,7 +42,7 @@ Source6:	%{sname}.qt.conf.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
-Patch3:		%{sname}-rhel6-htmlminify.patch
+Patch3:		%{sname}-rhel6-htmlmin.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
