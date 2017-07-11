@@ -1,4 +1,4 @@
-%%if 0%{?rhel} && 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
 %else
 %global systemd_enabled 1
