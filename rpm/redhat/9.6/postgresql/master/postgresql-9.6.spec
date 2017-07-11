@@ -907,7 +907,7 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-   %service_add_pre postgresql-%{pgpackageversion}.service
+   %service_add_pre %{sname}-%{pgpackageversion}.service
    %endif
    %else
    %systemd_post %{sname}-%{pgmajorversion}.service
