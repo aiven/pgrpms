@@ -27,8 +27,8 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.5
-Release:	5%{?dist}
+Version:	%{pgadminmajorversion}.6
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -412,6 +412,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Jul 11 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-1
+- Update to 1.6
+
 * Thu Jul 6 2017 - Devrim Gündüz <devrim@gunduz.org> 1.5-5
 - More fixes to -web package, per John Harvey.
 - Replace pgadmin4 with %%{sname} macros.
