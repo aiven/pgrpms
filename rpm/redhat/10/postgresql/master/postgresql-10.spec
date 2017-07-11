@@ -84,12 +84,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta1_3PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v10beta1/%{sname}-10beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v10beta2/%{sname}-10beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -475,7 +475,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}beta1
+%setup -q -n %{sname}-%{pgmajorversion}beta2
 %patch1 -p1
 %patch3 -p0
 %patch5 -p0
@@ -1373,6 +1373,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-1PGDG
+- Update to 10 beta2
+
 * Sat Jul 8  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-3PGDG
 - Bump up the version for SLES support.
 
