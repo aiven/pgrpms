@@ -5,7 +5,7 @@
  backend_weight0 = 1
                                     # Weight for backend 0 (only in load balancing mode)
 -backend_data_directory0 = '/var/lib/pgsql/data'
-+backend_data_directory0 = '/var/lib/pgsql/9.6/data'
++backend_data_directory0 = '/var/lib/pgsql/9.4/data'
                                     # Data directory for backend 0
  backend_flag0 = 'ALLOW_TO_FAILOVER'
                                     # Controls various backend behavior
@@ -14,14 +14,14 @@
  #------------------------------------------------------------------------------
  
 -pid_file_name = '/var/run/pgpool/pgpool.pid'
-+pid_file_name = '/var/run/pgpool-II-96/pgpool.pid'
++pid_file_name = '/var/run/pgpool-II-94/pgpool.pid'
                                     # PID file name
                                     # Can be specified as relative to the"
                                     # location of pgpool.conf file or
                                     # as an absolute path
                                     # (change requires restart)
 -logdir = '/var/log/pgpool'
-+logdir = '/var/log/pgpool-II-96'
++logdir = '/var/log/pgpool-II-94'
                                     # Directory of pgPool status file
                                     # (change requires restart)
  
