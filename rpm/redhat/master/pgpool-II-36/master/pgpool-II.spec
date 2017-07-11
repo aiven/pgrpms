@@ -105,6 +105,13 @@ Postgresql extensions libraries and sql files for pgpool-II.
         LDFLAGS="-L%{atpath}/%{_lib}"
         CC=%{atpath}/bin/gcc; export CC
 %endif
+# We need this flag on SLES so that pgpool can find libmemched.
+# Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+	export LDFLAGS='-lpthread'
+%endif
+%endif
 %ifarch ppc64 ppc64le
 %configure --build=ppc64le \
 %else
