@@ -38,7 +38,7 @@ BuildRequires:	libcares-devel libevent-devel
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
 %else
-BuildRequires:	libevent-devel >= 2.0
+BuildRequires:	libevent-devel >= 2.0 c-ares-devel
 %endif
 BuildRequires:	openssl-devel
 Requires:	initscripts
