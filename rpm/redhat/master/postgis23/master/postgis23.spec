@@ -21,6 +21,12 @@
 %{!?sfcgal:%global    sfcgal 0}
 %endif
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%{!?sfcgal:%global     sfcgal 1}
+%endif
+%endif
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
