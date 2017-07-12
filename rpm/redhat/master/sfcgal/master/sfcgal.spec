@@ -74,7 +74,14 @@ Development headers and libraries for SFCGAL.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-%cmake	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+%endif
+%else
+%cmake \
+%endif
+	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
 make %{?_smp_mflags}
 
