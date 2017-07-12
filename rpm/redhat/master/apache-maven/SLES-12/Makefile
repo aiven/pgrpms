@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=".sles12"
 SPECFILE="apache-maven.spec"
 
 # Now, include global Makefile
