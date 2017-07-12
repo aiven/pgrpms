@@ -24,6 +24,7 @@
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 %{!?sfcgal:%global     sfcgal 1}
+%{!?raster:%global     raster 1}
 %endif
 %endif
 
