@@ -5,27 +5,20 @@
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315ü
 %{!?sfcgal:%global     sfcgal 1}
 %else
 %{!?sfcgal:%global    sfcgal 0}
-%endif
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%{!?sfcgal:%global     sfcgal 1}
-%{!?raster:%global     raster 1}
-%endif
 %endif
 
 %ifarch ppc64 ppc64le
