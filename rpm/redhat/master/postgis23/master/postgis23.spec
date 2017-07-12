@@ -43,7 +43,14 @@ URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0, pcre-devel
-BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:  libjson-c-devel libproj-devel
+%endif
+%else
+BuildRequires:	proj-devel, flex, json-c-devel
+%endif
+BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
