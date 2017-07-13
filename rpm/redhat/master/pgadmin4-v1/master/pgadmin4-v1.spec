@@ -64,7 +64,7 @@ BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
 BuildRequires:	python3-passlib %{sname}-python3-Flask-Mail
 BuildRequires:	python3-dateutil %{sname}-python3-flask-gravatar
-BuildRequires:	python3-simplejson %{sname}-python3-flask-babel
+BuildRequires:	python3-simplejson python3-flask-babel
 BuildRequires:	%{sname}-python3-flask-htmlmin %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
