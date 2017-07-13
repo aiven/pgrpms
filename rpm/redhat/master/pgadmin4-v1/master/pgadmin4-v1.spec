@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -319,13 +319,6 @@ cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
 echo "SERVER_MODE = False" > config_distro.py
 echo "HELP_PATH = '/usr/share/doc/%{sname}-v1-docs/en_US/html'" >> config_distro.py
-echo "SQLITE_PATH = '/var/lib/%{sname}/%{sname}.db'
-SESSION_DB_PATH = '/var/lib/%{sname}/sessions'
-STORAGE_DIR = '/var/lib/%{sname}/storage'" >> config_local.py
-
-# Create this directory for the -web subpackage:
-%{__mkdir} -p %{buildroot}/var/lib/%{sname}
-%{__install} -m 700 -d %{buildroot}/usr/share/httpd/.pgadmin
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -392,13 +385,6 @@ fi
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%attr (700,wwwrun,www) %dir /var/lib/%{sname}
-%attr (700,wwwrun,www) %dir /usr/share/httpd/.pgadmin
-%endif
-%else
-%endif
 %dir %{PYTHON_SITELIB}/%{sname}-web/
 %{PYTHON_SITELIB}/%{sname}-web/*
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
@@ -412,6 +398,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Jul 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-2
+- Revert the fix applied for #2496 which breaks desktop mode.
+
 * Tue Jul 11 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-1
 - Update to 1.6
 
