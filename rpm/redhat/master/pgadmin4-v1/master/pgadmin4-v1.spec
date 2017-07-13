@@ -261,7 +261,7 @@ export PYTHONPATH=%{python2_sitelib}/%{sname}-web/:$PYTHONPATH
 make
 cd ../
 %if 0%{?with_python3}
-make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3.5 docs
+make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
 %else
 make PYTHON=/usr/bin/python docs
 %endif
