@@ -7,7 +7,7 @@
 
 Name:           pgadmin4-python-flask-sqlalchemy
 Version:        2.1
-Release:        5%{?dist}
+Release:        6%{?dist}
 Summary:        Adds SQLAlchemy support to Flask application
 
 Group:          Development/Libraries
@@ -49,6 +49,9 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %{pgadmin4py2instdir}/flask_sqlalchemy
 
 %changelog
+* Thu Jul 13 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1-6
+- Remove python-flask dependency, it breaks builds on RHEL 6
+
 * Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1-5
 - Move the components under pgadmin web directory, per #2332.
 
