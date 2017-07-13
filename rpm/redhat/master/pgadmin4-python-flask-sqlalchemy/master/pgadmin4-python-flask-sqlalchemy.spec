@@ -19,7 +19,7 @@ BuildArch:      noarch
 BuildRequires:  python-devel
 BuildRequires:  python-setuptools
 BuildRequires:  python-flask
-Requires:       python-sqlalchemy
+#Requires:       python-sqlalchemy
 
 %description
 Flask-SQLAlchemy is an extension for Flask that adds support for
