@@ -15,7 +15,7 @@
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315ü
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?sfcgal:%global     sfcgal 1}
 %else
 %{!?sfcgal:%global    sfcgal 0}
