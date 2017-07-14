@@ -90,6 +90,7 @@ BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson
 BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
+BuildRequires: python-sqlalchemy
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	%{sname}-python-passlib
 %endif
