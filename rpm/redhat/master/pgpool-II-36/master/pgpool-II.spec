@@ -32,7 +32,6 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel
-#%if 0%{?fedora} <=25 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %if 0%{?fedora} && 0%{?fedora} >= 26
 BuildRequires:          compat-openssl10-devel
 %else
