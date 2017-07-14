@@ -64,7 +64,7 @@ BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	qt5-qtwebkit-devel qt5-qtwebengine-devel
 BuildRequires:	python3-passlib %{sname}-python3-Flask-Mail
 BuildRequires:	python3-dateutil %{sname}-python3-flask-gravatar
-BuildRequires:	python3-simplejson python3-flask-babel
+BuildRequires:	python3-simplejson %{sname}-python3-flask-babel
 BuildRequires:	%{sname}-python3-flask-htmlmin %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
@@ -158,7 +158,7 @@ Requires:	python3-psycopg2 >= 2.6.2
 Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
 Requires:	python3-simplejson >= 3.6.5 python3-dateutil >= 2.5.0
 Requires:	python3-werkzeug >= 0.9.6 python3-sqlparse >= 0.1.19
-Requires:	python3-flask-babel >= 0.11.1 python3-passlib >= 1.6.2
+Requires:	%{sname}-python3-flask-babel >= 0.11.1 python3-passlib >= 1.6.2
 Requires:	%{sname}-python3-flask-gravatar >= 0.4.2
 Requires:	%{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5
