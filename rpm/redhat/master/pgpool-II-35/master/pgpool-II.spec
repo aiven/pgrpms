@@ -17,7 +17,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.5.9
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -315,6 +315,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-2
+- Add dependency for openssl-devel. For F-26, use compat-openssl10-devel,
+  because pgPool code cannot be compiled with OpenSSL 1.1 yet.
+
 * Thu Jul 13 2017 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-1
 - Update to 3.5.9
 
