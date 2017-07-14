@@ -17,7 +17,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.6.5
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -30,7 +30,15 @@ Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel, libmemcached-devel
+BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
+BuildRequires:		libmemcached-devel
+#%if 0%{?fedora} <=25 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} && 0%{?fedora} >= 26
+BuildRequires:          compat-openssl10-devel
+%else
+BuildRequires:          openssl-devel
+%endif
+
 %if %{systemd_enabled}
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
@@ -317,6 +325,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-2
+- Add dependency for openssl-devel. For F-26, use compat-openssl10-devel,
+  because pgPool code cannot be compiled with OpenSSL 1.1 yet.
+
 * Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-1
 - Update to 3.6.5.
 
