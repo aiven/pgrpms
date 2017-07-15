@@ -1,3 +1,9 @@
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
+
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	2.6
@@ -26,6 +32,11 @@ of the PostgreSQL cluster and the system utilization
 %{__rm} -rf %{buildroot}
 %{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
 
+%if %{systemd_enabled}
+install -d %{buildroot}%{_unitdir}
+install -m 644 pgcluu_collectd.service pgcluu.service pgcluu.timer %{buildroot}%{_unitdir}/
+%endif
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -36,10 +47,16 @@ of the PostgreSQL cluster and the system utilization
 %attr(755,root,root) %{_bindir}/%{name}_collectd
 %perl_vendorarch/auto/pgCluu/.packlist
 %{_mandir}/man1/%{name}.1.gz
+%if %{systemd_enabled}
+%{_unitdir}/%{name}_collectd.service
+%{_unitdir}/%{name}.service
+%{_unitdir}/%{name}.timer
+%endif
 
 %changelog
 * Sat Jul 15 2017 Devrim Gündüz <devrim@gunduz.org> 2.6-1
 - Update to 2.6
+- Install systemd related files.
 
 * Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.5-1
 - Update to 2.5
