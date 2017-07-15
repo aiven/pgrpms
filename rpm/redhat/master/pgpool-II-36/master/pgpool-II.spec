@@ -31,12 +31,7 @@ Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
-BuildRequires:		libmemcached-devel
-%if 0%{?fedora} && 0%{?fedora} >= 26
-BuildRequires:          compat-openssl10-devel
-%else
-BuildRequires:          openssl-devel
-%endif
+BuildRequires:		libmemcached-devel openssl-devel
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
