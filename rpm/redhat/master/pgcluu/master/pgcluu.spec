@@ -1,6 +1,6 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.5
+Version:	2.6
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -38,22 +38,25 @@ of the PostgreSQL cluster and the system utilization
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
-* Sat Aug 13 2016 Devrim GÜNDÜZ <devrim@gunduz.org> 2.5-1
+* Sat Jul 15 2017 Devrim Gündüz <devrim@gunduz.org> 2.6-1
+- Update to 2.6
+
+* Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.5-1
 - Update to 2.5
 
-* Fri Sep 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.4-1
+* Fri Sep 11 2015 Devrim Gündüz <devrim@gunduz.org> 2.4-1
 - Update to 2.4
 - Fix rpmlint warning (add %%build section)
 - Update download URL
 
-* Sun Jan 11 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.2-1
+* Sun Jan 11 2015 Devrim Gündüz <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 
-* Fri Sep 26 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 2.1-1
+* Fri Sep 26 2014 Devrim Gündüz <devrim@gunduz.org> 2.1-1
 - Update to 2.1
 
-* Tue Apr 1 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0-1
+* Tue Apr 1 2014 Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Update to 2.0
 
-* Wed Jan 15 2014 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0-1
+* Wed Jan 15 2014 Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
