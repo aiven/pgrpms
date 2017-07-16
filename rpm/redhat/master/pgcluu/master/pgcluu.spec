@@ -7,22 +7,24 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	2.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
-URL:		http://pgcluu.darold.net/
+Patch0:		%{name}-systemd-rpm-paths.patch
+URL:		http://%{name}.darold.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description
-gCluu is a PostgreSQL performances monitoring and auditing tool.
+pgCluu is a PostgreSQL performances monitoring and auditing tool.
 View reports of all statistics collected from your PostgreSQL
 databases cluster. pgCluu will show you the entire information
 of the PostgreSQL cluster and the system utilization
 
 %prep
 %setup -q
+%patch0 -p0
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
@@ -33,8 +35,8 @@ of the PostgreSQL cluster and the system utilization
 %{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
 
 %if %{systemd_enabled}
-install -d %{buildroot}%{_unitdir}
-install -m 644 pgcluu_collectd.service pgcluu.service pgcluu.timer %{buildroot}%{_unitdir}/
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{name}_collectd.service %{name}.service %{name}.timer %{buildroot}%{_unitdir}/
 %endif
 
 %clean
@@ -57,6 +59,7 @@ install -m 644 pgcluu_collectd.service pgcluu.service pgcluu.timer %{buildroot}%
 * Sat Jul 15 2017 Devrim Gündüz <devrim@gunduz.org> 2.6-1
 - Update to 2.6
 - Install systemd related files.
+- Add a patch to fix paths in unit files.
 
 * Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 2.5-1
 - Update to 2.5

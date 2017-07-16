@@ -1,0 +1,24 @@
+--- pgcluu.service.old	2017-07-15 23:51:35.119181028 +0100
++++ pgcluu.service	2017-07-15 23:51:46.295089457 +0100
+@@ -18,7 +18,7 @@
+ Environment=REPORTDIR=/var/lib/pgcluu/report
+ ExecStartPre=-/bin/mkdir -p $REPORTDIR
+ ExecStartPre=-/bin/chown postgres: $REPORTDIR
+-ExecStart=/usr/local/bin/pgcluu -o $REPORTDIR $STATDIR
++ExecStart=/usr/bin/pgcluu -o $REPORTDIR $STATDIR
+ 
+ [Install]
+ WantedBy=multi-user.target
+--- pgcluu_collectd.service.old	2017-07-15 23:51:24.539267716 +0100
++++ pgcluu_collectd.service	2017-07-15 23:51:53.135033413 +0100
+@@ -19,8 +19,8 @@
+ Environment=PIDFILE=/var/run/postgresql/pgcluu_collectd.pid
+ ExecStartPre=-/bin/mkdir -p $STATDIR
+ ExecStartPre=-/bin/chown postgres: $STATDIR
+-ExecStart=/usr/local/bin/pgcluu_collectd --daemonize --rotate-daily --pid-file $PIDFILE $STATDIR
+-ExecStop=/usr/local/bin/pgcluu_collectd -k --pid-file $PIDFILE
++ExecStart=/usr/bin/pgcluu_collectd --daemonize --rotate-daily --pid-file $PIDFILE $STATDIR
++ExecStop=/usr/bin/pgcluu_collectd -k --pid-file $PIDFILE
+ KillMode=process
+ Restart=on-failure
+ RestartSec=60s
