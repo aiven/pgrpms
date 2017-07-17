@@ -1377,6 +1377,10 @@ fi
 %changelog
 * Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-2PGDG
 - Fix version calculation in RHEL 6 init script, per Justin Pryzby.
+- Add tcl as a dependency to pltcl subpackage, per Fahar Abbas.
+
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-2PGDG
+- Fix version calculation in RHEL 6 init script, per Justin Pryzby.
 
 * Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-1PGDG
 - Update to 10 beta2
