@@ -269,6 +269,7 @@ Summary:	The Tcl procedural language for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{name} = %{version}
 Requires:	%{name}-server = %{version}
+Requires:	tcl
 Obsoletes:	postgresql-pl
 Provides:	postgresql-pltcl
 
