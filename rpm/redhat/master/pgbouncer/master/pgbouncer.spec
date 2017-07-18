@@ -20,7 +20,7 @@
 
 Name:		pgbouncer
 Version:	1.7.2
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -33,12 +33,15 @@ Patch0:		%{name}-ini.patch
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libcares-devel libevent-devel
+Requires:	libevent-devel
 %endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
+Requires:	libevent2 >= 2.0
 %else
 BuildRequires:	libevent-devel >= 2.0 c-ares-devel
+Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel
 Requires:	initscripts
@@ -198,6 +201,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Tue Jul 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-7
+- Add libevent dependency, per Fahar Abbas (EDB QA testing)
+
 * Wed Sep 28 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-6
 - Depend on libevent2 on RHEL 6, which is available as of
   RHEL 6.8. This change means we ask all users to upgrade to
