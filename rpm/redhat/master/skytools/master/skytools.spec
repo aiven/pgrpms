@@ -55,7 +55,9 @@ This package has PostgreSQL modules of skytools.
 %endif
 rmdir lib
 %{__mv} libusual-2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b lib
+%if %{pgmajorversion} != 92
 sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:' sql/pgq/triggers/stringutil.c
+%endif
 ./autogen.sh
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --with-asciidoc
 
