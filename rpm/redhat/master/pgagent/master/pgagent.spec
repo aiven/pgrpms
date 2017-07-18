@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -25,6 +25,7 @@ Source3:	%{sname}-%{pgmajorversion}.init
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
+Requires:	wxBase
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -160,6 +161,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Jul 18 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-6
+- Add wxBase dependency, per Fahar Abbas (EDB QA testing)
+
 * Fri Nov 11 2016 Devrim Gündüz <devrim@gunduz.org> 3.4.0-5
 - Install init script on RHEL <= 6, not unit file.
 
