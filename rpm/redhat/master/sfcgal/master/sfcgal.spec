@@ -7,7 +7,7 @@
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 Version:	1.2.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GLPLv2
 Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
@@ -22,7 +22,7 @@ BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 %endif
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release} CGAL
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -106,6 +106,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Wed Jul 19 2017 Devrim GUNDUZ <devrim@gunduz.org> 1.2.2-2
+- Also Requires CGAL.
+
 * Thu Nov 19 2015 Oskari Saarenmaa <os@ohmu.fi> 1.2.2-1
 - Update to 1.2.2 to support newer CGAL versions
 
