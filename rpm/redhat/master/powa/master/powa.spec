@@ -1,4 +1,8 @@
-#TODO: Add unit file support.
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
 
 %global debug_package %{nil}
 %global sname powa
@@ -8,7 +12,7 @@
 %global powamidversion 1
 %global powaminorversion 0
 # powa-web version
-%global powawebversion 3.1.1
+%global powawebversion 3.1.3
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -25,11 +29,12 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
 Source1:	https://github.com/dalibo/%{swebname}/archive/%{powawebversion}.tar.gz
+Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://dalibo.github.io/powa/
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -38,6 +43,14 @@ Requires:	postgresql%{pgmajorversion}-contrib
 Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
 Requires:	hypopg_%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%if %{systemd_enabled}
+Requires:		systemd
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -92,7 +105,15 @@ popd
 # Install powa-web
 pushd %{swebname}-%{powawebversion}
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
+# Install sample conf file
+%{__mkdir} -p %{buildroot}%{_sysconfdir}
+%{__install} powa-web.conf-dist %{buildroot}%{_sysconfdir}
 popd
+
+%if %{systemd_enabled}
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{swebname}-%{pgpackageversion}.service
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -111,8 +132,15 @@ popd
 %dir %{python_sitelib}/%{sname}
 %{python_sitelib}/%{sname}/*
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
+%{_sysconfdir}/powa-web.conf-dist
+%{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Wed Jul 19 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-4
+- Update powa-web to 3.1.3
+- Add systemd support
+- Install sample config file.
+
 * Fri Jan 27 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-3
 - Update powa-web to 3.1.1
 
