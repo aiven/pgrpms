@@ -88,10 +88,30 @@ make %{?_smp_mflags}
 %install
 make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
-%post -p /sbin/ldconfig
-%post libs -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-%postun libs -p /sbin/ldconfig
+%post
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%post libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%postun
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
+%postun libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
+/sbin/ldconfig
+%endif
 
 %files
 %doc AUTHORS README.md NEWS
@@ -107,7 +127,7 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
 %changelog
 * Wed Jul 19 2017 Devrim GUNDUZ <devrim@gunduz.org> 1.2.2-2
-- Also Requires CGAL.
+- Also Requires CGAL, per Fahar Abbas (EDB QA)
 
 * Thu Nov 19 2015 Oskari Saarenmaa <os@ohmu.fi> 1.2.2-1
 - Update to 1.2.2 to support newer CGAL versions
