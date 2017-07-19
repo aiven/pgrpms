@@ -133,7 +133,9 @@ popd
 %{python_sitelib}/%{sname}/*
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 %{_sysconfdir}/powa-web.conf-dist
+%if %{systemd_enabled}
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
+%endif
 
 %changelog
 * Wed Jul 19 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-4
