@@ -33,6 +33,8 @@ BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel openssl-devel
 
+Requires:		libmemcached
+
 %if %{systemd_enabled}
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
@@ -319,9 +321,8 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-2
-- Add dependency for openssl-devel. For F-26, use compat-openssl10-devel,
-  because pgPool code cannot be compiled with OpenSSL 1.1 yet.
+* Mon Jul 24 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-2
+- Add dependency for libmemcached, per Fahar Abbas (EDB QA)
 
 * Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-1
 - Update to 3.6.5.
