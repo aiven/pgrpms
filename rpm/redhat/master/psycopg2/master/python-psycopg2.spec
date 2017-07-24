@@ -31,7 +31,7 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.7.1
+Version:	2.7.3
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -194,6 +194,9 @@ done
 %doc doc examples/
 
 %changelog
+* Mon Jul 24 2017 Devrim Gündüz <devrim@gunduz.org> 2.7.3-1
+- Update to 2.7.3
+
 * Tue Mar 14 2017 Devrim Gündüz <devrim@gunduz.org> 2.7.1-1
 - Update to 2.7.1
 
