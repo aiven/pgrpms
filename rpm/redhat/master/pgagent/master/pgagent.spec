@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -110,7 +110,7 @@ EOF
 %post
 if [ $1 -eq 1 ] ; then
 %if %{systemd_enabled}
-%systemd_post %{sname}-%{pgmajorversion}.service
+%systemd_post %{sname}_%{pgmajorversion}.service
 %tmpfiles_create
     # Initial installation
 %else
@@ -122,8 +122,8 @@ fi
 %if %{systemd_enabled}
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
+	/bin/systemctl --no-reload disable %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 fi
 %else
 	chkconfig --del %{name}
@@ -133,7 +133,7 @@ fi
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
+	/bin/systemctl try-restart %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 fi
 
 %clean
@@ -161,6 +161,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Jul 24 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-7
+- Fix unit file name in spec file, per Fahar Abbas (EDB QA testing)
+
 * Tue Jul 18 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-6
 - Add wxBase dependency, per Fahar Abbas (EDB QA testing)
 
