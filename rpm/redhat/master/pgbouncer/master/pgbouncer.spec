@@ -220,7 +220,7 @@ fi
 - Attempt to create the log directory only if does not exist.
 
 * Thu Jul 7 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-3
--  Fix issues in systemd file, per report from Jehan-Guillaume,
+- Fix issues in systemd file, per report from Jehan-Guillaume,
   per #1339.
 
 * Wed Mar 30 2016 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-2
@@ -261,14 +261,14 @@ fi
 - Add systemd support, and convert the spec file to unified
   spec file for all platforms
 
-* Mon May 19 2014 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-3
+* Mon May 19 2014 Devrim Gündüz <devrim@gunduz.org> - 1.5.4-3
 - Add logrotate file. It was already available in svn, but
   apparently I forgot to add it to spec file. Per an email from
   Jens Wilke.
 - Change ownership of /etc/pgbouncer directory, to pgbouncer user.
   Per Jens Wilke.
 
-* Mon Sep 16 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-2
+* Mon Sep 16 2013 Devrim Gündüz <devrim@gunduz.org> - 1.5.4-2
 - Update init script, per #138, which fixes the following.
   Contributed by Peter:
  - various legacy code of unknown purpose
@@ -281,42 +281,42 @@ fi
    was a partial workaround?)
  - restart didn't make use of pgbouncer -R option
 
-* Mon Dec 10 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.4-1
+* Mon Dec 10 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.4-1
 - Update to 1.5.4
 
-* Wed Sep 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.3-1
+* Wed Sep 12 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.3-1
 - Update to 1.5.3, per changes described at:
   http://pgfoundry.org/forum/forum.php?forum_id=1981
 
-* Tue Jul 31 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-3
+* Tue Jul 31 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-3
 - Add mkauth.py among installed files.
 
-* Thu Jun 21 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-2
+* Thu Jun 21 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2
 - Fix useradd line.
 
-* Tue Jun 5 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.2-1
+* Tue Jun 5 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1
 - Update to 1.5.2, per changes described at:
   http://pgfoundry.org/forum/forum.php?forum_id=1885
 
-* Tue May 15 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5.1-1
+* Tue May 15 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
 - Update to 1.5.1
 
-* Sun Apr 08 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5-2
+* Sun Apr 08 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5-2
 -  Fix shell of pgbouncer user, to avoid startup errors.
 
-* Fri Apr 6 2012 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.5-1
+* Fri Apr 6 2012 Devrim Gündüz <devrim@gunduz.org> - 1.5-1
 - Update to 1.5, for the changes described here:
   http://pgfoundry.org/frs/shownotes.php?release_id=1920
 - Trim changelog
 
-* Fri Aug 12 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.4.2-1
+* Fri Aug 12 2011 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1
 - Update to 1.4.2, for the changes described here:
   http://pgfoundry.org/frs/shownotes.php?release_id=1863
 
-* Mon Sep 13 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.4-1
+* Mon Sep 13 2010 Devrim Gündüz <devrim@gunduz.org> - 1.3.4-1
 - Update to 1.3.4, for the changes described here:
   http://pgfoundry.org/frs/shownotes.php?prelease_id=1698
-* Fri Aug 06 2010 Devrim GÜNDÜZ <devrim@gunduz.org> - 1.3.3-2
+* Fri Aug 06 2010 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-2
 - Sleep 2 seconds before getting pid during start(), like we do in PostgreSQL
   init script, to avoid false positive startup errors.
 
