@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -44,6 +44,11 @@ Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
 Patch3:		%{sname}-rhel6-htmlmin.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
+# This patch will be removed in 1.7:
+%ifarch ppc64 ppc64le
+Patch5:		%{sname}-ppc-runtime.patch
+%endif
+
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	gcc-c++
@@ -249,6 +254,10 @@ Documentation of pgadmin4.
 %patch4 -p0
 %endif
 
+%ifarch ppc64 ppc64le
+%patch5 -p0
+%endif
+
 %build
 cd runtime
 %if 0%{?with_python3}
@@ -399,6 +408,11 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Thu Jul 27 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-3
+-  On PPC, before starting main application, need to set
+   'QT_X11_NO_MITSHM=1' to make the runtime work. Add this patch
+   to fix PPC builds.
+
 * Thu Jul 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-2
 - Revert the fix applied for #2496 which breaks desktop mode.
 
