@@ -255,7 +255,7 @@ Documentation of pgadmin4.
 %endif
 
 %ifarch ppc64 ppc64le
-%patch5 -p0
+%patch5 -p1
 %endif
 
 %build
