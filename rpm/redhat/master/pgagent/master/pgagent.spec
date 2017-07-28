@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -161,6 +161,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Jul 28 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-8
+- Improve unit file, so that pgagent actually stops.
+
 * Mon Jul 24 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-7
 - Fix unit file name in spec file, per Fahar Abbas (EDB QA testing)
 

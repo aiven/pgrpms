@@ -37,7 +37,8 @@ Environment=LOGFILE=/var/log/pgagent_10.log
 OOMScoreAdjust=-1000
 
 ExecStart=/usr/bin/pgagent_10 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
-ExecStop=/usr/bin/kill -TERM /usr/bin/pgagent_10
+KillMode=mixed
+KillSignal=SIGINT
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
