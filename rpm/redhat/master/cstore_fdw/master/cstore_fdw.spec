@@ -8,7 +8,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.0
+Version:	1.6.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -71,6 +71,9 @@ let you:
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Jul 30 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
+- Update to 1.6.0
+
 * Wed Sep 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
 - Update to 1.5.0
 - Add LICENSE among installed files.
