@@ -898,7 +898,7 @@ cat postgres-%{pgpackageversion}.lang pg_resetxlog-%{pgpackageversion}.lang pg_c
 
 %pre server
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
-useradd -M -n -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post server
