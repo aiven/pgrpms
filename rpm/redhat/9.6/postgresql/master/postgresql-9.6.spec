@@ -169,9 +169,12 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %uuid
-%if 0%{?rhel}
-BuildRequires:	libuuid-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	uuid-devel
 %endif
+%else
+BuildRequires:	libuuid-devel
 %endif
 
 %if %ldap
