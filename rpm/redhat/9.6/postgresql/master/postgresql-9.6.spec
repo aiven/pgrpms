@@ -73,8 +73,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.3
-Release:	4PGDG%{?dist}
+Version:	9.6.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1370,6 +1370,10 @@ fi
 %endif
 
 %changelog
+* Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.4-1PGDG-1
+- Update to 9.6.4, per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-6-4.html
+
 * Mon Jul 17 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.3-4PGDG-1
 - Add tcl as a dependency to pltcl subpackage, per Fahar Abbas.
 
