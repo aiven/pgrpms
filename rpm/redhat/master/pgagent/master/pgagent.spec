@@ -17,11 +17,12 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
 Source3:	%{sname}-%{pgmajorversion}.init
+Source4:	%{sname}-%{pgmajorversion}.logrotate
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
@@ -107,6 +108,10 @@ EOF
 %{__install} -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{name}
 %endif
 
+# Install logrotate file:
+%{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
+%{__install} -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
 %post
 if [ $1 -eq 1 ] ; then
 %if %{systemd_enabled}
@@ -148,6 +153,7 @@ fi
 %doc README LICENSE
 %endif
 %{_bindir}/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
@@ -161,6 +167,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Jul 30 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-9
+- Install a logrotate file.
+
 * Fri Jul 28 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-8
 - Improve unit file, so that pgagent actually stops.
 
