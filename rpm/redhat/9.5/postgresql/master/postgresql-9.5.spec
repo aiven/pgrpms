@@ -97,8 +97,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.7
-Release:	3PGDG%{?dist}
+Version:	9.5.8
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1353,6 +1353,10 @@ fi
 %endif
 
 %changelog
+* Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.8-1PGDG
+- Update to 9.5.8, per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-5-8.html
+
 * Mon Jul 17 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.7-3PGDG
 - Add tcl as a dependency to pltcl subpackage, per Fahar Abbas.
 
