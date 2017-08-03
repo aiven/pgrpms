@@ -84,7 +84,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta2_2PGDG%{?dist}
+Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1375,7 +1375,10 @@ fi
 %endif
 
 %changelog
-* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-2PGDG
+* Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta3-1PGDG
+- Update to 10 beta3
+
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-3PGDG
 - Fix version calculation in RHEL 6 init script, per Justin Pryzby.
 - Add tcl as a dependency to pltcl subpackage, per Fahar Abbas.
 
