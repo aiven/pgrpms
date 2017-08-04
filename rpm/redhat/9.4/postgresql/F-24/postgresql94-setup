@@ -87,9 +87,9 @@ fi
 if [ -f "/etc/systemd/system/${SERVICE_NAME}.service" ]
 then
     SERVICE_FILE="/etc/systemd/system/${SERVICE_NAME}.service"
-elif [ -f "/lib/systemd/system/${SERVICE_NAME}.service" ]
+elif [ -f "/usr/lib/systemd/system/${SERVICE_NAME}.service" ]
 then
-    SERVICE_FILE="/lib/systemd/system/${SERVICE_NAME}.service"
+    SERVICE_FILE="/usr/lib/systemd/system/${SERVICE_NAME}.service"
 else
     echo "Could not find systemd unit file ${SERVICE_NAME}.service"
     exit 1
@@ -118,7 +118,7 @@ script_result=0
 # code shared between initdb and upgrade actions
 perform_initdb(){
     if [ ! -e "$PGDATA" ]; then
-        mkdir -p "$PGDATA" || return 1
+        mkdir "$PGDATA" || return 1
         chown postgres:postgres "$PGDATA"
         chmod go-rwx "$PGDATA"
     fi
