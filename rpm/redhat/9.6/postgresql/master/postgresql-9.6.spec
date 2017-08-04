@@ -953,7 +953,7 @@ fi
 %if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
- sbin/service postgresql-%{pgpackageversion} condrestart >/dev/null 2>&1
+ /sbin/service postgresql-%{pgpackageversion} condrestart >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
