@@ -156,7 +156,7 @@ done
 %{_bindir}/%{sname}
 %dir %{python_sitelib}/%{sname}
 %{python2_sitelib}/%{sname}/*.py
-%{python_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info
+%{python_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info
 %{python_sitelib}/%{sname}/*.pyc
 %{python_sitelib}/%{sname}/*.pyo
 
