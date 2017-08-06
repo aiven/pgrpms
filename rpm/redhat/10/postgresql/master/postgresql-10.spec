@@ -17,15 +17,7 @@
 %{!?enabletaptests:%global enabletaptests 1}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-# Disable ICU support in RHEL 6. The ICU library version is not enough
-# to build PostgreSQL on this platform.
-%{!?icu:%global icu 0}
-%else
-# Enable ICU on RHEL 7, SLES 12 and Fedora:
 %{!?icu:%global icu 1}
-%endif
-
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
@@ -513,6 +505,14 @@ CFLAGS="${CFLAGS:-%optflags}"
 %endif
 
 export CFLAGS
+
+%if %icu
+# Export ICU flags on RHEL 6:
+%if 0%{?rhel} && 0%{?rhel} <= 6
+	ICU_CFLAGS='-I%{__includedir}/usr/include'; export ICU_CFLAGS
+	ICU_LIBS='-L/%%{__libdir} -licui18n -licuuc -licudata'; export ICU_LIBS
+%endif
+%endif
 
 # plpython requires separate configure/build runs to build against python 2
 # versus python 3.  Our strategy is to do the python 3 run first, then make
