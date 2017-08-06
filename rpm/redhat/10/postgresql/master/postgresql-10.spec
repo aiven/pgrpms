@@ -509,8 +509,8 @@ export CFLAGS
 %if %icu
 # Export ICU flags on RHEL 6:
 %if 0%{?rhel} && 0%{?rhel} <= 6
-	ICU_CFLAGS='-I%{_includedir}/usr/include'; export ICU_CFLAGS
-	ICU_LIBS='-L/%%{_libdir} -licui18n -licuuc -licudata'; export ICU_LIBS
+	ICU_CFLAGS='-I%{_includedir}'; export ICU_CFLAGS
+	ICU_LIBS='-L%{_libdir} -licui18n -licuuc -licudata'; export ICU_LIBS
 %endif
 %endif
 
