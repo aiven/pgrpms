@@ -176,6 +176,7 @@ BuildRequires:	uuid-devel
 %else
 BuildRequires:	libuuid-devel
 %endif
+%endif
 
 %if %ldap
 %if 0%{?suse_version}
