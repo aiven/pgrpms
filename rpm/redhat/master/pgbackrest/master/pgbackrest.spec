@@ -1,6 +1,6 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.20
+Version:	1.22
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -52,6 +52,9 @@ are required to perform a backup which increases security.
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Aug 10 2017 - Devrim Gündüz <devrim@gunduz.org> 1.22-1
+- Update to 1.22, per #2643.
+
 * Thu Jun 29 2017 - Devrim Gündüz <devrim@gunduz.org> 1.20-1
 - Update to 1.20, per #2517.
 
