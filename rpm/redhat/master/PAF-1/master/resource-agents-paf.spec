@@ -24,7 +24,8 @@ PostgreSQL resource agent for Pacemaker.
 %install
 %{__rm} -rf %{buildroot}
 ./Build install
-%{__rm} -f %{buildroot}/usr/local/lib64/perl5/auto/PAF/.packlist
+
+find %{buildroot} -type f -name .packlist -exec rm -f {} +
 
 %clean
 %{__rm} -rf %{buildroot}
