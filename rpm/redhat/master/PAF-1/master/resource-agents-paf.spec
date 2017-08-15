@@ -31,8 +31,7 @@ PostgreSQL resource agent for Pacemaker.
 
 %files
 %defattr(-,root,root,0755)
-%doc README.md
-%license LICENSE
+%doc README.md LICENSE
 %{_mandir}/man1/*.1*
 %{_mandir}/man3/*.3*
 %{_ocfroot}/resource.d/heartbeat/pgsqlms
