@@ -1,7 +1,5 @@
 %global postgismajorversion 2.2
 %global pgroutingmajorversion 2.4
-%global pgmajorversion 95
-%global pginstdir /usr/pgsql-9.5
 %global sname	pgrouting
 
 %ifarch ppc64 ppc64le
@@ -89,6 +87,9 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Aug 16 2017 Devrim Gündüz <devrim@gunduz.org> 2.4.2-1
+- Update to 2.4.2
+
 * Wed Jan 11 2017 Devrim Gündüz <devrim@gunduz.org> 2.3.2-1
 - Update to 2.3.2
 
