@@ -1,7 +1,5 @@
 %global postgismajorversion 2.3
 %global pgroutingmajorversion 2.4
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
 %global sname	pgrouting
 
 %ifarch ppc64 ppc64le
@@ -12,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.1
+Version:	%{pgroutingmajorversion}.2
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
@@ -89,6 +87,9 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Aug 16 2017 Devrim Gündüz <devrim@gunduz.org> 2.4.2-1
+- Update to 2.4.2
+
 * Mon Jul 3 2017 Devrim Gündüz <devrim@gunduz.org> 2.4.1-1
 - Update to 2.4.1
 
