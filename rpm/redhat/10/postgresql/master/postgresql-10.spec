@@ -174,10 +174,10 @@ BuildRequires:	systemtap-sdt-devel
 %if %selinux
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires: libselinux1 >= 2.0.93
+BuildRequires: libselinux-devel >= 2.0.93
 %endif
 %else
-BuildRequires: libselinux >= 2.0.93
+BuildRequires: libselinux-devel >= 2.0.93
 %endif
 BuildRequires: selinux-policy >= 3.9.13
 %endif
