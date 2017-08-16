@@ -10,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.1
+Version:	%{pgroutingmajorversion}.2
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
