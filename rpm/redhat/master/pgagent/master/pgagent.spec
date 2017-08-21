@@ -29,22 +29,24 @@ BuildRequires:	wxGTK-devel postgresql%{pgmajorversion}-devel cmake
 Requires:	wxBase
 
 %if %{systemd_enabled}
-BuildRequires:		systemd
-# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+BuildRequires:		systemd, systemd-devel
 Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
 Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+%endif
 %else
 Requires(post):		chkconfig
 Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
-# This is for older spec files (RHEL <= 6)
-Group:			Applications/Databases
-BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 
 %ifarch ppc64 ppc64le
