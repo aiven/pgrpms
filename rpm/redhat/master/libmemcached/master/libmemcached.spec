@@ -6,7 +6,7 @@ License:	BSD
 Group:		System Environment/Libraries
 URL:		http://libmemcached.org/
 # Original sources:
-#   http://launchpad.net/libmemcached/1.0/%{version}/+download/libmemcached-%{version}.tar.gz
+#   http://launchpad.net/libmemcached/1.0/%%{version}/+download/libmemcached-%%{version}.tar.gz
 # The source tarball must be repackaged to remove the Hsieh hash
 # code, since the license is non-free.  When upgrading, download the new
 # source tarball, and run "./strip-hsieh.sh <version>" to produce the
@@ -37,46 +37,46 @@ usage, and provide full access to server side methods.
 
 It also implements several command line tools:
 
-memaslap    Load testing and benchmarking a server
-memcapable  Checking a Memcached server capibilities and compatibility
-memcat      Copy the value of a key to standard output
-memcp       Copy data to a server
-memdump     Dumping your server
-memerror    Translate an error code to a string
-memexist    Check for the existance of a key
-memflush    Flush the contents of your servers
-memparse    Parse an option string
-memping     Test to see if a server is available.
-memrm       Remove a key(s) from the server
-memslap     Generate testing loads on a memcached cluster
-memstat     Dump the stats of your servers to standard output
-memtouch    Touches a key
+memaslap	Load testing and benchmarking a server
+memcapable	Checking a Memcached server capibilities and compatibility
+memcat		Copy the value of a key to standard output
+memcp		Copy data to a server
+memdump		Dumping your server
+memerror	Translate an error code to a string
+memexist	Check for the existance of a key
+memflush	Flush the contents of your servers
+memparse	Parse an option string
+memping		Test to see if a server is available.
+memrm		Remove a key(s) from the server
+memslap		Generate testing loads on a memcached cluster
+memstat		Dump the stats of your servers to standard output
+memtouch	Touches a key
 
 %package devel
-Summary: Header files and development libraries for %{name}
-Group: Development/Libraries
-Requires: %{name}%{?_isa} = %{version}-%{release}
-Requires: pkgconfig
-Requires: cyrus-sasl-devel%{?_isa}
+Summary:	Header files and development libraries for %{name}
+Group:		Development/Libraries
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	pkgconfig
+Requires:	cyrus-sasl-devel%{?_isa}
 
 %description devel
 This package contains the header files and development libraries
-for %{name}. If you like to develop programs using %{name}, 
-you will need to install %{name}-devel.	
+for %{name}. If you like to develop programs using %{name},
+you will need to install %{name}-devel.
 
 %prep
 %setup -q
 
 mkdir examples
-cp -p tests/*.{cc,h} examples/
+%{__cp} -p tests/*.{cc,h} examples/
 
 %build
 %configure \
-   --enable-sasl \
-   --enable-libmemcachedprotocol \
-   --enable-memaslap \
-   --enable-dtrace \
-   --disable-static
+	--enable-sasl \
+	--enable-libmemcachedprotocol \
+	--enable-memaslap \
+	--enable-dtrace \
+	--disable-static
 
 %if 0%{?fedora} < 14 && 0%{?rhel} < 7
 # for warning: unknown option after '#pragma GCC diagnostic' kind
@@ -85,30 +85,29 @@ sed -e 's/-Werror//' -i Makefile
 
 make %{_smp_mflags} V=1
 
-
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 make install  DESTDIR="%{buildroot}" AM_INSTALL_PROGRAM_FLAGS=""
 
 # Hack: when sphinx-build too old (fedora < 14 and rhel < 7)
 # install upstream provided man pages
 if [ ! -d %{buildroot}%{_mandir}/man1 ]; then
-   install -d %{buildroot}%{_mandir}/man1
-   install -p -m 644 man/*1 %{buildroot}%{_mandir}/man1
-   install -d %{buildroot}%{_mandir}/man3
-   install -p -m 644 man/*3 %{buildroot}%{_mandir}/man3
+	install -d %{buildroot}%{_mandir}/man1
+	install -p -m 644 man/*1 %{buildroot}%{_mandir}/man1
+	install -d %{buildroot}%{_mandir}/man3
+	install -p -m 644 man/*3 %{buildroot}%{_mandir}/man3
 fi
 
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
-%defattr (-,root,root,-) 
+%defattr (-,root,root,-)
 %doc AUTHORS COPYING README THANKS TODO ChangeLog
 %{_bindir}/mem*
 %exclude %{_libdir}/lib*.la
