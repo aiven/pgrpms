@@ -27,16 +27,14 @@ URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake
 
-%if 0%{?rhel}
-Requires:	wxBase
-BuildRequires:	wxGTK-devel
-%endif
-
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 Requires:	libwx_baseu-2_8-0-wxcontainer
 BuildRequires:	wxWidgets-devel
 %endif
+%else
+Requires:	wxBase
+BuildRequires:	wxGTK-devel
 %endif
 
 %if %{systemd_enabled}
