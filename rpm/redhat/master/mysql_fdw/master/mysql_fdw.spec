@@ -12,7 +12,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
@@ -46,6 +46,9 @@ the MySQL.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
+
+export LDFLAGS="-L%{_libdir}/mysql"
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
@@ -79,7 +82,10 @@ the MySQL.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Jan 17 2017 - Devrim Gündüz <devrim@gunduz.org> 2.1.2-1
+* Thu Aug 24 2017 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-2
+- Attempt to link to mysqlclient available in the OS.
+
+* Tue Jan 17 2017 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 
 * Tue Feb 23 2016 - Devrim Gündüz <devrim@gunduz.org> 2.1.2-1
