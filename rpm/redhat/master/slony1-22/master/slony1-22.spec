@@ -20,7 +20,7 @@ Source2:	%{sname}-22-filter-requires-perl-Pg.sh
 Source3:	%{sname}-22-%{pgmajorversion}.init
 Source4:	%{sname}-22-%{pgmajorversion}.sysconfig
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, initscripts, byacc, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, initscripts, flex
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
 Conflicts:	slony1
 %ifarch ppc64 ppc64le
