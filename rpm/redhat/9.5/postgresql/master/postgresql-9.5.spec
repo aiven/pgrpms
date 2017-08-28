@@ -97,7 +97,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.8
+Version:	9.5.9
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -1353,6 +1353,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.9-1PGDG
+- Update to 9.5.9, per changes described at:
+  http://www.postgresql.org/docs/devel/static/release-9-5-9.html
+
 * Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.8-1PGDG
 - Update to 9.5.8, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-8.html
