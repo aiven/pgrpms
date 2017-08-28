@@ -76,12 +76,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta3_1PGDG%{?dist}
+Release:	beta4_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v10beta3/%{sname}-10beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v10beta4/%{sname}-10beta4.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -468,7 +468,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}beta3
+%setup -q -n %{sname}-%{pgmajorversion}beta4
 %patch1 -p1
 %patch3 -p0
 %patch5 -p0
@@ -1375,6 +1375,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta4-1PGDG
+- Update to 10 beta4
+
 * Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta3-1PGDG
 - Update to 10 beta3
 
