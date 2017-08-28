@@ -10,7 +10,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2.5
+Version:	2.2.6
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -168,35 +168,38 @@ fi
 %endif
 
 %changelog
-* Mon Jul 4 2016 Devrim Gunduz <devrim@gunduz.org> 2.2.5-1
+* Mon Aug 28 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-1
+- Update to 2.2.6
+
+* Mon Jul 4 2016 Devrim Gündüz <devrim@gunduz.org> 2.2.5-1
 - Update to 2.2.5
 
-* Sun Jul 5 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-4
+* Sun Jul 5 2015 Devrim Gündüz <devrim@gunduz.org> 2.2.4-4
 - Various updates to init script, per Rob Brucks.
 - Cosmetic updates to spec file (using macros)
 
-* Tue Mar 17 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-3
+* Tue Mar 17 2015 Devrim Gündüz <devrim@gunduz.org> 2.2.4-3
 - Fix the log directory, so that it points to correct release.
   Per bug report from Guillaume Lelarge.
 
-* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-2
+* Mon Jan 19 2015 Devrim Gündüz <devrim@gunduz.org> 2.2.4-2
 - Fix init script so that it reads the conninfo correctly.
   Per Tomonari Katsumata.
 - Fix major version number in init script.
 
-* Mon Jan 19 2015 Devrim Gunduz <devrim@gunduz.org> 2.2.4-1
+* Mon Jan 19 2015 Devrim Gündüz <devrim@gunduz.org> 2.2.4-1
 - Update to 2.2.4
 
-* Wed Jul 9 2014 Devrim Gunduz <devrim@gunduz.org> 2.2.3-1
+* Wed Jul 9 2014 Devrim Gündüz <devrim@gunduz.org> 2.2.3-1
 - Update to 2.2.3
 
-* Wed Feb 12 2014 Devrim Gunduz <devrim@gunduz.org> 2.2.2-1
+* Wed Feb 12 2014 Devrim Gündüz <devrim@gunduz.org> 2.2.2-1
 - Update to 2.2.2
 
-* Sat Nov 9 2013 Devrim Gunduz <devrim@gunduz.org> 2.2.1-1
+* Sat Nov 9 2013 Devrim Gündüz <devrim@gunduz.org> 2.2.1-1
 - Update to 2.2.1
 
-* Tue Sep 10 2013 Devrim Gunduz <devrim@gunduz.org> 2.2.0-1
+* Tue Sep 10 2013 Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 - Trim changelog.
 
@@ -204,10 +207,10 @@ fi
 - Set --sysconfdir during configure to fix the require list & the CONFIG_FILE path in the Perl scripts
 - Set the correct path for LOGDIR in the slon_tools.conf file
 
-* Tue Aug 20 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.4-1
+* Tue Aug 20 2013 Devrim Gündüz <devrim@gunduz.org> 2.1.4-1
 - Update to 2.1.4
 
-* Mon Jun 24 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-2
+* Mon Jun 24 2013 Devrim Gündüz <devrim@gunduz.org> 2.1.3-2
 - Various fixes for multiple postmaster feature:
  - Install slony config files in separate directories.
  - Update init scripts.
@@ -215,58 +218,58 @@ fi
  - Properly filter dependency to /etc/slon_tools.conf
  - Use default sysconfig file, to be used by init script.
 
-* Tue Feb 19 2013 Devrim Gunduz <devrim@gunduz.org> 2.1.3-1
+* Tue Feb 19 2013 Devrim Gündüz <devrim@gunduz.org> 2.1.3-1
 - Update to 2.1.3
 - Fix init script names in %%postun and %%preun.
 
 * Sat Feb 09 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.1.2-2
 - Rebuilt.
 
-* Sat Sep 1 2012 Devrim Gunduz <devrim@gunduz.org> 2.1.2-1
+* Sat Sep 1 2012 Devrim Gündüz <devrim@gunduz.org> 2.1.2-1
 - Update to 2.1.2
 
-* Fri Jun 8 2012 Devrim Gunduz <devrim@gunduz.org> 2.1.1-1
+* Fri Jun 8 2012 Devrim Gündüz <devrim@gunduz.org> 2.1.1-1
 - Update to 2.1.1
 
 * Wed Oct 05 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 2.0.7-2
 - Use correct pgmajorversion number, per report from Ger Timmens.
 
-* Fri Aug 12 2011 Devrim Gunduz <devrim@gunduz.org> 2.0.7-1
+* Fri Aug 12 2011 Devrim Gündüz <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7.
 
-* Thu Dec 9 2010 Devrim Gunduz <devrim@gunduz.org> 2.0.6-1
+* Thu Dec 9 2010 Devrim Gündüz <devrim@gunduz.org> 2.0.6-1
 - Update to 2.0.6
 
-* Fri Oct 8 2010 Devrim Gunduz <devrim@gunduz.org> 2.0.5-1
+* Fri Oct 8 2010 Devrim Gündüz <devrim@gunduz.org> 2.0.5-1
 - Update to 2.0.5
 
-* Sat Sep 18 2010 Devrim Gunduz <devrim@gunduz.org> 2.0.4-1
+* Sat Sep 18 2010 Devrim Gündüz <devrim@gunduz.org> 2.0.4-1
 - Update to 2.0.4, and perform a major cleanup and bugfix.
 - Apply changes for 9.0+
 - Update source2, to supress weird dependency for slon_tools.conf.
 
-* Sat Apr 10 2010 Devrim Gunduz <devrim@gunduz.org> 2.0.3-1
+* Sat Apr 10 2010 Devrim Gündüz <devrim@gunduz.org> 2.0.3-1
 - Update to 2.0.3
 - Updated doc patch
 - Rename log directory to slony, to match upstream default
 - Apply many fixes to support multiple postmaster installation.
 
-* Sat May 9 2009 Devrim Gunduz <devrim@gunduz.org> 2.0.2-1
+* Sat May 9 2009 Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
 - Update to 2.0.2
 - Removed patch0 -- it is no longer needed.
 - Added a temp patch to get rid of sgml error.
 - Re-enable doc builds
 
-* Sat Mar 14 2009 Devrim Gunduz <devrim@gunduz.org> 2.0.1-1
+* Sat Mar 14 2009 Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 - Create log directory, per pgcore #77.
 
-* Thu Jan 29 2009 Devrim Gunduz <devrim@gunduz.org> 2.0.0-3
+* Thu Jan 29 2009 Devrim Gündüz <devrim@gunduz.org> 2.0.0-3
 - Add docbook-utils to BR.
 
-* Sat Dec 13 2008 Devrim Gunduz <devrim@gunduz.org> 2.0.0-2
+* Sat Dec 13 2008 Devrim Gündüz <devrim@gunduz.org> 2.0.0-2
 - Add a patch to fix build errors
 - Temporarily update Source2, so that it will silence a dependency error.
 
-* Tue Dec 2 2008 Devrim Gunduz <devrim@gunduz.org> 2.0.0-1
+* Tue Dec 2 2008 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
