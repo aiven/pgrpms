@@ -934,11 +934,11 @@ if [ $1 -eq 1 ] ; then
    %service_add_pre postgresql-%{pgpackageversion}.service
    %endif
    %else
-   %systemd_post %{sname}-%{pgmajorversion}.service
+   %systemd_post %{sname}-%{pgpackageversion}.service
    %tmpfiles_create
    %endif
   %else
-   chkconfig --add %{sname}-%{pgmajorversion}
+   chkconfig --add %{sname}-%{pgpackageversion}
   %endif
 fi
 
