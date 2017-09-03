@@ -1,7 +1,16 @@
 %global _slonconffilter /etc/slon_tools.conf
 %global __requires_exclude ^(%{_slonconffilter})$
 %global sname slony1
+%global slonymajorversion 22
 %{!?docs:%global docs 0}
+%global _varrundir %{_localstatedir}/run/%{sname}-%{pgmajorversion}
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%global systemd_enabled 0
+%else
+%global systemd_enabled 1
+%endif
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -14,15 +23,38 @@ Version:	2.2.6
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://main.slony.info/
-Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
-Source2:	%{sname}-22-filter-requires-perl-Pg.sh
-Source3:	%{sname}-22-%{pgmajorversion}.init
-Source4:	%{sname}-22-%{pgmajorversion}.sysconfig
+URL:		http://www.slony.info/
+Source0:	http://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
+Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
+Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
+Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
+Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, initscripts, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, flex
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
 Conflicts:	slony1
+
+%if %{systemd_enabled}
+BuildRequires:		systemd, systemd-devel
+Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
+%else
+Requires(post):		chkconfig
+Requires(preun):	chkconfig
+# This is for /sbin/service
+Requires(preun):	initscripts
+Requires(postun):	initscripts
+%endif
+
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -55,7 +87,6 @@ Summary:	Documentation for Slony-I
 Group:		Applications/Databases
 Requires:	%{sname}-%{pgmajorversion}
 BuildRequires:	libjpeg, netpbm-progs, groff, docbook-style-dsssl, ghostscript
-Obsoletes:	slony1-docs
 
 %description docs
 The slony1-docs package includes some documentation for Slony-I.
@@ -67,7 +98,7 @@ The slony1-docs package includes some documentation for Slony-I.
 %setup -q -n %{sname}-%{version}
 %build
 
-# Fix permissions of docs.
+# Fix permissions of docs.
 %if %docs
 find doc/ -type f -exec chmod 600 {} \;
 %endif
@@ -99,23 +130,35 @@ export LIBNAME=%{_lib}
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 # Install sample slon.conf file
-install -d %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}
-install -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
-install -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
+%{__install} -d %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}
+%{__install} -m 0644 share/slon.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
+%{__install} -m 0644 tools/altperl/slon_tools.conf-sample %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 
 # Fix the log path
 sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 
-# Install default sysconfig file
-install -d %{buildroot}%{_sysconfdir}/sysconfig
-install -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
-
 # change file modes of docs.
 %{__chmod} 644 COPYRIGHT UPGRADING SAMPLE RELEASE
 
-# Install init script
-install -d %{buildroot}%{_initrddir}
-install -m 755 %{SOURCE3} %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
+
+%if %{systemd_enabled}
+# Install unit file
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/
+# ... and make a tmpfiles script to recreate it at reboot.
+%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_varrundir} 0755 root root -
+EOF
+%else
+# install init script
+%{__install} -d %{buildroot}%{_initrddir}
+%{__install} -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}
+# Install default sysconfig file
+%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig
+%{__install} -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
+
+%endif
 
 cd tools
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
@@ -128,27 +171,58 @@ cd tools
 %{__rm} -rf %{buildroot}
 
 %post
-chkconfig --add %{sname}-%{pgmajorversion}
+if [ $1 -eq 1 ] ; then
+ %if %{systemd_enabled}
+   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} >= 1315
+   %service_add_pre %{sname}-%{slonymajorversion}-%{pgmajorversion}.service
+   %endif
+   %else
+   %systemd_post %{sname}-%{slonymajorversion}-%{pgmajorversion}.service
+   %tmpfiles_create
+   %endif
+   %else
+   chkconfig --add %{sname}-%{slonymajorversion}-%{pgmajorversion}}
+  %endif
+fi
 if [ ! -e "/var/log/slony1-%{pgmajorversion}" -a ! -h "/var/log/slony1-%{pgmajorversion}" ]
 then
-        %{__mkdir} /var/log/slony1-%{pgmajorversion}
-        %{__chown} postgres:postgres /var/log/slony1-%{pgmajorversion}
+	%{__mkdir} /var/log/slony1-%{pgmajorversion}
+	%{__chown} postgres:postgres /var/log/slony1-%{pgmajorversion}
 fi
 if [ ! -e "/var/run/slony1-%{pgmajorversion}/" -a ! -h "/var/run/slony1-%{pgmajorversion}/" ]
 then
-        %{__mkdir} /var/run/slony1-%{pgmajorversion}
-        %{__chown} postgres:postgres /var/run/slony1-%{pgmajorversion}
+	%{__mkdir} /var/run/slony1-%{pgmajorversion}
+	%{__chown} postgres:postgres /var/run/slony1-%{pgmajorversion}
 fi
 
 %preun
-if [ $1 = 0 ] ; then
-	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
-	chkconfig --del %{sname}-%{pgmajorversion}
+if [ $1 -eq 0 ] ; then
+%if %{systemd_enabled}
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
+	/bin/systemctl stop %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
+%else
+	/sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condstop >/dev/null 2>&1
+	chkconfig --del %{sname}-%{slonymajorversion}-%{pgmajorversion}
+%endif
 fi
 
+
 %postun
-if [ $1 -ge 1 ]; then
-	/sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
+%if %{systemd_enabled}
+ /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+%else
+ /sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condrestart >/dev/null 2>&1
+%endif
+if [ $1 -ge 1 ] ; then
+ %if %{systemd_enabled}
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
+ %else
+	/sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condrestart >/dev/null 2>&1
+ %endif
 fi
 
 %files
@@ -157,10 +231,16 @@ fi
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
-%config(noreplace) %{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
-%attr(755,root,root) %{_initrddir}/slony1-%{pgmajorversion}
+%if %{systemd_enabled}
+%ghost %{_varrundir}
+%{_tmpfilesdir}/%{name}.conf
+%attr (644, root, root) %{_unitdir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
+%else
+%{_initrddir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}
+%config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
+%endif
 
 %if %docs
 %files docs
@@ -168,6 +248,9 @@ fi
 %endif
 
 %changelog
+* Sun Sep 3 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-2
+- Add systemd support
+
 * Mon Aug 28 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-1
 - Update to 2.2.6
 
