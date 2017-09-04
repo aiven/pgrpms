@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}11_%{pgmajorversion}
-Version:	1.1.0
+Version:	1.1.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -68,10 +68,14 @@ trail or audit log. The term audit log is used in this documentation.
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/pgaudit--1.0--1.1.1.sql
+%{pginstdir}/share/extension/pgaudit--1.1.1.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Sep 4 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
+- Update to 1.1.1
+
 * Tue Jun 6 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 
