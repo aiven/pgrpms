@@ -1,5 +1,5 @@
 %global sname pgadmin4
-%global pgadminmajorversion 1
+%global pgadminmajorversion 2
 %global	pgadmin4instdir /usr/%{sname}-v%{pgadminmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -27,13 +27,13 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.6
-Release:	3%{?dist}
+Version:	%{pgadminmajorversion}.0
+Release:	rc1_1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
-Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}-rc1.tar.gz
 Source1:	%{sname}.conf
 Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
@@ -74,7 +74,7 @@ BuildRequires:	%{sname}-python3-flask-htmlmin %{sname}-python3-flask-login >= 0.
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
-BuildRequires:	python3-dateutil
+BuildRequires:	python3-dateutil %{sname}-python3-flask-paranoid >= 0.1
 %global QMAKE	/usr/bin/qmake-qt5
 %else
 
@@ -95,7 +95,7 @@ BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson
 BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
-BuildRequires: python-sqlalchemy
+BuildRequires: python-sqlalchemy %{sname}-python-flask-paranoid >= 0.1
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	%{sname}-python-passlib
 %endif
@@ -150,7 +150,7 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 BuildArch:	noarch
 %if 0%{?with_python3}
-Requires:	python3-babel >= 1.3 python3-flask >= 0.11.1
+Requires:	python3-babel >= 2.3.4 python3-flask >= 0.11.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12
@@ -176,7 +176,7 @@ Requires:	%{sname}-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
 %else
-Requires:	%{sname}-python-babel >= 1.3 python-flask >= 0.11.1
+Requires:	%{sname}-python-babel >= 2.3.4 python-flask >= 0.11.1
 Requires:	%{sname}-python-flask-htmlmin >= 1.2
 Requires:	%{sname}-python-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python-flask-wtf >= 0.12
@@ -238,7 +238,7 @@ BuildArch:	noarch
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}-rc1
 # Apply this patch only to RHEL 6,7  and Fedora 23:
 %if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
 %patch0 -p0
@@ -327,8 +327,7 @@ make PYTHON=/usr/bin/python docs
 
 cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
-echo "SERVER_MODE = False" > config_distro.py
-echo "HELP_PATH = '/usr/share/doc/%{sname}-v1-docs/en_US/html'" >> config_distro.py
+echo "HELP_PATH = '/usr/share/doc/%{sname}-v1-docs/en_US/html'" > config_distro.py
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -408,6 +407,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc1-1
+- Update to 2.0 rc1
+
 * Thu Jul 27 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6-3
 -  On PPC, before starting main application, need to set
    'QT_X11_NO_MITSHM=1' to make the runtime work. Add this patch
