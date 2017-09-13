@@ -1,19 +1,19 @@
---- web/pgadmin/__init__.py.old	2017-07-11 17:36:13.706510842 +0100
-+++ web/pgadmin/__init__.py	2017-07-11 17:36:44.056215572 +0100
+--- web/pgadmin/__init__.py.old	2017-09-13 14:13:34.208257367 +0100
++++ web/pgadmin/__init__.py	2017-09-13 14:15:24.299059804 +0100
 @@ -16,7 +16,6 @@
  
- from flask import Flask, abort, request, current_app, session
+ from flask import Flask, abort, request, current_app, session, url_for
  from flask_babel import Babel, gettext
 -from flask_htmlmin import HTMLMIN
  from flask_login import user_logged_in
  from flask_security import Security, SQLAlchemyUserDatastore
  from flask_mail import Mail
-@@ -146,6 +145,9 @@
+@@ -175,6 +174,9 @@
      if not app_name:
          app_name = config.APP_NAME
  
 +    if not config.DEBUG and sys.version_info >= (2,7):
-+        from flask_htmlmin import HTMLMIN
++	from flask_htmlmin import HTMLMIN
 +
      """Create the Flask application, startup logging and dynamically load
      additional modules (blueprints) that are found in this directory."""
