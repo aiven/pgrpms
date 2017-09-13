@@ -77,7 +77,7 @@ License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	ftp://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
+Source0:	https://ftp.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source3:	postgresql.init
 Source4:	Makefile.regress
 Source5:	pg_config.h
