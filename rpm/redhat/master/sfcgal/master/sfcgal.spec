@@ -6,8 +6,8 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-Version:	1.2.2
-Release:	2%{?dist}
+Version:	1.3.2
+Release:	1%{?dist}
 License:	GLPLv2
 Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
@@ -126,11 +126,14 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
-* Wed Jul 19 2017 Devrim GUNDUZ <devrim@gunduz.org> 1.2.2-2
+* Wed Sep 13 2017 Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
+- Update to 1.3.2 to support CGAL >= 4.10.1 on Fedora 26+
+
+* Wed Jul 19 2017 Devrim Gündüz <devrim@gunduz.org> 1.2.2-2
 - Also Requires CGAL, per Fahar Abbas (EDB QA)
 
 * Thu Nov 19 2015 Oskari Saarenmaa <os@ohmu.fi> 1.2.2-1
 - Update to 1.2.2 to support newer CGAL versions
 
-* Fri Oct 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+* Fri Oct 30 2015 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Initial build for PostgreSQL YUM Repository.
