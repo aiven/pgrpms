@@ -18,14 +18,14 @@
 
 
 Name:           pgadmin4-babel
-Version:        1.3
+Version:        2.3.4
 Release:        1%{?dist}
 Summary:        Tools for internationalizing Python applications
 
 Group:          Development/Languages
 License:        BSD
 URL:            http://babel.pocoo.org/
-Source0:        https://pypi.python.org/packages/source/B/Babel/Babel-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/B/Babel/Babel-%{version}.tar.gz
 Patch0:         %{name}-remove-pytz-version.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -121,7 +121,7 @@ make html
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGES LICENSE README AUTHORS
+%doc CHANGES LICENSE
 
 %files -n pgadmin4-python-babel
 %defattr(-,root,root,-)
@@ -132,6 +132,10 @@ make html
 %doc docs/*
 
 %changelog
+* Wed Sep 13 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-1
+- Update to 2.3.4
+  pgadmin4 dependency. Took spec file from Fedora 23 repo.
+
 * Mon May 30 2016 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency. Took spec file from Fedora 23 repo.
