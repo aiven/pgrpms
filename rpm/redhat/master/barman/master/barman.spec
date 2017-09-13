@@ -1,10 +1,10 @@
 %if 0%{?rhel} == 7
   %global pybasever 2.7
  %else
-  %if %{?fedora}>= 25
+  %if 0%{?fedora}>= 25
     %global pybasever 2.7
   %else
-    %global pybasever 3.6
+    %global pybasever 2.6
     %endif
 %endif
 
