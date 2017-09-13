@@ -1,7 +1,7 @@
-%global _tag v2.1.0
+%global _tag v2.2.0
 %global _ocfroot /usr/lib/ocf
 Name:		resource-agents-paf
-Version:	2.1.0
+Version:	2.2.0
 Release:	1%{dist}
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
@@ -18,7 +18,7 @@ PostgreSQL resource agent for Pacemaker.
 %setup -q -n PAF-%{_tag}
 
 %build
-%{__perl} Build.PL --destdir %{buildroot} --install_path bindoc=%{_mandir}/man1 --install_path libdoc=%{_mandir}/man3
+%{__perl} Build.PL --destdir %{buildroot} --install_path bindoc=%{_mandir}/man7 --install_path libdoc=%{_mandir}/man3
 %{__perl} Build
 
 %install
@@ -33,8 +33,8 @@ PostgreSQL resource agent for Pacemaker.
 %defattr(-,root,root,0755)
 %doc README.md
 %license LICENSE
-%{_mandir}/man1/*.1*
 %{_mandir}/man3/*.3*
+%{_mandir}/man7/*.7*
 %{_ocfroot}/resource.d/heartbeat/pgsqlms
 %{_ocfroot}/lib/heartbeat/OCF_ReturnCodes.pm
 %{_ocfroot}/lib/heartbeat/OCF_Directories.pm
@@ -42,6 +42,9 @@ PostgreSQL resource agent for Pacemaker.
 %{_datadir}/resource-agents/ocft/configs/pgsqlms
 
 %changelog
+* Wed Sep 13 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1
+- Update to 2.2.0
+
 * Tue May 30 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
