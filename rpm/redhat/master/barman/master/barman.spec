@@ -1,11 +1,11 @@
 %if 0%{?rhel} == 7
   %global pybasever 2.7
-%else
-  %if 0%{?fedora}>=21
+ %else
+  %if %{?fedora}>= 25
     %global pybasever 2.7
   %else
-    %global pybasever 2.6
-  %endif
+    %global pybasever 3.6
+    %endif
 %endif
 
 %if 0%{?suse_version}
@@ -14,36 +14,22 @@
 %endif
 %endif
 
-%if 0%{?rhel} == 5
-%global with_python26 1
-%endif
-
-%if 0%{?with_python26}
-%global __python_ver python26
-%global __python %{_bindir}/python%{pybasever}
-%global __os_install_post %{__multiple_python_os_install_post}
-%else
 %global __python_ver python
-%endif
 
-%global main_version 2.2
-# comment out the next line if not a pre-release (use '#%%global ...')
-#%%global extra_version b1
-# Usually 1 - unique sequence for all pre-release version
-%global package_release 1
-
-%{!?pybasever: %define pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?pybasever: %global pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	%{main_version}
-Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version}}%{?dist}
+Version:	2.3
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
+Source1:	%{name}.logrotate
+Source2:	%{name}.cron
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python-abi = %{pybasever}, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
@@ -66,35 +52,29 @@ by 2ndQuadrant.
 
 %build
 %{__python} setup.py build
-cat > barman.cron << EOF
-# m h  dom mon dow   user     command
-  * *    *   *   *   barman   [ -x %{_bindir}/barman ] && %{_bindir}/barman -q cron
-EOF
-cat > barman.logrotate << EOF
-/var/log/barman/barman.log {
-    missingok
-    notifempty
-    create 0600 barman barman
-}
-EOF
 
 %install
 %{__python} setup.py install -O1 --skip-build --root %{buildroot}
-mkdir -p %{buildroot}%{_sysconfdir}/bash_completion.d
-mkdir -p %{buildroot}%{_sysconfdir}/cron.d/
-mkdir -p %{buildroot}%{_sysconfdir}/logrotate.d/
-mkdir -p %{buildroot}%{_sysconfdir}/barman.d/
-mkdir -p %{buildroot}/var/lib/barman
-mkdir -p %{buildroot}/var/log/barman
-install -pm 644 doc/barman.conf %{buildroot}%{_sysconfdir}/barman.conf
-install -pm 644 doc/barman.d/* %{buildroot}%{_sysconfdir}/barman.d/
-install -pm 644 scripts/barman.bash_completion %{buildroot}%{_sysconfdir}/bash_completion.d/barman
-install -pm 644 barman.cron %{buildroot}%{_sysconfdir}/cron.d/barman
-install -pm 644 barman.logrotate %{buildroot}%{_sysconfdir}/logrotate.d/barman
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/bash_completion.d
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/cron.d/
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d/
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/barman.d/
+%{__mkdir} -p %{buildroot}/var/lib/barman
+%{__mkdir} -p %{buildroot}/var/log/barman
+%{__install} -pm 644 doc/barman.conf %{buildroot}%{_sysconfdir}/barman.conf
+%{__install} -pm 644 doc/barman.d/* %{buildroot}%{_sysconfdir}/barman.d/
+%{__install} -pm 644 scripts/barman.bash_completion %{buildroot}%{_sysconfdir}/bash_completion.d/barman
+%{__install} -pm 644 %{SOURCE1} %{buildroot}%{_sysconfdir}/logrotate.d/barman
+%{__install} -pm 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/cron.d/barman
 touch %{buildroot}/var/log/barman/barman.log
 
+%pre
+groupadd -f -r barman >/dev/null 2>&1 || :
+useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
+	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
+
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -113,12 +93,14 @@ rm -rf %{buildroot}
 %attr(755,barman,barman) %dir /var/log/%{name}
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
-%pre
-groupadd -f -r barman >/dev/null 2>&1 || :
-useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
-	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
-
 %changelog
+* Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3-1
+- Update to 2.3, per #2682.
+- Perform a cleanup in th spec file, use macros for some binaries, remove
+  RHEL 5 references, and remove excessive macro usage in version and release
+  number.
+- Use separate sources for logrotate and cron files.
+
 * Tue Jul 18 2017 - Devrim Gündüz <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 
