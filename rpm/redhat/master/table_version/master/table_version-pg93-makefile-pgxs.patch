@@ -1,7 +1,7 @@
---- Makefile.old	2017-05-25 15:46:39.999352345 +0100
-+++ Makefile	2017-05-25 15:46:53.027250969 +0100
-@@ -18,7 +18,7 @@
- # to your extention.
+--- Makefile.old	2017-09-13 09:07:45.265856473 +0100
++++ Makefile	2017-09-13 09:07:55.400746226 +0100
+@@ -31,7 +31,7 @@
+ # to your extension.
  #
  #MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
 -PG_CONFIG    = pg_config
