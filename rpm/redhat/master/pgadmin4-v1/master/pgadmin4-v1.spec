@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.0
-Release:	rc1_1%{?dist}
+Release:	rc1_2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -169,6 +169,7 @@ Requires:	%{sname}-python3-flask-gravatar >= 0.4.2
 Requires:	%{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5
 Requires:	%{sname}-python3-flask-login >= 0.3.2
+Requires:	%{sname}-python3-flask-paranoid >= 0.1
 Requires:	%{sname}-python3-flask-principal >= 0.4.0
 Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
@@ -186,6 +187,7 @@ Requires:	%{sname}-python-sqlalchemy >= 1.0.14
 Requires:	%{sname}-python-wtforms >= 2.0.2
 Requires:	%{sname}-python-beautifulsoup4 >= 4.4.1
 Requires:	%{sname}-python-blinker >= 1.3
+Requires:	%{sname}-python-flask-paranoid >= 0.1
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -407,6 +409,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Fri Sep 15 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc1-2
+- Add flask-paranoid to Requires, too.
+
 * Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc1-1
 - Update to 2.0 rc1
 
