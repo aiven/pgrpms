@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel6
-SPECFILE="pgadmin4-v1.spec"
+SPECFILE="pgadmin4-v2.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
