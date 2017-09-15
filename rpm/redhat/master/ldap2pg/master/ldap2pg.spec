@@ -34,7 +34,7 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python-%{sname}
-Version:	2.0
+Version:	3.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -82,7 +82,7 @@ Requires:	%{name} = %{version}-%{release}
 Group:		Applications/Databases
 
 %description debug
-This is a build of the ldap2 for the debug build of Python 2.
+This is a build of the ldap2pg for the debug build of Python 2.
 
 %if 0%{?with_python3}
 %package -n python3-%{sname}
@@ -179,5 +179,8 @@ done
 %doc docs/
 
 %changelog
+* Fri Sep 15 2017 Devrim Gündüz <devrim@gunduz.org> 3.0-1
+- Update to 3.0
+
 * Sat Aug 5 2017 Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Initial packaging for PostgreSQL YUM repository.
