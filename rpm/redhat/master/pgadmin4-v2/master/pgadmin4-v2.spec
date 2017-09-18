@@ -294,9 +294,10 @@ make PYTHON=/usr/bin/python docs
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 %{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
-# Install Apache sample config file
+# Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
+XXX
 
 # Install desktop file, and its icon
 %{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/

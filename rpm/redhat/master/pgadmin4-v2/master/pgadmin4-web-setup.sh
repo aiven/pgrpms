@@ -5,18 +5,16 @@
 #
 
 # Run setup script first:
-PYTHONSITELIB/pgadmin4-web/setup.py
+PYTHONDIR PYTHONSITELIB/pgadmin4-web/setup.py
 
 if [ $? != 0 ]
 then
-	echo "Error setting up server mode. Please examine the output above"
+	echo "Error setting up server mode. Please examine the output above."
 	exit 1
 fi
 
-# Create and own log directories:
-mkdir -m 700 /var/log/pgadmin
-touch /var/log/pgadmin/pgadmin.log
-chown apache: /var/log/pgadmin -R
+# Own directories:
+chown apache: /var/log/pgadmin /var/lib/pgadmin -R
 
 exit 0
 
