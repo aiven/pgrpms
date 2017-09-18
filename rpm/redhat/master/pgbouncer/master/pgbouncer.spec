@@ -34,13 +34,15 @@ Patch0:		%{name}-ini.patch
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libcares-devel libevent-devel
 Requires:	libevent-devel
+%else
+BuildRequires:	c-ares-devel
 %endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
 Requires:	libevent2 >= 2.0
 %else
-BuildRequires:	libevent-devel >= 2.0 c-ares-devel
+BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel
@@ -90,10 +92,10 @@ sed -i.fedora \
  configure
 
 %ifarch ppc64 ppc64le
-        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-        CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-        LDFLAGS="-L%{atpath}/%{_lib}"
-        CC=%{atpath}/bin/gcc; export CC
+	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+	LDFLAGS="-L%{atpath}/%{_lib}"
+	CC=%{atpath}/bin/gcc; export CC
 %endif
 
 %configure --datadir=%{_datadir} --disable-evdns
