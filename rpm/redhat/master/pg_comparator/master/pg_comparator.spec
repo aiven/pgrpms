@@ -12,9 +12,9 @@ Version:	2.2.5
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://pgfoundry.org/frs/download.php/3661/%{sname}-%{version}.tgz
+Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://pgfoundry.org/projects/pg-comparator
+URL:		https://github.com/koordinates/pg_comparator
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
