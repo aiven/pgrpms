@@ -28,12 +28,12 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.0
-Release:	rc1_2%{?dist}
+Release:	rc2_1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
-Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}-rc1.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}-rc2.tar.gz
 Source1:	%{sname}.conf
 Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
@@ -240,7 +240,7 @@ BuildArch:	noarch
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n %{sname}-%{version}-rc1
+%setup -q -n %{sname}-%{version}-rc2
 # Apply this patch only to RHEL 6,7  and Fedora 23:
 %if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
 %patch0 -p0
@@ -409,6 +409,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Mon Sep 18 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc2-1
+- Update to 2.0 rc2
+
 * Fri Sep 15 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc1-2
 - Add flask-paranoid to Requires, too.
 
