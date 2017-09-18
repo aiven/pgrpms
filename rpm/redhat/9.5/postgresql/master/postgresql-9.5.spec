@@ -147,15 +147,11 @@ BuildRequires:	perl glibc-devel bison flex
 Requires:	/sbin/ldconfig
 
 %if %plperl
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	perl(ExtUtils::MakeMaker)
-%else
+%if 0%{?rhel} && 0%{?rhel} >= 7
 BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker)
 %endif
 %if 0%{?fedora} >= 22
 BuildRequires:	perl-ExtUtils-Embed
-BuildRequires:	perl(ExtUtils::MakeMaker)
 %endif
 %endif
 
