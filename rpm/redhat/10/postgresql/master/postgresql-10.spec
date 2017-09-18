@@ -4,7 +4,7 @@
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -76,12 +76,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	beta4_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v10beta4/%{sname}-10beta4.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v10rc1/%{sname}- 10rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -468,7 +468,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}beta4
+%setup -q -n %{sname}-%{pgmajorversion}rc1
 %patch1 -p1
 %patch3 -p0
 %patch5 -p0
@@ -1375,37 +1375,40 @@ fi
 %endif
 
 %changelog
-* Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta4-1PGDG
+* Mon Sep 18 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0rc1-1PGDG-1
+- Update to 10 rc1
+
+* Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta4-1PGDG
 - Update to 10 beta4
 
-* Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta3-1PGDG
+* Mon Aug 7 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta3-1PGDG
 - Update to 10 beta3
 
-* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-3PGDG
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta2-3PGDG
 - Fix version calculation in RHEL 6 init script, per Justin Pryzby.
 - Add tcl as a dependency to pltcl subpackage, per Fahar Abbas.
 
-* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-2PGDG
+* Fri Jul 14 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta2-2PGDG
 - Fix version calculation in RHEL 6 init script, per Justin Pryzby.
 
-* Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta2-1PGDG
+* Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta2-1PGDG
 - Update to 10 beta2
 
-* Sat Jul 8  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-3PGDG
+* Sat Jul 8  2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta1-3PGDG
 - Bump up the version for SLES support.
 
-* Mon Jun 12  2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-2PGDG
+* Mon Jun 12  2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta1-2PGDG
 - Use separate README files for RHEL6 and others. Fixes #2471.
 - Add missing macro, per #2416 .
 
-* Wed May 17 2017 Devrim Gündüz <devrim@gunduz.org> -10.0beta1-1PGDG
+* Wed May 17 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta1-1PGDG
 - Initial cut for PostgreSQL 10 Beta 1
 - Rename all patches and sources, and add the same prefix to all of them.
 - Rename -setup and -check-db-dir scripts for consistency.
 - Trim up the header significantly, remove pretty much obsoleted information.
 - Add new translations.
 
-* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> -10.0-20170412_1PGDG
+* Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-20170412_1PGDG
 - Initial attempt for Power RPMs.
 - Cleanups for rpmlint warnings
 
