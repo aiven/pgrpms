@@ -39,6 +39,7 @@ Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
 Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
+Source7:	%{sname}-web-setup.sh
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
@@ -293,6 +294,10 @@ make PYTHON=/usr/bin/python docs
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 %{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
+# Install Apache sample config file
+%{__install} -d %{buildroot}%{pgadmin4instdir}/bin
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
+
 # Install desktop file, and its icon
 %{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
 %{__install} -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
@@ -398,6 +403,7 @@ fi
 %defattr(-,root,root,-)
 %dir %{PYTHON_SITELIB}/%{sname}-web/
 %{PYTHON_SITELIB}/%{sname}-web/*
+%attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 %if %{systemd_enabled}
 %{_unitdir}/%{name}.service
