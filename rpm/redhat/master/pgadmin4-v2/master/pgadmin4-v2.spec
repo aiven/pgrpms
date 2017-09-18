@@ -297,7 +297,6 @@ make PYTHON=/usr/bin/python docs
 # Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
 %{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
-XXX
 
 # Install desktop file, and its icon
 %{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{sname}-web/pgadmin/static/img/
