@@ -45,10 +45,6 @@ Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
 Patch3:		%{sname}-rhel6-htmlmin.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
-# This patch will be removed in 1.7:
-%ifarch ppc64 ppc64le
-Patch5:		%{sname}-ppc-runtime.patch
-%endif
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -257,10 +253,6 @@ Documentation of pgadmin4.
 %patch4 -p0
 %endif
 
-%ifarch ppc64 ppc64le
-%patch5 -p1
-%endif
-
 %build
 cd runtime
 %if 0%{?with_python3}
@@ -417,6 +409,7 @@ fi
 %changelog
 * Mon Sep 18 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc2-1
 - Update to 2.0 rc2
+- Remove obsoleted patch5
 
 * Fri Sep 15 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc1-2
 - Add flask-paranoid to Requires, too.
