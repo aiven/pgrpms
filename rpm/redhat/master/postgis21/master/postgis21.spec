@@ -23,8 +23,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.8
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.9
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -287,6 +287,11 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Sep 20 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-1
+- Update to 2.1.9, per changes described at:
+  http://postgis.net/2017/09/19/postgis-2.1.9
+  Fixes #2717.
+
 * Wed Jun 14 2017 John Harvey <john.harvey@crunchydata.com> - 2.1.8-2
 - Re-add missing patch, some reorganizaton
 
