@@ -10,9 +10,9 @@
 # Powa version
 %global powamajorversion 3
 %global powamidversion 1
-%global powaminorversion 0
+%global powaminorversion 1
 # powa-web version
-%global powawebversion 3.1.3
+%global powawebversion 3.1.4
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -29,7 +29,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	4%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
@@ -100,7 +100,7 @@ popd
 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Move powa docs into their own subdirectory:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/%{sname}
-%{__mv} %{buildroot}%{pginstdir}/doc/extension/*.md %{buildroot}%{pginstdir}/doc/extension/%{sname}
+%{__install} INSTALL.md LICENSE.md PL_funcs.md README.md %{buildroot}%{pginstdir}/doc/extension/%{sname}
 
 # Install powa-web
 pushd %{swebname}-%{powawebversion}
@@ -121,7 +121,15 @@ popd
 %files
 %defattr(-,root,root,-)
 %dir %{pginstdir}/doc/extension/%{sname}
+%if %{systemd_enabled}
+%doc %{pginstdir}/doc/extension/%{sname}/INSTALL.md
+%doc %{pginstdir}/doc/extension/%{sname}/PL_funcs.md
+%doc %{pginstdir}/doc/extension/%{sname}/README.md
+%license %{pginstdir}/doc/extension/%{sname}/LICENSE.md
+%else
+%defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/%{sname}/*.md
+%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -138,6 +146,11 @@ popd
 %endif
 
 %changelog
+* Wed Sep 20 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.1-1
+- Update to 3.1.1
+- Update powa-web to 3.1.4
+  Fixes #2718.
+
 * Wed Jul 19 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-4
 - Update powa-web to 3.1.3
 - Add systemd support
