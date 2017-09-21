@@ -28,7 +28,7 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.0
-Release:	rc2_1%{?dist}
+Release:	rc2_2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -174,7 +174,8 @@ Requires:	%{sname}-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi qt5-qtwebengine python3-unittest2
 %else
-Requires:	%{sname}-python-babel >= 2.3.4 python-flask >= 0.11.1
+Requires:	%{sname}-python-babel >= 2.3.4
+Requires:	%{sname}-python-flask >= 0.11.1
 Requires:	%{sname}-python-flask-htmlmin >= 1.2
 Requires:	%{sname}-python-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python-flask-wtf >= 0.12
@@ -407,6 +408,10 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+
+* Thu Sep 21 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc2-2
+- Require our flask on PY2 environment,	per report from	Fahar.
+
 * Mon Sep 18 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc2-1
 - Update to 2.0 rc2
 - Remove obsoleted patch5
