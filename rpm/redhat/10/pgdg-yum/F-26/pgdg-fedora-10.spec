@@ -1,6 +1,6 @@
 Name:		pgdg-fedora10
 Version:	10
-Release:	2
+Release:	3
 Summary:	PostgreSQL 10.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -40,6 +40,10 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sat Sep 23 2017 Devrim Gündüz <devrim@gunduz.org> - 10-3
+- Final modification for v10 Gold.
+- Re-enable GPG checks for Fedora 25 and Fedora 26.
+
 * Sat Mar 25 2017 Devrim Gündüz <devrim@gunduz.org> - 10-2
 - Disable gpg checks for Fedora 25, until I can find a way to automate
   package signing.

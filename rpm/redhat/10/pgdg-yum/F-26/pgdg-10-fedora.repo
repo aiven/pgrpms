@@ -1,7 +1,7 @@
 [pgdg10]
 name=PostgreSQL 10 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/10/fedora/fedora-$releasever-$basearch
-enabled=0
+enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
 
@@ -16,8 +16,8 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
 [pgdg10-updates-testing]
 name=PostgreSQL 10 $releasever - $basearch - Updates testing
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/10/fedora/fedora-$releasever-$basearch
-enabled=1
-gpgcheck=0
+enabled=0
+gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
 
 [pgdg10-source-updates-testing]
@@ -25,6 +25,6 @@ name=PostgreSQL 10 $releasever - $basearch - Source Testing
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/10/fedora/fedora-$releasever-$basearch
 enabled=0
-gpgcheck=0
+gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-10
 
