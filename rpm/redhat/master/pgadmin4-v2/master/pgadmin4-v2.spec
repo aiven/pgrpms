@@ -28,12 +28,12 @@
 
 Name:		%{sname}-v%{pgadminmajorversion}
 Version:	%{pgadminmajorversion}.0
-Release:	rc2_2%{?dist}
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
-Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}-rc2.tar.gz
+Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}.tar.gz
 Source1:	%{sname}.conf
 Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
@@ -238,7 +238,7 @@ BuildArch:	noarch
 Documentation of pgadmin4.
 
 %prep
-%setup -q -n %{sname}-%{version}-rc2
+%setup -q -n %{sname}-%{version}
 # Apply this patch only to RHEL 6,7  and Fedora 23:
 %if 0%{?fedora} <= 23 || 0%{?rhel} <= 7
 %patch0 -p0
@@ -408,6 +408,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+
+* Fri Sep 29 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
+- Update to 2.0 gold.
 
 * Thu Sep 21 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-rc2-2
 - Require our flask on PY2 environment,	per report from	Fahar.
