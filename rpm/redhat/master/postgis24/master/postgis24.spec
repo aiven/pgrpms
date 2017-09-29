@@ -1,8 +1,5 @@
-# TODO: Remove references to 2.3 (prevmajorversion and prevversion)
 %global postgismajorversion 2.4
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
-%global postgisprevmajorversion 2.3
-%global postgisprevversion %{postgisprevmajorversion}.3
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -35,14 +32,11 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	rc3_1%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}rc3.tar.gz
-Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
-# TODO for 2.4 gold:
-#Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
-Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{postgisprevversion}.pdf
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
+Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -166,7 +160,7 @@ The postgis-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}rc3
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -299,11 +293,12 @@ fi
 
 %files docs
 %defattr(-,root,root)
-# TODO for 2.4 gold:
-#%doc %{sname}-%{version}.pdf
-%doc %{sname}-%{postgisprevversion}.pdf
+%doc %{sname}-%{version}.pdf
 
 %changelog
+* Fri Sep 29 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
+- Update to 2.4.0
+
 * Wed Sep 27 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.0rc3-1
 - Initial packaging for 2.4
 
