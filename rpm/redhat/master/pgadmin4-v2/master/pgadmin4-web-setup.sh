@@ -32,7 +32,7 @@ httpd_status=`ps cax | grep httpd`
 if [ $? -eq 0 ]; then
 	echo "Apache web server is running. Reload is required for pgAdmin4 installation to complete. Would you like to continue?"
 select pgahtyn in "Yes" "No"; do
-    case $pghtayn in
+    case $pgahtyn in
         Yes )
 	echo
 	systemctl reload httpd
@@ -45,11 +45,11 @@ select pgahtyn in "Yes" "No"; do
         break;;
         No ) exit;;
     esac
-
+ done
 else
 	echo "Apache web server is not running. We can start the web server for you to finish pgAdmin4 installation. Would you like to continue?"
 select pgahtyn in "Yes" "No"; do
-    case $pghtayn in
+    case $pgahtyn in
         Yes )
 	echo
 	systemctl restart httpd
@@ -62,7 +62,7 @@ select pgahtyn in "Yes" "No"; do
         break;;
         No ) exit;;
     esac
-
+ done
 fi
 
 exit 0
