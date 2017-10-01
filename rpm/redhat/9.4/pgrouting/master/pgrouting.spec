@@ -1,7 +1,5 @@
 %global postgismajorversion 2.1
 %global pgroutingmajorversion 2.0
-%global pgmajorversion 94
-%global pginstdir /usr/pgsql-9.4
 %global sname	pgrouting
 
 # Add Traveling Salesperson functionality
@@ -12,7 +10,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/%{sname}-%{version}.tar.gz
@@ -93,18 +91,21 @@ cd build
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Tue Sep 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.1-1
+* Sat Oct 1 2016 Devrim Gündüz <devrim@gunduz.org> 2.0.1-2
+- Rebuilt for CGAL 4.7
+
+* Tue Sep 8 2015 Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 - Improve description
 
-* Wed Oct 23 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-1
+* Wed Oct 23 2013 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 
-* Mon Sep 2 2013 Devrim GÜNDÜZ <devrim@gunduz.org> 2.0.0-rc1-1
+* Mon Sep 2 2013 Devrim Gündüz <devrim@gunduz.org> 2.0.0-rc1-1
 - Update to 2.0.0 rc1
 - Remove patch1 -- already in upstream.
 
-* Mon Nov 12 2012 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.5-2
+* Mon Nov 12 2012 Devrim Gündüz <devrim@gunduz.org> 1.0.5-2
 - Add the following features, sponsored by "Norsk institutt for skog og landskap":
  -- Add Traveling Salesperson functionality
  -- Add Driving Distance functionality
@@ -114,10 +115,10 @@ cd build
 - Remove obsoleted patch (pgrouting-pg84.patch) -- already in upstream.
 - Add a patch for 9.2, that removes quotes around LANGUAGE 'C'.
 
-* Sat Sep 15 2012 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.5-1
+* Sat Sep 15 2012 Devrim Gündüz <devrim@gunduz.org> 1.0.5-1
 - Update to 1.05
 
-* Wed Jan 20 2010 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.3-5
+* Wed Jan 20 2010 Devrim Gündüz <devrim@gunduz.org> 1.0.3-5
 - Initial import to PostgreSQL RPM repository, with very little cosmetic 
   changes Thanks Peter	for sending spec to me.
 
