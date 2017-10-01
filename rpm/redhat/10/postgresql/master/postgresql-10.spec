@@ -334,6 +334,10 @@ Summary:	PostgreSQL development header files and libraries
 Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%if %icu
+Requires:	libicu-devel
+%endif
+
 %if %enabletaptests
 
 %if 0%{?suse_version}
