@@ -70,7 +70,7 @@ value can come from multiple fields or tables.
 %endif
 install -d build
 cd build
-%if 0%{?rhel} && 0%{?rhel} == 6
+%if 0%{?rhel} && 0%{?rhel} == 7
 cmake3 .. \
 %else
 %cmake .. \
