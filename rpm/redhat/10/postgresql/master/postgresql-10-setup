@@ -137,10 +137,10 @@ perform_initdb(){
     $SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
 
     # Create directory for postmaster log files
-    mkdir "$PGDATA/pg_log"
-    chown postgres:postgres "$PGDATA/pg_log"
-    chmod go-rwx "$PGDATA/pg_log"
-    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA/pg_log"
+    mkdir "$PGDATA/log"
+    chown postgres:postgres "$PGDATA/log"
+    chmod go-rwx "$PGDATA/log"
+    [ -x /sbin/restorecon ] && /sbin/restorecon "$PGDATA/log"
 
     if [ -f "$PGDATA/PG_VERSION" ]; then
         return 0

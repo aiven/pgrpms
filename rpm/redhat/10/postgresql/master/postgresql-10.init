@@ -250,9 +250,9 @@ initdb(){
 			$SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
 
 			# Create directory for postmaster log
-			mkdir "$PGDATA/pg_log"
-			chown postgres:postgres "$PGDATA/pg_log"
-			chmod go-rwx "$PGDATA/pg_log"
+			mkdir "$PGDATA/log"
+			chown postgres:postgres "$PGDATA/log"
+			chmod go-rwx "$PGDATA/log"
 
 			[ -f "$PGDATA/PG_VERSION" ] && echo_success
 			[ ! -f "$PGDATA/PG_VERSION" ] && echo_failure
