@@ -16,9 +16,21 @@ License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		http://pgrouting.org/
-BuildRequires:	gcc-c++, cmake => 2.8.8
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
+BuildRequires:	gcc-c++
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:  cmake3
+%else
+BuildRequires:  cmake => 2.8.8
+%endif
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel
 BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libproj-devel
+%endif
+%else
+BuildRequires:	proj-devel
+%endif
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -58,7 +70,11 @@ value can come from multiple fields or tables.
 %endif
 install -d build
 cd build
+%if 0%{?rhel} && 0%{?rhel} == 6
+cmake3 .. \
+%else
 %cmake .. \
+%endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPOSTGRESQL_BIN=%{pginstdir}/bin \
 	-DCMAKE_BUILD_TYPE=Release \
