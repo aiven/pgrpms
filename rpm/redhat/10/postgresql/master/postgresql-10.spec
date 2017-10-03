@@ -76,12 +76,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	rc1_1PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v10rc1/%{sname}-10rc1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v10/%{sname}-10.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -472,7 +472,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}rc1
+%setup -q -n %{sname}-%{pgmajorversion}
 %patch1 -p1
 %patch3 -p0
 %patch5 -p0
@@ -1379,7 +1379,10 @@ fi
 %endif
 
 %changelog
-* Mon Sep 18 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0rc1-1PGDG-1
+* Tue Oct 3 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-1PGDG
+- Update to 10.0
+
+* Mon Sep 18 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0rc1-1PGDG
 - Update to 10 rc1
 
 * Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0beta4-1PGDG
