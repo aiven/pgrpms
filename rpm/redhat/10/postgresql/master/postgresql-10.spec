@@ -81,7 +81,7 @@ License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v10/%{sname}-10.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/%{sname}-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -472,7 +472,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}
+%setup -q -n %{sname}-%{version}
 %patch1 -p1
 %patch3 -p0
 %patch5 -p0
