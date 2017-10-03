@@ -11,7 +11,7 @@
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 
-%if 0%{?rhel}
+%if 0%{?rhel} || 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -339,10 +339,9 @@ Requires:	libicu-devel
 %endif
 
 %if %enabletaptests
-
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-Requires:	perl-IPC-Run3
+Requires:	perl-IPC-Run
 %endif
 %else
 Requires:	perl-IPC-Run
