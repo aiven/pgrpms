@@ -1,6 +1,6 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 2
+%global mysqlfdwmidver 3
 %global mysqlfdwminver 0
 
 %ifarch ppc64 ppc64le
@@ -12,7 +12,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
@@ -82,6 +82,9 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Oct 5 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
+- Update to 2.3.0
+
 * Thu Aug 24 2017 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-2
 - Attempt to link to mysqlclient available in the OS.
 
