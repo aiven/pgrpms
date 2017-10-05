@@ -8,7 +8,7 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.0
+Version:	1.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -62,6 +62,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Oct 5 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0
+
 * Thu Oct 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Update to 1.0.0
 
