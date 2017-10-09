@@ -8,7 +8,7 @@
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}%{pgmajorversion}
-Version:	2.7
+Version:	2.8
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	BSD
@@ -60,15 +60,19 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %doc README.md AUTHORS COPYRIGHT
 %endif
 %{pginstdir}/lib/plproxy.so
-%{pginstdir}/share/extension/plproxy--2.3.0--2.7.0.sql
-%{pginstdir}/share/extension/plproxy--2.4.0--2.7.0.sql
-%{pginstdir}/share/extension/plproxy--2.5.0--2.7.0.sql
-%{pginstdir}/share/extension/plproxy--2.6.0--2.7.0.sql
-%{pginstdir}/share/extension/plproxy--2.7.0.sql
-%{pginstdir}/share/extension/plproxy--unpackaged--2.7.0.sql
+%{pginstdir}/share/extension/plproxy--2.3.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--2.4.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--2.5.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--2.6.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--2.7.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--unpackaged--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy.control
 
 %changelog
+* Mon Oct 9 2017 - Devrim Gündüz <devrim@gunduz.org> 2.8-1
+- Update to 2.8
+
 * Mon Jan 2 2017 - Devrim Gündüz <devrim@gunduz.org> 2.7-1
 - Update to 2.7
 
