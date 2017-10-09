@@ -1,0 +1,11 @@
+--- Makefile.old	2017-10-09 19:06:22.483946019 +0100
++++ Makefile	2017-10-09 19:06:34.174858990 +0100
+@@ -11,7 +11,7 @@
+ REGRESS    = install_amcheck extern_sort_bytea \
+ 	extern_sort_collations extern_sort_numeric
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
+ PGXS = $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
