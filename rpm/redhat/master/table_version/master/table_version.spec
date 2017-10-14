@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.0
+Version:	1.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -72,6 +72,9 @@ install -d %{buildroot}%{pginstdir}/share/extension
 %{pginstdir}/share/extension/version.sql
 
 %changelog
+* Sat Oct 14 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
+- Update to 1.3.1
+
 * Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Update to 1.3.0
 
