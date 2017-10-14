@@ -86,7 +86,7 @@ cd build/
 %doc %{_datadir}/%{sname}/Readme.md
 %license %{_datadir}/%{sname}/COPYING
 %endif
-%{_bindir}/%{sname}
+%attr (755,root,root) %{_bindir}/%{sname}
 %dir %{_datadir}/%{sname}/
 %{_datadir}/%{sname}/mapconfig.xml
 %{_datadir}/%{sname}/mapconfig_for_bicycles.xml
