@@ -1,5 +1,5 @@
---- Makefile.old	2017-04-28 14:37:01.744966699 +0300
-+++ Makefile	2017-04-28 14:37:26.132726324 +0300
+--- Makefile.old	2017-10-14 12:08:28.194278725 +0100
++++ Makefile	2017-10-14 12:08:52.800074297 +0100
 @@ -6,7 +6,7 @@
  #  Portions Copyright (c) 2012-2015, The Reorg Development Team
  #
@@ -9,8 +9,8 @@
  EXTENSION = pg_repack
  
  .PHONY: dist/$(EXTENSION)-$(EXTVERSION).zip
---- bin/Makefile.old	2017-04-28 14:37:03.804946395 +0300
-+++ bin/Makefile	2017-04-28 14:37:32.672661864 +0300
+--- bin/Makefile.old	2017-10-14 12:08:31.034255130 +0100
++++ bin/Makefile	2017-10-14 12:09:01.310003595 +0100
 @@ -6,7 +6,7 @@
  #  Portions Copyright (c) 2012-2015, The Reorg Development Team
  #
@@ -20,8 +20,8 @@
  
  SRCS = pg_repack.c pgut/pgut.c pgut/pgut-fe.c
  OBJS = $(SRCS:.c=.o)
---- regress/Makefile.old	2017-04-28 14:37:06.789916974 +0300
-+++ regress/Makefile	2017-04-28 14:37:37.469614584 +0300
+--- regress/Makefile.old	2017-10-14 12:08:42.563159346 +0100
++++ regress/Makefile	2017-10-14 12:09:19.357853652 +0100
 @@ -6,7 +6,7 @@
  #  Portions Copyright (c) 2012-2015, The Reorg Development Team
  #
@@ -30,9 +30,9 @@
 +PG_CONFIG ?= /usr/pgsql-9.6/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
- VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
---- lib/Makefile.old	2017-04-28 14:46:42.468242879 +0300
-+++ lib/Makefile	2017-04-28 14:47:06.128009679 +0300
+ VERSION := $(shell $(PG_CONFIG) --version | sed 's/.* \([[:digit:].]\{1,\}\).*/\1/')
+--- lib/Makefile.old	2017-10-14 12:08:39.833182027 +0100
++++ lib/Makefile	2017-10-14 12:09:10.313928790 +0100
 @@ -6,7 +6,7 @@
  #  Portions Copyright (c) 2012-2015, The Reorg Development Team
  #
@@ -41,4 +41,4 @@
 +PG_CONFIG ?= /usr/pgsql-9.6/bin/pg_config
  
  # version as a number, e.g. 9.1.4 -> 901
- VERSION := $(shell $(PG_CONFIG) --version | awk '{print $$2}')
+ VERSION := $(shell $(PG_CONFIG) --version | sed 's/.* \([[:digit:].]\{1,\}\).*/\1/')
