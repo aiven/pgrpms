@@ -51,7 +51,7 @@ access to the row revisions
 %{__rm} -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -d %{buildroot}%{pginstdir}/share/extension
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -67,9 +67,6 @@ install -d %{buildroot}%{pginstdir}/share/extension
 %{pginstdir}/share/extension/table_version*.sql
 %{pginstdir}/share/extension/table_version.control
 %{pginstdir}/doc/extension/how_to_release.md
-%{pginstdir}/share/extension/20-version.sql
-%{pginstdir}/share/extension/META.json
-%{pginstdir}/share/extension/version.sql
 
 %changelog
 * Sat Oct 14 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
