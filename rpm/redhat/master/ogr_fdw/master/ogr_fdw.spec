@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.2
+Version:	1.0.4
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -72,6 +72,9 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Oct 14 2017 Devrim Gündüz <devrim@gunduz.org> 1.0.4-1
+- Update to 1.0.4
+
 * Sat Aug 13 2016 Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
 
