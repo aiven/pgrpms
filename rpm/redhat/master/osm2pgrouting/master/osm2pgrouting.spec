@@ -16,7 +16,7 @@ License:	GPLv2
 Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
-BuildRequires:	gcc-c++
+BuildRequires:	gcc-c++ libpqxx-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
 %else
