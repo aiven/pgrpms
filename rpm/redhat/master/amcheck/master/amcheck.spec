@@ -7,8 +7,8 @@
 %endif
 
 Summary:	Functions for verifying PostgreSQL relation integrity
-Name:		%{sname}%{pgmajorversion}
-Version:	0.3
+Name:		%{sname}_next%{pgmajorversion}
+Version:	1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -68,11 +68,14 @@ production PostgreSQL installations.
 %else
 %license LICENSE.md
 %endif
-%{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}*.sql
-%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/lib/%{sname}_next.so
+%{pginstdir}/share/extension/%{sname}_next*.sql
+%{pginstdir}/share/extension/%{sname}_next.control
 
 %changelog
+* Sat Oct 14 2017 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
+- Update to 1.0
+
 * Mon Oct 9 2017 - Devrim Gündüz <devrim@gunduz.org> 0.3-1
 - Initial packaging for PostgreSQL RPM repository.
 
