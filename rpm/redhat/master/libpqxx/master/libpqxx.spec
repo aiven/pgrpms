@@ -7,7 +7,7 @@
 Name:		libpqxx
 Epoch:		1
 Version:	5.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	C++ client API for PostgreSQL
 
 Group:		System Environment/Libraries
@@ -16,6 +16,7 @@ URL:		https://github.com/jtv/%{name}
 Source0:	https://github.com/jtv/%{name}/archive/5.0.1.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
+Patch0:		%{name}-configure.patch
 Patch3:		%{name}-2.6.8-multilib.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -51,6 +52,7 @@ Requires:	postgresql%{pgmajorversion}-devel
 # fix spurious permissions
 %{__chmod} -x COPYING
 
+%patch0 -p0
 %patch3 -p1 -b .multilib
 
 %build
@@ -97,6 +99,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> 5.0.1-2
+- Fix linker issues during configure. Patch taken from Fedora.
+
 * Wed Apr 26 2017 Devrim Gündüz <devrim@gunduz.org> 5.0.1-1
 - Update to 5.0.1
 - Update URLs
