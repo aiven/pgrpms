@@ -36,6 +36,8 @@ Environment=PGDATA=/var/lib/pgsql/10/data/
 
 # Disable OOM kill on the postmaster
 OOMScoreAdjust=-1000
+Environment=PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
+Environment=PG_OOM_ADJUST_VALUE=0
 
 ExecStartPre=/usr/pgsql-10/bin/postgresql-10-check-db-dir ${PGDATA}
 ExecStart=/usr/pgsql-10/bin/postmaster -D ${PGDATA}

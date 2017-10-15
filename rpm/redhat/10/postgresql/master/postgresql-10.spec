@@ -76,7 +76,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -500,8 +500,6 @@ CFLAGS="${CFLAGS:-%optflags}"
 %else
 	# Strip out -ffast-math from CFLAGS....
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-	# Add LINUX_OOM_SCORE_ADJ=0 to ensure child processes reset postmaster's oom_score_adj
-	CFLAGS="$CFLAGS -DLINUX_OOM_SCORE_ADJ=0"
 	%if 0%{?rhel}
 	LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 	%endif
@@ -1378,6 +1376,9 @@ fi
 %endif
 
 %changelog
+* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-2PGDG
+- Fix #1289 (OOM killer control for PostgreSQL)
+
 * Tue Oct 3 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-1PGDG
 - Update to 10.0
 
