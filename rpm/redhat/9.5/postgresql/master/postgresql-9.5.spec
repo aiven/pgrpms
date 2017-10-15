@@ -110,7 +110,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.9
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -512,12 +512,6 @@ benchmarks.
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 
 # Strip out -ffast-math from CFLAGS....
-CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-# Add LINUX_OOM_ADJ=0 to ensure child processes reset postmaster's oom_adj
-CFLAGS="$CFLAGS -DLINUX_OOM_ADJ=0"
-
-# Strip out -ffast-math from CFLAGS....
-
 CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 
 # Use --as-needed to eliminate unnecessary link dependencies.
@@ -1398,6 +1392,9 @@ fi
 %endif
 
 %changelog
+* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.9-2PGDG
+- Fix #1289 (OOM killer control for PostgreSQL)
+
 * Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.9-1PGDG
 - Update to 9.5.9, per changes described at:
   http://www.postgresql.org/docs/devel/static/release-9-5-9.html
