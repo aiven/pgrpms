@@ -20,7 +20,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.6
-Release:	1%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -29,6 +29,7 @@ Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
 Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
+Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, flex
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
@@ -146,10 +147,9 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/
 # ... and make a tmpfiles script to recreate it at reboot.
+%{__install} -d -m 755 %{buildroot}/var/run/%{name}
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
-cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir} 0755 root root -
-EOF
+%{__install} -m 0644 %{SOURCE6} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %else
 # install init script
 %{__install} -d %{buildroot}%{_initrddir}
@@ -248,6 +248,9 @@ fi
 %endif
 
 %changelog
+* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-3
+- Fix #1002.
+
 * Sun Sep 3 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-2
 - Add systemd support
 
