@@ -46,8 +46,9 @@ KillMode=mixed
 KillSignal=SIGINT
  
 
-# Give a reasonable amount of time for the server to start up/shut down
-TimeoutSec=300
+# Do not set any timeout value, so that systemd will not kill postmaster
+# during crash recovery.
+TimeoutSec=0
 
 [Install]
 WantedBy=multi-user.target
