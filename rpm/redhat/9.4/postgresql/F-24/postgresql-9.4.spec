@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.14
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1018,6 +1018,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.14-2PGDG
+- Do not set any timeout value, so that systemd will not kill postmaster
+  during crash recovery. Fixes #2786.
+
 * Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.14-1PGDG
 - Update to 9.4.14, per changes described at:
   http://www.postgresql.org/docs/9.4/static/release-9-4-14.html

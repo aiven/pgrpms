@@ -1394,6 +1394,8 @@ fi
 %changelog
 * Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.9-2PGDG
 - Fix #1289 (OOM killer control for PostgreSQL)
+- Do not set any timeout value, so that systemd will not kill postmaster
+  during crash recovery. Fixes #2786.
 
 * Tue Aug 29 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.9-1PGDG
 - Update to 9.5.9, per changes described at:
