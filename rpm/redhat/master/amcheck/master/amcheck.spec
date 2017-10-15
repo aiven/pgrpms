@@ -55,14 +55,14 @@ production PostgreSQL installations.
 %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 # Rename README file:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}_next.md
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/README-%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}_next.md
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE.md
 %else
