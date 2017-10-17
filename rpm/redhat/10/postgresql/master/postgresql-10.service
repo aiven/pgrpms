@@ -14,6 +14,7 @@
 # break postgresql-setup.
 [Unit]
 Description=PostgreSQL 10 database server
+Documentation=https://www.postgresql.org/docs/10/static/
 After=syslog.target
 After=network.target
 
