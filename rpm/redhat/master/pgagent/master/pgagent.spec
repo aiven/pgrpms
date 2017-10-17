@@ -17,12 +17,13 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
 Source3:	%{sname}-%{pgmajorversion}.init
 Source4:	%{sname}-%{pgmajorversion}.logrotate
+Source5:	%{sname}-%{pgmajorversion}.conf
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake
@@ -123,6 +124,10 @@ EOF
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+# Install conf file
+%{__install} -p -d %{buildroot}%{_sysconfdir}/%{sname}/
+%{__install} -p -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{sname}/%{name}.conf
+
 %post
 if [ $1 -eq 1 ] ; then
 %if %{systemd_enabled}
@@ -170,6 +175,8 @@ fi
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
+%dir %{_sysconfdir}/%{sname}/
+%config(noreplace) %{_sysconfdir}/%{sname}/%{name}.conf
 %else
 %{_initrddir}/%{name}
 %endif
@@ -178,6 +185,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 17 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-10
+- Move configuration parameters out of the unit file to a
+  new config file.
+
 * Sun Jul 30 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-9
 - Install a logrotate file.
 

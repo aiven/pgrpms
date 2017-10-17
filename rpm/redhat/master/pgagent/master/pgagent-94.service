@@ -21,12 +21,8 @@ Type=forking
 User=pgagent
 Group=pgagent
 
-# Location of database directory
-Environment=DBNAME=postgres
-Environment=DBUSER=postgres
-Environment=DBHOST=127.0.0.1
-Environment=DBPORT=5432
-Environment=LOGFILE=/var/log/pgagent_94.log
+# Location of the configuration file
+EnvironmentFile=/etc/pgagent/pgagent_94.conf
 
 # Where to send early-startup messages from the server (before the logging
 # options of pgagent.conf take effect)
