@@ -109,6 +109,9 @@ cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{sname}_%{pgmajorversion}.service
+# Install conf file
+%{__install} -p -d %{buildroot}%{_sysconfdir}/%{sname}/
+%{__install} -p -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{sname}/%{name}.conf
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
@@ -123,10 +126,6 @@ EOF
 # Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-
-# Install conf file
-%{__install} -p -d %{buildroot}%{_sysconfdir}/%{sname}/
-%{__install} -p -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{sname}/%{name}.conf
 
 %post
 if [ $1 -eq 1 ] ; then
