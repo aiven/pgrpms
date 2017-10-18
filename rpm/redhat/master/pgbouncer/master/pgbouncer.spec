@@ -46,6 +46,7 @@ BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel
+Requires:	c-ares
 Requires:	initscripts
 
 %if %{systemd_enabled}
