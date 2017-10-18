@@ -24,7 +24,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -55,7 +55,8 @@ BuildRequires:	gdal-devel >= 1.9.0
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}, geos >= 3.5.0, proj
+Requires:	postgresql%{pgmajorversion} geos >= 3.5.0
+Requires:	postgresql%{pgmajorversion}-contrib proj
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -287,6 +288,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Oct 18 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-2
+- Require postgresql-contrib for postgis_tiger_geocoder,
+  because it requires fuzzystrmatch extension.
+
 * Wed Sep 20 2017 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-1
 - Update to 2.1.9, per changes described at:
   http://postgis.net/2017/09/19/postgis-2.1.9
