@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	11%{?dist}
+Release:	10%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -187,12 +187,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Wed Oct 18 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-11
-- Add a new patch to fix builds against PostgreSQL 10
-
 * Tue Oct 17 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-10
 - Move configuration parameters out of the unit file to a
   new config file.
+- Add a new patch to fix builds against PostgreSQL 10
 
 * Sun Jul 30 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-9
 - Install a logrotate file.
