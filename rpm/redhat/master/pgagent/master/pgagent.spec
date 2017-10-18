@@ -17,13 +17,15 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.0
-Release:	10%{?dist}
+Release:	11%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
 Source3:	%{sname}-%{pgmajorversion}.init
 Source4:	%{sname}-%{pgmajorversion}.logrotate
 Source5:	%{sname}-%{pgmajorversion}.conf
+# Temp patch until the next release.
+Patch0:		pgagent-pg10-build.patch
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake
@@ -80,6 +82,7 @@ fi
 
 %prep
 %setup -q -n pgAgent-%{version}-Source
+%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -184,6 +187,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Oct 18 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-11
+- Add a new patch to fix builds against PostgreSQL 10
+
 * Tue Oct 17 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-10
 - Move configuration parameters out of the unit file to a
   new config file.
