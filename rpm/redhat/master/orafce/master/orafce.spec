@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 4
+%global orafcemidver 6
 %global orafceminver 0
 
 %ifarch ppc64 ppc64le
@@ -71,6 +71,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %{pginstdir}/share/extension/orafce--*.sql
 
 %changelog
+* Thu Oct 19 2017 - Devrim Gündüz <devrim@gunduz.org> 3.6.0-1
+- Update to 3.6.0, per #2812
+
 * Tue Jun 6 2017 - Devrim Gündüz <devrim@gunduz.org> 3.4.0-1
 - Update to 3.4.0, per #2343.
 - Add support for Power RPMs.

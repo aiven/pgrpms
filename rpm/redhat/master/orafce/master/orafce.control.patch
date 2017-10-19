@@ -1,8 +1,8 @@
---- orafce.control.old	2017-04-28 14:28:12.004188018 +0300
-+++ orafce.control	2017-04-28 14:28:19.132117762 +0300
+--- orafce.control.old	2017-10-19 09:23:01.007300332 +0100
++++ orafce.control	2017-10-19 09:23:07.722245961 +0100
 @@ -1,4 +1,4 @@
 -# intarray extension
 +# orafce extension
  comment = 'Functions and operators that emulate a subset of functions and packages from the Oracle RDBMS'
- default_version = '3.4'
+ default_version = '3.6'
  module_pathname = '$libdir/orafce'
