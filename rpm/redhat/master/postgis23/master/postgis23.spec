@@ -1,7 +1,7 @@
 %global postgismajorversion 2.3
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.2
-%global postgisprevversion %{postgisprevmajorversion}.5
+%global postgisprevversion %{postgisprevmajorversion}.6
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -33,8 +33,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.3
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.4
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -320,6 +320,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-1
+- Update to 2.3.4, per #2819.
+
 * Wed Oct 18 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.3-2
 - Require postgresql-contrib for postgis_tiger_geocoder,
   because it requires fuzzystrmatch extension.
