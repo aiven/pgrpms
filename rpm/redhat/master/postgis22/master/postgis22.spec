@@ -302,6 +302,7 @@ fi
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.6-1
 - Update to 2.2.6, per changes described at
   https://svn.osgeo.org/postgis/tags/2.2.6/ChangeLog
+  Fixes #2819.
 
 * Wed Oct 18 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.5-2
 - Require postgresql-contrib for postgis_tiger_geocoder,
