@@ -321,7 +321,7 @@ fi
 
 %changelog
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
-- Update to 2.4.1
+- Update to 2.4.1, per #2819.
 - Re-add 2.3 .so file for easier upgrades (2.3 can be compiled
   against PostgreSQL 10 as of 2.3.4)
 
