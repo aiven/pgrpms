@@ -7,7 +7,7 @@
 
 Summary:	V8 Engine Javascript Procedural Language add-on for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.3
+Version:	2.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -48,7 +48,7 @@ your function that is callable from SQL.
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} install DESTDIR=%{buildroot} %{?_smp_mflags}
+%{__make} static DESTDIR=%{buildroot} %{?_smp_mflags}
 %{__rm} -f  %{buildroot}%{_datadir}/*.sql
 
 %clean
@@ -71,6 +71,9 @@ your function that is callable from SQL.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Oct 22 2017 Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
+- Update to 2.1.0
+
 * Sun May 28 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.3-1
 - Update to 2.0.3
 
