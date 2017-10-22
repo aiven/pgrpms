@@ -289,6 +289,11 @@ fi
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
 %endif
+%if %shp2pgsqlgui
+%{pginstdir}/bin/shp2pgsql-gui
+%{pginstdir}/share/applications/shp2pgsql-gui.desktop
+%{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
+%endif
 
 %files client
 %defattr(644,root,root)
