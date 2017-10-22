@@ -44,11 +44,11 @@ your function that is callable from SQL.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-%{__make} %{?_smp_mflags}
+%{__make} static DESTDIR=%{buildroot} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} static DESTDIR=%{buildroot} %{?_smp_mflags}
+%{__make} install DESTDIR=%{buildroot} %{?_smp_mflags}
 %{__rm} -f  %{buildroot}%{_datadir}/*.sql
 
 %clean
