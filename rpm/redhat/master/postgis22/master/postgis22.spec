@@ -5,16 +5,24 @@
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
+%else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6
-%{!?raster:%global     raster 1}
-%else
-%{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7
-%{!?sfcgal:%global     sfcgal 1}
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%{!?raster:%global	raster 1}
 %else
-%{!?sfcgal:%global    sfcgal 0}
+%{!?raster:%global	raster 0}
+%endif
+%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%ifnarch ppc64 ppc64le
+%{!?sfcgal:%global	sfcgal 1}
+%else
+%{!?sfcgal:%global	sfcgal 0}
+%endif
+%else
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 
 %ifarch ppc64 ppc64le
@@ -38,8 +46,16 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel >= 3.5.0, pcre-devel
-BuildRequires:	proj-devel, flex, json-c-devel, libxml2-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	geos-devel >= 3.5.0 pcre-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libjson-c-devel libproj-devel
+%endif
+%else
+BuildRequires:	proj-devel, flex, json-c-devel
+%endif
+BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
