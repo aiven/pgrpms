@@ -161,7 +161,10 @@ done
 %dir %{python_sitearch}/%{sname}
 %{python_sitearch}/%{sname}/*.py
 %{python_sitearch}/%{sname}/_psycopg.so
-%if ! 0%{?suse_version} >= 131
+%if 0%{?suse_version} >= 1315
+%{python_sitearch}/%{sname}/*.py
+%else
+%{python_sitearch}/%{sname}/*.py
 %{python_sitearch}/%{sname}/*.pyc
 %{python_sitearch}/%{sname}/*.pyo
 %endif
