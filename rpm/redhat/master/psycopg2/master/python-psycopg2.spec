@@ -14,7 +14,7 @@
 %if 0%{?with_python3}
  %global	python_runtimes	python python-debug python3 python3-debug
 %else
-  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
     %global	python_runtimes	python
    %else
     %global python_runtimes python python-debug
@@ -160,9 +160,11 @@ done
 %doc AUTHORS LICENSE NEWS README.rst
 %dir %{python_sitearch}/%{sname}
 %{python_sitearch}/%{sname}/*.py
-%{python_sitearch}/%{sname}/*.pyc
 %{python_sitearch}/%{sname}/_psycopg.so
+%if ! 0%{?suse_version} >= 131
+%{python_sitearch}/%{sname}/*.pyc
 %{python_sitearch}/%{sname}/*.pyo
+%endif
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
