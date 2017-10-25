@@ -924,14 +924,14 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-   %service_add_pre %{sname}-%{pgpackageversion}.service
+   %service_add_pre %{sname}-%{majorversion}.service
    %endif
    %else
-   %systemd_post %{sname}-%{pgpackageversion}.service
+   %systemd_post %{sname}-%{majorversion}.service
    %tmpfiles_create
    %endif
   %else
-   chkconfig --add %{sname}-%{pgpackageversion}
+   chkconfig --add %{sname}-%{majorversion}
   %endif
 fi
 
