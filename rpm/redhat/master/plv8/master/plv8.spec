@@ -18,6 +18,12 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, v8-devel >= 3.14.5, gcc-c++
 BuildRequires:	platform-devel
+%if 0%{?fedora} > 24
+BuildRequires:	ncurses-compat-libs
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 7
+BuildRequires:	ncurses-libs
+%endif
 Requires:	postgresql%{pgmajorversion}, v8 >= 3.14.5
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -44,7 +50,7 @@ your function that is callable from SQL.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-%{__make} static DESTDIR=%{buildroot} %{?_smp_mflags}
+%{__make} static %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
