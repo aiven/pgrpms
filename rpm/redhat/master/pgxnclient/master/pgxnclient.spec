@@ -51,21 +51,23 @@ mkdir -p %{buildroot}%{python_sitearch}/%{name}/tests
 %{_bindir}/%{name}
 %if 0%{?suse_version} >= 1315
 %{python_sitelib}/%{sname}/*.py
+%{python_sitelib}/%{name}/tests/*.py
+%{python_sitelib}/%{name}/utils/*.py
 %else
 %{python_sitelib}/%{sname}/*.py
 %{python_sitelib}/%{sname}/*.pyc
 %{python_sitelib}/%{sname}/*.pyo
-%endif
-%{python_sitelib}/%{name}/commands/*.py
-%{python_sitelib}/%{name}/commands/*.pyc
-%{python_sitelib}/%{name}/commands/*.pyo
-%{python_sitelib}/%{name}/libexec/*
 %{python_sitelib}/%{name}/tests/*.py
 %{python_sitelib}/%{name}/tests/*.pyc
 %{python_sitelib}/%{name}/tests/*.pyo
 %{python_sitelib}/%{name}/utils/*.py
 %{python_sitelib}/%{name}/utils/*.pyc
 %{python_sitelib}/%{name}/utils/*.pyo
+%endif
+%{python_sitelib}/%{name}/commands/*.py
+%{python_sitelib}/%{name}/commands/*.pyc
+%{python_sitelib}/%{name}/commands/*.pyo
+%{python_sitelib}/%{name}/libexec/*
 %{python_sitelib}/%{name}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
