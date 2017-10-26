@@ -23,10 +23,10 @@
 %endif
 
 %if 0%{?with_python3}
- %global	python_runtimes	python python-debug python3 python3-debug
+ %global        python_runtimes python python-debug python3 python3-debug
 %else
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-    %global	python_runtimes	python
+  %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
+    %global     python_runtimes python
    %else
     %global python_runtimes python python-debug
   %endif
