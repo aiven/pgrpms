@@ -79,11 +79,11 @@ Requires:	hdf5 < 1.8.7
 Requires:	hdf5
 %endif
 
-Requires:	gdal-libs > 1.9.0, pcre
+Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2
+Requires:	libjson-c2 libgdal20
 %else
-Requires:	json-c
+Requires:	json-c gdal-libs >= 1.9.0
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
