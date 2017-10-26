@@ -157,8 +157,13 @@ done
 %dir %{python_sitelib}/%{sname}
 %{python2_sitelib}/%{sname}/*.py
 %{python_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info
+%if 0%{?suse_version} >= 1315
+%{python_sitelib}/%{sname}/*.py
+%else
+%{python_sitelib}/%{sname}/*.py
 %{python_sitelib}/%{sname}/*.pyc
 %{python_sitelib}/%{sname}/*.pyo
+%endif
 
 %if 0%{?with_python3}
 %files -n python3-%{sname}
