@@ -79,7 +79,12 @@ Requires:	hdf5 < 1.8.7
 Requires:	hdf5
 %endif
 
-Requires:	gdal-libs > 1.9.0, json-c, pcre
+Requires:	gdal-libs > 1.9.0, pcre
+%if 0%{?suse_version} >= 1315
+Requires:	libjson-c2
+%else
+Requires:	json-c
+%endif
 Requires(post):	%{_sbindir}/update-alternatives
 
 %ifarch ppc64 ppc64le
