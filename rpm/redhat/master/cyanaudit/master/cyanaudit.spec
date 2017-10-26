@@ -22,7 +22,7 @@ URL:		http://pgxn.org/dist/%{sname}
 Requires:	postgresql%{pgmajorversion}-plperl
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	protobuf-devel postgresql%{pgmajorversion}
+BuildRequires:	protobuf-c libprotobuf-c-devel postgresql%{pgmajorversion}
 %endif
 %else
 BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
