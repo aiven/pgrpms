@@ -13,7 +13,7 @@ Summary:        Adds SQLAlchemy support to Flask application
 Group:          Development/Libraries
 License:        BSD
 URL:            http://github.com/mitsuhiko/flask-sqlalchemy
-Source0:        http://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:      noarch
 BuildRequires:  python-devel

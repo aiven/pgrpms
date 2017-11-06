@@ -14,8 +14,8 @@ Summary:	Implements a XML/HTML/XHTML Markup safe string for Python
 
 Group:		Development/Languages
 License:	BSD
-URL:		http://pypi.python.org/pypi/%{mod_name}
-Source0:	http://pypi.python.org/packages/source/M/%{mod_name}/%{mod_name}-%{version}.tar.gz
+URL:		https://pypi.python.org/pypi/%{mod_name}
+Source0:	https://pypi.python.org/packages/source/M/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	python-devel python-setuptools

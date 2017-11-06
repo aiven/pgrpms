@@ -30,7 +30,7 @@ Summary:        Fast, simple object-to-object and broadcast signaling
 Group:          Development/Libraries
 License:        MIT
 URL:            http://discorporate.us/projects/Blinker/
-Source0:        http://pypi.python.org/packages/source/b/%{sname}/%{sname}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/b/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:      noarch
 %if 0%{?suse_version}

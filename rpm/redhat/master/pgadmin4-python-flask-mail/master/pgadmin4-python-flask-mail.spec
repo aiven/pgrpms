@@ -29,7 +29,7 @@ Release:	3%{?dist}
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/Flask-Mail
-Source0:	http://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildRequires:	python-setuptools
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

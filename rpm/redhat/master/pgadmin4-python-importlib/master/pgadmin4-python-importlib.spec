@@ -11,7 +11,7 @@ Summary:        Backport of importlib.import_module() from Python 2.7
 
 Group:          Development/Languages
 License:        Python
-URL:            http://pypi.python.org/pypi/%{sname}
+URL:            https://pypi.python.org/pypi/%{sname}
 Source0:        https://pypi.io/packages/source/i/%{sname}/%{sname}-%{version}.zip
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

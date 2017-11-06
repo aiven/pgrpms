@@ -12,7 +12,7 @@ Summary:        Implements a lazy string for python useful for use with get-text
 Group:          Development/Libraries
 License:        BSD
 URL:            http://github.com/mitsuhiko/speaklater
-Source0:        http://pypi.python.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:      noarch
 BuildRequires:  python-devel

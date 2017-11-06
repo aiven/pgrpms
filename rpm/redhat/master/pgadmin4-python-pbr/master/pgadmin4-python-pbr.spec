@@ -11,8 +11,8 @@ Release:	7%{?dist}
 Summary:	Python Build Reasonableness
 
 License:	ASL 2.0
-URL:		http://pypi.python.org/pypi/pbr
-Source0:	http://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
+URL:		https://pypi.python.org/pypi/pbr
+Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 

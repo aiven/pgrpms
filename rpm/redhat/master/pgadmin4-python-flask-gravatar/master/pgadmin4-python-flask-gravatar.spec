@@ -32,7 +32,7 @@ Release:	2%{?dist}
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/Flask-Gravatar
-Source0:	http://pypi.python.org/packages/source/F/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
+Source0:	https://pypi.python.org/packages/source/F/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
 %if 0%{?with_python3}
 BuildRequires:	python3-setuptools
 Requires:	pgadmin4-python3-flask

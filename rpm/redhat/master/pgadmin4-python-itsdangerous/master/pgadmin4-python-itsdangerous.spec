@@ -10,7 +10,7 @@ Release:        9%{?dist}
 Summary:        Python library for passing trusted data to untrusted environments
 License:        BSD
 URL:            http://pythonhosted.org/itsdangerous/
-Source0:        http://pypi.python.org/packages/source/i/%{sname}/%{sname}-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/i/%{sname}/%{sname}-%{version}.tar.gz
 BuildArch:      noarch
 BuildRequires:  python-setuptools
 %if 0%{?suse_version}

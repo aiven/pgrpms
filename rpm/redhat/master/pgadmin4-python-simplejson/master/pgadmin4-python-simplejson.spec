@@ -39,7 +39,7 @@ Group:          System Environment/Libraries
 # The docs include jquery which is licensed MIT or GPLv2
 License: (MIT or AFL) and (MIT or GPLv2)
 URL:            http://undefined.org/python/#simplejson
-Source0:        http://pypi.python.org/packages/source/s/simplejson/simplejson-%{version}.tar.gz
+Source0:        https://pypi.python.org/packages/source/s/simplejson/simplejson-%{version}.tar.gz
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?suse_version}
