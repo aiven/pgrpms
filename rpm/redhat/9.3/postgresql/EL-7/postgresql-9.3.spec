@@ -72,8 +72,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.3.19
-Release:	2PGDG%{?dist}
+Version:	9.3.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -999,6 +999,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Wed Nov 8 2017 Devrim Gündüz <devrim@gunduz.org> - 9.3.20-1PGDG
+- Update to 9.3.20, per changes described at:
+  http://www.postgresql.org/docs/9.3/static/release-9-3-20.html
+
 * Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 9.3.19-2PGDG
 - Do not set any timeout value, so that systemd will not kill postmaster
   during crash recovery. Fixes #2786.
