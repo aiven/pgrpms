@@ -58,7 +58,7 @@ test frameworks. It can also be used in the xUnit testing style.
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/pgtap.mmd
-%{pginstdir}/share/extension/pgtap-*.sql
+%{pginstdir}/share/extension/*pgtap*.sql
 %{pginstdir}/share/extension/pgtap.control
 
 %changelog
