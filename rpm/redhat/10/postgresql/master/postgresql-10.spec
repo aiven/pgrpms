@@ -191,7 +191,7 @@ BuildRequires:	openssl-devel
 %endif
 
 %if %uuid
-%if 0%{?rhel}
+%if 0%{?rhel} || 0%{?fedora} 
 BuildRequires:	libuuid-devel
 %endif
 %endif
