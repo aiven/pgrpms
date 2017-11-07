@@ -1,0 +1,11 @@
+--- Makefile.old	2017-11-08 01:06:56.055296557 +0300
++++ Makefile	2017-11-08 01:07:06.591364189 +0300
+@@ -22,7 +22,7 @@
+ LDFLAGS_SL += $(filter -lm, $(LIBS))
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
