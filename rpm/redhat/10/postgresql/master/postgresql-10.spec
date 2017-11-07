@@ -75,8 +75,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.0
-Release:	2PGDG%{?dist}
+Version:	10.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1376,6 +1376,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 7 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-1PGDG
+- Update to 10.1, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-1.html
+
+- Fix #1289 (OOM killer control for PostgreSQL)
 * Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> - 10.0-2PGDG
 - Fix #1289 (OOM killer control for PostgreSQL)
 - Do not set any timeout value, so that systemd will not kill postmaster
