@@ -8,7 +8,7 @@
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.97.0
+Version:	0.98.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -62,10 +62,13 @@ test frameworks. It can also be used in the xUnit testing style.
 %{pginstdir}/share/extension/pgtap.control
 
 %changelog
+* Wed Nov 8 2017 Devrim Gündüz <devrim@gunduz.org> 0.99.0-1
+- Update to 0.98.0
+
 * Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 0.97.0-1
 - Update to 0.97.0
 
-* Fri Mar 27 2015 Devrim Gündüz <devrim@gunduz.org> 0.95.0-1
+- Fri Mar 27 2015 Devrim Gündüz <devrim@gunduz.org> 0.95.0-1
 - Update to 0.95.0
 
 * Wed Jul 2 2014 Devrim Gündüz <devrim@gunduz.org> 0.94.0-1
