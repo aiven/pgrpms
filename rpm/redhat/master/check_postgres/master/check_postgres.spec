@@ -27,6 +27,13 @@ scripts.
 %{__make} %{?_smp_mflags} pure_install DESTDIR=%{buildroot}
 %{__rm} -f %{buildroot}%{_libdir}/perl5/vendor_perl/auto/check_postgres/.packlist
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%perl_process_packlist
+%perl_gen_filelist
+%endif
+%endif
+
 %clean
 %{__rm} -rf %{buildroot}
 
