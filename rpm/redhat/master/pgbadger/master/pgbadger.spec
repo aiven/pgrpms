@@ -1,6 +1,6 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	9.1
+Version:	9.2
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -47,6 +47,9 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Mon Nov 13 2017 - Devrim Gündüz <devrim@gunduz.org> 9.2-1
+- Update to 9.2
+
 * Tue Jan 24 2017 - Devrim Gündüz <devrim@gunduz.org> 9.1-1
 - Update to 9.1
 
