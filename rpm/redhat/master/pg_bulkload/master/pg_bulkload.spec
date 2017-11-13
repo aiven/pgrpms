@@ -1,10 +1,10 @@
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_13
+%global pgbulkloadpackagever 3_1_14
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.13
+Version:	3.1.14
 Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
@@ -50,6 +50,9 @@ pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
 
 %changelog
+* Mon Nov 13 2017 Devrim Gündüz <devrim@gunduz.org> 3.1.14-1
+- Update to 3.1.14
+
 * Thu May 18 2017 Devrim Gündüz <devrim@gunduz.org> 3.1.13-1
 - Update to 3.1.13
 
