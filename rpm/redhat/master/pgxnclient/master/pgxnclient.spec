@@ -9,7 +9,7 @@ Summary:	Command line tool designed to interact with the PostgreSQL Extension Ne
 Name:		pgxnclient
 Version:	1.2.1
 Release:	2%{?dist}
-Source0:	http://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
+Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
 Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
