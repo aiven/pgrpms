@@ -50,13 +50,13 @@ mkdir -p %{buildroot}%{python_sitearch}/%{name}/tests
 %{_bindir}/pgxn
 %{_bindir}/%{name}
 %if 0%{?suse_version} >= 1315
-%{python_sitelib}/%{sname}/*.py
+%{python_sitelib}/%{name}/*.py
 %{python_sitelib}/%{name}/tests/*.py
 %{python_sitelib}/%{name}/utils/*.py
 %else
-%{python_sitelib}/%{sname}/*.py
-%{python_sitelib}/%{sname}/*.pyc
-%{python_sitelib}/%{sname}/*.pyo
+%{python_sitelib}/%{name}/*.py
+%{python_sitelib}/%{name}/*.pyc
+%{python_sitelib}/%{name}/*.pyo
 %{python_sitelib}/%{name}/tests/*.py
 %{python_sitelib}/%{name}/tests/*.pyc
 %{python_sitelib}/%{name}/tests/*.pyo
