@@ -327,6 +327,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Nov 16 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.5-1
+- Update to 2.3.5, per #2874.
+
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-1
 - Update to 2.3.4, per #2819.
 
