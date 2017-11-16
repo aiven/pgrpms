@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global sname	plv8
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
