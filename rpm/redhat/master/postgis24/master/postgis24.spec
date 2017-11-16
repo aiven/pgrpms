@@ -3,7 +3,7 @@
 %global postgismajorversion 2.4
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.3
-%global postgisprevversion %{postgisprevmajorversion}.4
+%global postgisprevversion %{postgisprevmajorversion}.5
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -329,6 +329,7 @@ fi
 %changelog
 * Thu Nov 16 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-1
 - Update to 2.4.2, per #2874.
+- Update previous PostGIS version to 2.3.5.
 
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
 - Update to 2.4.1, per #2819.
