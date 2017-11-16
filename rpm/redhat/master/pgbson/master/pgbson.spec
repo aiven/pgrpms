@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global sname pgbson
 
 %ifarch ppc64 ppc64le

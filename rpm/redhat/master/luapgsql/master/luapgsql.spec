@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global pginstdir /usr/pgsql-%{pgpackageversion}
 %global sname luapgsql
 

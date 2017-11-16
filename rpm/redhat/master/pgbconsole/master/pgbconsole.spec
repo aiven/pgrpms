@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname	pgbconsole
 
 %ifarch ppc64 ppc64le

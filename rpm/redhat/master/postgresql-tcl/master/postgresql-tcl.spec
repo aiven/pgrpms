@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0

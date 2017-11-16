@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
 %global pgbulkloadpackagever 3_1_14

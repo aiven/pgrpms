@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global sname	pg_repack
 
 %ifarch ppc64 ppc64le

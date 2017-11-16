@@ -1,3 +1,5 @@
+%global debug_package %{nil}
+
 %global postgismajorversion 2.1
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.0
