@@ -35,7 +35,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.1
+Version:	%{postgismajorversion}.2
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -327,6 +327,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Nov 16 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-1
+- Update to 2.4.2, per #2874.
+
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
 - Update to 2.4.1, per #2819.
 - Re-add 2.3 .so file for easier upgrades (2.3 can be compiled
