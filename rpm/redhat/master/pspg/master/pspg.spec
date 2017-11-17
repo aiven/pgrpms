@@ -1,11 +1,11 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	0.1
+Version:	0.5
 Release:	1%{?dist}
 License:	BSD
 Group:		Development/Tools
 URL:		https://github.com/okbob/%{name}
-Source:		https://github.com/okbob/%{name}/archive/v%{version}.tar.gz
+Source:		https://github.com/okbob/%{name}/archive/%{version}.tar.gz
 BuildRequires:	ncurses-devel
 Requires:	ncurses
 
@@ -45,6 +45,9 @@ CFLAGS="%{optflags}"
 %{_bindir}/*
 
 %changelog
+* Fri Nov 17 2017 Devrim Gündüz <devrim@gunduz.org> 0.5-1
+- Update to 0.5
+
 * Fri Sep 15 2017 Devrim Gündüz <devrim@gunduz.org> 0.1-1
 - Initial packaging for PostgreSQL RPM repository, based on the spec
   file written by Pavel. Fixes #2704
