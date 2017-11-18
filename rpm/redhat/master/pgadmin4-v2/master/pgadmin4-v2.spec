@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname pgadmin4
 %global pgadminmajorversion 2
 %global	pgadmin4instdir /usr/%{sname}-v%{pgadminmajorversion}
