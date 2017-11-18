@@ -8,13 +8,13 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.2
+Version:	1.0.3
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_qualstats
+URL:		https://github.com/dalibo/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -59,8 +59,9 @@ together.
 
 %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-#Avoid conflict with some other README file:
-%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+# Install README file.
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension/
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -82,23 +83,27 @@ together.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Oct 24 2016 - Devrim GUNDUZ <devrim@gunduz.org> - 1.0.2-1
+* Sat Nov 18 2017 - Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
+- Update to 1.0.3, per #2883.
+- Update URLs
+
+* Mon Oct 24 2016 - Devrim Gündüz <devrim@gunduz.org> - 1.0.2-1
 - Update to 1.0.2
 
-* Wed Sep 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> - 1.0.1-1
+* Wed Sep 7 2016 - Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 - Add LICENSE file
 - Update %%description
 
-* Sun Mar 6 2016 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.9-1
+* Sun Mar 6 2016 - Devrim Gündüz <devrim@gunduz.org> 0.0.9-1
 - Update to 0.0.9
 
-* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.7-1
+* Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 0.0.7-1
 - Update to 0.0.7
 - Update for 9.5 doc layout.
 
-* Thu Sep 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.6-1
+* Thu Sep 10 2015 - Devrim Gündüz <devrim@gunduz.org> 0.0.6-1
 - Update to 0.0.6
 
-* Tue Mar 17 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.4-1
+* Tue Mar 17 2015 - Devrim Gündüz <devrim@gunduz.org> 0.0.4-1
 - Initial RPM packaging for PostgreSQL RPM Repository

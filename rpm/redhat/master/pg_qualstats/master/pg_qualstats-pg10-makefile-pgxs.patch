@@ -1,8 +1,8 @@
---- Makefile.old	2015-09-10 14:16:18.352309105 +0300
-+++ Makefile	2015-09-10 14:16:31.303173945 +0300
-@@ -5,7 +5,7 @@
+--- Makefile.old	2017-11-18 11:27:11.756086312 +0000
++++ Makefile	2017-11-18 11:27:24.974149090 +0000
+@@ -4,7 +4,7 @@
+ REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
  REGRESS_OPTS = --inputdir=test
- DOCS         = $(wildcard doc/*.md)
  MODULES      = $(patsubst %.c,%,$(wildcard *.c))
 -PG_CONFIG    ?= pg_config
 +PG_CONFIG    ?= /usr/pgsql-10/bin/pg_config
