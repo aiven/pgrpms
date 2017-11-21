@@ -17,6 +17,7 @@ Source0:	https://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-pg%{pgmajorversion}.service
 Source2:	repmgr-pg%{pgmajorversion}.init
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
+Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -58,6 +59,8 @@ future PostgreSQL versions.
 
 %prep
 %setup -q -n %{sname}-REL4_0_0
+%patch0 -p0
+
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
 
