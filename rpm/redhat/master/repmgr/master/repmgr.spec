@@ -8,17 +8,15 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	3.3.2
+Version:	4.0.0
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
-URL:		http://www.repmgr.org
-Source0:	http://repmgr.org/download/%{sname}-%{version}.tar.gz
+URL:		https://www.repmgr.org
+Source0:	https://repmgr.org/download/%{sname}-%{version}.tar.gz
 Source1:	repmgr-pg%{pgmajorversion}.service
 Source2:	repmgr-pg%{pgmajorversion}.init
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
-Patch0:		repmgr-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch1:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -59,9 +57,9 @@ rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
 
 %prep
-%setup -q -n %{sname}-%{version}
-%patch0 -p0
-%patch1 -p0
+%setup -q -n %{sname}-REL4_0_0
+export PG_CONFIG=%{pginstdir}/bin/pg_config
+%configure
 
 %build
 USE_PGXS=1 %{__make} %{?_smp_mflags}
@@ -78,11 +76,11 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
-install -m 644 repmgr.conf.sample %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
+%{__install} -m 644 repmgr.conf.sample %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
 
 %if %{systemd_enabled}
-install -d %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -91,11 +89,11 @@ d %{_varrundir} 0755 postgres postgres -
 EOF
 
 %else
-install -d %{buildroot}%{_sysconfdir}/init.d
-install -m 755 %{SOURCE2}  %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
+%{__install} -d %{buildroot}%{_sysconfdir}/init.d
+%{__install} -m 755 %{SOURCE2} %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 # Create the sysconfig directory and config file:
-install -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
-install -m 600 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
+%{__install} -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
+%{__install} -m 600 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
 
 %pre
@@ -135,11 +133,9 @@ fi
 %config(noreplace) %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
 %{pginstdir}/bin/repmgr
 %{pginstdir}/bin/repmgrd
-%{pginstdir}/lib/repmgr_funcs.so
-%{pginstdir}/share/contrib/repmgr.sql
-%{pginstdir}/share/contrib/repmgr_funcs.sql
-%{pginstdir}/share/contrib/uninstall_repmgr.sql
-%{pginstdir}/share/contrib/uninstall_repmgr_funcs.sql
+%{pginstdir}/lib/repmgr.so
+%{pginstdir}/share/extension/repmgr.control
+%{pginstdir}/share/extension/repmgr*sql
 %if %{systemd_enabled}
 %ghost %{_varrundir}
 %{_tmpfilesdir}/%{name}.conf
@@ -150,6 +146,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 21 2017 - Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
+- Update to 4.0.0
+- Remove patch0, not needed anymore.
+
 * Sun Jun 11 2017 - Devrim Gündüz <devrim@gunduz.org> 3.3.2-1
 - Update to 3.3.2, per #2472 .
 
