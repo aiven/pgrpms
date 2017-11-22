@@ -35,7 +35,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %package devel
 Summary:	Development files for PROJ.4
 Group:		Development/Libraries
-Requires:	%{sname} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -44,7 +44,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %package nad
 Summary:	US, Canadian, French and New Zealand datum shift grids for PROJ.4
 Group:		Applications/Engineering
-Requires:	%{sname} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -53,7 +53,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %package epsg
 Summary:	EPSG dataset for PROJ.4
 Group:		Applications/Engineering
-Requires:	%{sname} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -62,7 +62,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %package static
 Summary:	Development files for PROJ.4
 Group:		Development/Libraries
-Requires:	%{sname}-devel%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
