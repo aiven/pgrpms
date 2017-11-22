@@ -1,5 +1,5 @@
 %global		sname geos
-%global		geosinstdir /usr/%{sname}-36
+%global		geosinstdir /usr/%{sname}36
 
 Name:		%{sname}36
 Version:	3.6.2
@@ -69,7 +69,7 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-./configure --prefix=/usr/%{sname}-36 --disable-static --disable-dependency-tracking --enable-python
+./configure --prefix=%{geosinstdir} --disable-static --disable-dependency-tracking --enable-python
 # Touch the file, since we are not using ruby bindings anymore:
 # Per http://lists.osgeo.org/pipermail/geos-devel/2009-May/004149.html
 touch swig/python/geos_wrap.cxx
