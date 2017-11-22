@@ -48,6 +48,9 @@
 # Version 9.3.2 Devrim Gunduz <devrim@gunduz.org>
 # Add process name to the status() call. Patch from Darrin Smart
 
+# Version 9.3.20 John Harvey <john.harvey@crunchydata.com>
+# Fix CVE-2017-12172
+
 # PGVERSION is the full package version, e.g., 9.3.0
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
@@ -238,6 +241,7 @@ initdb(){
 
 			# Initialize the database
 			$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" >> "$PGLOG" 2>&1 < /dev/null
+			$SU -l postgres -c "$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING" >> "\$PGLOG\" 2>&1 &"
 
 			# Create directory for postmaster log
 			mkdir "$PGDATA/pg_log"
@@ -327,7 +331,7 @@ if [ $RETVAL -eq 0 ]
 	su -l postgres -c "$PGENGINE/pg_upgrade \
 		-b /usr/pgsql-$PGPREVMAJORVERSION/bin/ -B $PGENGINE/ \
 		-d $OLDPGDATA -D $NEWPGDATA \
-		-p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 < /dev/null
+		-p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 &
   else
 	echo "Cluster check failed. Please see the output above."
 	exit 1
