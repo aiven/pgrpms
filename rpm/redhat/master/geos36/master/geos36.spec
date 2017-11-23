@@ -3,13 +3,14 @@
 
 Name:		%{sname}36
 Version:	3.6.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
 License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
+Source1:	%{name}-pgdg-libs.conf
 Patch0:		%{name}-gcc43.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -84,6 +85,9 @@ cd doc
 %{__rm} -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} install
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %check
 
 # test module
@@ -100,8 +104,8 @@ cd doc
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING NEWS README TODO
 %{geosinstdir}/lib/libgeos-%{version}.so
-#%{geosinstdir}/lib64/libgeos_c.so.*
-#%exclude %{geosinstdir}/lib64/*.a
+%exclude %{geosinstdir}/lib/*.a
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %defattr(-,root,root,-)
@@ -127,6 +131,10 @@ cd doc
 
 
 %changelog
+* Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-2
+- Add a linker config file to satisfy GDAL and other packages
+  which we use while building PostGIS.
+
 * Sun Oct 1 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-1
 - Initial packaging of 3.6.X for PostgreSQL RPM Repository,
   which is to satisfy PostGIS on older platforms, so that
