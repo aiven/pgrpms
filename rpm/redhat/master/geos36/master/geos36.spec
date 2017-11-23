@@ -88,8 +88,8 @@ cd doc
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-%check
 
+%check
 # test module
 %{__make} %{?_smp_mflags} check || exit 0
 
