@@ -36,7 +36,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -185,6 +185,8 @@ The postgis-utils package provides the utilities for PostGIS.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
+LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
+
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
         --without-raster \
@@ -331,6 +333,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-3
+- Make sure that we link against our GeOS and Proj packages.
+
 * Wed Nov 22 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-2
 - Let PostGIS depend on PGDG supplied Proj49 and GeOS 36 RPMs.
   This will help users to benefit from latest GeOS and Proj.
