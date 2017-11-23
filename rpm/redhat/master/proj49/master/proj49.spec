@@ -9,7 +9,7 @@
 
 Name:		%{sname}49
 Version:	4.9.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
 
@@ -18,6 +18,8 @@ License:	MIT
 URL:		http://trac.osgeo.org/proj
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org//proj/proj-datumgrid-1.5.zip
+Source2:	%{name}-pgdg-libs.conf
+
 Patch0:		proj-4.8.0-removeinclude.patch
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -128,6 +130,10 @@ sed -i -e 's|5\:4\:5|6\:4\:6|' src/Makefile*
 %{__install} -p -m 0644 nad/epsg %{buildroot}%{projinstdir}/share/%{sname}
 %{__install} -p -m 0644 NEWS AUTHORS COPYING README ChangeLog %{buildroot}%{projinstdir}/share/doc/
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 %check
 pushd nad
 # set test enviroment for porj
@@ -163,6 +169,7 @@ popd
 %{projinstdir}/bin/*
 %{projinstdir}/share/man/man1/*.1
 %{projinstdir}/lib/libproj.so.12*
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %defattr(-,root,root,-)
@@ -195,6 +202,10 @@ popd
 %attr(0644,root,root) %{projinstdir}/share/%{sname}/epsg
 
 %changelog
+* Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 4.9.3-2
+- Add a linker config file to satisfy GDAL and other packages
+  which we use while building PostGIS.
+
 * Tue Nov 21 2017 Devrim Gündüz <devrim@gunduz.org> 4.9.3-1
 - Update to 4.9.3
 
