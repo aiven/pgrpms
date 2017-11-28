@@ -9,7 +9,7 @@
 
 Name:		%{sname}49
 Version:	4.9.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
 
@@ -202,6 +202,9 @@ popd
 %attr(0644,root,root) %{projinstdir}/share/%{sname}/epsg
 
 %changelog
+* Tue Nov 28 2017 Devrim Gündüz <devrim@gunduz.org> - 4.9.3-3
+- Fix linker config file contents. Per report from Daniel Farina.
+
 * Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 4.9.3-2
 - Add a linker config file to satisfy GDAL and other packages
   which we use while building PostGIS.
