@@ -10,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.1
+Version:	%{pgroutingmajorversion}.2
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
@@ -22,15 +22,8 @@ BuildRequires:  cmake3
 %else
 BuildRequires:  cmake => 2.8.8
 %endif
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	libproj-devel
-%endif
-%else
-BuildRequires:	proj-devel
-%endif
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -103,6 +96,10 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Nov 29 2017 Devrim Gündüz <devrim@gunduz.org> 2.5.2-1
+- Update to 2.5.2
+- Remove proj and geos dependencies, they are not needed.
+
 * Fri Oct 13 2017 Devrim Gündüz <devrim@gunduz.org> 2.5.1-1
 - Update to 2.5.1 (no release needed)
 
