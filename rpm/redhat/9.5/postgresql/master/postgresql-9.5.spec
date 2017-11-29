@@ -1392,6 +1392,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 29 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.10-2PGDG-1
+- Fixes for CVE-2017-12172 (RHEL-6 only)
+
 * Wed Nov 8 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.10-1PGDG
 - Update to 9.5.10, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-10.html
