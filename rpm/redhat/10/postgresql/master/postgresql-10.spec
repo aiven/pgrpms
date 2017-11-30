@@ -76,7 +76,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1380,6 +1380,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 29 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-2PGDG
+- Fixes for CVE-2017-12172 (RHEL-6 only)
+
 * Tue Nov 7 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-1PGDG
 - Update to 10.1, per changes described at
   https://www.postgresql.org/docs/devel/static/release-10-1.html
