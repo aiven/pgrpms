@@ -49,7 +49,7 @@ KillSignal=SIGINT
 
 # Do not set any timeout value, so that systemd will not kill postmaster
 # during crash recovery.
-TimeoutSec=0
+TimeoutSec=infinity
 
 [Install]
 WantedBy=multi-user.target
