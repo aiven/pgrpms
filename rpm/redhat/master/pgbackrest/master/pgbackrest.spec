@@ -1,15 +1,15 @@
 %global debug_package %{nil}
+
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	1.26
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-#BuildArch:	noarch
 Requires:	perl-XML-LibXML perl-IO-Socket-SSL
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 
@@ -35,6 +35,7 @@ popd
 
 %install
 %{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
+%{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/log/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/spool/%{name}
@@ -44,7 +45,11 @@ popd
 %{__cp} -a bin/%{name} %{buildroot}%{_bindir}/%{name}
 
 pushd libc
-%{__make} install
+# Dirty hack to install files manually.
+%{__install} -D -d -m 0755 %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC
+%{__install} -D -d -m 0755 %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/
+%{__install} blib/arch/auto/pgBackRest/LibC/LibC.so ./blib/lib/auto/pgBackRest/LibC/autosplit.ix %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC
+%{__install} blib/lib/pgBackRest/LibC.pm ./blib/lib/pgBackRest/LibCAuto.pm %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/
 popd
 
 %clean
@@ -63,14 +68,15 @@ popd
 %attr(-,postgres,postgres) /var/log/%{name}
 %attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
 %attr(-,postgres,postgres) /var/spool/%{name}
-/usr/lib/perl5/x86_64-linux-thread-multi/auto/pgBackRest/LibC/.packlist
-/usr/lib/perl5/x86_64-linux-thread-multi/auto/pgBackRest/LibC/LibC.so
-/usr/lib/perl5/x86_64-linux-thread-multi/auto/pgBackRest/LibC/autosplit.ix
-/usr/lib/perl5/x86_64-linux-thread-multi/perllocal.pod
-/usr/lib/perl5/x86_64-linux-thread-multi/pgBackRest/LibC.pm
-/usr/lib/perl5/x86_64-linux-thread-multi/pgBackRest/LibCAuto.pm
+%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC/LibC.so
+%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC/autosplit.ix
+%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/LibC.pm
+%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/LibCAuto.pm
 
 %changelog
+* Sun Dec 3 2017 - Devrim Gündüz <devrim@gunduz.org> 1.26-2
+- Dirty hack to install libc related files manually. Fixes #2914
+
 * Sun Nov 26 2017 - Devrim Gündüz <devrim@gunduz.org> 1.26-1
 - Update to 1.26, per #2889
 - Add perl-libc related files.
