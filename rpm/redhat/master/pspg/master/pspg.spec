@@ -1,6 +1,6 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	0.7.2
+Version:	0.7.5
 Release:	1%{?dist}
 License:	BSD
 Group:		Development/Tools
@@ -45,6 +45,9 @@ CFLAGS="%{optflags}"
 %{_bindir}/*
 
 %changelog
+* Mon Dec 4 2017 Devrim Gündüz <devrim@gunduz.org> 0.7.5-1
+- Update to 0.7.5, per #2932 .
+
 * Sun Nov 26 2017 Devrim Gündüz <devrim@gunduz.org> 0.7.2-1
 - Update to 0.7.2, per #2912.
 
