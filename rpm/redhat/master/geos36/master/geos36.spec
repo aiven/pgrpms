@@ -124,14 +124,14 @@ cd doc
 %post
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
-%endif
+%else
 	/sbin/ldconfig
 %endif
 
 %postun
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
-%endif
+%else
 	/sbin/ldconfig
 %endif
 
