@@ -250,7 +250,7 @@ initdb(){
 			initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident' $LOCALESTRING"
 			initdbcmd+=" $PGSETUP_INITDB_OPTIONS"
 
-			$SU -l postgres -c "$initdbcmd" >> "\$PGLOG\" 2>&1 &"
+			$SU -l postgres -c "$initdbcmd >> \"$PGLOG\" 2>&1 &"
 
 			# Create directory for postmaster log
 			mkdir "$PGDATA/pg_log"
