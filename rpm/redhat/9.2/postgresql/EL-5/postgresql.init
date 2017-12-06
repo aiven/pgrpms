@@ -322,7 +322,7 @@ if [ $RETVAL -eq 0 ]
 	su -l postgres -c "$PGENGINE/pg_upgrade \
 		-b /usr/pgsql-$PGPREVMAJORVERSION/bin/ -B $PGENGINE/ \
 		-d $OLDPGDATA -D $NEWPGDATA \
-		-p $OLDPGPORT -P $NEWPGPORT" >> "$PGUPLOG" 2>&1 < /dev/null
+		-p $OLDPGPORT -P $NEWPGPORT >> \"$PGUPLOG\" 2>&1 &"
   else
 	echo "Cluster check failed. Please see the output above."
 	exit 1
