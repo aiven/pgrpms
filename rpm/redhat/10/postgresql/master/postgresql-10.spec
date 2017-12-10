@@ -76,7 +76,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.1
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1380,6 +1380,10 @@ fi
 %endif
 
 %changelog
+* Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-4PGDG
+- RHEL 6 only: Fix regression in init script. Fixes PostgreSQL bug
+ #14957 and many other reports.
+
 * Thu Dec 7 2017 John K. Harvey <john.harvey@crunchydata.com> - 10.1-3PGDG
 - Fixes for CVE-2017-12172 (EL-6 only)
 - Update TimeOutSec parameter to match systemd docs (EL-7 only)
