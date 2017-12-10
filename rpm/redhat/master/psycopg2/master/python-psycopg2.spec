@@ -80,6 +80,14 @@ Group:		Applications/Databases
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
 
+%package -n python2-%{sname}-tests
+Summary:	A testsuite for %sum 2
+Requires:	python2-%sname = %version-%release
+
+%description -n python2-%{sname}-tests
+%desc
+This sub-package delivers set of tests for the adapter.
+
 %if 0%{?with_python3}
 %package -n python3-%{sname}
 Summary:	A PostgreSQL database adapter for Python 3
@@ -90,6 +98,14 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %description  -n python3-%{sname}
 This is a build of the psycopg PostgreSQL database adapter for Python 3.
+
+%package -n python3-%{sname}-tests
+Summary:	A testsuite for %sum 2
+Requires:	python3-%sname = %version-%release
+
+%description -n python3-%{sname}-tests
+%desc
+This sub-package delivers set of tests for the adapter.
 
 %package -n python3-%{sname}-debug
 Summary:	A PostgreSQL database adapter for Python 3 (debug build)
@@ -134,22 +150,8 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %{__rm} -f doc/html/.buildinfo
 
 %install
-
-DoInstall() {
-  PythonBinary=$1
-
-  Python_SiteArch=$($PythonBinary -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-
-  %{__mkdir} -p %{buildroot}$Python_SiteArch/%{sname}
-  $PythonBinary setup.py install --no-compile --root %{buildroot}
-
-  # We're not currently interested in packaging the test suite.
-  %{__rm} -rf %{buildroot}$Python_SiteArch/%{sname}/tests
-}
-
-%{__rm} -rf %{buildroot}
 for python in %{python_runtimes} ; do
-  DoInstall $python
+  $python setup.py install --no-compile --root %{buildroot}
 done
 
 %clean
@@ -170,6 +172,9 @@ done
 %endif
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
+%files -n python2-%{sname}-tests
+%{python_sitearch}/psycopg2/tests
+
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
 %defattr(-,root,root)
@@ -188,6 +193,9 @@ done
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
+%files -n python3-%{sname}-tests
+%{python3_sitearch}/psycopg2/tests
+
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
 %doc LICENSE
@@ -200,7 +208,9 @@ done
 
 %changelog
 * Sun Dec 10 2017 Devrim Gündüz <devrim@gunduz.org> 2.7.3.2-1
-- Update to 2.7.3.2
+- Update to 2.7.3.2, per
+  http://initd.org/psycopg/articles/2017/10/24/psycopg-2732-released/
+- Add -tests subpackages.
 
 * Mon Jul 24 2017 Devrim Gündüz <devrim@gunduz.org> 2.7.3-1
 - Update to 2.7.3
