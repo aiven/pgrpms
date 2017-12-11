@@ -154,7 +154,7 @@ start(){
  	fi
 
 	echo -n "$PSQL_START"
-	$SU -l postgres -c "$PGENGINE/postmaster -p '$PGPORT' -D '$PGDATA' ${PGOPTS} >>\"$PGLOG\" 2>&1"
+	$SU -l postgres -c "$PGENGINE/postmaster -p '$PGPORT' -D '$PGDATA' ${PGOPTS} >>\"$PGLOG\" 2>&1 &"
 	sleep 2
 	pid=`head -n 1 "$PGDATA/postmaster.pid" 2>/dev/null`
 	if [ "x$pid" != x ]

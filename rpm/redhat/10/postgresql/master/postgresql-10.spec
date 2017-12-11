@@ -76,7 +76,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.1
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1380,6 +1380,10 @@ fi
 %endif
 
 %changelog
+* Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-5PGDG
+- RHEL 6 only: Fix startup issue in init script, per
+  https://redmine.postgresql.org/issues/2941
+
 * Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-4PGDG
 - RHEL 6 only: Fix regression in init script. Fixes PostgreSQL bug
  #14957 and many other reports.
