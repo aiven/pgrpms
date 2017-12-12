@@ -1,6 +1,6 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	1.27.0
+Version:	1.31.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -41,38 +41,38 @@ install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
-* Fri Sep 11 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.27.0-1
-- Update to 1.27.0
+* Tue Dec 12 2017 - Devrim Gündüz <devrim@gunduz.org> 1.31.3
+- Update to 1.31.3
 
-* Wed Dec 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.3-1
+* Wed Dec 11 2013 - Devrim Gündüz <devrim@gunduz.org> 1.26.3-1
 - Update to 1.26.3
 
-* Thu Sep 6 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.1-1
+* Thu Sep 6 2012 - Devrim Gündüz <devrim@gunduz.org> 1.26.1-1
 - Update to 1.26.1
 
-* Fri Jul 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.26.0-1
+* Fri Jul 27 2012 - Devrim Gündüz <devrim@gunduz.org> 1.26.0-1
 - Update to 1.26.0
 
-* Mon Oct 03 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.20.3-1
+* Mon Oct 03 2011 - Devrim Gündüz <devrim@gunduz.org> 1.20.3-1
 - Update to 1.20.3
 
-* Mon Jan 10 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.17-4-1
+* Mon Jan 10 2011 - Devrim Gündüz <devrim@gunduz.org> 1.17-4-1
 - Update to 1.17.4
 
-* Sat Nov 13 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.17-2-1
+* Sat Nov 13 2010 - Devrim Gündüz <devrim@gunduz.org> 1.17-2-1
 - Update to 1.17.2
 
-* Fri Sep 17 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.16.5-1
+* Fri Sep 17 2010 - Devrim Gündüz <devrim@gunduz.org> 1.16.5-1
 - Update to 1.16.5
 - Apply a few stylistic fixes.
 - Update download URL.
 
-* Sat Sep 11 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.16.3-1
+* Sat Sep 11 2010 - Devrim Gündüz <devrim@gunduz.org> 1.16.3-1
 - Update to 1.16.3
 - Update README.
 
-* Sat May 15 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.10.3-1
+* Sat May 15 2010 - Devrim Gündüz <devrim@gunduz.org> 1.10.3-1
 - Update to 1.10.3
 
-* Tue Apr 27 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.9.0-1
+* Tue Apr 27 2010 - Devrim Gündüz <devrim@gunduz.org> 1.9.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
