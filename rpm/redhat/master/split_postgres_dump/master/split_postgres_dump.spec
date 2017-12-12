@@ -25,11 +25,11 @@ indexes, constraints, and triggers.
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 %{buildroot}%{_bindir}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}
+%{__install} -d -m 755 %{buildroot}%{_bindir}
+%{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}
 
-install -m 755 %{SOURCE0} %{buildroot}%{_bindir}/
-install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
+%{__install} -m 755 %{SOURCE0} %{buildroot}%{_bindir}/
+%{__install} -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 
 %clean
 %{__rm} -rf %{buildroot}
