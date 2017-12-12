@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.15
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1017,6 +1017,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.15-5PGDG
+- Revert TimeOutSec changes in unit file, because infinity is only
+  valid in systemd >= 229.
+
 * Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.15-4PGDG
 - RHEL 6 only: Fix regression in init script. Fixes PostgreSQL bug
  #14957 and many other reports.

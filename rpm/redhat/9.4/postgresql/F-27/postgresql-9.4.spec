@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.15
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1018,6 +1018,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.15-4PGDG
+- Revert TimeOutSec changes in unit file, because infinity is only
+  valid in systemd >= 229.
+
 * Thu Dec 7 2017 John K. Harvey <john.harvey@crunchydata.com> - 9.4.15-3PGDG
 - Fixes for CVE-2017-12172 (EL-6 only)
 - Update TimeOutSec parameter to match systemd docs (EL-7 only)

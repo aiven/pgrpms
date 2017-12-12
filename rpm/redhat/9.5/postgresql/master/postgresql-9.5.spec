@@ -110,7 +110,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.10
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -1392,6 +1392,10 @@ fi
 %endif
 
 %changelog
+* Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.10-6PGDG
+- Revert TimeOutSec changes in unit file, because infinity is only
+  valid in systemd >= 229. RHEL 7 and Fedora only.
+
 * Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5.10-5PGDG
 - RHEL 6 only: Fix startup issue in init script, per
   https://redmine.postgresql.org/issues/2941

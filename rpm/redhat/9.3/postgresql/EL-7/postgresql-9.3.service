@@ -44,7 +44,7 @@ ExecReload=/usr/pgsql-9.3/bin/pg_ctl reload -D ${PGDATA} -s
 
 # Do not set any timeout value, so that systemd will not kill postmaster
 # during crash recovery.
-TimeoutSec=infinity
+TimeoutSec=0
 
 [Install]
 WantedBy=multi-user.target

@@ -74,7 +74,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.6
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1369,6 +1369,10 @@ fi
 %endif
 
 %changelog
+* Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.6-6PGDG
+- Revert TimeOutSec changes in unit file, because infinity is only
+  valid in systemd >= 229.
+
 * Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.6-5PGDG
 - RHEL 6 only: Fix startup issue in init script, per
   https://redmine.postgresql.org/issues/2941
