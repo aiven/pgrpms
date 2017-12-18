@@ -112,6 +112,11 @@ BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
+# This dependency is needed for Source 16:
+%if 0%{?fedora} || 0%{?rhel} > 7
+BuildRequires:	perl-generators
+%endif
+
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
