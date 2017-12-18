@@ -36,7 +36,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -333,6 +333,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Dec 19 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-4
+- Rebuilt
+
 * Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-3
 - Make sure that we link against our GeOS and Proj packages.
 
