@@ -1,5 +1,3 @@
-%global pgmajorversion 96
-%global pginstdir /usr/pgsql-9.6
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -92,7 +90,7 @@ BuildRequires: fontconfig-devel
 # No freexl in EL5
 BuildRequires: freexl-devel
 BuildRequires: g2clib-static
-BuildRequires: geos-devel
+BuildRequires: geos36-devel
 BuildRequires: ghostscript
 BuildRequires: hdf-devel
 BuildRequires: hdf-static
@@ -128,7 +126,7 @@ BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
 BuildRequires: postgresql%{pgmajorversion}-devel
-BuildRequires: proj-devel
+BuildRequires: proj49-devel
 BuildRequires: python2-devel
 BuildRequires: sqlite-devel
 BuildRequires: swig
@@ -445,7 +443,8 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-dods-root=%{_prefix} \
         --with-expat              \
         --with-freexl             \
-        --with-geos               \
+        --with-geos=/usr/geos36/bin/geos-config               \
+	--with-static-proj4=/usr/proj49/bin/	\
         --with-geotiff=external   \
         --with-gif                \
         --with-gta                \
