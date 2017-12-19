@@ -117,7 +117,7 @@ BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
 BuildRequires: postgresql%{pgmajorversion}-devel
-BuildRequires: proj39-devel
+BuildRequires: proj49-devel
 BuildRequires: python-devel
 BuildRequires: ruby
 BuildRequires: ruby-devel
