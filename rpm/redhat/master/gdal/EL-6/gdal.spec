@@ -38,7 +38,7 @@
 
 Name:      gdal
 Version:   1.9.2
-Release:   8%{?dist}
+Release:   9%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -83,7 +83,7 @@ BuildRequires: fontconfig-devel
 # No freexl in EL5
 BuildRequires: freexl-devel
 #BuildRequires: g2clib-static
-BuildRequires: geos-devel
+BuildRequires: geos36-devel
 BuildRequires: ghostscript
 BuildRequires: hdf-devel
 BuildRequires: hdf-static
@@ -117,7 +117,7 @@ BuildRequires: perl(ExtUtils::MakeMaker)
 BuildRequires: pkgconfig
 BuildRequires: poppler-devel
 BuildRequires: postgresql%{pgmajorversion}-devel
-BuildRequires: proj-devel
+BuildRequires: proj39-devel
 BuildRequires: python-devel
 BuildRequires: ruby
 BuildRequires: ruby-devel
@@ -366,7 +366,7 @@ sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' configure
 
 # libproj is dlopened; upstream sources point to .so, which is usually not present
 # http://trac.osgeo.org/gdal/ticket/3602
-sed -i 's|libproj.so|libproj.so.0|g' ogr/ogrct.cpp
+sed -i 's|libproj.so|libproj.so.12|g' ogr/ogrct.cpp
 
 # Fix Python installation path
 sed -i 's|setup.py install|setup.py install --root=%{buildroot}|' swig/python/GNUmakefile
@@ -434,7 +434,9 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-dods-root=%{_prefix} \
         --with-expat              \
         --with-freexl             \
-        --with-geos               \
+	--with-geos=/usr/geos36/bin/geos-config	\
+	--with-static-proj4=/usr/proj49/	\
+        --with-geotiff=external   \
         --with-geotiff=external   \
         --with-gif                \
         --with-gta                \
@@ -824,6 +826,9 @@ rm -rf %{buildroot}
 #Or as before, using ldconfig
 
 %changelog
+* Wed Dec 20 2017 Devrim Gündüz <devrim@gunduz.org> - 1.9.2-9
+- Add dependency for geos36 and proj49.
+
 * Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.9.2-8
 - Rebuilt for new libgeotiff
 
