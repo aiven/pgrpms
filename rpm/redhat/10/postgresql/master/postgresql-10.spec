@@ -1,5 +1,6 @@
 # These are macros to be used with find_lang and other stuff
 %global packageversion 100
+%global pgpackageversion 10
 %global prevmajorversion 9.6
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
@@ -91,7 +92,7 @@ Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
 %endif
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
-Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgmajorversion}/%{sname}-%{pgmajorversion}-A4.pdf
+Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
 Source14:	%{sname}-%{pgmajorversion}.pam
 Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
