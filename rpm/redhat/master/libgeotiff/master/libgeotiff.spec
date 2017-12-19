@@ -6,7 +6,7 @@ Group:		System Environment/Libraries
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
 Source:		http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
-BuildRequires:	libtiff-devel libjpeg-devel proj-devel zlib-devel
+BuildRequires:	libtiff-devel libjpeg-devel proj49-devel zlib-devel
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -55,11 +55,11 @@ sed -i 's| \| sed \"s\/-g \/\/\"||g' configure
 sed -i 's|LD_SHARED=@LD_SHARED@|LD_SHARED=@CC@ -shared|' Makefile.in
 
 %configure \
-        --prefix=%{_prefix} \
+        --prefix=%{_prefix}	\
         --includedir=%{_includedir}/%{name}/ \
-        --with-proj               \
-        --with-tiff               \
-        --with-jpeg               \
+        --with-proj=/usr/proj49	\
+        --with-tiff		\
+        --with-jpeg		\
         --with-zip
 # WARNING
 # disable %{?_smp_mflags}
