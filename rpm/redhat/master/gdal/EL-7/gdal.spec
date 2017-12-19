@@ -46,7 +46,7 @@
 
 Name:      gdal
 Version:   1.11.4
-Release:   10%{?dist}
+Release:   11%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -372,7 +372,7 @@ sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' configure
 
 # libproj is dlopened; upstream sources point to .so, which is usually not present
 # http://trac.osgeo.org/gdal/ticket/3602
-sed -i 's|libproj.so|libproj.so.0|g' ogr/ogrct.cpp
+sed -i 's|libproj.so|libproj.so.12|g' ogr/ogrct.cpp
 
 # Fix Python installation path
 sed -i 's|setup.py install|setup.py install --root=%{buildroot}|' swig/python/GNUmakefile
@@ -444,7 +444,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff"
         --with-expat              \
         --with-freexl             \
         --with-geos=/usr/geos36/bin/geos-config               \
-	--with-static-proj4=/usr/proj49/bin/	\
+	--with-static-proj4=/usr/proj49//	\
         --with-geotiff=external   \
         --with-gif                \
         --with-gta                \
@@ -846,6 +846,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+
+* Mon Dec 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.11.4-11
+- Add dependency for new proj49 RPM
 
 * Thu Sep 29 2016 Devrim Gündüz <devrim@gunduz.org> - 1.11.4-10
 - Rebuilt for new libgeotiff
