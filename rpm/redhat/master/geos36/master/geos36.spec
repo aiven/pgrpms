@@ -1,6 +1,13 @@
 %global		sname geos
 %global		geosinstdir /usr/%{sname}36
 
+# Specify the subdirectory for the libraries:
+%ifarch i686 i386
+%global		_geoslibdir lib
+%else
+%global		_geoslibdir lib64
+%endif
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -9,7 +16,7 @@
 
 Name:		%{sname}36
 Version:	3.6.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -95,7 +102,7 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
-./configure --prefix=%{geosinstdir} --disable-static --disable-dependency-tracking --enable-python
+./configure --prefix=%{geosinstdir} --libdir=/usr/geos36/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
 # Touch the file, since we are not using ruby bindings anymore:
 # Per http://lists.osgeo.org/pipermail/geos-devel/2009-May/004149.html
 touch swig/python/geos_wrap.cxx
@@ -139,6 +146,8 @@ cd doc
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING NEWS README TODO
 %{geosinstdir}/lib/libgeos-%{version}.so
+%{geosinstdir}/lib/libgeos.so*
+%{geosinstdir}/lib/libgeos_c.so*
 %exclude %{geosinstdir}/lib/*.a
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
@@ -147,8 +156,6 @@ cd doc
 %doc doc/doxygen_docs
 %{geosinstdir}/bin/geos-config
 %{geosinstdir}/include/*
-%{geosinstdir}/lib/libgeos.so*
-%{geosinstdir}/lib/libgeos_c.so*
 %exclude %{geosinstdir}/lib/*.a
 %exclude %{geosinstdir}/lib/*.la
 
@@ -156,16 +163,18 @@ cd doc
 %defattr(-,root,root,-)
 %defattr(-,root,root,-)
 %dir %exclude %{geosinstdir}/
-%dir %{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/
-%exclude %{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/_%{sname}.la
-%exclude %{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/_%{sname}.a
-%{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/_%{sname}.so
-%{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}.pth
-%{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/%{sname}.py
-%{geosinstdir}/lib64/python%{pyver}/site-packages/%{sname}/%{sname}.py?
-
+%dir %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/
+%exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.la
+%exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.a
+%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.so
+%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}.pth
+%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py
+%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Mon Dec 25 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-3
+- Move .so files to main package.
+
 * Thu Nov 23 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-2
 - Add a linker config file to satisfy GDAL and other packages
   which we use while building PostGIS.
