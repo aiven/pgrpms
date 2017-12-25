@@ -145,10 +145,11 @@ cd doc
 %files
 %defattr(-,root,root,-)
 %doc AUTHORS COPYING NEWS README TODO
-%{geosinstdir}/lib/libgeos-%{version}.so
-%{geosinstdir}/lib/libgeos.so*
-%{geosinstdir}/lib/libgeos_c.so*
-%exclude %{geosinstdir}/lib/*.a
+%{geosinstdir}/%{_geoslibdir}/libgeos-%{version}.so
+%{geosinstdir}/%{_geoslibdir}/libgeos.so
+%{geosinstdir}/%{_geoslibdir}/libgeos_c.so*
+%exclude %{geosinstdir}/%{_geoslibdir}/*.a
+%exclude %{geosinstdir}/%{_geoslibdir}/*.la
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
@@ -156,8 +157,6 @@ cd doc
 %doc doc/doxygen_docs
 %{geosinstdir}/bin/geos-config
 %{geosinstdir}/include/*
-%exclude %{geosinstdir}/lib/*.a
-%exclude %{geosinstdir}/lib/*.la
 
 %files python
 %defattr(-,root,root,-)
