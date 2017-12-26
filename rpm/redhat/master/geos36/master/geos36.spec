@@ -16,14 +16,13 @@
 
 Name:		%{sname}36
 Version:	3.6.2
-Release:	3%{?dist}
+Release:	3.1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
 License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
-Source1:	%{name}-pgdg-libs.conf
 Patch0:		%{name}-gcc43.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -117,9 +116,9 @@ cd doc
 %{__rm} -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} install
 
-# Install linker config file:
+# Create linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-%{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %check
 # test module
@@ -171,6 +170,10 @@ cd doc
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Tue Dec 26 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-3.1
+- Remove Source1, and create linker config file manually, so that
+  it uses the right path all the time.
+
 * Mon Dec 25 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-3
 - Move .so files to main package.
 
