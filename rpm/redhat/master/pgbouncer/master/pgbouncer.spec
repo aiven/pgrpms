@@ -19,8 +19,8 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.7.2
-Release:	7%{?dist}
+Version:	1.8.1
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -45,8 +45,8 @@ Requires:	libevent2 >= 2.0
 BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
-BuildRequires:	openssl-devel
-Requires:	c-ares
+BuildRequires:	openssl-devel pam-devel
+Requires:	c-ares pam
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -99,13 +99,13 @@ sed -i.fedora \
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-%configure --datadir=%{_datadir} --disable-evdns
+%configure --datadir=%{_datadir} --disable-evdns --with-pam
 
-make %{?_smp_mflags} V=1
+%{__make} %{?_smp_mflags} V=1
 
 %install
 %{__rm} -rf %{buildroot}
-make install DESTDIR=%{buildroot}
+%{__make} install DESTDIR=%{buildroot}
 # Install sysconfig file
 %{__install} -p -d %{buildroot}%{_sysconfdir}/%{name}/
 %{__install} -p -d %{buildroot}%{_sysconfdir}/sysconfig
@@ -204,6 +204,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Wed Dec 20 2017 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-1
+- Update to 1.8.1, and enable pam support.
+
 * Tue Jul 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-7
 - Add libevent dependency, per Fahar Abbas (EDB QA testing)
 
