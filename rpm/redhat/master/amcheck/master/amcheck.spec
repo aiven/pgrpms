@@ -8,7 +8,7 @@
 
 Summary:	Functions for verifying PostgreSQL relation integrity
 Name:		%{sname}_next%{pgmajorversion}
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -73,6 +73,9 @@ production PostgreSQL installations.
 %{pginstdir}/share/extension/%{sname}_next.control
 
 %changelog
+* Tue Dec 26 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
+- Update to 1.3, per #2972
+
 * Thu Oct 26 2017 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2, to fix RHEL 6 build issues, per #2814.
 
