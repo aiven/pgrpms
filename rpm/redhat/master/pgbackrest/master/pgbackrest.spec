@@ -2,8 +2,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.26
-Release:	2%{?dist}
+Version:	1.27
+Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
@@ -29,12 +29,11 @@ are required to perform a backup which increases security.
 
 %build
 pushd libc
-perl Makefile.PL INSTALL_BASE=%{buildroot}/usr
+perl Makefile.PL
 %{__make}
 popd
 
 %install
-%{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/log/%{name}
@@ -42,15 +41,12 @@ popd
 %{__install} -D -d -m 0755 %{buildroot}%{_sysconfdir}
 %{__install} %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 %{__cp} -a lib/* %{buildroot}%{perl_vendorlib}/
+%{__mkdir} -p %{buildroot}%{perl_vendorarch}/auto/pgBackRest/LibC
+%{__cp} -a libc/blib/arch/auto/pgBackRest/LibC/* %{buildroot}%{perl_vendorarch}/auto/pgBackRest/LibC
+%{__cp} -a libc/blib/lib/auto/pgBackRest/LibC/* %{buildroot}%{perl_vendorarch}/auto/pgBackRest/LibC
+%{__mkdir} -p %{buildroot}%{perl_vendorarch}/pgBackRest
+%{__cp} -a libc/blib/lib/pgBackRest/* %{buildroot}%{perl_vendorarch}/pgBackRest
 %{__cp} -a bin/%{name} %{buildroot}%{_bindir}/%{name}
-
-pushd libc
-# Dirty hack to install files manually.
-%{__install} -D -d -m 0755 %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC
-%{__install} -D -d -m 0755 %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/
-%{__install} blib/arch/auto/pgBackRest/LibC/LibC.so ./blib/lib/auto/pgBackRest/LibC/autosplit.ix %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC
-%{__install} blib/lib/pgBackRest/LibC.pm ./blib/lib/pgBackRest/LibCAuto.pm %{buildroot}%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/
-popd
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -65,15 +61,19 @@ popd
 %{_bindir}/%{name}
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
 %{perl_vendorlib}/pgBackRest/
+%{perl_vendorarch}/pgBackRest/
+%{perl_vendorarch}/auto/pgBackRest/LibC
 %attr(-,postgres,postgres) /var/log/%{name}
 %attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
 %attr(-,postgres,postgres) /var/spool/%{name}
-%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC/LibC.so
-%{perl_archlib}/x86_64-linux-thread-multi/auto/pgBackRest/LibC/autosplit.ix
-%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/LibC.pm
-%{perl_archlib}/x86_64-linux-thread-multi/pgBackRest/LibCAuto.pm
 
 %changelog
+* Wed Dec 27 2017 - Devrim Gündüz <devrim@gunduz.org> 1.27-1
+- Update to 1.27, per #2968
+
+* Thu Dec 7 2017 - David Steele <david@pgbackrest.org> 1.26-3
+- Cleanly build/install LibC. Fixes #2914
+
 * Sun Dec 3 2017 - Devrim Gündüz <devrim@gunduz.org> 1.26-2
 - Dirty hack to install libc related files manually. Fixes #2914
 
@@ -133,4 +133,3 @@ popd
 
 * Fri May 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.01-1
 - Initial packaging for PostgreSQL RPM Repository
-
