@@ -1,6 +1,6 @@
 Name:		pgdg-fedora95
 Version:	9.5
-Release:	4
+Release:	5
 Summary:	PostgreSQL 9.5.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -21,17 +21,17 @@ key for PGDG RPMs.
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-install -Dpm 644 %{SOURCE0} \
+%{__install} -Dpm 644 %{SOURCE0} \
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-95
 
-install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-install -pm 644 %{SOURCE2}  \
+%{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+%{__install} -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -40,6 +40,9 @@ rm -rf %{buildroot}
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Dec 28 2017 Devrim Gündüz <devrim@gunduz.org> - 9.5-5
+- Add separate repo for -debuginfo and -debugsource packages
+
 * Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.5-4
 - Website is now https, per #1742
 

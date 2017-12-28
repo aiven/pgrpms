@@ -28,3 +28,19 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-96
 
+[pgdg96-debuginfo]
+name=PostgreSQL 9.6 $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.6/fedora/fedora-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-96
+
+[pgdg96-updates-testing-debuginfo]
+name=PostgreSQL 9.6 $releasever - $basearch - Updates Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.6/fedora/fedora-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-96
+
+
+

@@ -1,6 +1,6 @@
 Name:		pgdg-fedora96
 Version:	9.6
-Release:	3
+Release:	4
 Summary:	PostgreSQL 9.6.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -40,6 +40,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Dec 28 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6-4
+- Add separate repo for -debuginfo and -debugsource packages
+
 * Sun Sep 25 2016 Devrim Gündüz <devrim@gunduz.org> - 9.6-3
 - Website is now https, per #1742
 
