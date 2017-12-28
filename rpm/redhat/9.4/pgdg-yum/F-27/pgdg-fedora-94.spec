@@ -21,17 +21,17 @@ key for PGDG RPMs.
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-install -Dpm 644 %{SOURCE0} \
+%{__install} -Dpm 644 %{SOURCE0} \
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-94
 
-install -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-install -pm 644 %{SOURCE2}  \
+%{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+%{__install} -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -69,7 +69,7 @@ rm -rf %{buildroot}
 
 * Fri Sep 23 2011 Devrim GÜNDÜZ <devrim@gunduz.org> - 9.2-4
 - Change the package name, and add PostgreSQL major version number.
-  This will let us install the repo RPMs easier. Also, rename RPM key,
+  This will let us %{__install} -the repo RPMs easier. Also, rename RPM key,
   so that --import won't throw any errors.
 - Own %%{_sysconfdir}/pki/rpm-gpg
 - Trim changelog
