@@ -8,7 +8,7 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.0.0
+Version:	4.0.1
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -58,7 +58,7 @@ rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
 
 %prep
-%setup -q -n %{sname}-REL4_0_0
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config
@@ -149,6 +149,9 @@ fi
 %endif
 
 %changelog
+* Tue Jan 2 2018 - Devrim Gündüz <devrim@gunduz.org> 4.0.1-1
+- Update to 4.0.1
+
 * Tue Nov 21 2017 - Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
 - Update to 4.0.0
 - Remove patch0, not needed anymore.
