@@ -1,1 +1,0 @@
-../master/postgresql-10-pg_config.h

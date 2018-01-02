@@ -1,1 +1,0 @@
-../master/table_version.spec

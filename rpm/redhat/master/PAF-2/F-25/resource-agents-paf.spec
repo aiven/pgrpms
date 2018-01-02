@@ -1,1 +1,0 @@
-../master/resource-agents-paf.spec

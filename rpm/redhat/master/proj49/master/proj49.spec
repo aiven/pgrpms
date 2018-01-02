@@ -114,6 +114,8 @@ sed -i -e 's|5\:4\:5|6\:4\:6|' src/Makefile*
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
+LDFLAGS="-Wl,-rpath,/usr/proj49/lib64 ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,/usr/proj49/lib" ; export SHLIB_LINK
 
 #./configure --exec-prefix=/usr/proj49 --libdir=/usr/proj49/lib --without-jni
 ./configure --prefix=%{projinstdir} --without-jni
