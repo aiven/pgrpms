@@ -7,7 +7,7 @@
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.1
+Version:	2.0.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -91,6 +91,9 @@ popd
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Jan 3 2018 - Devrim Gündüz <devrim@gunduz.org> 2.0.3-1
+- Update to 2.0.3
+
 * Thu Jun 22 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 
