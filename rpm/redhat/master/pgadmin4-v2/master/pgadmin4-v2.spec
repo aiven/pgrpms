@@ -28,7 +28,7 @@
 %endif
 
 Name:		%{sname}-v%{pgadminmajorversion}
-Version:	%{pgadminmajorversion}.0
+Version:	%{pgadminmajorversion}.1
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
@@ -409,6 +409,9 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+
+* Wed Jan 10 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
+- Update to 2.1
 
 * Fri Sep 29 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Update to 2.0 gold.
