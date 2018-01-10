@@ -44,7 +44,6 @@ Source7:	%{sname}-web-setup.sh
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{sname}-sphinx-theme.patch
 Patch2:		%{sname}-rhel6-sphinx.patch
-Patch3:		%{sname}-rhel6-htmlmin.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -245,10 +244,9 @@ Documentation of pgadmin4.
 %patch0 -p0
 %endif
 
-# Apply these patches only to RHEL 6
+# Apply this patch only to RHEL 6
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %patch2 -p0
-%patch3 -p0
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} >= 7
@@ -412,6 +410,7 @@ fi
 
 * Wed Jan 10 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
 - Update to 2.1
+- Remove patch3 -- now applied to upstream.
 
 * Fri Sep 29 2017 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Update to 2.0 gold.
