@@ -26,7 +26,7 @@
 
 Summary:	Multicorn Python bindings for Postgres 9.2+ FDW
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.4
+Version:	1.3.5
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -95,6 +95,9 @@ in python.
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Fri Jan 12 2018 - Devrim Gündüz <devrim@gunduz.org> 1.3.5-1
+- Update to 1.3.5, per #2888 .
+
 * Tue Nov 21 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.4-1
 - Update to 1.3.4, per #2888 .
 
