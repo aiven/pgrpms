@@ -3,7 +3,7 @@
 %global postgismajorversion 2.4
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.3
-%global postgisprevversion %{postgisprevmajorversion}.5
+%global postgisprevversion %{postgisprevmajorversion}.6
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -35,8 +35,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.2
-Release:	5%{?dist}
+Version:	%{postgismajorversion}.3
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -118,7 +118,7 @@ Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
 
 %description client
-The postgis-client package contains the client tools and their libraries
+The %{name}-client package contains the client tools and their libraries
 of PostGIS.
 
 %package devel
@@ -134,7 +134,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description devel
-The postgis-devel package contains the header files and libraries
+The %{name}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
 with PostGIS.
 
@@ -149,7 +149,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description docs
-The postgis-docs package includes PDF documentation of PostGIS.
+The %{name}-docs package includes PDF documentation of PostGIS.
 
 %if %utils
 %package utils
@@ -165,7 +165,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description utils
-The postgis-utils package provides the utilities for PostGIS.
+The %{name}-utils package provides the utilities for PostGIS.
 %endif
 
 %global __perl_requires %{SOURCE4}
@@ -333,6 +333,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Jan 18 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.3-1
+- Update to 2.4.3, per #3022.
+- Update previous PostGIS version to 2.3.6.
+
 * Mon Dec 25 2017 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-5
 - Rebuilt
 
