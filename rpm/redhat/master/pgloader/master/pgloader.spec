@@ -7,7 +7,7 @@
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
 Version:	3.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgloader.io
@@ -58,6 +58,9 @@ from the pgloader command directly.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Jan 24 2017 Devrim Gunduz <devrim@gunduz.org> 3.4.2-1
+- Rebuild (on RHEL 7 for now, for new SSL)
+
 * Thu Jul 6 2017 Devrim Gunduz <devrim@gunduz.org> 3.4.1-1
 - Update to 3.4.1 (bundle release)
 
