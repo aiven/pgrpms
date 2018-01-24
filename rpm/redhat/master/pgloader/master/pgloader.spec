@@ -58,7 +58,7 @@ from the pgloader command directly.
 %{_bindir}/%{name}
 
 %changelog
-* Wed Jan 24 2017 Devrim Gunduz <devrim@gunduz.org> 3.4.2-1
+* Wed Jan 24 2018 Devrim Gunduz <devrim@gunduz.org> 3.4.2-1
 - Rebuild (on RHEL 7 for now, for new SSL)
 
 * Thu Jul 6 2017 Devrim Gunduz <devrim@gunduz.org> 3.4.1-1
