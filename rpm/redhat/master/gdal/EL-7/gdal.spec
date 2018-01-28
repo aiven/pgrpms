@@ -46,7 +46,7 @@
 
 Name:      gdal
 Version:   1.11.4
-Release:   11%{?dist}
+Release:   12%{?dist}
 Summary:   GIS file format library
 Group:     System Environment/Libraries
 License:   MIT
@@ -846,6 +846,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+
+* Sun Jan 28 2018 Devrim Gündüz <devrim@gunduz.org> - 1.11.4-12
+- Rebuild for new armadillo in EPEL.
 
 * Mon Dec 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.11.4-11
 - Add dependency for new proj49 RPM
