@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.1
+Version:	3.1.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -70,57 +70,60 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %changelog
-* Fri Jan 12 2018 - Devrim GUNDUZ <devrim@gunduz.org> 3.1.1-1
+* Sun Feb 4 2018 - Devrim Gündüz <devrim@gunduz.org> 3.1.2-1
+- Update to 3.1.2
+
+* Fri Jan 12 2018 - Devrim Gündüz <devrim@gunduz.org> 3.1.1-1
 - Update to 3.1.1
 
-* Thu Oct 5 2017 - Devrim GUNDUZ <devrim@gunduz.org> 3.1.0-1
+* Thu Oct 5 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.0-1
 - Update to 3.1.0
 
-* Fri Jun 2 2017 - Devrim GUNDUZ <devrim@gunduz.org> 3.0.1-1
+* Fri Jun 2 2017 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
 - Update to 3.0.1
 
-* Sat Dec 3 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.2-1
+* Sat Dec 3 2016 - Devrim Gündüz <devrim@gunduz.org> 2.6.2-1
 - Update to 2.6.2
 
-* Mon Oct 24 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.1-1
+* Mon Oct 24 2016 - Devrim Gündüz <devrim@gunduz.org> 2.6.1-1
 - Update to 2.6.1
 
-* Wed Aug 31 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.6.0-1
+* Wed Aug 31 2016 - Devrim Gündüz <devrim@gunduz.org> 2.6.0-1
 - Update to 2.6.0
 
-* Mon Jul 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.4.1-1
+* Mon Jul 4 2016 - Devrim Gündüz <devrim@gunduz.org> 2.4.1-1
 - Update to 2.4.1
 
-* Thu Mar 3 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.3-1
+* Thu Mar 3 2016 - Devrim Gündüz <devrim@gunduz.org> 2.2.3-1
 - Update to 2.2.3
 
-* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 2.2.2-1
+* Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 2.2.2-1
 - Update to 2.2.2
 
-* Fri Sep 25 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.1.0-1
+* Fri Sep 25 2015 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
 - Update to 2.1.0
 
-* Tue Jun 16 2015 - Devrim GUNDUZ <devrim@gunduz.org> 2.0.0-1
+* Tue Jun 16 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 
-* Wed Feb 25 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.8.0-1
+* Wed Feb 25 2015 - Devrim Gündüz <devrim@gunduz.org> 1.8.0-1
 - Update to 1.8.0
 - Remove executable bit from docs
 
-* Wed Jun 18 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.7.2-1
+* Wed Jun 18 2014 - Devrim Gündüz <devrim@gunduz.org> 1.7.2-1
 - Update to 1.7.2
 
-* Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.7.0-1
+* Tue Apr 29 2014 - Devrim Gündüz <devrim@gunduz.org> 1.7.0-1
 - Update to 1.7.0
 
-* Thu Mar 6 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.1-1
+* Thu Mar 6 2014 - Devrim Gündüz <devrim@gunduz.org> 1.6.1-1
 - Update to 1.6.1
 
-* Sat Feb 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.6.0-1
+* Sat Feb 15 2014 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
 - Update to 1.6.0
 
-* Wed Jan 15 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.5.1-1
+* Wed Jan 15 2014 - Devrim Gündüz <devrim@gunduz.org> 1.5.1-1
 - Update to 1.5.1
 
-* Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.4.3-1
+* Thu Oct 31 2013 - Devrim Gündüz <devrim@gunduz.org> 1.4.3-1
 - Initial RPM packaging for PostgreSQL RPM Repository
