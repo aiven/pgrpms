@@ -73,8 +73,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.6
-Release:	6PGDG%{?dist}
+Version:	9.6.7
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1369,6 +1369,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.7-1PGDG-1
+- Update to 9.6.7, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-6-7.html
+
 * Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.6.6-6PGDG
 - Revert TimeOutSec changes in unit file, because infinity is only
   valid in systemd >= 229.
