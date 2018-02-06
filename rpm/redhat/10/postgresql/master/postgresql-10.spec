@@ -76,11 +76,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.1
-Release:	6PGDG%{?dist}
+Version:	10.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/
+Url:		https://www.postgresql.org/
 
 Source0:	https://download.postgresql.org/pub/source/v%{version}/%{sname}-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
@@ -1386,6 +1386,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 6 2018 Devrim Gündüz <devrim@gunduz.org> - 10.2-1PGDG
+- Update to 10.2, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-2.html
+
 * Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 10.1-6PGDG
 - Revert TimeOutSec changes in unit file, because infinity is only
   valid in systemd >= 229.
