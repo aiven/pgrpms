@@ -36,7 +36,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -49,13 +49,13 @@ URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	geos-devel >= 3.5.0 pcre-devel
+BuildRequires:	geos36-devel >= 3.6.2 pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
 %endif
 %else
-BuildRequires:	proj-devel, flex, json-c-devel
+BuildRequires:	proj49-devel, flex, json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -73,8 +73,8 @@ BuildRequires:	gdal-devel >= 1.9.0
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos >= 3.5.0
-Requires:	postgresql%{pgmajorversion}-contrib proj
+Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
+Requires:	postgresql%{pgmajorversion}-contrib proj49
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -186,6 +186,8 @@ The postgis-utils package provides the utilities for PostGIS.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
+LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
+
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
         --without-raster \
@@ -196,7 +198,9 @@ The postgis-utils package provides the utilities for PostGIS.
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-	--disable-rpath --libdir=%{pginstdir}/lib
+	--disable-rpath --libdir=%{pginstdir}/lib \
+	--with-geosconfig=/usr/geos36/bin/geos-config \
+	--with-projdir=/usr/proj49
 
 %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 %{__make} -C extensions
@@ -226,7 +230,9 @@ cd %{sname}-%{postgisprevversion}
 %endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
-	 --disable-rpath --libdir=%{pginstdir}/lib
+	--disable-rpath --libdir=%{pginstdir}/lib \
+	--with-geosconfig=/usr/geos36/bin/geos-config \
+	--with-projdir=/usr/proj49
 
 %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
 # Install postgis-2.1.so file manually:
@@ -327,6 +333,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Feb 5 2018 John Harvey <john.harvey@crunchydata.com> - 2.2.6-2
+- Let PostGIS 2.1 depend on PGDG supplied Proj49 and GeOS 36 RPMs.
+  This will help users to benefit from latest GeOS and Proj.
+
 * Sat Oct 21 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.6-1
 - Update to 2.2.6, per changes described at
   https://svn.osgeo.org/postgis/tags/2.2.6/ChangeLog
