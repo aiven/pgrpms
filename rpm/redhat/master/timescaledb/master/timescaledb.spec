@@ -18,7 +18,7 @@ Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
 URL:		https://github.com/timescale/timescaledb00000000000
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	postgresql%{pgmajorversion}-devel cmake
+BuildRequires:	postgresql%{pgmajorversion}-devel cmake >= 3
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -30,16 +30,6 @@ TimescaleDB is an open-source database designed to make SQL scalable for
 time-series data. It is engineered up from PostgreSQL, providing automatic
 partitioning across time and space (partitioning key), as well as full SQL
 support.
-
-%pre
-if [ $1 -eq 1 ] ; then
-groupadd -r pgagent >/dev/null 2>&1 || :
-useradd -g pgagent -r -s /bin/false \
-	-c "pgAgent Job Schedule" pgagent >/dev/null 2>&1 || :
-touch /var/log/pgagent_%{pgmajorversion}.log
-fi
-%{__chown} pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
-%{__chmod} 0700 /var/log/pgagent_%{pgmajorversion}.log
 
 %prep
 %setup -q -n %{sname}-%{version}
