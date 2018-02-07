@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.15
-Release:	5PGDG%{?dist}
+Version:	9.4.16
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -937,6 +937,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.4.16-1PGDG
+- Update to 9.4.16, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-16.html
+
 * Mon Dec 11 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.15-5PGDG
 - Fix startup issue in init script, per
   https://redmine.postgresql.org/issues/2941

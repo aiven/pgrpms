@@ -72,8 +72,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.15
-Release:	4PGDG%{?dist}
+Version:	9.4.16
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -887,7 +887,6 @@ rm -rf %{buildroot}
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_xlogdump
-%{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
@@ -1018,6 +1017,10 @@ rm -rf %{buildroot}
 %endif
 
 %changelog
+* Tue Feb 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.4.16-1PGDG
+- Update to 9.4.16, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-16.html
+
 * Tue Dec 12 2017 Devrim Gündüz <devrim@gunduz.org> - 9.4.15-4PGDG
 - Revert TimeOutSec changes in unit file, because infinity is only
   valid in systemd >= 229.
