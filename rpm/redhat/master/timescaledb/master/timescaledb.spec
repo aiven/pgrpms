@@ -11,12 +11,13 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.8.0
-Release:	11%{?dist}
+Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 # Temp patch until the next release.
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
-URL:		https://github.com/timescale/timescaledb00000000000
+Patch1:		%{sname}-cmake3-rhel7.patch
+URL:		https://github.com/timescale/timescaledb
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake >= 3
 
@@ -34,6 +35,7 @@ support.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 ./bootstrap
 
 %build
