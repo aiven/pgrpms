@@ -9,7 +9,7 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.8.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
@@ -72,5 +72,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Feb 12 2018 Devrim Gündüz <devrim@gunduz.org> 0.8.0-2
+- Rebuild against PostgreSQL 10.2, per
+  https://github.com/timescale/timescaledb/issues/422
+
 * Tue Feb 6 2018 Devrim Gündüz <devrim@gunduz.org> 0.8.0-1
 - Initial packaging for PostgreSQL RPM Repository
