@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 6
-%global orafceminver 0
+%global orafceminver 1
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -17,7 +17,6 @@ License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch1:		%{sname}.control.patch
 URL:		https://github.com/orafce/orafce
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -42,7 +41,6 @@ for production work.
 %prep
 %setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
 %patch0 -p0
-%patch1 -p0
 
 %build
 CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
@@ -71,6 +69,10 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %{pginstdir}/share/extension/orafce--*.sql
 
 %changelog
+* Sat Feb 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.6.1-1
+- Update to 3.6.1, per #3131
+- Remove patch1, not needed anymore.
+
 * Thu Oct 19 2017 - Devrim Gündüz <devrim@gunduz.org> 3.6.0-1
 - Update to 3.6.0, per #2812
 
