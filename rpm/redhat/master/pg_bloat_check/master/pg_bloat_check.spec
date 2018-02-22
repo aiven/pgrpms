@@ -1,7 +1,7 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
 Version:	2.4.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
@@ -9,6 +9,8 @@ Source1:	%{name}-LICENSE
 URL:		https://github.com/keithf4/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
+
+Requires:	python-psycopg2
 
 %description
 Script to provide a bloat report for PostgreSQL tables and/or indexes.
@@ -38,6 +40,9 @@ Requires at least Python 2.6 and the pgstattuple contrib module.
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Thu Feb 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.4.3-2
+- Require python-psycopg2
+
 * Thu Feb 15 2018 - Devrim Gündüz <devrim@gunduz.org> 2.4.3-1
 - Update to 2.4.3
 
