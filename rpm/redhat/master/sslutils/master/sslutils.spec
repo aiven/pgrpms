@@ -1,5 +1,11 @@
 %global sname sslutils
 
+%ifarch ppc64 ppc64le
+# Define the AT version and path.
+%global atstring	at10.0
+%global atpath		/opt/%{atstring}
+%endif
+
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
@@ -9,15 +15,18 @@ URL:		https://www.EDBPostgres.com
 Group:		Applications/Databases
 Source0:	%{sname}-%{version}.tar.bz2
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel
+Requires:	postgresql%{pgmajorversion}-server
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%(echo ${PPC_AT})-runtime
+Requires:	advance-toolchain-%{atstring}-runtime
 %endif
-
-Requires:	postgresql%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 Required extension for Postgres Enterprise Manager (PEM) Server
@@ -29,7 +38,8 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 %build
 
 %ifarch ppc64 ppc64le
-	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
+        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
+        CC=%{atpath}/bin/gcc; export CC
 %endif
 
 USE_PGXS=1 %{__make} %{?_smp_mflags}
@@ -58,13 +68,13 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %post
 /sbin/ldconfig
 %ifarch ppc64 ppc64le
-/opt/%(echo ${PPC_AT})/sbin/ldconfig
+	%{atpath}/sbin/ldconfig
 %endif
 
 %postun
 /sbin/ldconfig
 %ifarch ppc64 ppc64le
-/opt/%(echo ${PPC_AT})/sbin/ldconfig
+	%{atpath}/sbin/ldconfig
 %endif
 
 %files
