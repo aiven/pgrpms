@@ -16,7 +16,7 @@ AutoReq:	0
 Requires:	advance-toolchain-%(echo ${PPC_AT})-runtime
 %endif
 
-Requires:	postgresql%{pgmajorversion}-
+Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
