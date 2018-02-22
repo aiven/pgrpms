@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.1
+Version:	1.4.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -64,11 +64,15 @@ access to the row revisions
 %else
 %license LICENSE
 %endif
-%{pginstdir}/share/extension/table_version*.sql
+%{pginstdir}/bin/table_version-loader
+%{pginstdir}/share/extension/table_version*.sql*
 %{pginstdir}/share/extension/table_version.control
 %{pginstdir}/doc/extension/how_to_release.md
 
 %changelog
+* Thu Feb 22 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.1-1
+- Update to 1.4.1
+
 * Sat Oct 14 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
 - Update to 1.3.1
 
