@@ -71,7 +71,7 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %defattr(-,root,root,-)
 %attr(644,root,root) %{pginstdir}/share/doc/extension/README-%{sname}.txt
 %{pginstdir}/lib/sslutils.so
-%{pginstdir}/share/extension/sslutils*.sql--1.0--1.1.sql
+%{pginstdir}/share/extension/sslutils*.sql
 %{pginstdir}/share/extension/uninstall_sslutils.sql
 %{pginstdir}/share/extension/sslutils.control
 
