@@ -195,12 +195,10 @@ Requires:	%{sname}-python-flask-paranoid >= 0.1
 %if 0%{?suse_version} >= 1315
 Requires:  pgadmin4-python-html5lib >= 1.0b3
 %endif
-%else
-Requires:	python-html5lib >= 1.0b3
 %endif
 Requires:	python-six >= 1.9.0
 Requires:	%{sname}-python-itsdangerous >= 0.24
-Requires:	python-psycopg2 >= 2.6.2 python-crypto >= 2.6.1
+Requires:	python-psycopg2 >= 2.6.2
 Requires:	%{sname}-python-simplejson >= 3.6.5 %{sname}-python-dateutil >= 2.5.0
 Requires:	%{sname}-python-werkzeug >= 0.9.6 %{sname}-python-backports.csv >= 1.0.5
 Requires:	%{sname}-pytz >= 2014.10 %{sname}-python-sqlparse >= 0.1.19
@@ -211,9 +209,13 @@ Requires:	python-click python-extras >= 0.0.3 %{sname}-python-fixtures >= 2.0.0
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	%{sname}-python-passlib %{sname}-python-flask-migrate
+Requires:	%{sname}-python-crypto >= 2.6.1
+Requires:	%{saname}-python-html5lib >= 1.0b3
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 7
 Requires:	python-passlib python2-flask-migrate
+Requires:	python-crypto >= 2.6.1
+Requires:	python-html5lib >= 1.0b3
 %endif
 Requires:	%{sname}-python-pyrsistent >= 0.11.13
 Requires:	%{sname}-python-mimeparse >= 1.5.1
