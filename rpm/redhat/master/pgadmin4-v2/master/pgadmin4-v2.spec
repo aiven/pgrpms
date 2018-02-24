@@ -210,7 +210,7 @@ Requires:	python-click python-extras >= 0.0.3 %{sname}-python-fixtures >= 2.0.0
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	%{sname}-python-passlib %{sname}-python-flask-migrate
 Requires:	%{sname}-python-crypto >= 2.6.1
-Requires:	%{saname}-python-html5lib >= 1.0b3
+Requires:	%{sname}-python-html5lib >= 1.0b3
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 7
 Requires:	python-passlib python2-flask-migrate
