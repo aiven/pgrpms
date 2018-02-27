@@ -27,7 +27,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	1.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -37,7 +37,7 @@ BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-htmlmin
 %else
-Requires:	python-htmlmin
+Requires:	pgadmin4-python-htmlmin
 %endif
 
 %if 0%{?with_python3}
@@ -94,6 +94,9 @@ application.
 %endif
 
 %changelog
+* Tue Feb 7 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-5
+- Require our own python-htmlmin package.
+
 * Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 1.2-4
 - Move the components under pgadmin web directory, per #2332.
 
