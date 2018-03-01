@@ -73,7 +73,7 @@ popd
 
 %changelog
 * Mon Feb 26 2018 - David Steele <david@pgbackrest.org> 2.00-1
-- Update to 2.0
+- Update to 2.0, per #3152
 - Build C pgbackrest bin, remove Perl bin
 
 * Sun Feb 4 2018 - Devrim Gündüz <devrim@gunduz.org> 1.28-1
