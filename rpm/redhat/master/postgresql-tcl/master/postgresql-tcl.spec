@@ -1,4 +1,6 @@
 %global debug_package %{nil}
+%global pgtclmajorversion 2.4
+%global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -7,7 +9,7 @@
 %endif
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	2.3.1
+Version:	%{pgtclmajorversion}.0
 Release:	1%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
@@ -53,7 +55,7 @@ autoconf
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-./configure --libdir=%{tcl_sitearch} --with-tcl=%{_libdir} \
+./configure --prefix=%{pgtclprefix}-%{pgmajorversion} --libdir=%{pgtclprefix}-%{pgmajorversion}/lib --with-tcl=%{_libdir} \
 	--with-postgres-include=%{pginstdir}/include --with-postgres-lib=%{pginstdir}/lib \
 	--disable-rpath
 
@@ -64,7 +66,7 @@ autoconf
 
 %{__make} install DESTDIR=%{buildroot}
 # we don't really need to ship the .h file
-%{__rm} -f %{buildroot}%{_includedir}/libpgtcl.h
+%{__rm} -f %{buildroot}%{pgtclprefix}-%{pgmajorversion}/include/pgtclId.h
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -77,10 +79,20 @@ autoconf
 %else
 %license LICENSE
 %endif
-%{_libdir}/tcl%{tcl_version}/pgtcl2.3/
-%{_mandir}/mann/pg*
+%dir %{pgtclprefix}-%{pgmajorversion}/
+%dir %{pgtclprefix}-%{pgmajorversion}/share/man/mann/
+%{pgtclprefix}-%{pgmajorversion}/lib/libpgtcl.so
+%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/libpgtcl%{pgtclmajorversion}.0.so
+%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/pkgIndex.tcl
+%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/postgres-helpers.tcl
+%{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Thu Mar 1 2018 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+- Update to 2.4.0
+- Move files under a new directory. This fixes the parallel
+  installation issue (the previous version used to conflict)
+
 * Sun Aug 6 2017 Devrim Gündüz <devrim@gunduz.org> 2.3.1-1
 - Update to 2.3.1, by switching to pgtcl maintained by FlightAware.
 
