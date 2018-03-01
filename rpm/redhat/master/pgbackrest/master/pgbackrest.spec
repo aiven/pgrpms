@@ -2,7 +2,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	1.28
+Version:	2.00
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -33,6 +33,10 @@ perl Makefile.PL
 %{__make}
 popd
 
+pushd src
+%{__make}
+popd
+
 %install
 %{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
@@ -46,7 +50,7 @@ popd
 %{__cp} -a libc/blib/lib/auto/pgBackRest/LibC/* %{buildroot}%{perl_vendorarch}/auto/pgBackRest/LibC
 %{__mkdir} -p %{buildroot}%{perl_vendorarch}/pgBackRest
 %{__cp} -a libc/blib/lib/pgBackRest/* %{buildroot}%{perl_vendorarch}/pgBackRest
-%{__cp} -a bin/%{name} %{buildroot}%{_bindir}/%{name}
+%{__cp} -a src/%{name} %{buildroot}%{_bindir}/%{name}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -68,6 +72,10 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Feb 26 2018 - David Steele <david@pgbackrest.org> 2.00-1
+- Update to 2.0
+- Build C pgbackrest bin, remove Perl bin
+
 * Sun Feb 4 2018 - Devrim Gündüz <devrim@gunduz.org> 1.28-1
 - Update to 1.28, per #3078
 
