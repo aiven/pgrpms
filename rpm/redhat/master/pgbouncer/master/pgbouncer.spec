@@ -20,7 +20,7 @@
 
 Name:		pgbouncer
 Version:	1.8.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -46,7 +46,7 @@ BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel pam-devel
-Requires:	c-ares pam
+Requires:	c-ares pam python-psycopg2
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -204,6 +204,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Fri Mar 2 2018 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-2
+- Add python-psycopg2 as requires, for mkauth.py
+
 * Wed Dec 20 2017 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-1
 - Update to 1.8.1, and enable pam support.
 
