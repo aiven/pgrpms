@@ -1,6 +1,6 @@
---- Makefile.old	2014-07-02 17:18:01.657048086 +0300
-+++ Makefile	2014-07-02 17:18:19.318887093 +0300
-@@ -16,6 +16,7 @@
+--- Makefile.old	2018-03-04 14:43:56.172527171 +0000
++++ Makefile	2018-03-04 14:44:00.135546985 +0000
+@@ -20,6 +20,7 @@
  PG_CONFIG := $(top_builddir)/src/bin/pg_config/pg_config
  else
  # Run pg_config to get the PGXS Makefiles
