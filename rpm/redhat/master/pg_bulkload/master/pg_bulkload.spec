@@ -7,7 +7,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	3.1.14
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -17,9 +17,18 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
 BuildRequires:	libsepol-devel, readline-devel, krb5-devel
 Requires:	postgresql%{pgmajorversion}-server
+Obsoletes:	%{sname} <= %{version}-1
 
 %description
 pg_bulkload provides high-speed data loading capability to PostgreSQL users.
+
+%package client
+Summary:	High speed data loading utility for PostgreSQL
+Group:		Applications/Databases
+Requires:	postgresql%{pgmajorversion}-libs
+
+%description client
+pg_bulkload client subpackage provides client-only tools.
 
 %prep
 %setup -q -n %{sname}-VERSION%{pgbulkloadpackagever}
@@ -40,9 +49,6 @@ pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 
 %files
 %defattr(-,root,root)
-%doc docs/
-%{pginstdir}/bin/pg_bulkload
-%{pginstdir}/bin/postgresql
 %{pginstdir}/lib/pg_bulkload.so
 %{pginstdir}/lib/pg_timestamp.so
 %{pginstdir}/share/contrib/pg_timestamp.sql
@@ -51,7 +57,15 @@ pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 %{pginstdir}/share/extension/pg_bulkload.control
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
 
+%files client
+%defattr(-,root,root)
+%{pginstdir}/bin/pg_bulkload
+%{pginstdir}/bin/postgresql
+
 %changelog
+* Sun Mar 4 2018 Devrim Gündüz <devrim@gunduz.org> 3.1.14-2
+- Split client tools into a separate subpackage, per #3165
+
 * Mon Nov 13 2017 Devrim Gündüz <devrim@gunduz.org> 3.1.14-1
 - Update to 3.1.14
 
