@@ -12,14 +12,14 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel, mysql-devel
-Requires:	postgresql%{pgmajorversion}-server mariadb-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel, mariadb-devel
+Requires:	postgresql%{pgmajorversion}-server mariadb-libs mariadb-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
@@ -82,6 +82,10 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Mar 9 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-3
+- Add mariadb-devel as Requires, because it supplies versionless
+  libmysqlclient.so as dependency.
+
 * Wed Mar 7 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-2
 - Add mariadb-libs dependency, per Fahar Abbas.
 
