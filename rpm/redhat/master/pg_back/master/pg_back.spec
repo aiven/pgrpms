@@ -1,6 +1,6 @@
 Name:           pg_back
-Version:        1.4
-Release:        2%{?dist}
+Version:        1.5
+Release:        1%{?dist}
 Summary:        Simple backup script for PostgreSQL
 
 License:        BSD
@@ -39,5 +39,8 @@ on the command line.
 %{_bindir}/%{name}
 
 %changelog
+* Mon Mar 12 2018 Devrim Gündüz <devrim@gunduz.org> - 1.5-1
+- Update to 1.5
+
 * Tue Mar 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4-1
 - Initial packaging for PostgreSQL RPM repository
