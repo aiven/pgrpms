@@ -18,8 +18,8 @@ Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel, mariadb-devel
-Requires:	postgresql%{pgmajorversion}-server mariadb-libs mariadb-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, mysql-devel
+Requires:	postgresql%{pgmajorversion}-server mysql-libs mysql-devel
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
