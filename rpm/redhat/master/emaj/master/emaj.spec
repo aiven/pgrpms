@@ -2,7 +2,7 @@
 %global sname e-maj
 
 Name:		emaj
-Version:	2.2.2
+Version:	2.2.3
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
@@ -42,6 +42,9 @@ in time.
 %{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
+* Wed Mar 14 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-1
+- Update to 2.2.3
+
 * Sat Jan 27 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
 - Update to 2.2.2
 
