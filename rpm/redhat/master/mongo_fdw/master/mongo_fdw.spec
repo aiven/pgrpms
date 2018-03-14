@@ -23,10 +23,9 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 %ifarch ppc64 ppc64le
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
-Patch2:		mongo_fdw-autogen-jsoncompile.patch
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	json-c-devel glib2-devel libmongo-client-devel
+BuildRequires:	mongo-c-driver-devel snappy snappy-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -48,7 +47,6 @@ MongoDB.
 %patch0 -p0
 %ifarch ppc64 ppc64le
 %patch1 -p0
-%patch2 -p0
 %endif
 %{__cp} %{SOURCE1} ./config.h
 
