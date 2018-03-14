@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_0_0
+%global relver 5_2_0
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}%{pgmajorversion}
-Version:	5.0.0
+Version:	5.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -23,8 +23,10 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 %ifarch ppc64 ppc64le
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
+Patch2:		mongo_fdw-autogen-jsoncompile.patch
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	json-c-devel glib2-devel libmongo-client-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -46,6 +48,7 @@ MongoDB.
 %patch0 -p0
 %ifarch ppc64 ppc64le
 %patch1 -p0
+%patch2 -p0
 %endif
 %{__cp} %{SOURCE1} ./config.h
 
@@ -86,8 +89,11 @@ sh autogen.sh --with-master
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Mar 14 2018 - Devrim Gündüz <devrim@gunduz.org> 5.2.0-1
+- Update to 5.2.0
+
 * Tue Jun 6 2017 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
-- Update to 5.0.0
+- Update to 5.2.0
 
 * Sun Sep 7 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
