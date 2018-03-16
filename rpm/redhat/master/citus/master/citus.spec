@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	7.2.1
+Version:	7.3.0
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -95,6 +95,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Fri Mar 16 2018 -  Devrim Gündüz <devrim@gunduz.org> 7.3.0-1
+- Update to 7.3.0, per #3208
+
 * Tue Feb 6 2018 -  Devrim Gündüz <devrim@gunduz.org> 7.2.1-1
 - Update to 7.2.1, per #3088
 
