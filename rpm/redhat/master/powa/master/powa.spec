@@ -4,7 +4,6 @@
 %global systemd_enabled 1
 %endif
 
-%global debug_package %{nil}
 %global sname powa
 %global swebname powa-web
 # Powa version
@@ -29,7 +28,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
@@ -146,6 +145,9 @@ popd
 %endif
 
 %changelog
+* Fri Mar 16 2018 - Devrim Gündüz <devrim@gunduz.org> 3.1.2-1
+- Add debuginfo package, per #3207
+
 * Wed Sep 20 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1.1-1
 - Update to 3.1.1
 - Update powa-web to 3.1.4
