@@ -101,7 +101,7 @@ fi
 %{_datadir}/%{name}/*
 %{_bindir}/%{name}*
 
-%if 0%{systemd_enabled} <= 6
+%if 0%{systemd_enabled}
 %{_unitdir}/%{name}.service
 %else
 %{_initrddir}/%{name}
