@@ -89,7 +89,7 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 
 # This macro is currently only available on Fedora:
 %if 0%{?fedora} && 0%{?fedora} >= 26
-%mvn_artifact
+%add_maven_depmap
 %endif
 
 %{__install} -d -m 755 %{buildroot}%{_javadocdir}
@@ -106,7 +106,7 @@ mvn clean package 2>&1 | tee test.log | grep FAILED
 test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
 %files
 %doc LICENSE README.md
 %else
@@ -119,6 +119,11 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 # them on newer ones, as they are picked up by .mfiles above.
 %{_javadir}/%{name}.jar
 %{_datadir}/maven2/poms/JPP-%{name}.pom
+%endif
+# ...and SLES locates .pom file somewhere else:
+%if 0%{?suse_version} >= 1315
+%{_javadir}/%{name}.jar
+%{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
