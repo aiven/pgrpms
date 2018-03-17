@@ -19,6 +19,9 @@ Source1:	http://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceH
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	perl-Module-Build
+%endif
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
 %ifarch ppc64 ppc64le
 AutoReq:	0
