@@ -18,7 +18,7 @@ Source0:	http://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 Source1:	http://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
-BuildRequires:	postgresql%{pgmajorversion}
+BuildRequires:	postgresql%{pgmajorversion} perl-Test-Pod perl-Test-Pod-Coverage
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	perl-Module-Build
 %endif
