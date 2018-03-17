@@ -87,8 +87,8 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 %{__install} -d -m 755 %{buildroot}%{_mavenpomdir}/
 %{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 
-# This macro is currently only available on Fedora:
-%if 0%{?fedora} && 0%{?fedora} >= 26
+# This macro is currently only available on Fedora and RHEL 7
+%if 0%{?fedora} && 0%{?fedora} >= 26 || 0%{?rhel} >= 7
 %add_maven_depmap
 %endif
 
