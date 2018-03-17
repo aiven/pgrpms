@@ -9,11 +9,13 @@
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.98.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://pgxn.org/dist/pgtap/
 Source0:	http://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
+# Use this source for pg_prove and pg_tapgen
+Source1:	http://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}
@@ -48,9 +50,22 @@ test frameworks. It can also be used in the xUnit testing style.
 %endif
 %{__make} USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
 
+# Build pg_prove and pg_tapgen
+tar zxf %{SOURCE1}
+pushd TAP-Parser-SourceHandler-pgTAP-3.33
+perl Build.PL
+./Build
+popd
+
 %install
 %{__rm} -rf  %{buildroot}
 %{__make} install USE_PGXS=1 DESTDIR=%{buildroot} %{?_smp_mflags}
+
+# Install pg_prove and pg_tapgen
+pushd TAP-Parser-SourceHandler-pgTAP-3.33
+%{__mkdir} -p  %{buildroot}%{_bindir}
+%{__install} -m 755 bin/* %{buildroot}%{_bindir}
+popd
 
 %clean
 %{__rm} -rf  %{buildroot}
@@ -58,11 +73,16 @@ test frameworks. It can also be used in the xUnit testing style.
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/pgtap.mmd
+%{_bindir}/pg_prove
+%{_bindir}/pg_tapgen
 %{pginstdir}/share/extension/*pgtap*.sql
 %{pginstdir}/share/extension/pgtap.control
 
 %changelog
-* Wed Nov 8 2017 Devrim Gündüz <devrim@gunduz.org> 0.99.0-1
+* Sat Mar 17 2018 Devrim Gündüz <devrim@gunduz.org> 0.98.0-2
+- Add pg_prove and pg_tapgen, per #3167
+
+* Wed Nov 8 2017 Devrim Gündüz <devrim@gunduz.org> 0.98.0-1
 - Update to 0.98.0
 
 * Sat Dec 3 2016 Devrim Gündüz <devrim@gunduz.org> 0.97.0-1
