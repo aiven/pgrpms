@@ -88,7 +88,7 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 %{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 
 # This macro is currently only available on Fedora:
-%if 0%{?fedora} && 0%{?fedora} => 26
+%if 0%{?fedora} && 0%{?fedora} >= 26
 %mvn_artifact
 %endif
 
