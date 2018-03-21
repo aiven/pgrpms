@@ -1,0 +1,3 @@
+ApplicationPath="PYTHONSITELIB/pgadmin4-web/"
+PythonPath="PYTHONSITELIB:PYTHONSITELIB64"
+
