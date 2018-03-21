@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_2_0
+%global relver 5_2_1
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}%{pgmajorversion}
-Version:	5.2.0
+Version:	5.2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -83,10 +83,13 @@ sh autogen.sh --with-master
 %doc LICENSE
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/README-%{sname}.md
-%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Mar 21 2018 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-1
+- Update to 5.2.1
+
 * Wed Mar 14 2018 - Devrim Gündüz <devrim@gunduz.org> 5.2.0-1
 - Update to 5.2.0
 
