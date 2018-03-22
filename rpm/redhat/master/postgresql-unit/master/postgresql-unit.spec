@@ -7,7 +7,7 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1
+Version:	6.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -69,6 +69,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/share/extension/unit_units.data
 
 %changelog
+* Thu Mar 22 2018 - Devrim Gündüz <devrim@gunduz.org> 6.0-1
+- Update to 6.0
+
 * Sun May 28 2017 - Devrim Gündüz <devrim@gunduz.org> 3.1-1
 - Update to 3.1
 
