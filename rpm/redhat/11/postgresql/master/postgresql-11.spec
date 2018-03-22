@@ -55,8 +55,11 @@
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
+# LLVM version in RHEL 6 is not sufficient to build PG 11
+%{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
+%{!?llvm:%global llvm 1}
 %ifarch ppc64 ppc64le
 %{!?sdt:%global sdt 0}
 %else
@@ -128,6 +131,14 @@ Requires:	/sbin/ldconfig
 %if %icu
 BuildRequires:	libicu-devel
 Requires:	libicu
+%endif
+
+%if %llvm
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	llvm3.9-devel => 3.9 clang-devel => 3.4.2
+%else
+BuildRequires:	llvm-devel => 3.9 clang-devel => 3.4.2
+%endif
 %endif
 
 %if %kerberos
@@ -552,6 +563,9 @@ export PYTHON=/usr/bin/python3
 %if %icu
 	--with-icu \
 %endif
+%if %llvm
+	--with-llvm \
+%endif
 %if %plperl
 	--with-perl \
 %endif
@@ -641,6 +655,9 @@ unset PYTHON
 %endif
 %if %icu
 	--with-icu \
+%endif
+%if %llvm
+	--with-llvm \
 %endif
 %if %plperl
 	--with-perl \
@@ -1385,6 +1402,9 @@ fi
 %endif
 
 %changelog
+* Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
+- Build with LLVM.
+
 * Sun Mar 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
 - Initial cut for v11
 
