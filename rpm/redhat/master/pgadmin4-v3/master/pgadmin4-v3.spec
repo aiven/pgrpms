@@ -147,6 +147,7 @@ application.
 %package	-n %{name}-web
 Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
+Requires:	httpd
 BuildArch:	noarch
 %if 0%{?with_python3}
 Requires:	python3-babel >= 2.3.4 python3-flask >= 0.11.1
