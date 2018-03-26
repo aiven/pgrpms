@@ -661,7 +661,11 @@ unset PYTHON
 	--with-icu \
 %endif
 %if %llvm
+%if 0%{?rhel} && 0%{?rhel} == 7
+	--with-llvm=%{_libdir}/llvm3.9/bin/llvm-config
+%else
 	--with-llvm \
+%endif
 %endif
 %if %plperl
 	--with-perl \
