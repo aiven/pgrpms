@@ -565,7 +565,7 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
-	--with-llvm=%{_libdir}/llvm3.9/bin/llvm-config
+	LLVM_CONFIG=%{_libdir}/llvm3.9/bin/llvm-config -with-llvm \
 %else
 	--with-llvm \
 %endif
@@ -662,7 +662,7 @@ unset PYTHON
 %endif
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
-	--with-llvm=%{_libdir}/llvm3.9/bin/llvm-config
+	LLVM_CONFIG=%{_libdir}/llvm3.9/bin/llvm-config -with-llvm \
 %else
 	--with-llvm \
 %endif
