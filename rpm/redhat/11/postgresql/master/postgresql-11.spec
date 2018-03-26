@@ -1280,6 +1280,8 @@ fi
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
+%{pgbaseinstdir}/lib/llvmjit.so
+%{pgbaseinstdir}/lib/llvmjit_types.bc
 %config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
 
 %files server -f pg_server.lst
