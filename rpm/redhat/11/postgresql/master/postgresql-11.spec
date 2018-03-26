@@ -1402,7 +1402,7 @@ fi
 %endif
 
 %changelog
-* Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
+* Wed Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
 - Build with LLVM.
 
 * Sun Mar 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
