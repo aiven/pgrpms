@@ -564,7 +564,11 @@ export PYTHON=/usr/bin/python3
 	--with-icu \
 %endif
 %if %llvm
+%if 0%{?rhel} && 0%{?rhel} == 7
+	--with-llvm=%{_libdir}/llvm3.9/bin/llvm-config
+%else
 	--with-llvm \
+%endif
 %endif
 %if %plperl
 	--with-perl \
@@ -1280,8 +1284,10 @@ fi
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
+%if %llvm
 %{pgbaseinstdir}/lib/llvmjit.so
 %{pgbaseinstdir}/lib/llvmjit_types.bc
+%endif
 %config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
 
 %files server -f pg_server.lst
