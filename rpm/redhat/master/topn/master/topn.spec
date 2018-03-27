@@ -12,9 +12,9 @@ Version:	2.0.1
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
-Source0:	https://github.com/citusdata/postgresql-topn/archive/v2.0.1.tar.gz
+Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/citusdata/postgresql-topn/
+URL:		https://github.com/citusdata/postgresql-%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
