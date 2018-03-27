@@ -8,8 +8,8 @@
 
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.20130823
-Release:	2%{?dist}
+Version:	1.20171014
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
@@ -72,6 +72,9 @@ allows you to write stored procedures in a shell of your choice.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Mar 27 2018 - Devrim Gündüz <devrim@gunduz.org> 1.20171014
+- Update to 1.20171014
+
 * Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.20130823-2
 - Cosmetic cleanup
 - Use more macros for unified spec file
