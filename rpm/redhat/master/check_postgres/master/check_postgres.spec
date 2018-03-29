@@ -10,6 +10,7 @@ BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl-ExtUtils-MakeMaker
 Requires:	perl-DateTime-Format-DateParse perl-Digest-MD5
+Requires:	perl-Getopt-Long perl-File-Temp perl-Time-HiRes
 
 %description
 check_postgres is a script for monitoring various attributes of your
