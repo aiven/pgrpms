@@ -9,8 +9,11 @@ URL:		http://bucardo.org/wiki/Check_postgres
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl-ExtUtils-MakeMaker
-Requires:	perl-DateTime-Format-DateParse perl-Digest-MD5
-Requires:	perl-Getopt-Long perl-File-Temp perl-Time-HiRes
+Requires:	perl-DateTime-Format-DateParse
+Requires:	perl-File-Temp perl-Time-HiRes
+%if 0%{?fedora} >= 26 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+Requires:	perl-Digest-MD5 perl-Getopt-Long
+%endif
 
 %description
 check_postgres is a script for monitoring various attributes of your
