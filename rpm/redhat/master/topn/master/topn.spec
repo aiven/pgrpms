@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -74,5 +74,8 @@ HLL extension, you can think of TopN as its cousin.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Mar 29 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
+- Update to 2.0.2
+
 * Tue Mar 27 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository.
