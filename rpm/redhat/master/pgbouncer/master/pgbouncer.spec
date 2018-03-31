@@ -329,10 +329,10 @@ fi
 - Sleep 2 seconds before getting pid during start(), like we do in PostgreSQL
   init script, to avoid false positive startup errors.
 
-* Tue May 11 2010 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.3-1
+* Tue May 11 2010 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-1
 - Update to 1.3.3, per pgrpms.org #25, for the fixes described at:
   http://pgfoundry.org/frs/shownotes.php?release_id=1645
 
-* Tue Mar 16 2010 Devrim GUNDUZ <devrim@gunduz.org> - 1.3.2-1
+* Tue Mar 16 2010 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1
 - Fix some issues in init script. Fixes pgrpms.org #9.
 

@@ -71,21 +71,21 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-2
+* Tue Mar 10 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.2-2
 - Fixes for Fedora 23 and PostgreSQL 9.5 doc layout.
 
-* Tue Mar 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.2-1
+* Tue Mar 10 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.2-1
 - Update to 1.1.2
 - Update project URL -- pgfoundry is dead.
 - Update Source0 URL
 
-* Mon Dec 19 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-1
+* Mon Dec 19 2011 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
 - Update to 1.1.1, per changes described in
   http://pgfoundry.org/forum/forum.php?forum_id=1859
 
-* Fri Aug 12 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
+* Fri Aug 12 2011 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Update to 1.0, (#68), per changes described in
   http://pgfoundry.org/frs/shownotes.php?release_id=1872
 
-* Wed Nov 10 2010 - Devrim GUNDUZ <devrim@gunduz.org> 0.4.1-1
+* Wed Nov 10 2010 - Devrim Gündüz <devrim@gunduz.org> 0.4.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository

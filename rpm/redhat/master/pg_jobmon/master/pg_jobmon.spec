@@ -71,8 +71,8 @@ install -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 - Update to 1.3.2
 - Use the new directory for docs.
 
-* Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+* Tue Apr 29 2014 - Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 
-* Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.3-1
+* Thu Oct 31 2013 - Devrim Gündüz <devrim@gunduz.org> 1.1.3-1
 - Initial RPM packaging for PostgreSQL RPM Repository

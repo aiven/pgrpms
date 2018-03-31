@@ -65,8 +65,8 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/uninstall_%{sname}.sql
 
 %changelog
-* Thu Sep 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.2.4-1
+* Thu Sep 10 2015 - Devrim Gündüz <devrim@gunduz.org> 0.2.4-1
 - Update to 0.2.4
 
-* Wed Jan 21 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.2.3-1
+* Wed Jan 21 2015 - Devrim Gündüz <devrim@gunduz.org> 0.2.3-1
 - Initial packaging for PostgreSQL RPM Repository

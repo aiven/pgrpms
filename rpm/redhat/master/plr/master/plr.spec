@@ -61,16 +61,16 @@ statistical computing and graphics".
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Wed Sep 28 2016 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-17-1
+* Wed Sep 28 2016 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-17-1
 - Update to 8.3.0.17
 
-* Mon Feb 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-16-1
+* Mon Feb 23 2015 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-16-1
 - Update to 8.3.0.16
 
-* Sat Dec 28 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-15-1
+* Sat Dec 28 2013 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-15-1
 - Update to 8.3.0.15
 
-* Mon Mar 25 2013 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-14-1
+* Mon Mar 25 2013 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-14-1
 - Update to 8.3.0.14
 - Remove patch that I added in 8.3.0.13-2, now it is upstream.
 
@@ -78,8 +78,8 @@ statistical computing and graphics".
 - Add a patch for plr extension to be installed on PostgreSQL 9.2. Per report
   from Jose Pedro Oliveira
 
-* Tue Sep 11 2012 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-13-1
+* Tue Sep 11 2012 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-13-1
 - Update to 8.3.0.13
 
-* Fri Oct 8 2010 - Devrim GUNDUZ <devrim@gunduz.org> 8.3.0-11-1
+* Fri Oct 8 2010 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-11-1
 - Initial packaging for 9.0, which also suits new PostgreSQL RPM layout.

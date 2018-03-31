@@ -63,5 +63,5 @@ matches. Also provides suitable type for delivery point suffixes.
 %{_datadir}/%{name}
 
 %changelog
-* Tue May 12 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.3.0-1
+* Tue May 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

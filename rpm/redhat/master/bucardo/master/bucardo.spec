@@ -148,14 +148,14 @@ fi
 * Tue Sep 27 2011 Devrim Gündüz <devrim@gunduz.org> - 4.4.6-2
 - Fix PostgreSQL major number version. Per report from Phil Sorber .
 
-* Tue Aug 9 2011 Devrim GUNDUZ <devrim@gunduz.org> - 4.4.6-1
+* Tue Aug 9 2011 Devrim Gündüz <devrim@gunduz.org> - 4.4.6-1
 - Update to 4.4.6
 
-* Mon Apr 18 2011 Devrim GUNDUZ <devrim@gunduz.org> - 4.4.3-1
+* Mon Apr 18 2011 Devrim Gündüz <devrim@gunduz.org> - 4.4.3-1
 - Update to 4.4.3
 
-* Thu Jan 6 2011 Devrim GUNDUZ <devrim@gunduz.org> - 4.4.0-3
+* Thu Jan 6 2011 Devrim Gündüz <devrim@gunduz.org> - 4.4.0-3
 - Add 9.0 dependency.
 
-* Fri Mar 12 2010 Devrim GUNDUZ <devrim@gunduz.org> - 4.4.0-2
+* Fri Mar 12 2010 Devrim Gündüz <devrim@gunduz.org> - 4.4.0-2
 - Sync with Fedora spec again.

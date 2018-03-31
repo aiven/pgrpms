@@ -77,5 +77,5 @@ USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 - Update patch0
 - Unified spec file for all platforms.
 
-* Mon May 4 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
+* Mon May 4 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial packaging

@@ -59,7 +59,7 @@ from the pgloader command directly.
 
 %changelog
 * Sun Feb 18 2018 Devrim Gündüz <devrim@gunduz.org> 3.4.3-1
-- Add dependency to openssl-devel, per #3087 
+- Add dependency to openssl-devel, per #3087
 
 * Wed Jan 24 2018 Devrim Gündüz <devrim@gunduz.org> 3.4.2-1
 - Rebuild (on RHEL 7 for now, for new SSL)

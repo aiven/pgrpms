@@ -66,5 +66,5 @@ integer and rational data types offered by the GMP library.
 %{pginstdir}/share/%{sname}/%{sname}*.sql
 
 %changelog
-* Mon Jan 19 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.2-1
+* Mon Jan 19 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository

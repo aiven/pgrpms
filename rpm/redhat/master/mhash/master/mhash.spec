@@ -68,8 +68,8 @@ make %{?_smp_mflags}
 %{_mandir}/man3/*
 
 %changelog
-* Sun Feb 1 2009 Devrim GUNDUZ <devrim@gunduz.org> - 0.9.9.9-1
+* Sun Feb 1 2009 Devrim Gündüz <devrim@gunduz.org> - 0.9.9.9-1
 - Update to 0.9.9.9
 
-* Tue Jan 13 2009 Devrim GUNDUZ <devrim@gunduz.org> - 0.9.9-1
+* Tue Jan 13 2009 Devrim Gündüz <devrim@gunduz.org> - 0.9.9-1
 - Initial build for PostgreSQL RPM Repository, based on EPEL spec.

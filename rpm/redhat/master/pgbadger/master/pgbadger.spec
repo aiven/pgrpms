@@ -121,24 +121,24 @@ compressed file.
 * Mon Sep 16 2013 - Devrim Gündüz <devrim@gunduz.org> 3.5-1
 - Update to 3.5
 
-* Thu Jun 20 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.4-1
+* Thu Jun 20 2013 - Devrim Gündüz <devrim@gunduz.org> 3.4-1
 - Update to 3.4
 
-* Thu Apr 11 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.2-1
+* Thu Apr 11 2013 - Devrim Gündüz <devrim@gunduz.org> 3.2-1
 - Update to 3.2
 
-* Tue Feb 26 2013 - Devrim GUNDUZ <devrim@gunduz.org> 3.1-1
+* Tue Feb 26 2013 - Devrim Gündüz <devrim@gunduz.org> 3.1-1
 - Update to 3.1
 
-* Mon Jan 21 2013 - Devrim GUNDUZ <devrim@gunduz.org> 2.3-1
+* Mon Jan 21 2013 - Devrim Gündüz <devrim@gunduz.org> 2.3-1
 - Update to 2.3
 - Update download URL.
 
-* Wed Nov 14 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.2-1
+* Wed Nov 14 2012 - Devrim Gündüz <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 
-* Thu Nov 1 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.1-1
+* Thu Nov 1 2012 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
 - Update to 2.1
 
-* Wed Sep 26 2012 - Devrim GUNDUZ <devrim@gunduz.org> 2.0-1
+* Wed Sep 26 2012 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

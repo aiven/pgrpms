@@ -55,8 +55,8 @@ produce wiki-ready system impact reports.
 - Use more macros, for unified spec file
 - Cosmetic updates
 
-* Thu May 27 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.0-1
+* Thu May 27 2010 - Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 
-* Sun Feb 15 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-1
+* Sun Feb 15 2009 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
 - Initial RPM packaging for yum.postgresql.org

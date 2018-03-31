@@ -71,14 +71,14 @@ the disaster recovery tool written by 2ndQuadrant and released as open source
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Aug 9 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+* Tue Aug 9 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
-* Sun May 22 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
+* Sun May 22 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Update to 1.1
 
-* Tue Apr 29 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-2
+* Tue Apr 29 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-2
 - Remove barman dependency
 
-* Mon Apr 14 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+* Mon Apr 14 2014 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

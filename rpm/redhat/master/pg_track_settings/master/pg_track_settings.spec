@@ -80,8 +80,8 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-2
+* Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-2
 - Update for 9.5 doc layout.
 
-* Thu Jul 23 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+* Thu Jul 23 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

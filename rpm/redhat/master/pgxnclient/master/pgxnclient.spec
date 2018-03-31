@@ -77,11 +77,11 @@ mkdir -p %{buildroot}%{python_sitearch}/%{name}/tests
 * Thu Sep 26 2013 Jeff Frost <jeff@pgexperts.com> 1.2.1-1
 - Update to 1.2.1
 
-* Sat Sep 29 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.2-1
+* Sat Sep 29 2012 Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 
-* Fri Jul 27 2012 Devrim GUNDUZ <devrim@gunduz.org> 1.1-1
+* Fri Jul 27 2012 Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Update to 1.1
 
-* Mon Nov 28 2011 Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
+* Mon Nov 28 2011 Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial packaging for PostgreSQL RPM Repository

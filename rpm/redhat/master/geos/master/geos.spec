@@ -122,26 +122,26 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/_%{name}.so
 
 %changelog
-* Tue Oct 13 2015 Devrim GUNDUZ <devrim@gunduz.org> - 3.5.0-1
+* Tue Oct 13 2015 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.5.0/NEWS
 - Add swig as BR to python subpackage, as it does not build without that.
 
-* Mon Sep 9 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.2-1
+* Mon Sep 9 2013 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.2/NEWS
 - Remove Ruby bindings, per suggestion from Kashif Rasul.
 
-* Tue Aug 20 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.1-1
+* Tue Aug 20 2013 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.1/NEWS
 
-* Sun Aug 11 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.4.0-1
+* Sun Aug 11 2013 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.4.0/NEWS
 - Removed patch3 -- it is now in upstream.
 
-* Thu Mar 14 2013 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.8-1
+* Thu Mar 14 2013 Devrim Gündüz <devrim@gunduz.org> - 3.3.8-1
 - Update to 3.3.8, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.8/NEWS
 
@@ -155,42 +155,42 @@ rm -rf %{buildroot}
 * Sun Jan 06 2013 Devrim GÜNDÜZ <devrim@gunduz.org> - 3.3.6-2
 - Fix SIGABRT with GEOSDistance_r, per http://trac.osgeo.org/geos/ticket/377.
 
-* Mon Dec 10 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.6-1
+* Mon Dec 10 2012 Devrim Gündüz <devrim@gunduz.org> - 3.3.6-1
 - Update to 3.3.6, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.6/NEWS
 
-* Tue Jul 3 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.5-1
+* Tue Jul 3 2012 Devrim Gündüz <devrim@gunduz.org> - 3.3.5-1
 - Update to 3.3.5, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.3.5/NEWS
 
-* Fri Jun 1 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.4-1
+* Fri Jun 1 2012 Devrim Gündüz <devrim@gunduz.org> - 3.3.4-1
 - Update to 3.3.4
 - Add two F-17+ specific patches from Fedora.
 
-* Wed Apr 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.3-1
+* Wed Apr 4 2012 Devrim Gündüz <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3
 
-* Mon Jan 9 2012 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.2-1
+* Mon Jan 9 2012 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-1
 - Update to 3.3.2
 
-* Tue Oct 4 2011 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.1-1
+* Tue Oct 4 2011 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1
 - Update to 3.3.1
 
-* Tue Aug 9 2011 Devrim GUNDUZ <devrim@gunduz.org> - 3.3.0-1
+* Tue Aug 9 2011 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1
 - Update to 3.3.0
 
-* Thu May 27 2010 Devrim GUNDUZ <devrim@gunduz.org> - 3.2.2-1
+* Thu May 27 2010 Devrim Gündüz <devrim@gunduz.org> - 3.2.2-1
 - Update to 3.2.2
 - Add a patch to fix build with swig 2.0.0
 
-* Mon Jun 29 2009 Devrim GUNDUZ <devrim@gunduz.org> - 3.1.1-1
+* Mon Jun 29 2009 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1
 - Update to 3.1.1
 
-* Tue Dec 2 2008 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.3-1
+* Tue Dec 2 2008 Devrim Gündüz <devrim@gunduz.org> - 3.0.3-1
 - Update to 3.0.3
 - Remove patch 1 -- it is now in upstream.
 
-* Mon Jun 2 2008 Devrim GUNDUZ <devrim@gunduz.org> - 3.0.0-4
+* Mon Jun 2 2008 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-4
 - Sync with Fedora spec file.
 
 * Wed May 28 2008 Balint Cristian <rezso@rdsor.ro> - 3.0.0-4
@@ -210,6 +210,6 @@ rm -rf %{buildroot}
 - Enable and include ruby module
 - Enable and run testsuite during build
 
-* Thu Apr 3 2008 Devrim GUNDUZ <devrim@gunduz.org> - 0:2.2.3-2
+* Thu Apr 3 2008 Devrim Gündüz <devrim@gunduz.org> - 0:2.2.3-2
 - Initial build for yum.postgresql.org, based on Fedora/EPEL spec.
 

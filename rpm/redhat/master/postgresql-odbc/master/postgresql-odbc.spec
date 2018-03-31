@@ -144,33 +144,33 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 - Update download URL
 - Use a few more macros in spec file.
 
-* Sun Apr 5 2015 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0400-1
+* Sun Apr 5 2015 - Devrim Gündüz <devrim@gunduz.org> - 09.03.0400-1
 - Update to 09.03.0400
 - Provide postgresql-odbc package (versionless)
 - Update URL
 
-* Mon May 19 2014 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0300-1
+* Mon May 19 2014 - Devrim Gündüz <devrim@gunduz.org> - 09.03.0300-1
 - Update to 09.03.0300
 
-* Fri Dec 20 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.03.0100-1
+* Fri Dec 20 2013 - Devrim Gündüz <devrim@gunduz.org> - 09.03.0100-1
 - Update to 09.03.0100
 
-* Sat Nov 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.02.0100-1
+* Sat Nov 9 2013 - Devrim Gündüz <devrim@gunduz.org> - 09.02.0100-1
 - Update to 09.02.0100
 
-* Sat Nov 9 2013 - Devrim GUNDUZ <devrim@gunduz.org> - 09.02.0200
+* Sat Nov 9 2013 - Devrim Gündüz <devrim@gunduz.org> - 09.02.0200
 - Update to 09.02.0200
 
-* Mon Sep 10 2012 - Devrim GUNDUZ <devrim@gunduz.org> - 09.01.0200
+* Mon Sep 10 2012 - Devrim Gündüz <devrim@gunduz.org> - 09.01.0200
 - Update to 09.01.0200
 
-* Tue Nov 8 2011 - Devrim GUNDUZ <devrim@gunduz.org> - 09.00.0310
+* Tue Nov 8 2011 - Devrim Gündüz <devrim@gunduz.org> - 09.00.0310
 - Update to 09.00.0310.
 
-* Tue Nov 9 2010 - Devrim GUNDUZ <devrim@gunduz.org> - 09.00.0200
+* Tue Nov 9 2010 - Devrim Gündüz <devrim@gunduz.org> - 09.00.0200
 - Update to 09.00.0200, and also apply changes for new RPM layout.
 
-* Tue Mar 9 2010 Devrim GUNDUZ <devrim@gunduz.org> 08.04.0200-1PGDG
+* Tue Mar 9 2010 Devrim Gündüz <devrim@gunduz.org> 08.04.0200-1PGDG
 - Update to 08.04.0200
 - Use new parameter --with-libpq in order to support multiple version
   installation of PostgreSQL.

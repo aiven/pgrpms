@@ -49,6 +49,6 @@ this.
 * Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 2.2-2
 - Cosmetic updates for unified spec file.
 
-* Tue Sep 30 2014 Devrim GUNDUZ <devrim@gunduz.org> 2.2-1
+* Tue Sep 30 2014 Devrim Gündüz <devrim@gunduz.org> 2.2-1
 - Update to 2.2
 - Trim changelog

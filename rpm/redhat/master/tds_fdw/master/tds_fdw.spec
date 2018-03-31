@@ -71,16 +71,16 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
-* Fri Oct 28 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.8-1
+* Fri Oct 28 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.8-1
 - Update to 1.0.8
 - Change links to point to github.
 
-* Thu Jan 7 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.7-1
+* Thu Jan 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.7-1
 - Update to 1.0.7
 - Apply 9.5 doc layout.
 
-* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.6-1
+* Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.6-1
 - Update to 1.0.6
 
-* Fri Sep 25 2015  - Devrim GUNDUZ <devrim@gunduz.org> 1.0.5-1
+* Fri Sep 25 2015  - Devrim Gündüz <devrim@gunduz.org> 1.0.5-1
 - Initial packaging for PostgreSQL RPM Repository

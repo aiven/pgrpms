@@ -68,5 +68,5 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Mar 16 2015 - Devrim GUNDUZ <devrim@gunduz.org> 0.1.8-1
+* Mon Mar 16 2015 - Devrim Gündüz <devrim@gunduz.org> 0.1.8-1
 - Initial RPM packaging for PostgreSQL RPM Repository

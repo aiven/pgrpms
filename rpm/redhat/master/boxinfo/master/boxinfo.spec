@@ -42,11 +42,11 @@ rm -rf %{buildroot}
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
-* Sat Apr 7 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.4.0-1
+* Sat Apr 7 2012 - Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
 - Update to 1.4.0
 
-* Mon Aug 22 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.3.3-1
+* Mon Aug 22 2011 - Devrim Gündüz <devrim@gunduz.org> 1.3.3-1
 - Update to 1.3.3
 
-* Thu Nov 18 2010 - Devrim GUNDUZ <devrim@gunduz.org> 1.3.2-1
+* Thu Nov 18 2010 - Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository

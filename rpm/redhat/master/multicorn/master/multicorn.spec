@@ -110,8 +110,8 @@ in python.
 * Mon Jan 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
 - Update to 1.3.1
 
-* Thu Dec 10 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.4-1
+* Thu Dec 10 2015 - Devrim Gündüz <devrim@gunduz.org> 1.2.4-1
 - Update to 1.2.4
 
-* Wed Jan 21 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.2.3-1
+* Wed Jan 21 2015 - Devrim Gündüz <devrim@gunduz.org> 1.2.3-1
 - Initial packaging for PostgreSQL RPM Repository

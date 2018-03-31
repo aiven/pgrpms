@@ -69,14 +69,14 @@ DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 make instal
 %{pginstdir}/lib/pg_sphere.so
 
 %changelog
-* Mon Jan 4 2016 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-4
+* Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-4
 - Update for 9.5 doc layout.
 
-* Thu Dec 12 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-3
+* Thu Dec 12 2013 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-3
 - Add a patch to fix build on Fedora 19
 - Add extension support
 
-* Mon Apr 15 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-2
+* Mon Apr 15 2013 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-2
 - Fix packaging issues, per report from Yukio Yamamoto:
   * Install pg_sphere.so under correct location. Actually
      trust make install there, do not manually install files.
@@ -84,15 +84,15 @@ DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 make instal
     PostgreSQL 9.2.
 - Update download URL.
 
-* Wed Jan 5 2011 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.1-1
+* Wed Jan 5 2011 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
 - Update to 1.1.1, per:
   http://pgfoundry.org/forum/forum.php?forum_id=1665
 
-* Tue Jul 28 2009 - Devrim GUNDUZ <devrim@gunduz.org> 1.1.0-1
+* Tue Jul 28 2009 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 
-* Wed Aug 20 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-1
+* Wed Aug 20 2008 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 
-* Wed Apr 9 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+* Wed Apr 9 2008 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for Fedora

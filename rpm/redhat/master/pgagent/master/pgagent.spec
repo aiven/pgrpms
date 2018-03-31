@@ -215,13 +215,13 @@ fi
 - Create unified spec file that works with all distros.
 - Fix an issue with user and group creation.
 
-* Wed Dec 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-2
+* Wed Dec 30 2015 Devrim Gündüz <devrim@gunduz.org> 3.4.0-2
 - Build with -fPIC, per Fedora 23+ guidelines.
 - Use more macros.
 - Update license.
 - Update download URL.
 
-* Fri Oct 17 2014 Devrim GUNDUZ <devrim@gunduz.org> 3.4.0-1
+* Fri Oct 17 2014 Devrim Gündüz <devrim@gunduz.org> 3.4.0-1
 - Update to 3.4.0
 - Use macros for pgagent, where appropriate.
 - Switch to systemd, and use unit file instead of sysV init
@@ -229,14 +229,14 @@ fi
 - Add PostgreSQL major version number to pgagent binary, to
   enable parallel installations.
 
-* Mon Sep 17 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.3.0-1
+* Mon Sep 17 2012 Devrim Gündüz <devrim@gunduz.org> 3.3.0-1
 - Update to 3.3.0
 
-* Wed Sep 12 2012 Devrim GUNDUZ <devrim@gunduz.org> 3.2.1-1
+* Wed Sep 12 2012 Devrim Gündüz <devrim@gunduz.org> 3.2.1-1
 - Various updates from David Wheeler
 - Update to 3.2.1
 - Improve init script
 
-* Tue Dec 6 2011 Devrim GUNDUZ <devrim@gunduz.org> 3.0.1-1
+* Tue Dec 6 2011 Devrim Gündüz <devrim@gunduz.org> 3.0.1-1
 - Initial packaging
 

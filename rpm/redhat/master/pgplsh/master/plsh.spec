@@ -79,16 +79,16 @@ allows you to write stored procedures in a shell of your choice.
 - Cosmetic cleanup
 - Use more macros for unified spec file
 
-* Mon Mar 17 2014 - Devrim GUNDUZ <devrim@gunduz.org> 1.20130823-1
+* Mon Mar 17 2014 - Devrim Gündüz <devrim@gunduz.org> 1.20130823-1
 - Update to 1.20130823
 - Update download URL
 
-* Tue Nov 27 2012 - Devrim GUNDUZ <devrim@gunduz.org> 1.20121018-1
+* Tue Nov 27 2012 - Devrim Gündüz <devrim@gunduz.org> 1.20121018-1
 - Rewrite the spec file based on the new version, and update
   to 1.20121018
 
-* Sun Jan 20 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-2
+* Sun Jan 20 2008 - Devrim Gündüz <devrim@gunduz.org> 1.3-2
 - Move .so file to the correct directory
 
-* Tue Jan 15 2008 - Devrim GUNDUZ <devrim@gunduz.org> 1.3-1
+* Tue Jan 15 2008 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Initial RPM packaging for Fedora

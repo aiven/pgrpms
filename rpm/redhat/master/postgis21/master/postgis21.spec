@@ -403,11 +403,11 @@ fi
 * Wed Nov 07 2012 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2
 - Add dependency to hdf5, per report from Guillaume Smet.
 
-* Wed Jul 4 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-1
+* Wed Jul 4 2012 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.1, for changes described at:
   http://postgis.org/news/20120622/
 
-* Tue Apr 3 2012 Devrim GUNDUZ <devrim@gunduz.org> - 2.0.0-1
+* Tue Apr 3 2012 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Initial packaging with PostGIS 2.0.0.
 - Drop java bits from spec file.
 

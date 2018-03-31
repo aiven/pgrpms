@@ -90,25 +90,25 @@ Oracle database to a PostgreSQL database.
 * Thu Jan 21 2016 Devrim Gündüz <devrim@gunduz.org> 16.2-1
 - Update to 16.2
 
-* Wed Dec 30 2015 Devrim GUNDUZ <devrim@gunduz.org> 16.1-1
+* Wed Dec 30 2015 Devrim Gündüz <devrim@gunduz.org> 16.1-1
 - Update to 16.1
 
-* Fri Feb 6 2015 Devrim GUNDUZ <devrim@gunduz.org> 15.1-1
+* Fri Feb 6 2015 Devrim Gündüz <devrim@gunduz.org> 15.1-1
 - Update to 15.1, per changes described at:
   http://www.postgresql.org/message-id/54D49C0B.2000006@dalibo.com
 
-* Wed Oct 23 2013 Devrim GUNDUZ <devrim@gunduz.org> 12.0-1
+* Wed Oct 23 2013 Devrim Gündüz <devrim@gunduz.org> 12.0-1
 - Update to 12.0, per changes described at:
   http://www.postgresql.org/message-id/52664854.30200@dalibo.com
 
-* Thu Sep 12 2013 Devrim GUNDUZ <devrim@gunduz.org> 11.4-1
+* Thu Sep 12 2013 Devrim Gündüz <devrim@gunduz.org> 11.4-1
 - Update to 11.4
 
-* Thu Sep 13 2012 Devrim GUNDUZ <devrim@gunduz.org> 9.2-1
+* Thu Sep 13 2012 Devrim Gündüz <devrim@gunduz.org> 9.2-1
 - Update to 9.2
 - Update URL, License, Group tags
 - Fix spec per rpmlint warnings
 - Apply some changes from upstream spec
 
-* Fri Mar 20 2009 Devrim GUNDUZ <devrim@gunduz.org> 5.0-1
+* Fri Mar 20 2009 Devrim Gündüz <devrim@gunduz.org> 5.0-1
 - Initial release, based on Peter's spec file.

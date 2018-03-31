@@ -89,14 +89,14 @@ cd ../%{sname}-%{version}-build
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Tue Dec 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-2
+* Tue Dec 17 2013 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-2
 - Unified spec file for all distros.
 - Use more macros in spec file
 - Update license
 
 
-* Tue Dec 17 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.1-1
+* Tue Dec 17 2013 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 
-* Thu Oct 31 2013 - Devrim GUNDUZ <devrim@gunduz.org> 1.0.0-1
+* Thu Oct 31 2013 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

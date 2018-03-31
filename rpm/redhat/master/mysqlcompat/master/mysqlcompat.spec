@@ -74,5 +74,5 @@ rely heavily on certain MySQL functions.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Thu Oct 27 2016 - Devrim GUNDUZ <devrim@gunduz.org> 0.0.7-1
+* Thu Oct 27 2016 - Devrim Gündüz <devrim@gunduz.org> 0.0.7-1
 - Initial packaging for PostgreSQL RPM Repository

@@ -81,5 +81,5 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 * Wed Jan 06 2016 Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 
-* Mon Sep 21 2015 - Devrim GUNDUZ <devrim@gunduz.org> 1.0-1
+* Mon Sep 21 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

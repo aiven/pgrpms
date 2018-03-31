@@ -206,10 +206,10 @@ sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:'
 * Fri Jun 8 2012 - Devrim Gunduz <devrim@gunduz.org> - 3.0.3-1
 - Update to 3.0.3
 
-* Tue Mar 8 2011 Devrim GUNDUZ <devrim@gunduz.org> - 2.1.12-1
+* Tue Mar 8 2011 Devrim Gündüz <devrim@gunduz.org> - 2.1.12-1
 - Update to 2.1.12
 
-* Thu Mar 11 2010 Devrim GUNDUZ <devrim@gunduz.org> - 2.1.11-1
+* Thu Mar 11 2010 Devrim Gündüz <devrim@gunduz.org> - 2.1.11-1
 - Update to 2.1.11
 - Apply fixes for multiple PostgreSQL installation.
 - Trim changelog
