@@ -1,3 +1,5 @@
+%global _build_id_links none
+
 %global debug_package %{nil}
 %global pgtclmajorversion 2.4
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
@@ -10,7 +12,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 Group:		Applications/Databases
@@ -88,6 +90,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Sun Apr 1 2018 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2
+- Apply a workaround for conflicting build-ids.
+
 * Thu Mar 1 2018 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
 - Update to 2.4.0
 - Move files under a new directory. This fixes the parallel
