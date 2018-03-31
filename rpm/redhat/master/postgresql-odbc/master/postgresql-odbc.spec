@@ -105,7 +105,7 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
-* Fri Mar 20 2018 - Devrim Gündüz <devrim@gunduz.org> - 10.02.0000-1
+* Fri Mar 30 2018 - Devrim Gündüz <devrim@gunduz.org> - 10.02.0000-1
 - Update to 10.02.0000
 
 * Tue Jan 2 2018 - Devrim Gündüz <devrim@gunduz.org> - 10.01.0000-1
