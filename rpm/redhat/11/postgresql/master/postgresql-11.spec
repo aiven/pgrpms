@@ -34,6 +34,8 @@
 %if 0%{?fedora} > 23
 # All Fedora releases now use Python3
 %{!?plpython3:%global plpython3 1}
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
@@ -624,7 +626,8 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-# Fortunately we don't need to build much except plpython itself
+# We need to build PL/Python and a few extensions:
+# Build PL/Python
 cd src/backend
 make submake-errcodes
 cd ../..
@@ -634,6 +637,16 @@ cd ..
 # save built form in a directory that "make distclean" won't touch
 %{__cp} -a plpython plpython3
 cd ../..
+# Build some of the extensions with PY3 support
+for p3bl in %{python3_build_list} ; do
+	p3blpy3dir="$p3bl"3
+	pushd contrib/$p3bl
+	%{__make} %{?_smp_mflags} all
+	cd ..
+	# save built form in a directory that "make distclean" won't touch
+	%{__cp} -a $p3bl $p3blpy3dir
+	popd
+done
 
 # must also save this version of Makefile.global for later
 %{__cp} src/Makefile.global src/Makefile.global.python3
@@ -796,9 +809,20 @@ make DESTDIR=%{buildroot} install
 	%{__mv} src/Makefile.global src/Makefile.global.save
 	%{__cp} src/Makefile.global.python3 src/Makefile.global
 	touch -r src/Makefile.global.save src/Makefile.global
+	# Install PL/Python3
 	pushd src/pl/plpython3
 	make DESTDIR=%{buildroot} install
 	popd
+
+	for p3bl in %{python3_build_list} ; do
+		p3blpy3dir="$p3bl"3
+
+		# Install jsonb_plpython3
+		pushd contrib/$p3blpy3dir
+		make DESTDIR=%{buildroot} install
+		popd
+	done
+
 	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 
@@ -1180,11 +1204,20 @@ fi
 %endif
 %if %plpython
 %{pgbaseinstdir}/lib/hstore_plpython2.so
+%{pgbaseinstdir}/lib/jsonb_plpython2.so
+%{pgbaseinstdir}/lib/ltree_plpython2.so
+%{pgbaseinstdir}/share/extension/*_plpythonu*
+%{pgbaseinstdir}/share/extension/*_plpython2u*
+%endif
+%if %plpython3
+%{pgbaseinstdir}/lib/hstore_plpython3.so
+%{pgbaseinstdir}/lib/jsonb_plpython3.so
+%{pgbaseinstdir}/lib/ltree_plpython3.so
+%{pgbaseinstdir}/share/extension/*_plpython3u*
 %endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
 %if %plpython
-%{pgbaseinstdir}/lib/ltree_plpython2.so
 %endif
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
@@ -1235,13 +1268,16 @@ fi
 %{pgbaseinstdir}/share/extension/earthdistance*
 %{pgbaseinstdir}/share/extension/file_fdw*
 %{pgbaseinstdir}/share/extension/fuzzystrmatch*
-%{pgbaseinstdir}/share/extension/hstore*
+%{pgbaseinstdir}/share/extension/hstore.control
+%{pgbaseinstdir}/share/extension/hstore--*.sql
+%{pgbaseinstdir}/share/extension/hstore_plperl*
 %{pgbaseinstdir}/share/extension/insert_username*
 %{pgbaseinstdir}/share/extension/intagg*
 %{pgbaseinstdir}/share/extension/intarray*
 %{pgbaseinstdir}/share/extension/isn*
 %{pgbaseinstdir}/share/extension/lo*
-%{pgbaseinstdir}/share/extension/ltree*
+%{pgbaseinstdir}/share/extension/ltree.control
+%{pgbaseinstdir}/share/extension/ltree--*.sql
 %{pgbaseinstdir}/share/extension/moddatetime*
 %{pgbaseinstdir}/share/extension/pageinspect*
 %{pgbaseinstdir}/share/extension/pg_buffercache*
@@ -1289,6 +1325,9 @@ fi
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
 %if %llvm
+# FIXME: These files will be moved to a separate subpackage soon:
+%dir %{pgbaseinstdir}/lib/bitcode
+%{pgbaseinstdir}/lib/bitcode/*
 %{pgbaseinstdir}/lib/llvmjit.so
 %{pgbaseinstdir}/lib/llvmjit_types.bc
 %endif
@@ -1345,7 +1384,6 @@ fi
 %dir %{pgbaseinstdir}/share
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-#%attr(700,postgres,postgres) %dir /var/lib/pgsql
 %endif
 %else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
