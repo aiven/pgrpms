@@ -386,6 +386,30 @@ with a PostgreSQL database management server.  It also contains the ecpg
 Embedded C Postgres preprocessor. You need to install this package if you want
 to develop applications which will interact with a PostgreSQL server.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for PostgreSQL
+Group:		Applications/Databases
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+Requires:	llvm3.9 => 3.9
+%else
+Requires:	llvm => 3.9
+%endif
+Provides:	postgresql-llvmjit
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%description llvmjit
+The postgresql%{pgmajorversion}-llvmjit package contains support for
+just-in-time compiling parts of PostgreSQL queries. Using LLVM it
+compiles e.g. expressions and tuple deforming into native code, with the
+goal of accelerating analytics queries.
+%endif
+
 %if %plperl
 %package plperl
 Summary:	The Perl procedural language for PostgreSQL
@@ -1324,13 +1348,6 @@ fi
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
-%if %llvm
-# FIXME: These files will be moved to a separate subpackage soon:
-%dir %{pgbaseinstdir}/lib/bitcode
-%{pgbaseinstdir}/lib/bitcode/*
-%{pgbaseinstdir}/lib/llvmjit.so
-%{pgbaseinstdir}/lib/llvmjit_types.bc
-%endif
 %config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
 
 %files server -f pg_server.lst
@@ -1415,6 +1432,15 @@ fi
 %{pgbaseinstdir}/lib/pgxs/*
 %{pgbaseinstdir}/lib/pkgconfig/*
 %{pgbaseinstdir}/share/man/man1/ecpg.*
+
+%if %llvm
+%files llvmjit
+%defattr(-,root,root)
+%dir %{pgbaseinstdir}/lib/bitcode
+%{pgbaseinstdir}/lib/bitcode/*
+%{pgbaseinstdir}/lib/llvmjit.so
+%{pgbaseinstdir}/lib/llvmjit_types.bc
+%endif
 
 %if %plperl
 %files plperl -f pg_plperl.lst
