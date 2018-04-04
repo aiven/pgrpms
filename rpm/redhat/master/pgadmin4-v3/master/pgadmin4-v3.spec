@@ -59,19 +59,19 @@ Patch4:		%{sname}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	gcc-c++
-%if 0%{?with_python3}
+%if 0%{?fedora}
 BuildRequires:	python3-sphinx
-%else
+%endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 # this package comes from EPEL
 BuildRequires:	python-sphinx10
-%else
-BuildRequires:	python-sphinx
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	python-sphinx
 %endif
 
 Requires:	%{name}-web
-%if 0%{?with_python3}
+%if 0%{?fedora}
 BuildRequires:	qt5-qtbase-devel >= 5.1
 BuildRequires:	python3-passlib %{sname}-python3-Flask-Mail
 BuildRequires:	python3-dateutil %{sname}-python3-flask-gravatar
@@ -82,7 +82,7 @@ BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-dateutil %{sname}-python3-flask-paranoid >= 0.1
 %global QMAKE	/usr/bin/qmake-qt5
-%else
+%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -90,7 +90,9 @@ BuildRequires:	Mesa-libGL-devel
 BuildRequires:	libqt4-devel
 %global QMAKE  /usr/bin/qmake
 %endif
-%else
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} >= 7
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
@@ -101,38 +103,48 @@ BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
 BuildRequires:	%{sname}-python-flask-paranoid >= 0.1
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	%{sname}-python-passlib %{sname}-python-sqlalchemy
 %endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	%{sname}-python3-passlib %{sname}-python3-sqlalchemy
+%endif
+
 %if 0%{?fedora} >= 26 || 0%{?rhel} >= 7
 BuildRequires:	python-sqlalchemy
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} >= 7
 BuildRequires:	python-passlib
-%endif
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
-%endif
 
-%if 0%{?with_python3}
+%if 0%{?fedora}
 BuildRequires:	python3-devel
 Requires:	python3 >= 3.3
-%else
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	python-devel
 Requires:	python >= 2.6
 %endif
 
-%if 0%{?with_python3}
+%if 0%{?rhel} && 0%{?rhel} == 6
+BuildRequires:	python34-devel
+Requires:	python >= 3.4
+%endif
+
+
+%if 0%{?fedora}
 Requires:	qt >= 5.1
-%else
+%endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 Requires:  libqt4 >= 4.6
 %endif
-%else
-Requires:	qt >= 4.6
 %endif
+
+%if 0%{?rhel}
+Requires:	qt >= 4.6
 %endif
 
 Requires(post):	%{_sbindir}/update-alternatives
@@ -159,7 +171,8 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
-%if 0%{?with_python3}
+
+%if 0%{?fedora}
 Requires:	python3-babel >= 2.3.4 python3-flask >= 0.11.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
@@ -186,59 +199,59 @@ Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
 Requires:	%{sname}-python3-pyrsistent >= 0.11.13 python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2
-%else
-Requires:	%{sname}-python-babel >= 2.3.4
-Requires:	%{sname}-python-flask >= 0.11.1
-Requires:	%{sname}-python-flask-htmlmin >= 1.2
-Requires:	%{sname}-python-flask-sqlalchemy >= 2.1
-Requires:	%{sname}-python-flask-wtf >= 0.12
-Requires:	%{sname}-python-jinja2 >= 2.7.3
-Requires:	%{sname}-python-markupsafe >= 0.23
-Requires:	%{sname}-python-sqlalchemy >= 1.0.14
-Requires:	%{sname}-python-wtforms >= 2.0.2
-Requires:	%{sname}-python-beautifulsoup4 >= 4.4.1
-Requires:	%{sname}-python-blinker >= 1.3
-Requires:	%{sname}-python-flask-paranoid >= 0.1
+%endif
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires:  pgadmin4-python-html5lib >= 1.0b3
+%if 0%{?rhel} == 6
+Requires:	%{sname}-python3-passlib %{sname}-python3-flask-migrate
+Requires:	%{sname}-python3-crypto >= 2.6.1 %{sname}-python3-speaklater >= 1.3
+Requires:	%{sname}-python3-html5lib >= 1.0b3 %{sname}-python3-fixtures >= 2.0.0
+Requires:	%{sname}-python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.11.1
+Requires:	%{sname}-python3-flask-htmlmin >= 1.2 %{sname}-python3-flask-sqlalchemy >= 2.1
+Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-wtforms >= 2.0.2
+Requires:	%{sname}-python3-beautifulsoup4 >= 4.4.1 %{sname}-python3-blinker >= 1.3
+Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}3-python-html5lib >= 1.0b3
+Requires:	%{sname}-python3-simplejson >= 3.6.5 %{sname}-python3-dateutil >= 2.5.0
+Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.1.19
+Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.6.2
+Requires:	%{sname}-python3-flask-gravatar >= 0.4.2 %{sname}-python3-Flask-Mail >= 0.9.1
+Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login >= 0.3.2
+Requires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-principal >= 0.4.0
+Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
+Requires:	%{sname}-python3-mimeparse >= 1.5.1
+Requires:	python-importlib >= 1.0.3 python-unittest2
+Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
+Requires:	python34-sqlalchemy >= 1.0.14 python-psycopg2 >= 2.6.2 python34-six >= 1.9.0
+Requires:	python34-pytz >= 2014.10 python-click python-extras >= 0.0.3
+Requires:	mod_wsgi python-unittest2
 %endif
-%endif
-Requires:	python-six >= 1.9.0
-Requires:	%{sname}-python-itsdangerous >= 0.24
-Requires:	python-psycopg2 >= 2.6.2
-Requires:	%{sname}-python-simplejson >= 3.6.5 %{sname}-python-dateutil >= 2.5.0
+
+%if 0%{?rhel} == 7
+Requires:	%{sname}-python-babel >= 2.3.4 %{sname}-python-flask >= 0.11.1
+Requires:	%{sname}-python-flask-htmlmin >= 1.2 %{sname}-python-flask-sqlalchemy >= 2.1
+Requires:	%{sname}-python-flask-wtf >= 0.12 %{sname}-python-jinja2 >= 2.7.3
+Requires:	%{sname}-python-markupsafe >= 0.23 %{sname}-python-sqlalchemy >= 1.0.14
+Requires:	%{sname}-python-wtforms >= 2.0.2 %{sname}-python-beautifulsoup4 >= 4.4.1
+Requires:	%{sname}-python-blinker >= 1.3 %{sname}-python-flask-paranoid >= 0.1
+Requires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-simplejson >= 3.6.5
 Requires:	%{sname}-python-werkzeug >= 0.9.6 %{sname}-python-backports.csv >= 1.0.5
 Requires:	%{sname}-pytz >= 2014.10 %{sname}-python-sqlparse >= 0.1.19
 Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >= 0.4.2
 Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 1.7.5
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
-Requires:	python-click python-extras >= 0.0.3 %{sname}-python-fixtures >= 2.0.0
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	python-importlib >= 1.0.3 python-unittest2
-Requires:	%{sname}-python-passlib %{sname}-python-flask-migrate
-Requires:	%{sname}-python-crypto >= 2.6.1
-Requires:	%{sname}-python-html5lib >= 1.0b3
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 7
+Requires:	%{sname}-python-dateutil >= 2.5.0 %{sname}-python-fixtures >= 2.0.0
+Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5.1
+Requires:	python-click python-extras >= 0.0.3
+Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
 Requires:	python-passlib python2-flask-migrate
-Requires:	python-crypto >= 2.6.1
-Requires:	python-html5lib >= 1.0b3
-%endif
-Requires:	%{sname}-python-pyrsistent >= 0.11.13
-Requires:	%{sname}-python-mimeparse >= 1.5.1
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	%{sname}-python-speaklater >= 1.3
-%else
+Requires:	python-crypto >= 2.6.1	python-html5lib >= 1.0b3
 Requires:	python-speaklater >= 1.3
+Requires:	mod_wsgi
 %endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
+Requires:  pgadmin4-python-html5lib >= 1.0b3
 Requires:	apache2-mod_wsgi
-%endif
-%else
-Requires:	mod_wsgi
 %endif
 %endif
 
@@ -425,6 +438,8 @@ fi
 
 * Wed Mar 21 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-1
 - Update to 3.0
+- Use Python 3.4 from EPEL on RHEL 6, and also use PY3 versions
+  of our dependencies on RHEL 6 as well. Per Dave.
 
 * Wed Jan 10 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
 - Update to 2.1
