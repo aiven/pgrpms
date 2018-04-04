@@ -71,9 +71,9 @@ multi-user application.
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
-* Wed Apr 4 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-4
-- pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6, so
-  adjust the dependencies for that.
+* Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-4
+- pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
+  so adjust the dependencies for that.
 
 * Wed Apr 12 2017 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-3
 - Move the components under pgadmin web directory, per #2332.
