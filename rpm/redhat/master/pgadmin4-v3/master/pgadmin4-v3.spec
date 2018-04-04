@@ -82,9 +82,9 @@ BuildRequires:	%{sname}-python3-dateutil %{sname}-python3-simplejson
 BuildRequires:	%{sname}-python3-Flask-Mail %{sname}-python3-flask-gravatar
 BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
-BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
+BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.11.1
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
-BuildRequires:	%{sname}-python3-itsdangerous %{sname}*python3-blinker %{sname}-python3-flask-sqlalchemy
+BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker %{sname}-python3-flask-sqlalchemy
 BuildRequires:	%{sname}-python3-passlib %{sname}-python3-sqlalchemy
 BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
 %global QMAKE	/usr/bin/qmake-qt5
