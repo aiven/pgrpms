@@ -59,40 +59,38 @@ Patch4:		%{sname}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	gcc-c++
-%if 0%{?fedora}
-BuildRequires:	python3-sphinx
-%endif
-%if 0%{?rhel} && 0%{?rhel} <= 6
-# this package comes from EPEL
-BuildRequires:	python-sphinx10
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	python-sphinx
-%endif
 
 Requires:	%{name}-web
+
 %if 0%{?fedora}
 BuildRequires:	qt5-qtbase-devel >= 5.1
-BuildRequires:	python3-passlib %{sname}-python3-Flask-Mail
-BuildRequires:	python3-dateutil %{sname}-python3-flask-gravatar
-BuildRequires:	python3-simplejson %{sname}-python3-flask-babel
-BuildRequires:	%{sname}-python3-flask-htmlmin %{sname}-python3-flask-login >= 0.3.2
+BuildRequires:	python3-passlib python3-dateutil python3-simplejson
+BuildRequires:	%{sname}-python3-Flask-Mail %{sname}-python3-flask-gravatar
+BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
+BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
-BuildRequires:	python3-dateutil %{sname}-python3-flask-paranoid >= 0.1
+BuildRequires:	python3-devel python3-dateutil python3-sqlalchemy
+BuildRequires:	python3-sphinx
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	Mesa-libGL-devel
-BuildRequires:	libqt4-devel
-%global QMAKE  /usr/bin/qmake
-%endif
+%if 0%{?rhel} == 6
+BuildRequires:	qt5-qtbase-devel >= 5.1
+BuildRequires:	%{sname}-python3-dateutil %{sname}-python3-simplejson
+BuildRequires:	%{sname}-python3-Flask-Mail %{sname}-python3-flask-gravatar
+BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
+BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
+BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
+BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
+BuildRequires:	%{sname}-python3-itsdangerous %{sname}*python3-blinker %{sname}-python3-flask-sqlalchemy
+BuildRequires:	%{sname}-python3-passlib %{sname}-python3-sqlalchemy
+BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
+%global QMAKE	/usr/bin/qmake-qt5
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} >= 7
+%if 0%{?rhel} >= 7
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
@@ -103,48 +101,21 @@ BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
 BuildRequires:	%{sname}-python-flask-paranoid >= 0.1
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	%{sname}-python3-passlib %{sname}-python3-sqlalchemy
-%endif
-
-%if 0%{?fedora} >= 26 || 0%{?rhel} >= 7
-BuildRequires:	python-sqlalchemy
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} >= 7
-BuildRequires:	python-passlib
+BuildRequires:	python-devel python-passlib python-sqlalchemy
+BuildRequires:	python-sphinx
 %global QMAKE	/usr/bin/qmake-qt4
-%endif
-
-%if 0%{?fedora}
-BuildRequires:	python3-devel
-Requires:	python3 >= 3.3
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	python-devel
-Requires:	python >= 2.6
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 6
-BuildRequires:	python34-devel
-Requires:	python >= 3.4
-%endif
-
-
-%if 0%{?fedora}
-Requires:	qt >= 5.1
 %endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
+BuildRequires:	Mesa-libGL-devel
+BuildRequires:	libqt4-devel
 Requires:  libqt4 >= 4.6
+%global QMAKE  /usr/bin/qmake
 %endif
 %endif
 
-%if 0%{?rhel}
-Requires:	qt >= 4.6
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %endif
 
 Requires(post):	%{_sbindir}/update-alternatives
@@ -173,6 +144,7 @@ Requires:	httpd
 BuildArch:	noarch
 
 %if 0%{?fedora}
+Requires:	qt >= 5.1
 Requires:	python3-babel >= 2.3.4 python3-flask >= 0.11.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
@@ -202,6 +174,7 @@ Requires:	python3-mod_wsgi python3-unittest2
 %endif
 
 %if 0%{?rhel} == 6
+Requires:	qt >= 4.6
 Requires:	%{sname}-python3-passlib %{sname}-python3-flask-migrate
 Requires:	%{sname}-python3-crypto >= 2.6.1 %{sname}-python3-speaklater >= 1.3
 Requires:	%{sname}-python3-html5lib >= 1.0b3 %{sname}-python3-fixtures >= 2.0.0
@@ -218,6 +191,7 @@ Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login 
 Requires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-principal >= 0.4.0
 Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
 Requires:	%{sname}-python3-mimeparse >= 1.5.1
+Requires:	python34 >= 3.4
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
 Requires:	python34-sqlalchemy >= 1.0.14 python-psycopg2 >= 2.6.2 python34-six >= 1.9.0
@@ -226,6 +200,7 @@ Requires:	mod_wsgi python-unittest2
 %endif
 
 %if 0%{?rhel} == 7
+Requires:	qt >= 4.6
 Requires:	%{sname}-python-babel >= 2.3.4 %{sname}-python-flask >= 0.11.1
 Requires:	%{sname}-python-flask-htmlmin >= 1.2 %{sname}-python-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python-flask-wtf >= 0.12 %{sname}-python-jinja2 >= 2.7.3
@@ -240,7 +215,7 @@ Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
 Requires:	%{sname}-python-dateutil >= 2.5.0 %{sname}-python-fixtures >= 2.0.0
 Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5.1
-Requires:	python-click python-extras >= 0.0.3
+Requires:	python-click python-extras >= 0.0.3 python >= 2.7
 Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
 Requires:	python-passlib python2-flask-migrate
 Requires:	python-crypto >= 2.6.1	python-html5lib >= 1.0b3
