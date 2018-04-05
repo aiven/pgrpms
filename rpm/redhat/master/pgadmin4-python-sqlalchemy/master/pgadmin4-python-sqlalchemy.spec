@@ -64,7 +64,7 @@ BuildRequires:	python3-setuptools python3-devel pytest python3-mock
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires	python-devel python-mock python-pytest
+BuildRequires:	python-devel python-mock python-pytest
 %endif
 %endif
 
