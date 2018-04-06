@@ -41,15 +41,27 @@ License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/Flask-Gravatar
 Source0:	https://pypi.python.org/packages/source/F/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
-%if 0%{?with_python3}
-BuildRequires:	python3-setuptools
-Requires:	pgadmin4-python3-flask
-%else
 BuildRequires:	python-setuptools
-Requires:	pgadmin4-python-flask
-%endif
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+%if 0%{?with_python3}
+Requires:	pgadmin4-python3-flask
+%else
+Requires:	pgadmin4-python-flask
+%endif
+
+%if 0%{?fedora} > 25
+BuildRequires:  python3-devel python3-setuptools
+%endif
+
+%if 0%{?rhel} == 6
+BuildRequires:  python34-devel python34-setuptools
+%endif
+
+%if 0%{?rhel} == 7
+BuildRequires:  python2-devel python-setuptools
+%endif
 
 %description
 This is small and simple integration gravatar into flask.
