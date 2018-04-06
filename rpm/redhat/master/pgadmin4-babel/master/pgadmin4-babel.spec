@@ -85,7 +85,7 @@ Requires:	python3-setuptools pytz
 %endif
 
 %if 0%{?rhel} == 6
-Requires:	pgadmin4-python3-setuptools pgadmin4-pytz
+Requires:	python34-setuptools pgadmin4-pytz
 %endif
 
 %if 0%{?rhel} == 7
