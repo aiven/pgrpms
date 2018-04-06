@@ -95,7 +95,7 @@ Signatures (JWS).
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{sname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}.py*
-%{pgadmin4py3instdir}/__pycache__/%{sname}.cpython-*.pyc
+%{pgadmin4py3instdir}/__pycache__/%{sname}.cpython-*.py*
 %{pgadmin4py3instdir}/%{sname}.cpython-*.pyc
 %else
 %{pgadmin4py2instdir}/*%{sname}*.egg-info
