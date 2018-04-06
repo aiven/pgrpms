@@ -126,7 +126,7 @@ popd
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE CHANGES
+%doc %{srcname}-%{version}/LICENSE %{srcname}-%{version}/CHANGES
 %else
 %license %{srcname}-%{version}/LICENSE
 %doc %{srcname}-%{version}/CHANGES
