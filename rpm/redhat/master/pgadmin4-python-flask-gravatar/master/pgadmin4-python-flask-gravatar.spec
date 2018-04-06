@@ -90,13 +90,16 @@ This is small and simple integration gravatar into flask.
 
 %files
 %defattr(-, root, root, -)
-%if 0%{?with_python3}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc LICENSE CHANGES README.rst
+%else
 %license LICENSE
 %doc CHANGES README.rst
+%endif
+%if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_Gravatar*.egg-info
 %{pgadmin4py3instdir}/flask_gravatar/*
 %else
-%doc CHANGES README.rst LICENSE
 %{pgadmin4py2instdir}/Flask_Gravatar*.egg-info
 %{pgadmin4py2instdir}/flask_gravatar/*
 %endif
