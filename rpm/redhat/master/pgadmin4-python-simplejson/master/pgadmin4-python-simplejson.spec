@@ -53,7 +53,7 @@ BuildRequires:	python-devel
 %endif
 %endif
 
-%if 0%{?fedoar} > 25
+%if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools python3-nose python3-sphinx
 %endif
 
