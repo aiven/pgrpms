@@ -107,7 +107,7 @@ This is small and simple integration gravatar into flask.
 %changelog
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 0.4.2-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
-  so adjust the dependencies for that.
+  so adjust the spec file for that.
 
 * Thu Apr 13 2017 Devrim Gündüz <devrim@gunduz.org> - 0.4.2-2
 - Move the components under pgadmin web directory, per #2332.
