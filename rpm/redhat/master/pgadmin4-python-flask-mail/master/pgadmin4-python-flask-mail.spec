@@ -43,7 +43,7 @@ Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{ver
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-%if 0%{?fedoar} > 25
+%if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools
 %endif
 
