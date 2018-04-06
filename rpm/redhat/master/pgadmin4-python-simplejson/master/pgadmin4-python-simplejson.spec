@@ -42,6 +42,9 @@ Group:		System Environment/Libraries
 License:	(MIT or AFL) and (MIT or GPLv2)
 URL:		http://undefined.org/python/#simplejson
 Source0:	https://pypi.python.org/packages/source/s/simplejson/simplejson-%{version}.tar.gz
+%if 0%{?rhel} == 6
+Patch0:		pgadmin4-python-simplejson-rhel6-sphinx.patch
+%endif
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?suse_version}
@@ -85,6 +88,9 @@ python stdlib.
 
 %prep
 %setup -q -n simplejson-%{version}
+%if 0%{?rhel} == 6
+%patch0 -p0
+%endif
 
 %if 0%{?with_python3}
 %{__rm} -rf %{py3dir}

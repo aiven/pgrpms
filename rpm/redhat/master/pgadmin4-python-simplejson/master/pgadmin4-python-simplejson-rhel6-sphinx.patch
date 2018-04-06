@@ -1,0 +1,11 @@
+--- scripts/make_docs.py.old	2018-04-06 11:53:52.900328833 +0100
++++ scripts/make_docs.py	2018-04-06 11:53:59.531362431 +0100
+@@ -3,7 +3,7 @@
+ import subprocess
+ import shutil
+ 
+-SPHINX_BUILD = 'sphinx-build'
++SPHINX_BUILD = 'sphinx-1.0-build'
+ 
+ DOCTREES_DIR = 'build/doctrees'
+ HTML_DIR = 'docs'
