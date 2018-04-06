@@ -28,7 +28,7 @@
 %endif
 
 %if 0%{?with_python3}
-Name:		pgadmin4-pytho3-%{sname}
+Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{snaöe}
 %endif
