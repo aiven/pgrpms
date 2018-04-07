@@ -51,15 +51,15 @@ BuildRequires:	gmp-devel >= 4.1
 BuildRequires:	libtomcrypt-devel >= 1.16
 
 %if 0%{?fedora} > 25
-BuildRequires:  python3-devel
+BuildRequires:  python3-devel python3-tools
 %endif
 
 %if 0%{?rhel} == 6
-BuildRequires:  python34-devel
+BuildRequires:  python34-devel python34-tools
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:  python2-devel
+BuildRequires:  python2-devel python-tools
 %endif
 
 %description
@@ -86,7 +86,11 @@ SHA), and various encryption algorithms (AES, DES, RSA, ElGamal, etc.).
 
 # setup.py doesn't run 2to3 on pct-speedtest.py
 %{__cp} pct-speedtest.py pct-speedtest3.py
+%if 0%{?rhel} == 6
+2to3-3 -wn pct-speedtest3.py
+%else
 2to3 -wn pct-speedtest3.py
+%endif
 
 %build
 %global optflags %{optflags} -fno-strict-aliasing
