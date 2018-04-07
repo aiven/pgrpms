@@ -58,12 +58,6 @@ BuildRequires:	python2-devel python-setuptools
 Requires:	pgadmin4-python-htmlmin
 %endif
 
-%if 0%{?with_python3}
-%{?python_provide:%python_provide python3-%{sname}}
-%else
-%{?python_provide:%python_provide python-%{sname}}
-%endif
-
 %description
 Minify flask text/html mime types responses. Just add MINIFY_PAGE = True to
 your deployment config to minify html and text responses of your flask
