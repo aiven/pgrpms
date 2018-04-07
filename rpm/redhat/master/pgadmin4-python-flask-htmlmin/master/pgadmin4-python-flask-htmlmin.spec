@@ -87,8 +87,8 @@ application.
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_HTMLmin*.egg-info/
 %{pgadmin4py3instdir}/flask_htmlmin.py*
-%{pgadmin4py3instdir}/__pycache__/flask_htmlmin.cpython-*.pyc
-%{pgadmin4py3instdir}/flask_htmlmin.cpython-*.pyc
+%{pgadmin4py3instdir}/__pycache__/flask_htmlmin.cpython-*.py*
+%{pgadmin4py3instdir}/flask_htmlmin.cpython-*.py*
 %else
 %{pgadmin4py2instdir}/Flask_HTMLmin*.egg-info/
 %{pgadmin4py2instdir}/flask_htmlmin.py*
