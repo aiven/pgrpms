@@ -42,17 +42,17 @@ URL:		http://github.com/tobgu/pyrsistent/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if 0%{?fedora} > 25
-BuildRequires:  python3-devel python3-setuptools
+BuildRequires:	python3-devel python3-setuptools
 Requires:	python3-six
 %endif
 
 %if 0%{?rhel} == 6
-BuildRequires:  python34-devel python34-setuptools
+BuildRequires:	python34-devel python34-setuptools
 Requires:	python34-six
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:  python2-devel python-setuptools
+BuildRequires:	python2-devel python-setuptools
 Requires:	python-six
 %endif
 
