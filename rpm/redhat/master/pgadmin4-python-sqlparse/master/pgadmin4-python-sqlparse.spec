@@ -74,14 +74,20 @@ It is a python module, together with a command-line tool.
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__ospython2} setup.py build
+%{__ospython} setup.py build
 
 %install
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
+%{__ospython} setup.py install --skip-build --root %{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
+%if 0%{?with_python3}
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%endif
+
 # Remove binary, we don't need it.
 %{__rm} -f %{buildroot}%{_bindir}/sqlformat
 
@@ -92,8 +98,13 @@ It is a python module, together with a command-line tool.
 %license LICENSE
 %doc AUTHORS CHANGELOG README.rst
 %endif
+%if 0%{?with_python3}
+%{pgadmin4py3instdir}/*%{sname}*.egg-info
+%{pgadmin4py3instdir}/%{sname}
+%else
 %{pgadmin4py2instdir}/*%{sname}*.egg-info
 %{pgadmin4py2instdir}/%{sname}
+%endif
 
 %changelog
 * Mon Apr 9 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-5
