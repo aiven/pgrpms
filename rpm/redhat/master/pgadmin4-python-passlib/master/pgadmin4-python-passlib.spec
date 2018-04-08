@@ -1,4 +1,5 @@
 %global sname passlib
+
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
@@ -36,10 +37,6 @@ Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.
 BuildArch:	noarch
 BuildRequires:	python34-devel
 BuildRequires:	python34-setuptools
-# docs generation requires python-cloud-sptheme, which isn't packaged yet.
-# so we won't generate the docs yet.
-#BuildRequires:	python-sphinx >= 1.0
-#BuildRequires:	python-cloud-sptheme
 
 %description
 %{sname} is a password hashing library for Python 2 & 3, which provides
@@ -52,7 +49,6 @@ multi-user application.
 
 %prep
 %setup -q -n %{sname}-%{version}
-
 
 %build
 %{__ospython} setup.py build
