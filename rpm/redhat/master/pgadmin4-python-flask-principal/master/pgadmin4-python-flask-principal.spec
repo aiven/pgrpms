@@ -1,22 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
-%if 0%{?fedora} > 23
-%{!?with_python3:%global with_python3 1}
-%global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global __ospython2 %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%else
-%{!?with_python3:%global with_python3 0}
-%global __ospython2 %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%endif
-
 %global	pypi_name Flask-Principal
 %global sname	flask-principal
 %global	sum Identity management for Flask applications
@@ -24,13 +5,37 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
+%if 0%{?fedora} > 25
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
+%if 0%{?rhel} == 6
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
+%if 0%{?rhel} == 7
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
 %if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.4.0
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	%{sum}
 
 Group:		Development/Languages
@@ -42,18 +47,28 @@ Source1:	LICENSE
 
 BuildArch:	noarch
 
-%if 0%{?with_python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-setuptools
-%else
+%if 0%{?fedora} > 25
+BuildRequires:	python3-devel python3-setuptools
+Requires:	python3-flask
+Requires:	python3-blinker
+%endif
+
+%if 0%{?rhel} == 6
+BuildRequires:	python34-devel python34-setuptools
+Requires:	pgadmin4-python3-flask
+Requires:	pgadmin4-python3-blinker
+%endif
+
+%if 0%{?rhel} == 7
+BuildRequires:	python2-devel python-setuptools
+Requires:	python-flask
+Requires:	python-blinker
+%endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	python-devel
 %endif
-%else
-BuildRequires:	python2-devel
-%endif
-BuildRequires:	python-setuptools
 %endif
 
 %description
@@ -61,56 +76,37 @@ Flask-Principal provides a very loose framework to tie in authentication
 and user information providers, often located in different parts of a web
 application.
 
-%if 0%{?with_python3}
-Requires:	python3-flask
-Requires:	python3-blinker
-%{?python_provide:%python_provide python3-flask-principal}
-%else
-Requires:	python-flask
-Requires:	python-blinker
-%{?python_provide:%python_provide python2-flask-principal}
-%endif
-
 %prep
 %setup -q -n %{pypi_name}-%{version}
 %{__rm} -rf %{pypi_name}.egg-info
 %{__cp} %{SOURCE1} .
 
-%if 0%{?with_python3}
-%{__rm} -rf %{py3dir}
-%{__cp} -a . %{py3dir}
-%endif
-
 %build
-
-%if 0%{?with_python3}
-%{__ospython3} setup.py build
-%else
-%{__ospython2} setup.py build
-%endif
+%{__ospython} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+
+# Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
-%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
-pushd %{py3dir}
-%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
-# Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_principal* %{buildroot}%{python3_sitelib}/__pycache__/flask_principal* %{buildroot}%{python3_sitelib}/Flask_Principal-%{version}-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
-popd
+%{__mv} %{buildroot}%{python3_sitelib}/flask_principal* %{buildroot}%{python3_sitelib}/__pycache__/flask_principal* %{buildroot}%{python3_sitelib}/Flask_Principal-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
-%{__ospython2} setup.py install --skip-build --root %{buildroot}
-# Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_principal* %{buildroot}%{python2_sitelib}/Flask_Principal-%{version}-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_principal* %{buildroot}%{python2_sitelib}/Flask_Principal-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE README.rst
+%else
+%license LICENSE
+%doc README.rst
+%endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_Principal*.egg-info
 %{pgadmin4py3instdir}/flask_principal*
@@ -121,6 +117,10 @@ popd
 %endif
 
 %changelog
+* Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0.4.0-14
+- pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
+  so adjust the spec file for that.
+
 * Thu Apr 13 2017 evrim Gündüz <devrim@gunduz.org> 0.4.0-13
 - Move the components under pgadmin web directory, per #2332.
 - Don't install PY2 version on Fedora systems, because we can
