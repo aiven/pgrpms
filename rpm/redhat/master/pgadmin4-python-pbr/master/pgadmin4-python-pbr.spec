@@ -1,4 +1,5 @@
 %global sname pbr
+
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
