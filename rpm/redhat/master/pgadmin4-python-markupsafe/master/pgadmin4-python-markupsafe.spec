@@ -43,10 +43,17 @@ URL:		https://pypi.python.org/pypi/%{mod_name}
 Source0:	https://pypi.python.org/packages/source/M/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python-devel python-setuptools
+%if 0%{?fedora} > 25
+BuildRequires:	python3-devel python3-setuptools
+%endif
 
 %if 0%{?rhel} == 6
 Obsoletes:	pgadmin4-python-%{sname}
+BuildRequires:	python34-devel python34-setuptools
+%endif
+
+%if 0%{?rhel} == 7
+BuildRequires:	python2-devel python-setuptools
 %endif
 
 %description
