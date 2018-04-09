@@ -54,7 +54,7 @@ Requires:	python3-speaklater python3-pytz
 
 %if 0%{?rhel} == 6
 BuildRequires:	python34-devel python34-setuptools
-BuildRequires:	pgadmin4-python3-flask pgadmin4-python3-pytz
+BuildRequires:	pgadmin4-python3-flask pgadmin4-pytz
 BuildRequires:	pgadmin4-python3-speaklater pgadmin4-python-babel
 Requires:	pgadmin4-python3-babel pgadmin4-python3-flask
 Requires:	pgadmin4-python3-speaklater pgadmin4-python3-pytz
@@ -63,7 +63,7 @@ Requires:	pgadmin4-python3-speaklater pgadmin4-python3-pytz
 %if 0%{?rhel} == 7
 BuildRequires:	python-babel python-devel
 BuildRequires:	pgadmin4-python-flask python-setuptools
-BuildRequires:	pgadmin4-python-speaklater pgadmin4-python-pytz
+BuildRequires:	pgadmin4-python-speaklater pgadmin4-pytz
 Requires:	pgadmin4-python-babel pgadmin4-python-flask
 Requires:	pgadmin4-python-speaklater pgadmin4-python-pytz
 %endif
