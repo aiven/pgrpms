@@ -268,9 +268,15 @@ export PYTHONPATH=%{python2_sitelib}/%{sname}-web/:$PYTHONPATH
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
 cd ../
-%if 0%{?with_python3}
+
+# Build docs
+%if 0%{?fedora} > 25
 make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
-%else
+%endif
+%if 0%{?rhel} == 6
+make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
+%endif
+%if 0%{?rhel} == 6
 make PYTHON=/usr/bin/python docs
 %endif
 
