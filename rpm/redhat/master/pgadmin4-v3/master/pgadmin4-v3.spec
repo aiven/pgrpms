@@ -195,7 +195,7 @@ Requires:	python34 >= 3.4
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
 Requires:	python34-sqlalchemy >= 1.0.14 python-psycopg2 >= 2.6.2 python34-six >= 1.9.0
-Requires:	python34-pytz >= 2014.10 python-click python-extras >= 0.0.3
+Requires:	python34-pytz >= 2014.10 pgadmin4-python3-click python-extras >= 0.0.3
 Requires:	mod_wsgi python-unittest2
 %endif
 
