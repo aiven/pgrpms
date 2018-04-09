@@ -182,7 +182,7 @@ Requires:	%{sname}-python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.11.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2 %{sname}-python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-wtforms >= 2.0.2
 Requires:	%{sname}-python3-beautifulsoup4 >= 4.4.1 %{sname}-python3-blinker >= 1.3
-Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}3-python-html5lib >= 1.0b3
+Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}3-python3-html5lib >= 1.0b3
 Requires:	%{sname}-python3-simplejson >= 3.6.5 %{sname}-python3-dateutil >= 2.5.0
 Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.1.19
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.6.2
