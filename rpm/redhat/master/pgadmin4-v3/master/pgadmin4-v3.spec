@@ -89,7 +89,7 @@ BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
-%if 0%{?rhel} >= 7
+%if 0%{?rhel} == 7
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	qt-devel >= 4.6
 BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
