@@ -66,7 +66,7 @@ BuildRequires:	python-babel python-devel
 BuildRequires:	pgadmin4-python-flask python-setuptools
 BuildRequires:	pgadmin4-python-speaklater pgadmin4-pytz
 Requires:	pgadmin4-python-babel pgadmin4-python-flask
-Requires:	pgadmin4-python-speaklater pgadmin4-pytz
+Requires:	python-speaklater pgadmin4-pytz
 %endif
 
 %if 0%{?suse_version}
