@@ -25,7 +25,11 @@
 %global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
+%if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
+%else
+Name:		pgadmin4-python-%{sname}
+%endif
 Version:	1.6.2
 Release:	4%{?dist}
 Summary:	Comprehensive password hashing framework supporting over 20 schemes
@@ -35,9 +39,19 @@ URL:		http://%{sname}.googlecode.com
 Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
+
+%if 0%{?fedora} > 25
+BuildRequires:	python3-devel python3-setuptools
+%endif
+
+%if 0%{?rhel} == 6
 Obsoletes:	pgadmin4-python-%{sname}
-BuildRequires:	python34-devel
-BuildRequires:	python34-setuptools
+BuildRequires:	python34-devel python34-setuptools
+%endif
+
+%if 0%{?rhel} == 7
+BuildRequires:	python2-devel python-setuptools
+%endif
 
 %description
 %{sname} is a password hashing library for Python 2 & 3, which provides
@@ -58,14 +72,30 @@ multi-user application.
 %{__rm} -rf %{buildroot}
 
 %{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+
 # Move everything under pgadmin4 web/ directory.
+%if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
 %{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%else
+%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%endif
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE README
+%else
+%license LICENSE
+%doc README
+%endif
+%if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{sname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}
+%else
+%{pgadmin4py2instdir}/*%{sname}*.egg-info
+%{pgadmin4py2instdir}/%{sname}
+%endif
 
 %changelog
 * Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-4
