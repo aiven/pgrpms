@@ -45,6 +45,10 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	python-devel python-setuptools
 
+%if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
+%endif
+
 %description
 A library for safe markup escaping.
 

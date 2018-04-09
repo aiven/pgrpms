@@ -47,6 +47,7 @@ Requires:	python-lxml
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools python-lxml
 Requires:	python-lxml
 %endif

@@ -54,6 +54,7 @@ Requires:	python3-blinker
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools
 Requires:	pgadmin4-python3-flask
 Requires:	pgadmin4-python3-blinker

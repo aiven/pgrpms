@@ -51,6 +51,7 @@ Requires:	python3-six
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools
 BuildRequires:	python34-six python34-nose
 Requires:	python34-six

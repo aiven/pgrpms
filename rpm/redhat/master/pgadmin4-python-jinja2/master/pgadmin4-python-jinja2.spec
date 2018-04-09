@@ -56,6 +56,7 @@ Requires:	python3-babel >= 0.8 python3-markupsafe python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-pytest python34-setuptools
 BuildRequires:	python34-markupsafe python-sphinx10
 Requires:	python-babel >= 0.8 python34-markupsafe python34-setuptools

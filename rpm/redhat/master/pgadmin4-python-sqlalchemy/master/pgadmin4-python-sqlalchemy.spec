@@ -52,6 +52,7 @@ domain.
 This package includes the python 2 version of the module.
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-setuptools python34-pytest python34-devel python34-mock
 %endif
 

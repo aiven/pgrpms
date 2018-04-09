@@ -50,6 +50,9 @@ different projects each with at least 3 active branches, it seems like a good
 time to make that code into a proper re-usable library.
 %{?python_provide:%python_provide python2-%{sname}}
 
+%if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
+%endif
 BuildRequires:	python2-devel
 
 %prep

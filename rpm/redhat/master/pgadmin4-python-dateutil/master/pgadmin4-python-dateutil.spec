@@ -51,6 +51,7 @@ Requires:	python-six
 %endif
 
 %if 0%{?rhel} == 7
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python-sphinx python2-devel python-six python-setuptools
 Requires:	python-six
 %endif

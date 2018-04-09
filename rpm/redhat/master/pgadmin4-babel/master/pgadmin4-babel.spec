@@ -46,6 +46,7 @@ Requires:	python3-babel python-setuptools
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-babel
 BuildRequires:	python34-devel python34-setuptools pgadmin4-pytz
 BuildRequires:	make python-sphinx10
 Requires:	python-babel python34-setuptools

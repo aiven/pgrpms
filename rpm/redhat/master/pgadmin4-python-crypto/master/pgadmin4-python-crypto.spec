@@ -55,6 +55,7 @@ BuildRequires:  python3-devel python3-tools
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-crypto
 BuildRequires:  python34-devel python34-tools
 %endif
 

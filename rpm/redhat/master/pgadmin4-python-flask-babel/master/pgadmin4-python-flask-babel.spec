@@ -53,6 +53,7 @@ Requires:	python3-speaklater python3-pytz
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools
 BuildRequires:	pgadmin4-python3-flask pgadmin4-pytz
 BuildRequires:	pgadmin4-python3-speaklater pgadmin4-python-babel

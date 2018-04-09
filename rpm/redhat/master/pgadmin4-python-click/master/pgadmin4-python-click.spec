@@ -1,4 +1,4 @@
-%global pypi_name click
+%global sname click
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
@@ -28,9 +28,9 @@
 %endif
 
 %if 0%{?with_python3}
-Name:		pgadmin4-python3-%{pypi_name}
+Name:		pgadmin4-python3-%{sname}
 %else
-Name:		pgadmin4-python-%{pypi_name}
+Name:		pgadmin4-python-%{sname}
 %endif
 Version:	6.7
 Release:	8%{?dist}
@@ -38,7 +38,7 @@ Summary:	Simple wrapper around optparse for powerful command line utilities
 
 License:	BSD
 URL:		https://github.com/mitsuhiko/click
-Source0:	%{url}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
+Source0:	%{url}/archive/%{version}/%{sname}-%{version}.tar.gz
 # https://bugzilla.redhat.com/show_bug.cgi?id=1500962
 # https://github.com/pallets/click/pull/838
 Patch0:		0001-Remove-outdated-comment-about-Click-3.0.patch
@@ -52,6 +52,7 @@ BuildRequires:	python3-devel python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:      pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools
 %endif
 
@@ -66,7 +67,7 @@ It's the "Command Line Interface Creation Kit".  It's highly configurable but\
 comes with good defaults out of the box.
 
 %prep
-%autosetup -n %{pypi_name}-%{version} -p1
+%autosetup -n %{sname}-%{version} -p1
 
 %build
 %{__ospython} setup.py build
@@ -82,11 +83,11 @@ comes with good defaults out of the box.
 %doc README
 %endif
 %if 0%{?with_python3}
-%{python3_sitelib}/%{pypi_name}-*.egg-info/
-%{python3_sitelib}/%{pypi_name}/
+%{python3_sitelib}/%{sname}-*.egg-info/
+%{python3_sitelib}/%{sname}/
 %else
-%{python2_sitelib}/%{pypi_name}-*.egg-info/
-%{python2_sitelib}/%{pypi_name}/
+%{python2_sitelib}/%{sname}-*.egg-info/
+%{python2_sitelib}/%{sname}/
 %endif
 
 %changelog

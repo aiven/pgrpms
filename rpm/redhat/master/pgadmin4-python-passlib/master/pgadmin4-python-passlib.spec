@@ -35,6 +35,7 @@ URL:		http://%{sname}.googlecode.com
 Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel
 BuildRequires:	python34-setuptools
 

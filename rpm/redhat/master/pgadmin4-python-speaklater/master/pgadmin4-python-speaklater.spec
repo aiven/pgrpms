@@ -47,6 +47,7 @@ BuildRequires:  python3-devel
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:  python34-devel
 %endif
 

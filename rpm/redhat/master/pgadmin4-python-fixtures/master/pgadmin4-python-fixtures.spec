@@ -55,6 +55,7 @@ Requires:	python3-testtools >= 0.9.22 python3-six
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:  python34-devel python34-mock
 BuildRequires:	pgadmin4-python3-pbr >= 0.11
 BuildRequires:	python-testtools >= 0.9.22

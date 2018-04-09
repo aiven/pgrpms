@@ -51,6 +51,7 @@ Requires:	python3-werkzeug python3-itsdangerous python3-click
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-setuptools pgadmin4-python3-jinja2 pgadmin4-python3-werkzeug
 BuildRequires:	pgadmin4-python3-itsdangerous python-click python34-pytest
 Requires:	pgadmin4-python3-jinja2	pgadmin4-python3-werkzeug

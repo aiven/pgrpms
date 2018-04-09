@@ -49,6 +49,7 @@ BuildRequires:	python3-devel python3-setuptools python3-flask
 %endif
 
 %if 0%{?rhel} == 6
+Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools pgadmin4-python3-flask
 %endif
 
