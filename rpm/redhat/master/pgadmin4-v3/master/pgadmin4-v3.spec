@@ -46,7 +46,6 @@ License:	PostgreSQL
 URL:		https://www.pgadmin.org
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/v%{version}/source/%{sname}-%{version}.tar.gz
 Source1:	%{sname}.conf
-Source2:	%{sname}.service.in
 Source3:	%{sname}.tmpfiles.d
 Source4:	%{sname}.desktop.in
 Source6:	%{sname}.qt.conf.in
@@ -317,16 +316,6 @@ make PYTHON=/usr/bin/python docs
 %{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/%{sname}.conf"
 %endif
 
-# Install unit file/init script
-%if %{systemd_enabled}
-# This is only for systemd supported distros:
-%{__install} -d %{buildroot}%{_unitdir}
-%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_unitdir}/%{name}.service
-%else
-# Reserved for init script
-:
-%endif
-
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
@@ -347,14 +336,12 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-   %service_add_pre %{name}.service
+   :
    %endif
    %else
-   %systemd_post %{name}.service
    %tmpfiles_create
   %else
    :
-   #chkconfig --add %%{name}
   %endif
   %endif
 fi
@@ -362,15 +349,6 @@ fi
 %preun
 if [ $1 -eq 0 ] ; then
 	%{_sbindir}/update-alternatives --remove %{sname} %{pgadmin4instdir}/runtime/pgAdmin4
-%if %{systemd_enabled}
-	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
-%else
-	:
-	#/sbin/service %%{name} condstop >/dev/null 2>&1
-	#chkconfig --del %%{name}
-%endif
 fi
 
 %postun
@@ -378,17 +356,7 @@ fi
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
  :
- #sbin/service %%{name} >/dev/null 2>&1
 %endif
-if [ $1 -ge 1 ] ; then
- %if %{systemd_enabled}
-	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
- %else
-    :
-	#/sbin/service %%{name} condrestart >/dev/null 2>&1
- %endif
-fi
 
 %files
 %defattr(-,root,root,-)
@@ -407,7 +375,6 @@ fi
 %attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 %if %{systemd_enabled}
-%{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{name}.conf
 %endif
 
@@ -421,6 +388,7 @@ fi
 - Update to 3.0
 - Use Python 3.4 from EPEL on RHEL 6, and also use PY3 versions
   of our dependencies on RHEL 6 as well. Per Dave.
+- Remove unit file and references to it. Per Dave.
 
 * Wed Jan 10 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1-1
 - Update to 2.1
