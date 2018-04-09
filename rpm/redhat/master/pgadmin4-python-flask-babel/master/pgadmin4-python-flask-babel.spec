@@ -56,7 +56,7 @@ Requires:	python3-speaklater python3-pytz
 Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:	python34-devel python34-setuptools
 BuildRequires:	pgadmin4-python3-flask pgadmin4-pytz
-BuildRequires:	pgadmin4-python3-speaklater pgadmin4-python-babel
+BuildRequires:	pgadmin4-python3-speaklater pgadmin4-python3-babel
 Requires:	pgadmin4-python3-babel pgadmin4-python3-flask
 Requires:	pgadmin4-python3-speaklater pgadmin4-pytz
 %endif
