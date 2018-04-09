@@ -52,13 +52,13 @@ BuildRequires:	python3-flask-babel python3-flask python3-nose
 %if 0%{?rhel} == 6
 Obsoletes:	pgadmin4-python-%{sname}
 BuildRequires:  python34-devel python34-setuptools pgadmin4-python3-wtforms
-BuildRequires:	pgadmin4-python-flask-babel pgadmin4-python3-flask
+BuildRequires:	pgadmin4-python3-flask-babel pgadmin4-python3-flask
 BuildRequires:	python-nose
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:  python2-devel python-setuptools pgadmin3-python-wtforms
-BuildRequires:	pgadmin4-python-flask-babel pgadmin4-python3-flask
+BuildRequires:  python2-devel python-setuptools pgadmin4-python-wtforms
+BuildRequires:	pgadmin4-python-flask-babel pgadmin4-python-flask
 BuildRequires:	python-nose
 %endif
 
