@@ -336,12 +336,14 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-    :
+   :
    %endif
    %else
-    %tmpfiles_create
+   %tmpfiles_create
+   %endif
+  %else
+   :
   %endif
- %endif
 fi
 
 %preun
