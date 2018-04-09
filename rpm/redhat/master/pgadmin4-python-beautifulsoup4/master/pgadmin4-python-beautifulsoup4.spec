@@ -30,7 +30,7 @@
 %if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
 %else
-Name:		pgadmin4-python-%{snaöe}
+Name:		pgadmin4-python-%{sname}
 %endif
 Version:	4.5.1
 Release:	3%{?dist}
