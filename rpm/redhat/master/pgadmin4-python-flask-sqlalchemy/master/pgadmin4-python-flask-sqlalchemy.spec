@@ -1,5 +1,5 @@
+%global sname flask-sqlalchemy
 %global mod_name Flask-SQLAlchemy
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
@@ -29,9 +29,9 @@
 %endif
 
 %if 0%{?with_python3}
-Name:		pgadmin4-python3-sqlalchemy
+Name:		pgadmin4-python3-%{sname}
 %else
-Name:		pgadmin4-python-sqlalchemy
+Name:		pgadmin4-python-%{sname}
 %endif
 Version:	2.1
 Release:	7%{?dist}
@@ -39,7 +39,7 @@ Summary:	Adds SQLAlchemy support to Flask application
 
 Group:		Development/Libraries
 License:	BSD
-URL:		http://github.com/mitsuhiko/flask-sqlalchemy
+URL:		http://github.com/mitsuhiko/%{sname}
 Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:	noarch
@@ -67,7 +67,7 @@ to accomplish common tasks.
 %{__rm} -f docs/_static/.DS_Store
 %{__rm} -f docs/.DS_Store
 %{__rm} -f docs/_themes/.gitignore
-chmod -x docs/_static/flask-sqlalchemy-small.png
+chmod -x docs/_static/%{sname}-small.png
 
 %build
 CFLAGS="%{optflags}" %{__ospython} setup.py build
