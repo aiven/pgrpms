@@ -63,7 +63,7 @@ Requires:	python-babel >= 0.8 python34-markupsafe python34-setuptools
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	python-devel python-pytest python-setuptools
+BuildRequires:	python-devel python2-pytest python-setuptools
 BuildRequires:	python-markupsafe python-sphinx
 Requires:	python-babel >= 0.8 python-markupsafe python-setuptools
 %endif
