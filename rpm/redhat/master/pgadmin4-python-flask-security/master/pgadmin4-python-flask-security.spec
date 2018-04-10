@@ -34,12 +34,13 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Summary:	Simple security for Flask apps
-Version:	1.7.5
-Release:	4%{?dist}
+Version:	3.0.0
+Release:	1%{?dist}
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/%{mod_name}
-Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -48,7 +49,7 @@ BuildRequires:	python3-devel python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python34-devel python34-setuptools
 %endif
 
@@ -99,6 +100,9 @@ find . -name "*DS_Store*" -exec rm -rf {} \;
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7.5-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
