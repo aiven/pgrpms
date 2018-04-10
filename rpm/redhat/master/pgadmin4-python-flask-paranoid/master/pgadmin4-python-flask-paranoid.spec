@@ -1,5 +1,4 @@
 %global sname	flask-paranoid
-%global mod_name	Flask-Paranoid
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
@@ -34,13 +33,13 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	0.1
-Release:	2%{?dist}
+Version:	0.2
+Release:	1%{?dist}
 Summary:	Simple user session protection
 Group:		Development/Libraries
 License:	MIT
-URL:		https://pypi.python.org/pypi/%{mod_name}/
-Source0:	https://github.com/miguelgrinberg/flask-paranoid/archive/v0.1.tar.gz
+URL:		https://github.com/miguelgrinberg/%{sname}
+Source0:	https://github.com/miguelgrinberg/%{sname}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 %description
@@ -96,6 +95,9 @@ BuildRequires:	python2-devel python-setuptools
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2-1
+- Update to 0.2
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.0-2
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
