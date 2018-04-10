@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
+DIST=".sles12"
 SPECFILE="pgadmin4-python-pbr.spec"
 
 # Now, include global Makefile
