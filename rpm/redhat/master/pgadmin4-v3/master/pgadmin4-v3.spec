@@ -70,7 +70,7 @@ BuildRequires:	%{sname}-python3-flask-security >= 3.0.0 %{sname}-python3-flask-p
 BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
-BuildRequires:	python3-devel %{sname}-python3-sqlalchemy >= 1.2.5
+BuildRequires:	python3-devel %{sname}-python3-sqlalchemy >= 1.2.5 %{sname}-python3-flask-babelex
 BuildRequires:	python3-sphinx python3-pbr >= 3.1.1 python3-linecache2 >= 1.0.0
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -83,7 +83,7 @@ BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security >= 3.0.0 %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
-BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker
+BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker %{sname}-python3-flask-babelex
 BuildRequires:	%{sname}-python3-flask-sqlalchemy %{sname}-python3-pbr >= 3.1.1
 BuildRequires:	%{sname}-python3-passlib >= 1.7.1 %{sname}-python3-sqlalchemy >= 1.2.5
 BuildRequires:	%{sname}-python3-pbr >= 3.1.1 %{sname}-python3-linecache2 >= 1.0.0
@@ -98,7 +98,7 @@ BuildRequires:	%{sname}-python-flask >= 0.12.2 %{sname}-python-flask-babel
 BuildRequires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-flask-htmlmin
 BuildRequires:	%{sname}-python-flask-security >= 3.0.0 %{sname}-python-flask-principal
 BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson >= 3.13.2
-BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
+BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf %{sname}-python-flask-babelex
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
 BuildRequires:	%{sname}-python-flask-paranoid >= 0.1 %{sname}-python-pbr >= 3.1.1
