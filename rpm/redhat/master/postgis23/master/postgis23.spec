@@ -211,8 +211,8 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 %{__make} install DESTDIR=%{buildroot}
 
 %if %utils
-install -d %{buildroot}%{_datadir}/%{name}
-install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
+%{__install} -d %{buildroot}%{_datadir}/%{name}
+%{__install} -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
@@ -313,7 +313,7 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
-* Tye Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-1
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-1
 - Update to 2.3.7
 - Create symlink of .so file. PostGIS hackers said that this
   is safe.
