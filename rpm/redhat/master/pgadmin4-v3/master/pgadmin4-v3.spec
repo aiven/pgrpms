@@ -67,7 +67,7 @@ BuildRequires:	python3-passlib python3-dateutil python3-simplejson
 BuildRequires:	%{sname}-python3-Flask-Mail %{sname}-python3-flask-gravatar
 BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
-BuildRequires:	%{sname}-python3-flask-wtf python3-flask >= 0.11.1
+BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-devel python3-dateutil python3-sqlalchemy
@@ -81,7 +81,7 @@ BuildRequires:	%{sname}-python3-dateutil %{sname}-python3-simplejson
 BuildRequires:	%{sname}-python3-Flask-Mail %{sname}-python3-flask-gravatar
 BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
-BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.11.1
+BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker %{sname}-python3-flask-sqlalchemy
 BuildRequires:	%{sname}-python3-passlib %{sname}-python3-sqlalchemy
@@ -92,7 +92,7 @@ BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
 %if 0%{?rhel} == 7
 BuildRequires:	mesa-libGL-devel
 BuildRequires:	qt-devel >= 4.6
-BuildRequires:	%{sname}-python-flask >= 0.11.1 %{sname}-python-flask-babel
+BuildRequires:	%{sname}-python-flask >= 0.12.2 %{sname}-python-flask-babel
 BuildRequires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-flask-htmlmin
 BuildRequires:	%{sname}-python-flask-security %{sname}-python-flask-principal
 BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson
@@ -144,7 +144,7 @@ BuildArch:	noarch
 
 %if 0%{?fedora}
 Requires:	qt >= 5.1
-Requires:	python3-babel >= 2.3.4 python3-flask >= 0.11.1
+Requires:	python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.12.2
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2
 Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12
@@ -177,7 +177,7 @@ Requires:	qt >= 4.6
 Requires:	%{sname}-python3-passlib %{sname}-python3-flask-migrate
 Requires:	%{sname}-python3-crypto >= 2.6.1 %{sname}-python3-speaklater >= 1.3
 Requires:	%{sname}-python3-html5lib >= 1.0.1 %{sname}-python3-fixtures >= 2.0.0
-Requires:	%{sname}-python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.11.1
+Requires:	%{sname}-python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.12.2
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2 %{sname}-python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-wtforms >= 2.0.2
 Requires:	%{sname}-python3-beautifulsoup4 >= 4.4.1 %{sname}-python3-blinker >= 1.3
@@ -200,7 +200,7 @@ Requires:	mod_wsgi python-unittest2
 
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6
-Requires:	%{sname}-python-babel >= 2.3.4 %{sname}-python-flask >= 0.11.1
+Requires:	%{sname}-python-babel >= 2.3.4 %{sname}-python-flask >= 0.12.2
 Requires:	%{sname}-python-flask-htmlmin >= 1.2 %{sname}-python-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python-flask-wtf >= 0.12 %{sname}-python-jinja2 >= 2.7.3
 Requires:	%{sname}-python-markupsafe >= 0.23 %{sname}-python-sqlalchemy >= 1.0.14
