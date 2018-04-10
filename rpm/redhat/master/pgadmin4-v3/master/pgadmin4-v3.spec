@@ -71,7 +71,7 @@ BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
 BuildRequires:	python3-devel python3-dateutil python3-sqlalchemy
-BuildRequires:	python3-sphinx
+BuildRequires:	python3-sphinx python3-pbr >= 3.1.1
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -83,8 +83,10 @@ BuildRequires:	%{sname}-python3-flask-babel %{sname}-python3-flask-htmlmin
 BuildRequires:	%{sname}-python3-flask-security %{sname}-python3-flask-principal
 BuildRequires:	%{sname}-python3-flask-wtf %{sname}-python3-flask >= 0.12.2
 BuildRequires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-login >= 0.3.2
-BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker %{sname}-python3-flask-sqlalchemy
+BuildRequires:	%{sname}-python3-itsdangerous %{sname}-python3-blinker
+BuildRequires:	%{sname}-python3-flask-sqlalchemy %{sname}-python3-pbr >= 3.1.1
 BuildRequires:	%{sname}-python3-passlib >= 1.7.1 %{sname}-python3-sqlalchemy
+BuildRequires:	%{sname}-python3-pbr >= 3.1.1
 BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -99,7 +101,7 @@ BuildRequires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-simplejson
 BuildRequires:	%{sname}-python-blinker %{sname}-python-flask-wtf
 BuildRequires:	%{sname}-python-flask-sqlalchemy %{sname}-python-Flask-Mail
 BuildRequires:	%{sname}-python-dateutil %{sname}-python-flask-gravatar
-BuildRequires:	%{sname}-python-flask-paranoid >= 0.1
+BuildRequires:	%{sname}-python-flask-paranoid >= 0.1 %{sname}-python-pbr >= 3.1.1
 BuildRequires:	python-devel %{sname}-python-passlib >= 1.7.1 python-sqlalchemy
 BuildRequires:	python-sphinx
 %global QMAKE	/usr/bin/qmake-qt4
@@ -150,7 +152,7 @@ Requires:	python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-sqlalchemy >= 1.0.14
-Requires:	%{sname}-python3-wtforms >= 2.0.2
+Requires:	%{sname}-python3-wtforms >= 2.0.2 python3-pbr >= 3.1.1
 Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.3	%{sname}-python3-html5lib >= 1.0.1
 Requires:	python3-itsdangerous >= 0.24
@@ -189,7 +191,7 @@ Requires:	%{sname}-python3-flask-gravatar >= 0.5.0 %{sname}-python3-Flask-Mail >
 Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login >= 0.3.2
 Requires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-principal >= 0.4.0
 Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
-Requires:	%{sname}-python3-mimeparse >= 1.5.1
+Requires:	%{sname}-python3-mimeparse >= 1.5.1 %{sname}-python3-pbr >= 3.1.1
 Requires:	python34 >= 3.4
 Requires:	python-importlib >= 1.0.3 python-unittest2
 Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
@@ -217,6 +219,7 @@ Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5
 Requires:	python-click python-extras >= 0.0.3 python >= 2.7
 Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
 Requires:	%{sname}-python-passlib >= 1.7.1%{sname}-python-flask-migrate
+BuildRequires:	%{sname}-python3-pbr >= 3.1.1
 Requires:	python-crypto >= 2.6.1	%{sname}-python-html5lib >= 1.0.1
 Requires:	python-speaklater >= 1.3
 Requires:	mod_wsgi
