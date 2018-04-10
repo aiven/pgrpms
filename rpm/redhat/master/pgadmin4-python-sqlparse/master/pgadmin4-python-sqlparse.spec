@@ -32,8 +32,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.2.1
-Release:	5%{?dist}
+Version:	0.2.4
+Release:	1%{?dist}
 Summary:	Non-validating SQL parser for Python
 
 Group:		Development/Languages
@@ -108,6 +108,9 @@ It is a python module, together with a command-line tool.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-1
+- Update to 0.2.4
+
 * Mon Apr 9 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.1-5
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

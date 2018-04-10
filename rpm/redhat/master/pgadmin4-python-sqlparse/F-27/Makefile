@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f28
+DIST=.f27
 SPECFILE="pgadmin4-python-sqlparse.spec"
 
 # Now, include global Makefile
