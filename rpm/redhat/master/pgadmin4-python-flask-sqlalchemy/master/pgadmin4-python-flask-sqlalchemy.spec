@@ -33,14 +33,14 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	2.1
-Release:	7%{?dist}
+Version:	2.3.2
+Release:	1%{?dist}
 Summary:	Adds SQLAlchemy support to Flask application
 
 Group:		Development/Libraries
 License:	BSD
-URL:		http://github.com/mitsuhiko/%{sname}
-Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+URL:		https://github.com/mitsuhiko/%{sname}
+Source0:	https://github.com/mitsuhiko/%{sname}/archive/%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -64,11 +64,11 @@ Flask by providing useful defaults and extra helpers that make it easier
 to accomplish common tasks.
 
 %prep
-%setup -q -n %{mod_name}-%{version}
+%setup -q -n %{sname}-%{version}
 %{__rm} -f docs/_static/.DS_Store
 %{__rm} -f docs/.DS_Store
 %{__rm} -f docs/_themes/.gitignore
-chmod -x docs/_static/%{sname}-small.png
+%{__chmod} -x docs/_static/%{sname}-logo.png
 
 %build
 CFLAGS="%{optflags}" %{__ospython} setup.py build
@@ -79,18 +79,18 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 # Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_sqlalchemy %{buildroot}%{python3_sitelib}/Flask_SQLAlchemy-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_sqlalchemy %{buildroot}%{python3_sitelib}/Flask_SQLAlchemy-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_sqlalchemy %{buildroot}%{python2_sitelib}/Flask_SQLAlchemy-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_sqlalchemy %{buildroot}%{python2_sitelib}/Flask_SQLAlchemy-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc docs/ README CHANGES PKG-INFO LICENSE
+%doc docs/ README CHANGES.rst LICENSE
 %else
 %license LICENSE
-%doc docs/ README CHANGES PKG-INFO
+%doc docs/ README CHANGES.rst
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_SQLAlchemy*.egg-info
@@ -101,6 +101,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-1
+- Update to 2.3.2
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-7
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
