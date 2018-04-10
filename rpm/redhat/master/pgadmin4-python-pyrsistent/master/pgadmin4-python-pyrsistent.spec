@@ -33,12 +33,12 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Summary:	Persistent/Functional/Immutable data structures
-Version:	0.11.13
-Release:	4%{dist}
+Version:	0.14.2
+Release:	1%{dist}
 License:	MIT
 Group:		Libraries/Python
-Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
-URL:		http://github.com/tobgu/pyrsistent/
+Source0:	https://github.com/tobgu/%{sname}/archive/v%{version}.tar.gz
+URL:		http://github.com/tobgu/%{sname}/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if 0%{?fedora} > 25
@@ -58,15 +58,12 @@ Requires:	python-six
 %endif
 
 %description
-Pyrsistent is a number of persistent collections (by some referred to
+%{sname} is a number of persistent collections (by some referred to
 as functional data structures). Persistent in the sense that they are
 immutable.
 
 %prep
 %setup -q -n %{sname}-%{version}
-
-# Remove bundled egg-info
-%{__rm} -r %{sname}.egg-info
 
 %build
 %{__ospython} setup.py build
@@ -106,6 +103,9 @@ immutable.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.14.2-1
+- Update to 0.14.2
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.13-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

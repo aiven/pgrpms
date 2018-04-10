@@ -169,7 +169,7 @@ Requires:	%{sname}-python3-flask-paranoid >= 0.1
 Requires:	%{sname}-python3-flask-principal >= 0.4.0
 Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
-Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
+Requires:	%{sname}-python3-pyrsistent >= 0.14.2 %{sname}-python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2
 %endif
@@ -190,7 +190,7 @@ Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.7
 Requires:	%{sname}-python3-flask-gravatar >= 0.5.0 %{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login >= 0.3.2
 Requires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-principal >= 0.4.0
-Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
+Requires:	%{sname}-python3-pyrsistent >= 0.14.2 %{sname}-python3-flask-migrate
 Requires:	%{sname}-python3-mimeparse >= 1.5.1 %{sname}-python3-pbr >= 3.1.1
 Requires:	python34 >= 3.4
 Requires:	python-importlib >= 1.0.3 python-unittest2
@@ -215,7 +215,7 @@ Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >
 Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 1.7.5
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
 Requires:	%{sname}-python-dateutil >= 2.5.0 %{sname}-python-fixtures >= 2.0.0
-Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5.1
+Requires:	%{sname}-python-pyrsistent >= 0.14.2 %{sname}-python-mimeparse >= 1.5.1
 Requires:	python-click python-extras >= 0.0.3 python >= 2.7
 Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
 Requires:	%{sname}-python-passlib >= 1.7.1%{sname}-python-flask-migrate
