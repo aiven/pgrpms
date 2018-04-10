@@ -3,7 +3,7 @@
 %global postgismajorversion 2.4
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.3
-%global postgisprevversion %{postgisprevmajorversion}.6
+%global postgisprevversion %{postgisprevmajorversion}.7
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -35,7 +35,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.3
+Version:	%{postgismajorversion}.4
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -333,6 +333,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.4-1
+- Update to 2.4.4
+
 * Thu Jan 18 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.3-1
 - Update to 2.4.3, per #3022.
 - Update previous PostGIS version to 2.3.6.
