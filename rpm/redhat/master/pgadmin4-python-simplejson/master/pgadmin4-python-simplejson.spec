@@ -33,15 +33,15 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	3.8.2
-Release:	3%{?dist}
+Version:	3.13.2
+Release:	1%{?dist}
 Summary:	Simple, fast, extensible JSON encoder/decoder for Python
 Group:		System Environment/Libraries
 # The main code is licensed MIT.
 # The docs include jquery which is licensed MIT or GPLv2
 License:	(MIT or AFL) and (MIT or GPLv2)
 URL:		http://undefined.org/python/#simplejson
-Source0:	https://pypi.python.org/packages/source/s/simplejson/simplejson-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
 %if 0%{?rhel} == 6
 Patch0:		pgadmin4-python-simplejson-rhel6-sphinx.patch
 %endif
@@ -58,7 +58,7 @@ BuildRequires:	python3-devel python3-setuptools python3-nose python3-sphinx
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python34-devel python34-setuptools python34-nose python-sphinx10
 %endif
 
@@ -139,6 +139,9 @@ python stdlib.
 %endif # python3
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.13.2-1
+- Update to 3.13.2
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 3.8.2-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the dependencies for that.

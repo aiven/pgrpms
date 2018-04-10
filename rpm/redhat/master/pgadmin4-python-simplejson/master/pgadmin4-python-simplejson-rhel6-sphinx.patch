@@ -1,8 +1,8 @@
---- scripts/make_docs.py.old	2018-04-06 11:53:52.900328833 +0100
-+++ scripts/make_docs.py	2018-04-06 11:53:59.531362431 +0100
-@@ -3,7 +3,7 @@
+--- scripts/make_docs.py.old	2018-04-10 20:40:11.025331838 +0100
++++ scripts/make_docs.py	2018-04-10 20:40:19.891377781 +0100
+@@ -2,7 +2,7 @@
+ import os
  import subprocess
- import shutil
  
 -SPHINX_BUILD = 'sphinx-build'
 +SPHINX_BUILD = 'sphinx-1.0-build'
