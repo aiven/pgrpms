@@ -49,7 +49,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos36-devel >= 3.6.2, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:  libjson-c-devel libproj-devel
+BuildRequires:	libjson-c-devel libproj-devel
 %endif
 %else
 BuildRequires:	proj49-devel, flex, json-c-devel
@@ -106,7 +106,7 @@ certified as compliant with the "Types and Functions" profile.
 %package client
 Summary:	Client tools and their libraries of PostGIS
 Group:		Applications/Databases
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -122,7 +122,7 @@ of PostGIS.
 %package devel
 Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
@@ -177,9 +177,9 @@ The postgis-utils package provides the utilities for PostGIS.
 %build
 
 %ifarch ppc64 ppc64le
-        sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
-        CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
-        sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
+	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
+	CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
+	sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
@@ -187,7 +187,7 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
-        --without-raster \
+	--without-raster \
 %endif
 %if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
@@ -227,9 +227,9 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 %postun
 if [ "$1" -eq 0 ]
   then
-      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
-        %{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{pginstdir}/bin/pgsql2shp
-        %{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{pginstdir}/bin/shp2pgsql
+	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	%{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{pginstdir}/bin/pgsql2shp
+	%{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{pginstdir}/bin/shp2pgsql
 fi
 
 %clean
