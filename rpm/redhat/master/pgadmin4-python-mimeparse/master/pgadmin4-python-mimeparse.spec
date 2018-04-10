@@ -32,8 +32,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.5.2
-Release:	3%{?dist}
+Version:	1.6.0
+Release:	1%{?dist}
 Summary:	Python module for parsing mime-type names
 Group:		Development/Languages
 License:	MIT
@@ -46,7 +46,7 @@ BuildRequires:	python3-devel python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python34-devel python34-setuptools
 %endif
 
@@ -83,7 +83,12 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %files
-%doc README.md
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc README.rst LICENSE
+%else
+%license LICENSE
+%doc README.rst
+%endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{sname}*.egg-info
 %{pgadmin4py3instdir}/__pycache__/%{sname}*
@@ -95,6 +100,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
+- Update to 1.6.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
