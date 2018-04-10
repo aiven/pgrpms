@@ -32,13 +32,13 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.8.1
-Release:	8%{?dist}
+Version:	3.1.1
+Release:	1%{?dist}
 Summary:	Python Build Reasonableness
 
 License:	ASL 2.0
 URL:		https://pypi.python.org/pypi/pbr
-Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -104,6 +104,9 @@ export SKIP_PIP_INSTALL=1
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1
+- Update to 3.1.1
+
 * Sat Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-8
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
