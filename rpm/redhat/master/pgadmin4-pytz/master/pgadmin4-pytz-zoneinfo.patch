@@ -1,26 +1,18 @@
+diff --git a/pytz/__init__.py b/pytz/__init__.py
+index 13c83b1..e8a674f 100644
 --- a/pytz/__init__.py
 +++ b/pytz/__init__.py
-@@ -13,7 +13,7 @@ OLSON_VERSION = '2016f'
- VERSION = '2016.6.1'  # Switching to pip compatible version numbering.
- __version__ = VERSION
- 
--OLSEN_VERSION = OLSON_VERSION # Old releases had this misspelling
-+OLSEN_VERSION = OLSON_VERSION  # Old releases had this misspelling
- 
- __all__ = [
-     'timezone', 'utc', 'country_timezones', 'country_names',
-@@ -70,6 +70,10 @@ else: # Python 2.x
+@@ -70,6 +70,9 @@ else: # Python 2.x
          """
          return s.encode('ASCII')
  
 +_tzinfo_dir = os.getenv("TZDIR") or "/usr/share/zoneinfo"
 +if _tzinfo_dir.endswith(os.sep):
 +    _tzinfo_dir = _tzinfo_dir[:-1]
-+
  
  def open_resource(name):
      """Open a resource from the zoneinfo subdir for reading.
-@@ -81,19 +85,8 @@ def open_resource(name):
+@@ -81,19 +84,7 @@ def open_resource(name):
      for part in name_parts:
          if part == os.path.pardir or os.path.sep in part:
              raise ValueError('Bad path segment: %r' % part)
@@ -34,14 +26,14 @@
 -            from pkg_resources import resource_stream
 -        except ImportError:
 -            resource_stream = None
- 
+-
 -        if resource_stream is not None:
 -            return resource_stream(__name__, 'zoneinfo/' + name)
 +    filename = os.path.join(_tzinfo_dir, *name_parts)
      return open(filename, 'rb')
  
  
-@@ -490,1037 +483,38 @@ def _test():
+@@ -490,1044 +481,33 @@ def _test():
  if __name__ == '__main__':
      _test()
  
@@ -231,6 +223,7 @@
 - 'America/Porto_Acre',
 - 'America/Porto_Velho',
 - 'America/Puerto_Rico',
+- 'America/Punta_Arenas',
 - 'America/Rainy_River',
 - 'America/Rankin_Inlet',
 - 'America/Recife',
@@ -286,6 +279,7 @@
 - 'Asia/Aqtobe',
 - 'Asia/Ashgabat',
 - 'Asia/Ashkhabad',
+- 'Asia/Atyrau',
 - 'Asia/Baghdad',
 - 'Asia/Bahrain',
 - 'Asia/Baku',
@@ -306,6 +300,7 @@
 - 'Asia/Dili',
 - 'Asia/Dubai',
 - 'Asia/Dushanbe',
+- 'Asia/Famagusta',
 - 'Asia/Gaza',
 - 'Asia/Harbin',
 - 'Asia/Hebron',
@@ -371,6 +366,7 @@
 - 'Asia/Vientiane',
 - 'Asia/Vladivostok',
 - 'Asia/Yakutsk',
+- 'Asia/Yangon',
 - 'Asia/Yekaterinburg',
 - 'Asia/Yerevan',
 - 'Atlantic/Azores',
@@ -510,6 +506,7 @@
 - 'Europe/Samara',
 - 'Europe/San_Marino',
 - 'Europe/Sarajevo',
+- 'Europe/Saratov',
 - 'Europe/Simferopol',
 - 'Europe/Skopje',
 - 'Europe/Sofia',
@@ -641,15 +638,12 @@
 +            del dirs[dirs.index(exclude)]
 +
 +    all_timezones.extend(os.path.join(root, tz_file)[len(_tzinfo_dir)+1:]
-+                         for tz_file in files
-+                         if tz_file != 'README' and tz_file != 'Theory'
-+                         and '.' not in tz_file)
-+
-+
++            for tz_file in files
++            if tz_file != 'README' and tz_file != 'Theory'
++            and '.' not in tz_file)
  all_timezones = LazyList(
          tz for tz in all_timezones if resource_exists(tz))
--        
-+
+         
  all_timezones_set = LazySet(all_timezones)
 -common_timezones = \
 -['Africa/Abidjan',
@@ -820,6 +814,7 @@
 - 'America/Port_of_Spain',
 - 'America/Porto_Velho',
 - 'America/Puerto_Rico',
+- 'America/Punta_Arenas',
 - 'America/Rainy_River',
 - 'America/Rankin_Inlet',
 - 'America/Recife',
@@ -869,6 +864,7 @@
 - 'Asia/Aqtau',
 - 'Asia/Aqtobe',
 - 'Asia/Ashgabat',
+- 'Asia/Atyrau',
 - 'Asia/Baghdad',
 - 'Asia/Bahrain',
 - 'Asia/Baku',
@@ -885,6 +881,7 @@
 - 'Asia/Dili',
 - 'Asia/Dubai',
 - 'Asia/Dushanbe',
+- 'Asia/Famagusta',
 - 'Asia/Gaza',
 - 'Asia/Hebron',
 - 'Asia/Ho_Chi_Minh',
@@ -919,7 +916,6 @@
 - 'Asia/Pyongyang',
 - 'Asia/Qatar',
 - 'Asia/Qyzylorda',
-- 'Asia/Rangoon',
 - 'Asia/Riyadh',
 - 'Asia/Sakhalin',
 - 'Asia/Samarkand',
@@ -940,6 +936,7 @@
 - 'Asia/Vientiane',
 - 'Asia/Vladivostok',
 - 'Asia/Yakutsk',
+- 'Asia/Yangon',
 - 'Asia/Yekaterinburg',
 - 'Asia/Yerevan',
 - 'Atlantic/Azores',
@@ -1012,6 +1009,7 @@
 - 'Europe/Samara',
 - 'Europe/San_Marino',
 - 'Europe/Sarajevo',
+- 'Europe/Saratov',
 - 'Europe/Simferopol',
 - 'Europe/Skopje',
 - 'Europe/Sofia',
@@ -1057,7 +1055,6 @@
 - 'Pacific/Guadalcanal',
 - 'Pacific/Guam',
 - 'Pacific/Honolulu',
-- 'Pacific/Johnston',
 - 'Pacific/Kiritimati',
 - 'Pacific/Kosrae',
 - 'Pacific/Kwajalein',
@@ -1088,23 +1085,19 @@
 - 'US/Mountain',
 - 'US/Pacific',
 - 'UTC']
-+
 +common_timezones = [l.split()[2]
-+                    for l in open(os.path.join(_tzinfo_dir, 'zone.tab'))
-+                    if l != '' and l[0] != '#']
++        for l in open(os.path.join(_tzinfo_dir, 'zone.tab'))
++        if l != '' and l[0] != '#']
 +common_timezones.extend(
-+    ['GMT',
-+     'US/Alaska',
-+     'US/Arizona',
-+     'US/Central',
-+     'US/Eastern',
-+     'US/Hawaii',
-+     'US/Mountain',
-+     'US/Pacific',
-+     'UTC'])
-+
++        ['GMT',
++         'US/Alaska',
++         'US/Arizona',
++         'US/Central',
++         'US/Eastern',
++         'US/Hawaii',
++         'US/Mountain',
++         'US/Pacific',
++         'UTC'])
  common_timezones = LazyList(
              tz for tz in common_timezones if tz in all_timezones)
--        
-+
- common_timezones_set = LazySet(common_timezones)
+         

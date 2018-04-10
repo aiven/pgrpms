@@ -32,8 +32,8 @@ Name:		pgadmin4-%{sname}
 %else
 Name:		pgadmin4-%{sname}
 %endif
-Version:	2016.6.1
-Release:	4%{?dist}
+Version:	2018.3
+Release:	1%{?dist}
 Summary:	World Timezone Definitions for Python
 
 Group:		Development/Languages
@@ -41,7 +41,7 @@ License:	MIT
 URL:		http://pytz.sourceforge.net/
 Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 # Patch to use the system supplied zoneinfo files
-Patch0:		%{name}-zoneinfo.patch
+#Patch0:		%{name}-zoneinfo.patch
 BuildArch:	noarch
 Requires:	tzdata
 
@@ -75,7 +75,7 @@ Almost all (over 540) of the Olson timezones are supported.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p1 -b .zoneinfo
+#%patch0 -p1 -b .zoneinfo
 
 %build
 %{__ospython} setup.py build
@@ -98,10 +98,10 @@ chmod +x %{buildroot}%{python2_sitelib}/%{sname}/*.py
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.txt README.txt CHANGES.txt
+%doc LICENSE.txt README.txt
 %else
 %license LICENSE.txt
-%doc CHANGES.txt README.txt
+%doc README.txt
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{sname}*.egg-info
@@ -112,6 +112,10 @@ chmod +x %{buildroot}%{python2_sitelib}/%{sname}/*.py
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2018.3-1
+- Update to 2018.3
+- Disable patches for now.
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 2016.6.1-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
