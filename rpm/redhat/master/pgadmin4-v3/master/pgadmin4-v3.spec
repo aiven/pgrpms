@@ -159,7 +159,7 @@ Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
 Requires:	python3-simplejson >= 3.6.5 python3-dateutil >= 2.5.0
 Requires:	python3-werkzeug >= 0.9.6 python3-sqlparse >= 0.1.19
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 python3-passlib >= 1.6.2
-Requires:	%{sname}-python3-flask-gravatar >= 0.4.2
+Requires:	%{sname}-python3-flask-gravatar >= 0.5.0
 Requires:	%{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5
 Requires:	%{sname}-python3-flask-login >= 0.3.2
@@ -185,7 +185,7 @@ Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}-python3-html5lib >= 1.0
 Requires:	%{sname}-python3-simplejson >= 3.6.5 %{sname}-python3-dateutil >= 2.5.0
 Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.1.19
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.6.2
-Requires:	%{sname}-python3-flask-gravatar >= 0.4.2 %{sname}-python3-Flask-Mail >= 0.9.1
+Requires:	%{sname}-python3-flask-gravatar >= 0.5.0 %{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login >= 0.3.2
 Requires:	%{sname}-python3-flask-paranoid >= 0.1 %{sname}-python3-flask-principal >= 0.4.0
 Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
@@ -209,7 +209,7 @@ Requires:	%{sname}-python-blinker >= 1.3 %{sname}-python-flask-paranoid >= 0.1
 Requires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-simplejson >= 3.6.5
 Requires:	%{sname}-python-werkzeug >= 0.9.6 %{sname}-python-backports.csv >= 1.0.5
 Requires:	%{sname}-pytz >= 2014.10 %{sname}-python-sqlparse >= 0.1.19
-Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >= 0.4.2
+Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >= 0.5.0
 Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 1.7.5
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
 Requires:	%{sname}-python-dateutil >= 2.5.0 %{sname}-python-fixtures >= 2.0.0
