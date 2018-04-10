@@ -33,8 +33,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.11.1
-Release:	9%{?dist}
+Version:	0.12.2
+Release:	1%{?dist}
 Epoch:		1
 Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 License:	BSD
@@ -121,6 +121,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1:0.12.2-1
+- Update to 0.12.2
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1:0.11.1-9
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the dependencies for that.
