@@ -167,7 +167,7 @@ Requires:	%{sname}-python3-flask-paranoid >= 0.1
 Requires:	%{sname}-python3-flask-principal >= 0.4.0
 Requires:	pytz >= 2014.10 python3-click
 Requires:	python3-extras >= 0.0.3	python3-fixtures >= 2.0.0
-Requires:	%{sname}-python3-pyrsistent >= 0.11.13 python3-flask-migrate
+Requires:	%{sname}-python3-pyrsistent >= 0.11.13 %{sname}-python3-flask-migrate
 Requires:	python3-mimeparse >= 1.5.1 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2
 %endif
@@ -216,7 +216,7 @@ Requires:	%{sname}-python-dateutil >= 2.5.0 %{sname}-python-fixtures >= 2.0.0
 Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5.1
 Requires:	python-click python-extras >= 0.0.3 python >= 2.7
 Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
-Requires:	python-passlib python2-flask-migrate
+Requires:	python-passlib %{sname}-python-flask-migrate
 Requires:	python-crypto >= 2.6.1	%{sname}-python-html5lib >= 1.0.1
 Requires:	python-speaklater >= 1.3
 Requires:	mod_wsgi
