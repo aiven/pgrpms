@@ -3,21 +3,21 @@
 %global postgismajorversion 2.2
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.1
-%global postgisprevversion %{postgisprevmajorversion}.8
+%global postgisprevversion %{postgisprevmajorversion}.7
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 26 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 26 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global	raster 1}
 %else
 %{!?raster:%global	raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 26 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 %{!?sfcgal:%global	sfcgal 1}
 %else
@@ -35,12 +35,11 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.6
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.7
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
-Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
@@ -109,7 +108,7 @@ certified as compliant with the "Types and Functions" profile.
 %package client
 Summary:	Client tools and their libraries of PostGIS
 Group:		Applications/Databases
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -125,7 +124,7 @@ of PostGIS.
 %package devel
 Summary:	Development headers and libraries for PostGIS
 Group:		Development/Libraries
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
@@ -190,7 +189,7 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
-        --without-raster \
+	--without-raster \
 %endif
 %if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
@@ -214,30 +213,12 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 %{__make} install DESTDIR=%{buildroot}
 
 %if %utils
-install -d %{buildroot}%{_datadir}/%{name}
-install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
+%{__install} -d %{buildroot}%{_datadir}/%{name}
+%{__install} -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.2 breaks compatibility with 2.1, and we need to ship
-# postgis-2.1.so file along with 2.2 package, so that we can upgrade:
-tar zxf %{SOURCE1}
-cd %{sname}-%{postgisprevversion}
-%ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
-	--disable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/usr/geos36/bin/geos-config \
-	--with-projdir=/usr/proj49
-
-%{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
-# Install postgis-2.1.so file manually:
-%{__mkdir} -p %{buildroot}/%{pginstdir}/lib/
-%{__install} -m 644 postgis/postgis-%{postgisprevmajorversion}.so %{buildroot}/%{pginstdir}/lib/postgis-%{postgisprevmajorversion}.so
+# Create symlink of .so file. PostGIS hackers said that this is safe:
+%{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 
 # Create alternatives entries for common binaries
 %post
@@ -248,9 +229,9 @@ cd %{sname}-%{postgisprevversion}
 %postun
 if [ "$1" -eq 0 ]
   then
-      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
-        %{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{pginstdir}/bin/pgsql2shp
-        %{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{pginstdir}/bin/shp2pgsql
+	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	%{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{pginstdir}/bin/pgsql2shp
+	%{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{pginstdir}/bin/shp2pgsql
 fi
 
 %clean
@@ -333,6 +314,11 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1
+- Update to 2.2.7
+- Create symlink of .so file. PostGIS hackers said that this
+  is safe.
+
 * Mon Feb 5 2018 John Harvey <john.harvey@crunchydata.com> - 2.2.6-2
 - Let PostGIS 2.1 depend on PGDG supplied Proj49 and GeOS 36 RPMs.
   This will help users to benefit from latest GeOS and Proj.
