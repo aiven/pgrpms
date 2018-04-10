@@ -35,13 +35,12 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Summary:	Small extension for Flask to make usage of Gravatar service easy
-Version:	0.4.2
-Release:	3%{?dist}
+Version:	0.5.0
+Release:	1%{?dist}
 License:	Python
 Group:		Development/Languages
-URL:		https://pypi.python.org/pypi/Flask-Gravatar
-Source0:	https://pypi.python.org/packages/source/F/%{pypi_name}/%{pypi_name}-%{version}.tar.gz
-BuildRequires:	python-setuptools
+URL:		https://github.com/zzzsochi/%{pypi_name}
+Source0:	https://github.com/zzzsochi/%{pypi_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -92,10 +91,10 @@ This is small and simple integration gravatar into flask.
 %files
 %defattr(-, root, root, -)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE CHANGES README.rst
+%doc LICENSE CHANGES.rst README.rst
 %else
 %license LICENSE
-%doc CHANGES README.rst
+%doc CHANGES.rst README.rst
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_Gravatar*.egg-info
@@ -106,6 +105,10 @@ This is small and simple integration gravatar into flask.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
+- Update to 0.5.0
+- Update URLs
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 0.4.2-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
