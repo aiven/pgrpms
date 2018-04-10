@@ -159,7 +159,7 @@ Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
 Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
 Requires:	%{sname}-python3-simplejson >= 3.13.2 python3-dateutil >= 2.5.0
-Requires:	python3-werkzeug >= 0.9.6 python3-sqlparse >= 0.1.19
+Requires:	python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.2.4
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.7.1
 Requires:	%{sname}-python3-flask-gravatar >= 0.5.0
 Requires:	%{sname}-python3-Flask-Mail >= 0.9.1
@@ -185,7 +185,7 @@ Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-wtforms >= 2.0.2
 Requires:	%{sname}-python3-beautifulsoup4 >= 4.4.1 %{sname}-python3-blinker >= 1.3
 Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}-python3-html5lib >= 1.0.1
 Requires:	%{sname}-python3-simplejson >= 3.13.2 %{sname}-python3-dateutil >= 2.5.0
-Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.1.19
+Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.2.4
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.7.1
 Requires:	%{sname}-python3-flask-gravatar >= 0.5.0 %{sname}-python3-Flask-Mail >= 0.9.1
 Requires:	%{sname}-python3-flask-security >= 1.7.5 %{sname}-python3-flask-login >= 0.3.2
@@ -210,7 +210,7 @@ Requires:	%{sname}-python-wtforms >= 2.0.2 %{sname}-python-beautifulsoup4 >= 4.4
 Requires:	%{sname}-python-blinker >= 1.3 %{sname}-python-flask-paranoid >= 0.1
 Requires:	%{sname}-python-itsdangerous >= 0.24 %{sname}-python-simplejson >= 3.13.2
 Requires:	%{sname}-python-werkzeug >= 0.9.6 %{sname}-python-backports.csv >= 1.0.5
-Requires:	%{sname}-pytz >= 2018.3 %{sname}-python-sqlparse >= 0.1.19
+Requires:	%{sname}-pytz >= 2018.3 %{sname}-python-sqlparse >= 0.2.4
 Requires:	%{sname}-python-flask-babel >= 0.11.1 %{sname}-python-flask-gravatar >= 0.5.0
 Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 1.7.5
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
