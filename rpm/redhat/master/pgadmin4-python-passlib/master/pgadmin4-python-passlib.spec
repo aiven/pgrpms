@@ -30,13 +30,13 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.6.2
-Release:	4%{?dist}
+Version:	1.7.1
+Release:	1%{?dist}
 Summary:	Comprehensive password hashing framework supporting over 20 schemes
 
 License:	BSD and Beerware and Copyright only
 URL:		http://%{sname}.googlecode.com
-Source0:	https://pypi.python.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -45,7 +45,7 @@ BuildRequires:	python3-devel python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} <= 1.6.2
 BuildRequires:	python34-devel python34-setuptools
 %endif
 
@@ -98,6 +98,9 @@ multi-user application.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
+- Update to 1.7.1
+
 * Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the dependencies for that.
