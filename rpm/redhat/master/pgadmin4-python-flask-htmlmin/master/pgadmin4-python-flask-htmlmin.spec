@@ -34,8 +34,8 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	1.2
-Release:	6%{?dist}
+Version:	1.3.2
+Release:	1%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -49,7 +49,7 @@ Requires:	python3-htmlmin
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python34-devel python34-setuptools
 Requires:	pgadmin4-python3-htmlmin
 %endif
@@ -96,6 +96,9 @@ application.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1
+- Update to 1.3.2
+
 * Sat Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-6
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
