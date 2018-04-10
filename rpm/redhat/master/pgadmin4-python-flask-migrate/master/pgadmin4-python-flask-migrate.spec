@@ -34,7 +34,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	2.1.1
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	SQLAlchemy database migrations for Flask applications using Alembic
 
 License:	MIT
