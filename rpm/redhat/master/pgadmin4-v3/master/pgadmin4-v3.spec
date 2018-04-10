@@ -152,7 +152,7 @@ Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-sqlalchemy >= 1.0.14
 Requires:	%{sname}-python3-wtforms >= 2.0.2
 Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	python3-blinker >= 1.3	python3-html5lib >= 1.0b3
+Requires:	python3-blinker >= 1.3	%{sname}-python3-html5lib >= 1.0.1
 Requires:	python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.6.2
 Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1
@@ -176,12 +176,12 @@ Requires:	python3-mod_wsgi python3-unittest2
 Requires:	qt >= 4.6
 Requires:	%{sname}-python3-passlib %{sname}-python3-flask-migrate
 Requires:	%{sname}-python3-crypto >= 2.6.1 %{sname}-python3-speaklater >= 1.3
-Requires:	%{sname}-python3-html5lib >= 1.0b3 %{sname}-python3-fixtures >= 2.0.0
+Requires:	%{sname}-python3-html5lib >= 1.0.1 %{sname}-python3-fixtures >= 2.0.0
 Requires:	%{sname}-python3-babel >= 2.3.4 %{sname}-python3-flask >= 0.11.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2 %{sname}-python3-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-wtforms >= 2.0.2
 Requires:	%{sname}-python3-beautifulsoup4 >= 4.4.1 %{sname}-python3-blinker >= 1.3
-Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}-python3-html5lib >= 1.0b3
+Requires:	%{sname}-python3-itsdangerous >= 0.24 %{sname}-python3-html5lib >= 1.0.1
 Requires:	%{sname}-python3-simplejson >= 3.6.5 %{sname}-python3-dateutil >= 2.5.0
 Requires:	%{sname}-python3-werkzeug >= 0.9.6 %{sname}-python3-sqlparse >= 0.1.19
 Requires:	%{sname}-python3-flask-babel >= 0.11.1 %{sname}-python3-passlib >= 1.6.2
@@ -217,14 +217,14 @@ Requires:	%{sname}-python-pyrsistent >= 0.11.13 %{sname}-python-mimeparse >= 1.5
 Requires:	python-click python-extras >= 0.0.3 python >= 2.7
 Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.6.2
 Requires:	python-passlib python2-flask-migrate
-Requires:	python-crypto >= 2.6.1	python-html5lib >= 1.0b3
+Requires:	python-crypto >= 2.6.1	%{sname}-python-html5lib >= 1.0.1
 Requires:	python-speaklater >= 1.3
 Requires:	mod_wsgi
 %endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-Requires:  pgadmin4-python-html5lib >= 1.0b3
+Requires:  pgadmin4-python-html5lib >= 1.0.1
 Requires:	apache2-mod_wsgi
 %endif
 %endif
