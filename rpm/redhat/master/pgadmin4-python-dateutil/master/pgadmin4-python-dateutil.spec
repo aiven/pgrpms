@@ -30,13 +30,13 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	2.5.3
-Release:	5%{?dist}
+Version:	2.7.2
+Release:	1%{?dist}
 Epoch:		1
 Summary:	Powerful extensions to the standard datetime module
 License:	Python
-URL:		https://github.com/dateutil/dateutil
-Source0:	https://github.com/dateutil/dateutil/archive/%{version}/%{sname}-%{version}.tar.gz
+URL:		https://github.com/%{sname}/%{sname}
+Source0:	https://files.pythonhosted.org/packages/c5/39/4da7c2dbc4f023fba5fb2325febcadf0d0ce0efdc8bd12083a0f65d20653/python-%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -47,11 +47,11 @@ Requires:	python3-six
 
 %if 0%{?rhel} == 6
 BuildRequires:	python-sphinx10 python34-devel python34-setuptools
-Requires:	python-six
+Requires:	python34-six
 %endif
 
 %if 0%{?rhel} == 7
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python-sphinx python2-devel python-six python-setuptools
 Requires:	python-six
 %endif
@@ -65,18 +65,18 @@ BuildRequires:	python-devel
 
 
 %description
-The dateutil module provides powerful extensions to the standard datetime
+The %{sname} module provides powerful extensions to the standard datetime
 module available in Python 2.3+.
 
 This is the version for Python 2.
 
 %package doc
-Summary:	API documentation for python-dateutil
+Summary:	API documentation for python-%{sname}
 %description doc
 This package contains %{summary}.
 
 %prep
-%autosetup -p0 -n %{sname}-%{version}
+%autosetup -p0 -n python-%{sname}-%{version}
 iconv --from=ISO-8859-1 --to=UTF-8 NEWS > NEWS.new
 mv NEWS.new NEWS
 
@@ -123,6 +123,9 @@ mv NEWS.new NEWS
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1:2.7.2-1
+- Update to 2.7.2
+
 * Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1:2.5.3-5
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
