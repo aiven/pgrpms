@@ -1,0 +1,1 @@
+../master/postgresql-10-tmpfiles.d

@@ -1,0 +1,1 @@
+../master/informix_fdw.spec
