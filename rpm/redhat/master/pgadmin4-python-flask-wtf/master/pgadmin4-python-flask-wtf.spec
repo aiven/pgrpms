@@ -1,4 +1,3 @@
-%global mod_name Flask-WTF
 %global sname	flask-wtf
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
@@ -33,14 +32,14 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.12
-Release:	3%{?dist}
+Version:	0.14.2
+Release:	1%{?dist}
 Summary:	Simple integration of Flask and WTForms
 
 Group:		Development/Libraries
 License:	BSD
-URL:		https://github.com/lepture/flask-wtf
-Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
+URL:		https://github.com/lepture/%{sname}
+Source0:	https://github.com/lepture/%{sname}/archive/v%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -73,7 +72,7 @@ Flask-WTF offers simple integration with WTForms. This integration
 includes optional CSRF handling for greater security.
 
 %prep
-%setup -q -n %{mod_name}-%{version}
+%setup -q -n %{sname}-%{version}
 %{__rm} -f docs/index.rst.orig
 
 %build
@@ -86,10 +85,10 @@ includes optional CSRF handling for greater security.
 # Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_wtf %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_wtf %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_wtf %{buildroot}%{python2_sitelib}/Flask_WTF-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_wtf %{buildroot}%{python2_sitelib}/Flask_WTF-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %clean
@@ -97,10 +96,10 @@ includes optional CSRF handling for greater security.
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc docs/ LICENSE PKG-INFO
+%doc docs/ LICENSE
 %else
 %license LICENSE
-%doc docs/ PKG-INFO
+%doc docs/
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*Flask_WTF*.egg-info
@@ -111,6 +110,9 @@ includes optional CSRF handling for greater security.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.14.2-1
+- Update to 0.14.2
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0.12-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
