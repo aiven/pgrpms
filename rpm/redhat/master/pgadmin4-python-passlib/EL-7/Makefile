@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f28
+DIST=.rhel7
 SPECFILE="pgadmin4-python-passlib.spec"
 
 # Now, include global Makefile
