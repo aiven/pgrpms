@@ -31,8 +31,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.0.14
-Release:	3%{?dist}
+Version:	1.2.5
+Release:	1%{?dist}
 Summary:	Modular and flexible ORM library for python
 Group:		Development/Libraries
 License:	MIT
@@ -77,13 +77,13 @@ BuildRequires:	python-devel python-mock python-pytest
 %setup -q -n %{srcname}-%{version}
 
 %build
-CFLAGS="%{optflags}" %{__ospython} setup.py --with-cextensions build
+CFLAGS="%{optflags}" %{__ospython} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
 
 %{__mkdir} -p %{buildroot}%{python2_sitelib}
-%{__ospython} setup.py --with-cextensions install --skip-build --root %{buildroot}
+%{__ospython} setup.py install --skip-build --root %{buildroot}
 
 # remove unnecessary scripts for building documentation
 %{__rm} -rf doc/build
@@ -112,6 +112,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py --with-cextensions build
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.5-1
+- Update to 1.2.5
+
 * Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.14-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the dependencies for that.
