@@ -33,14 +33,14 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Summary:	A python based HTML parser/tokenizer
-Version:	1.0b3
-Release:	2%{?dist}
+Version:	1.0.1
+Release:	1%{?dist}
 Epoch:		1
 Group:		Development/Libraries
 License:	MIT
 URL:		https://pypi.python.org/pypi/%{sname}
 
-Source0:	https://pypi.python.org/packages/source/h/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/h/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -107,6 +107,9 @@ specification for maximum compatibility with major desktop web browsers.
 %endif
 
 %changelog
+* Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.1-1
+- Update to 1.0.1
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 1:1.0b3-2
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
