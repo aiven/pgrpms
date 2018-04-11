@@ -3,7 +3,7 @@
 #  WARNING  When bootstrapping, disable tests as well,
 #           because tests need pip.
 %bcond_with bootstrap
-%bcond_without tests
+%bcond_with tests
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %global _without_python3 1
