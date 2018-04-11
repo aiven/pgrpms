@@ -45,7 +45,7 @@ BuildArch:	noarch
 BuildRequires:	python3-devel python3-setuptools
 BuildRequires:	pgadmin4-python3-flask
 Requires:	pgadmin4-python3-flask python3-babel
-Requires:	pgadmin4-python3-jinja2
+Requires:	python3-jinja2
 %endif
 
 %if 0%{?rhel} == 6
