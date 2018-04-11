@@ -72,10 +72,10 @@ A backport of linecache to older supported Pythons.\
 # Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/linecache2 %{buildroot}%{python3_sitelib}/linecache2-%{version}.dev3578-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/linecache2 %{buildroot}%{python3_sitelib}/linecache2-%{version}.dev*-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/linecache2 %{buildroot}%{python2_sitelib}/linecache2-%{version}.dev3578-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/linecache2 %{buildroot}%{python2_sitelib}/linecache2-%{version}.dev*-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
