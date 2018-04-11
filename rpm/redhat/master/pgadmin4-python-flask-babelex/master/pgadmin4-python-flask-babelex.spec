@@ -58,7 +58,7 @@ Requires:	pgadmin4-pythhon3-speaklater pgadmin4-python3-jinja2
 
 %if 0%{?rhel} == 7
 BuildRequires:	python2-devel python-setuptools
-BuildRequires:	pgadmin4-python2-flask
+BuildRequires:	pgadmin4-python-flask
 Requires:	pgadmin4-python-flask pgadmin4-python-babel
 Requires:	pgadmin4-python-speaklater pgadmin4-python-jinja2
 %endif
