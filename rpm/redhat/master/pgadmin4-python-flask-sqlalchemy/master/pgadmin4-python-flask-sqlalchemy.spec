@@ -82,7 +82,7 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %{__mv} %{buildroot}%{python3_sitelib}/flask_sqlalchemy %{buildroot}%{python3_sitelib}/Flask_SQLAlchemy-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_sqlalchemy %{buildroot}%{python2_sitelib}/Flask_SQLAlchemy-%{version}.dev20180410-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_sqlalchemy %{buildroot}%{python2_sitelib}/Flask_SQLAlchemy-%{version}.dev_20180411-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
