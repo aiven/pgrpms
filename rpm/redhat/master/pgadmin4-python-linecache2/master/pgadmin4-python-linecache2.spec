@@ -43,17 +43,16 @@ Source0:	https://github.com/testing-cabal/%{sname}/archive/%{version}.tar.gz
 BuildArch:	noarch
 %if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools
+BuildRequires:	python3-pbr
 %endif
 
 %if 0%{?rhel} == 6
-BuildRequires:	python34-devel python34-setuptools
+BuildRequires:	python34-devel python34-setuptools pgadmin4-python3-pbr
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	python2-devel python-setuptools
+BuildRequires:	python2-devel python-setuptools python-pbr
 %endif
-
-BuildRequires:	python2-pbr
 
 %global _description\
 A backport of linecache to older supported Pythons.\
