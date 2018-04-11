@@ -164,6 +164,8 @@ Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
 Requires:	python3-extras >= 1.0.0	python3-fixtures >= 2.0.0
 Requires:	python3-mimeparse >= 1.6.0 python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2
+# This is needed for the desktop mode
+Requires:	gnome-shell-extension-topicons-plus gnome-shell
 %endif
 
 %if 0%{?rhel} == 6
@@ -269,7 +271,7 @@ make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
 %if 0%{?rhel} == 6
 make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
 %endif
-%if 0%{?rhel} == 6
+%if 0%{?rhel} == 7
 make PYTHON=/usr/bin/python docs
 %endif
 
@@ -339,6 +341,10 @@ if [ $1 -eq 1 ] ; then
    :
   %endif
 fi
+%if 0%{?fedora} > 25
+	# Enable the extension:
+	gnome-shell-extension-tool -e topicons-plus
+%endif
 
 %preun
 if [ $1 -eq 0 ] ; then
