@@ -53,7 +53,7 @@ Obsoletes:	pgadmin4-python-%{sname} < %{version}
 BuildRequires:	python34-devel python34-setuptools
 BuildRequires:	pgadmin4-python3-flask
 Requires:	pgadmin4-python3-flask pgadmin4-python3-babel
-Requires:	pgadmin4-pythhon3-speaklater pgadmin4-python3-jinja2
+Requires:	pgadmin4-python3-speaklater pgadmin4-python3-jinja2
 %endif
 
 %if 0%{?rhel} == 7
