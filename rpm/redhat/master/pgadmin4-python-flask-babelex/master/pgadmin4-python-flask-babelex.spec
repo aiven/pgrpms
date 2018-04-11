@@ -60,7 +60,7 @@ Requires:	pgadmin4-python3-speaklater pgadmin4-python3-jinja2
 BuildRequires:	python2-devel python-setuptools
 BuildRequires:	pgadmin4-python-flask
 Requires:	pgadmin4-python-flask pgadmin4-python-babel
-Requires:	pgadmin4-python-speaklater pgadmin4-python-jinja2
+Requires:	python-speaklater pgadmin4-python-jinja2
 %endif
 
 %description
