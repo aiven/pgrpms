@@ -8,13 +8,13 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.3
+Version:	1.0.4
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
+Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/dalibo/%{sname}
+URL:		https://github.com/powa-team/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -83,7 +83,11 @@ together.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Sat Nov 18 2017 - Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
+* Sun Apr 15 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
+- Update to 1.0.4
+- Update URLs again.
+
+* Sat Nov 18 2017 - Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1
 - Update to 1.0.3, per #2883.
 - Update URLs
 
