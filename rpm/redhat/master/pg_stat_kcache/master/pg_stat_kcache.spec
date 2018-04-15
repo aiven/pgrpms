@@ -1,5 +1,9 @@
 %global sname pg_stat_kcache
 
+%global kcachemajver 2
+%global kcachemidver 0
+%global kcacheminver 3
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -8,13 +12,13 @@
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.3
-Release:	1%{?dist}
+Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
+Release:	2%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+URL:		https://github.com/powa-team/%{sname}
+Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_stat_kcache/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -36,7 +40,7 @@ is required as previous version of provided pg_stat_statements didn't expose
 the queryid field.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}
 %patch0 -p0
 
 %build
@@ -71,6 +75,9 @@ the queryid field.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Apr 15 2018 - Devrim Gündüz <devrim@gunduz.org> 2.0.3-2
+- Update to new URL, and use macros for version numberto avoid issues.
+
 * Wed Oct 12 2016 - Devrim Gündüz <devrim@gunduz.org> 2.0.3-1
 - Update to 2.0.3
 
