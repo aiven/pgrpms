@@ -24,7 +24,7 @@ prep:
 	spectool -g -S $(SPECFILE)
 
 allclean:
-	git clean -df
+	git clean -dfx
 
 clean:
 	rm -rf i386/ i586/ i686/ x86_64/ noarch/
