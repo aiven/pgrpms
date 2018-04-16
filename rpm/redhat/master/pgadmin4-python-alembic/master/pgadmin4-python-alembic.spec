@@ -62,7 +62,7 @@ BuildRequires:	python34-sqlalchemy >= 0.7.4
 %if 0%{?rhel} == 7
 BuildRequires:	python2-devel python-setuptools
 BuildRequires:	python-mock python-dateutil
-BuildRequires:	python-pytest
+BuildRequires:	pytest
 BuildRequires:	python-sqlalchemy >= 0.7.4
 %endif
 
