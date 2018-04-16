@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
 Name=pgAdmin 4
-Exec=/usr/pgadmin4-v3/runtime/pgAdmin4
+Exec=/usr/pgadmin4/runtime/pgAdmin4
 Icon=PYTHONSITELIB/pgadmin4-web/pgadmin/static/img/pgAdmin4.ico
 Type=Application
 Categories=Application;Development;

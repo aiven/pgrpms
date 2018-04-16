@@ -21,8 +21,8 @@ select pgayn in "Yes" "No"; do
     case $pgayn in
         Yes )
 	echo
-	cp /etc/httpd/conf.d/pgadmin4-v3.conf.sample /etc/httpd/conf.d/pgadmin4-v3.conf
-	echo "pgAdmin4-v3 Apache config file is created as /etc/httpd/conf.d/pgadmin4-v3.conf"
+	cp /etc/httpd/conf.d/pgadmin4-conf.sample /etc/httpd/conf.d/pgadmin4.conf
+	echo "pgAdmin4 Apache config file is created as /etc/httpd/conf.d/pgadmin4.conf"
 	break;;
         No ) exit;;
     esac

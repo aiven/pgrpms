@@ -1,7 +1,7 @@
 %global debug_package %{nil}
 %global sname pgadmin4
 %global pgadminmajorversion 3
-%global	pgadmin4instdir /usr/%{sname}-v%{pgadminmajorversion}
+%global	pgadmin4instdir /usr/%{sname}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
@@ -37,9 +37,9 @@
 %global PYTHON_SITELIB64 %{python2_sitelib64}
 %endif
 
-Name:		%{sname}-v%{pgadminmajorversion}
+Name:		%{sname}
 Version:	%{pgadminmajorversion}.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -56,6 +56,8 @@ Patch2:		%{sname}-rhel6-sphinx.patch
 Patch4:		%{sname}-rhel7-sphinx.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Obsoletes:	pgadmin4-v2 pgadmin4-v3 <= 3.0
 
 BuildRequires:	gcc-c++
 
@@ -118,9 +120,6 @@ Requires:  libqt4 >= 4.6
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %endif
 
-Requires(post):	%{_sbindir}/update-alternatives
-Requires(postun):	%{_sbindir}/update-alternatives
-
 %description
 pgAdmin 4 is a rewrite of the popular pgAdmin3 management tool for the
 PostgreSQL (http://www.postgresql.org) database.
@@ -142,6 +141,8 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
+
+Obsoletes:	pgadmin4-v2-web pgadmin4-v3-web <= 3.0
 
 %if 0%{?fedora}
 Requires:	qt >= 5.1
@@ -232,6 +233,8 @@ This package contains the required files to run pgAdmin4 as a web application
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
+Obsoletes:	pgadmin4-v2-docs pgadmin4-v3-docs <= 3.0
+
 %description -n %{name}-docs
 Documentation of pgadmin4.
 
@@ -320,13 +323,13 @@ make PYTHON=/usr/bin/python docs
 
 cd %{buildroot}%{PYTHON_SITELIB}/%{sname}-web
 %{__rm} -f %{name}.db
-echo "HELP_PATH = '/usr/share/doc/%{sname}-v3-docs/en_US/html'" > config_distro.py
+echo "HELP_PATH = '/usr/share/doc/%{sname}-docs/en_US/html'" > config_distro.py
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %post
-%{_sbindir}/update-alternatives --install /usr/bin/%{sname} %{sname} %{pgadmin4instdir}/runtime/pgAdmin4 %{pgadminmajorversion}
+%{__ln_s} %{pgadmin4instdir}/runtime/pgAdmin4 %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -342,16 +345,13 @@ if [ $1 -eq 1 ] ; then
   %endif
 fi
 %if 0%{?fedora} > 25
-	# Enable the extension:
-	gnome-shell-extension-tool -e topicons-plus
+	# Enable the extension. Don't throw an error if it is already enabled.
+	gnome-shell-extension-tool -e topicons-plus >/dev/null 2>&1 || :
 %endif
 
-%preun
-if [ $1 -eq 0 ] ; then
-	%{_sbindir}/update-alternatives --remove %{sname} %{pgadmin4instdir}/runtime/pgAdmin4
-fi
-
 %postun
+unlink %{_bindir}/pgadmin4
+
 %if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %else
@@ -383,6 +383,10 @@ fi
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+
+* Mon Apr 16 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-2
+- Remove -v3 from package name. That made upgrades harder.
+- No longer use alternatives, we don't allow parallel installation already.
 
 * Wed Mar 21 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-1
 - Update to 3.0
