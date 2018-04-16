@@ -39,7 +39,7 @@
 
 Name:		%{sname}
 Version:	%{pgadminmajorversion}.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -383,6 +383,8 @@ unlink %{_bindir}/pgadmin4
 %doc	%{_docdir}/%{name}-docs/*
 
 %changelog
+* Tue Apr 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-3
+- Fix setup script.
 
 * Mon Apr 16 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-2
 - Remove -v3 from package name. That made upgrades harder.
