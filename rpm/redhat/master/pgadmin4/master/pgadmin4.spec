@@ -211,12 +211,12 @@ Requires:	%{sname}-python-Flask-Mail >= 0.9.1 %{sname}-python-flask-security >= 
 Requires:	%{sname}-python-flask-login >= 0.3.2 %{sname}-python-flask-principal >= 0.4.0
 Requires:	%{sname}-python-dateutil >= 2.7.2 %{sname}-python-fixtures >= 2.0.0
 Requires:	%{sname}-python-pyrsistent >= 0.14.2 %{sname}-python-mimeparse >= 1.6.0
-Requires:	%{sname}-python-extras >= 1.0.0 python >= 2.7
+Requires:	%{sname}-python-extras >= 1.0.0 %{sname}-python-flask-babelex
 Requires:	%{sname}-python-passlib >= 1.7.1 %{sname}-python-flask-migrate >= 2.1.1
 Requires:	%{sname}-python-pbr >= 3.1.1 %{sname}-python-html5lib >= 1.0.1
-Requires:	python-six >= 1.9.0 python-psycopg2 >= 2.7.4 python-linecache2 >= 1.0.0
-Requires:	python-speaklater >= 1.3 python-click python-crypto >= 2.6.1
-Requires:	mod_wsgi
+Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
+Requires:	python-linecache2 >= 1.0.0 python-speaklater >= 1.3 python-click
+Requires:	python-crypto >= 2.6.1 mod_wsgi
 %endif
 
 %if 0%{?suse_version}
