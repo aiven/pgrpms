@@ -49,6 +49,8 @@ BuildRequires:	python3-devel python3-setuptools
 BuildRequires:	python3-mock python3-dateutil
 BuildRequires:	python3-editor python3-pytest
 BuildRequires:	python3-sqlalchemy >= 0.7.4
+Requires:       python3-editor python3-dateutil
+Requires:       python3-mako
 %endif
 
 %if 0%{?rhel} == 6
@@ -57,6 +59,8 @@ BuildRequires:	python34-devel python34-setuptools
 BuildRequires:	python34-mock pgadmin4-python3-dateutil
 BuildRequires:	python34-pytest
 BuildRequires:	python34-sqlalchemy >= 0.7.4
+Requires:       python3-editor python3-dateutil
+Requires:       python3-mako
 %endif
 
 %if 0%{?rhel} == 7
@@ -64,6 +68,8 @@ BuildRequires:	python2-devel python-setuptools
 BuildRequires:	python-mock python-dateutil
 BuildRequires:	pytest
 BuildRequires:	python-sqlalchemy >= 0.7.4
+Requires:       python-editor python-dateutil
+Requires:       python-mako
 %endif
 
 
