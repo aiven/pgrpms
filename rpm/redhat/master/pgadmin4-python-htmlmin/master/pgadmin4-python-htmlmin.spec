@@ -1,9 +1,5 @@
 %global sname htmlmin
 %global desc A configurable HTML Minifier with safety features.
-%global github_owner mankyd
-%global github_name %{sname}
-%global commit cc611c3c6eabac97aaa4e4e249be6e8910b12abd
-%global shortcommit %(c=%{commit}; echo ${c:0:7})
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global with_docs 0
@@ -43,13 +39,13 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.1.10
-Release:	8.gitcc611c3%{?dist}
+Version:	0.1.12
+Release:	1%{?dist}
 Summary:	HTML Minifier
 
 License:	BSD
 URL:		https://pypi.python.org/pypi/%{sname}
-Source0:	https://github.com/%{github_owner}/%{github_name}/archive/%{commit}/%{github_name}-%{commit}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/source/h/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -76,7 +72,7 @@ BuildRequires:	python-devel
 %{desc}
 
 %prep
-%setup -q -n %{github_name}-%{commit}
+%setup -q -n %{sname}-%{version}
 %{__rm} -rf *.egg-info
 
 %build
@@ -116,7 +112,10 @@ BuildRequires:	python-devel
 %endif
 
 %changelog
-* Thu Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> -  0.1.10-8.gitcc611c3
+* Mon Apr 16 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.12-1
+- Update to 0.1.12
+
+* Sat Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> -  0.1.10-8.gitcc611c3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.
 
