@@ -653,10 +653,10 @@ export PYTHON=/usr/bin/python3
 # We need to build PL/Python and a few extensions:
 # Build PL/Python
 cd src/backend
-make submake-errcodes
+MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
 cd src/pl/plpython
-make %{?_smp_mflags} all
+%{__make} all
 cd ..
 # save built form in a directory that "make distclean" won't touch
 %{__cp} -a plpython plpython3
@@ -665,7 +665,7 @@ cd ../..
 for p3bl in %{python3_build_list} ; do
 	p3blpy3dir="$p3bl"3
 	pushd contrib/$p3bl
-	%{__make} %{?_smp_mflags} all
+MAKELEVEL=0	%{__make} %{?_smp_mflags} all
 	cd ..
 	# save built form in a directory that "make distclean" won't touch
 	%{__cp} -a $p3bl $p3blpy3dir
@@ -759,7 +759,7 @@ unset PYTHON
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
-make %{?_smp_mflags} all
+MAKELEVEL=0 make %{?_smp_mflags} all
 make %{?_smp_mflags} -C contrib all
 %if %uuid
 make %{?_smp_mflags} -C contrib/uuid-ossp all
@@ -1170,6 +1170,7 @@ fi
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
+%{pgbaseinstdir}/share/errcodes.txt
 %{pgbaseinstdir}/share/man/man1/clusterdb.*
 %{pgbaseinstdir}/share/man/man1/createdb.*
 %{pgbaseinstdir}/share/man/man1/createuser.*
@@ -1225,8 +1226,11 @@ fi
 %{pgbaseinstdir}/lib/hstore.so
 %if %plperl
 %{pgbaseinstdir}/lib/hstore_plperl.so
+%{pgbaseinstdir}/lib/jsonb_plperl.so
+%{pgbaseinstdir}/share/extension/jsonb_plperl*.sql
+%{pgbaseinstdir}/share/extension/jsonb_plperl*.control
 %endif
-%if %plpython
+%%if %plpython
 %{pgbaseinstdir}/lib/hstore_plpython2.so
 %{pgbaseinstdir}/lib/jsonb_plpython2.so
 %{pgbaseinstdir}/lib/ltree_plpython2.so
@@ -1367,6 +1371,7 @@ fi
 %{pgbaseinstdir}/bin/initdb
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
+%{pgbaseinstdir}/bin/pg_verify_checksums
 %{pgbaseinstdir}/bin/pg_resetwal
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
@@ -1374,6 +1379,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
+%{pgbaseinstdir}/share/man/man1/pg_verify_checksums.*
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
