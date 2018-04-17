@@ -238,7 +238,6 @@ Documentation of pgadmin4.
 %package	-n %{name}-desktop-common
 Summary:	Desktop components of pgAdmin4 for all window managers.
 Requires:	%{sname}-web
-BuildArch:	noarch
 
 %description -n %{name}-desktop-common
 Desktop components of pgAdmin4 all window managers.
