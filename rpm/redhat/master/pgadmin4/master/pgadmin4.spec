@@ -397,13 +397,6 @@ fi
 
 %files
 %defattr(-,root,root,-)
-%{pgadmin4instdir}/runtime/pgAdmin4
-%{_datadir}/applications/%{name}.desktop
-%if 0%{?fedora} > 25
-%{_sysconfdir}/xdg/pgadmin/%{sname}.conf
-%else
-%{_sysconfdir}/pgadmin/%{sname}.conf
-%endif
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
@@ -421,13 +414,21 @@ fi
 
 %files -n %{name}-desktop-common
 %defattr(-,root,root,-)
+%{pgadmin4instdir}/runtime/pgAdmin4
+%{_datadir}/applications/%{name}.desktop
+%if 0%{?fedora} > 25
+%{_sysconfdir}/xdg/pgadmin/%{sname}.conf
+%else
+%{_sysconfdir}/pgadmin/%{sname}.conf
+%endif
 
 %files -n %{name}-desktop-gnome
 %defattr(-,root,root,-)
 
 %changelog
 * Wed Apr 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-4
-- Split desktop components into their own subpackages.
+- Split desktop components into their own subpackages. Move files
+  of the main package to desktop-common package.
 - Add dependency to alembic for setup script.
 
 * Tue Apr 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-3
