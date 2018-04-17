@@ -259,6 +259,13 @@ Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
 %if 0%{?fedora}
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
+Requires:	qt >= 5.1
+%endif
+%if 0%{?rhel} == 6
+Requires:	qt >= 4.6
+%endif
+%if 0%{?rhel} == 7
+Requires:	qt >= 4.6
 %endif
 
 %description -n %{name}-desktop-gnome
