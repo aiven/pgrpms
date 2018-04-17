@@ -39,7 +39,7 @@
 
 Name:		%{sname}
 Version:	%{pgadminmajorversion}.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -57,7 +57,7 @@ Patch4:		%{sname}-rhel7-sphinx.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Obsoletes:	pgadmin4-v2 pgadmin4-v3 <= 3.0
+Obsoletes:	pgadmin4-v2 <= 2.0 pgadmin4-v3 <= 3.0
 
 BuildRequires:	gcc-c++
 
@@ -142,10 +142,9 @@ Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v2-web pgadmin4-v3-web <= 3.0
+Obsoletes:	pgadmin4-v2-web <= 2.0 pgadmin4-v3-web <= 3.0
 
 %if 0%{?fedora}
-Requires:	qt >= 5.1
 Requires:	%{sname}-python3-flask-htmlmin >= 1.2 %{sname}-python3-flask >= 0.12.2
 Requires:	%{sname}-python3-flask-wtf >= 0.12 %{sname}-python3-sqlalchemy >= 1.2.5
 Requires:	%{sname}-python3-wtforms >= 2.0.2 %{sname}-python3-html5lib >= 1.0.1
@@ -164,13 +163,10 @@ Requires:	python3-psycopg2 >= 2.7.4 python3-linecache2 >= 1.0.0
 Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
 Requires:	python3-extras >= 1.0.0	python3-fixtures >= 2.0.0
 Requires:	python3-mimeparse >= 1.6.0 python3-speaklater >= 1.3
-Requires:	python3-mod_wsgi python3-unittest2
-# This is needed for the desktop mode
-Requires:	gnome-shell-extension-topicons-plus gnome-shell
+Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
 %if 0%{?rhel} == 6
-Requires:	qt >= 4.6
 Requires:	%{sname}-python3-passlib >= 1.7.1 %{sname}-python3-flask-migrate >= 2.1.1
 Requires:	%{sname}-python3-crypto >= 2.6.1 %{sname}-python3-speaklater >= 1.3
 Requires:	%{sname}-python3-html5lib >= 1.0.1 %{sname}-python3-fixtures >= 2.0.0
@@ -196,7 +192,6 @@ Requires:	mod_wsgi python-unittest2
 %endif
 
 %if 0%{?rhel} == 7
-Requires:	qt >= 4.6
 Requires:	%{sname}-python-babel >= 2.3.4 %{sname}-python-flask >= 0.12.2
 Requires:	%{sname}-python-flask-htmlmin >= 1.2 %{sname}-python-flask-sqlalchemy >= 2.1
 Requires:	%{sname}-python-flask-wtf >= 0.12 %{sname}-python-jinja2 >= 2.7.3
@@ -214,6 +209,7 @@ Requires:	%{sname}-python-pyrsistent >= 0.14.2 %{sname}-python-mimeparse >= 1.6.
 Requires:	%{sname}-python-extras >= 1.0.0 %{sname}-python-flask-babelex
 Requires:	%{sname}-python-passlib >= 1.7.1 %{sname}-python-flask-migrate >= 2.1.1
 Requires:	%{sname}-python-pbr >= 3.1.1 %{sname}-python-html5lib >= 1.0.1
+Requires:	%{sname}-python-alembic
 Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
 Requires:	python-linecache2 >= 1.0.0 python-speaklater >= 1.3 python-click
 Requires:	python-crypto >= 2.6.1 mod_wsgi
@@ -233,10 +229,46 @@ This package contains the required files to run pgAdmin4 as a web application
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v2-docs pgadmin4-v3-docs <= 3.0
+Obsoletes:	pgadmin4-v2-docs <= 2.0 pgadmin4-v3-docs <= 3.0
 
 %description -n %{name}-docs
 Documentation of pgadmin4.
+
+# desktop (non-gnome)
+%package	-n %{name}-desktop-common
+Summary:	Desktop components of pgAdmin4 for all window managers.
+Requires:	%{sname}-web
+BuildArch:	noarch
+
+%description -n %{name}-desktop-common
+Desktop components of pgAdmin4 all window managers.
+
+%if 0%{?fedora}
+Requires:	qt >= 5.1
+%endif
+
+%if 0%{?rhel} == 6
+Requires:	qt >= 4.6
+%endif
+
+%if 0%{?rhel} == 7
+Requires:	qt >= 4.6
+%endif
+
+# desktop-gnome
+%package	-n %{name}-desktop-gnome
+Summary:	GNOME Desktop components of pgAdmin4
+Requires:	%{sname}-web
+BuildArch:	noarch
+Conflicts:	%{name}-desktop
+Requires:	%{name}-desktop-common
+
+%description -n %{name}-desktop-gnome
+GNOME Desktop components of pgAdmin4.
+
+%if 0%{?fedora}
+Requires:	gnome-shell-extension-topicons-plus gnome-shell
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -344,13 +376,18 @@ if [ $1 -eq 1 ] ; then
    :
   %endif
 fi
+
+%post -n %{name}-desktop-gnome
 %if 0%{?fedora} > 25
 	# Enable the extension. Don't throw an error if it is already enabled.
 	gnome-shell-extension-tool -e topicons-plus >/dev/null 2>&1 || :
 %endif
 
 %postun
-unlink %{_bindir}/pgadmin4
+# Remove symlink only during uninstall
+if [ $1 -gt 0 ] ; then
+	unlink %{_bindir}/pgadmin4
+fi
 
 %if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -382,7 +419,17 @@ unlink %{_bindir}/pgadmin4
 %defattr(-,root,root,-)
 %doc	%{_docdir}/%{name}-docs/*
 
+%files -n %{name}-desktop-common
+%defattr(-,root,root,-)
+
+%files -n %{name}-desktop-gnome
+%defattr(-,root,root,-)
+
 %changelog
+* Wed Apr 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-4
+- Split desktop components into their own subpackages.
+- Add dependency to alembic for setup script.
+
 * Tue Apr 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-3
 - Fix setup script.
 
