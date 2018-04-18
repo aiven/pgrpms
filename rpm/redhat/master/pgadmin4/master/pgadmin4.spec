@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -427,6 +427,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Apr 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-5
+- Rebuilt
+
 * Wed Apr 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-4
 - Split desktop components into their own subpackages. Move files
   of the main package to desktop-common package.
