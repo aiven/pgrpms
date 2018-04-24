@@ -680,6 +680,9 @@ make distclean
 %endif
 
 unset PYTHON
+# Explicitly run Python2 here -- in future releases,
+# Python3 will be the default.
+export PYTHON=/usr/bin/python2
 
 # Normal (not python3) build begins here
 ./configure --enable-rpath \
