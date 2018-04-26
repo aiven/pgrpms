@@ -24,7 +24,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
 URL:		https://github.com/EnterpriseDB/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel wget
 BuildRequires:	mongo-c-driver-devel snappy snappy-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
