@@ -1,13 +1,13 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	1.0.0
+Version:	1.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Development/Tools
 URL:		https://github.com/okbob/%{name}
 Source:		https://github.com/okbob/%{name}/archive/%{version}.tar.gz
-BuildRequires:	ncurses-devel
-Requires:	ncurses
+BuildRequires:	ncurses-devel readline-devel
+Requires:	ncurses readline
 
 %description
 pspg is a unix pager optimized for psql. It can freeze rows, freeze
@@ -45,6 +45,9 @@ CFLAGS="%{optflags}"
 %{_bindir}/*
 
 %changelog
+* Sun Apr 29 2018 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0, per #3315
+
 * Fri Mar 16 2018 Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Update to 1.0.0, per #3210
 
