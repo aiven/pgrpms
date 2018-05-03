@@ -35,13 +35,16 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
+%if 0%{?fedora} >= 28
+Patch1:		%{sname}23-json-c_013.patch
+%endif
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -173,6 +176,9 @@ The postgis-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
+%if 0%{?fedora} >= 28
+%patch1 -p1
+%endif
 
 %build
 
@@ -313,6 +319,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu May 3 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-2
+- Add a patch to fix builds against json-c >= 0.13
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-1
 - Update to 2.3.7
 - Create symlink of .so file. PostGIS hackers said that this
