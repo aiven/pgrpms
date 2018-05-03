@@ -1,9 +1,6 @@
-%global debug_package %{nil}
-
 %global postgismajorversion 2.4
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.3
-%global postgisprevversion %{postgisprevmajorversion}.7
 %global sname	postgis
 
 %{!?utils:%global	utils 1}
@@ -36,11 +33,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
-Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
@@ -217,26 +213,8 @@ install -d %{buildroot}%{_datadir}/%{name}
 install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
-# PostGIS 2.4 breaks compatibility with 2.3, and we need to ship
-# postgis-2.3.so file along with 2.3 package, so that we can upgrade:
-tar zxf %{SOURCE1}
-cd %{sname}-%{postgisprevversion}
-%ifarch ppc64 ppc64le
-        sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
-        CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
-        sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-
-%configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
-	--disable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/usr/geos36/bin/geos-config \
-	--with-projdir=/usr/proj49
-
-%{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgisprevmajorversion}.so"
-# Install postgis-2.3.so file manually:
-%{__mkdir} -p %{buildroot}/%{pginstdir}/lib/
-%{__install} -m 644 postgis/postgis-%{postgisprevmajorversion}.so %{buildroot}/%{pginstdir}/lib/postgis-%{postgisprevmajorversion}.so
+# Create symlink of .so file. PostGIS hackers said that this is safe:
+%{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 
 # Create alternatives entries for common binaries
 %post
@@ -276,7 +254,7 @@ fi
 %if %{sfcgal}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
 %endif
-%attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
+%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %if %{sfcgal}
@@ -333,6 +311,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu May 3 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.4-2
+- Remove 2.3 bits from the package, and use symlink to .so file
+  instead.
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.4-1
 - Update to 2.4.4
 
