@@ -675,7 +675,7 @@ done
 # must also save this version of Makefile.global for later
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
-make distclean
+%{__make} distclean
 
 %endif
 
@@ -762,15 +762,15 @@ export PYTHON=/usr/bin/python2
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
-MAKELEVEL=0 make %{?_smp_mflags} all
-make %{?_smp_mflags} -C contrib all
+MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+%{__make} %{?_smp_mflags} -C contrib all
 %if %uuid
-make %{?_smp_mflags} -C contrib/uuid-ossp all
+%{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
 %endif
 
 # Have to hack makefile to put correct path into tutorial scripts
 sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
-make %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
+%{__make} %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
 %{__rm} -f src/tutorial/GNUmakefile
 
 
@@ -781,7 +781,7 @@ make %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
 
 run_testsuite()
 {
-	make -C "$1" MAX_CONNECTIONS=5 check && return 0
+	%{__make} -C "$1" MAX_CONNECTIONS=5 check && return 0
 
 	test_failure=1
 
@@ -798,7 +798,7 @@ run_testsuite()
 
 %if %runselftest
 	run_testsuite "src/test/regress"
-	make clean -C "src/test/regress"
+	%{__make} clean -C "src/test/regress"
 	run_testsuite "src/pl"
 %if %plpython3
 	# must install Makefile.global that selects python3
@@ -823,14 +823,14 @@ run_testsuite()
 
 %if %test
 	pushd src/test/regress
-	make all
+	%{__make} all
 	popd
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
 
-make DESTDIR=%{buildroot} install
+%{__make} DESTDIR=%{buildroot} install
 
 %if %plpython3
 	%{__mv} src/Makefile.global src/Makefile.global.save
@@ -838,7 +838,7 @@ make DESTDIR=%{buildroot} install
 	touch -r src/Makefile.global.save src/Makefile.global
 	# Install PL/Python3
 	pushd src/pl/plpython3
-	make DESTDIR=%{buildroot} install
+	%{__make} DESTDIR=%{buildroot} install
 	popd
 
 	for p3bl in %{python3_build_list} ; do
@@ -846,17 +846,17 @@ make DESTDIR=%{buildroot} install
 
 		# Install jsonb_plpython3
 		pushd contrib/$p3blpy3dir
-		make DESTDIR=%{buildroot} install
+		%{__make} DESTDIR=%{buildroot} install
 		popd
 	done
 
 	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 
-mkdir -p %{buildroot}%{pgbaseinstdir}/share/extensions/
-make -C contrib DESTDIR=%{buildroot} install
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
+%{__make} -C contrib DESTDIR=%{buildroot} install
 %if %uuid
-make -C contrib/uuid-ossp DESTDIR=%{buildroot} install
+%{__make} -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 %endif
 
 # multilib header hack; note pg_config.h is installed in two places!
@@ -864,11 +864,11 @@ make -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 case `uname -i` in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/pg_config.h
+		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/pg_config.h
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
-		install -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h
+		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h
 		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
-		install -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h
+		%{__install} -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h
 		;;
 	*)
 	;;
@@ -880,7 +880,7 @@ esac
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
-install -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
+%{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -888,51 +888,51 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
 	<%{SOURCE10} >%{sname}-%{pgmajorversion}-check-db-dir
 touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
-install -m 755 %{sname}-%{pgmajorversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
+%{__install} -m 755 %{sname}-%{pgmajorversion}-check-db-dir %{buildroot}%{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
 
-install -d %{buildroot}%{_unitdir}
-install -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
 %else
-install -d %{buildroot}%{_initrddir}
+%{__install} -d %{buildroot}%{_initrddir}
 sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
-install -m 755 %{sname}.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
+%{__install} -m 755 %{sname}.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 %endif
 
 %if %pam
-install -d %{buildroot}/etc/pam.d
-install -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/%{sname}
+%{__install} -d %{buildroot}/etc/pam.d
+%{__install} -m 644 %{SOURCE14} %{buildroot}/etc/pam.d/%{sname}
 %endif
 
 # Create the directory for sockets.
-install -d -m 755 %{buildroot}/var/run/%{sname}
+%{__install} -d -m 755 %{buildroot}/var/run/%{sname}
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
-mkdir -p %{buildroot}/%{_tmpfilesdir}
-install -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %endif
 
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
-install -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/data
+%{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/data
 
 # backups of data go here...
-install -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/backups
+%{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/backups
 
 # Create the multiple postmaster startup directory
-install -d -m 700 %{buildroot}/etc/sysconfig/pgsql/%{pgmajorversion}
+%{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/%{pgmajorversion}
 
 # Install linker conf file under postgresql installation directory.
 # We will install the latest version via alternatives.
-install -d -m 755 %{buildroot}%{pgbaseinstdir}/share/
-install -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
+%{__install} -d -m 755 %{buildroot}%{pgbaseinstdir}/share/
+%{__install} -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
 	# but include them anyway for completeness.  We replace the original
 	# Makefiles, however.
-	mkdir -p %{buildroot}%{pgbaseinstdir}/lib/test
+	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
-	install -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	install -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
@@ -945,9 +945,9 @@ install -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 # Fix some more documentation
 # gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
-mkdir -p %{buildroot}%{pgbaseinstdir}/share/doc/html
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/doc/html
 %{__mv} doc/src/sgml/html doc
-mkdir -p %{buildroot}%{pgbaseinstdir}/share/man/
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/man/
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
