@@ -32,6 +32,8 @@
 %if 0%{?fedora} > 23
 # All Fedora releases now use Python3
 %{!?plpython3:%global plpython3 1}
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
@@ -73,7 +75,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.8
+Version:	9.6.9
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -577,7 +579,8 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pginstdir}/doc \
 	--htmldir=%{pginstdir}/doc/html
-# Fortunately we don't need to build much except plpython itself
+# We need to build PL/Python and a few extensions:
+# Build PL/Python
 cd src/backend
 make submake-errcodes
 cd ../..
@@ -587,6 +590,17 @@ cd ..
 # save built form in a directory that "make distclean" won't touch
 %{__cp} -a plpython plpython3
 cd ../..
+# Build some of the extensions with PY3 support
+for p3bl in %{python3_build_list} ; do
+	p3blpy3dir="$p3bl"3
+	pushd contrib/$p3bl
+	%{__make} %{?_smp_mflags} all
+	cd ..
+	# save built form in a directory that "make distclean" won't touch
+	%{__cp} -a $p3bl $p3blpy3dir
+	popd
+done
+
 
 # must also save this version of Makefile.global for later
 %{__cp} src/Makefile.global src/Makefile.global.python3
@@ -746,9 +760,18 @@ make DESTDIR=%{buildroot} install
 	%{__mv} src/Makefile.global src/Makefile.global.save
 	%{__cp} src/Makefile.global.python3 src/Makefile.global
 	touch -r src/Makefile.global.save src/Makefile.global
+	# Install PL/Python3
 	pushd src/pl/plpython3
 	make DESTDIR=%{buildroot} install
 	popd
+
+	for p3bl in %{python3_build_list} ; do
+		p3blpy3dir="$p3bl"3
+		pushd contrib/$p3blpy3dir
+		make DESTDIR=%{buildroot} install
+		popd
+	done
+
 	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 
@@ -1137,12 +1160,17 @@ fi
 %endif
 %if %plpython
 %{pginstdir}/lib/hstore_plpython2.so
+%{pginstdir}/lib/ltree_plpython2.so
+%{pginstdir}/share/extension/*_plpythonu*
+%{pginstdir}/share/extension/*_plpython2u*
+%endif
+%if %plpython3
+%{pginstdir}/lib/hstore_plpython3.so
+%{pginstdir}/lib/ltree_plpython3.so
+%{pginstdir}/share/extension/*_plpython3u*
 %endif
 %{pginstdir}/lib/lo.so
 %{pginstdir}/lib/ltree.so
-%if %plpython
-%{pginstdir}/lib/ltree_plpython2.so
-%endif
 %{pginstdir}/lib/moddatetime.so
 %{pginstdir}/lib/pageinspect.so
 %{pginstdir}/lib/passwordcheck.so
@@ -1192,13 +1220,16 @@ fi
 %{pginstdir}/share/extension/earthdistance*
 %{pginstdir}/share/extension/file_fdw*
 %{pginstdir}/share/extension/fuzzystrmatch*
-%{pginstdir}/share/extension/hstore*
+%{pginstdir}/share/extension/hstore.control
+%{pginstdir}/share/extension/hstore--*.sql
+%{pginstdir}/share/extension/hstore_plperl*
 %{pginstdir}/share/extension/insert_username*
 %{pginstdir}/share/extension/intagg*
 %{pginstdir}/share/extension/intarray*
 %{pginstdir}/share/extension/isn*
 %{pginstdir}/share/extension/lo*
-%{pginstdir}/share/extension/ltree*
+%{pginstdir}/share/extension/ltree.control
+%{pginstdir}/share/extension/ltree--*.sql
 %{pginstdir}/share/extension/moddatetime*
 %{pginstdir}/share/extension/pageinspect*
 %{pginstdir}/share/extension/pg_buffercache*
@@ -1372,6 +1403,12 @@ fi
 %endif
 
 %changelog
+* Tue May 8 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.9-1PGDG-1
+- Update to 9.6.9, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-6-9.html
+- Build hstore_plpyton and ltree_plpython with PY3 as well. This
+  is a backport of 969cf62e70e6f97725f53ac70bf07214555df45d .
+
 * Mon Feb 26 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.8-1PGDG-1
 - Update to 9.6.8, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-6-8.html
