@@ -878,6 +878,12 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > postgresql.init
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
+# Quick hack for RHEL <= 7 and not compiled with PL/Python3 support:
+%if 0%{?rhel} <= 7 && ! 0%{?plpython3}
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/hstore_plpython3u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/ltree_plpython3u*
+%endif
+
 # initialize file lists
 %{__cp} /dev/null main.lst
 %{__cp} /dev/null libs.lst
