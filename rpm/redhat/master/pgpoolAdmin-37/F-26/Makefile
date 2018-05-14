@@ -1,4 +1,4 @@
-#################################
+################################
 # RPM-specific Makefile		#
 # https://yum.postgresql.org	#
 #                         	#
@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f26
 SPECFILE="pgpoolAdmin-37.spec"
 
 # Now, include global Makefile
