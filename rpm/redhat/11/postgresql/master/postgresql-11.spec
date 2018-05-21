@@ -137,9 +137,10 @@ Requires:	libicu
 
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	llvm3.9-devel => 3.9 clang-devel => 3.4.2
+# Packages come from EPEL and SCL:
+BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %else
-BuildRequires:	llvm-devel => 3.9 clang-devel => 3.4.2
+BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 %endif
 %endif
 
@@ -392,9 +393,9 @@ Summary:	Just-in-time compilation support for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	llvm3.9 => 3.9
+Requires:	llvm5.0 >= 5.0
 %else
-Requires:	llvm => 3.9
+Requires:	llvm => 5.0
 %endif
 Provides:	postgresql-llvmjit
 
@@ -591,7 +592,7 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
-	LLVM_CONFIG=%{_libdir}/llvm3.9/bin/llvm-config -with-llvm \
+	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config --with-llvm \
 %else
 	--with-llvm \
 %endif
@@ -665,13 +666,12 @@ cd ../..
 for p3bl in %{python3_build_list} ; do
 	p3blpy3dir="$p3bl"3
 	pushd contrib/$p3bl
-MAKELEVEL=0	%{__make} %{?_smp_mflags} all
+	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 	cd ..
 	# save built form in a directory that "make distclean" won't touch
 	%{__cp} -a $p3bl $p3blpy3dir
 	popd
 done
-
 # must also save this version of Makefile.global for later
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
@@ -702,7 +702,7 @@ export PYTHON=/usr/bin/python2
 %endif
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
-	LLVM_CONFIG=%{_libdir}/llvm3.9/bin/llvm-config -with-llvm \
+	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config --with-llvm \
 %else
 	--with-llvm \
 %endif
@@ -950,6 +950,13 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/man/
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
+
+# Quick hack for RHEL <= 7 and not compiled with PL/Python3 support:
+%if 0%{?rhel} <= 7 && ! 0%{?plpython3}
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/hstore_plpython3u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/jsonb_plpython3u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/ltree_plpython3u*
+%endif
 
 # initialize file lists
 %{__cp} /dev/null main.lst
