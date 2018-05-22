@@ -5,7 +5,6 @@
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global build_timestamp %(date +"%Y%m%d")
 %global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -83,12 +82,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.0
-Release:	%{build_timestamp}_1PGDG%{?dist}
+Release:	beta1_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/11beta1/postgresql-11beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -520,7 +519,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}devel
+%setup -q -n %{sname}-%{pgmajorversion}beta1
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1494,10 +1493,13 @@ fi
 %endif
 
 %changelog
-* Wed Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
+* Wed May 23 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta1PGDG
+- Update to PostgreSQL 11 Beta 1
+
+* Wed Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-devPGDG
 - Build with LLVM.
 
-* Sun Mar 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
+* Sun Mar 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-devPGDG
 - Initial cut for v11
 
 * Mon Feb 26 2018 Devrim Gündüz <devrim@gunduz.org> - 10.3-1PGDG
