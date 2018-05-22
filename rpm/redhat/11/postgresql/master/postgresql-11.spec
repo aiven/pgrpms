@@ -1154,6 +1154,9 @@ fi
 
 %files -f pg_main.lst
 %defattr(-,root,root)
+# Install bitcode directory along with the main package,
+# so that extensions can use this dir.
+%dir %{pgbaseinstdir}/lib/bitcode
 %doc doc/KNOWN_BUGS doc/MISSING_FEATURES
 %doc COPYRIGHT doc/bug.template
 %doc README.rpm-dist
@@ -1451,7 +1454,6 @@ fi
 %if %llvm
 %files llvmjit
 %defattr(-,root,root)
-%dir %{pgbaseinstdir}/lib/bitcode
 %{pgbaseinstdir}/lib/bitcode/*
 %{pgbaseinstdir}/lib/llvmjit.so
 %{pgbaseinstdir}/lib/llvmjit_types.bc
