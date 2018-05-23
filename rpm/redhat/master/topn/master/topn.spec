@@ -72,6 +72,10 @@ HLL extension, you can think of TopN as its cousin.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11
+%{pginstdir}/lib/bitcode/%{sname}/*.bc
+%{pginstdir}/lib/bitcode/%{sname}*.bc
+%endif
 
 %changelog
 * Thu Mar 29 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
