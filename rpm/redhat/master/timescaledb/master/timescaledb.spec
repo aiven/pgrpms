@@ -70,6 +70,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/%{sname}*.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11
+%{pginstdir}/lib/bitcode/%{sname}/*.bc
+%{pginstdir}/lib/bitcode/%{sname}*.bc
+%endif
 
 %changelog
 * Mon May 14 2018 Devrim Gündüz <devrim@gunduz.org> 0.9.2-1
