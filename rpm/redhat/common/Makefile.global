@@ -31,7 +31,6 @@ clean:
 	rm -f *.src.rpm
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
-include ../../../common/Makefile.global-PG92
 include ../../../common/Makefile.global-PG93
 include ../../../common/Makefile.global-PG94
 include ../../../common/Makefile.global-PG95
@@ -40,4 +39,5 @@ include ../../../common/Makefile.global-PG96-testing
 include ../../../common/Makefile.global-PG10-testing
 include ../../../common/Makefile.global-PG10
 include ../../../common/Makefile.global-PG11-testing
+include ../../../common/Makefile.global-PG10
 
