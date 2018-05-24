@@ -74,8 +74,8 @@ production PostgreSQL installations.
 %if %{pgmajorversion} >= 11
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
- %{pginstdir}/lib/bitcode/%{sname}/*.bc
- %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}_next*.bc
+ %{pginstdir}/lib/bitcode/%{sname}_next/*.bc
  %endif
 %endif
 
