@@ -23,18 +23,18 @@
 %endif
 
 %if 0%{?with_python3}
- %global        python_runtimes python python-debug python3 python3-debug
+ %global        python_runtimes python python3
 %else
   %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
     %global     python_runtimes python
    %else
-    %global python_runtimes python python-debug
+    %global python_runtimes python
   %endif
 %endif
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python-%{sname}
-Version:	4.6
+Version:	4.9
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -44,12 +44,8 @@ Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 BuildRequires:	python-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
-BuildRequires:	python3-debug
 %endif # with_python3
 
-%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
-BuildRequires:	python-debug
-%endif # Python 2.7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -60,6 +56,12 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}-libs
+
+%if 0%{?with_python3}
+Requires:	python3-psycopg2 python3-ldap python3-yaml python3-setuptools
+%else
+Requires:	python-psycopg2, python-ldap python-yaml python-setuptools
+%endif
 
 %description
 Swiss-army knife to synchronize Postgres roles and ACLs from any LDAP directory.
@@ -184,6 +186,10 @@ done
 %doc docs/
 
 %changelog
+* Thu May 24 2018 Devrim Gündüz <devrim@gunduz.org> 4.9-1
+- Update to 4.9
+- Fix various packaging issues, per Magnus
+
 * Thu Mar 1 2018 Devrim Gündüz <devrim@gunduz.org> 4.6-1
 - Update to 4.6
 
