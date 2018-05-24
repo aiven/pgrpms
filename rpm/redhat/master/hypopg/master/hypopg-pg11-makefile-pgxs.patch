@@ -1,0 +1,11 @@
+--- Makefile.old	2017-10-05 01:07:00.005015856 +0100
++++ Makefile	2017-10-05 01:07:06.724963233 +0100
+@@ -4,7 +4,7 @@
+ REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
+ REGRESS_OPTS = --inputdir=test
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-11/bin/pg_config
+ 
+ MODULE_big = hypopg
+ OBJS = hypopg.o hypopg_import.o
