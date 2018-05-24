@@ -1,6 +1,6 @@
 Name:		pgdg-fedora11
 Version:	11
-Release:	1
+Release:	2
 Summary:	PostgreSQL 11.X PGDG RPMs for Fedora - Yum Repository Configuration
 Group:		System Environment/Base
 License:	BSD
@@ -40,6 +40,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu May 24 2018 Devrim Gündüz <devrim@gunduz.org> - 11-2
+- Switch to v11 main repo.
+
 * Sun Mar 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11-1
 - Initial set for PostgreSQL 11
 
