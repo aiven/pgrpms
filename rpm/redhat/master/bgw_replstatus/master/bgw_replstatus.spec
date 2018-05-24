@@ -71,6 +71,13 @@ checking the status.
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
+%if %{pgmajorversion} >= 11
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %endif
+%endif
 
 %changelog
 * Thu May 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
