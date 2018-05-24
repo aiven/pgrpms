@@ -71,8 +71,11 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %if %{pgmajorversion} >= 11
-%{pginstdir}/lib/bitcode/%{sname}/*.bc
-%{pginstdir}/lib/bitcode/%{sname}*.bc
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %endif
 %endif
 
 %changelog
