@@ -88,6 +88,13 @@ make %{?_smp_mflags}
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %files devel
 %defattr(-,root,root,-)
