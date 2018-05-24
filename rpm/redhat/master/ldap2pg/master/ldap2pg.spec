@@ -23,12 +23,12 @@
 %endif
 
 %if 0%{?with_python3}
- %global        python_runtimes python python3
+ %global	python_runtimes python python3
 %else
   %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
-    %global     python_runtimes python
+    %global	python_runtimes python
    %else
-    %global python_runtimes python
+    %global	python_runtimes python
   %endif
 %endif
 
@@ -157,7 +157,6 @@ done
 %doc README.rst
 %{_bindir}/%{sname}
 %dir %{python_sitelib}/%{sname}
-%{python2_sitelib}/%{sname}/*.py
 %{python_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info
 %if 0%{?suse_version} >= 1315
 %{python_sitelib}/%{sname}/*.py
