@@ -162,9 +162,7 @@ done
 %if 0%{?suse_version} >= 1315
 %{python_sitelib}/%{sname}/*.py
 %else
-%{python_sitelib}/%{sname}/*.py
-%{python_sitelib}/%{sname}/*.pyc
-%{python_sitelib}/%{sname}/*.pyo
+%{python_sitelib}/%{sname}/*.py*
 %endif
 
 %if 0%{?with_python3}
