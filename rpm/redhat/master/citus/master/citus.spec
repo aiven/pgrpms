@@ -93,6 +93,7 @@ make %{?_smp_mflags}
  %else
  %{pginstdir}/lib/bitcode/%{sname}*.bc
  %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
  %endif
 %endif
 
