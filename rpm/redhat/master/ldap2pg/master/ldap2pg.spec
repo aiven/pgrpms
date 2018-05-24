@@ -23,13 +23,9 @@
 %endif
 
 %if 0%{?with_python3}
- %global	python_runtimes python python3
+ %global	python_runtimes python2 python3
 %else
-  %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
-    %global	python_runtimes python
-   %else
-    %global	python_runtimes python
-  %endif
+ %global	python_runtimes python2
 %endif
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
@@ -77,15 +73,6 @@ Features:
 * Logs every SQL queries.
 * Reads settings from YAML config file.
 
-%package debug
-Summary:	Synchronize Postgres roles and ACLs from any LDAP directory (debug build)
-# Require the base package, as we're sharing .py/.pyc files:
-Requires:	%{name} = %{version}-%{release}
-Group:		Applications/Databases
-
-%description debug
-This is a build of the ldap2pg for the debug build of Python 2.
-
 %if 0%{?with_python3}
 %package -n python3-%{sname}
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
@@ -96,15 +83,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %description  -n python3-%{sname}
 This is a build of the ldap2pg for Python 3.
-
-%package -n python3-%{sname}-debug
-Summary:	Synchronize Postgres roles and ACLs from any LDAP directory (Python 3 debug build)
-# Require base python 3 package, as we're sharing .py/.pyc files:
-Requires:	python3-%{sname} = %{version}-%{release}
-
-%description -n python3-%{sname}-debug
-This is a build of the psycopg PostgreSQL database adapter for the debug
-build of Python 3.
 %endif # with_python3
 
 %package doc
@@ -171,11 +149,6 @@ done
 %dir %{python3_sitelib}/%{sname}
 %{python3_sitelib}/%{sname}/*.py
 %{python3_sitelib}/%{sname}-%{version}-py%{py3ver}.egg-info
-
-%files -n python3-%{sname}-debug
-%defattr(-,root,root)
-%dir %{python3_sitelib}/%{sname}/__pycache__
-%{python3_sitelib}/%{sname}/__pycache__/*
 %endif # with_python3
 
 %files doc
