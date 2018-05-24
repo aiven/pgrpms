@@ -71,6 +71,13 @@ production PostgreSQL installations.
 %{pginstdir}/lib/%{sname}_next.so
 %{pginstdir}/share/extension/%{sname}_next*.sql
 %{pginstdir}/share/extension/%{sname}_next.control
+%if %{pgmajorversion} >= 11
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %endif
+%endif
 
 %changelog
 * Thu Apr 26 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
