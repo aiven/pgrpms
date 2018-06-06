@@ -8,7 +8,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.0
+Version:	1.6.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -82,6 +82,9 @@ let you:
 %endif
 
 %changelog
+* Sun Jun 3 2018 - Devrim Gündüz <devrim@gunduz.org> 1.6.1-1
+- Update to 1.6.1, per #3395
+
 * Sun Jul 30 2017 - Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
 - Update to 1.6.0
 
