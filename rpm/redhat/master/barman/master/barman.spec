@@ -1,7 +1,7 @@
 %if 0%{?rhel} == 7
   %global pybasever 2.7
  %else
-  %if 0%{?fedora}>= 25
+  %if 0%{?fedora} >= 25
     %global pybasever 2.7
   %else
     %global pybasever 2.6
@@ -22,7 +22,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.3
+Version:	2.4
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -94,6 +94,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
 %changelog
+* Wed Jun 6 2018 - Devrim Gündüz <devrim@gunduz.org> 2.4-1
+- Update to 2.4, per #3402
+
+- Perform a cleanup in th spec file, use macros for some binaries, remove
 * Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3-1
 - Update to 2.3, per #2682.
 - Perform a cleanup in th spec file, use macros for some binaries, remove
