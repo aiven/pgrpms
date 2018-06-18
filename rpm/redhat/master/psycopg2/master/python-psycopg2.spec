@@ -12,12 +12,12 @@
 %endif
 
 %if 0%{?with_python3}
- %global	python_runtimes	python python-debug python3 python3-debug
+ %global	python_runtimes	python2 python-debug python3 python3-debug
 %else
   %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
-    %global	python_runtimes	python
+    %global	python_runtimes	python2
    %else
-    %global python_runtimes python python-debug
+    %global python_runtimes python2 python-debug
   %endif
 %endif
 
@@ -31,7 +31,7 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
-Version:	2.7.4
+Version:	2.7.5
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -207,6 +207,11 @@ done
 %doc doc examples/
 
 %changelog
+* Mon Jun 18 2018 Devrim Gündüz <devrim@gunduz.org> 2.7.5-1
+- Update to 2.7.5 per
+  http://www.psycopg.org/psycopg/articles/2018/06/17/psycopg-275-released/
+- Change python to python2, to supress warning on Fedora 28+.
+
 * Fri Feb 9 2018 Devrim Gündüz <devrim@gunduz.org> 2.7.4-1
 - Update to 2.7.4 per
   http://www.psycopg.org/psycopg/articles/2018/02/08/psycopg-274-released/
