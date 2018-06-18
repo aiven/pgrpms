@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -362,7 +362,6 @@ echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 %{__rm} -rf %{buildroot}
 
 %post
-%{__ln_s} %{pgadmin4instdir}/runtime/pgAdmin4 %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -376,6 +375,11 @@ if [ $1 -eq 1 ] ; then
   %else
    :
   %endif
+fi
+
+%post -n %{name}-desktop-common
+if [ $1 -eq 1 ] ; then
+ %{__ln_s} %{pgadmin4instdir}/runtime/pgAdmin4 %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 fi
 
 %post -n %{name}-desktop-gnome
@@ -427,6 +431,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Jun 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-6
+- Move symlink creation into desktop-common subpackage.
+
 * Wed Apr 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-5
 - Rebuilt
 
