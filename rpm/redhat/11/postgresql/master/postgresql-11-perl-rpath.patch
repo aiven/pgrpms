@@ -1,5 +1,5 @@
---- src/pl/plperl/GNUmakefile.old	2018-03-11 21:24:29.923243313 +0000
-+++ src/pl/plperl/GNUmakefile	2018-03-11 21:24:50.969347374 +0000
+--- src/pl/plperl/GNUmakefile.old	2018-06-27 00:27:01.614958217 +0100
++++ src/pl/plperl/GNUmakefile	2018-06-27 00:27:15.660034493 +0100
 @@ -54,6 +54,9 @@
  
  SHLIB_LINK = $(perl_embed_ldflags)
