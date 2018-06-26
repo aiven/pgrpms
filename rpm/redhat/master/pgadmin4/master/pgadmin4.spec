@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.0
-Release:	6%{?dist}
+Version:	%{pgadminmajorversion}.1
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -154,6 +154,7 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 
 Requires:	%{name}-python3-flask-login >= 0.3.2 %{name}-python3-flask-paranoid >= 0.1
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.3 python3-click
 Requires:	%{name}-python3-pyrsistent >= 0.14.2 %{name}-python3-flask-migrate >= 2.1.1
+Requires:	%{name}-python3-sshtunnel >= 0.1.3
 Requires:	python3-flask-sqlalchemy >= 2.1 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-pbr >= 3.1.1
@@ -208,7 +209,7 @@ Requires:	%{name}-python-pyrsistent >= 0.14.2 %{name}-python-mimeparse >= 1.6.0
 Requires:	%{name}-python-extras >= 1.0.0 %{name}-python-flask-babelex
 Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.1.1
 Requires:	%{name}-python-pbr >= 3.1.1 %{name}-python-html5lib >= 1.0.1
-Requires:	%{name}-python-alembic
+Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.3
 Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
 Requires:	python-linecache2 >= 1.0.0 python-speaklater >= 1.3 python-click
 Requires:	python-crypto >= 2.6.1 mod_wsgi
@@ -431,6 +432,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Jun 26 2018 - Devrim Gündüz <devrim@gunduz.org> 3.1-1
+- Update to 3.1
+
 * Mon Jun 18 2018 - Devrim Gündüz <devrim@gunduz.org> 3.0-6
 - Move symlink creation into desktop-common subpackage.
 
