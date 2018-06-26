@@ -37,17 +37,18 @@ Patch0:		%{sname}-versionfix.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
-BuildRequires:	python-devel
-BuildRequires:	python-setuptools
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
+Requires:	python3-paramiko
+%else
+BuildRequires:	python-devel
+BuildRequires:	python-setuptools
+Requires:	python-paramiko
 %endif
 
-Requires:	python-paramiko
-
 %description
-Pure python SSH tunnels
+Pure python SSH tunnels.
 
 %prep
 %setup -q -n %{sname}-%{version}
