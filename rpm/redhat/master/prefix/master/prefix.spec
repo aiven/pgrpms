@@ -43,7 +43,7 @@ searches.
 %doc %{pginstdir}/doc/extension/TESTS-prefix.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} <= 92
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
  %{pginstdir}/lib/bitcode/%{sname}*.bc
