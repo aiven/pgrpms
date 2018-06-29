@@ -139,8 +139,15 @@ Requires:	libicu
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %else
+%if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
+%endif
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	llvm6-devel clang6-devel
+%endif
 %endif
 %endif
 
