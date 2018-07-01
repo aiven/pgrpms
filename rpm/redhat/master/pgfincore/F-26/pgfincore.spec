@@ -1,1 +1,0 @@
-../master/pgfincore.spec
