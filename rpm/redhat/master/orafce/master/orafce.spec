@@ -67,6 +67,13 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %{pginstdir}/lib/orafce.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/orafce--*.sql
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %changelog
 * Sat Feb 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.6.1-1
