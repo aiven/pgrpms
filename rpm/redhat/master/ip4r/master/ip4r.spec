@@ -61,7 +61,7 @@ be used as a more flexible, indexable version of the cidr type.
 %doc %{pginstdir}/doc/extension/README.ip4r
 %{pginstdir}/lib/ip4r.so
 %{pginstdir}/share/extension/ip4r*
-%if %{pgmajorversion} >= 11
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
  %{pginstdir}/lib/bitcode/%{sname}*.bc
