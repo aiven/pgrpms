@@ -12,7 +12,7 @@ Version:	1.1.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	https://github.com/postgrespro/%{sname}/archive/ver_%{version}.tar.gz
+Source0:	https://github.com/postgrespro/%{sname}/archive/ver_1_1.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
