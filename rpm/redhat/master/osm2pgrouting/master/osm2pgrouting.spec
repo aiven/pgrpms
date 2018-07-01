@@ -23,7 +23,7 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 2.8.8
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel, expat-devel
-BuildRequires:	boost-devel >= 1.53 postgis2_%{pgmajorversion} >= %{postgisminmajorversion}
+BuildRequires:	boost-devel >= 1.53 postgis
 Requires:	postgis2_%{pgmajorversion} >= %{postgisminmajorversion}
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
