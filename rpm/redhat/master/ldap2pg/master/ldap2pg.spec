@@ -7,7 +7,7 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 26
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -30,7 +30,7 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python-%{sname}
-Version:	4.9
+Version:	4.11
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -137,9 +137,9 @@ done
 %dir %{python_sitelib}/%{sname}
 %{python_sitelib}/%{sname}-%{version}-py%{py2ver}.egg-info
 %if 0%{?suse_version} >= 1315
-%{python_sitelib}/%{sname}/*.py
+ %{python_sitelib}/%{sname}/*.py
 %else
-%{python_sitelib}/%{sname}/*.py*
+ %{python_sitelib}/%{sname}/*.py*
 %endif
 
 %if 0%{?with_python3}
@@ -148,6 +148,7 @@ done
 %doc README.rst LICENSE
 %dir %{python3_sitelib}/%{sname}
 %{python3_sitelib}/%{sname}/*.py
+%{python3_sitelib}/%{sname}/__pycache__/*
 %{python3_sitelib}/%{sname}-%{version}-py%{py3ver}.egg-info
 %endif # with_python3
 
@@ -156,6 +157,9 @@ done
 %doc docs/
 
 %changelog
+* Sun Jul 1 2018 Devrim Gündüz <devrim@gunduz.org> 4.11-1
+- Update to 4.11
+
 * Thu May 24 2018 Devrim Gündüz <devrim@gunduz.org> 4.9-1
 - Update to 4.9
 - Fix various packaging issues, per Magnus
