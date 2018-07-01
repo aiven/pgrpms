@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL json query language with GIN indexing support
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
+Version:	1.1.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -80,6 +80,13 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %files devel
 %defattr(-,root,root,-)
