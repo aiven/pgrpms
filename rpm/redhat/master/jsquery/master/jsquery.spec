@@ -49,7 +49,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 This package includes the development headers for the jsquery extension.
 
 %prep
-%setup -q -n %{sname}-ver_%{version}
+%setup -q -n %{sname}-ver_1.1
 %patch0 -p0
 
 %build
