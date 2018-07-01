@@ -1,13 +1,13 @@
-%global _tag v2.2.0
 %global _ocfroot /usr/lib/ocf
+
 Name:		resource-agents-paf
 Version:	2.2.0
 Release:	1%{dist}
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://dalibo.github.io/PAF/
-Source0:	https://github.com/dalibo/PAF/releases/download/%{_tag}/PAF-%{_tag}.tgz
+Url:		https://clusterlabs.github.io/PAF/
+Source0:	https://github.com/ClusterLabs/PAF/archive/v%{version}.tar.gz
 BuildArch:	noarch
 BuildRequires:	resource-agents perl perl-Module-Build
 
@@ -15,7 +15,7 @@ BuildRequires:	resource-agents perl perl-Module-Build
 PostgreSQL resource agent for Pacemaker.
 
 %prep
-%setup -q -n PAF-%{_tag}
+%setup -q -n PAF-%{version}
 
 %build
 %{__perl} Build.PL --destdir %{buildroot} --install_path bindoc=%{_mandir}/man7 --install_path libdoc=%{_mandir}/man3
