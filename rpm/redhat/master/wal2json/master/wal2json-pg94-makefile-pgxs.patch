@@ -1,0 +1,11 @@
+--- Makefile.old	2018-07-02 15:02:33.115783692 +0100
++++ Makefile	2018-07-02 15:02:41.804831356 +0100
+@@ -5,7 +5,7 @@
+ 		  delete3 delete4 savepoint specialvalue toast bytea message typmod \
+ 		  filtertable selecttable
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-9.4/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
