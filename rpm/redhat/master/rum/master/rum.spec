@@ -8,7 +8,7 @@
 
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
+Version:	1.2.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -71,12 +71,22 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+ %endif
+%endif
 
 %files devel
 %defattr(-,root,root,-)
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Tue Jul 3 2018 - Devrim Gündüz <devrim@gunduz.org> 1.2.1-1
+- Update to 1.2.1
+
 * Thu Oct 5 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 

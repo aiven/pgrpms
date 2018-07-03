@@ -1,7 +1,7 @@
---- Makefile.old	2017-11-08 01:06:56.055296557 +0300
-+++ Makefile	2017-11-08 01:07:06.591364189 +0300
-@@ -22,7 +22,7 @@
- LDFLAGS_SL += $(filter -lm, $(LIBS))
+--- Makefile.old	2018-07-03 15:58:44.043816316 +0100
++++ Makefile	2018-07-03 15:58:55.168887029 +0100
+@@ -31,7 +31,7 @@
+ 	numeric
  
  ifdef USE_PGXS
 -PG_CONFIG = pg_config
