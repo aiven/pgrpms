@@ -1,14 +1,14 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	1.31.3
+Version:	2.3.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://bucardo.org/downloads/%{name}
+Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 Source2:	README.tail_n_mail
-URL:		http://bucardo.org/wiki/Tail_n_mail
+URL:		https://bucardo.org/wiki/Tail_n_mail
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Buildarch:	noarch
+BuildArch:	noarch
 
 %description
 tail_n_mail (sometimes abbreviated TNM or tnm) is a Perl script for
@@ -41,7 +41,10 @@ install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
-* Tue Dec 12 2017 - Devrim Gündüz <devrim@gunduz.org> 1.31.3
+* Fri Jul 13 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.1-1
+- Update to 2.3.1, per #3490.
+
+* Tue Dec 12 2017 - Devrim Gündüz <devrim@gunduz.org> 1.31.3-1
 - Update to 1.31.3
 
 * Wed Dec 11 2013 - Devrim Gündüz <devrim@gunduz.org> 1.26.3-1
