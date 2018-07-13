@@ -1,11 +1,11 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
-Version:	2.23.0
-Release:	2%{?dist}
+Version:	2.24.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
-URL:		http://bucardo.org/wiki/Check_postgres
+Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
+URL:		https://bucardo.org/wiki/Check_postgres
 BuildArch:	noarch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl-ExtUtils-MakeMaker
@@ -49,6 +49,9 @@ scripts.
 %{_bindir}/%{name}.pl
 
 %changelog
+* Fri Jul 13 2018 - Devrim Gündüz <devrim@gunduz.org> 2.24.0-1
+- Update to 2.24.0
+
 * Thu Mar 29 2018 - Devrim Gündüz <devrim@gunduz.org> 2.23.0-2
 - Add some missing Requires to support all commands.
 
