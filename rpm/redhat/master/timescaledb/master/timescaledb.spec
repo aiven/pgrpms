@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.2
+Version:	0.10.1
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -79,6 +79,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Fri Jul 13 2018 Devrim Gündüz <devrim@gunduz.org> 0.10.1-1
+- Update to 0.10.1, per #3497.
+
 * Mon May 14 2018 Devrim Gündüz <devrim@gunduz.org> 0.9.2-1
 - Update to 0.9.2, per #3345
 
