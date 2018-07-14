@@ -8,7 +8,7 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.4.12
+Version:	1.4.13
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -63,6 +63,9 @@ to manage partitions.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.13-1
+- Update to 1.4.13
+
 * Mon May 14 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.12-1
 - Update to 1.4.12
 
