@@ -2,8 +2,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.03
-Release:	4%{?dist}
+Version:	2.04
+Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
@@ -12,7 +12,7 @@ Source1:	pgbackrest-conf.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	perl-XML-LibXML perl-IO-Socket-SSL
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	perl-parent perl-JSON
+Requires:	perl-parent perl-JSON perl-Time-HiRes
 %else
 Requires:	perl-JSON-PP
 %endif
@@ -64,6 +64,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 2.04-1
+- Update to 2.04, per #3474.
+
 * Wed Jun 13 2018 - Devrim Gündüz <devrim@gunduz.org> 2.03-4
 - Move perl-Time-HiRes dependency to global list, per
   https://github.com/pgbackrest/pgbackrest/issues/544
