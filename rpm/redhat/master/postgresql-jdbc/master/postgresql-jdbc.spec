@@ -116,8 +116,6 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_javadir}/%{name}.jar
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
-# These files are installed with the other distros, but we don't need to list
-# them on newer ones, as they are picked up by .mfiles above.
 %{_javadir}/%{name}.jar
 %{_datadir}/maven2/poms/JPP-%{name}.pom
 %endif
@@ -128,8 +126,14 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
 %{_datadir}/maven-fragments/%{name}
-%endif
 %{_datadir}/maven-poms/JPP-%{name}.pom
+%endif
+%if 0%{?fedora}
+%{_datadir}/maven-poms/JPP-%{name}.pom
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 27
+%{_datadir}/maven-metadata/%{name}.xml
+%endif
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
 %{_javadir}/postgresql-jdbc3.jar
