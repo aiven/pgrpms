@@ -2,8 +2,8 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.2.2
-Release:	2%{?dist}
+Version:	42.2.4
+Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 Group:		Applications/Databases
@@ -110,9 +110,10 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %files
 %doc LICENSE README.md
 %else
-%files -f .mfiles
+%files
 %doc README.md
 %license LICENSE
+%{_javadir}/%{name}.jar
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 # These files are installed with the other distros, but we don't need to list
@@ -125,6 +126,7 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_javadir}/%{name}.jar
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
+%{_datadir}/maven-poms/JPP-%{name}.pom
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
 %{_javadir}/postgresql-jdbc3.jar
@@ -133,6 +135,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Sun Jul 15 2018 Devrim Gündüz <devrim@gunduz.org> - 42.2.4-1
+- Update to 42.2.4
+
 * Sat Mar 17 2018 Devrim Gündüz <devrim@gunduz.org> - 42.2.2-2
 - Fix SLES builds
 
