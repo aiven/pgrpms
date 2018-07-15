@@ -126,6 +126,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_javadir}/%{name}.jar
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 7
+%{_datadir}/maven-fragments/%{name}
+%endif
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
