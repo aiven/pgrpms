@@ -28,7 +28,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		3.7.4
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -308,6 +308,15 @@ fi
 %{_sysconfdir}/init.d/%{name}
 %endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/pgpool*.bc
+ %{pginstdir}/lib/bitcode/pgpool_adm/*.bc
+ %{pginstdir}/lib/bitcode/pgpool-regclass/*.bc
+ %{pginstdir}/lib/bitcode/pgpool-recovery/*.bc
+ %endif
+%endif
 
 %files devel
 %{pgpoolinstdir}/include/libpcp_ext.h
@@ -332,6 +341,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Jul 17 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.4-2
+- Add PostgreSQL 11 support.
+
 * Thu Jun 14 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.4-1
 - Update to 3.7.4
 
