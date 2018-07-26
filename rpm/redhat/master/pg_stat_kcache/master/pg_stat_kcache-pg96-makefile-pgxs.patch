@@ -1,8 +1,8 @@
---- Makefile.old	2015-03-17 11:09:30.083285165 +0200
-+++ Makefile	2015-03-17 11:09:40.443176053 +0200
-@@ -5,7 +5,7 @@
+--- Makefile.old	2018-07-26 21:02:29.115086513 +0100
++++ Makefile	2018-07-26 21:02:39.899145484 +0100
+@@ -4,7 +4,7 @@
+ REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
  REGRESS_OPTS = --inputdir=test
- DOCS         = $(wildcard README.rst)
  
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.6/bin/pg_config

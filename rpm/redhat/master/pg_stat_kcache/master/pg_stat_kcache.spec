@@ -1,8 +1,8 @@
 %global sname pg_stat_kcache
 
 %global kcachemajver 2
-%global kcachemidver 0
-%global kcacheminver 3
+%global kcachemidver 1
+%global kcacheminver 0
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 URL:		https://github.com/powa-team/%{sname}
@@ -57,9 +57,9 @@ the queryid field.
 
 %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# Avoid conflict with some other README files:
-%{__mv} %{buildroot}%{pginstdir}/doc/extension/README.rst %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.rst
-
+# Install README
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension/
+%{__install} README.rst %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.rst
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -73,8 +73,18 @@ the queryid field.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %changelog
+* Thu Jul 26 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
+- Update 2.1.0
+
 * Sun Apr 15 2018 - Devrim Gündüz <devrim@gunduz.org> 2.0.3-2
 - Update to new URL, and use macros for version numberto avoid issues.
 
