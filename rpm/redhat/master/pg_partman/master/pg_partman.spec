@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	3.2.0
+Version:	3.2.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -70,6 +70,9 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %changelog
+* Fri Jul 27 2018 - Devrim Gündüz <devrim@gunduz.org> 3.2.1-1
+- Update to 3.2.1, per #3519
+
 * Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 3.2.0-1
 - Update to 3.2.0
 
