@@ -1,0 +1,1 @@
+../master/tds_fdw.spec
