@@ -8,7 +8,7 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.0.6
+Version:	4.1.0
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -147,8 +147,18 @@ fi
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %changelog
+* Wed Aug 1 2018 - Devrim Gündüz <devrim@gunduz.org> 4.1.0-1
+- Update to 4.1.0, per #3530
+
 * Thu Jun 14 2018 - Devrim Gündüz <devrim@gunduz.org> 4.0.6-1
 - Update to 4.0.6, per #3419
 
