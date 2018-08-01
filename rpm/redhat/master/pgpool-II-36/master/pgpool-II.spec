@@ -309,6 +309,14 @@ fi
 %endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+%{pginstdir}/lib/bitcode/pgpool*.bc
+%{pginstdir}/lib/bitcode/pgpool*/*.bc
+ %endif
+%endif
+
 %files devel
 %{pgpoolinstdir}/include/libpcp_ext.h
 %{pgpoolinstdir}/include/pcp.h
@@ -334,6 +342,7 @@ fi
 %changelog
 * Wed Aug 1 2018 Devrim Gündüz <devrim@gunduz.org> - 3.6.12-1
 - Update to 3.6.12
+- Add PostgreSQL 11 RPM support
 
 * Thu Jun 14 2018 Devrim Gündüz <devrim@gunduz.org> - 3.6.11-1
 - Update to 3.6.11
