@@ -2,7 +2,7 @@
 
 %global kcachemajver 2
 %global kcachemidver 1
-%global kcacheminver 0
+%global kcacheminver 1
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -82,6 +82,9 @@ the queryid field.
 %endif
 
 %changelog
+* Wed Aug 1 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1.1-1
+- Update 2.1.1
+
 * Thu Jul 26 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
 - Update 2.1.0
 
