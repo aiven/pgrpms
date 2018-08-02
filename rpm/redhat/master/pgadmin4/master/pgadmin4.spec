@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -56,7 +56,7 @@ Patch4:		%{name}-rhel7-sphinx.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Obsoletes:	pgadmin4-v2 <= 2.0 pgadmin4-v3 <= 3.0
+Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
 
 BuildRequires:	gcc-c++
 
@@ -141,7 +141,7 @@ Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v2-web <= 2.0 pgadmin4-v3-web <= 3.0
+Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
 
 %if 0%{?fedora}
 Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask >= 0.12.2
@@ -229,7 +229,7 @@ This package contains the required files to run pgAdmin4 as a web application
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v2-docs <= 2.0 pgadmin4-v3-docs <= 3.0
+Obsoletes:	pgadmin4-v1-docs pgadmin4-v2-docs pgadmin4-v3-docs
 
 %description -n %{name}-docs
 Documentation of pgadmin4.
@@ -432,6 +432,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Aug 2 2018 - John Harvey <john.harvey@crunchydata.com> 3.1-2
+- Update Obsoletes
+
 * Tue Jun 26 2018 - Devrim Gündüz <devrim@gunduz.org> 3.1-1
 - Update to 3.1
 
