@@ -9,7 +9,7 @@
 Summary:	Functions for verifying PostgreSQL relation integrity
 Name:		%{sname}_next%{pgmajorversion}
 Version:	1.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petergeoghegan/%{sname}/archive/v%{version}.tar.gz
@@ -71,7 +71,7 @@ production PostgreSQL installations.
 %{pginstdir}/lib/%{sname}_next.so
 %{pginstdir}/share/extension/%{sname}_next*.sql
 %{pginstdir}/share/extension/%{sname}_next.control
-%if %{pgmajorversion} >= 11
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
  %{pginstdir}/lib/bitcode/%{sname}_next*.bc
@@ -80,6 +80,9 @@ production PostgreSQL installations.
 %endif
 
 %changelog
+* Thu Aug 2 2018 - John Harvey <john.harvey@crunchydata.com> 1.4-2
+- Support for PG11
+
 * Thu Apr 26 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
 - Update to 1.4, per #3314
 
