@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.4
+Version:	1.0.5
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -81,8 +81,18 @@ together.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
+%endif
 
 %changelog
+* Sun Aug 5 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.5-1
+- Update to 1.0.5
+
 * Sun Apr 15 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
 - Update to 1.0.4
 - Update URLs again.
