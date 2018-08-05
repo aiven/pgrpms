@@ -1,11 +1,10 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
 Version:	2.3.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
-Source2:	README.tail_n_mail
 URL:		https://bucardo.org/wiki/Tail_n_mail
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -18,19 +17,19 @@ at Postgres log files but can be used for any files. It was developed
 at End Point Corporation by Greg Sabino Mullane.
 
 %prep
-%{__cp} -p %{SOURCE0} %{name}.pl
+%setup -q
 
 %build
 
 %install
 %{__rm} -rf %{buildroot}
 
-install -d -m 755 %{buildroot}%{_bindir}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}
+%{__install} -d -m 755 %{buildroot}%{_bindir}
+%{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}
 
-install -m 755 %{name}.pl %{buildroot}%{_bindir}/%{name}.pl
-ln -s %{_bindir}/%{name}.pl %{buildroot}/%{_bindir}/%{name}
-install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
+%{__install} -m 755 %{name} %{buildroot}%{_bindir}/%{name}
+ln -s %{_bindir}/%{name} %{buildroot}/%{_bindir}/%{name}.pl
+%{__install} -m 644 README.md %{buildroot}%{_docdir}/%{name}/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -38,9 +37,12 @@ install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 %files
 %defattr(-,root,root,-)
 %attr(755,root,root) %{_bindir}/%{name}*
-%attr(644,root,root) %{_docdir}/%{name}/README.%{name}
+%attr(644,root,root) %{_docdir}/%{name}/README.md
 
 %changelog
+* Sun Aug 5 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.1-2
+- Fix packaging errors, per #3531.
+
 * Fri Jul 13 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.1-1
 - Update to 2.3.1, per #3490.
 
