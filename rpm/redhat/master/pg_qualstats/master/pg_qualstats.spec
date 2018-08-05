@@ -92,6 +92,7 @@ together.
 %changelog
 * Sun Aug 5 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.5-1
 - Update to 1.0.5
+- Add PG 11 RPM support
 
 * Sun Apr 15 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
 - Update to 1.0.4
