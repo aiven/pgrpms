@@ -16,7 +16,7 @@
 
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.4.0
+Version:	4.0.0
 Release:	10%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
@@ -24,21 +24,9 @@ Source2:	%{sname}-%{pgmajorversion}.service
 Source3:	%{sname}-%{pgmajorversion}.init
 Source4:	%{sname}-%{pgmajorversion}.logrotate
 Source5:	%{sname}-%{pgmajorversion}.conf
-# Temp patch until the next release.
-Patch0:		pgagent-pg10-build.patch
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires:	libwx_baseu-2_8-0-wxcontainer
-BuildRequires:	wxWidgets-devel
-%endif
-%else
-Requires:	wxBase
-BuildRequires:	wxGTK-devel
-%endif
 
 %if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
@@ -82,7 +70,6 @@ fi
 
 %prep
 %setup -q -n pgAgent-%{version}-Source
-%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -187,6 +174,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
+* Update to 4.0.0
+
 * Tue Oct 17 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-10
 - Move configuration parameters out of the unit file to a
   new config file.
