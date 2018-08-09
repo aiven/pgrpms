@@ -1,8 +1,8 @@
 # It's not recommended to modify this file in-place, because it will be
 # overwritten during package upgrades.  If you want to customize, the
-# best way is to create a file "/etc/systemd/system/pgagent-9.2.service",
+# best way is to create a file "/etc/systemd/system/pgagent-11.service",
 # containing
-#	.include /lib/systemd/system/pgagent-9.2.service
+#	.include /lib/systemd/system/pgagent-11.service
 #	...make your changes here...
 # For more info about custom unit files, see
 # http://fedoraproject.org/wiki/Systemd#How_do_I_customize_a_unit_file.2F_add_a_custom_unit_file.3F
@@ -11,7 +11,7 @@
 # configuration as well.
 
 [Unit]
-Description=PgAgent for PostgreSQL 9.2
+Description=PgAgent for PostgreSQL 11
 After=syslog.target
 After=network.target
 
@@ -22,7 +22,7 @@ User=pgagent
 Group=pgagent
 
 # Location of the configuration file
-EnvironmentFile=/etc/pgagent/pgagent_92.conf
+EnvironmentFile=/etc/pgagent/pgagent_11.conf
 
 # Where to send early-startup messages from the server (before the logging
 # options of pgagent.conf take effect)
@@ -32,7 +32,7 @@ EnvironmentFile=/etc/pgagent/pgagent_92.conf
 # Disable OOM kill on the postmaster
 OOMScoreAdjust=-1000
 
-ExecStart=/usr/bin/pgagent_92 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
+ExecStart=/usr/bin/pgagent_11 -s ${LOGFILE} hostaddr=${DBHOST} dbname=${DBNAME} user=${DBUSER} port=${DBPORT}
 KillMode=mixed
 KillSignal=SIGINT
 

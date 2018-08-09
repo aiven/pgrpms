@@ -1,4 +1,4 @@
-/var/log/pgagent_92.log {
+/var/log/pgagent_11.log {
     missingok
     compress
     notifempty
