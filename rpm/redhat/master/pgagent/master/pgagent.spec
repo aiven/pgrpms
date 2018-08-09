@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	10%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -82,7 +82,7 @@ fi
 	CC=%{atpath}/bin/gcc; export CC
 %else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
 	export CFLAGS
 	export CXXFLAGS
 %endif
@@ -187,7 +187,8 @@ fi
 
 %changelog
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
-* Update to 4.0.0
+- Update to 4.0.0
+- Add -pthread to CXXFLAGS
 
 * Tue Oct 17 2017 Devrim Gündüz <devrim@gunduz.org> 3.4.0-10
 - Move configuration parameters out of the unit file to a
