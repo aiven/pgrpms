@@ -102,6 +102,7 @@ BuildRequires:	%{name}-python-flask-sqlalchemy %{name}-python-Flask-Mail
 BuildRequires:	%{name}-python-dateutil %{name}-python-flask-gravatar
 BuildRequires:	%{name}-python-flask-paranoid >= 0.1 %{name}-python-pbr >= 3.1.1
 BuildRequires:	%{name}-python-passlib >= 1.7.1 %{name}-python-sqlalchemy >= 1.2.5
+BuildRequires:	%{name}-python-wtforms
 BuildRequires:	python-devel python-sphinx python-linecache2 >= 1.0.0
 BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
 %global QMAKE	/usr/bin/qmake-qt4
