@@ -86,7 +86,14 @@ fi
 	export CFLAGS
 	export CXXFLAGS
 %endif
-cmake -D CMAKE_INSTALL_PREFIX:PATH=/usr -D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config -D STATIC_BUILD:BOOL=OFF .
+%if 0%{?rhel} && 0%{?rhel} == 7
+cmake3 .. \
+%else
+%cmake .. \
+%endif
+	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
+	-D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config \
+	-D STATIC_BUILD:BOOL=OFF .
 
 %install
 %{__rm} -rf %{buildroot}
@@ -174,8 +181,8 @@ fi
 %else
 %{_initrddir}/%{name}
 %endif
-%{pginstdir}/share/extension/%{sname}--3.4.sql
-%{pginstdir}/share/extension/%{sname}--unpackaged--3.4.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
+%{pginstdir}/share/extension/%{sname}--unpackaged--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
