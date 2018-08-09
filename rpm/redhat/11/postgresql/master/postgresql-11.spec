@@ -5,7 +5,7 @@
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -83,12 +83,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.0
-Release:	beta2_1PGDG%{?dist}
+Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/11beta2/postgresql-11beta2.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/11beta3/postgresql-11beta3.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -526,7 +526,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}beta2
+%setup -q -n %{sname}-%{pgmajorversion}beta3
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1504,6 +1504,9 @@ fi
 %endif
 
 %changelog
+* Wed Aug 8 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta3PGDG
+- Update to PostgreSQL 11 Beta 3
+
 * Wed Jun 27 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta2PGDG
 - Update to PostgreSQL 11 Beta 2
 
