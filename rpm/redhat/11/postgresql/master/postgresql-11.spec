@@ -88,7 +88,7 @@ License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/11beta3/postgresql-11beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v11beta3/postgresql-11beta3.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
