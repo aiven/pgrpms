@@ -81,7 +81,7 @@ together.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifnarch ppc64 ppc64le
+%ifarch ppc64 ppc64le
  %else
  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
   %if 0%{?rhel} && 0%{?rhel} <= 6
