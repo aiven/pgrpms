@@ -3,7 +3,7 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_1_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -47,14 +47,20 @@ schema-qualified, data types, and transaction ids.
 %files
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 6
+%ifarch ppc64 ppc64le
  %else
- %{pginstdir}/lib/bitcode/%{sname}*.bc
- %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
  %endif
 %endif
 
 %changelog
-* Mon Jun 18 2018 - Devrim Gündüz <devrim@gunduz.org> 1.2.8-1
+* Sat Aug 11 2018 - Devrim Gündüz <devrim@gunduz.org> 1.0-2
+- Ignore .bc files on PPC arch.
+
+* Mon Jun 18 2018 - Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for yum.postgresql.org
