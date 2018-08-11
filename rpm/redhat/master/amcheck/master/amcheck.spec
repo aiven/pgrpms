@@ -9,7 +9,7 @@
 Summary:	Functions for verifying PostgreSQL relation integrity
 Name:		%{sname}_next%{pgmajorversion}
 Version:	1.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petergeoghegan/%{sname}/archive/v%{version}.tar.gz
@@ -71,15 +71,21 @@ production PostgreSQL installations.
 %{pginstdir}/lib/%{sname}_next.so
 %{pginstdir}/share/extension/%{sname}_next*.sql
 %{pginstdir}/share/extension/%{sname}_next.control
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 6
+%ifarch ppc64 ppc64le
  %else
- %{pginstdir}/lib/bitcode/%{sname}_next*.bc
- %{pginstdir}/lib/bitcode/%{sname}_next/*.bc
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
  %endif
 %endif
 
 %changelog
+* Sat Aug 11 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.5-3
+- Ignore .bc files on PPC arch.
+
 * Thu Aug 2 2018 - John Harvey <john.harvey@crunchydata.com> 1.4-2
 - Support for PG11
 
