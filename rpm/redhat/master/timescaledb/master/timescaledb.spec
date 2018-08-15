@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.10.1
-Release:	2%{?dist}
+Version:	0.11.0
+Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
@@ -82,7 +82,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
-* Sat Aug 11 20 Devrim Gündüz <devrim@gunduz.org> 0.10.1-2
+* Wed Aug 15 2018 Devrim Gündüz <devrim@gunduz.org> 0.11.0-1
+- Update to 0.11.0, per #3555.
+
+* Sat Aug 11 2018 Devrim Gündüz <devrim@gunduz.org> 0.10.1-2
 - Ignore .bc files on PPC arch.
 
 * Fri Jul 13 2018 Devrim Gündüz <devrim@gunduz.org> 0.10.1-1
