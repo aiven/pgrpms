@@ -66,7 +66,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.19
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		http://www.postgresql.org/
@@ -709,14 +709,14 @@ run_testsuite()
 
 # multilib header hack; note pg_config.h is installed in two places!
 # we only apply this to known Red Hat multilib arches, per bug #177564
-case `uname -i` in
+case $(uname -i) in
 	i386 | x86_64 | ppc | ppc64 | s390 | s390x)
-		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_`uname -i`.h
-		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/
-		%{__mv} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_`uname -i`.h
-		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/
-		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_`uname -i`.h
-		%{__install} -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/pg_config.h %{buildroot}%{pgbaseinstdir}/include/pg_config_$(uname -i).h
+		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/pg_config.h
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h %{buildroot}%{pgbaseinstdir}/include/server/pg_config_$(uname -i).h
+		%{__install} -m 644 %{SOURCE5} %{buildroot}%{pgbaseinstdir}/include/server/pg_config.h
+		%{__mv} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h %{buildroot}%{pgbaseinstdir}/include/ecpg_config_$(uname -i).h
+		%{__install} -m 644 %{SOURCE7} %{buildroot}%{pgbaseinstdir}/include/ecpg_config.h
 		;;
 	*)
 	;;
@@ -1333,6 +1333,9 @@ fi
 %endif
 
 %changelog
+* Wed Aug 15 2018 John Harvey <john.harvey@crunchydata.com> - 9.4.19-2PGDG
+- Fix broken PGXS=1 builds in -devel package (missing pg_config.h error)
+
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> - 9.4.19-1PGDG
 - Update to 9.4.19, per changes described at:
   https://www.postgresql.org/docs/9.4/static/release-9-4-19.html
