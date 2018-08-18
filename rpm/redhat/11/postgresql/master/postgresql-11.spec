@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.0
-Release:	beta3_1PGDG%{?dist}
+Release:	beta3_2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1504,6 +1504,10 @@ fi
 %endif
 
 %changelog
+* Sat Aug 18 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta3_2PGDG
+- Finally fix the upgrade() path in the setup script, and also add
+  check_upgrade() as well.
+
 * Wed Aug 8 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta3PGDG
 - Update to PostgreSQL 11 Beta 3
 
