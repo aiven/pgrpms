@@ -64,7 +64,7 @@ Environment:
 # note that these options are useful at least for help2man processing
 case "$1" in
     --version)
-	echo "postgresql-setup $PGVERSION"
+	echo "PostgreSQL setup scrip for version $PGVERSION"
         exit 0
         ;;
     --help|--usage)
