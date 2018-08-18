@@ -214,8 +214,6 @@ upgrade(){
 
     echo -n $"Upgrading database: "
 
-    # Create empty new-format database
-#    if perform_initdb; then
         # Do the upgrade
         $SU -l postgres -c "$PGENGINE/pg_upgrade \
                         '--old-bindir=$PREVPGENGINE' \
@@ -230,11 +228,6 @@ upgrade(){
             # pg_upgrade failed
             script_result=1
         fi
-#    else
-#        # initdb failed
-#        script_result=1
-#    fi
-
     if [ $script_result -eq 0 ]; then
         echo $"OK"
         echo
