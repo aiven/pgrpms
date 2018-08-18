@@ -4,7 +4,7 @@
 
 # PGVERSION is the full package version, e.g., 11.0
 # Note: the specfile inserts the correct value during package build
-PGVERSION=11
+PGVERSION=xxx
 # PGMAJORVERSION is major version, e.g., 11 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # PGENGINE is the directory containing the postmaster executable
