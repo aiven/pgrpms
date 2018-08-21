@@ -19,8 +19,8 @@
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Name:		pgbouncer
-Version:	1.8.1
-Release:	2%{?dist}
+Version:	1.9.0
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -204,6 +204,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1
+- Update to 1.9.0
+
 * Fri Mar 2 2018 Devrim Gündüz <devrim@gunduz.org> - 1.8.1-2
 - Add python-psycopg2 as requires, for mkauth.py
 
