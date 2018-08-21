@@ -1,3 +1,4 @@
+%global	debug_package %{nil}
 %global _slonconffilter /etc/slon_tools.conf
 %global __requires_exclude ^(%{_slonconffilter})$
 %global sname slony1
@@ -19,8 +20,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2.6
-Release:	3%{?dist}
+Version:	2.2.7
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -248,6 +249,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> 2.2.7-1
+- Update to 2.2.7
+
 * Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> 2.2.6-3
 - Fix #1002.
 
