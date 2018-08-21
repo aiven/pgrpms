@@ -30,7 +30,7 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python-%{sname}
-Version:	4.11
+Version:	4.12
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -157,6 +157,9 @@ done
 %doc docs/
 
 %changelog
+* Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> 4.12-1
+- Update to 4.12
+
 * Sun Jul 1 2018 Devrim Gündüz <devrim@gunduz.org> 4.11-1
 - Update to 4.11
 
