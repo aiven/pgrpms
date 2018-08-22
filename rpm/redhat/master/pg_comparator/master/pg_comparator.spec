@@ -9,12 +9,12 @@
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}%{pgmajorversion}
 Version:	2.2.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/koordinates/pg_comparator
+URL:		https://github.com/koordinates/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -78,8 +78,23 @@ time-efficient approach.
 %{pginstdir}/lib/pgc_casts.so
 %{pginstdir}/lib/pgc_checksum.so
 %{pginstdir}/share/contrib/*.sql
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/pgc_casts.index.bc
+   %{pginstdir}/lib/bitcode/pgc_checksum.index.bc
+   %{pginstdir}/lib/bitcode/pgc_casts/*.bc
+   %{pginstdir}/lib/bitcode/pgc_checksum/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Wed Aug 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.2.5-2
+- Add v11 support to spec file.
+
 * Sun Jan 24 2016 - Devrim Gündüz <devrim@gunduz.org> 2.2.5-1
 - Update to 2.2.5
 - Unified spec file for all distros
