@@ -71,11 +71,14 @@ checking the status.
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
-%if %{pgmajorversion} >= 11
- %if 0%{?rhel} && 0%{?rhel} <= 6
+%ifarch ppc64 ppc64le
  %else
- %{pginstdir}/lib/bitcode/%{sname}/*.bc
- %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
  %endif
 %endif
 
