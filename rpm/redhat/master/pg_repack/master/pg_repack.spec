@@ -14,9 +14,9 @@ Version:	1.4.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		pg_repack-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_repack/
+URL:		https://pgxn.org/dist/pg_repack/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}
