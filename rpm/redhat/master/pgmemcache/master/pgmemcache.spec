@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL API to interface with memcached
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.3.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
@@ -66,8 +66,21 @@ an interface to memcached.
 %{pginstdir}/lib/pgmemcache.so
 %{pginstdir}/share/extension/pgmemcache--*.sql
 %{pginstdir}/share/extension/pgmemcache.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Wed Aug 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-3
+- Add v11+ support
+
 * Mon Jul 17 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-2
 - Add libmemcached dependency, per Fahar Abbas (EDB QA)
 
