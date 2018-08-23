@@ -8,7 +8,7 @@
 
 Summary:	command line utility for exporting XML, JSON, BYTEA document from PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.1.1
+Version:	0.1.3
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -65,5 +65,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 0.1.3-1
+- Update to 0.1.3
+
 * Wed Jul 5 2017 - Devrim Gündüz <devrim@gunduz.org> 0.1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
