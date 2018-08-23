@@ -8,7 +8,7 @@
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	6.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
@@ -67,8 +67,21 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/share/extension/unit.control
 %{pginstdir}/share/extension/unit_prefixes.data
 %{pginstdir}/share/extension/unit_units.data
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/uni*.bc
+   %{pginstdir}/lib/bitcode/unit/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 6.0-2
+- Add v11+ bitcode conditionals
+
 * Thu Mar 22 2018 - Devrim Gündüz <devrim@gunduz.org> 6.0-1
 - Update to 6.0
 
