@@ -4,9 +4,9 @@ Version:	1.3.3
 Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	http://bucardo.org/downloads/%{name}
+Source0:	https://github.com/bucardo/Split_postgres_dump/archive/%{version}.tar.gz
 Source2:	README.%{name}
-URL:		https://bucardo.org/wiki/Split_postgres_dump
+URL:		https://github.com/bucardo/Split_postgres_dump
 Requires:	perl-Data-Dumper
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
@@ -19,6 +19,7 @@ that should be done after the data is loaded, namely the creation of
 indexes, constraints, and triggers.
 
 %prep
+%setup -q -n Split_postgres_dump-%{version}
 
 %build
 
@@ -28,7 +29,7 @@ indexes, constraints, and triggers.
 %{__install} -d -m 755 %{buildroot}%{_bindir}
 %{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}
 
-%{__install} -m 755 %{SOURCE0} %{buildroot}%{_bindir}/
+%{__install} -m 755 %{name} %{buildroot}%{_bindir}/
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 
 %clean
