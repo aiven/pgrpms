@@ -1,8 +1,4 @@
-%if 0%{?rhel} && 0%{?rhel} < 6
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 26
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -26,7 +22,7 @@
 %endif
 
 Name:		%{srcname}
-Version:	5.0.3
+Version:	5.0.6
 Release:	1%{?dist}
 Summary:	%{sum}
 
@@ -42,11 +38,6 @@ License:	PostgreSQL or Python
 Source0:	http://www.pygresql.org/files/PyGreSQL-%{version}.tar.gz
 Patch0:		PyGreSQL-pg%{pgmajorversion}-setup.py-rpm.patch
 
-# PyGreSQL was originally shipped as a sub-RPM of the PostgreSQL package;
-# these Provides/Obsoletes give a migration path.  Note there is no
-# intention of changing the version numbers in future.
-Provides:	postgresql-python = 8.5.0-1
-Obsoletes:	postgresql-python < 8.5
 Provides:	python2-%{name} = %{version}-%{release}
 Provides:	python2-%{name}%{?_isa} = %{version}-%{release}
 %{?python_provide:%python_provide python2-%{srcname}}
@@ -133,5 +124,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Thu Aug 23 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-1
+- Update to 5.0.6
+- Spec file cleanup, that refers to very old releases.
+
 * Wed Jan 25 2017 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-1
 - Initial build for PostgreSQL YUM repository, based on Fedora spec.
