@@ -294,6 +294,8 @@ fi
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgismajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology-%{postgismajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgismajorversion}/*.bc
    %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}*.bc
    %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}/*.bc
