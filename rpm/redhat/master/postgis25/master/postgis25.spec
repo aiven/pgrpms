@@ -286,6 +286,20 @@ fi
 %{pginstdir}/share/applications/shp2pgsql-gui.desktop
 %{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
 %endif
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/address_standardizer*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer/*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{version}*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{version}/*.bc
+   %{pginstdir}/lib/bitcode/rtpostgis-%{version}*.bc
+   %{pginstdir}/lib/bitcode/rtpostgis-%{version}/*.bc
+  %endif
+ %endif
+%endif
 
 %files client
 %defattr(644,root,root)
