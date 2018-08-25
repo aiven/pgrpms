@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.10.2
+Version:	2.11
 Release:	1%{dist}
 License:	Apache
 Group:		Applications/Databases
@@ -53,19 +53,33 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}
 PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
-%{__cp} README.markdown %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGELOG.markdown
+%doc CHANGELOG.md
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Sun Aug 26 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.11-1
+- Update to 2.11
+- Install PostgreSQL 11+ bitcode files
+
 * Tue Mar 27 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.10.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository.
