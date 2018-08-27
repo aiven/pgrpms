@@ -23,7 +23,7 @@
 
 Name:		%{srcname}
 Version:	5.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	%{sum}
 
 Group:		Applications/Databases
@@ -108,9 +108,12 @@ find -type f -exec chmod 644 {} +
 %doc docs/*.rst
 %endif
 %{python2_sitelib}/*.so
+%if 0%{?suse_version} >= 1315
 %{python2_sitelib}/*.py
+%else
 %{python2_sitelib}/*.pyc
 %{python2_sitelib}/*.pyo
+%endif
 %{python2_sitelib}/*.egg-info
 
 %if 0%{?with_python3}
@@ -124,6 +127,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Tue Aug 28 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-2
+- Attemp to fix SLES builds.
+
 * Thu Aug 23 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-1
 - Update to 5.0.6
 - Spec file cleanup, that refers to very old releases.
