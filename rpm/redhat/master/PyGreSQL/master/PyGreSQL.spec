@@ -110,6 +110,7 @@ find -type f -exec chmod 644 {} +
 %{python2_sitelib}/*.so
 %if 0%{?suse_version} >= 1315
 %{python2_sitelib}/*.py
+%{python2_sitelib}/*.pyc
 %else
 %{python2_sitelib}/*.py
 %{python2_sitelib}/*.pyc
