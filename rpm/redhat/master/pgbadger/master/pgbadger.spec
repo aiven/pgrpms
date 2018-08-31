@@ -1,11 +1,11 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
 Version:	9.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
-Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
-URL:		http://dalibo.github.com/pgbadger/
+Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
+URL:		http://darold.github.com/pgbadger/
 BuildArch:	noarch
 
 %description
@@ -47,6 +47,9 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Fri Aug 31 2018 - John K. Harvey <john.harvey@crunchydata.com> 9.2-2
+- Modified github source location as it has moved.
+
 * Mon Nov 13 2017 - Devrim Gündüz <devrim@gunduz.org> 9.2-1
 - Update to 9.2
 
