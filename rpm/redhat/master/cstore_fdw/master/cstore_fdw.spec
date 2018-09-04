@@ -8,7 +8,7 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.1
+Version:	1.6.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -73,8 +73,23 @@ let you:
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
+
 
 %changelog
+* Tue Sep 4 2018 - Devrim Gündüz <devrim@gunduz.org> 1.6.2-1
+- Update to 1.6.2
+- Add .bc bits to spec file
+
 * Sun Jun 3 2018 - Devrim Gündüz <devrim@gunduz.org> 1.6.1-1
 - Update to 1.6.1, per #3395
 
