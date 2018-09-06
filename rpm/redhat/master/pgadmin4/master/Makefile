@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f27
+DIST=.f29
 SPECFILE="pgadmin4.spec"
 
 # Now, include global Makefile
