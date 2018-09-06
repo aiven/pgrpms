@@ -8,7 +8,7 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.1.0
+Version:	4.1.1
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -56,6 +56,20 @@ backups via the replication protocol, the repmgr team has decided to use
 PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
 rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
+
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+%package devel
+Summary:	Development header files of repmgr
+Group:		Development/Libraries
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+The repmgr-devel package contains the header files needed to compile C or C++
+applications which will directly interact with repmgr.
+%endif
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -155,7 +169,20 @@ fi
  %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+ %else
+%files devel
+%defattr(-,root,root,-)
+%{pginstdir}/include/server/extension/%{sname}/*.h
+ %endif
+%endif
+
 %changelog
+* Thu Sep 6 2018 - Devrim Gündüz <devrim@gunduz.org> 4.1.1-1
+- Update to 4.1.1, per #3623
+- Add -devel subpackage for v11+
+
 * Wed Aug 1 2018 - Devrim Gündüz <devrim@gunduz.org> 4.1.0-1
 - Update to 4.1.0, per #3530
 
