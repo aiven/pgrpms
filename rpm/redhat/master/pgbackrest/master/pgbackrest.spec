@@ -2,7 +2,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.04
+Version:	2.05
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -16,8 +16,9 @@ Requires:	perl-parent perl-JSON perl-Time-HiRes
 %else
 Requires:	perl-JSON-PP
 %endif
-Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes
+Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes zlib
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
+BuildRequires:	openssl-devel zlib-devel
 
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
@@ -64,6 +65,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Sep 6 2018 - Devrim Gündüz <devrim@gunduz.org> 2.05-1
+- Update to 2.05, per #3614.
+
 * Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 2.04-1
 - Update to 2.04, per #3474.
 
