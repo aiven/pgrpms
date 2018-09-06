@@ -58,7 +58,7 @@ rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 6
+ %if 0%{?rhel} && 0%{?rhel} <= 7
  %else
 %package devel
 Summary:	Development header files of repmgr
@@ -170,7 +170,7 @@ fi
 %endif
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 6
+ %if 0%{?rhel} && 0%{?rhel} <= 7
  %else
 %files devel
 %defattr(-,root,root,-)
