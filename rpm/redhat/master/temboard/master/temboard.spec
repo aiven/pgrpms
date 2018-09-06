@@ -2,7 +2,7 @@
 %{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print (get_python_lib())")}
 
 Name:		temboard
-Version:	1.2.1
+Version:	2.0
 Release:	1%{?dist}
 Summary:	temBoard Web Interface
 
@@ -104,6 +104,9 @@ fi
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Thu Sep 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
+- Update to 2.0
+
 * Thu Aug 23 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-1
 - Update to 1.2.1
 
