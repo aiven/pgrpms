@@ -1,6 +1,6 @@
 Name:           pitrery
-Version:        2.0
-Release:        2%{?dist}
+Version:        2.1
+Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
 Group:          Applications/Databases
@@ -48,7 +48,10 @@ restores for PostgreSQL.
 %doc %{_mandir}/man1/restore_xlog.1.gz
 
 %changelog
-* Tue Mar 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-2
+* Thu Sep 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-1
+- Update to 2.1
+
+* Tue Mar 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0-2
 - Minor spec file improvements
 
 * Fri Oct 20 2017 Nicolas Thauvin <nicolas.thauvin@dalibo.com> - 2.0-1
