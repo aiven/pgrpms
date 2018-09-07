@@ -2,13 +2,13 @@
 %global sname e-maj
 
 Name:		emaj
-Version:	2.2.3
+Version:	2.3.1
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
 License:	GPLv2
-URL:		http://pgxn.org/dist/%{sname}/
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+URL:		https://pgxn.org/dist/%{sname}/
+Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
@@ -25,7 +25,7 @@ in time.
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -d %{buildroot}%{_datadir}/%{name}-%{version}/
-%{__cp} -r php sql %{buildroot}%{_datadir}/%{name}-%{version}/
+%{__cp} -r sql %{buildroot}%{_datadir}/%{name}-%{version}/
 %{__cp} %{name}.control %{buildroot}%{_datadir}/%{name}-%{version}/
 
 %clean
@@ -36,12 +36,13 @@ in time.
 %doc CHANGES.md doc LICENSE README.md
 %dir %{_datadir}/%{name}-%{version}
 %dir %{_datadir}/%{name}-%{version}/sql
-%dir %{_datadir}/%{name}-%{version}/php
 %{_datadir}/%{name}-%{version}/%{name}.control
 %{_datadir}/%{name}-%{version}/sql/*.sql
-%{_datadir}/%{name}-%{version}/php/*.php
 
 %changelog
+* Fri Sep 7 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
+- Update to 2.3.1
+
 * Wed Mar 14 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-1
 - Update to 2.2.3
 
