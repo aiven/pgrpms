@@ -32,14 +32,16 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.4
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.5
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
+# Patch1 can be removed when 2.4.6 comes out
+Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.5-clangfix.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -171,6 +173,8 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
+# Patch1 can be removed when 2.4.6 comes out
+%patch1 -p0
 
 %build
 
@@ -279,11 +283,35 @@ fi
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/address_standardizer-%{postgismajorversion}*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer-%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}_topology-%{postgismajorversion}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}_topology-%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/rt%{sname}-%{postgismajorversion}*.bc
+   %{pginstdir}/lib/bitcode/rt%{sname}-%{postgismajorversion}/*.bc
+  %endif
+ %endif
+%endif
 %endif
 %if %shp2pgsqlgui
 %{pginstdir}/bin/shp2pgsql-gui
 %{pginstdir}/share/applications/shp2pgsql-gui.desktop
 %{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
+%endif
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}-%{postgismajorversion}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}-%{postgismajorversion}/*.bc
+  %endif
+ %endif
 %endif
 
 %files client
@@ -311,6 +339,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Sep 18 2018 John K. Harvey <john.harvey@crunchydata.com> - 2.4.5-1
+- Update to 2.4.5
+- Includes patchfile to support 2.4.5 working with clang on PG11 for EL-7
+
 * Thu May 3 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.4-2
 - Remove 2.3 bits from the package, and use symlink to .so file
   instead.

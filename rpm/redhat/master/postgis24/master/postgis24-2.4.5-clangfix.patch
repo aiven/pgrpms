@@ -1,0 +1,20 @@
+*** raster/rt_pg/Makefile.in	2018-09-14 14:20:29.000000000 -0400
+--- raster/rt_pg/Makefile.in.new	2018-09-14 14:20:25.000000000 -0400
+***************
+*** 65,72 ****
+  LIBGDAL_LDFLAGS=@LIBGDAL_LDFLAGS@
+  LIBPROJ_CFLAGS=@PROJ_CPPFLAGS@
+  
+! override CFLAGS := $(LIBLWGEOM_CFLAGS) @CFLAGS@
+! PG_CPPFLAGS+= @CPPFLAGS@ $(LIBGDAL_CFLAGS) $(LIBPGCOMMON_CFLAGS) $(LIBPROJ_CFLAGS) -I../rt_core
+  SHLIB_LINK_F = ../rt_core/librtcore.a $(LIBLWGEOM_LDFLAGS) $(LIBPGCOMMON_LDFLAGS) $(LIBGDAL_LDFLAGS) @SHLIB_LINK@
+  
+  # Extra files to remove during 'make clean'
+--- 65,71 ----
+  LIBGDAL_LDFLAGS=@LIBGDAL_LDFLAGS@
+  LIBPROJ_CFLAGS=@PROJ_CPPFLAGS@
+  
+! PG_CPPFLAGS+= @CPPFLAGS@ @CFLAGS@ $(LIBGDAL_CFLAGS) $(LIBLWGEOM_CFLAGS) $(LIBPGCOMMON_CFLAGS) $(LIBPROJ_CFLAGS) -I../rt_core
+  SHLIB_LINK_F = ../rt_core/librtcore.a $(LIBLWGEOM_LDFLAGS) $(LIBPGCOMMON_LDFLAGS) $(LIBGDAL_LDFLAGS) @SHLIB_LINK@
+  
+  # Extra files to remove during 'make clean'
