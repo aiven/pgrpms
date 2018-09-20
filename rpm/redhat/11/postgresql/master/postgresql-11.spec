@@ -83,12 +83,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.0
-Release:	beta3_2PGDG%{?dist}
+Release:	beta4_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v11beta3/postgresql-11beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v11beta4/postgresql-11beta4.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -526,7 +526,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}beta3
+%setup -q -n %{sname}-%{pgmajorversion}beta4
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -992,6 +992,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %find_lang pg_upgrade-%{pgmajorversion}
 %find_lang pg_waldump-%{pgmajorversion}
 %find_lang pgscripts-%{pgmajorversion}
+%find_lang pg_verify_checksums-%{pgmajorversion}
 %if %plperl
 %find_lang plperl-%{pgmajorversion}
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
@@ -1016,7 +1017,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
-cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang > pg_main.lst
+cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang  pg_verify_checksums-%{pgmajorversion}.lang > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang > pg_server.lst
 %endif
 
@@ -1504,6 +1505,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 20 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta4_1PGDG
+- Update to PostgreSQL 11 Beta 4
+
 * Sat Aug 18 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-beta3_2PGDG
 - Finally fix the upgrade() path in the setup script, and also add
   check_upgrade() as well.
