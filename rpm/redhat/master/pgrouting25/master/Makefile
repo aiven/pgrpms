@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f26
+DIST=.f29
 SPECFILE="pgrouting.spec"
 
 # Now, include global Makefile
