@@ -15,8 +15,8 @@
 %endif
 
 Name:		%{sname}36
-Version:	3.6.2
-Release:	3.1%{?dist}
+Version:	3.6.3
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -176,6 +176,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1
+- Update to 3.6.3
+
 * Tue Dec 26 2017 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-3.1
 - Remove Source1, and create linker config file manually, so that
   it uses the right path all the time.
