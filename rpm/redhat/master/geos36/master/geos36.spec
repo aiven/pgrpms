@@ -107,7 +107,7 @@ done
         export LDFLAGS="-L/opt/%(echo ${PPC_AT})/%{_lib}"
 %endif
 
-./configure --prefix=%{geosinstdir} --libdir=/usr/geos36/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
+PYTHON=/usr/bin/python2 ./configure --prefix=%{geosinstdir} --libdir=/usr/geos36/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
 # Touch the file, since we are not using ruby bindings anymore:
 # Per http://lists.osgeo.org/pipermail/geos-devel/2009-May/004149.html
 touch swig/python/geos_wrap.cxx
