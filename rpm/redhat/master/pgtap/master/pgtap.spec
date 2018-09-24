@@ -8,14 +8,14 @@
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.98.0
-Release:	2%{?dist}
+Version:	0.99.0
+Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
-URL:		http://pgxn.org/dist/pgtap/
-Source0:	http://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
+URL:		https://pgxn.org/dist/pgtap/
+Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 # Use this source for pg_prove and pg_tapgen
-Source1:	http://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
+Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion} perl-Test-Pod perl-Test-Pod-Coverage
@@ -82,6 +82,9 @@ popd
 %{pginstdir}/share/extension/pgtap.control
 
 %changelog
+* Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> 0.99.0-1
+- Update to 0.99.0
+
 * Sat Mar 17 2018 Devrim Gündüz <devrim@gunduz.org> 0.98.0-2
 - Add pg_prove and pg_tapgen, per #3167
 
