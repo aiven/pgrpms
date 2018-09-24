@@ -8,7 +8,7 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.4.13
+Version:	1.5.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -61,8 +61,22 @@ to manage partitions.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/compat/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Mon Sep 24 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
+- Update to 1.5
+
 * Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.13-1
 - Update to 1.4.13
 
