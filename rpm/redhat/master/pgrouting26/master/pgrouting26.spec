@@ -10,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1%{dist}
 License:	GPLv2
 Group:		Applications/Databases
@@ -96,5 +96,8 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> 2.6.1-1
+- Update to 2.6.1
+
 * Wed Mar 21 2018 Devrim Gündüz <devrim@gunduz.org> 2.6.0-1
 - Release 2.6.0
