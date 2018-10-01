@@ -1,6 +1,6 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	19.0
+Version:	19.1
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	GPLv3+
@@ -63,6 +63,9 @@ Oracle database to a PostgreSQL database.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Mon Oct 1 2018 Devrim Gündüz <devrim@gunduz.org> 19.1-1
+- Update to 19.1
+
 * Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> 19.0-1
 - Update to 19.0
 
