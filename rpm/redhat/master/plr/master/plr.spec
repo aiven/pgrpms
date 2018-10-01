@@ -7,11 +7,11 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.17
+Version:	8.3.0.18
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_3_0_17.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_3_0_18.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
@@ -32,7 +32,7 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}-REL8_3_0_17
+%setup -q -n %{sname}-REL8_3_0_18
 %patch0 -p0
 
 %build
@@ -59,8 +59,22 @@ statistical computing and graphics".
 %doc %{pginstdir}/doc/extension/README.%{sname}
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Wed Oct 1 2018 - John K. Harvey <john.harvey@crunchydata.com> 8.3.0-18-1
+- Update to 8.3.0.18
+- PG11 LLVM support
+
 * Wed Sep 28 2016 - Devrim Gündüz <devrim@gunduz.org> 8.3.0-17-1
 - Update to 8.3.0.17
 
