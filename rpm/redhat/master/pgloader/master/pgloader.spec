@@ -1,21 +1,20 @@
+%global debug_package %{nil}
 %global __os_install_post %{nil}
-
-# Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.4.1
-Release:	3%{?dist}
+Version:	3.5.2
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgloader.io
 Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python sbcl openssl-devel
-Requires:	python-psycopg2 openssl-devel
+BuildRequires:	sbcl >= 1.3.6
+BuildRequires:	freetds-devel
+BuildRequires:	openssl-devel
+Requires:	openssl-devel
 
 %description
 pgloader imports data from different kind of sources and COPY it into
@@ -33,31 +32,38 @@ from the pgloader command directly.
 
 %prep
 %setup -q -n %{name}-bundle-%{version}
-%{__make} %{?_smp_mflags}
+
+
+%build
+export CCFLAGS="%{_optflags}"
+export CCXFLAGS="%{_optflags}"
+export DYNSIZE=""
+echo "Arch is : %{_arch}"
+%if "%{_arch}" == "i386" || "%{_arch}" == "arm"
+export DYNSIZE="DYNSIZE=1024"
+%endif
+%{__make} %{?_smp_mflags} ${DYNSIZE}
+# TODO build doc with sphinx
 
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -m 755 -d %{buildroot}/%{_bindir}
-%{__install} -m 755 -d %{buildroot}/%{_docdir}/%{name}
-%{__install} -m 755 -d %{buildroot}/%{_mandir}/man1
-%{__mv} bin/%{name} %{buildroot}/%{_bindir}/%{name}
-%{__mv} local-projects/%{name}-%{version}/docs/dist \
-	local-projects/%{name}-%{version}/docs/howto \
-	local-projects/%{name}-%{version}/docs/src \
-	local-projects/%{name}-%{version}/docs/*.html \
-	%{buildroot}/%{_docdir}/%{name}
-%{__mv} local-projects/%{name}-%{version}/%{name}.1 %{buildroot}/%{_mandir}/man1/%{name}.1
+%{__install} -m 755 bin/%{name} %{buildroot}%{_bindir}/pgloader
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %doc README.md
-%doc %{_docdir}/%{name}/*
-%{_mandir}/man1/%{name}.1
 %{_bindir}/%{name}
 
 %changelog
+* Fri Sep 14 2018 Bruno Friedmann <bruno@ioda.net>  3.5.2-1
+- Update to 3.5.2
+- Cleanup unused deps (python)
+- Adapt file list (no man.1)
+- Use a proper build step
+
 * Sun Feb 18 2018 Devrim Gündüz <devrim@gunduz.org> 3.4.3-1
 - Add dependency to openssl-devel, per #3087
 
