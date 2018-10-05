@@ -1,6 +1,6 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
-%global ofdwmidver 0
+%global ofdwmidver 1
 %global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
@@ -81,6 +81,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Fri Oct 5 2018 Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
+- Update to 2.1.0
+
 * Tue Sep 19 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
 - Update to 2.0.0
 
