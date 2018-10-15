@@ -8,13 +8,13 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	3.2.1
+Version:	4.0.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/keithf4/%{sname}/archive/v%{version}.tar.gz
+Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://github.com/keithf4/%{sname}
+URL:		https://github.com/pgpartman/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -61,15 +61,31 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/doc/extension/migration_to_partman.md
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
+%attr(755, root, -) %{pginstdir}/bin/dump_partition.py
+%attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
+%attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
+# Some python scripts were moved to procedures in PG11:
+%if %{pgmajorversion} >= 90 || %{pgmajorversion} == 10
+%attr(755, root, -) %{pginstdir}/bin/partition_data.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
-%attr(755, root, -) %{pginstdir}/bin/dump_partition.py
-%attr(755, root, -) %{pginstdir}/bin/partition_data.py
-%attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
-%attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
+%endif
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/src/pg_partman_bgw.index.bc
+   %{pginstdir}/lib/bitcode/src/pg_partman_bgw/src/pg_partman_bgw.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Mon Oct 15 2018 - John K. Harvey <john.harvey@crunchydata.com> 4.0.0-1
+- Update to 4.0.0
+
 * Fri Jul 27 2018 - Devrim Gündüz <devrim@gunduz.org> 3.2.1-1
 - Update to 3.2.1, per #3519
 
