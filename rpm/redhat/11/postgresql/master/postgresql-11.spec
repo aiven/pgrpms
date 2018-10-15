@@ -83,12 +83,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.0
-Release:	rc1_1PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v11rc1/postgresql-11rc1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -526,7 +526,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgmajorversion}rc1
+%setup -q -n %{sname}-%{version}
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1505,6 +1505,9 @@ fi
 %endif
 
 %changelog
+* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-1PGDG
+- Update to PostgreSQL 11.0!
+
 * Tue Oct 9 2018 Devrim Gündüz <devrim@gunduz.org> - 11.0-rc1_1PGDG
 - Update to PostgreSQL 11 RC1
 
