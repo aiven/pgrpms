@@ -34,11 +34,11 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta2_1%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}beta2.tar.gz
-Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}beta2.pdf
+Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
+Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -168,7 +168,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}beta2
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -325,9 +325,12 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}beta2.pdf
+%doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1
+- Update to 2.5.0 Gold
+
 * Thu Aug 23 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0beta2-1
 - Initial cut for PostGIS 2.5.0 beta2
 
