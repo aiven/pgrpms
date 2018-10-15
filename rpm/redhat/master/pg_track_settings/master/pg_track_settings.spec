@@ -10,7 +10,7 @@
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
@@ -80,6 +80,9 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Jul 15 2018 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 

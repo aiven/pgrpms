@@ -9,7 +9,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	4.1.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -179,6 +179,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Thu Sep 6 2018 - Devrim Gündüz <devrim@gunduz.org> 4.1.1-1
 - Update to 4.1.1, per #3623
 - Add -devel subpackage for v11+

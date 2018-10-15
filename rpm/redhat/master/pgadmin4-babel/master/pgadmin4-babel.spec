@@ -28,7 +28,7 @@
 
 Name:		pgadmin4-babel
 Version:	2.3.4
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	Tools for internationalizing Python applications
 
 Group:		Development/Languages
@@ -182,6 +182,9 @@ make html
 %doc docs/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-2
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

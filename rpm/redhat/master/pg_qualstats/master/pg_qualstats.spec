@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.5
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
@@ -93,6 +93,9 @@ together.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Fri Aug 10 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.5-2
 - Ignore .bc files on PPC arch.
 

@@ -35,7 +35,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 Summary:	Simple security for Flask apps
 Version:	3.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/%{mod_name}
@@ -100,6 +100,9 @@ find . -name "*DS_Store*" -exec rm -rf {} \;
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 

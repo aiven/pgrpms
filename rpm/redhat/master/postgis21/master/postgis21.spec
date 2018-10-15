@@ -26,7 +26,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -296,6 +296,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Feb 5 2018 John Harvey <john.harvey@crunchydata.com> - 2.1.9-3
 - Let PostGIS 2.1 depend on PGDG supplied Proj49 and GeOS 36 RPMs.
   This will help users to benefit from latest GeOS and Proj.

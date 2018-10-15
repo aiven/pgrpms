@@ -31,7 +31,7 @@
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python-%{sname}
 Version:	4.12
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Url:		https://github.com/dalibo/%{sname}
@@ -157,6 +157,9 @@ done
 %doc docs/
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 4.12-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> 4.12-1
 - Update to 4.12
 

@@ -8,7 +8,7 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0.0
-Release:	alpha.2_1%{?dist}
+Release:	alpha.2_1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}-alpha.2.zip
@@ -71,6 +71,9 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-alpha.2_1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jul 31 2018 - Devrim Gündüz <devrim@gunduz.org> 2.0.0-alpha.2
 - Update to 2.0.0-alpha.2 for testing repo only.
 

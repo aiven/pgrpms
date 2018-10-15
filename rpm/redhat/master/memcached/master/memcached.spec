@@ -4,7 +4,7 @@
 
 Name:           memcached
 Version:        1.4.39
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -119,6 +119,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0:1.4.39-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jul 11 2017 Devrim Gündüz <devrim@gunduz.org> - 0:1.4.39-1
 - Initial build for PostgreSQL SUSE Repository, based on Fedora
   rawhide package.

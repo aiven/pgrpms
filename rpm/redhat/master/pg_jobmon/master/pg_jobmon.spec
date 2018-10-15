@@ -9,7 +9,7 @@
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.3.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/omniti-labs/%{sname}/archive/v%{version}.tar.gz
@@ -63,6 +63,9 @@ install -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Jul 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.3.3-1
 - Update to 1.3.3
 - Update URLs

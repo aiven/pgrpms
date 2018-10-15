@@ -9,7 +9,7 @@
 
 Name:		%{sname}49
 Version:	4.9.3
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
 
@@ -204,6 +204,9 @@ popd
 %attr(0644,root,root) %{projinstdir}/share/%{sname}/epsg
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0:4.9.3-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Nov 28 2017 Devrim Gündüz <devrim@gunduz.org> - 4.9.3-3
 - Fix linker config file contents. Per report from Daniel Farina.
 

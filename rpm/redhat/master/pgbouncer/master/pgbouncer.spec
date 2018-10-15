@@ -20,7 +20,7 @@
 
 Name:		pgbouncer
 Version:	1.9.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -204,6 +204,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1
 - Update to 1.9.0
 

@@ -19,7 +19,7 @@ Requires:	python3-gevent => 1.1.1
 Summary:	Continuous Archiving for Postgres
 Name:		wal-e
 Version:	1.1.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
@@ -50,6 +50,9 @@ WAL files and base backups.
 %{python3_sitelib}/wal_e-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 

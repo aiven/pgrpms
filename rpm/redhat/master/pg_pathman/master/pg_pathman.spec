@@ -9,7 +9,7 @@
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.5.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}-4.tar.gz
@@ -74,6 +74,9 @@ to manage partitions.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Tue Oct 16 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.2-1
 - Update to 1.5.2
 

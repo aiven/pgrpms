@@ -33,7 +33,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.5
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -339,6 +339,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Tue Sep 18 2018 John K. Harvey <john.harvey@crunchydata.com> - 2.4.5-1
 - Update to 2.4.5
 - Includes patchfile to support 2.4.5 working with clang on PG11 for EL-7

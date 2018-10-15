@@ -26,7 +26,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.1.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	SSH tunnels to remote server.
 
 Group:		Development/Libraries
@@ -104,5 +104,8 @@ popd
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 26 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.3
 - Initial packaging for pgAdmin4 3.1+

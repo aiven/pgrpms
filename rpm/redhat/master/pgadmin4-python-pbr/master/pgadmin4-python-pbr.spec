@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	3.1.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Python Build Reasonableness
 
 License:	ASL 2.0
@@ -104,6 +104,9 @@ export SKIP_PIP_INSTALL=1
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1
 - Update to 3.1.1
 

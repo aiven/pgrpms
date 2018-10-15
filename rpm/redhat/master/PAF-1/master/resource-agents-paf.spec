@@ -2,7 +2,7 @@
 
 Name:		resource-agents-paf
 Version:	1.1.0
-Release:	1%{dist}
+Release:	1%{dist}.1
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -42,5 +42,8 @@ find %{buildroot} -type f -name .packlist -exec rm -f {} +
 %{_datadir}/resource-agents/ocft/configs/pgsqlms
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 25 2017 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Package 1.1.0 for RHEL 6.

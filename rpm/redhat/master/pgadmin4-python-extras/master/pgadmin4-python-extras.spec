@@ -35,7 +35,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	1.0.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	Useful extra bits for Python
 
 License:	MIT
@@ -101,6 +101,9 @@ general use outside of a testing context.\
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-2
 - Initial packaging for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.

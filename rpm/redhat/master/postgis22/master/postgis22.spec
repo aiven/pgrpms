@@ -36,7 +36,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -314,6 +314,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1
 - Update to 2.2.7
 - Create symlink of .so file. PostGIS hackers said that this

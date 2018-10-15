@@ -31,7 +31,7 @@
 
 Name:           python-setuptools
 Version:        39.0.1
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        Easily build and distribute Python packages
 
 Group:          Applications/System
@@ -252,6 +252,9 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=$(pwd) py.test-%{python3_version} --ignore=
 
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 39.0.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Mar 20 2018 Charalampos Stratakis <cstratak@redhat.com> - 39.0.1-1
 - update to 39.0.1 Fixes bug #1531527
 

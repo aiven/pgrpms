@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 URL:		https://github.com/powa-team/%{sname}
@@ -82,6 +82,9 @@ the queryid field.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Wed Aug 1 2018 - Devrim Gündüz <devrim@gunduz.org> 2.1.1-1
 - Update 2.1.1
 

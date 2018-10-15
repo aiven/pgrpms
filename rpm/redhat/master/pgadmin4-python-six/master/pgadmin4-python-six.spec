@@ -34,7 +34,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	1.11.0
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Python 2 and 3 compatibility utilities
 
 License:	MIT
@@ -97,6 +97,9 @@ Python 2 and Python 3.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-3
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.

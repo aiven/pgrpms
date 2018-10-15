@@ -9,7 +9,7 @@
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	LGPL
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -66,5 +66,8 @@ integer and rational data types offered by the GMP library.
 %{pginstdir}/share/%{sname}/%{sname}*.sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Jan 19 2015 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository

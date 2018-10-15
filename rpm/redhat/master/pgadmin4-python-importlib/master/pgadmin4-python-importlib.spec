@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.0.4
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Backport of importlib.import_module() from Python 2.7
 
 Group:		Development/Languages
@@ -97,6 +97,9 @@ in the 2.7 trunk.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

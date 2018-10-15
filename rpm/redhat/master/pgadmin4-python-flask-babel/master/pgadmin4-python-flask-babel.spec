@@ -35,7 +35,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.11.1
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 Summary:	Adds i18n/l10n support to Flask applications
 Group:		Development/Libraries
 License:	BSD
@@ -108,6 +108,9 @@ Adds i18n/l10n support to Flask applications with the help of the Babel library.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.1-4.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Apr 5 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.1-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

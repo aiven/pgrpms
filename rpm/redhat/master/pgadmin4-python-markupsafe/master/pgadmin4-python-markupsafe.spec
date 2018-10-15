@@ -34,7 +34,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.23
-Release:	13%{?dist}
+Release:	13%{?dist}.1
 Summary:	Implements a XML/HTML/XHTML Markup safe string for Python
 
 Group:		Development/Languages
@@ -101,6 +101,9 @@ CFLAGS="$RPM_OPT_FLAGS" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.23-13.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0:23-13
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

@@ -1,7 +1,7 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
 Version:	1.6.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Development/Tools
 URL:		https://github.com/okbob/%{name}
@@ -45,6 +45,9 @@ CFLAGS="%{optflags}"
 %{_bindir}/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Sep 7 2018 Devrim Gündüz <devrim@gunduz.org> 1.6.1-1
 - Update to 1.6.1, per #3626
 

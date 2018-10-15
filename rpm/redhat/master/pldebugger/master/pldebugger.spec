@@ -8,7 +8,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
 URL:		https://git.postgresql.org/gitweb/?p=%{sname}.git;a=summary
@@ -73,6 +73,9 @@ install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{s
 %{pginstdir}/share/extension/pldbgapi*.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Jun 5 2017 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial packaging for PostgreSQL YUM repository.
 

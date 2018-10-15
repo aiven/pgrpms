@@ -9,7 +9,7 @@
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}%{pgmajorversion}
 Version:	0.7.3.2
-Release:	1%{dist}
+Release:	1%{dist}.1
 Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
@@ -78,6 +78,9 @@ libtool --finish %{pginstdir}/lib/security
 %{pginstdir}/lib/security/pam_pgsql.so
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.7.3.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Jan 21 2016 Devrim Gunduz <devrim@gunduz.org> - 0.7.3.2-1
 - Update to 0.7.3.2
 - Rename package to pam-pgsql, so that it matches the upstream name.

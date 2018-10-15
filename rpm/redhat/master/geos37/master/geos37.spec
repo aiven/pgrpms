@@ -16,7 +16,7 @@
 
 Name:		%{sname}37
 Version:	3.7.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -176,6 +176,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1
 - Initial packaging of 3.7.X for PostgreSQL RPM Repository,
   which is to satisfy PostGIS on older platforms, so that

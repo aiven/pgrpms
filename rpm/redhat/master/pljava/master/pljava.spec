@@ -4,7 +4,7 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
 Version:	1.5.1
-Release:	b1_1%{?dist}
+Release:	b1_1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 URL:		http://tada.github.io/pljava/
@@ -62,6 +62,9 @@ mvn clean install
 %{pginstdir}/share/pljava/pljava-api-%{version}-BETA1.jar
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-b1_1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 20 2017 Devrim Gunduz <devrim@gunduz.org> 1.5.1-b1-1
 - Update to 1.5.1 Beta 1
 

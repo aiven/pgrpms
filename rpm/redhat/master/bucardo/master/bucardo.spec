@@ -3,7 +3,7 @@
 %global	realname Bucardo
 Name:		bucardo
 Version:	5.4.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
 Group:		Applications/Databases
@@ -126,6 +126,9 @@ fi
 %{_bindir}/slony_migrator.pl
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Mar 6 2016 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1
 - Update to 5.4.1
 

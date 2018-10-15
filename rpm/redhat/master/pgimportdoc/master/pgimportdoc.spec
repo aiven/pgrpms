@@ -9,7 +9,7 @@
 Summary:	command line tool for import XML, TEXT and BYTEA documents to PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.1.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
@@ -65,6 +65,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 0.1.3-1
 - Update to 0.1.3
 

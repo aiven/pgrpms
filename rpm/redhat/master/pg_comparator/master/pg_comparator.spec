@@ -9,7 +9,7 @@
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}%{pgmajorversion}
 Version:	2.2.5
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
@@ -92,6 +92,9 @@ time-efficient approach.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Wed Aug 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.2.5-2
 - Add v11 support to spec file.
 

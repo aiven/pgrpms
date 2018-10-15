@@ -35,7 +35,7 @@ Name:		pgadmin4-python-crypto
 %endif
 Summary:	Cryptography library for Python
 Version:	2.6.1
-Release:	15%{?dist}
+Release:	15%{?dist}.1
 # Mostly Public Domain apart from parts of HMAC.py and setup.py, which are Python
 License:	Public Domain and Python
 URL:		http://www.pycrypto.org/
@@ -123,6 +123,9 @@ find %{buildroot} -name '*.so' -exec chmod -c g-w {} \;
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-15.1
+- Rebuild against PostgreSQL 11.0
+
 * Sat Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-15
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

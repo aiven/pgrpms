@@ -10,7 +10,7 @@
 Summary:	PostgreSQL log file re-player
 Name:		%{sname}%{pgmajorversion}
 Version:	1.3.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/laurenz/pgreplay/archive/%{vname}.tar.gz
@@ -77,6 +77,9 @@ affect you.
 %{_mandir}/man1/%{sname}*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Jun 1 2017 - Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Update to 1.3.0
 

@@ -12,7 +12,7 @@
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}-%{pgmajorversion}
 Version:	3.2.6
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markokr/%{sname}/archive/%{version}.tar.gz
@@ -189,6 +189,9 @@ sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:'
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Wed Sep 28 2016 Victor Yegorov <vyegorov@gmail.com> - 3.2.6-1
 - Update to 3.2.6
 

@@ -34,7 +34,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	2.1
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Forms validation and rendering library for python
 
 Group:		Development/Libraries
@@ -102,6 +102,9 @@ sed -i "s|\r||g" docs/html/_static/jquery.js
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

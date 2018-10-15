@@ -6,7 +6,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Informix
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ifxfdwmajver}.%{ifxfdwmidver}.%{ifxfdwminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
@@ -47,5 +47,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 25 2016 Devrim Gündüz <devrim@gunduz.org> 0.3.1-1
 - Initial packaging for PostgreSQL RPM repository.

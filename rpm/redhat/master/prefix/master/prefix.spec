@@ -3,7 +3,7 @@
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.2.8
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
@@ -52,6 +52,9 @@ searches.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Mon Jun 18 2018 - Devrim Gündüz <devrim@gunduz.org> 1.2.8-1
 - Update to 1.2.8
 - Add patches for all supported PostgreSQL releases

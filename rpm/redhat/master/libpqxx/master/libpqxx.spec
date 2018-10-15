@@ -7,7 +7,7 @@
 Name:		libpqxx
 Epoch:		1
 Version:	5.0.1
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	C++ client API for PostgreSQL
 
 Group:		System Environment/Libraries
@@ -99,6 +99,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:5.0.1-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> 5.0.1-2
 - Fix linker issues during configure. Patch taken from Fedora.
 

@@ -9,7 +9,7 @@
 Summary:	PostgreSQL backup manager
 Name:		pgbackman
 Version:	%{majorversion}.%{midversion}.%{minorversion}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
@@ -68,6 +68,9 @@ useradd -M -N -g pgbackman -r -d /var/lib/pgbackman -s /bin/bash \
 	-c "PostgreSQL Backup Manager" pgbackman >/dev/null 2>&1 || :
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Oct 30 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 - Remove patch, it is now in upstream.

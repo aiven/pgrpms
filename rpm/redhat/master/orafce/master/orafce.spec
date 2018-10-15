@@ -12,7 +12,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
@@ -79,6 +79,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Sat Feb 17 2018 - Devrim Gündüz <devrim@gunduz.org> 3.6.1-1
 - Update to 3.6.1, per #3131
 - Remove patch1, not needed anymore.

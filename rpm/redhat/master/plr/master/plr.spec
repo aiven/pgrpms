@@ -8,7 +8,7 @@
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
 Version:	8.3.0.18
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_3_0_18.tar.gz
@@ -71,6 +71,9 @@ statistical computing and graphics".
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Wed Oct 1 2018 - John K. Harvey <john.harvey@crunchydata.com> 8.3.0-18-1
 - Update to 8.3.0.18
 - PG11 LLVM support

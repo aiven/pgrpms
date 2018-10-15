@@ -9,7 +9,7 @@
 Summary:	Optional Extension for Barman
 Name:		%{sname}%{pgmajorversion}
 Version:	1.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/2ndquadrant-it/%{sname}/archive/%{version}.tar.gz
@@ -71,6 +71,9 @@ the disaster recovery tool written by 2ndQuadrant and released as open source
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 9 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 

@@ -9,7 +9,7 @@
 Summary:	Geolocation using GeoIP for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.2.4
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -65,6 +65,9 @@ rm -rf %{buildroot}
 %{pginstdir}/share/extension/uninstall_%{sname}.sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Sep 10 2015 - Devrim Gündüz <devrim@gunduz.org> 0.2.4-1
 - Update to 0.2.4
 

@@ -23,7 +23,7 @@
 Summary:	Compare and synchronize PostgreSQL database schemas
 Name:		python2-%{sname}
 Version:	0.8.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/perseas/%{cname}/archive/v%{version}.tar.gz
@@ -85,6 +85,9 @@ Andromeda Project. This is Python 3 version.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.8.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 0.8.0-1
 - Update to 0.8.0
 

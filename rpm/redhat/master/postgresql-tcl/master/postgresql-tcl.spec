@@ -12,7 +12,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	A Tcl client library for PostgreSQL
 
 Group:		Applications/Databases
@@ -90,6 +90,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Apr 1 2018 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2
 - Apply a workaround for conflicting build-ids.
 

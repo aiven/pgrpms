@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
 Version:	4.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
@@ -83,6 +83,9 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Mon Oct 15 2018 - John K. Harvey <john.harvey@crunchydata.com> 4.0.0-1
 - Update to 4.0.0
 

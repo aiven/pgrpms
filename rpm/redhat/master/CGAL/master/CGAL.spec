@@ -11,7 +11,7 @@
 
 Name:		CGAL
 Version:	4.7
-Release:	1%{alphatag}%{?dist}
+Release:	1%{alphatag}%{?dist}.1
 Summary:	Computational Geometry Algorithms Library
 
 Group:		System Environment/Libraries
@@ -153,6 +153,9 @@ touch -r demo %{buildroot}%{_datadir}/CGAL/
 %exclude %{_datadir}/CGAL/*/*/skip_vcproj_auto_generation
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 4.7-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Nov 27 2015 Devrim Gündüz <devrim@gunduz.org> - 4.7-1
 - Update to 4.7
 

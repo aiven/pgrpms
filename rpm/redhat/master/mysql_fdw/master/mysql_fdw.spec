@@ -12,7 +12,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
@@ -82,6 +82,9 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Mar 13 2018 - Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
 - Update to 2.4.0
 

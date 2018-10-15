@@ -9,7 +9,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Script and extension to keep replication slot in sync between master and replicas
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
@@ -76,5 +76,8 @@ popd
 %{pginstdir}/share/extension/%{fname}*sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu May 4 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial packaging for PostgreSQL YUM repository.

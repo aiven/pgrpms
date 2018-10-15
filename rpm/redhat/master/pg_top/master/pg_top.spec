@@ -9,7 +9,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
@@ -85,6 +85,9 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-5.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Aug 26 2016 - Devrim Gündüz <devrim@gunduz.org> 3.7.0-5
 - Fix alternatives link, per report from  Dmitriy Sarafannikov.
   Fixes #1604.

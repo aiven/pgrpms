@@ -23,7 +23,7 @@
 
 Name:		%{srcname}
 Version:	5.0.6
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	%{sum}
 
 Group:		Applications/Databases
@@ -129,6 +129,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 28 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-2
 - Attemp to fix SLES builds.
 

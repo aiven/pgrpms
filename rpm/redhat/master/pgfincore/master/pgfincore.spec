@@ -9,7 +9,7 @@
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}%{pgmajorversion}
 Version:	1.1.2
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
@@ -71,6 +71,9 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.2-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Mar 10 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.2-2
 - Fixes for Fedora 23 and PostgreSQL 9.5 doc layout.
 

@@ -17,7 +17,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -186,6 +186,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
 - Update to 4.0.0
 - Add -pthread to CXXFLAGS

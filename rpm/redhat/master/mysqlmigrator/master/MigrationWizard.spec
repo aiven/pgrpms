@@ -1,6 +1,6 @@
 Name:		MigrationWizard
 Version:        1.1
-Release:        3%{?dist}
+Release:        3%{?dist}.1
 Summary:	MySQL to PostgreSQL Migration Wizard
 
 Group:		Application/Databases
@@ -43,6 +43,9 @@ ant dist
 %{_datadir}/%{name}/lib/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 6 2017 Devrim Gunduz <devrim@gunduz.org> 1.1-3
 - Update patch for recent distros.
 

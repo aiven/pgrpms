@@ -8,7 +8,7 @@
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
 Version:	1.2.1
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
 Group:		Applications/Databases
@@ -71,6 +71,9 @@ mkdir -p %{buildroot}%{python_sitearch}/%{name}/tests
 %{python_sitelib}/%{name}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jan 26 2016 Devrim Gündüz <devrim@gunduz.org> 1.2.1-2
 - Cosmetic improvements to simplify spec file.
 

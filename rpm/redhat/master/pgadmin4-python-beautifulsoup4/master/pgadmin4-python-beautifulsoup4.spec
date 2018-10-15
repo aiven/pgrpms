@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	4.5.1
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	HTML/XML parser for quick-turnaround applications like screen-scraping
 Group:		Development/Languages
 License:	MIT
@@ -113,6 +113,9 @@ touch -r AUTHORS.txt.iso AUTHORS.txt
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 4.5.1-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 4.5.1-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

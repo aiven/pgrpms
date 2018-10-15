@@ -32,7 +32,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	3.0.0
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 Summary:	Fixtures, reusable state for writing clean tests and more
 
 License:	ASL 2.0 or BSD
@@ -99,6 +99,9 @@ Requires:	python-testtools >= 0.9.22 python-six
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-5.1
+- Rebuild against PostgreSQL 11.0
+
 * Sat Apr 7 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-5
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.0.0
-Release:	14%{?dist}
+Release:	14%{?dist}.1
 Summary:	Backport of the linecache module
 
 License:	Python
@@ -90,6 +90,9 @@ A backport of linecache to older supported Pythons.\
 
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-14.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-14
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.

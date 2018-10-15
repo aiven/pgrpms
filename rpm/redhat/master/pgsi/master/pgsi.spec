@@ -1,7 +1,7 @@
 Summary:	PostgreSQL Log Analyzer Script
 Name:		pgsi
 Version:	1.7.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
@@ -50,6 +50,9 @@ produce wiki-ready system impact reports.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.7.1-1
 - Update to 1.7.1
 - Use more macros, for unified spec file

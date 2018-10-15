@@ -9,7 +9,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
 Version:	1.4.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
@@ -70,6 +70,9 @@ access to the row revisions
 %{pginstdir}/doc/extension/how_to_release.md
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.3-1
 - Update to 1.4.3
 

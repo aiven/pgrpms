@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.2.4
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Non-validating SQL parser for Python
 
 Group:		Development/Languages
@@ -108,6 +108,9 @@ It is a python module, together with a command-line tool.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-1
 - Update to 0.2.4
 

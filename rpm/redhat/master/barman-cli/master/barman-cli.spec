@@ -39,7 +39,7 @@
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
 Name:		barman-cli
 Version:	%{main_version}
-Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version}}%{?dist}
+Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version}}%{?dist}.1
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
@@ -82,6 +82,9 @@ by 2ndQuadrant.
 %doc %{_mandir}/man1/barman-wal-restore.1.gz
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Oct 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2. Fixes #1799.
 

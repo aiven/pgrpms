@@ -1,6 +1,6 @@
 Name:		libgeotiff
 Version:	1.4.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	GeoTIFF format library
 Group:		System Environment/Libraries
 License:	MIT
@@ -118,6 +118,9 @@ echo  >> %{buildroot}%{_datadir}/epsg_csv/codes.csv
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sat Dec 27 2014 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Initial build for PostgreSQL YUM repository, to satisfy dependency
   for gdal (and so PostGIS). based on EPEL spec.

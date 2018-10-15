@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:        0.24
-Release:        10%{?dist}
+Release:        10%{?dist}.1
 Summary:        Python library for passing trusted data to untrusted environments
 License:        BSD
 URL:            http://pythonhosted.org/%{sname}/
@@ -104,6 +104,9 @@ Signatures (JWS).
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.24-10.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 0.24-10
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

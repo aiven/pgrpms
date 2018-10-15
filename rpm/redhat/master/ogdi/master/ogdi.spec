@@ -1,6 +1,6 @@
 Name:		ogdi
 Version:	3.2.0
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 Summary:	Open Geographic Datastore Interface
 Group:		Applications/Engineering
 License:	BSD
@@ -177,6 +177,9 @@ touch -r ogdi-config.in %{buildroot}%{_bindir}/%{name}-config
 
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-4.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Dec 18 2017 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-4
 * Initial packaging for PostgreSQL RPM repository, which uses our own
   proj49 package.

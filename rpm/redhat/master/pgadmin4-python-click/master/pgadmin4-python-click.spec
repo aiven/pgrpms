@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	6.7
-Release:	8%{?dist}
+Release:	8%{?dist}.1
 Summary:	Simple wrapper around optparse for powerful command line utilities
 
 License:	BSD
@@ -91,6 +91,9 @@ comes with good defaults out of the box.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 6.7-8.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Apr 9 2018 Devrim Gündüz <devrim@gunduz.org> - 6.7-8
 - Initial packaging for PostgreSQL RPM repository, to satisfy
   pgadmin4 dependency on RHEL 6.

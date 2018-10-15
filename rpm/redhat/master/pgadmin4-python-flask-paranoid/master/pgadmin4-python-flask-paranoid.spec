@@ -34,7 +34,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	0.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Simple user session protection
 Group:		Development/Libraries
 License:	MIT
@@ -95,6 +95,9 @@ BuildRequires:	python2-devel python-setuptools
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.2-1
 - Update to 0.2
 

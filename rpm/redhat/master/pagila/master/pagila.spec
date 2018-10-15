@@ -3,7 +3,7 @@
 Summary:	A sample database for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 URL:		https://github.com/devrimgunduz/%{sname}
@@ -41,6 +41,9 @@ books, tutorials, articles, samples, etc.
 %attr(644,root,root) %{_pagiladir}/*.sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 20 2017 Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 

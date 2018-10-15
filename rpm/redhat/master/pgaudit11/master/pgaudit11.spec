@@ -9,7 +9,7 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}11_%{pgmajorversion}
 Version:	1.1.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
@@ -73,6 +73,9 @@ trail or audit log. The term audit log is used in this documentation.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Sep 4 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
 - Update to 1.1.1
 

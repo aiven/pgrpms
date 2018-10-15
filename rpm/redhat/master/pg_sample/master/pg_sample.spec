@@ -3,7 +3,7 @@
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
 Version:	1.09
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/mla/pg_sample/archive/v1.09.tar.gz
 URL:		https://github.com/mla/pg_sample
@@ -35,5 +35,8 @@ install -m 644 README.md %{buildroot}%{_docdir}/%{name}
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.09-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Mar 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.09-1
 - Initial RPM packaging for yum.postgresql.org

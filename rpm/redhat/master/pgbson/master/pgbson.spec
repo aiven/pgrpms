@@ -11,7 +11,7 @@
 Summary:	BSON support for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.1
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -89,6 +89,9 @@ cd ../%{sname}-%{version}-build
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Dec 17 2013 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-2
 - Unified spec file for all distros.
 - Use more macros in spec file

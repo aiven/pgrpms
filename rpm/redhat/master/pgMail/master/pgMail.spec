@@ -3,7 +3,7 @@
 Summary:	Send email from inside a PostgreSQL Database
 Name:		pgMail
 Version:	1.4
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	Apache
 Group:		Applications/Databases
 Source0:	https://github.com/captbrando/%{name}/archive/v%{version}.tar.gz
@@ -44,5 +44,8 @@ servers allowing dangerous users to do bad things.
 %{_datadir}/%{name}/*.sql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu Nov 16 2017 - Devrim Gündüz <devrim@gunduz.org> 1.4-1
 - Initial packaging for PostgreSQL RPM Repository

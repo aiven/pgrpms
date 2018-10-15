@@ -38,7 +38,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	2.8
-Release:	9%{?dist}
+Release:	9%{?dist}.1
 Summary:	General purpose template engine
 Group:		Development/Languages
 License:	BSD
@@ -148,6 +148,9 @@ popd
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8-9.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8-9
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

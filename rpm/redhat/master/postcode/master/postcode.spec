@@ -8,7 +8,7 @@
 Summary:	UK postcode type optimised for indexing
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	http://api.pgxn.org/dist/postcode/%{version}/postcode-%{version}.zip
 Patch0:		%{sname}-1.3.0-c99.patch
@@ -63,5 +63,8 @@ matches. Also provides suitable type for delivery point suffixes.
 %{_datadir}/%{name}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue May 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

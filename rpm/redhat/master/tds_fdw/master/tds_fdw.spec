@@ -8,7 +8,7 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.8
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.tar.gz
@@ -71,6 +71,9 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Oct 28 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.8-1
 - Update to 1.0.8
 - Change links to point to github.

@@ -11,7 +11,7 @@
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
 Version:	%{pgpoolmajorversion}.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgpool.net
@@ -110,6 +110,9 @@ fi
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Mar 6 2017 Devrim Gündüz <devrim@gunduz.org> 3.6.0-2
 - Add requires for php-posix
 - Update patch to reflect new PostgreSQL version

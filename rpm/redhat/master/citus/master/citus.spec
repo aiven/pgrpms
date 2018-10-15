@@ -9,7 +9,7 @@
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
 Version:	7.5.1
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	AGPLv3
 Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -106,6 +106,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Thu Aug 30 2018 -  Devrim Gündüz <devrim@gunduz.org> 7.5.1-1
 - Update to 7.5.1, per #3597
 

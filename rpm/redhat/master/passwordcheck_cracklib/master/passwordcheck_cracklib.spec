@@ -7,7 +7,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.2
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 Group:		Applications/Databases
 License:	BSD
@@ -59,6 +59,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Wed Aug 22 2018 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-2
 - Add v11 code to spec file
 

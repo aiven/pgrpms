@@ -1,6 +1,6 @@
 Name:		geos
 Version:	3.5.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -122,6 +122,9 @@ rm -rf %{buildroot}
 %{python_sitearch}/%{name}/_%{name}.so
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Oct 13 2015 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0, per changes described at:
   http://trac.osgeo.org/geos/browser/tags/3.5.0/NEWS

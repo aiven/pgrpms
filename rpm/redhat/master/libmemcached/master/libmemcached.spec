@@ -1,7 +1,7 @@
 Name:		libmemcached
 Summary:	Client library and command line tools for memcached server
 Version:	1.0.18
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		System Environment/Libraries
 URL:		http://libmemcached.org/
@@ -138,6 +138,9 @@ fi
 %{_mandir}/man3/hashkit*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.18-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Dec 8 2015 Devrim GÜNDÜZ <devrim@gunduz.org> 1.0.18-1
 - Update to 1.0.18
 

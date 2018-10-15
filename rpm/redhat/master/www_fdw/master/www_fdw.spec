@@ -8,7 +8,7 @@
 Summary:	PostgreSQL foreign data wrapper for different web services
 Name:		%{sname}%{pgmajorversion}
 Version:	0.1.8
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -68,5 +68,8 @@ install -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.8-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Mar 16 2015 - Devrim Gündüz <devrim@gunduz.org> 0.1.8-1
 - Initial RPM packaging for PostgreSQL RPM Repository

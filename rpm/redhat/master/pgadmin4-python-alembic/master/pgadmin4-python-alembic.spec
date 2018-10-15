@@ -34,7 +34,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	0.9.7
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Database migration tool for SQLAlchemy
 
 Group:		Development/Libraries
@@ -130,6 +130,9 @@ install -d -m 0755 %{buildroot}%{_mandir}/man1
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.7-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Apr 16 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.7-3
 - Initial packaging for PostgreSQL RPM Repo, to satisfy
   pgAdmin4 dependency

@@ -7,7 +7,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	3.1.14
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -63,6 +63,9 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.14-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Mar 4 2018 Devrim Gündüz <devrim@gunduz.org> 3.1.14-2
 - Split client tools into a separate subpackage, per #3165
 

@@ -35,7 +35,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	1.3.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -96,6 +96,9 @@ application.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1
 - Update to 1.3.2
 

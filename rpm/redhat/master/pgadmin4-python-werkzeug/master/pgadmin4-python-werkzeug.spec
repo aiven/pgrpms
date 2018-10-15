@@ -35,7 +35,7 @@ Name:		pgadmin4-python-%{sname}
 %endif
 
 Version:	0.11.11
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 Summary:	The Swiss Army knife of Python web development
 
 Group:		Development/Libraries
@@ -121,6 +121,9 @@ find examples/ -name '*.png' -executable | xargs chmod -x
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-4.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

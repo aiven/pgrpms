@@ -4,7 +4,7 @@
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
 Version:	3.5.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 URL:		http://pgloader.io
@@ -58,6 +58,9 @@ export DYNSIZE="DYNSIZE=1024"
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.5.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Sep 14 2018 Bruno Friedmann <bruno@ioda.net>  3.5.2-1
 - Update to 3.5.2
 - Cleanup unused deps (python)

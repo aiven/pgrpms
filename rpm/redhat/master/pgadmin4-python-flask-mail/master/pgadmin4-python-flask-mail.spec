@@ -35,7 +35,7 @@ Name:		pgadmin4-python-%{mod_name}
 %endif
 Summary:	A Flask extension for sending email messages
 Version:	0.9.1
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 License:	Python
 Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/Flask-Mail
@@ -109,6 +109,9 @@ your Flask application and to send messages from your views and scripts.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-4.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-4
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the dependencies for that.

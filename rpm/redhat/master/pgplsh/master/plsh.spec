@@ -9,7 +9,7 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.20171014
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
@@ -72,6 +72,9 @@ allows you to write stored procedures in a shell of your choice.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.20171014-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Mar 27 2018 - Devrim Gündüz <devrim@gunduz.org> 1.20171014
 - Update to 1.20171014
 

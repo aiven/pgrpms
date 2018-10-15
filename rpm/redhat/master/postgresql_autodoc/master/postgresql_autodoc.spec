@@ -1,6 +1,6 @@
 Name:		postgresql_autodoc
 Version:	1.41.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	PostgreSQL AutoDoc Utility
 Group:		Applications/Databases
 License:	BSD
@@ -47,6 +47,9 @@ DESTDIR=%{buildroot} PREFIX=%{_usr} make install %{?_smp_mflags}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.41.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Wed Jan 27 2016 - Devrim Gündüz <devrim@gunduz.org> 1.41.1-1
 - Move to new repo, as the old one gives 404 for a long time.
 - Minor cleanup

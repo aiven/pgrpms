@@ -10,7 +10,7 @@
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 URL:		https://github.com/ChristophBerg/%{sname}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -62,6 +62,9 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Jun 2 2017 Devrim Gündüz <devrim@gunduz.org> 9.6.0-1
 - Update to 9.6.0
 

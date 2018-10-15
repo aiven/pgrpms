@@ -35,7 +35,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.4.0
-Release:	14%{?dist}
+Release:	14%{?dist}.1
 Summary:	%{sum}
 
 Group:		Development/Languages
@@ -118,6 +118,9 @@ application.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.4.0-14.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Apr 8 2018 Devrim Gündüz <devrim@gunduz.org> - 0.4.0-14
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

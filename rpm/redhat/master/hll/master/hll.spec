@@ -9,7 +9,7 @@
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.11
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	Apache
 Group:		Applications/Databases
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
@@ -77,6 +77,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Sun Aug 26 2018 -  Devrim Gündüz <devrim@gunduz.org> 2.11-1
 - Update to 2.11
 - Install PostgreSQL 11+ bitcode files

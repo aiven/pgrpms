@@ -28,7 +28,7 @@
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
 Version:	1.6.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -146,6 +146,9 @@ rm -rf %{buildroot}
 %endif # with_python3
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 6 2017 Devrim Gündüz <devrim@gunduz.org> 1.6.0-1
 - Update to 1.6.0
 

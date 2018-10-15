@@ -36,7 +36,7 @@ Name:		pgadmin4-python-%{sname}
 
 Summary:	Small extension for Flask to make usage of Gravatar service easy
 Version:	0.5.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	Python
 Group:		Development/Languages
 URL:		https://github.com/zzzsochi/%{pypi_name}
@@ -105,6 +105,9 @@ This is small and simple integration gravatar into flask.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
 - Update to 0.5.0
 - Update URLs

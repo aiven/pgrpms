@@ -9,7 +9,7 @@
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	10.03.0000
-Release:	1PGDG%{?dist}
+Release:	1PGDG%{?dist}.1
 License:	LGPLv2
 Group:		Applications/Databases
 URL:		https://odbc.postgresql.org/
@@ -105,6 +105,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 10.03.0000-1PGDG.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun May 27 2018 - Devrim Gündüz <devrim@gunduz.org> - 10.03.0000-1
 - Update to 10.03.0000
 

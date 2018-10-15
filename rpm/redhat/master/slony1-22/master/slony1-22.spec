@@ -21,7 +21,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.7
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -249,6 +249,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Aug 21 2018 Devrim Gündüz <devrim@gunduz.org> 2.2.7-1
 - Update to 2.2.7
 

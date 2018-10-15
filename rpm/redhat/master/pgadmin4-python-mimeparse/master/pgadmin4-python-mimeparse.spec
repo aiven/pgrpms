@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.6.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Python module for parsing mime-type names
 Group:		Development/Languages
 License:	MIT
@@ -100,6 +100,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
 - Update to 1.6.0
 

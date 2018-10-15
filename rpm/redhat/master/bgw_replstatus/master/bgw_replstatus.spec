@@ -8,7 +8,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
@@ -83,6 +83,9 @@ checking the status.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Thu May 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 

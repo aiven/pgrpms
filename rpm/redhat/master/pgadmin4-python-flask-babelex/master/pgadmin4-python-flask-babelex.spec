@@ -34,7 +34,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	0.9.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Adds i18n/l10n support to Flask applications
 License:	BSD
 URL:		https://github.com/mrjoes/%{sname}
@@ -109,6 +109,9 @@ This is fork of official Flask-Babel extension with following features:
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Wed Apr 11 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.3-1
 - Initial version for PostgreSQL RPM repository to satisfy
   pgadmin4 dependency.

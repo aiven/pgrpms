@@ -22,7 +22,7 @@ Name:		python3-%{sname}
 Name:		python-%{sname}
 %endif
 Version:	1.8.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Epoch:		1
 Summary:	Meta-commands handler for Postgres Database.
 
@@ -67,5 +67,8 @@ CFLAGS="%{optflags}" %{__ospython2} setup.py build
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:1.8.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jun 6 2017 Devrim Gündüz <devrim@gunduz.org> - 1:1.8.0-1
 - Initial packaging for PostgreSQL YUM repo, to satisfy pgcli dependency.

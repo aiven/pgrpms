@@ -11,7 +11,7 @@
 Summary:	PostgreSQL Ruby Procedural Language
 Name:		%{sname}%{pgmajorversion}
 Version:	0.5.7
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Source0:	https://github.com/devrimgunduz/postgresql-%{sname}/archive/%{version}.tar.gz
 Source1:	plruby.control
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -96,6 +96,9 @@ ruby extconf.rb --vendor --with-pg-config=%{pginstdir}/bin/pg_config --with-safe
 %doc docs/plruby.rb plruby.html
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.7-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon May 29 2017 Devrim Gündüz <devrim@gunduz.org> 0.5.7-2
 - Also install .sql file so that extensions can be created.
 

@@ -35,7 +35,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -319,6 +319,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu May 3 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-2
 - Add a patch to fix builds against json-c >= 0.13
 

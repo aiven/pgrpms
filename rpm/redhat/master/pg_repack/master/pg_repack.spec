@@ -11,7 +11,7 @@
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}%{pgmajorversion}
 Version:	1.4.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -65,6 +65,9 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.3-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Thu May 24 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.3-1
 - Update to 1.4.3
 

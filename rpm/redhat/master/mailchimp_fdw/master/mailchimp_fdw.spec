@@ -11,7 +11,7 @@
 Summary:	PostgreSQL foreign data wrapper for Mailchimp
 Name:		%{sname}
 Version:	0.3.1
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/daamien/%{sname}/archive/%{version}.tar.gz
@@ -45,6 +45,9 @@ This is a PostgreSQL FDW for Mailchimp
 %{python_sitelib}/mailchimpfdw/*.py*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-2.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue May 16 2017 - Devrim Gündüz <devrim@gunduz.org> 0.3.1-2
 - Relax dependency on PostgreSQL.
 

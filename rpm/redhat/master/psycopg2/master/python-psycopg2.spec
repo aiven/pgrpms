@@ -32,7 +32,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python-%{sname}
 Version:	2.7.5
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -207,6 +207,9 @@ done
 %doc doc examples/
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.7.5-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Jun 18 2018 Devrim Gündüz <devrim@gunduz.org> 2.7.5-1
 - Update to 2.7.5 per
   http://www.psycopg.org/psycopg/articles/2018/06/17/psycopg-275-released/

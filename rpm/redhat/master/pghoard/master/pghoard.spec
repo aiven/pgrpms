@@ -3,7 +3,7 @@
 Summary:	PostgreSQL backup daemon and restore tooling for cloud object storage
 Name:		pghoard
 Version:	1.4.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/ohmu/%{name}/archive/%{version}.tar.gz
@@ -56,5 +56,8 @@ sed -e "s@#!/bin/python@#!%{_bindir}/python@" -i %{buildroot}%{_bindir}/*
 %license LICENSE
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Nov 7 2016 - Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository

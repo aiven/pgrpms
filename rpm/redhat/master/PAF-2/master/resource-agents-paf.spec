@@ -2,7 +2,7 @@
 
 Name:		resource-agents-paf
 Version:	2.2.0
-Release:	1%{dist}
+Release:	1%{dist}.1
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -42,6 +42,9 @@ PostgreSQL resource agent for Pacemaker.
 %{_datadir}/resource-agents/ocft/configs/pgsqlms
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Wed Sep 13 2017 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1
 - Update to 2.2.0
 

@@ -9,7 +9,7 @@
 Summary:	uri type for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.20151224
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
@@ -75,6 +75,9 @@ arbitrary junk.
 %{pginstdir}/share/extension/uri.control
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Jan 26 2016 - Devrim Gündüz <devrim@gunduz.org> 1.20151224-1
 - Update to 1.20151224
 

@@ -10,7 +10,7 @@
 Summary:	top-like console for Pgbouncer - PostgreSQL connection pooler
 Name:		pgbconsole%{pgmajorversion}
 Version:	0.1.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
@@ -77,5 +77,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{_bindir}/%{sname}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Nov 6 2016 - Devrim Gündüz <devrim@gunduz.org> 0.1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository

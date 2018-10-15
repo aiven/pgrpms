@@ -9,7 +9,7 @@
 Summary:	R-Tree implementation using GiST for spherical objects
 Name:		%{sname}%{pgmajorversion}
 Version:	1.1.1
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
@@ -69,6 +69,9 @@ DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 make instal
 %{pginstdir}/lib/pg_sphere.so
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-4.1
+- Rebuild against PostgreSQL 11.0
+
 * Mon Jan 4 2016 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-4
 - Update for 9.5 doc layout.
 

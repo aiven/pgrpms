@@ -13,7 +13,7 @@
 Summary:	DML logging tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -70,6 +70,9 @@ column-by-column basis.
 %{pginstdir}/doc/extension/*%{sname}*.md
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Sep 18 2016 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
 

@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.3
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Implements a lazy string for python useful for use with get-text
 Group:		Development/Libraries
 License:	BSD
@@ -101,6 +101,9 @@ is evaluated based on a callable you provide.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3-3.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Apr 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3-3
 - pgadmin4-v3 will only support Python 3.4 in EPEL on RHEL 6,
   so adjust the spec file for that.

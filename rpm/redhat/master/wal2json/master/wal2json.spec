@@ -3,7 +3,7 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_1_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -59,6 +59,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild against PostgreSQL 11.0
+
 * Sat Aug 11 2018 - Devrim Gündüz <devrim@gunduz.org> 1.0-2
 - Ignore .bc files on PPC arch.
 

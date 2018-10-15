@@ -1,7 +1,7 @@
 Summary:	Thread-safe hash algorithms library
 Name:		mhash
 Version:	0.9.9.9
-Release:	1%{dist}
+Release:	1%{dist}.1
 URL:		http://mhash.sourceforge.net/
 License:	LGPL
 Group:		System Environment/Libraries
@@ -68,6 +68,9 @@ make %{?_smp_mflags}
 %{_mandir}/man3/*
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.9.9-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Sun Feb 1 2009 Devrim Gündüz <devrim@gunduz.org> - 0.9.9.9-1
 - Update to 0.9.9.9
 

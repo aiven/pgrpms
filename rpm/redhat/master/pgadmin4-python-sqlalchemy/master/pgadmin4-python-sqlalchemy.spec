@@ -32,7 +32,7 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 Version:	1.2.5
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	Modular and flexible ORM library for python
 Group:		Development/Libraries
 License:	MIT
@@ -112,6 +112,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.5-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Tue Apr 10 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.5-1
 - Update to 1.2.5
 

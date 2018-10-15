@@ -19,7 +19,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
@@ -81,6 +81,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1.1
+- Rebuild against PostgreSQL 11.0
+
 * Fri Oct 5 2018 Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
 - Update to 2.1.0
 
