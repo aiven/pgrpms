@@ -8,11 +8,11 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.5.0
+Version:	1.5.2
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
+Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}-4.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -33,7 +33,7 @@ The pg_pathman module provides optimized partitioning mechanism and functions
 to manage partitions.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}-4
 %patch0 -p0
 
 %build
@@ -74,8 +74,14 @@ to manage partitions.
 %endif
 
 %changelog
+* Tue Oct 16 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.2-1
+- Update to 1.5.2
+
+* Tue Sep 25 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.1-1
+- Update to 1.5.1
+
 * Mon Sep 24 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.0-1
-- Update to 1.5
+- Update to 1.5.0
 
 * Sat Jul 14 2018 - Devrim Gündüz <devrim@gunduz.org> 1.4.13-1
 - Update to 1.4.13
