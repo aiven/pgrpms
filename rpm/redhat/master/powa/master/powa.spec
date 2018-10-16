@@ -8,8 +8,8 @@
 %global swebname powa-web
 # Powa version
 %global powamajorversion 3
-%global powamidversion 1
-%global powaminorversion 1
+%global powamidversion 2
+%global powaminorversion 0
 # powa-web version
 %global powawebversion 3.1.4
 
@@ -28,10 +28,10 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}.1
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/dalibo/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.zip
+Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/dalibo/%{swebname}/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -132,6 +132,16 @@ popd
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %files web
 %defattr(-,root,root,-)
@@ -145,6 +155,9 @@ popd
 %endif
 
 %changelog
+* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-1
+- Update to 3.2.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-2.1
 - Rebuild against PostgreSQL 11.0
 
