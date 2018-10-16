@@ -74,7 +74,7 @@ to manage partitions.
 %endif
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
 * Tue Oct 16 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.2-1
