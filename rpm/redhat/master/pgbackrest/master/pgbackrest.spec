@@ -2,8 +2,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.05
-Release:	1%{?dist}.1
+Version:	2.06
+Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
@@ -65,6 +65,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> - 2.06-1
+- Update to 2.06
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.05-1.1
 - Rebuild against PostgreSQL 11.0
 
