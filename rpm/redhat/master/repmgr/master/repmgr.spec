@@ -58,8 +58,6 @@ rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 7
- %else
 %package devel
 Summary:	Development header files of repmgr
 Group:		Development/Libraries
@@ -68,7 +66,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 %description devel
 The repmgr-devel package contains the header files needed to compile C or C++
 applications which will directly interact with repmgr.
-%endif
 %endif
 
 %prep
@@ -170,12 +167,9 @@ fi
 %endif
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 7
- %else
 %files devel
 %defattr(-,root,root,-)
 %{pginstdir}/include/server/extension/%{sname}/*.h
- %endif
 %endif
 
 %changelog
