@@ -10,8 +10,8 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}%{pgmajorversion}
-Version:	1.4.3
-Release:	1%{?dist}.1
+Version:	1.4.4
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -60,11 +60,25 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %attr (755,root,root) %{pginstdir}/lib/pg_repack.so
 %{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
+  %endif
+ %endif
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Thu Oct 18 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.4-1
+- Update to 1.4.4
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.3-1.1
 - Rebuild against PostgreSQL 11.0
 
