@@ -42,9 +42,16 @@ Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
-BuildRequires:		libmemcached-devel openssl-devel
-
+BuildRequires:		openssl-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:		libmemcache-devel
+Requires:		libmemcache
+%endif
+%else
+BuildRequires:		libmemcached-devel
 Requires:		libmemcached
+%endif
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
