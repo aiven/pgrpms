@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
-Version:	1.4.3
-Release:	1%{?dist}.1
+Version:	1.5.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
@@ -50,8 +50,11 @@ access to the row revisions
 %install
 %{__rm} -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
-# Install README and howto file under PostgreSQL installation directory:
+# Install table_version_loader under PostgreSQL directory
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -d %{buildroot}%{pginstdir}/bin
+%{__mv} %{buildroot}/usr/local/bin/table_version-loader %{buildroot}/%{pginstdir}/bin/
+%{__mv} %{buildroot}/usr/local/share/table_version/table_version-1.5.0.sql.tpl %{buildroot}%{pginstdir}/share/extension/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -70,6 +73,9 @@ access to the row revisions
 %{pginstdir}/doc/extension/how_to_release.md
 
 %changelog
+* Fri Oct 19 2018 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-1
+- Update to 1.5.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.3-1.1
 - Rebuild against PostgreSQL 11.0
 
