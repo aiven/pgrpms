@@ -23,6 +23,12 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server sqlite-devel
 Requires:	postgresql%{pgmajorversion}-server
+%if 0%{?fedora} >= 27
+Requires:	sqlite-libs
+%endif
+%if 0%{?rhel} == 7
+Requires:	sqlite
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
