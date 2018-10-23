@@ -1,12 +1,12 @@
 %global sname	informix_fdw
 %global ifxfdwmajver 0
-%global ifxfdwmidver 3
-%global ifxfdwminver 1
+%global ifxfdwmidver 5
+%global ifxfdwminver 0
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Informix
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ifxfdwmajver}.%{ifxfdwmidver}.%{ifxfdwminver}
-Release:	1%{?dist}.1
+Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
@@ -47,6 +47,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.control
 
 %changelog
+* Tue Oct 23 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
+- Update to 0.5.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1.1
 - Rebuild against PostgreSQL 11.0
 

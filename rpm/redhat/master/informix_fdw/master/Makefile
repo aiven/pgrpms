@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f29
 SPECFILE="informix_fdw.spec"
 
 # Now, include global Makefile
