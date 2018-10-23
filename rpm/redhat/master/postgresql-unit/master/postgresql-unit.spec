@@ -7,8 +7,8 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	6.0
-Release:	2%{?dist}.1
+Version:	7.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
@@ -79,7 +79,10 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %endif
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Tue Oct 23 2018 Devrim Gündüz <devrim@gunduz.org> 7.0-1
+- Update to 7.0
+
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> 6.0-2.1
 - Rebuild against PostgreSQL 11.0
 
 * Thu Aug 23 2018 - Devrim Gündüz <devrim@gunduz.org> 6.0-2
