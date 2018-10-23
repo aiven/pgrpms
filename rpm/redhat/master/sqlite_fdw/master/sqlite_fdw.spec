@@ -26,7 +26,7 @@ Requires:	postgresql%{pgmajorversion}-server
 %if 0%{?fedora} >= 27
 Requires:	sqlite-libs
 %endif
-%if 0%{?rhel} == 7
+%if 0%{?rhel} <= 7
 Requires:	sqlite
 %endif
 
