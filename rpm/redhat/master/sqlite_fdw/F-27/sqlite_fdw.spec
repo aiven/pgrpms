@@ -1,0 +1,1 @@
+../master/sqlite_fdw.spec
