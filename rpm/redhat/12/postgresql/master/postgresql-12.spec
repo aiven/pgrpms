@@ -5,7 +5,8 @@
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 0
+%global build_timestamp %(date +"%Y%m%d")
+%global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -82,8 +83,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12devel
-Release:	1PGDG%{?dist}
+Version:	12.0
+Release:	devel_%{build_timestamp}_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1507,5 +1508,5 @@ fi
 %endif
 
 %changelog
-* Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0.0-20181029
+* Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
 - Initial cut for PostgreSQL 12
