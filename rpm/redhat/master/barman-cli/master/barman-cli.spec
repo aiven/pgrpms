@@ -32,9 +32,9 @@
 # Usually 1 - unique sequence for all pre-release version
 %global package_release 1
 
-%{!?pybasever: %define pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
-%{!?python_sitelib: %define python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %define python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?pybasever: %global pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
+%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
 Name:		barman-cli

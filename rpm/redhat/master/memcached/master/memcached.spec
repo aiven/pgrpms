@@ -1,5 +1,5 @@
-%define username   memcached
-%define groupname  memcached
+%global username   memcached
+%global groupname  memcached
 %bcond_without sasl
 
 Name:           memcached
