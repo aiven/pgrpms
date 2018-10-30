@@ -1,1 +1,1 @@
-d /var/run/postgresql 0755 postgres postgres -
+d /run/postgresql 0755 postgres postgres -
