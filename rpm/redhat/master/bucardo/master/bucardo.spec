@@ -1,9 +1,7 @@
-%global	pgmajorversion 10
-
 %global	realname Bucardo
 Name:		bucardo
 Version:	5.4.1
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
 Group:		Applications/Databases
@@ -126,6 +124,9 @@ fi
 %{_bindir}/slony_migrator.pl
 
 %changelog
+* Tue Oct 30 2018 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-2
+- Remove hardcoded PostgreSQL version number, per PG bug #15469
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1.1
 - Rebuild against PostgreSQL 11.0
 
