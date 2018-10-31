@@ -12,7 +12,7 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.0
+Version:	1.1.0
 Release:	1%{?dist}
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -63,12 +63,6 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
 
-
-%check
-%if %runselftest
-%{__make} installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres PGPORT=5495
-%endif
-
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -78,7 +72,20 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/*.control
 %{pginstdir}/doc/extension/README-%{sname}.md
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Wed Oct 31 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+- Update to 1.1.0
+
 * Tue Oct 23 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for PostgreSQL RPM repositories
