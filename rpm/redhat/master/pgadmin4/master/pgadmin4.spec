@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -53,6 +53,8 @@ Source7:	%{name}-web-setup.sh
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
+# Will be removed in 3.6:
+Patch5:		%{name}-3.5-config.py.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -155,7 +157,7 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 
 Requires:	%{name}-python3-flask-login >= 0.3.2 %{name}-python3-flask-paranoid >= 0.1
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.3 python3-click
 Requires:	%{name}-python3-pyrsistent >= 0.14.2 %{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-sshtunnel >= 0.1.3
+Requires:	%{name}-python3-sshtunnel >= 0.1.3 %{name}-python3-flask-babelex python3-psutil
 Requires:	python3-flask-sqlalchemy >= 2.1 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-pbr >= 3.1.1
@@ -213,7 +215,7 @@ Requires:	%{name}-python-pbr >= 3.1.1 %{name}-python-html5lib >= 1.0.1
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.3
 Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
 Requires:	python-linecache2 >= 1.0.0 python-speaklater >= 1.3 python-click
-Requires:	python-crypto >= 2.6.1 mod_wsgi
+Requires:	python-crypto >= 2.6.1 mod_wsgi python2-psutil
 %endif
 
 %if 0%{?suse_version}
@@ -288,6 +290,8 @@ GNOME Desktop components of pgAdmin4.
 %if 0%{?rhel} && 0%{?rhel} >= 7
 %patch4 -p0
 %endif
+# Will be removed in 3.6:
+%patch5 -p0
 
 %build
 cd runtime
@@ -433,6 +437,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Nov 5 2018 - Devrim Gündüz <devrim@gunduz.org> 3.5-2
+- Add a temp patch to fix setup script issue.
+- Add missing dependencies
+
 * Thu Nov 1 2018 - Devrim Gündüz <devrim@gunduz.org> 3.5-1
 - Update to 3.5
 
