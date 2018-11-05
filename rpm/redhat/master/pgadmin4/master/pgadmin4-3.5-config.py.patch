@@ -1,0 +1,11 @@
+--- web/config.py.old	2018-11-05 15:17:23.895056893 +0000
++++ web/config.py	2018-11-05 15:17:37.710136330 +0000
+@@ -118,7 +118,7 @@
+ #       from it, notably various paths such as LOG_FILE and anything
+ #       using DATA_DIR.
+ 
+-if builtins.SERVER_MODE is None:
++if (not hasattr(builtins, 'SERVER_MODE')) or builtins.SERVER_MODE is None:
+     SERVER_MODE = True
+ else:
+     SERVER_MODE = builtins.SERVER_MODE
