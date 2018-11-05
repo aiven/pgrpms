@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.12.1
-Release:	1%{?dist}.1
+Version:	1.0.0
+Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
@@ -62,10 +62,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %files
 %defattr(-, root, root)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md LICENSE
+%doc README.md LICENSE-APACHE
 %else
 %doc README.md
-%license LICENSE
+%license LICENSE-APACHE
 %endif
 %{pginstdir}/lib/%{sname}*.so
 %{pginstdir}/share/extension/%{sname}--*.sql
@@ -82,7 +82,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
+- Update to 1.0.0
+
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.12.1-1.1
 - Rebuild against PostgreSQL 11.0
 
 * Thu Sep 20 2018 Devrim Gündüz <devrim@gunduz.org> 0.12.1-1

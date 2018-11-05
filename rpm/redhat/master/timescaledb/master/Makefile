@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f27
+DIST=.f30
 SPECFILE="timescaledb.spec"
 
 # Now, include global Makefile
