@@ -69,7 +69,7 @@ pushd TAP-Parser-SourceHandler-pgTAP-3.33
 %{__mkdir} -p  %{buildroot}%{_bindir}
 %{__install} -m 755 bin/* %{buildroot}%{_bindir}
 %{__mkdir} -p  %{buildroot}%{perl_privlib}/TAP/Parser/SourceHandler/
-%{__install} lib/TAP/Parser/SourceHandler/pgTAP.pm %{buildroot}%{perl_privlib}/TAP/Parser/
+%{__install} lib/TAP/Parser/SourceHandler/pgTAP.pm %{buildroot}%{perl_privlib}/TAP/Parser/SourceHandler/
 popd
 
 %clean
@@ -82,7 +82,7 @@ popd
 %{_bindir}/pg_tapgen
 %{pginstdir}/share/extension/*pgtap*.sql
 %{pginstdir}/share/extension/pgtap.control
-%{perl_privlib}/TAP/Parser/pgTAP.pm
+%{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
 * Sun Oct 28 2018 Devrim Gündüz <devrim@gunduz.org> - 0.99.0-2
