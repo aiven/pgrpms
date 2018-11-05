@@ -441,6 +441,7 @@ fi
 - Add a temp patch to fix setup script issue.
 - Add missing dependencies
 - Update flask mininum version to 0.12.4 .
+- Update tmpfiles.d file, /var/run is now a legacy directory.
 
 * Thu Nov 1 2018 - Devrim Gündüz <devrim@gunduz.org> 3.5-1
 - Update to 3.5
