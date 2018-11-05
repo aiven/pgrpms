@@ -163,11 +163,11 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 cd tools
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install shell scripts
-%{__mkdir} -p %{buildroot}%{_datadir}/%{sname}
+%{__mkdir} -p %{buildroot}%{_datadir}/%{name}
 %{__cp} check_slon.sh check_slony_cluster.sh configure-replication.sh duplicate-node.sh \
 	find-triggers-to-deactivate.sh generate_syncs.sh launch_clusters.sh mkslonconf.sh \
 	run_rep_tests.sh  search-logs.sh  slonikconfdump.sh  slony-cluster-analysis-mass.sh \
-	slony-cluster-analysis.sh slony1_dump.sh slony1_extract_schema.sh %{buildroot}%{_datadir}/%{sname}/
+	slony-cluster-analysis.sh slony1_dump.sh slony1_extract_schema.sh %{buildroot}%{_datadir}/%{name}/
 # Perform some cleanup
 %{__rm} -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 %{__rm} -f %{buildroot}%{_datadir}/pgsql/*.sql
@@ -237,7 +237,7 @@ fi
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
-%{_datadir}/%{sname}/*.sh
+%{_datadir}/%{name}/*.sh
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 %if %{systemd_enabled}
