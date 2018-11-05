@@ -12,7 +12,7 @@ Version:	1.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	//github.com/cybertec-postgresql/pg_squeeze/archive/REL1_1_0.tar.gz
+Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL1_1_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/cybertec-postgresql/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
