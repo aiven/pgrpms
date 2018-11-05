@@ -21,7 +21,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.7
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -158,11 +158,16 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 # Install default sysconfig file
 %{__install} -d %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
-
 %endif
 
 cd tools
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+# Install shell scripts
+%{__mkdir} -p %{buildroot}%{_datadir}/%{sname}
+%{__cp} check_slon.sh check_slony_cluster.sh configure-replication.sh duplicate-node.sh \
+	find-triggers-to-deactivate.sh generate_syncs.sh launch_clusters.sh mkslonconf.sh \
+	run_rep_tests.sh  search-logs.sh  slonikconfdump.sh  slony-cluster-analysis-mass.sh \
+	slony-cluster-analysis.sh slony1_dump.sh slony1_extract_schema.sh %{buildroot}%{_datadir}/%{sname}/
 # Perform some cleanup
 %{__rm} -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 %{__rm} -f %{buildroot}%{_datadir}/pgsql/*.sql
@@ -232,6 +237,7 @@ fi
 %{pginstdir}/bin/slon*
 %{pginstdir}/lib/slon*
 %{pginstdir}/share/slon*
+%{_datadir}/%{sname}/*.sh
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 %if %{systemd_enabled}
@@ -249,6 +255,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-2
+- Install tools script, per #3732 .
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1.1
 - Rebuild against PostgreSQL 11.0
 
