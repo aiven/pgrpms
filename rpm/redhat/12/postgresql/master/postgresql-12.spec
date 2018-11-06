@@ -887,6 +887,7 @@ esac
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 
