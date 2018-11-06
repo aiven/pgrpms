@@ -65,11 +65,11 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.19
-Release:	2PGDG%{?dist}
+Version:	9.4.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Url:		http://www.postgresql.org/
+Url:		https://www.postgresql.org/
 
 Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{packageversion}-Makefile.regress
@@ -77,7 +77,7 @@ Source5:	%{sname}-%{packageversion}-pg_config.h
 Source6:	%{sname}-%{packageversion}-README.rpm-dist
 Source7:	%{sname}-%{packageversion}-ecpg_config.h
 Source9:	%{sname}-%{packageversion}-libs.conf
-Source12:	http://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
+Source12:	https://www.postgresql.org/files/documentation/pdf/%{majorversion}/%{oname}-%{majorversion}-A4.pdf
 Source14:	%{sname}-%{packageversion}.pam
 Source16:	%{sname}-%{packageversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{packageversion}-setup
@@ -727,6 +727,7 @@ esac
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql%{packageversion}-setup
 %{__install} -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 
@@ -1333,6 +1334,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.4.20-1PGDG
+- Update to 9.4.20, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-20.html
+- Fix upgrade path setup script, and add check_upgrade as well.
+
 * Wed Aug 15 2018 John Harvey <john.harvey@crunchydata.com> - 9.4.19-2PGDG
 - Fix broken PGXS=1 builds in -devel package (missing pg_config.h error)
 
