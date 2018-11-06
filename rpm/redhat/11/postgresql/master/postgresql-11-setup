@@ -11,7 +11,7 @@ PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
 # PREVMAJORVERSION is the previous major version, e.g., 10, for upgrades
-PREVMAJORVERSION=10
+PREVMAJORVERSION=xxx
 # PREVPGENGINE is the directory containing the previous postmaster executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
 # PREVDATADIR is the directory containing the previous postmaster executable
