@@ -4,16 +4,20 @@
 
 # PGVERSION is the full package version, e.g., 10.0
 # Note: the specfile inserts the correct value during package build
-PGVERSION=xxxx
+PGVERSION=xxx
 # PGMAJORVERSION is major version, e.g., 10 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
 # PGENGINE is the directory containing the postmaster executable
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
-# PREVMAJORVERSION is the previous major version, e.g., 9.6, for upgrades
-PREVMAJORVERSION=9.6
+# PREVMAJORVERSION is the previous major version, e.g., 10, for upgrades
+PREVMAJORVERSION=xxx
 # PREVPGENGINE is the directory containing the previous postmaster executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
+# PREVDATADIR is the directory containing the previous postmaster executable
+PREVDATADIR=/var/lib/pgsql/$PREVMAJORVERSION/data
+
+# TODO: Provide a conf file that can override these settings
 
 # The second parameter is the new database version, i.e. $PGMAJORVERSION in this case.
 # Use  "postgresql-$PGMAJORVERSION" service, if not specified.
@@ -32,7 +36,7 @@ then
 fi
 
 USAGE_STRING=$"
-Usage: $0 {initdb|upgrade} [SERVICE_NAME]
+Usage: $0 {initdb|check_upgrade|upgrade} [SERVICE_NAME]
 
 Script is aimed to help sysadmin with basic database cluster administration.
 
@@ -44,6 +48,8 @@ string is used when no SERVICE_NAME is explicitly passed.
 Available operation mode:
   initdb        Create a new PostgreSQL database cluster.  This is usually the
                 first action you perform after PostgreSQL server installation.
+  check_upgrade	Checks whether the old cluster can be upgraded to the new version
+		or not.
   upgrade	Upgrade PostgreSQL database cluster to be usable with new
                 server.  Use this if you upgraded your PostgreSQL server to
                 newer major version (currently from $PREVMAJORVERSION \
@@ -64,7 +70,7 @@ Environment:
 # note that these options are useful at least for help2man processing
 case "$1" in
     --version)
-	echo "postgresql-setup $PGVERSION"
+	echo "PostgreSQL setup script for version $PGVERSION"
         exit 0
         ;;
     --help|--usage)
@@ -98,7 +104,7 @@ fi
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
-PGLOG=/var/lib/pgsql/10/initdb.log
+PGLOG=/var/lib/pgsql/$PGMAJORVERSION/initdb.log
 
 export PGDATA
 
@@ -165,22 +171,16 @@ initdb(){
     fi
 }
 
-upgrade(){
+check_upgrade(){
     # must see previous version in PG_VERSION
-    if [ ! -f "$PGDATA/PG_VERSION" -o \
-         x`cat "$PGDATA/PG_VERSION"` != x"$PREVMAJORVERSION" ]
+    if [ ! -f "$PREVDATADIR/PG_VERSION" -o \
+         x`cat "$PREVDATADIR/PG_VERSION"` != x"$PREVMAJORVERSION" ]
     then
         echo
         echo $"Cannot upgrade because the database in $PGDATA is not of"
         echo $"compatible previous version $PREVMAJORVERSION."
         echo
         exit 1
-    fi
-    if [ ! -x "$PGENGINE/pg_upgrade" ]; then
-        echo
-        echo $"Please install the postgresql-upgrade RPM."
-        echo
-        exit 5
     fi
 
     # Set up log file for pg_upgrade
@@ -190,37 +190,39 @@ upgrade(){
     chmod go-rwx "$PGUPLOG"
     [ -x /sbin/restorecon ] && /sbin/restorecon "$PGUPLOG"
 
-    # Move old DB to PGDATAOLD
-    PGDATAOLD="${PGDATA}-old"
-    rm -rf "$PGDATAOLD"
-    mv "$PGDATA" "$PGDATAOLD" || exit 1
+    # Make sure that the user initdb'ed the new cluster:
+    if [ ! -f "$PGDATA/PG_VERSION" ]
+    then
+        echo
+        echo $"Please initialize the new cluster before upgrading."
+        echo $"You can run this script with the ''initdb'' parameter:"
+	echo $""
+	echo $"$PGENGINE/postgresql-$PGVERSION-setup initdb"
+        echo
+        exit 1
+    fi
 
-    # Create configuration file for upgrade process
-    HBA_CONF_BACKUP="$PGDATAOLD/pg_hba.conf.postgresql-setup.`date +%s`"
+    # Copy the current pg_hba.conf file to new cluster:
+
     HBA_CONF_BACKUP_EXISTS=0
 
-    if [ ! -f $HBA_CONF_BACKUP ]; then
-        mv "$PGDATAOLD/pg_hba.conf" "$HBA_CONF_BACKUP"
+        cp "$PREVDATADIR/pg_hba.conf" "$PGDATA/"
         HBA_CONF_BACKUP_EXISTS=1
 
         # For fluent upgrade 'postgres' user should be able to connect
         # to any database without password.  Temporarily, no other type
         # of connection is needed.
-        echo "local all postgres ident" > "$PGDATAOLD/pg_hba.conf"
-    fi
+        echo "local all postgres peer" > "$PREVDATADIR/pg_hba.conf"
 
-    echo -n $"Upgrading database: "
+    echo -n $"Performing upgrade check: "
 
-    # Create empty new-format database
-    if perform_initdb; then
         # Do the upgrade
         $SU -l postgres -c "$PGENGINE/pg_upgrade \
                         '--old-bindir=$PREVPGENGINE' \
                         '--new-bindir=$PGENGINE' \
-                        '--old-datadir=$PGDATAOLD' \
+                        '--old-datadir=$PREVDATADIR' \
                         '--new-datadir=$PGDATA' \
-                        --link \
-                        '--old-port=$PGPORT' '--new-port=$PGPORT' \
+                        --check \
                         --user=postgres \
                         $PGSETUP_PGUPGRADE_OPTIONS" \
                                 >> "$PGUPLOG" 2>&1 < /dev/null
@@ -228,26 +230,45 @@ upgrade(){
             # pg_upgrade failed
             script_result=1
         fi
+    if [ $script_result -eq 0 ]; then
+        echo $"OK"
     else
-        # initdb failed
-        script_result=1
+        # Clean up after failure
+	echo "Upgrade failed. Removing the new cluster. Please re-initdb the new cluster."
+        rm -rf "$PGDATA"
+        echo $"failed"
     fi
+    echo
+    echo $"See $PGUPLOG for details."
+}
 
-    # Move back the backed-up pg_hba.conf regardless of the script_result.
-    if [ x$HBA_CONF_BACKUP_EXISTS = x1 ]; then
-        mv -f "$HBA_CONF_BACKUP" "$PGDATAOLD/pg_hba.conf"
-    fi
 
+upgrade(){
+# Perform the upgrade check first:
+check_upgrade
+    echo -n $"Upgrading database: "
+
+        # Do the upgrade
+        $SU -l postgres -c "$PGENGINE/pg_upgrade \
+                        '--old-bindir=$PREVPGENGINE' \
+                        '--new-bindir=$PGENGINE' \
+                        '--old-datadir=$PREVDATADIR' \
+                        '--new-datadir=$PGDATA' \
+                        --link \
+                        --user=postgres \
+                        $PGSETUP_PGUPGRADE_OPTIONS" \
+                                >> "$PGUPLOG" 2>&1 < /dev/null
+        if [ $? -ne 0 ]; then
+            # pg_upgrade failed
+            script_result=1
+        fi
     if [ $script_result -eq 0 ]; then
         echo $"OK"
         echo
-        echo $"The configuration files were replaced by default configuration."
-        echo $"The previous configuration and data are stored in folder"
-        echo $PGDATAOLD.
+        echo $"pg_hba.conf configuration file of the new cluster was replaced by the one in the old cluster."
     else
         # Clean up after failure
         rm -rf "$PGDATA"
-        mv "$PGDATAOLD" "$PGDATA"
         echo $"failed"
     fi
     echo
@@ -261,6 +282,9 @@ case "$1" in
         ;;
     upgrade)
         upgrade
+        ;;
+    check_upgrade)
+        check_upgrade
         ;;
     *)
         echo >&2 "$USAGE_STRING"

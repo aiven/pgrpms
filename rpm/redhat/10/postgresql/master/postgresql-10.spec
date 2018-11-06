@@ -78,7 +78,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.5
+Version:	10.6
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -828,6 +828,7 @@ esac
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 
@@ -1426,6 +1427,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 10.6-1PGDG
+- Update to 10.6, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-6.html
+- Fix upgrade path setup script, and add check_upgrade as well.
+
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> - 10.5-1PGDG
 - Update to 10.5, per changes described at
   https://www.postgresql.org/docs/devel/static/release-10-5.html
