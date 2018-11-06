@@ -111,7 +111,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.14
+Version:	9.5.15
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -806,6 +806,7 @@ esac
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=/usr/pgsql-%{majorversion}/bin|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql%{packageversion}-setup
 %{__install} -m 755 postgresql%{packageversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql%{packageversion}-setup
 
@@ -1432,6 +1433,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.5.15-1PGDG
+- Update to 9.5.15, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-15.html
+- Fix upgrade path setup script, and add check_upgrade as well.
+
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> - 9.5.14-1PGDG
 - Update to 9.5.14, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-14.html
