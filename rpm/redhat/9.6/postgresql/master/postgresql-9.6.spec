@@ -75,7 +75,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.10
+Version:	9.6.11
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -800,6 +800,7 @@ esac
 %if %{systemd_enabled}
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pginstdir}/bin|' \
 	<%{SOURCE17} >postgresql%{pgmajorversion}-setup
 install -m 755 postgresql%{pgmajorversion}-setup %{buildroot}%{pginstdir}/bin/postgresql%{pgmajorversion}-setup
@@ -1409,6 +1410,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.11-1PGDG-1
+- Update to 9.6.11, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-6-11.html
+- Fix upgrade path setup script, and add check_upgrade as well.
+
 * Thu Aug 9 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.10-1PGDG-1
 - Update to 9.6.10, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-6-10.html
