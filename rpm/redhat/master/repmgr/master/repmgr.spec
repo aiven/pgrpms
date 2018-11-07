@@ -8,8 +8,8 @@
 %global _varrundir %{_localstatedir}/run/%{sname}
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.1.1
-Release:	1%{?dist}.1
+Version:	4.2.0
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -169,10 +169,13 @@ fi
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %files devel
 %defattr(-,root,root,-)
-%{pginstdir}/include/server/extension/%{sname}/*.h
+#%{pginstdir}/include/server/extension/%{sname}/*.h
 %endif
 
 %changelog
+* Tue Nov 6 2018 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-1
+- Update to 4.2.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
