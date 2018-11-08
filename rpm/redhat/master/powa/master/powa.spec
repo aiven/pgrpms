@@ -11,7 +11,7 @@
 %global powamidversion 2
 %global powaminorversion 0
 # powa-web version
-%global powawebversion 3.1.4
+%global powawebversion 3.2.0
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -28,11 +28,11 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
-Source1:	https://github.com/dalibo/%{swebname}/archive/%{powawebversion}.tar.gz
+Source1:	https://github.com/powa-team/%{swebname}/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://dalibo.github.io/powa/
@@ -155,6 +155,9 @@ popd
 %endif
 
 %changelog
+* Fri Nov 9 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-2
+- Update powa-web to 3.2.0
+
 * Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-1
 - Update to 3.2.0
 
