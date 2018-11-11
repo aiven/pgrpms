@@ -885,7 +885,7 @@ esac
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
-        -e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
+	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 
@@ -1506,7 +1506,7 @@ fi
 %endif
 
 %changelog
-* Tue Nov 13 2018 Devrim Gündüz <devrim@gunduz.org> - 11.1-1PGDG
+* Tue Nov 06 2018 Devrim Gündüz <devrim@gunduz.org> - 11.1-1PGDG
 - Update to 11.1, per changes described at
   https://www.postgresql.org/docs/devel/static/release-11-1.html
 - Fix upgrade path setup script, and add check_upgrade as well.
