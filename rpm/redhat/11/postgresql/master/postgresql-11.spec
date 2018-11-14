@@ -1,6 +1,5 @@
 # These are macros to be used with find_lang and other stuff
 %global packageversion 110
-%global pgpackageversion 11
 %global prevmajorversion 10
 %global sname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
@@ -98,7 +97,7 @@ Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
 %endif
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
-Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
+Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgmajorversion}/%{sname}-%{pgmajorversion}-A4.pdf
 Source14:	%{sname}-%{pgmajorversion}.pam
 Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
@@ -1034,14 +1033,14 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-   %service_add_pre postgresql-%{pgpackageversion}.service
+   %service_add_pre postgresql-%{pgmajorversion}.service
    %endif
    %else
-   %systemd_post %{sname}-%{pgpackageversion}.service
+   %systemd_post %{sname}-%{pgmajorversion}.service
    %tmpfiles_create
    %endif
   %else
-   chkconfig --add %{sname}-%{pgpackageversion}
+   chkconfig --add %{sname}-%{pgmajorversion}
   %endif
 fi
 
@@ -1506,6 +1505,10 @@ fi
 %endif
 
 %changelog
+* Wed Nov 14 2018 Devrim Gündüz <devrim@gunduz.org> - 11.1-2PGDG
+- Remove pgpackageversion macro, not needed. Replace it with
+  pgmajorversion.
+
 * Tue Nov 06 2018 Devrim Gündüz <devrim@gunduz.org> - 11.1-1PGDG
 - Update to 11.1, per changes described at
   https://www.postgresql.org/docs/devel/static/release-11-1.html
