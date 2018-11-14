@@ -34,28 +34,28 @@ build10: bfsrpm10
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10" --define "pgpackageversion 10" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-srpm10: prep
+srpm10: prep10
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." --sign \
 	--define "_buildrootdir $(HOME)/rpm10/BUILDROOT" \
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10"  --define "pgpackageversion 10" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfsrpm10: prep
+bfsrpm10: prep10
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm10/SRPMS" --sign \
 	--define "_buildrootdir $(HOME)/rpm10/BUILDROOT" \
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10"  --define "pgpackageversion 10" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfnosignsrpm10: prep
+bfnosignsrpm10: prep10
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm10/BUILDROOT" \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm10/SRPMS" \
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10"  --define "pgpackageversion 10" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-rpm10: prep
+rpm10: prep10
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \

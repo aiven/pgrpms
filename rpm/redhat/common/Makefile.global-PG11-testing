@@ -17,6 +17,13 @@
 
 ## PostgreSQL 11 Testing
 
+prep11:
+	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
+	# Update spec file, patches, etc, before running spectool:
+	git pull
+	# Use spectool to download source files, especially tarballs.
+	spectool -g -S --define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" $(SPECFILE)
+
 build11testing: bfsrpm11testing
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
@@ -27,28 +34,28 @@ build11testing: bfsrpm11testing
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-srpm11testing: prep
+srpm11testing: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." --sign \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfsrpm11testing: prep
+bfsrpm11testing: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" --sign \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfnosignsrpm11testing: prep
+bfnosignsrpm11testing: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-rpm11testing: prep
+rpm11testing: prep11
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \
