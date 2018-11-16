@@ -4,13 +4,13 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
 Version:	1.5.1
-Release:	%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
-URL:		http://tada.github.io/pljava/
+URL:		http://tada.github.io/%{sname}/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
-Source0:	https://github.com/tada/pljava/archive/V1_5_1.tar.gz
+Source0:	https://github.com/tada/%{sname}/archive/V1_5_1.tar.gz
 Source1:	%{sname}.pom
 
 BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
@@ -22,12 +22,12 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -q -n pljava-1_5_1
+%setup -q -n %{sname}-1_5_1
 %patch0 -p0
 
 %build
 export CLASSPATH=
-mvn clean install
+mvn clean install -Dso.debug=true -Psaxon-examples
 
 %install
 %{__rm} -rf %{buildroot}
@@ -36,10 +36,11 @@ mvn clean install
 %{__cp} -f %{sname}-so/target/nar/%{sname}-so-%{version}-amd64-Linux-gpp-plugin/lib/amd64-Linux-gpp/plugin/libpljava-so-%{version}.so %{buildroot}%{pginstdir}/lib
 
 %{__install} -d %{buildroot}%{pginstdir}/share/%{sname}
-%{__cp} -f %{sname}/target/%{sname}-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
+%{__cp} -f %{sname}/target/%{sname}-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
+%{__cp} -f %{sname}-examples/target/%{sname}-examples-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
 %{__cp} -f %{sname}-api/target/%{sname}-api-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
-%{__cp} -f %{sname}-packaging/target/classes/pljava.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
-%{__cp} -f %{sname}-packaging/target/classes/pljava--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
+%{__cp} -f %{sname}-packaging/target/classes/%{sname}.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
+%{__cp} -f %{sname}-packaging/target/classes/%{sname}--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.control %{buildroot}%{pginstdir}/share/extension
@@ -55,11 +56,12 @@ mvn clean install
 %license COPYRIGHT
 %endif
 %{pginstdir}/lib/libpljava-so-%{version}.so
-%{pginstdir}/share/extension/pljava.control
-%{pginstdir}/share/pljava/pljava--%{version}.sql
-%{pginstdir}/share/pljava/pljava--unpackaged--%{version}.sql
-%{pginstdir}/share/pljava/pljava-%{version}.jar
-%{pginstdir}/share/pljava/pljava-api-%{version}.jar
+%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
+%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
+%{pginstdir}/share/%{sname}/%{sname}-%{version}.jar
+%{pginstdir}/share/%{sname}/%{sname}-examples-%{version}.jar
+%{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
 * Thu Oct 18 2018 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
