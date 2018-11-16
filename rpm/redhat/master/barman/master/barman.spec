@@ -1,38 +1,48 @@
-%if 0%{?rhel} == 7
-  %global pybasever 2.7
- %else
-  %if 0%{?fedora} >= 25
-    %global pybasever 2.7
-  %else
-    %global pybasever 2.6
-    %endif
-%endif
-
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
   %global pybasever 2.7
 %endif
 %endif
 
-%global __python_ver python
+%if 0%{?fedora} > 25
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%global __python_ver python3
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
 
-%{!?pybasever: %global pybasever %(%{__python} -c "import sys;print(sys.version[0:3])")}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%if 0%{?rhel} == 6
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%global __python_ver python2
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
+%if 0%{?rhel} == 7
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%global __python_ver python2
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
+%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.4
-Release:	1%{?dist}.1
+Version:	2.5
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
-Url:		http://www.pgbarman.org/
+Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	python-abi = %{pybasever}, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
+Requires:	%{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
 Requires:	/usr/sbin/useradd
 Requires:	rsync >= 3.0.4
 
@@ -51,10 +61,10 @@ by 2ndQuadrant.
 %setup -n barman-%{version}%{?extra_version:%{extra_version}} -q
 
 %build
-%{__python} setup.py build
+%{__ospython} setup.py build
 
 %install
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/bash_completion.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/cron.d/
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d/
@@ -94,6 +104,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
 %changelog
+* Fri Nov 16 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5-1
+- Update to 2.5
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4-1.1
 - Rebuild against PostgreSQL 11.0
 
