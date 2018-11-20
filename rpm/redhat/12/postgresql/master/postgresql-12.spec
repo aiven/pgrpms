@@ -24,15 +24,22 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plpython:%global plpython 1}
+%{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel} <= 7
 # RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %endif
 
 %if 0%{?fedora} > 23
 # All Fedora releases now use Python3
+%{!?plpython3:%global plpython3 1}
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
+%endif
+
+%if 0%{?rhel} >= 8
+# RHEL 8 now use Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
@@ -142,6 +149,10 @@ Requires:	libicu
 # Packages come from EPEL and SCL:
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# Packages come from EPEL and SCL:
+BuildRequires: llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+%endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 %endif
@@ -184,8 +195,8 @@ BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
 
-%if %plpython
-BuildRequires:	python-devel
+%if %plpython2
+BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
@@ -443,7 +454,7 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
-%if %plpython
+%if %plpython2
 %package plpython
 Summary:	The Python procedural language for PostgreSQL
 Group:		Applications/Databases
@@ -451,6 +462,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
+Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -718,7 +730,7 @@ export PYTHON=/usr/bin/python2
 %if %plperl
 	--with-perl \
 %endif
-%if %plpython
+%if %plpython2
 	--with-python \
 %endif
 %if %pltcl
@@ -1001,7 +1013,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{pgmajorversion}
-%if %plpython
+%if %plpython2
 %find_lang plpython-%{pgmajorversion}
 cat plpython-%{pgmajorversion}.lang > pg_plpython.lst
 %endif
@@ -1256,7 +1268,7 @@ fi
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.sql
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.control
 %endif
-%%if %plpython
+%%if %plpython2
 %{pgbaseinstdir}/lib/hstore_plpython2.so
 %{pgbaseinstdir}/lib/jsonb_plpython2.so
 %{pgbaseinstdir}/lib/ltree_plpython2.so
@@ -1271,7 +1283,7 @@ fi
 %endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
-%if %plpython
+%if %plpython2
 %endif
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
@@ -1487,7 +1499,7 @@ fi
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
-%if %plpython
+%if %plpython2
 %files plpython -f pg_plpython.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/plpython2.so
@@ -1509,5 +1521,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 21 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
+- Initial attempt for RHEL 8 packaging updates.
+- Rename plpython macro to plpython2, to stress that it is for Python 2.
+
 * Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
 - Initial cut for PostgreSQL 12
