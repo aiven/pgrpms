@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.6
+Version:	1.0.7
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -93,6 +93,9 @@ together.
 %endif
 
 %changelog
+* Wed Nov 21 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
+- Update to 1.0.7
+
 * Fri Nov 9 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.6-1
 - Update to 1.0.6
 
