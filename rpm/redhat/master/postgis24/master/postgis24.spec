@@ -32,7 +32,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.5
+Version:	%{postgismajorversion}.6
 Release:	1%{?dist}.1
 License:	GPLv2+
 Group:		Applications/Databases
@@ -40,8 +40,6 @@ Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
-# Patch1 can be removed when 2.4.6 comes out
-Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.5-clangfix.patch
 
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -173,8 +171,6 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
-# Patch1 can be removed when 2.4.6 comes out
-%patch1 -p0
 
 %build
 
@@ -339,6 +335,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Nov 26 2018 John K. Harvey <john.harvey@crunchydata.com> - 2.4.6-1
+- Update to 2.4.6
+- Remove patchfile needed for 2.4.5 for clang support, since fixed in 2.4.6
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
