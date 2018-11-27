@@ -28,10 +28,10 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
+Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
 #BuildRequires:	oracle-instantclient11.2-basic
 #BuildRequires:	oracle-instantclient11.2-devel
-Requires:	postgresql%{pgmajorversion}-server
 #Requires:	oracle-instantclient11.2-basic
 
 %ifarch ppc64 ppc64le
