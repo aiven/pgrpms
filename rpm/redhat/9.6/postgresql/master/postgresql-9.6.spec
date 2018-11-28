@@ -22,11 +22,18 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plpython:%global plpython 1}
+%{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel} <= 7
 # RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
+%endif
+
+%if 0%{?rhel} >= 8
+# RHEL 8 now use Python3
+%{!?plpython3:%global plpython3 1}
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
 %if 0%{?fedora} > 23
@@ -76,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.11
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -126,8 +133,8 @@ BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
 
-%if %plpython
-BuildRequires:	python-devel
+%if %plpython2
+BuildRequires: python2-devel
 %endif
 
 %if %plpython3
@@ -378,7 +385,7 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
-%if %plpython
+%if %plpython2
 %package plpython
 Summary:	The Python procedural language for PostgreSQL
 Group:		Applications/Databases
@@ -386,6 +393,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
+Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -631,7 +639,7 @@ export PYTHON=/usr/bin/python2
 %if %plperl
 	--with-perl \
 %endif
-%if %plpython
+%if %plpython2
 	--with-python \
 %endif
 %if %pltcl
@@ -908,7 +916,7 @@ mkdir -p %{buildroot}%{pginstdir}/share/man/
 cat plperl-%{pgpackageversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{pgpackageversion}
-%if %plpython
+%if %plpython2
 %find_lang plpython-%{pgpackageversion}
 cat plpython-%{pgpackageversion}.lang > pg_plpython.lst
 %endif
@@ -1165,7 +1173,7 @@ fi
 %if %plperl
 %{pginstdir}/lib/hstore_plperl.so
 %endif
-%if %plpython
+%if %plpython2
 %{pginstdir}/lib/hstore_plpython2.so
 %{pginstdir}/lib/ltree_plpython2.so
 %{pginstdir}/share/extension/*_plpythonu*
@@ -1388,7 +1396,7 @@ fi
 %{pginstdir}/share/extension/pltcl*
 %endif
 
-%if %plpython
+%if %plpython2
 %files plpython -f pg_plpython.lst
 %defattr(-,root,root)
 %{pginstdir}/lib/plpython2.so
@@ -1410,6 +1418,10 @@ fi
 %endif
 
 %changelog
+* Wed Nov 28 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.11-2PGDG
+- Initial attempt for RHEL 8 packaging updates.
+- Rename plpython macro to plpython2, to stress that it is for Python 2.
+
 * Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.11-1PGDG-1
 - Update to 9.6.11, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-6-11.html
