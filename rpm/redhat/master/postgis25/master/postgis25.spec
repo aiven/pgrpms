@@ -30,12 +30,12 @@
 %global atstring	at10.0
 %global atpath		/opt/%{atstring}
 %endif
-%global _smp_mflags     -j1
+%global _smp_mflags	-j1
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.1
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -63,9 +63,12 @@ BuildRequires:	SFCGAL-devel
 Requires:	SFCGAL
 %endif
 %if %{raster}
-BuildRequires:	gdal-devel >= 1.9.0
+  %if 0%{?rhel} && 0%{?rhel} < 6
+BuildRequires:	gdal-devel >= 1.9.2-9
+  %else
+BuildRequires:	gdal-devel >= 1.11.4-11
+  %endif
 %endif
-
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
@@ -82,10 +85,14 @@ Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c2 libgdal20
 %else
-Requires:	json-c gdal-libs >= 1.9.0
+Requires: json-c
+%if 0%{?rhel} && 0%{?rhel} < 6
+Requires:	gdal-libs >= 1.9.2-9
+%else
+Requires:	gdal-libs >= 1.11.4-11
+%endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
-
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -329,6 +336,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-1
+* Fix RHEL 7 issues. Patch from John Harvey.
+- Update to 2.5.1
+
 * Wed Oct 24 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-2
 - Depend on GeOS 3.7
 
