@@ -347,7 +347,7 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Fri 30 Nov 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-1
+* Fri Nov 30 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-1
 - Update to 4.0.2
 
 * Wed Oct 31 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.1-1
