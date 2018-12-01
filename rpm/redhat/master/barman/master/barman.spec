@@ -1,9 +1,3 @@
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-  %global pybasever 2.7
-%endif
-%endif
-
 %if 0%{?fedora} > 25
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
@@ -12,15 +6,7 @@
 %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%global __python_ver python
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
-%if 0%{?rhel} == 7
+%if 0%{?rhel} <= 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
 %global __python_ver python
@@ -30,10 +16,16 @@
 
 %global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+  %global pybasever 2.7
+%endif
+%endif
+
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		https://www.pgbarman.org/
@@ -104,6 +96,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
 %changelog
+* Sat Dec 1 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5-2
+- Fix RHEL 6 builds
+
 * Fri Nov 16 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5-1
 - Update to 2.5
 
