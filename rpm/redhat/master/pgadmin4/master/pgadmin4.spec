@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.5
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.6
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -53,8 +53,6 @@ Source7:	%{name}-web-setup.sh
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
-# Will be removed in 3.6:
-Patch5:		%{name}-3.5-config.py.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
@@ -290,8 +288,6 @@ GNOME Desktop components of pgAdmin4.
 %if 0%{?rhel} && 0%{?rhel} >= 7
 %patch4 -p0
 %endif
-# Will be removed in 3.6:
-%patch5 -p0
 
 %build
 cd runtime
@@ -437,6 +433,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Dec 4 2018 - Devrim Gündüz <devrim@gunduz.org> 3.6-1
+- Update to 3.6
+- Remove patch5, it is now in upstream.
+
 * Mon Nov 5 2018 - Devrim Gündüz <devrim@gunduz.org> 3.5-2
 - Add a temp patch to fix setup script issue.
 - Add missing dependencies
