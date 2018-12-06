@@ -1,0 +1,11 @@
+--- Makefile.old	2018-12-06 16:11:49.995050146 +0000
++++ Makefile	2018-12-06 16:11:59.432104515 +0000
+@@ -16,7 +16,7 @@
+ # to your extention.
+ #
+ #MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
+-PG_CONFIG    = pg_config
++PG_CONFIG    = /usr/pgsql-9.6/bin/pg_config
+ 
+ TEST_DATABASE = osm_test_db
+ TEST_PORT = 5432
