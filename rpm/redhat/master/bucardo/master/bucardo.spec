@@ -1,16 +1,18 @@
 %global	realname Bucardo
-Name:		bucardo
-Version:	5.4.1
-Release:	2%{?dist}
+Name:		bucardo_%{pgmajorversion}
+Version:	5.5.0
+Release:	1%{?dist}
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
 Group:		Applications/Databases
 License:	BSD
-URL:		http://bucardo.org/wiki/Bucardo
-Source0:	http://bucardo.org/downloads/Bucardo-%{version}.tar.gz
+URL:		https://bucardo.org/wiki/Bucardo
+Source0:	https://bucardo.org/downloads/Bucardo-%{version}.tar.gz
 Source1:	bucardo-master-master-replication-example.txt
 Source2:	bucardo.init
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+
+Obsoletes:	bucardo
 
 BuildArch:	noarch
 
@@ -73,13 +75,13 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 sed -i -e '1d;2i#!/usr/bin/perl' bucardo
 
 %{__rm} -f %{buildroot}/%{_bindir}/bucardo
-install -Dp -m 755 bucardo %{buildroot}/%{_sbindir}/bucardo
+%{__install} -Dp -m 755 bucardo %{buildroot}/%{_sbindir}/bucardo
 
-install -Dp -m 644 %{SOURCE1} .
+%{__install} -Dp -m 644 %{SOURCE1} .
 
-# install init script
-install -d %{buildroot}/etc/rc.d/init.d
-install -m 755 %{SOURCE2} %{buildroot}/etc/rc.d/init.d/%{name}
+# Install init script
+%{__install} -d %{buildroot}/etc/rc.d/init.d
+%{__install} -m 755 %{SOURCE2} %{buildroot}/etc/rc.d/init.d/%{name}
 
 #Install built-in scripts
 %{__cp} scripts/bucardo* scripts/check_bucardo_sync scripts/slony_migrator.pl %{buildroot}/%{_bindir}
@@ -124,6 +126,11 @@ fi
 %{_bindir}/slony_migrator.pl
 
 %changelog
+* Tue Oct 30 2018 Devrim Gündüz <devrim@gunduz.org> - 5.5.0-1
+- Update to 5.5.0
+- Add PostgreSQL Remove hardcoded PostgreSQL version number, per PG bug
+  #15469
+
 * Tue Oct 30 2018 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-2
 - Remove hardcoded PostgreSQL version number, per PG bug #15469
 
