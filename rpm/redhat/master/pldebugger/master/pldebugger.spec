@@ -7,8 +7,8 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0
-Release:	1%{?dist}.1
+Version:	1.1
+Release:	1%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
 URL:		https://git.postgresql.org/gitweb/?p=%{sname}.git;a=summary
@@ -71,8 +71,22 @@ install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{s
 %{pginstdir}/lib/plugin_debugger.so
 %{pginstdir}/share/extension/pldbgapi*.sql
 %{pginstdir}/share/extension/pldbgapi*.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/plugin_debugger*.bc
+   %{pginstdir}/lib/bitcode/plugin_debugger/*.bc
+  %endif
+ %endif
+%endif
+
 
 %changelog
+* Thu Dec 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
+- Update to 1.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0-1.1
 - Rebuild against PostgreSQL 11.0
 
