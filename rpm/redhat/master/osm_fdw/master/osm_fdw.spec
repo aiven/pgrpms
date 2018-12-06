@@ -16,8 +16,8 @@ Group:		Applications/Databases
 Source0:	https://github.com/vpikulik/postgres_osm_pbf_fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal-devel
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel
+Requires:	postgresql%{pgmajorversion}-server, protobuf-c
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
