@@ -8,8 +8,8 @@
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	10.03.0000
-Release:	1PGDG%{?dist}.1
+Version:	11.00.0000
+Release:	1PGDG%{?dist}
 License:	LGPLv2
 Group:		Applications/Databases
 URL:		https://odbc.postgresql.org/
@@ -67,7 +67,7 @@ chmod +x configure
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-        ./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
+	./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
 %{__make}
 
 %install
@@ -105,6 +105,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Tue Dec 11 2018 Devrim Gündüz <devrim@gunduz.org> - 11.00.0000-1PGDG
+- Update to 11.00.0000
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 10.03.0000-1PGDG.1
 - Rebuild against PostgreSQL 11.0
 
