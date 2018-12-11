@@ -6,8 +6,8 @@
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.6
-Release:	2%{?dist}.1
+Version:	2.8
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -56,6 +56,9 @@ of the PostgreSQL cluster and the system utilization
 %endif
 
 %changelog
+* Tue Dec 11 2018 Devrim Gündüz <devrim@gunduz.org> 2.8-1
+- Update to 2.8
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.6-2.1
 - Rebuild against PostgreSQL 11.0
 
