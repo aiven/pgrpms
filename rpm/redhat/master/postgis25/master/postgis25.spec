@@ -285,6 +285,7 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
+%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
