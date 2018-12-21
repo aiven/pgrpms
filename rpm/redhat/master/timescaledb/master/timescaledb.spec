@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
+Version:	1.1.1
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -70,18 +70,11 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/%{sname}*.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
-%endif
 
 %changelog
+* Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
+- Update to 1.1.1
+
 * Thu Dec 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 
