@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 6
+%global orafcemidver 7
 %global orafceminver 1
 
 %ifarch ppc64 ppc64le
@@ -12,7 +12,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}.1
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
@@ -79,6 +79,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %endif
 
 %changelog
+* Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> 3.7.1-1
+- Update to 3.7.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
