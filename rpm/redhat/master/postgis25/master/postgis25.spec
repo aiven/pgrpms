@@ -34,7 +34,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.1
+Version:	%{postgismajorversion}.2
 Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
@@ -224,6 +224,7 @@ install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
 %{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
 
 # Create alternatives entries for common binaries
 %post
@@ -336,6 +337,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-2
+- Attempt to fix pg_upgrade issues on RHEL 7.
+
 * Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-1
 * Fix RHEL 7 issues. Patch from John Harvey.
 - Update to 2.5.1
