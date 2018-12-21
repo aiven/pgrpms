@@ -33,7 +33,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.6
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -44,7 +44,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos36-devel >= 3.6.2, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos37-devel >= 3.7.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:  libjson-c-devel libproj-devel
@@ -68,7 +68,7 @@ BuildRequires:	gdal-devel >= 1.9.0
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
+Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
 Requires:	postgresql%{pgmajorversion}-contrib proj49
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -181,7 +181,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -194,7 +194,7 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 	--with-gui \
 %endif
 	--disable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/usr/geos36/bin/geos-config \
+	--with-geosconfig=/usr/geos37/bin/geos-config \
 	--with-projdir=/usr/proj49
 
 %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
@@ -335,6 +335,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Thu May 3 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.6-2
+- Update GeOS dependency to 3.7.
+
 * Mon Nov 26 2018 John K. Harvey <john.harvey@crunchydata.com> - 2.4.6-1
 - Update to 2.4.6
 - Remove patchfile needed for 2.4.5 for clang support, since fixed in 2.4.6
