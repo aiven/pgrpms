@@ -3,6 +3,8 @@ Description=PGPool-II Middleware Between PostgreSQL Servers And PostgreSQL Datab
 After=syslog.target network.target
 
 [Service]
+User=postgres
+
 EnvironmentFile=-/etc/sysconfig/pgpool-II-96
 ExecStart=/usr/pgpool-9.6/bin/pgpool -f /etc/pgpool-II-96/pgpool.conf $OPTS 
 ExecStop=/usr/pgpool-9.6/bin/pgpool -f /etc/pgpool-II-96/pgpool.conf -m fast stop

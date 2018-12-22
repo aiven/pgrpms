@@ -23,12 +23,10 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%global _varrundir %{_localstatedir}/run/%{name}
-
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.0.2
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -45,6 +43,7 @@ BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel openssl-devel
 
 Requires:		libmemcached
+Requires(pre):		/usr/sbin/useradd /usr/sbin/groupadd
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -167,7 +166,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir} 0755 root root -
+d %{_rundir} 0755 postgres postgres -
 EOF
 
 %else
@@ -185,6 +184,11 @@ EOF
 # We will install the latest version via alternatives.
 %{__install} -d -m 755 %{buildroot}%{pgpoolinstdir}/share/
 %{__install} -m 700 %{SOURCE9} %{buildroot}%{pgpoolinstdir}/share/
+
+%pre
+groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
+useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+        -c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post
 # Create alternatives entries for common binaries and man files
@@ -211,6 +215,9 @@ EOF
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
 %endif
+# Create log directory
+%{__mkdir} -p /var/log/%{name}
+%{__chown} postgres: /var/log/%{name}
 
 %preun
 %if %{systemd_enabled}
@@ -303,7 +310,7 @@ fi
 %config(noreplace) %attr (644,root,root) %{pgpoolinstdir}/share/pgpool-II-pg%{pgmajorversion}-libs.conf
 
 %if %{systemd_enabled}
-%ghost %{_varrundir}
+%ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %else
@@ -347,6 +354,12 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-2
+- Run pgpool with postgres user
+- Create pgPool log directory
+- Fix tmpfiles path
+- Add -D to sysconfig file.
+
 * Fri Nov 30 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-1
 - Update to 4.0.2
 
