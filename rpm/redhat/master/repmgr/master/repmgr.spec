@@ -5,11 +5,9 @@
 %global systemd_enabled 1
 %endif
 
-%global _varrundir %{_localstatedir}/run/%{sname}
-
 Name:		%{sname}%{pgmajorversion}
 Version:	4.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -99,7 +97,7 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir} 0755 postgres postgres -
+d %{_rundir} 0755 postgres postgres -
 EOF
 
 %else
@@ -126,11 +124,6 @@ fi
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{sname}-%{pgpackageversion}
 %endif
-if [ ! -x %{_varrundir} ]
-then
-	%{__mkdir} -m 700 %{_varrundir}
-	%{__chown} -R postgres: %{_varrundir}
-fi
 
 %postun -p /sbin/ldconfig
 
@@ -151,7 +144,7 @@ fi
 %{pginstdir}/share/extension/repmgr.control
 %{pginstdir}/share/extension/repmgr*sql
 %if %{systemd_enabled}
-%ghost %{_varrundir}
+%ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{name}.service
 %else
@@ -173,6 +166,9 @@ fi
 %endif
 
 %changelog
+* Sat Dec 22 2018 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-2
+- Fix path in tmpfiles.d drop-in file
+
 * Tue Nov 6 2018 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-1
 - Update to 4.2.0
 
