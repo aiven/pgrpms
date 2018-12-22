@@ -4,7 +4,6 @@
 %global sname slony1
 %global slonymajorversion 22
 %{!?docs:%global docs 0}
-%global _varrundir %{_localstatedir}/run/%{sname}-%{pgmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -21,7 +20,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -148,7 +147,7 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/
 # ... and make a tmpfiles script to recreate it at reboot.
-%{__install} -d -m 755 %{buildroot}/var/run/%{name}
+%{__install} -d -m 755 %{buildroot}/%{_rundir}/%{name}
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE6} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %else
@@ -241,7 +240,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
 %if %{systemd_enabled}
-%ghost %{_varrundir}
+%ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 %else
@@ -255,6 +254,12 @@ fi
 %endif
 
 %changelog
+* Sat Dec 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.2.7-3
+- Fix path in tmpfiles.d drop-in file
+
+* Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-2
+- Install tools script, per #3732 .
+
 * Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-2
 - Install tools script, per #3732 .
 
