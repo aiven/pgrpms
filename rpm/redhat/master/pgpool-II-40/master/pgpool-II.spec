@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.0.2
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -166,7 +166,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_rundir} 0755 postgres postgres -
+d %{_rundir}/%{name} 0755 postgres postgres -
 EOF
 
 %else
@@ -354,6 +354,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Sun Dec 23 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-3
+- Fix tmpfiles.d file
+
 * Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-2
 - Run pgpool with postgres user
 - Create pgPool log directory
