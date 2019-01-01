@@ -7,8 +7,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.3
-Release:	1%{?dist}.1
+Version:	1.4.2
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 Group:		Applications/Databases
@@ -79,6 +79,9 @@ performance issues.
 %endif
 
 %changelog
+* Tue Jan 1 2019 Devrim Gündüz <devrim@gunduz.org> 1.4.2-1
+- Update to 1.4.2
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.3-1.1
 - Rebuild against PostgreSQL 11.0
 
