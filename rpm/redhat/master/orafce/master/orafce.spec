@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 7
-%global orafceminver 1
+%global orafceminver 2
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -79,6 +79,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %endif
 
 %changelog
+* Tue Jan 1 2019 Devrim Gündüz <devrim@gunduz.org> 3.7.2-1
+- Update to 3.7.2
+
 * Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> 3.7.1-1
 - Update to 3.7.1
 
