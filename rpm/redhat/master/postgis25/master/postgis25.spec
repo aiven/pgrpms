@@ -35,7 +35,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -207,6 +207,7 @@ LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
 	--with-projdir=/usr/proj49
 
 %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+
 %{__make} -C extensions
 
 %if %utils
@@ -218,13 +219,14 @@ LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
 %{__make} install DESTDIR=%{buildroot}
 
 %if %utils
-install -d %{buildroot}%{_datadir}/%{name}
-install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
+%{__install} -d %{buildroot}%{_datadir}/%{name}
+%{__install} -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
 %{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %{__ln_s} %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 
 # Create alternatives entries for common binaries
 %post
@@ -273,7 +275,8 @@ fi
 %endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so.*
-%{pginstdir}/lib/postgis_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 %{pginstdir}/lib/address_standardizer.so
 %{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
@@ -338,6 +341,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sun Dec 30 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-3
+- Also add a symlink for postgis_topology, per Paul.
+
 * Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-2
 - Attempt to fix pg_upgrade issues on RHEL 7.
 
