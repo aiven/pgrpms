@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f26
+DIST=.f30
 SPECFILE="postgis24.spec"
 
 # Now, include global Makefile
