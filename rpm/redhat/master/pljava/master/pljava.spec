@@ -4,7 +4,7 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
 Version:	1.5.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://tada.github.io/%{sname}/
@@ -40,6 +40,14 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__cp} -f %{sname}-examples/target/%{sname}-examples-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
 %{__cp} -f %{sname}-api/target/%{sname}-api-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1--1.5.2.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA1--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA2--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA3--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA1--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA2--1.5.1.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA3--1.5.1.sql
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -57,13 +65,16 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
 %{pginstdir}/lib/libpljava-so-%{version}.so
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
+%{pginstdir}/share/%{sname}/%{sname}--*.sql
 %{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 %{pginstdir}/share/%{sname}/%{sname}-%{version}.jar
 %{pginstdir}/share/%{sname}/%{sname}-examples-%{version}.jar
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2
+- Create symlinks of .sql files for extension updates. Per Chapman.
+
 * Tue Jan 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1
 - Update to 1.5.2
 
