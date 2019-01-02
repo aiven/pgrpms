@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname		pljava
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
