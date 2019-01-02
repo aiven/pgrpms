@@ -1,11 +1,10 @@
---- Makefile.old	2018-12-06 16:11:49.995050146 +0000
-+++ Makefile	2018-12-06 16:11:59.432104515 +0000
-@@ -16,7 +16,7 @@
- # to your extention.
- #
- #MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
--PG_CONFIG    = pg_config
-+PG_CONFIG    = /usr/pgsql-10/bin/pg_config
+--- Makefile.old	2019-01-02 18:21:36.122994891 +0000
++++ Makefile	2019-01-02 18:21:46.410054076 +0000
+@@ -45,6 +45,6 @@
+ 	rm -rf /tmp/monaco.osm.pbf
+ 	cp data/monaco.osm.pbf /tmp/
  
- TEST_DATABASE = osm_test_db
- TEST_PORT = 5432
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)

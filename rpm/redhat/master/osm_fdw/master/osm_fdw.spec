@@ -9,11 +9,11 @@
 
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}%{pgmajorversion}
-Version:	3.0.0
+Version:	3.1.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/vpikulik/postgres_osm_pbf_fdw/archive/v%{version}.tar.gz
+Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel
@@ -34,7 +34,7 @@ This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
 handler of PostgreSQL which provides easy way for interacting with osm.
 
 %prep
-%setup -q -n postgres_osm_pbf_fdw-%{version}
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -53,6 +53,9 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 %{__install} -d %{buildroot}%{pginstdir}/bin/
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+# Install README and howto file under PostgreSQL installation directory:
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -62,7 +65,7 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--3.0.0.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -72,11 +75,16 @@ handler of PostgreSQL which provides easy way for interacting with osm.
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
   %endif
  %endif
 %endif
 
 %changelog
+* Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
+- Update to 3.1.0
+
 * Thu Dec 6 2018 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
