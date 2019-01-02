@@ -3,6 +3,8 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.4
 %global sname	postgis
+%global	geosinstdir /usr/geos37
+%global	projinstdir /usr/proj49
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -17,6 +19,7 @@
 %endif
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
+# TODO
 %{!?sfcgal:%global     sfcgal 1}
 %else
 %{!?sfcgal:%global     sfcgal 0}
@@ -35,7 +38,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -182,6 +185,8 @@ The %{name}-utils package provides the utilities for PostGIS.
 %patch0 -p0
 
 %build
+LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 
 %ifarch ppc64 ppc64le
 	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
@@ -190,7 +195,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L/%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -202,21 +207,21 @@ LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-	--disable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/usr/geos37/bin/geos-config \
-	--with-projdir=/usr/proj49
+	--enable-rpath --libdir=%{pginstdir}/lib \
+	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
+	--with-projdir=%{projinstdir}
 
-%{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
 
 %{__make} -C extensions
 
 %if %utils
- %{__make} -C utils
+ SHLIB_LINK="$SHLIB_LINK" %{__make} -C utils
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} install DESTDIR=%{buildroot}
+SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 
 %if %utils
 %{__install} -d %{buildroot}%{_datadir}/%{name}
@@ -225,8 +230,10 @@ LDFLAGS="$LDFLAGS -L/usr/geos37/lib -L/usr/proj49/lib"; export LDFLAGS
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
 %{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
-%{__ln_s} %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
 %{__ln_s} %{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
+%if %{raster}
+%{__ln_s} %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
+%endif
 
 # Create alternatives entries for common binaries
 %post
@@ -282,7 +289,7 @@ fi
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
-%if %raster
+%if %{raster}
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
@@ -310,8 +317,10 @@ fi
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgismajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgismajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgismajorversion}/*.bc
+   %if %raster
    %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}*.bc
    %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}/*.bc
+   %endif
   %endif
  %endif
 %endif
@@ -341,6 +350,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-4
+- Enable rpath builds to embed the right GeOS and Proj version to
+  PostGIS libraries.
+
 * Sun Dec 30 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-3
 - Also add a symlink for postgis_topology, per Paul.
 
