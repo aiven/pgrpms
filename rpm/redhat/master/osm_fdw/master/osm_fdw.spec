@@ -57,6 +57,8 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
+strip %{buildroot}%{pginstdir}/lib/*.so
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -66,7 +68,7 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%{pginstdir}/lib/%{sname}.so
+%attr(755,root,root) %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--3.0.0.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
