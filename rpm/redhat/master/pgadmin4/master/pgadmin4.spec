@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global pgadminmajorversion 3
+%global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -37,7 +37,7 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.6
+Version:	%{pgadminmajorversion}.0
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
@@ -433,6 +433,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Jan 14 2019 - Devrim Gündüz <devrim@gunduz.org> 4.0-1
+- Update to 4.0
+
 * Tue Dec 4 2018 - Devrim Gündüz <devrim@gunduz.org> 3.6-1
 - Update to 3.6
 - Remove patch5, it is now in upstream.
