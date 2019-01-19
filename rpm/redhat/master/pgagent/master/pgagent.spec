@@ -25,7 +25,7 @@ Source5:	%{sname}-%{pgmajorversion}.conf
 URL:		http://www.pgadmin.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:	cmake3
 %else
 BuildRequires:	cmake => 2.8.8
@@ -84,7 +84,7 @@ fi
 	export CFLAGS
 	export CXXFLAGS
 %endif
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} && 0%{?rhel} <= 7
 cmake3 .. \
 %else
 %cmake .. \
