@@ -8,10 +8,10 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0.0
-Release:	alpha.2_1%{?dist}.1
+Release:	alpha.3%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}-alpha.2.zip
+Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}-alpha.3.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tds-fdw/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
@@ -32,7 +32,7 @@ called "tds_fdw". It can be used to communicate with Microsoft SQL
 Server and Sybase databases.
 
 %prep
-%setup -q -n %{sname}-%{version}-alpha.2
+%setup -q -n %{sname}-%{version}-alpha.3
 %patch0 -p0
 
 %build
@@ -66,11 +66,24 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
-%{pginstdir}/share/extension/%{sname}--%{version}-alpha.2.sql
+%{pginstdir}/share/extension/%{sname}--%{version}-alpha.3.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Sat Jan 19 2019 - Devrim Gündüz <devrim@gunduz.org> 2.0.0-alpha.3
+- Update to 2.0.0-alpha.3 for testing repo only.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-alpha.2_1.1
 - Rebuild against PostgreSQL 11.0
 
