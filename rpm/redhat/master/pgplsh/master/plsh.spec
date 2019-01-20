@@ -9,10 +9,12 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.20171014
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
+Patch0:		plsh-pg11-build.patch
+
 Patch1:		%{sname}-pg%{pgmajorversion}-makefile.patch
 URL:		https://github.com/petere/plsh
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -35,6 +37,9 @@ allows you to write stored procedures in a shell of your choice.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch1 -p0
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+%patch0 -p0
+%endif
 
 %build
 %ifarch ppc64 ppc64le
@@ -70,8 +75,21 @@ allows you to write stored procedures in a shell of your choice.
 %{pginstdir}/share/extension/%{sname}--2.sql
 %{pginstdir}/share/extension/%{sname}--unpackaged--1.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Sun Jan 20 2019 Devrim Gündüz <devrim@gunduz.org> - 1.20171014-1.2
+- Fix PostgreSQL 11 builds
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.20171014-1.1
 - Rebuild against PostgreSQL 11.0
 
