@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -380,7 +380,7 @@ if [ $1 -eq 1 ] ; then
 fi
 
 %post -n %{name}-desktop-common
-if [ $1 -eq 1 ] ; then
+if [ $1 > 1 ] ; then
  %{__ln_s} %{pgadmin4instdir}/runtime/pgAdmin4 %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 fi
 
@@ -393,7 +393,7 @@ fi
 %postun
 # Remove symlink only during uninstall
 if [ $1 -gt 0 ] ; then
-	unlink %{_bindir}/pgadmin4
+	unlink %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 fi
 
 %if %{systemd_enabled}
@@ -433,6 +433,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sun Jan 20 2019 - Devrim Gündüz <devrim@gunduz.org> 4.1-2
+- Create pgadmin4 symlink properly.
+
 * Sat Jan 19 2019 - Devrim Gündüz <devrim@gunduz.org> 4.1-1
 - Update to 4.1
 
