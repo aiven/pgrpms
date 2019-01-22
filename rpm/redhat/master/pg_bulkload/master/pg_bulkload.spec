@@ -2,12 +2,12 @@
 
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_14
+%global pgbulkloadpackagever 3_1_15
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.14
-Release:	2%{?dist}.1
+Version:	3.1.15
+Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -56,6 +56,19 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/share/extension/pg_bulkload*.sql
 %{pginstdir}/share/extension/pg_bulkload.control
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
+   %{pginstdir}/lib/bitcode/pg_timestamp*.bc
+   %{pginstdir}/lib/bitcode/pg_timestamp/*.bc
+  %endif
+ %endif
+%endif
 
 %files client
 %defattr(-,root,root)
@@ -63,6 +76,9 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Tue Jan 22 2019 Devrim Gündüz <devrim@gunduz.org> - 3.1.15-1
+- Update to 3.1.15
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.1.14-2.1
 - Rebuild against PostgreSQL 11.0
 
