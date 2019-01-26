@@ -1,1 +1,0 @@
-../master/amcheck.spec
