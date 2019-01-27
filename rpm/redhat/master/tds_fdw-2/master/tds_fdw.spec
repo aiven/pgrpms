@@ -49,11 +49,11 @@ Server and Sybase databases.
 %{__make}  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignServerCreation-%{sname}.md
-install -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignTableCreation-%{sname}.md
-install -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/doc/extension/UserMappingCreation-%{sname}.md
-install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{sname}.md
+%{__install} -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignServerCreation-%{sname}.md
+%{__install} -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignTableCreation-%{sname}.md
+%{__install} -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/doc/extension/UserMappingCreation-%{sname}.md
+%{__install} -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{sname}.md
 
 %{__rm} -f %{buildroot}/%{_docdir}/pgsql/extension/README.%{sname}.md
 
