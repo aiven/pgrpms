@@ -16,7 +16,7 @@
 
 Name:		%{sname}37
 Version:	3.7.0
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -97,9 +97,11 @@ sed -i -e 's|\/lib\/python|$libdir\/python|g' configure
 sed -i -e 's|.get_python_lib(0|.get_python_lib(1|g' configure
 
 # disable internal libtool to avoid hardcoded r-path
-for makefile in `find . -type f -name 'Makefile.in'`; do
+%if 0%{?rhel} && 0%{?rhel} >= 7
+for makefile in $(find . -type f -name 'Makefile.in'); do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
+%endif
 
 %ifarch ppc64 ppc64le
         export CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
@@ -153,7 +155,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/libgeos-%{version}.so
 %{geosinstdir}/%{_geoslibdir}/libgeos.so
 %{geosinstdir}/%{_geoslibdir}/libgeos_c.so*
+%if 0%{?rhel} && 0%{?rhel} >= 7
 %exclude %{geosinstdir}/%{_geoslibdir}/*.a
+%endif
 %exclude %{geosinstdir}/%{_geoslibdir}/*.la
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
@@ -169,13 +173,18 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %dir %exclude %{geosinstdir}/
 %dir %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/
 %exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.la
+%if 0%{?rhel} && 0%{?rhel} >= 7
 %exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.a
+%endif
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.so
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}.pth
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Tue Jan 29 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.7.0-2
+- Support builds on EL-6
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1.1
 - Rebuild against PostgreSQL 11.0
 
