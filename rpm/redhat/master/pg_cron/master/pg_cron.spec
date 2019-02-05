@@ -15,11 +15,9 @@ Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
-BuildRequires:	libcurl-devel
-Requires:	postgresql%{pgmajorversion}-server
-Requires(post):	%{_sbindir}/update-alternatives
+BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel openssl-devel
+Requires:	postgresql%{pgmajorversion}-server openssl-libs
+Requires(post):	%{_sbindir}/update-alternatives openldap
 Requires(postun):	%{_sbindir}/update-alternatives
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
