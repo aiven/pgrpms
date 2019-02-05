@@ -9,7 +9,7 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
@@ -27,6 +27,8 @@ BuildRequires:	cmake >= 3.4
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
 %endif
+
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 TimescaleDB is an open-source database designed to make SQL scalable for
@@ -72,6 +74,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Feb 5 2019 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-2
+- Add dependency to PostgreSQL server package.
+
 * Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
 - Update to 1.1.1
 
