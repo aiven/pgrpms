@@ -29,6 +29,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
 BuildRequires:	gcc-c++
+Obsoletes:	geos36
+Provides:	geos36
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -56,6 +58,8 @@ functions such as IsValid()
 Summary:	Development files for GEOS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	geos36-devel
+Provides:	geos36-devel
 
 %description devel
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -76,6 +80,8 @@ BuildRequires:	swig
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
 %endif
+Obsoletes:	geos36-python
+Provides:	geos36-python
 
 %description python
 Python module to build applications using GEOS and python
@@ -184,6 +190,7 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %changelog
 * Tue Jan 29 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.7.0-2
 - Support builds on EL-6
+- Geos37 obsoletes Geos36 to prevent conflicts with dual installations
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1.1
 - Rebuild against PostgreSQL 11.0
