@@ -26,7 +26,7 @@
 %global __python_ver python
 %endif
 
-%global main_version 1.2
+%global main_version 1.3
 # comment out the next line if not a pre-release (use '#%%global ...')
 #%%global extra_version a1
 # Usually 1 - unique sequence for all pre-release version
@@ -79,9 +79,13 @@ by 2ndQuadrant.
 %doc README
 %{python_sitelib}/barman_cli-%{version}%{?extra_version:%{extra_version}}-py%{pybasever}.egg-info
 %{_bindir}/barman-wal-restore
-%doc %{_mandir}/man1/barman-wal-restore.1.gz
+%{_bindir}/barman-wal-archive
+%doc %{_mandir}/man1/barman-wal-*.1.gz
 
 %changelog
+* Tue Feb 5 2019 - Devrim Gündüz <devrim@gunduz.org> 1.3-1
+- Update to 1.3. Fixes #3962
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-1.1
 - Rebuild against PostgreSQL 11.0
 
