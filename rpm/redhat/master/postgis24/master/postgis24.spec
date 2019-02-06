@@ -36,7 +36,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -64,9 +64,12 @@ BuildRequires:	SFCGAL-devel
 Requires:	SFCGAL
 %endif
 %if %{raster}
-BuildRequires:	gdal-devel >= 1.9.0
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:  gdal-devel >= 1.9.2-9
+  %else
+BuildRequires:  gdal-devel >= 1.11.4-11
+  %endif
 %endif
-
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
@@ -83,7 +86,12 @@ Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c2 libgdal20
 %else
-Requires:	json-c gdal-libs >= 1.9.0
+Requires:	json-c
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:       gdal-libs >= 1.9.2-9
+%else
+Requires:       gdal-libs >= 1.11.4-11
+%endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
@@ -150,6 +158,16 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %description docs
 The %{name}-docs package includes PDF documentation of PostGIS.
 
+%if %{shp2pgsqlgui}
+%package	gui
+Summary:	GUI for PostGIS
+Group:		Applications/Databases
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description	gui
+The %{name}-gui package provides a gui for PostGIS.
+%endif
+
 %if %utils
 %package utils
 Summary:	The utils for PostGIS
@@ -186,7 +204,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L/%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -214,8 +232,8 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir
 SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 
 %if %utils
-install -d %{buildroot}%{_datadir}/%{name}
-install -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
+%{__install} -d %{buildroot}%{_datadir}/%{name}
+%{__install} -m 644 utils/*.pl %{buildroot}%{_datadir}/%{name}
 %endif
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
@@ -272,7 +290,7 @@ fi
 %endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/liblwgeom*.so.*
-%{pginstdir}/lib/postgis_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so
 %{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 %{pginstdir}/lib/address_standardizer-%{postgismajorversion}.so
 %{pginstdir}/lib/liblwgeom.so
@@ -305,11 +323,6 @@ fi
  %endif
 %endif
 %endif
-%if %shp2pgsqlgui
-%{pginstdir}/bin/shp2pgsql-gui
-%{pginstdir}/share/applications/shp2pgsql-gui.desktop
-%{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
-%endif
 %ifarch ppc64 ppc64le
  %else
  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
@@ -334,6 +347,18 @@ fi
 %{pginstdir}/lib/liblwgeom*.a
 %{pginstdir}/lib/liblwgeom*.la
 
+%files docs
+%defattr(-,root,root)
+%doc %{sname}-%{version}.pdf
+
+%if %shp2pgsqlgui
+%files gui
+%defattr(-,root,root)
+%{pginstdir}/bin/shp2pgsql-gui
+%{pginstdir}/share/applications/shp2pgsql-gui.desktop
+%{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
+%endif
+
 %if %utils
 %files utils
 %defattr(-,root,root)
@@ -341,11 +366,11 @@ fi
 %attr(755,root,root) %{_datadir}/%{name}/*.pl
 %endif
 
-%files docs
-%defattr(-,root,root)
-%doc %{sname}-%{version}.pdf
-
 %changelog
+* Wed Feb 6 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.4.6-4
+- Break out postgis-gui components into their own sub-package
+- gdal dependencies a little more verbose
+
 * Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.6-3
 - Enable rpath builds to embed the right GeOS and Proj version to
   PostGIS libraries.

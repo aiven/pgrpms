@@ -89,7 +89,7 @@ Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c2 libgdal20
 %else
-Requires: json-c
+Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
