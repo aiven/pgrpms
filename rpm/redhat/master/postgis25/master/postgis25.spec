@@ -369,6 +369,7 @@ fi
 %changelog
 * Tue Jan 29 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.5.1-5
 - Support builds on EL-6
+- Break out postgis-gui components into their own sub-package
 
 * Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-4
 - Enable rpath builds to embed the right GeOS and Proj version to
