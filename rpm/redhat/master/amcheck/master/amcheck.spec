@@ -8,8 +8,8 @@
 
 Summary:	Functions for verifying PostgreSQL relation integrity
 Name:		%{sname}_next%{pgmajorversion}
-Version:	1.4
-Release:	4%{?dist}.1
+Version:	1.5
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/petergeoghegan/%{sname}/archive/v%{version}.tar.gz
@@ -83,6 +83,9 @@ production PostgreSQL installations.
 %endif
 
 %changelog
+* Fri Feb 8 2019 Devrim Gündüz <devrim@gunduz.org> 1.5-1
+- Update to 1.5
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
