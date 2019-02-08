@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.1
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.2
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -53,8 +53,6 @@ Source7:	%{name}-web-setup.sh
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
-# To be removed in 4.2:
-Patch5:		%{name}-4.1-bytecompile-rhel7.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
@@ -288,8 +286,6 @@ GNOME Desktop components of pgAdmin4.
 
 %if 0%{?rhel} && 0%{?rhel} >= 7
 %patch4 -p0
-# To be removed in 4.2
-%patch5 -p0
 %endif
 
 %build
@@ -436,6 +432,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Feb 8 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-1
+- Update to 4.2
+
 * Sun Jan 20 2019 - Devrim Gündüz <devrim@gunduz.org> 4.1-2
 - Create pgadmin4 symlink properly.
 - Add a patch for RHEL7, to be removed in 4.2
