@@ -1452,7 +1452,6 @@ fi
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
 %attr(755,postgres,postgres) %dir /var/run/%{sname}
 %{pgbaseinstdir}/lib/*_and_*.so
-%{pgbaseinstdir}/share/conversion_create.sql
 %{pgbaseinstdir}/share/information_schema.sql
 %{pgbaseinstdir}/share/snowball_create.sql
 %{pgbaseinstdir}/share/sql_features.txt
