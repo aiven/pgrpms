@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -358,6 +358,8 @@ make PYTHON=/usr/bin/python docs
 cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
 %{__rm} -f %{name}.db
 echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
+# Disable upgrade check in the packages:
+echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -432,6 +434,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Feb 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-2
+- Disable upgrade checks.
+
 * Fri Feb 8 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-1
 - Update to 4.2
 
