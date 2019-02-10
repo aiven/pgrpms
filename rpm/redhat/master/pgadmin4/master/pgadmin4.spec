@@ -49,6 +49,7 @@ Source3:	%{name}.tmpfiles.d
 Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
+Source8:	%{name}.service.in
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
@@ -350,6 +351,9 @@ make PYTHON=/usr/bin/python docs
 %endif
 
 %if %{systemd_enabled}
+# Install unit file
+%{__install} -d %{buildroot}%{_unitdir}
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} >  "%{buildroot}%{_unitdir}/%{name}.service"
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
@@ -414,6 +418,7 @@ fi
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 %if %{systemd_enabled}
 %{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{name}.service
 %endif
 
 %files -n %{name}-docs
@@ -436,6 +441,7 @@ fi
 %changelog
 * Mon Feb 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-2
 - Disable upgrade checks.
+- Add a unit file. Per https://redmine.postgresql.org/issues/3817.
 
 * Fri Feb 8 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-1
 - Update to 4.2
