@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.1
-Release:	3PGDG%{?dist}
+Version:	11.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1517,6 +1517,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 12 2019 Devrim Gündüz <devrim@gunduz.org> - 11.2-1PGDG
+- Update to 11.2, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-11-2.html
+
 * Mon Nov 19 2018 Devrim Gündüz <devrim@gunduz.org> - 11.1-3PGDG
 - Initial attempt for RHEL 8 packaging updates.
 - Rename plpython macro to plpython2, to stress that it is for Python 2.
