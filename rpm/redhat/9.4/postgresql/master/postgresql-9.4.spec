@@ -65,7 +65,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.20
+Version:	9.4.21
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -1334,6 +1334,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 12 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.21-1PGDG
+- Update to 9.4.21, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-21.html
+
 * Tue Nov 6 2018 Devrim Gündüz <devrim@gunduz.org> - 9.4.20-1PGDG
 - Update to 9.4.20, per changes described at:
   https://www.postgresql.org/docs/9.4/static/release-9-4-20.html
