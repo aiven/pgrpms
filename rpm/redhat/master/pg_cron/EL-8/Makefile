@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f30
+DIST=.rhel8
 SPECFILE="pg_cron.spec"
 
 # Now, include global Makefile
