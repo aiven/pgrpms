@@ -8,8 +8,8 @@
 
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.1
-Release:	1%{?dist}.1
+Version:	1.3.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
@@ -84,7 +84,10 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/include/server/rum*.h
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Wed Feb 13 2019 Devrim Gündüz <devrim@gunduz.org> 1.3.1-1
+- Update to 1.3.1
+
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> 1.2.1-2
 - Rebuild against PostgreSQL 11.0
 
 * Tue Jul 3 2018 - Devrim Gündüz <devrim@gunduz.org> 1.2.1-1
