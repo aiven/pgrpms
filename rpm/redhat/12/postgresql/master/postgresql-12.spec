@@ -68,7 +68,7 @@
 %{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
-%ifarch ppc64 ppc64le
+%ifarch ppc64 ppc64le s390 s390x
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
@@ -1520,6 +1520,9 @@ fi
 %endif
 
 %changelog
+* Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
+- Disable jit on s390. Patch from Mark Wong.
+
 * Wed Nov 21 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
 - Initial attempt for RHEL 8 packaging updates.
 - Rename plpython macro to plpython2, to stress that it is for Python 2.
