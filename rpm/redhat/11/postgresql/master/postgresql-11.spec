@@ -1518,6 +1518,7 @@ fi
 %changelog
 * Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 11.2-2PGDG
 - Disable jit on s390. Patch from Mark Wong.
+- Fix PL/Python3 builds.
 
 * Tue Feb 12 2019 Devrim Gündüz <devrim@gunduz.org> - 11.2-1PGDG
 - Update to 11.2, per changes described at
