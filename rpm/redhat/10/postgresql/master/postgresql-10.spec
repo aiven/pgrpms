@@ -25,20 +25,20 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} <= 7
+%if 0%{?rhel} && 0%{?rhel} <= 7
 # RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %endif
 
-%if 0%{?fedora} > 23
+%if 0%{?fedora} && 0%{?fedora} > 27
 # All Fedora releases now use Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython ltree_plpython
 %endif
 
-%if 0%{?rhel} >= 8
-# RHEL 8 now use Python3
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# RHEL 8 now uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython ltree_plpython
@@ -65,7 +65,7 @@
 %{!?selinux:%global selinux 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
-%ifarch ppc64 ppc64le
+%ifarch ppc64 ppc64le s390 s390x
 %{!?sdt:%global sdt 0}
 %else
  %{!?sdt:%global sdt 1}
@@ -86,7 +86,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1435,7 +1435,10 @@ fi
 %endif
 
 %changelog
-* Tue Feb 12 2019 Devrim Gündüz <devrim@gunduz.org> - 10.7-1PGDG
+* Sun Feb 24 2019 Devrim Gündüz <devrim@gunduz.org> - 10.7-2PGDG
+- Disable jit on s390. Patch from Mark Wong.
+- Fix PL/Python3 builds.
+
 - Update to 10.7, per changes described at
   https://www.postgresql.org/docs/devel/static/release-10-7.html
 
