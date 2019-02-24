@@ -29,7 +29,7 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 27
 # All Fedora releases now use Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
@@ -37,7 +37,7 @@
 %endif
 
 %if 0%{?rhel} >= 8
-# RHEL 8 now use Python3
+# RHEL 8 now uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
@@ -197,7 +197,7 @@ BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
-BuildRequires: python3-devel
+BuildRequires:	python3-devel
 %endif
 
 %if %pltcl
@@ -211,12 +211,12 @@ BuildRequires:	systemtap-sdt-devel
 %if %selinux
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires: libselinux-devel >= 2.0.93
+BuildRequires:	libselinux-devel >= 2.0.93
 %endif
 %else
-BuildRequires: libselinux-devel >= 2.0.93
+BuildRequires:	libselinux-devel >= 2.0.93
 %endif
-BuildRequires: selinux-policy >= 3.9.13
+BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
@@ -587,7 +587,6 @@ export CFLAGS
 # Makefile.global will reflect the python 2 build, which seems appropriate
 # since that's still considered the default plpython version.
 %if %plpython3
-
 export PYTHON=/usr/bin/python3
 
 # These configure options must match main build
@@ -1017,7 +1016,7 @@ cat plpython-%{pgmajorversion}.lang > pg_plpython.lst
 %if %plpython3
 # plpython3 shares message files with plpython
 %find_lang plpython-%{pgmajorversion}
-cat plpython-%{pgmajorversion}.lang >> pg_plpython3.lst
+cat plpython-%{pgmajorversion}.lang > pg_plpython3.lst
 %endif
 
 %if %pltcl
