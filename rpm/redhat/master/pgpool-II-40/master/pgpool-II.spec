@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.0.3
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -203,7 +203,7 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %{__update_alternatives} --install /usr/bin/pcp_proc_info pgpool-pcp_proc_info %{pgpoolinstdir}/bin/pcp_proc_info %{pgmajorversion}0
 %{__update_alternatives} --install /usr/bin/pcp_stop_pgpool pgpool-pcp_stop_pgpool %{pgpoolinstdir}/bin/pcp_stop_pgpool %{pgmajorversion}0
 %{__update_alternatives} --install /usr/bin/pcp_recovery_node pgpool-pcp_recovery_node %{pgpoolinstdir}/bin/pcp_recovery_node %{pgmajorversion}0
-%{__update_alternatives} --install /usr/bin/pcp_watchdog pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
+%{__update_alternatives} --install /usr/bin/pcp_watchdog_info pgpool-pcp_watchdog_info %{pgpoolinstdir}/bin/pcp_watchdog_info %{pgmajorversion}0
 %{__update_alternatives} --install /usr/bin/pg_md5 pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5 %{pgmajorversion}0
 %{__update_alternatives} --install /etc/ld.so.conf.d/pgpool-libs.conf pgpool-ld-conf %{pgpoolinstdir}/share/pgpool-II-pg%{pgmajorversion}-libs.conf %{pgmajorversion}0
 
@@ -354,6 +354,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Mar 5 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.3-2
+- Fix pcp_watchdog_info alternatives link, per Matthias Steppuhn.
+
 * Thu Feb 21 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.3-1
 - Update to 4.0.3
 
