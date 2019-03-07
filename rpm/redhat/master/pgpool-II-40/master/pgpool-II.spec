@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.0.3
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -98,7 +98,7 @@ Requires:	%{name} = %{version}-%{release}
 Development headers and libraries for pgpool-II.
 
 %package extensions
-Summary:	Postgersql extensions for pgpool-II
+Summary:	Postgresql extensions for pgpool-II
 Group:		Applications/Databases
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
@@ -354,6 +354,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu Mar 7 2019 John K. Harvey <john.harvey@crunchydata.com> - 4.0.3-3
+- Fix typo in -extensions package
+
 * Tue Mar 5 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.3-2
 - Fix pcp_watchdog_info alternatives link, per Matthias Steppuhn.
 
