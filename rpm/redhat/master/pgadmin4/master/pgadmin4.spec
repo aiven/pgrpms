@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.2
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.3
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -70,9 +70,9 @@ BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-pri
 BuildRequires:	%{name}-python3-flask-wtf %{name}-python3-flask >= 0.12.4
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-login >= 0.3.2
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.5 %{name}-python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-pbr >= 3.1.1 python3-devel
+BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
 BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
-BuildRequires:	python3-sphinx python3-pbr >= 3.1.1 python3-linecache2 >= 1.0.0
+BuildRequires:	python3-sphinx
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -85,9 +85,8 @@ BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-pri
 BuildRequires:	%{name}-python3-flask-wtf %{name}-python3-flask >= 0.12.4
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-login >= 0.3.2
 BuildRequires:	%{name}-python3-itsdangerous %{name}-python3-blinker %{name}-python3-flask-babelex
-BuildRequires:	%{name}-python3-flask-sqlalchemy %{name}-python3-pbr >= 3.1.1
+BuildRequires:	%{name}-python3-flask-sqlalchemy
 BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-sqlalchemy >= 1.2.5
-BuildRequires:	%{name}-python3-pbr >= 3.1.1 %{name}-python3-linecache2 >= 1.0.0
 BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -100,10 +99,10 @@ BuildRequires:	%{name}-python-flask-login >= 0.3.2 %{name}-python-simplejson >= 
 BuildRequires:	%{name}-python-blinker %{name}-python-flask-wtf %{name}-python-flask-babelex
 BuildRequires:	%{name}-python-flask-sqlalchemy %{name}-python-Flask-Mail
 BuildRequires:	%{name}-python-dateutil %{name}-python-flask-gravatar
-BuildRequires:	%{name}-python-flask-paranoid >= 0.1 %{name}-python-pbr >= 3.1.1
+BuildRequires:	%{name}-python-flask-paranoid >= 0.1
 BuildRequires:	%{name}-python-passlib >= 1.7.1 %{name}-python-sqlalchemy >= 1.2.5
 BuildRequires:	%{name}-python-wtforms
-BuildRequires:	python-devel python-sphinx python-linecache2 >= 1.0.0
+BuildRequires:	python-devel python-sphinx
 BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
@@ -147,45 +146,42 @@ Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
 %if 0%{?fedora}
 Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask >= 0.12.4
 Requires:	%{name}-python3-flask-wtf >= 0.12 %{name}-python3-sqlalchemy >= 1.2.5
-Requires:	%{name}-python3-wtforms >= 2.0.2 %{name}-python3-html5lib >= 1.0.1
+Requires:	%{name}-python3-wtforms >= 2.0.2
 Requires:	%{name}-python3-simplejson >= 3.13.2 %{name}-python3-dateutil >= 2.7.2
 Requires:	%{name}-python3-sqlparse >= 0.2.4 %{name}-python3-flask-gravatar >= 0.5.0
 Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
 Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 3.0.0
 Requires:	%{name}-python3-flask-login >= 0.3.2 %{name}-python3-flask-paranoid >= 0.1
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.3 python3-click
-Requires:	%{name}-python3-pyrsistent >= 0.14.2 %{name}-python3-flask-migrate >= 2.1.1
+Requires:	%{name}-python3-flask-migrate >= 2.1.1
 Requires:	%{name}-python3-sshtunnel >= 0.1.3 %{name}-python3-flask-babelex python3-psutil
 Requires:	python3-flask-sqlalchemy >= 2.1 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
-Requires:	python3-beautifulsoup4 >= 4.4.1 python3-pbr >= 3.1.1
+Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.3 python3-itsdangerous >= 0.24
-Requires:	python3-psycopg2 >= 2.7.4 python3-linecache2 >= 1.0.0
+Requires:	python3-psycopg2 >= 2.7.4
 Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
-Requires:	python3-extras >= 1.0.0	python3-fixtures >= 2.0.0
-Requires:	python3-mimeparse >= 1.6.0 python3-speaklater >= 1.3
+Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
 %if 0%{?rhel} == 6
 Requires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-flask-migrate >= 2.1.1
 Requires:	%{name}-python3-crypto >= 2.6.1 %{name}-python3-speaklater >= 1.3
-Requires:	%{name}-python3-html5lib >= 1.0.1 %{name}-python3-fixtures >= 2.0.0
 Requires:	%{name}-python3-babel >= 2.3.4 %{name}-python3-flask >= 0.12.4
 Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask-sqlalchemy >= 2.1
 Requires:	%{name}-python3-flask-wtf >= 0.12 %{name}-python3-wtforms >= 2.0.2
 Requires:	%{name}-python3-beautifulsoup4 >= 4.4.1 %{name}-python3-blinker >= 1.3
-Requires:	%{name}-python3-itsdangerous >= 0.24 %{name}-python3-html5lib >= 1.0.1
+Requires:	%{name}-python3-itsdangerous >= 0.24
 Requires:	%{name}-python3-simplejson >= 3.13.2 %{name}-python3-dateutil >= 2.7.2
 Requires:	%{name}-python3-werkzeug >= 0.9.6 %{name}-python3-sqlparse >= 0.2.4
 Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
 Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-Flask-Mail >= 0.9.1
 Requires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-login >= 0.3.2
 Requires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-principal >= 0.4.0
-Requires:	%{name}-python3-pyrsistent >= 0.14.2 %{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-mimeparse >= 1.6.0 %{name}-python3-pbr >= 3.1.1
-Requires:	%{name}-python3-linecache2 >= 1.0.0 %{name}-python3-sqlalchemy >= 1.2.5
-Requires:	%{name}-pytz >= 2018.3 %{name}-python3-click %{name}-python3-extras >= 1.0.0
+Requires:	%{name}-python3-flask-migrate >= 2.1.1
+Requires:	%{name}-python3-sqlalchemy >= 1.2.5
+Requires:	%{name}-pytz >= 2018.3 %{name}-python3-click
 Requires:	python34 >= 3.4 python-importlib >= 1.0.3 python-unittest2
 Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
 Requires:	python-psycopg2 >= 2.7.4 python34-six >= 1.9.0
@@ -205,20 +201,17 @@ Requires:	%{name}-pytz >= 2018.3 %{name}-python-sqlparse >= 0.2.4
 Requires:	%{name}-python-flask-babel >= 0.11.1 %{name}-python-flask-gravatar >= 0.5.0
 Requires:	%{name}-python-Flask-Mail >= 0.9.1 %{name}-python-flask-security >= 3.0.0
 Requires:	%{name}-python-flask-login >= 0.3.2 %{name}-python-flask-principal >= 0.4.0
-Requires:	%{name}-python-dateutil >= 2.7.2 %{name}-python-fixtures >= 2.0.0
-Requires:	%{name}-python-pyrsistent >= 0.14.2 %{name}-python-mimeparse >= 1.6.0
-Requires:	%{name}-python-extras >= 1.0.0 %{name}-python-flask-babelex
+Requires:	%{name}-python-dateutil >= 2.7.2
+Requires:	%{name}-python-flask-babelex
 Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.1.1
-Requires:	%{name}-python-pbr >= 3.1.1 %{name}-python-html5lib >= 1.0.1
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.3
 Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
-Requires:	python-linecache2 >= 1.0.0 python-speaklater >= 1.3 python-click
+Requires:	python-speaklater >= 1.3 python-click
 Requires:	python-crypto >= 2.6.1 mod_wsgi python2-psutil
 %endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-Requires:  pgadmin4-python-html5lib >= 1.0.1
 Requires:	apache2-mod_wsgi
 %endif
 %endif
@@ -439,6 +432,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Mar 8 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3-1
+- Update to 4.3
+
 * Mon Feb 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.2-2
 - Disable upgrade checks.
 - Add a unit file. Per https://redmine.postgresql.org/issues/3817.
