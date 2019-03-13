@@ -54,7 +54,6 @@
 %endif
 
 %bcond_without python2
-#%bcond_without python3
 
 # No ppc64 build for spatialite in EL6
 # https://bugzilla.redhat.com/show_bug.cgi?id=663938
@@ -460,16 +459,16 @@ POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 
 make %{?_smp_mflags} $POPPLER_OPTS
 
-make man
-make docs
+make  %{?_smp_mflags} man
+make  %{?_smp_mflags} docs
 
 # Build some utilities, as requested in BZ #1271906
 pushd ogr/ogrsf_frmts/s57/
-  make all
+  make  %{?_smp_mflags} all
 popd
 
 pushd frmts/iso8211/
-  make all
+  make  %{?_smp_mflags} all
 popd
 
 # Make Python modules
@@ -543,10 +542,6 @@ mkdir -p %{buildroot}%{gdalinstdir}/lib/plugins
 #TODO: Don't do that?
 find %{buildroot}%{perl_vendorarch} -name "*.dox" -exec rm -rf '{}' \;
 rm %{buildroot}%{perl_archlib}/perllocal.pod
-
-%if %{without python} && %{without python3}
-rm %buildroot%_mandir/man1/{pct2rgb,rgb2pct}.1
-%endif
 
 # Correct permissions
 #TODO and potential ticket: Why are the permissions not correct?
@@ -692,9 +687,6 @@ rm -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps
 #%exclude /share/man/man1/gdal_merge.1*
 #%exclude /share/man/man1/gdal_retile.1*
 #%exclude /share/man/man1/gdal_sieve.1*
-#%dir %{gdalinstdir}/share/man/man1/*
-#%{gdalinstdir}/share/man/man1/ogr*.1*
-#%{gdalinstdir}/share/man/man1/gnm*.1.*
 
 
 %files libs
@@ -708,7 +700,6 @@ rm -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps
 %files devel
 %{gdalinstdir}/bin/%{sname}-config
 %{gdalinstdir}/bin/%{sname}-config-%{cpuarch}
-#%{gdalinstdir}/share/man/man1/gdal-config.1*
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
 %{_libdir}/pkgconfig/%{name}.pc
@@ -718,7 +709,6 @@ rm -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps
 %files perl
 %doc swig/perl/README
 %{perl_vendorarch}/*
-#%{gdalinstdir}/share/man/man3/*.3pm*
 
 %if %{with python2}
 %files -n python2-gdal
@@ -735,13 +725,6 @@ rm -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps
 %if %{with python2}
 %files python-tools
 %_bindir/*.py
-#%{gdalinstdir}/share/man/man1/pct2rgb.1*
-#%{gdalinstdir}/share/man/man1/rgb2pct.1*
-#%{gdalinstdir}/share/man/man1/gdal2tiles.1*
-#%{gdalinstdir}/share/man/man1/gdal_fillnodata.1*
-#%{gdalinstdir}/share/man/man1/gdal_merge.1*
-#%{gdalinstdir}/share/man/man1/gdal_retile.1*
-#%{gdalinstdir}/share/man/man1/gdal_sieve.1*
 %endif
 
 %files doc
