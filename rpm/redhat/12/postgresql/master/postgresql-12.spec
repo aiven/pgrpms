@@ -1007,7 +1007,6 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %find_lang pg_upgrade-%{pgmajorversion}
 %find_lang pg_waldump-%{pgmajorversion}
 %find_lang pgscripts-%{pgmajorversion}
-#%find_lang pg_verify_checksums-%{pgmajorversion}
 %if %plperl
 %find_lang plperl-%{pgmajorversion}
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
@@ -1406,7 +1405,7 @@ fi
 %{pgbaseinstdir}/bin/initdb
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
-%{pgbaseinstdir}/bin/pg_verify_checksums
+%{pgbaseinstdir}/bin/pg_checksums
 %{pgbaseinstdir}/bin/pg_resetwal
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
@@ -1414,7 +1413,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
-%{pgbaseinstdir}/share/man/man1/pg_verify_checksums.*
+%{pgbaseinstdir}/share/man/man1/pg_checksums.*
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
