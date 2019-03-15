@@ -35,8 +35,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.6
-Release:	4%{?dist}
+Version:	%{postgismajorversion}.7
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -367,6 +367,9 @@ fi
 %endif
 
 %changelog
+* Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-1
+- Update to 2.4.7
+
 * Wed Feb 6 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.4.6-4
 - Break out postgis-gui components into their own sub-package
 - gdal dependencies a little more verbose
