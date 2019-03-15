@@ -15,8 +15,8 @@
 %endif
 
 Name:		%{sname}37
-Version:	3.7.0
-Release:	2%{?dist}
+Version:	3.7.1
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 Group:		Applications/Engineering
@@ -29,8 +29,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
 BuildRequires:	gcc-c++
-Obsoletes:	geos36
-Provides:	geos36
+Obsoletes:	geos36 >= 3.6.0
+Provides:	geos36 >= 3.6.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -58,8 +58,8 @@ functions such as IsValid()
 Summary:	Development files for GEOS
 Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	geos36-devel
-Provides:	geos36-devel
+Obsoletes:	geos36-devel >= 3.6.0
+Provides:	geos36-devel >= 3.6.0
 
 %description devel
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -80,8 +80,8 @@ BuildRequires:	swig
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
 %endif
-Obsoletes:	geos36-python
-Provides:	geos36-python
+Obsoletes:	geos36-python >= 3.6.0
+Provides:	geos36-python >= 3.6.0
 
 %description python
 Python module to build applications using GEOS and python
@@ -110,9 +110,9 @@ done
 %endif
 
 %ifarch ppc64 ppc64le
-        export CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
-        export CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
-        export LDFLAGS="-L/opt/%(echo ${PPC_AT})/%{_lib}"
+	export CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
+	export CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
+	export LDFLAGS="-L/opt/%(echo ${PPC_AT})/%{_lib}"
 %endif
 
 PYTHON=/usr/bin/python2 ./configure --prefix=%{geosinstdir} --libdir=/usr/geos37/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
@@ -188,6 +188,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
 
 %changelog
+* Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.1-1
+- Update to 3.7.1
+
 * Tue Jan 29 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.7.0-2
 - Support builds on EL-6
 - Geos37 obsoletes Geos36 to prevent conflicts with dual installations
