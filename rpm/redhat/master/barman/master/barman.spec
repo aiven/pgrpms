@@ -24,7 +24,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.6
+Version:	2.7
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -96,6 +96,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
 %changelog
+* Sun Mar 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.7-1
+- Update to 2.7
+
 * Tue Feb 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.6-1
 - Update to 2.6
 
