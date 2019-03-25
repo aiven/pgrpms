@@ -1,0 +1,1 @@
+../master/pgadmin4-python-flask-babelex.spec
