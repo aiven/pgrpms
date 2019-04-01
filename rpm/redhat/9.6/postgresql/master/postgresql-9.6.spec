@@ -342,17 +342,21 @@ Summary:	PostgreSQL development header files and libraries
 Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
 %if %enabletaptests
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires:	perl-IPC-Run3
-%endif
-%else
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
 Requires:	perl-IPC-Run
+BuildRequires:	perl-IPC-Run
 %endif
+%if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	perl-Test-Simple
+BuildRequires:	perl-Test-Simple
 %endif
-Provides:	postgresql-devel
+%if 0%{?fedora}
+Requires:	perl-IPC-Run
+BuildRequires:	perl-IPC-Run
+%endif
+%endif
 
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries

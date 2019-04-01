@@ -358,16 +358,19 @@ Requires:	libicu-devel
 %endif
 
 %if %enabletaptests
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
 Requires:	perl-IPC-Run
+BuildRequires:	perl-IPC-Run
 %endif
-%else
-Requires:	perl-IPC-Run
-%endif
+%if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	perl-Test-Simple
+BuildRequires:	perl-Test-Simple
 %endif
-Provides:	postgresql-devel
+%if 0%{?fedora}
+Requires:	perl-IPC-Run
+BuildRequires:	perl-IPC-Run
+%endif
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
