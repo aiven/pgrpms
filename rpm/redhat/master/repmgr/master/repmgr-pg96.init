@@ -38,7 +38,7 @@ REPMGRD_PIDFILE=/var/run/repmgr/repmgrd-9.6.pid
 . /etc/sysconfig/network
 
 # Read configuration variable file if it is present
-[ -r /etc/sysconfig/repmgr/$prog ] && . /etc/sysconfig/repmgr/$prog
+[ -r /etc/sysconfig/repmgr/repmgr-96 ] && . /etc/sysconfig/repmgr/repmgr-96
 
 # For SELinux we need to use 'runuser' not 'su'
 if [ -x /sbin/runuser ]
@@ -61,7 +61,7 @@ esac
 
 if [ -z "${REPMGRD_OPTS}" ]
 then
-    echo "Not starting ${prog}, REPMGRD_OPTS not set in /etc/sysconfig/repmgr/${prog}"
+    echo "Not starting ${prog}, REPMGRD_OPTS not set in /etc/sysconfig/repmgr/repmgr-96"
     exit 0
 fi
 

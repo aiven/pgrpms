@@ -70,7 +70,7 @@ applications which will directly interact with repmgr.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-%patch1 -p0
+%patch1 -p1
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
@@ -170,6 +170,10 @@ fi
 %changelog
 * Wed Apr 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
 - Update to 4.3.0
+- Fix https://redmine.postgresql.org/issues/3717. Patch from Ian
+  Barwick.
+- Fix https://redmine.postgresql.org/issues/3718. Patch from Ian
+  Barwick.
 
 * Sat Dec 22 2018 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-2
 - Fix path in tmpfiles.d drop-in file
