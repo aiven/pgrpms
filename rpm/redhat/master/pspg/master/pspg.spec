@@ -17,16 +17,14 @@ columns, and lot of color themes are included.
 %setup -q
 
 %build
+CFLAGS="%{optflags} -I/usr/include/ncurses/"
 %configure
-CFLAGS="%{optflags}"
 %{__make} %{_smp_mflags} \
 	prefix=%{_prefix} \
 	all
 
 %install
 %{__rm} -rf %{buildroot}
-
-CFLAGS="%{optflags}"
 %{__make} %{_smp_mflags} DESTDIR=%{buildroot} \
 	prefix=%{_prefix} bindir=%{_bindir} mandir=%{_mandir} \
 	install
