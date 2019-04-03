@@ -6,8 +6,8 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.2.0
-Release:	2%{?dist}
+Version:	4.3.0
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -16,6 +16,7 @@ Source1:	repmgr-pg%{pgmajorversion}.service
 Source2:	repmgr-pg%{pgmajorversion}.init
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
 Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
+Patch1:		repmgr-pg%{pgmajorversion}-config-file-location.patch
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -69,6 +70,7 @@ applications which will directly interact with repmgr.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
@@ -166,6 +168,9 @@ fi
 %endif
 
 %changelog
+* Wed Apr 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
+- Update to 4.3.0
+
 * Sat Dec 22 2018 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-2
 - Fix path in tmpfiles.d drop-in file
 
