@@ -109,12 +109,6 @@ sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 %endif
 
-%ifarch ppc64 ppc64le
-	export CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
-	export CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
-	export LDFLAGS="-L/opt/%(echo ${PPC_AT})/%{_lib}"
-%endif
-
 PYTHON=/usr/bin/python2 ./configure --prefix=%{geosinstdir} --libdir=/usr/geos37/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
 # Touch the file, since we are not using ruby bindings anymore:
 # Per http://lists.osgeo.org/pipermail/geos-devel/2009-May/004149.html
