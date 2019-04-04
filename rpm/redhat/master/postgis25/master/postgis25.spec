@@ -70,7 +70,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal-devel >= 1.11.4-11
+BuildRequires:	gdal-devel >= 1.11.4-3
   %endif
 %endif
 %ifarch ppc64 ppc64le
@@ -93,7 +93,7 @@ Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal-libs >= 1.11.4-11
+Requires:	gdal-libs >= 1.11.4-3
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
