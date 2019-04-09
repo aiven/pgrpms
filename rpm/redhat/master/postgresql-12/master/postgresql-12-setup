@@ -104,7 +104,7 @@ fi
 # Log file for pg_upgrade
 PGUPLOG=/var/lib/pgsql/$PGMAJORVERSION/pgupgrade.log
 # Log file for initdb
-PGLOG=/var/lib/pgsql/12/initdb.log
+PGLOG=/var/lib/pgsql/$PGMAJORVERSION/initdb.log
 
 export PGDATA
 

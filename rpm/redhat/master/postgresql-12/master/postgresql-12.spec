@@ -3,9 +3,8 @@
 %global pgpackageversion 12
 %global prevmajorversion 11
 %global sname postgresql
-%global	pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global build_timestamp %(date +"%Y%m%d")
+%global pgdg_build_timestamp %(date +"%Y%m%d")
 %global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -91,7 +90,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.0
-Release:	devel_%{build_timestamp}_1PGDG%{?dist}
+Release:	devel_%{pgdg_build_timestamp}_1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1523,12 +1522,12 @@ fi
 %endif
 
 %changelog
-* Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
+* Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
 - Disable jit on s390. Patch from Mark Wong.
 
-* Wed Nov 21 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
+* Wed Nov 21 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
 - Initial attempt for RHEL 8 packaging updates.
 - Rename plpython macro to plpython2, to stress that it is for Python 2.
 
-* Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{build_timestamp}_1PGDG
+* Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
 - Initial cut for PostgreSQL 12
