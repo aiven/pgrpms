@@ -3,6 +3,7 @@
 %global pgpackageversion 12
 %global prevmajorversion 11
 %global sname postgresql
+%global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
 %global pgdg_build_timestamp %(date +"%Y%m%d")
 %global beta 1
