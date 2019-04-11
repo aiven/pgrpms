@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.2.0
+Version:	8.2.1
 Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
@@ -106,6 +106,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Thu Apr 11 2019 Devrim Gündüz <devrim@gunduz.org> 8.2.1-1
+- Update to 8.2.1
+
 * Mon Apr 1 2019 Devrim Gündüz <devrim@gunduz.org> 8.2.0-1
 - Update to 8.2.0
 
