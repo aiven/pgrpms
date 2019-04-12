@@ -16,11 +16,9 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%global _varrundir %{_localstatedir}/run/%{name}
-
 Name:		pgbouncer
 Version:	1.9.0
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -120,7 +118,7 @@ sed -i.fedora \
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_varrundir} 0700 pgbouncer pgbouncer -
+d %{_rundir}/%{name} 0700 pgbouncer pgbouncer -
 EOF
 
 %else
@@ -150,7 +148,7 @@ if [ ! -d %{_localstatedir}/log/pgbouncer ] ; then
 %{__mkdir} -m 700 %{_localstatedir}/log/pgbouncer
 fi
 %{__chown} -R pgbouncer:pgbouncer %{_localstatedir}/log/pgbouncer
-%{__chown} -R pgbouncer:pgbouncer %{_varrundir} >/dev/null 2>&1 || :
+%{__chown} -R pgbouncer:pgbouncer %{_rundir}/%{name} >/dev/null 2>&1 || :
 
 %pre
 groupadd -r pgbouncer >/dev/null 2>&1 || :
@@ -169,7 +167,7 @@ fi
 
 %postun
 if [ $1 -eq 0 ]; then
-%{__rm} -rf %{_varrundir}
+%{__rm} -rf %{_rundir}/%{name}
 fi
 %if %{systemd_enabled}
 %systemd_postun_with_restart %{name}.service
@@ -191,7 +189,7 @@ fi
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
 %if %{systemd_enabled}
-%ghost %{_varrundir}
+%ghost %{_rundir}/%{name}
 %{_tmpfilesdir}/%{name}.conf
 %attr(644,root,root) %{_unitdir}/%{name}.service
 %else
@@ -204,6 +202,9 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Fri Apr 12 2019 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-2
+- Fix tmpfiles.d directory.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1.1
 - Rebuild against PostgreSQL 11.0
 
