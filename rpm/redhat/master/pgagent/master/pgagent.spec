@@ -15,7 +15,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -115,7 +115,7 @@ cmake3 .. \
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_rundir} 0755 root root -
+d %{_rundir}/%{sname} 0755 root root -
 EOF
 %else
 # install init script
@@ -171,7 +171,7 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %if %{systemd_enabled}
-%ghost %{_rundir}
+%ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
 %dir %{_sysconfdir}/%{sname}/
@@ -184,6 +184,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Apr 12 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-3
+- Really fix pgAgent tmpfiles.d directory.
+
 * Fri Jan 4 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-2
 - Fix/update pgAgent tmpfiles.d directory.
 
