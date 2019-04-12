@@ -7,7 +7,7 @@
 
 Name:		%{sname}%{pgmajorversion}
 Version:	4.3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -99,7 +99,7 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_rundir} 0755 postgres postgres -
+d %{_rundir}/%{sname} 0755 postgres postgres -
 EOF
 
 %else
@@ -146,7 +146,7 @@ fi
 %{pginstdir}/share/extension/repmgr.control
 %{pginstdir}/share/extension/repmgr*sql
 %if %{systemd_enabled}
-%ghost %{_rundir}
+%ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{name}.service
 %else
@@ -170,6 +170,10 @@ fi
 %endif
 
 %changelog
+* Fri Apr 12 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-2
+- Fix tmpfilesd directory. Per https://redmine.postgresql.org/issues/4156
+
+- Fix https://redmine.postgresql.org/issues/3717. Patch from Ian
 * Wed Apr 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
 - Update to 4.3.0
 - Fix https://redmine.postgresql.org/issues/3717. Patch from Ian
