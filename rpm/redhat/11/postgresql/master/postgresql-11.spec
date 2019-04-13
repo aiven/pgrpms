@@ -153,10 +153,11 @@ BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 %endif
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	llvm6-devel clang6-devel
 %endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm5-devel clang5-devel
 %endif
 %endif
 
@@ -209,14 +210,17 @@ BuildRequires:	systemtap-sdt-devel
 %endif
 
 %if %selinux
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+# All supported distros have libselinux-devel package:
 BuildRequires:	libselinux-devel >= 2.0.93
-%endif
-%else
-BuildRequires:	libselinux-devel >= 2.0.93
-%endif
+# SLES: SLES 15 does  not have selinux-policy package. Use
+# it only on SLES 12:
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	selinux-policy >= 3.9.13
+%endif
+# RHEL/Fedora has selinux-policy:
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	selinux-policy >= 3.9.13
+%endif
 %endif
 
 %if %ssl
