@@ -173,7 +173,6 @@ fi
 * Fri Apr 12 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-2
 - Fix tmpfilesd directory. Per https://redmine.postgresql.org/issues/4156
 
-- Fix https://redmine.postgresql.org/issues/3717. Patch from Ian
 * Wed Apr 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
 - Update to 4.3.0
 - Fix https://redmine.postgresql.org/issues/3717. Patch from Ian
