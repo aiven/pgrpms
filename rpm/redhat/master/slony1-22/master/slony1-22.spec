@@ -20,7 +20,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -196,10 +196,10 @@ then
 	%{__mkdir} /var/log/slony1-%{pgmajorversion}
 	%{__chown} postgres:postgres /var/log/slony1-%{pgmajorversion}
 fi
-if [ ! -e "/var/run/slony1-%{pgmajorversion}/" -a ! -h "/var/run/slony1-%{pgmajorversion}/" ]
+if [ ! -e "/run/slony1-%{pgmajorversion}/" -a ! -h "/run/slony1-%{pgmajorversion}/" ]
 then
-	%{__mkdir} /var/run/slony1-%{pgmajorversion}
-	%{__chown} postgres:postgres /var/run/slony1-%{pgmajorversion}
+	%{__mkdir} /run/slony1-%{pgmajorversion}
+	%{__chown} postgres:postgres /run/slony1-%{pgmajorversion}
 fi
 
 %preun
@@ -254,6 +254,9 @@ fi
 %endif
 
 %changelog
+* Sat Apr 13 2019 - Devrim Gündüz <devrim@gunduz.org> 2.2.7-4
+- More fixes for the pid file location
+
 * Sat Dec 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.2.7-3
 - Fix path in tmpfiles.d drop-in file
 

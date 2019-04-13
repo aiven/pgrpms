@@ -20,11 +20,11 @@ User=postgres
 Group=postgres
 
 # PID file
-PIDFile=/var/run/slony1-94/slon.pid
+PIDFile=/run/slony1-94/slon.pid
 
 # Location of Slony conf file:
 Environment=SLONCONF=/etc/slony1-94/slon.conf
-Environment=SLONPID=/var/run/slony1-94/slon.pid
+Environment=SLONPID=/run/slony1-94/slon.pid
 Environment=SLONLOGDIR=/var/log/slony-94/
 Environment=SLONCLUSTERNAME=replication
 Environment=SLONCONNINFO='host=localhost port=5432 user=postgres'

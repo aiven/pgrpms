@@ -5,7 +5,7 @@
 # description: Starts and stops the Slon daemon that handles
 #              Slony-I replication.
 # processname: slon
-# pidfile:	/var/run/slony1-10/slon.pid
+# pidfile:	/run/slony1-10/slon.pid
 #
 # v1.0.0 Devrim GUNDUZ <devrim@gunduz.org>
 # - Initial version of Red Hat / Fedora init script, based on Ubuntu one.
@@ -64,7 +64,7 @@ fi
 SLONENGINE=/usr/pgsql-10/bin
 SLONDAEMON=$SLONENGINE/slon
 SLONCONF=/etc/${NAME}/slon.conf
-SLONPID=/var/run/slony1-10/${NAME}.pid
+SLONPID=/run/slony1-10/${NAME}.pid
 SLONLOGDIR=/var/log/${NAME}
 
 # read in overrides for defaults
