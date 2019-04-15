@@ -55,8 +55,11 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
 
-%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 23 || 0%{?rhel} >= 8
 BuildRequires:	python2-debug
+%endif # Python 2.7
+%if 0%{?rhel} == 7
+BuildRequires:	python-debug
 %endif # Python 2.7
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -149,7 +152,7 @@ database adapter.
 %endif
 
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
-for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g"  $i; done
+for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" $i; done
 
 for python in %{python_runtimes} ; do
   $python setup.py build
