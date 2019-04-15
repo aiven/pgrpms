@@ -1,10 +1,10 @@
---- setup.cfg.old	2017-02-24 10:52:39.173789959 +0300
-+++ setup.cfg	2017-02-24 10:52:45.732734871 +0300
+--- setup.cfg.old	2019-04-15 22:34:30.992490364 +0100
++++ setup.cfg	2019-04-15 22:34:41.153558755 +0100
 @@ -1,6 +1,6 @@
  [build_ext]
  define = 
 -pg_config = 
-+pg_config=/usr/pgsql-10/bin/pg_config
- use_pydatetime = 1
++pg_config = /usr/pgsql-10/bin/pg_config
  mx_include_dir = 
  have_ssl = 0
+ static_libpq = 0
