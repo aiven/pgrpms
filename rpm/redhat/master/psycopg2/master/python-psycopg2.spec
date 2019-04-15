@@ -180,7 +180,9 @@ done
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 %endif
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
-%{?with_python3:rm -r %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py}
+%if 0%{?with_python3}
+%{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
