@@ -1,11 +1,15 @@
 %global sname psycopg2
+%global pname python-%{sname}
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
 %global atpath		/opt/%{atstring}
 %endif
 
-%if 0%{?fedora} > 23
+%{!?with_docs:%global with_docs 0}
+%{!?with_tests:%global with_tests 0}
+
+%if  0%{?rhel} && 0%{?rhel} >= 8 || 0%{?fedora} > 23
 %global with_python3 1
 %else
 %global with_python3 0
@@ -30,16 +34,17 @@
 %endif # with_python3
 
 Summary:	A PostgreSQL database adapter for Python
-Name:		python-%{sname}
-Version:	2.7.5
-Release:	1%{?dist}.1
+Name:		python2-%{sname}
+Version:	2.8.2
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
 Url:		http://www.psycopg.org/psycopg/
-Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-7/%{sname}-%{version}.tar.gz
-Patch0:		%{name}-pg%{pgmajorversion}-setup.cfg.patch
+Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-8/%{sname}-%{version}.tar.gz
+Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+Provides:	python-%{sname} = %{version}-%{release}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python-devel
@@ -80,13 +85,15 @@ Group:		Applications/Databases
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
 
+%if 0%{?with_tests}
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for %sum 2
-Requires:	python2-%sname = %version-%release
+Requires:	%{name} = %{version}-%{release}
 
 %description -n python2-%{sname}-tests
 %desc
 This sub-package delivers set of tests for the adapter.
+%endif
 
 %if 0%{?with_python3}
 %package -n python3-%{sname}
@@ -99,6 +106,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %description  -n python3-%{sname}
 This is a build of the psycopg PostgreSQL database adapter for Python 3.
 
+%if 0%{?with_tests}
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for %sum 2
 Requires:	python3-%sname = %version-%release
@@ -106,6 +114,7 @@ Requires:	python3-%sname = %version-%release
 %description -n python3-%{sname}-tests
 %desc
 This sub-package delivers set of tests for the adapter.
+%endif
 
 %package -n python3-%{sname}-debug
 Summary:	A PostgreSQL database adapter for Python 3 (debug build)
@@ -117,6 +126,7 @@ This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 3.
 %endif # with_python3
 
+%if %with_docs
 %package doc
 Summary:	Documentation for psycopg python PostgreSQL database adapter
 Group:		Documentation
@@ -125,6 +135,7 @@ Requires:	%{name} = %{version}-%{release}
 %description doc
 Documentation and example files for the psycopg python PostgreSQL
 database adapter.
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -142,17 +153,26 @@ for python in %{python_runtimes} ; do
   $python setup.py build
 done
 
+%if %with_docs
 # Fix for wrong-file-end-of-line-encoding problem; upstream also must fix this.
 for i in `find doc -iname "*.html"`; do sed -i 's/\r//' $i; done
 for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 
 # Get rid of a "hidden" file that rpmlint complains about
 %{__rm} -f doc/html/.buildinfo
+%endif
 
 %install
 for python in %{python_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
+
+%if 0%{?with_tests}
+%{__cp} -rp tests %{buildroot}%{python_sitearch}/psycopg2/tests
+%if 0%{?with_python3}
+%{__cp} -rp tests %{buildroot}%{python3_sitearch}/psycopg2/tests
+%endif
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -166,14 +186,15 @@ done
 %if 0%{?suse_version} >= 1315
 %{python_sitearch}/%{sname}/*.py
 %else
-%{python_sitearch}/%{sname}/*.py
 %{python_sitearch}/%{sname}/*.pyc
 %{python_sitearch}/%{sname}/*.pyo
 %endif
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
+%%if 0%{?with_tests}
 %files -n python2-%{sname}-tests
 %{python_sitearch}/psycopg2/tests
+%endif
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
@@ -193,8 +214,10 @@ done
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
+%if 0%{?with_tests}
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/psycopg2/tests
+%endif
 
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
@@ -202,11 +225,23 @@ done
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3*dm*.so
 %endif # with_python3
 
+%if %with_docs
 %files doc
 %defattr(-,root,root)
-%doc doc examples/
+%doc doc
+%endif
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8.2-1
+- Update to 2.8.2
+- Disable -doc subpackage for now. We need sphinx to build the docs,
+  and I will defer it until 2.8.2 is out.
+- Change main package name from python-psycopg2 to python2-psycopg2,
+  in order to distinguish py2 and py3 packages. Also provide old package
+  name in order not to break upgrades. Also invent pname macro, which
+  stands for "provides name" (I was lazy to rename patches)
+- Disable tests subpackage, bytecompiling on Fedora throws errors.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.7.5-1.1
 - Rebuild against PostgreSQL 11.0
 
