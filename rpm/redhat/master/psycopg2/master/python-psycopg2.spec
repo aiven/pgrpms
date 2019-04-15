@@ -144,6 +144,10 @@ database adapter.
 	CC=%{atpath}/bin/gcc; export CC
 	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
+
+# Change /usr/bin/python to /usr/bin/python2 in the scripts:
+for i in `find *.py`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g"  $i; done
+
 for python in %{python_runtimes} ; do
   $python setup.py build
 done
