@@ -169,11 +169,13 @@ for python in %{python_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
 
-%{__cp} -rp tests %{buildroot}%{python2_sitearch}/psycopg2/tests
+# Copy tests directory:
+%{__mkdir} -p %{buildroot}%{python2_sitearch}/%{sname}/
+%{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
+%{__cp} -rp tests %{buildroot}%{python2_sitearch}/%{sname}/tests
 %if 0%{?with_python3}
-%{__cp} -rp tests %{buildroot}%{python3_sitearch}/psycopg2/tests
+%{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 %endif
-
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
 %{?with_python3:rm -r %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py}
 
@@ -195,7 +197,7 @@ done
 %{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %files -n python2-%{sname}-tests
-%{python2_sitearch}/psycopg2/tests
+%{python2_sitearch}/%{sname}/tests
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
@@ -216,7 +218,7 @@ done
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
 %files -n python3-%{sname}-tests
-%{python3_sitearch}/psycopg2/tests
+%{python3_sitearch}/%{sname}/tests
 
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
