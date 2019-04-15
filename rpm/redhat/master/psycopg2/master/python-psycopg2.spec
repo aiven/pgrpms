@@ -7,7 +7,6 @@
 %endif
 
 %{!?with_docs:%global with_docs 0}
-%{!?with_tests:%global with_tests 0}
 
 %if  0%{?rhel} && 0%{?rhel} >= 8 || 0%{?fedora} > 23
 %global with_python3 1
@@ -85,7 +84,6 @@ Group:		Applications/Databases
 This is a build of the psycopg PostgreSQL database adapter for the debug
 build of Python 2.
 
-%if 0%{?with_tests}
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for %sum 2
 Requires:	%{name} = %{version}-%{release}
@@ -93,7 +91,6 @@ Requires:	%{name} = %{version}-%{release}
 %description -n python2-%{sname}-tests
 %desc
 This sub-package delivers set of tests for the adapter.
-%endif
 
 %if 0%{?with_python3}
 %package -n python3-%{sname}
@@ -106,7 +103,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %description  -n python3-%{sname}
 This is a build of the psycopg PostgreSQL database adapter for Python 3.
 
-%if 0%{?with_tests}
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for %sum 2
 Requires:	python3-%sname = %version-%release
@@ -114,7 +110,6 @@ Requires:	python3-%sname = %version-%release
 %description -n python3-%{sname}-tests
 %desc
 This sub-package delivers set of tests for the adapter.
-%endif
 
 %package -n python3-%{sname}-debug
 Summary:	A PostgreSQL database adapter for Python 3 (debug build)
@@ -167,12 +162,13 @@ for python in %{python_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
 
-%if 0%{?with_tests}
 %{__cp} -rp tests %{buildroot}%{python_sitearch}/psycopg2/tests
 %if 0%{?with_python3}
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/psycopg2/tests
 %endif
-%endif
+
+# This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
+%{?with_python3:rm -r %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -191,10 +187,8 @@ done
 %endif
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
-%%if 0%{?with_tests}
 %files -n python2-%{sname}-tests
 %{python_sitearch}/psycopg2/tests
-%endif
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
@@ -214,10 +208,8 @@ done
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
-%if 0%{?with_tests}
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/psycopg2/tests
-%endif
 
 %files -n python3-%{sname}-debug
 %defattr(-,root,root)
@@ -240,7 +232,6 @@ done
   in order to distinguish py2 and py3 packages. Also provide old package
   name in order not to break upgrades. Also invent pname macro, which
   stands for "provides name" (I was lazy to rename patches)
-- Disable tests subpackage, bytecompiling on Fedora throws errors.
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.7.5-1.1
 - Rebuild against PostgreSQL 11.0
