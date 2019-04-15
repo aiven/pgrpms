@@ -26,8 +26,8 @@
 %endif
 
 # Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
+%{!?python_sitearch: %global python_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 %if 0%{?with_python3}
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
@@ -47,14 +47,14 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	python-%{sname} = %{version}-%{release}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
-BuildRequires:	python-debug
+BuildRequires:	python2-debug
 %endif # Python 2.7
 %ifarch ppc64 ppc64le
 AutoReq:	0
