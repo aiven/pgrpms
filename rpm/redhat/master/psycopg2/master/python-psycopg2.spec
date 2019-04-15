@@ -24,9 +24,12 @@
   %endif
 %endif
 
-# Python major version.
 %{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+# The python2_sitearch is already defined on RHEL 8 and Fedora, so set this on RHEL 6 and 7:
+%if  0%{?rhel} && 0%{?rhel} <= 7
+# Python major version.
+%{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%endif
 
 %if 0%{?with_python3}
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
@@ -166,7 +169,7 @@ for python in %{python_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
 
-%{__cp} -rp tests %{buildroot}%{python_sitearch}/psycopg2/tests
+%{__cp} -rp tests %{buildroot}%{python2_sitearch}/psycopg2/tests
 %if 0%{?with_python3}
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/psycopg2/tests
 %endif
@@ -180,25 +183,25 @@ done
 %files
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
-%dir %{python_sitearch}/%{sname}
-%{python_sitearch}/%{sname}/*.py
-%{python_sitearch}/%{sname}/_psycopg.so
+%dir %{python2_sitearch}/%{sname}
+%{python2_sitearch}/%{sname}/*.py
+%{python2_sitearch}/%{sname}/_psycopg.so
 %if 0%{?suse_version} >= 1315
 %{python_sitearch}/%{sname}/*.py
 %else
-%{python_sitearch}/%{sname}/*.pyc
-%{python_sitearch}/%{sname}/*.pyo
+%{python2_sitearch}/%{sname}/*.pyc
+%{python2_sitearch}/%{sname}/*.pyo
 %endif
-%{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
+%{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %files -n python2-%{sname}-tests
-%{python_sitearch}/psycopg2/tests
+%{python2_sitearch}/psycopg2/tests
 
 %if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
 %files debug
 %defattr(-,root,root)
 %doc LICENSE
-%{python_sitearch}/%{sname}/_psycopg_d.so
+%{python2_sitearch}/%{sname}/_psycopg_d.so
 %endif
 
 %if 0%{?with_python3}
@@ -236,6 +239,7 @@ done
   in order to distinguish py2 and py3 packages. Also provide old package
   name in order not to break upgrades. Also invent pname macro, which
   stands for "provides name" (I was lazy to rename patches)
+- Switch to python2_sitearch macro.
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.7.5-1.1
 - Rebuild against PostgreSQL 11.0
