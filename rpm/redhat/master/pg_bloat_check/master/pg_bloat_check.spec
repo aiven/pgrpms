@@ -10,7 +10,7 @@ URL:		https://github.com/keithf4/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
-Requires:	python-psycopg2
+Requires:	python2-psycopg2
 
 %description
 Script to provide a bloat report for PostgreSQL tables and/or indexes.
@@ -23,6 +23,9 @@ Requires at least Python 2.6 and the pgstattuple contrib module.
 %{__cp} %{SOURCE1} ./LICENSE
 %install
 %{__rm} -rf %{buildroot}
+
+# Change /usr/bin/python to /usr/bin/python2 in the scripts:
+sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" pg_bloat_check.py
 
 %{__install} -d -m 755 %{buildroot}%{_bindir}
 %{__install} -m 755 %{name}.py %{buildroot}%{_bindir}/
