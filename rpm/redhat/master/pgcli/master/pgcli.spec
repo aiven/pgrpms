@@ -4,7 +4,7 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 23 || 0%{?rhel} >= 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -20,15 +20,15 @@
 %endif
 
 %if 0%{?with_python3}
-%global	python_runtimes	python python-debug python3 python3-debug
+%global	python_runtimes	python2 python-debug python3 python3-debug
 %else
-%global python_runtimes	python
+%global python_runtimes	python2
 %endif # with_python3
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	1.6.0
-Release:	1%{?dist}.1
+Version:	2.1.0
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -36,7 +36,7 @@ Url:		https://github.com/amjith/%{name}
 Source0:	https://github.com/amjith/%{name}/archive/v%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
@@ -146,6 +146,9 @@ rm -rf %{buildroot}
 %endif # with_python3
 
 %changelog
+* Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
+- Update to 2.1.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1.1
 - Rebuild against PostgreSQL 11.0
 

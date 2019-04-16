@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f30
 SPECFILE="pgcli.spec"
 
 # Now, include global Makefile
