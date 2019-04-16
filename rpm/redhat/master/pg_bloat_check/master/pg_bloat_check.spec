@@ -1,7 +1,7 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
-Version:	2.4.3
-Release:	2%{?dist}.1
+Version:	2.5.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
@@ -40,6 +40,9 @@ Requires at least Python 2.6 and the pgstattuple contrib module.
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-1
+- Update to 2.5.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.3-2.1
 - Rebuild against PostgreSQL 11.0
 
