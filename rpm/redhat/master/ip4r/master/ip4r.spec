@@ -53,6 +53,10 @@ be used as a more flexible, indexable version of the cidr type.
 %{__rm} -rf %{buildroot}
 %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
+  %if 0%{?rhel} && 0%{?rhel} <= 7
+%{__rm} -f %{buildroot}%{pginstdir}/include/server/extension/ip4r/ipr.h
+%endif
+
 %clean
 %{__rm} -rf %{buildroot}
 
