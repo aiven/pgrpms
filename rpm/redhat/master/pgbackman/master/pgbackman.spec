@@ -1,6 +1,3 @@
-%global majorversion 1
-%global midversion 1
-%global minorversion 0
 %global pbm_owner pgbackman
 %global pbm_group pgbackman
 %{!?pybasever: %global pybasever %(python -c "import sys;print(sys.version[0:3])")}
@@ -8,12 +5,12 @@
 
 Summary:	PostgreSQL backup manager
 Name:		pgbackman
-Version:	%{majorversion}.%{midversion}.%{minorversion}
-Release:	1%{?dist}.1
+Version:	1.2.0
+Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
-Source0:	https://github.com/rafaelma/%{name}/archive/v_%{majorversion}_%{midversion}_%{minorversion}.tar.gz
+Source0:	https://github.com/rafaelma/%{name}/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python-psycopg2 python-argparse at cronie python-setuptools shadow-utils logrotate
@@ -32,7 +29,7 @@ ensure a 100% restore of a logical backup of a database and the
 elements associated to it.
 
 %prep
-%setup -n %{name}-v_%{majorversion}_%{midversion}_%{minorversion} -q
+%setup -q
 
 %build
 python setup.py build
@@ -68,6 +65,10 @@ useradd -M -N -g pgbackman -r -d /var/lib/pgbackman -s /bin/bash \
 	-c "PostgreSQL Backup Manager" pgbackman >/dev/null 2>&1 || :
 
 %changelog
+* Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+
+* Fri Oct 30 2015 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
 - Rebuild against PostgreSQL 11.0
 
