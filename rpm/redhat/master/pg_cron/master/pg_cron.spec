@@ -8,8 +8,8 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.3
-Release:	2%{dist}
+Version:	1.1.4
+Release:	1%{dist}
 License:	AGPLv3
 Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -83,6 +83,9 @@ schedule PostgreSQL commands directly from the database.
 %endif
 
 %changelog
+* Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> 1.1.4-1
+- Update to 1.1.4
+
 * Wed Feb 13 2019 Devrim Gündüz <devrim@gunduz.org> 1.1.3-2
 - Rebuild against PostgreSQL 11.2
 
