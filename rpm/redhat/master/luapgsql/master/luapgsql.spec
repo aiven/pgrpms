@@ -17,11 +17,11 @@
 
 Summary:	Lua binding for PostgreSQL
 Name:		%{sname}
-Version:	1.6.1
-Release:	1%{?dist}.1
+Version:	1.6.7
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/arcapos/%{name}/archive/%{version}.tar.gz
+Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/arcapos/%{name}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -49,7 +49,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 A Lua Binding for PostgreSQL.
 
 %prep
-%setup -q
+%setup -q -n %{sname}-pgsql-%{version}
 %patch0 -p0
 
 %build
@@ -73,6 +73,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-1
+- Update to 1.6.7
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1.1
 - Rebuild against PostgreSQL 11.0
 
