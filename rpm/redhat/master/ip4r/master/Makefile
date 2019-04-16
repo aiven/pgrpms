@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f29
+DIST=.f30
 SPECFILE="ip4r.spec"
 
 # Now, include global Makefile
