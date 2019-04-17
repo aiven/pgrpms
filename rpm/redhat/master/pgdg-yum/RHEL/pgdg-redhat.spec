@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	3
+Release:	4
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS / Scientific Linux
 Group:		System Environment/Base
 License:	PostgreSQL
@@ -46,6 +46,9 @@ This package contains yum configuration for Red Hat Enterprise Linux, CentOS
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Apr 17 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-4
+- Remove major version from GPG file name in the repo file as well.
+
 * Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-3
 - Remove major version from GPG file name, per various reports.
 
