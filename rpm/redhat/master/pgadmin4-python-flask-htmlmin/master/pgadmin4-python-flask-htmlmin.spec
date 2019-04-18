@@ -34,8 +34,8 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	1.3.2
-Release:	1%{?dist}.1
+Version:	1.5.0
+Release:	1%{?dist}
 Summary:	Flask html response minifier
 Group:		Development/Libraries
 License:	BSD
@@ -77,25 +77,28 @@ application.
 # Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/__pycache__/flask_htmlmin* %{buildroot}%{python3_sitelib}/flask_htmlmin.py* %{buildroot}%{python3_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_htmlmin/ %{buildroot}%{python3_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__rm} -f %{buildroot}/%{pgadmin4py3instdir}/__init__*.pyc
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_htmlmin.py* %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_htmlmin/  %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
 %doc LICENSE README.md
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_HTMLmin*.egg-info/
-%{pgadmin4py3instdir}/flask_htmlmin.py*
-%{pgadmin4py3instdir}/__pycache__/flask_htmlmin.cpython-*.py*
-%{pgadmin4py3instdir}/flask_htmlmin.cpython-*.py*
+%{pgadmin4py3instdir}/flask_htmlmin/*.py
+%{pgadmin4py3instdir}/flask_htmlmin/__pycache__/
 %else
 %{pgadmin4py2instdir}/Flask_HTMLmin*.egg-info/
-%{pgadmin4py2instdir}/flask_htmlmin.py*
+%{pgadmin4py2instdir}/flask_htmlmin/*.py*
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-1
+- Update to 1.5.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1.1
 - Rebuild against PostgreSQL 11.0
 
