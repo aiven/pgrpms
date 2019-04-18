@@ -32,8 +32,8 @@ Name:		pgadmin4-%{sname}
 %else
 Name:		pgadmin4-%{sname}
 %endif
-Version:	2018.3
-Release:	1%{?dist}.1
+Version:	2018.9
+Release:	1%{?dist}
 Summary:	World Timezone Definitions for Python
 
 Group:		Development/Languages
@@ -112,6 +112,9 @@ chmod +x %{buildroot}%{python2_sitelib}/%{sname}/*.py
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 2018.9-1
+- Update to 2018.09
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2018.3-1.1
 - Rebuild against PostgreSQL 11.0
 
