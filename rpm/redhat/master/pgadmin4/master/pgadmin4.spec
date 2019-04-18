@@ -8,7 +8,7 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %endif
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -62,7 +62,7 @@ BuildRequires:	gcc-c++
 
 Requires:	%{name}-web
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} == 8
 BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-dateutil %{name}-python3-simplejson >= 3.13.2
 BuildRequires:	%{name}-python3-Flask-Mail %{name}-python3-flask-gravatar
 BuildRequires:	%{name}-python3-flask-babel %{name}-python3-flask-htmlmin
@@ -143,7 +143,7 @@ BuildArch:	noarch
 
 Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
 
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} == 8
 Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask >= 0.12.4
 Requires:	%{name}-python3-flask-wtf >= 0.12 %{name}-python3-sqlalchemy >= 1.2.5
 Requires:	%{name}-python3-wtforms >= 2.0.2
@@ -154,13 +154,13 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 
 Requires:	%{name}-python3-flask-login >= 0.3.2 %{name}-python3-flask-paranoid >= 0.1
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.3 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-sshtunnel >= 0.1.3 %{name}-python3-flask-babelex python3-psutil
+Requires:	%{name}-python3-sshtunnel >= 0.1.3 %{name}-python3-flask-babelex pgadmin4-python3-psutil
 Requires:	python3-flask-sqlalchemy >= 2.1 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.3 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.7.4
-Requires:	python3-six >= 1.9.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
+Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
@@ -205,9 +205,9 @@ Requires:	%{name}-python-dateutil >= 2.7.2
 Requires:	%{name}-python-flask-babelex
 Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.1.1
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.3
-Requires:	python >= 2.7 python-six >= 1.9.0 python-psycopg2 >= 2.7.4
+Requires:	python >= 2.7 pgadmin4-python-six >= 1.12.0 python-psycopg2 >= 2.7.4
 Requires:	python-speaklater >= 1.3 python-click
-Requires:	python-crypto >= 2.6.1 mod_wsgi python2-psutil
+Requires:	python-crypto >= 2.6.1 mod_wsgi pgadmin4-python2-psutil
 %endif
 
 %if 0%{?suse_version}
@@ -232,7 +232,7 @@ Documentation of pgadmin4.
 %package	-n %{name}-desktop-common
 Summary:	Desktop components of pgAdmin4 for all window managers.
 Requires:	%{name}-web
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} == 8
 Requires:	qt >= 5.1
 %endif
 %if 0%{?rhel} == 6
@@ -252,7 +252,7 @@ Requires:	%{name}-web
 BuildArch:	noarch
 Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
-%if 0%{?fedora}
+%if 0%{?fedora} || 0%{?rhel} == 8
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
 %endif
@@ -296,7 +296,7 @@ make
 cd ../
 
 # Build docs
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
 %endif
 %if 0%{?rhel} == 6
@@ -333,7 +333,7 @@ make PYTHON=/usr/bin/python docs
 
 # Install QT conf file.
 # Directories are different on RHEL 7 and Fedora 24+.
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 # Fedora 24+
 %{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
 %{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
@@ -383,7 +383,7 @@ if [ $1 > 1 ] ; then
 fi
 
 %post -n %{name}-desktop-gnome
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 	# Enable the extension. Don't throw an error if it is already enabled.
 	gnome-shell-extension-tool -e topicons-plus >/dev/null 2>&1 || :
 %endif
@@ -422,7 +422,7 @@ fi
 %defattr(-,root,root,-)
 %{pgadmin4instdir}/runtime/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 %{_sysconfdir}/xdg/pgadmin/%{name}.conf
 %else
 %{_sysconfdir}/pgadmin/%{name}.conf
