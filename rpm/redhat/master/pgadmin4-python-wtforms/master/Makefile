@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f30
 SPECFILE="pgadmin4-python-wtforms.spec"
 
 # Now, include global Makefile

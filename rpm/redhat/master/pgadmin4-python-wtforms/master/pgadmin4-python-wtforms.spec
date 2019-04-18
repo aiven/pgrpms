@@ -33,8 +33,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	2.1
-Release:	3%{?dist}.1
+Version:	2.2.1
+Release:	1%{?dist}
 Summary:	Forms validation and rendering library for python
 
 Group:		Development/Libraries
@@ -102,6 +102,9 @@ sed -i "s|\r||g" docs/html/_static/jquery.js
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
+- Update to 2.2.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1-3.1
 - Rebuild against PostgreSQL 11.0
 
