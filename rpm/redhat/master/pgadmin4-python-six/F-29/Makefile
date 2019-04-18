@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f30
+DIST=.f29
 SPECFILE="pgadmin4-python-six.spec"
 
 # Now, include global Makefile
