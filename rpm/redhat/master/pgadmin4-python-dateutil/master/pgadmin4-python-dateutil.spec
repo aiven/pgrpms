@@ -3,7 +3,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -30,17 +30,17 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	2.7.2
-Release:	1%{?dist}.1
+Version:	2.8.0
+Release:	1%{?dist}
 Epoch:		1
 Summary:	Powerful extensions to the standard datetime module
 License:	Python
 URL:		https://github.com/%{sname}/%{sname}
-Source0:	https://files.pythonhosted.org/packages/c5/39/4da7c2dbc4f023fba5fb2325febcadf0d0ce0efdc8bd12083a0f65d20653/python-%{sname}-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/ad/99/5b2e99737edeb28c71bcbec5b5dda19d0d9ef3ca3e92e3e925e7c0bb364c/python-dateutil-2.8.0.tar.gz
 
 BuildArch:	noarch
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 25 || 0%{?rhel} == 8
 BuildRequires:	python3-sphinx python3-devel python3-setuptools
 Requires:	python3-six
 %endif
@@ -76,7 +76,7 @@ Summary:	API documentation for python-%{sname}
 This package contains %{summary}.
 
 %prep
-%autosetup -p0 -n python-%{sname}-%{version}
+%autosetup -n python-%{sname}-%{version}
 iconv --from=ISO-8859-1 --to=UTF-8 NEWS > NEWS.new
 mv NEWS.new NEWS
 
@@ -123,6 +123,9 @@ mv NEWS.new NEWS
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 1:2.8.0-1
+- Update to 2.8.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:2.7.2-1.1
 - Rebuild against PostgreSQL 11.0
 
