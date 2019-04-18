@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.f30
 SPECFILE="pgadmin4-python-flask-migrate.spec"
 
 # Now, include global Makefile
