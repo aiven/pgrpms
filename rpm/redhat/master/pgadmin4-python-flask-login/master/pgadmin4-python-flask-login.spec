@@ -4,7 +4,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || %if 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -33,8 +33,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.3.2
-Release:	3%{?dist}.1
+Version:	0.4.1
+Release:	1%{?dist}
 Summary:	User session management for Flask
 
 License:	MIT
@@ -94,13 +94,13 @@ pushd %{py3dir}
 %{__ospython} setup.py install --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/__pycache__/flask* %{buildroot}%{python3_sitelib}/flask_login.py %{buildroot}%{python3_sitelib}/Flask_Login-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_login/ %{buildroot}%{python3_sitelib}/Flask_Login-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 popd
 %else
 %{__ospython} setup.py install --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/flask_login.py* %{buildroot}%{python2_sitelib}/Flask_Login-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_login/ %{buildroot}%{python2_sitelib}/Flask_Login-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
@@ -112,7 +112,6 @@ popd
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/Flask_Login*.egg-info
-%{pgadmin4py3instdir}/__pycache__/flask_login*
 %{pgadmin4py3instdir}/flask_login*
 %else
 %{pgadmin4py2instdir}/Flask_Login*.egg-info
@@ -120,6 +119,10 @@ popd
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 0.4.1-1
+- Update to 0.4.1
+- Add RHEL 8 support
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.2-3.1
 - Rebuild against PostgreSQL 11.0
 
