@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f28
+DIST=.f30
 SPECFILE="pgadmin4-python-simplejson.spec"
 
 # Now, include global Makefile
