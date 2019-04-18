@@ -33,8 +33,8 @@ Name:		pgadmin4-python3-%{sname}
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	1.11.0
-Release:	3%{?dist}.1
+Version:	1.12.0
+Release:	3%{?dist}
 Summary:	Python 2 and 3 compatibility utilities
 
 License:	MIT
@@ -97,6 +97,9 @@ Python 2 and Python 3.
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-1
+- Update to 1.12.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-3.1
 - Rebuild against PostgreSQL 11.0
 
