@@ -25,15 +25,14 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.1.3
-Release:	1%{?dist}.1
+Version:	0.1.4
+Release:	1%{?dist}
 Summary:	SSH tunnels to remote server.
 
 Group:		Development/Libraries
 License:	MIT
 URL:		https://github.com/pahaz/%{sname}
-Source0:	https://github.com/pahaz/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-versionfix.patch
+Source0:	https://files.pythonhosted.org/packages/bf/8d/385c7e7c90e17934b3102ad2902e224c27a7173a6a57ef4805dcef8043b1/sshtunnel-%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
@@ -52,7 +51,6 @@ Pure python SSH tunnels.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 %{__sed} -i 's/\r//' LICENSE
 
 %if 0%{?with_python3}
@@ -104,6 +102,10 @@ popd
 %endif
 
 %changelog
+* Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-1
+- Update to 0.1.4
+- Remove patch0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.3-1.1
 - Rebuild against PostgreSQL 11.0
 
