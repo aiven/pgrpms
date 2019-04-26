@@ -291,7 +291,7 @@ find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
 
-cd %{buildroot}%{pgadmin4instdir/-web
+cd %{buildroot}%{pgadmin4instdir}/web
 %{__rm} -f %{name}.db
 echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 # Disable upgrade check in the packages:
