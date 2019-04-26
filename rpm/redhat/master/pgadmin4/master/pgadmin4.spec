@@ -291,7 +291,7 @@ find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 %endif
 
-cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
+cd %{buildroot}%{pgadmin4instdir/-web
 %{__rm} -f %{name}.db
 echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 # Disable upgrade check in the packages:
@@ -357,12 +357,10 @@ fi
 
 %files -n %{name}-web
 %defattr(-,root,root,-)
-%dir %{PYTHON_SITELIB}/%{name}-web/
 %dir %{pgadmin4instdir}/web
 %dir %{pgadmin4instdir}/venv
 %{pgadmin4instdir}/web/*
 %{pgadmin4instdir}/venv/*
-%{PYTHON_SITELIB}/%{name}-web/*
 %attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 %if %{systemd_enabled}
