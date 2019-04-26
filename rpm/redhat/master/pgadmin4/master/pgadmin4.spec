@@ -65,7 +65,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
 
-BuildRequires:	gcc-c++ yarn patchelf
+BuildRequires:	gcc-c++ yarn patchelf chrpath
 
 Requires:	%{name}-web
 
