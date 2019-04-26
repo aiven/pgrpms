@@ -256,37 +256,36 @@ find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/web
 %{__cp} -pR web/* %{buildroot}%{pgadmin4instdir}/web/
 
-
 # Install Apache sample config file
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
 # Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
-%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
 
 # Install desktop file, and its icon
-%{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{name}-web/pgadmin/static/img/
-%{__install} -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{name}-web/pgadmin/static/img/
+%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/web/pgadmin/static/img/
+%{__install} -m 755 runtime/pgAdmin4.ico %{buildroot}%{pgadmin4instdir}/web/pgadmin/static/img/
 %{__install} -d %{buildroot}%{_datadir}/applications/
-%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
 
 # Install QT conf file.
 # Directories are different on RHEL 7 and Fedora 24+.
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
 # Fedora 24+
 %{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
-%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
+%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' <%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
 %else
 # CentOS 7
 %{__install} -d "%{buildroot}%{_sysconfdir}/pgadmin/"
-%{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/%{name}.conf"
+%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' <%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/%{name}.conf"
 %endif
 
 %if %{systemd_enabled}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} > "%{buildroot}%{_unitdir}/%{name}.service"
+%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} > "%{buildroot}%{_unitdir}/%{name}.service"
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
@@ -360,7 +359,9 @@ fi
 %defattr(-,root,root,-)
 %dir %{PYTHON_SITELIB}/%{name}-web/
 %dir %{pgadmin4instdir}/web
+%dir %{pgadmin4instdir}/venv
 %{pgadmin4instdir}/web/*
+%{pgadmin4instdir}/venv/*
 %{PYTHON_SITELIB}/%{name}-web/*
 %attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample

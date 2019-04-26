@@ -14,7 +14,7 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStart=OSPYTHON PYTHONSITELIB/pgadmin4-web/pgAdmin4.py
+ExecStart=OSPYTHON PGADMIN4INSTDIR/web/pgAdmin4.py
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT

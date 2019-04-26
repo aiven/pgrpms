@@ -5,7 +5,7 @@
 #
 
 # Run setup script first:
-PYTHONDIR PYTHONSITELIB/pgadmin4-web/setup.py
+PYTHONDIR PGADMIN4INSTDIR/web/setup.py
 
 if [ $? != 0 ]
 then
