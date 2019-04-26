@@ -299,12 +299,11 @@ echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
 
 # Manually invoke the python byte compile macro for each path that needs byte
-# compilation. All platforms except RHEL 6:
-%if 0%{?rhel} <= 6
-/bin/true
+# compilation. It works on all platforms except RHEL 6:
+%if 0%{?with_python3}
+%py3_byte_compile %{__ospython } %{buildroot}
 %else
-find %{buildroot} -iname -type f -a "*.py" -exec -print0 | xargs -0 %{__ospython} -O -m py_compile
-find %{buildroot} -iname -type f -a "*.py" -exec -print0 | xargs -0 %{__ospython}  -m py_compile
+%py2_byte_compile %{__ospython } %{buildroot}
 %endif
 
 %clean
