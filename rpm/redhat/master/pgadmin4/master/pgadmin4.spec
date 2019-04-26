@@ -1,3 +1,6 @@
+# Turn off the brp-python-bytecompile automagic
+%global _python_bytecompile_extra 0
+
 %global debug_package %{nil}
 %global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
@@ -16,7 +19,9 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global PYTHON_SITELIB %{python3_sitelib}
 %global PYTHON_SITELIB64 %{python3_sitelib64}
+%global QMAKE  /usr/bin/qmake-qt5
 %endif
+
 %if 0%{?rhel} == 6
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3.4
@@ -25,6 +30,7 @@
 %global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global PYTHON_SITELIB %{python2_sitelib}
 %global PYTHON_SITELIB64 %{python2_sitelib64}
+%global QMAKE  /usr/bin/qmake-qt5
 %endif
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
@@ -34,6 +40,7 @@
 %global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global PYTHON_SITELIB %{python2_sitelib}
 %global PYTHON_SITELIB64 %{python2_sitelib64}
+%global QMAKE  /usr/bin/qmake-qt4
 %endif
 
 Name:		pgadmin4
@@ -58,54 +65,9 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
 
-BuildRequires:	gcc-c++
+BuildRequires:	gcc-c++ yarn patchelf
 
 Requires:	%{name}-web
-
-%if 0%{?fedora} || 0%{?rhel} == 8
-BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-dateutil %{name}-python3-simplejson >= 3.13.2
-BuildRequires:	%{name}-python3-Flask-Mail %{name}-python3-flask-gravatar
-BuildRequires:	%{name}-python3-flask-babel %{name}-python3-flask-htmlmin
-BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal
-BuildRequires:	%{name}-python3-flask-wtf %{name}-python3-flask >= 0.12.4
-BuildRequires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-login >= 0.3.2
-BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.5 %{name}-python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
-BuildRequires:	python3-itsdangerous python3-blinker python3-flask-sqlalchemy
-BuildRequires:	python3-sphinx
-%global QMAKE	/usr/bin/qmake-qt5
-%endif
-
-%if 0%{?rhel} == 6
-BuildRequires:	qt5-qtbase-devel >= 5.1
-BuildRequires:	%{name}-python3-dateutil %{name}-python3-simplejson >= 3.13.2
-BuildRequires:	%{name}-python3-Flask-Mail %{name}-python3-flask-gravatar
-BuildRequires:	%{name}-python3-flask-babel %{name}-python3-flask-htmlmin
-BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal
-BuildRequires:	%{name}-python3-flask-wtf %{name}-python3-flask >= 0.12.4
-BuildRequires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-login >= 0.3.2
-BuildRequires:	%{name}-python3-itsdangerous %{name}-python3-blinker %{name}-python3-flask-babelex
-BuildRequires:	%{name}-python3-flask-sqlalchemy
-BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-sqlalchemy >= 1.2.5
-BuildRequires:	python34-devel python34-sqlalchemy python-sphinx10
-%global QMAKE	/usr/bin/qmake-qt5
-%endif
-
-%if 0%{?rhel} == 7
-BuildRequires:	%{name}-python-flask >= 0.12.4 %{name}-python-flask-babel
-BuildRequires:	%{name}-python-itsdangerous >= 0.24 %{name}-python-flask-htmlmin
-BuildRequires:	%{name}-python-flask-security >= 3.0.0 %{name}-python-flask-principal
-BuildRequires:	%{name}-python-flask-login >= 0.3.2 %{name}-python-simplejson >= 3.13.2
-BuildRequires:	%{name}-python-blinker %{name}-python-flask-wtf %{name}-python-flask-babelex
-BuildRequires:	%{name}-python-flask-sqlalchemy %{name}-python-Flask-Mail
-BuildRequires:	%{name}-python-dateutil %{name}-python-flask-gravatar
-BuildRequires:	%{name}-python-flask-paranoid >= 0.1
-BuildRequires:	%{name}-python-passlib >= 1.7.1 %{name}-python-sqlalchemy >= 1.2.5
-BuildRequires:	%{name}-python-wtforms
-BuildRequires:	python-devel python-sphinx
-BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
-%global QMAKE	/usr/bin/qmake-qt4
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -117,6 +79,13 @@ Requires:  libqt4 >= 4.6
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
+%endif
+
+# VirtualEnv BR
+%if 0%{?with_python3}
+BuildRequires:	python3-virtualenvwrapper python3-virtualenv python3-pip
+%else
+BuildRequires:	python-virtualenvwrapper python-virtualenv python-pip
 %endif
 
 %description
@@ -139,76 +108,8 @@ application.
 Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 Requires:	httpd
-BuildArch:	noarch
 
 Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
-
-%if 0%{?fedora} || 0%{?rhel} == 8
-Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask >= 0.12.4
-Requires:	%{name}-python3-flask-wtf >= 0.12 %{name}-python3-sqlalchemy >= 1.2.5
-Requires:	%{name}-python3-wtforms >= 2.0.2
-Requires:	%{name}-python3-simplejson >= 3.13.2 %{name}-python3-dateutil >= 2.7.2
-Requires:	%{name}-python3-sqlparse >= 0.2.4 %{name}-python3-flask-gravatar >= 0.5.0
-Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
-Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 3.0.0
-Requires:	%{name}-python3-flask-login >= 0.3.2 %{name}-python3-flask-paranoid >= 0.1
-Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.3 python3-click
-Requires:	%{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-sshtunnel >= 0.1.3 %{name}-python3-flask-babelex pgadmin4-python3-psutil
-Requires:	python3-flask-sqlalchemy >= 2.1 python3-babel >= 2.3.4
-Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
-Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	python3-blinker >= 1.3 python3-itsdangerous >= 0.24
-Requires:	python3-psycopg2 >= 2.7.4
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
-Requires:	python3-speaklater >= 1.3
-Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
-%endif
-
-%if 0%{?rhel} == 6
-Requires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-crypto >= 2.6.1 %{name}-python3-speaklater >= 1.3
-Requires:	%{name}-python3-babel >= 2.3.4 %{name}-python3-flask >= 0.12.4
-Requires:	%{name}-python3-flask-htmlmin >= 1.2 %{name}-python3-flask-sqlalchemy >= 2.1
-Requires:	%{name}-python3-flask-wtf >= 0.12 %{name}-python3-wtforms >= 2.0.2
-Requires:	%{name}-python3-beautifulsoup4 >= 4.4.1 %{name}-python3-blinker >= 1.3
-Requires:	%{name}-python3-itsdangerous >= 0.24
-Requires:	%{name}-python3-simplejson >= 3.13.2 %{name}-python3-dateutil >= 2.7.2
-Requires:	%{name}-python3-werkzeug >= 0.9.6 %{name}-python3-sqlparse >= 0.2.4
-Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
-Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-Flask-Mail >= 0.9.1
-Requires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-login >= 0.3.2
-Requires:	%{name}-python3-flask-paranoid >= 0.1 %{name}-python3-flask-principal >= 0.4.0
-Requires:	%{name}-python3-flask-migrate >= 2.1.1
-Requires:	%{name}-python3-sqlalchemy >= 1.2.5
-Requires:	%{name}-pytz >= 2018.3 %{name}-python3-click
-Requires:	python34 >= 3.4 python-importlib >= 1.0.3 python-unittest2
-Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
-Requires:	python-psycopg2 >= 2.7.4 python34-six >= 1.9.0
-Requires:	mod_wsgi python-unittest2
-%endif
-
-%if 0%{?rhel} == 7
-Requires:	%{name}-python-babel >= 2.3.4 %{name}-python-flask >= 0.12.4
-Requires:	%{name}-python-flask-htmlmin >= 1.2 %{name}-python-flask-sqlalchemy >= 2.1
-Requires:	%{name}-python-flask-wtf >= 0.12 %{name}-python-jinja2 >= 2.7.3
-Requires:	%{name}-python-markupsafe >= 0.23 %{name}-python-sqlalchemy >= 1.2.5
-Requires:	%{name}-python-wtforms >= 2.0.2 %{name}-python-beautifulsoup4 >= 4.4.1
-Requires:	%{name}-python-blinker >= 1.3 %{name}-python-flask-paranoid >= 0.1
-Requires:	%{name}-python-itsdangerous >= 0.24 %{name}-python-simplejson >= 3.13.2
-Requires:	%{name}-python-werkzeug >= 0.9.6 %{name}-python-backports.csv >= 1.0.5
-Requires:	%{name}-pytz >= 2018.3 %{name}-python-sqlparse >= 0.2.4
-Requires:	%{name}-python-flask-babel >= 0.11.1 %{name}-python-flask-gravatar >= 0.5.0
-Requires:	%{name}-python-Flask-Mail >= 0.9.1 %{name}-python-flask-security >= 3.0.0
-Requires:	%{name}-python-flask-login >= 0.3.2 %{name}-python-flask-principal >= 0.4.0
-Requires:	%{name}-python-dateutil >= 2.7.2
-Requires:	%{name}-python-flask-babelex
-Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.1.1
-Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.3
-Requires:	python >= 2.7 pgadmin4-python-six >= 1.12.0 python-psycopg2 >= 2.7.4
-Requires:	python-speaklater >= 1.3 python-click
-Requires:	python-crypto >= 2.6.1 mod_wsgi pgadmin4-python2-psutil
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -283,6 +184,30 @@ GNOME Desktop components of pgAdmin4.
 %endif
 
 %build
+mkdir -p linux-build/venv/lib
+
+pushd linux-build
+cp -rp %{_libdir}/libpython%{pyver}*.so* venv/lib/
+%{_bindir}/virtualenv -p %{__ospython} venv
+source $PWD/venv/bin/activate
+popd
+%if 0%{?rhel} == 6
+prelink -u linux-build/venv/bin/python3.4
+prelink -u linux-build/venv/lib/*.so*
+%endif
+export PATH=%{pginstdir}/bin/:$PATH
+
+pip%{pyver} --cache-dir "~/.cache/pip%{pyver}-pgadmin" install -r requirements.txt
+
+PYSITEPACKAGES="$PWD/linux-build/venv/lib/python%{pyver}/site-packages"
+LDFLAGS="-Wl,--rpath,$PYSITEPACKAGES/psycopg2/.libs"
+
+pip%{pyver} install -v --no-cache-dir --no-binary :all: psycopg2
+
+rsync -zrva --exclude site-packages --exclude lib2to3 --include="*.py" --include="*/" --exclude="*" %{_libdir}/python%{pyver}/* $PWD/linux-build/venv/lib/python%{pyver}/
+
+cp -rf %{_libdir}/python%{pyver}/lib-dynload/* linux-build/venv/lib/python%{pyver}/lib-dynload/
+
 cd runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
@@ -291,31 +216,46 @@ export PYTHONPATH=%{python3_sitelib}/%{name}-web/:$PYTHONPATH
 export PYTHON_CONFIG=/usr/bin/python-config
 export PYTHONPATH=%{python2_sitelib}/%{name}-web/:$PYTHONPATH
 %endif
+PGADMIN_LDFLAGS="-Wl,--rpath,%{buildroot}%{pgadmin4instdir}/venv/lib"; export PGADMIN_LDFLAGS
 %{QMAKE} -o Makefile pgAdmin4.pro
-make
+%{__make}
 cd ../
+
+# Build JS libraries
+%{__make} install-node
+%{__make} bundle
 
 # Build docs
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
-make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
+%{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
 %endif
 %if 0%{?rhel} == 6
-make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
+%{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
 %endif
 %if 0%{?rhel} == 7
-make PYTHON=/usr/bin/python docs
+%{__make} PYTHON=/usr/bin/python docs
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-%{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
-%{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
 
-%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
-%{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
+%{__rm} -rf %{buildroot}
+%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/doc/en_US/html
+%{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{pgadmin4instdir}/doc/en_US/html/
 
-%{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{name}-web
-%{__cp} -pR web/* %{buildroot}%{PYTHON_SITELIB}/%{name}-web
+%{__install} -d %{buildroot}%{pgadmin4instdir}/bin
+%{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/bin
+chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/bin/pgAdmin4
+
+%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/venv
+%{__cp} -pR linux-build/venv/* %{buildroot}%{pgadmin4instdir}/venv
+patchelf --set-rpath '${ORIGIN}/../lib' %{buildroot}%{pgadmin4instdir}/venv/bin/python%{pyver}
+
+find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod -x {}
+
+%{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/web
+%{__cp} -pR web/* %{buildroot}%{pgadmin4instdir}/web/
+
 
 # Install Apache sample config file
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
@@ -346,7 +286,7 @@ make PYTHON=/usr/bin/python docs
 %if %{systemd_enabled}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} >  "%{buildroot}%{_unitdir}/%{name}.service"
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} > "%{buildroot}%{_unitdir}/%{name}.service"
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
@@ -357,6 +297,16 @@ cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
 echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 # Disable upgrade check in the packages:
 echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
+
+
+# Manually invoke the python byte compile macro for each path that needs byte
+# compilation. All platforms except RHEL 6:
+%if 0%{?rhel} <= 6
+/bin/true
+%else
+find %{buildroot} -iname -type f -a "*.py" -exec -print0 | xargs -0 %{__ospython} -O -m py_compile \
+find %{buildroot} -iname -type f -a "*.py" -exec -print0 | xargs -0 %{__ospython}  -m py_compile \
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -388,6 +338,9 @@ fi
 	gnome-shell-extension-tool -e topicons-plus >/dev/null 2>&1 || :
 %endif
 
+%post -n %{name}-web
+find %{pgadmin4instdir}/venv/* -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod +x {}
+
 %postun
 # Remove symlink only during uninstall
 if [ $1 -gt 0 ] ; then
@@ -406,6 +359,8 @@ fi
 %files -n %{name}-web
 %defattr(-,root,root,-)
 %dir %{PYTHON_SITELIB}/%{name}-web/
+%dir %{pgadmin4instdir}/web
+%{pgadmin4instdir}/web/*
 %{PYTHON_SITELIB}/%{name}-web/*
 %attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
@@ -416,11 +371,11 @@ fi
 
 %files -n %{name}-docs
 %defattr(-,root,root,-)
-%doc	%{_docdir}/%{name}-docs/*
+%doc	%{pgadmin4instdir}/doc/en_US/html/
 
 %files -n %{name}-desktop-common
 %defattr(-,root,root,-)
-%{pgadmin4instdir}/runtime/pgAdmin4
+%{pgadmin4instdir}/bin/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
 %{_sysconfdir}/xdg/pgadmin/%{name}.conf
@@ -434,6 +389,8 @@ fi
 %changelog
 * Thu Apr 18 2019 - Devrim Gündüz <devrim@gunduz.org> 4.5-1
 - Update to 4.5
+- Use virtualenv for the dependencies, the package will be easier
+  to maintain.
 
 * Fri Mar 8 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3-1
 - Update to 4.3
