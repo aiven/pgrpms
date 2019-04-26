@@ -7,7 +7,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.2
+Version:	1.7.1
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -73,12 +73,15 @@ performance issues.
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
   %endif
  %endif
 %endif
 
 %changelog
+* Fri Apr 26 2019 Devrim Gündüz <devrim@gunduz.org> 1.7.1-1
+- Update to 1.7.1
+
 * Tue Jan 1 2019 Devrim Gündüz <devrim@gunduz.org> 1.4.2-1
 - Update to 1.4.2
 
