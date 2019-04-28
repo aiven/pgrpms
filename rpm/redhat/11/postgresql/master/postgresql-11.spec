@@ -44,7 +44,7 @@
 %endif
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1499
 # Disable PL/Python 3 on SLES 12
 %{!?plpython3:%global plpython3 0}
 %endif
@@ -157,7 +157,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm5-devel clang5-devel
+BuildRequires:	llvm5-devel clang5-devel gcc-c++
 %endif
 %endif
 
@@ -715,6 +715,7 @@ export PYTHON=/usr/bin/python2
 	--includedir=%{pgbaseinstdir}/include \
 	--mandir=%{pgbaseinstdir}/share/man \
 	--datadir=%{pgbaseinstdir}/share \
+	--libdir=%{pgbaseinstdir}/lib \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
