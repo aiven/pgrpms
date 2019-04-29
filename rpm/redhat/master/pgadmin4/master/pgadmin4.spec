@@ -4,7 +4,7 @@
 %global debug_package %{nil}
 %global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
-
+%global __ospython %{pgadmin4instdir}/venv/bin/python3
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
 %else
@@ -12,40 +12,24 @@
 %endif
 
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%global PYTHON_SITELIB %{python3_sitelib}
-%global PYTHON_SITELIB64 %{python3_sitelib64}
 %global QMAKE  /usr/bin/qmake-qt5
+BuildRequires:	python3-virtualenvwrapper python3-virtualenv python3-pip
+BuildRequires:	python3-sphinx
 %endif
 
 %if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3.4
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%global PYTHON_SITELIB %{python2_sitelib}
-%global PYTHON_SITELIB64 %{python2_sitelib64}
 %global QMAKE  /usr/bin/qmake-qt5
 %endif
+
 %if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%global PYTHON_SITELIB %{python2_sitelib}
-%global PYTHON_SITELIB64 %{python2_sitelib64}
+BuildRequires:	python-virtualenvwrapper python36-virtualenv python36-pip
+BuildRequires:	python36-sphinx
 %global QMAKE  /usr/bin/qmake-qt4
 %endif
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -79,13 +63,6 @@ Requires:  libqt4 >= 4.6
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%endif
-
-# VirtualEnv BR
-%if 0%{?with_python3}
-BuildRequires:	python3-virtualenvwrapper python3-virtualenv python3-pip
-%else
-BuildRequires:	python-virtualenvwrapper python-virtualenv python-pip
 %endif
 
 %description
@@ -184,38 +161,26 @@ GNOME Desktop components of pgAdmin4.
 %endif
 
 %build
-mkdir -p linux-build/venv/lib
 
-pushd linux-build
-cp -rp %{_libdir}/libpython%{pyver}*.so* venv/lib/
-%{_bindir}/virtualenv -p %{__ospython} venv
+%{_bindir}/virtualenv -p %{_bindir}/python3 venv
 source $PWD/venv/bin/activate
-popd
-%if 0%{?rhel} == 6
-prelink -u linux-build/venv/bin/python3.4
-prelink -u linux-build/venv/lib/*.so*
-%endif
+#%if 0%{?rhel} == 6
+#prelink -u linux-build/venv/bin/python3.4
+#prelink -u linux-build/venv/lib/*.so*
+#%endif
 export PATH=%{pginstdir}/bin/:$PATH
 
-pip%{pyver} --cache-dir "~/.cache/pip%{pyver}-pgadmin" install -r requirements.txt
+pip3 --cache-dir "~/.cache/pip3-pgadmin" install -r requirements.txt
 
-PYSITEPACKAGES="$PWD/linux-build/venv/lib/python%{pyver}/site-packages"
+PYSITEPACKAGES="$PWD/venv/lib/python3/site-packages"
 LDFLAGS="-Wl,--rpath,$PYSITEPACKAGES/psycopg2/.libs"
 
-pip%{pyver} install -v --no-cache-dir --no-binary :all: psycopg2
-
-rsync -zrva --exclude site-packages --exclude lib2to3 --include="*.py" --include="*/" --exclude="*" %{_libdir}/python%{pyver}/* $PWD/linux-build/venv/lib/python%{pyver}/
-
-cp -rf %{_libdir}/python%{pyver}/lib-dynload/* linux-build/venv/lib/python%{pyver}/lib-dynload/
+pip3 install -v --no-cache-dir --no-binary :all: psycopg2
 
 cd runtime
-%if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
-export PYTHONPATH=%{python3_sitelib}/%{name}-web/:$PYTHONPATH
-%else
-export PYTHON_CONFIG=/usr/bin/python-config
-export PYTHONPATH=%{python2_sitelib}/%{name}-web/:$PYTHONPATH
-%endif
+#export PYTHON_CONFIG=$PWD/../venv/bin/python3
+export PYTHONPATH=$PWD/../venv/lib/python3.7/site-packages/:$PYTHONPATH
 PGADMIN_LDFLAGS="-Wl,--rpath,%{buildroot}%{pgadmin4instdir}/venv/lib"; export PGADMIN_LDFLAGS
 %{QMAKE} -o Makefile pgAdmin4.pro
 %{__make}
@@ -226,14 +191,11 @@ cd ../
 %{__make} bundle
 
 # Build docs
-%if 0%{?fedora} > 25 || 0%{?rhel} == 8
+%if 0%{?fedora} > 25 || 0%{?rhel} >= 7
 %{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
 %endif
 %if 0%{?rhel} == 6
 %{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
-%endif
-%if 0%{?rhel} == 7
-%{__make} PYTHON=/usr/bin/python docs
 %endif
 
 %install
@@ -248,8 +210,8 @@ cd ../
 chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/bin/pgAdmin4
 
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/venv
-%{__cp} -pR linux-build/venv/* %{buildroot}%{pgadmin4instdir}/venv
-patchelf --set-rpath '${ORIGIN}/../lib' %{buildroot}%{pgadmin4instdir}/venv/bin/python%{pyver}
+%{__cp} -pR venv/* %{buildroot}%{pgadmin4instdir}/venv
+patchelf --set-rpath '${ORIGIN}/../lib' %{buildroot}%{pgadmin4instdir}/venv/bin/python3
 
 find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod -x {}
 
@@ -297,6 +259,8 @@ echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 # Disable upgrade check in the packages:
 echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
+# Fix shebangs in the scripts
+find %{buildroot} -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/pgadmin4\/venv\/bin\/python3/g" {} \;
 
 # Manually invoke the python byte compile macro for each path that needs byte
 # compilation. All platforms except RHEL 6:
@@ -385,6 +349,13 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Apr 29 2019 - Devrim Gündüz <devrim@gunduz.org> 4.5-2
+- More virtualenv updates. Use Python 3 on RHEL as well while
+  building the package. Users won't be affected, they will use
+  the Python supplied by the package. Per Dave Page.
+- Fix shehangs in the scripts, and let them point to the Python
+  supplied in venv.
+
 * Thu Apr 18 2019 - Devrim Gündüz <devrim@gunduz.org> 4.5-1
 - Update to 4.5
 - Use virtualenv for the dependencies, the package will be easier
