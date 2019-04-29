@@ -11,10 +11,11 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %endif
 
-%if 0%{?fedora} > 25 || 0%{?rhel} == 8
+%if 0%{?fedora} > 28 || 0%{?rhel} == 8
 %global QMAKE  /usr/bin/qmake-qt5
 BuildRequires:	python3-virtualenvwrapper python3-virtualenv python3-pip
 BuildRequires:	python3-sphinx
+%global pyver 3.7
 %endif
 
 %if 0%{?rhel} == 6
@@ -24,6 +25,7 @@ BuildRequires:	python3-sphinx
 %if 0%{?rhel} == 7
 BuildRequires:	python-virtualenvwrapper python36-virtualenv python36-pip
 BuildRequires:	python36-sphinx
+%global pyver 3.6
 %global QMAKE  /usr/bin/qmake-qt4
 %endif
 
@@ -179,8 +181,7 @@ pip3 install -v --no-cache-dir --no-binary :all: psycopg2
 
 cd runtime
 export PYTHON_CONFIG=/usr/bin/python3-config
-#export PYTHON_CONFIG=$PWD/../venv/bin/python3
-export PYTHONPATH=$PWD/../venv/lib/python3.7/site-packages/:$PYTHONPATH
+export PYTHONPATH=$PWD/../venv/lib/python%{pyver}/site-packages/:$PYTHONPATH
 PGADMIN_LDFLAGS="-Wl,--rpath,%{buildroot}%{pgadmin4instdir}/venv/lib"; export PGADMIN_LDFLAGS
 %{QMAKE} -o Makefile pgAdmin4.pro
 %{__make}
@@ -191,8 +192,11 @@ cd ../
 %{__make} bundle
 
 # Build docs
-%if 0%{?fedora} > 25 || 0%{?rhel} >= 7
+%if 0%{?fedora} > 25
 %{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
+%endif
+%if 0%{?rhel} == 7
+%{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3.6 docs
 %endif
 %if 0%{?rhel} == 6
 %{__make} PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
@@ -260,14 +264,14 @@ echo "HELP_PATH = '/usr/share/doc/%{name}-docs/en_US/html'" > config_distro.py
 echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
 # Fix shebangs in the scripts
-find %{buildroot} -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/pgadmin4\/venv\/bin\/python3/g" {} \;
+#find %{buildroot} -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/pgadmin4\/venv\/bin\/python3/g" {} \;
 
 # Manually invoke the python byte compile macro for each path that needs byte
 # compilation. All platforms except RHEL 6:
 %if 0%{?rhel} <= 6
 /bin/true
 %else
-%py_byte_compile %{__ospython} %{buildroot}
+%py_byte_compile %{_bindir}/python3 %{buildroot}
 %endif
 
 %clean
