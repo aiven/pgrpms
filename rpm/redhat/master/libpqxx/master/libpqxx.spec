@@ -17,7 +17,7 @@ Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
-BuildRequires:	pkgconfig doxygen
+BuildRequires:	pkgconfig doxygen xmlto
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
