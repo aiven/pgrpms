@@ -81,15 +81,13 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 
 %files
 %defattr(-,root,root,-)
-%doc README.md ChangeLog
-%{_libdir}/%{name}-5.0.so
+%doc README.md
+%{_libdir}/%{name}*.so
 
 %files devel
 %defattr(-,root,root,-)
 %doc README-UPGRADE
-%{_bindir}/pqxx-config
 %{_includedir}/pqxx/
-%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
