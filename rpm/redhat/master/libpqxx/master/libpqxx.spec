@@ -6,20 +6,17 @@
 
 Name:		libpqxx
 Epoch:		1
-Version:	5.0.1
-Release:	2%{?dist}.1
+Version:	6.4.4
+Release:	1%{?dist}
 Summary:	C++ client API for PostgreSQL
 
 Group:		System Environment/Libraries
 License:	BSD
 URL:		https://github.com/jtv/%{name}
-Source0:	https://github.com/jtv/%{name}/archive/5.0.1.tar.gz
+Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Patch0:		%{name}-configure.patch
-Patch3:		%{name}-2.6.8-multilib.patch
-
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
 BuildRequires:	pkgconfig doxygen
 
 %ifarch ppc64 ppc64le
@@ -51,9 +48,6 @@ Requires:	postgresql%{pgmajorversion}-devel
 
 # fix spurious permissions
 %{__chmod} -x COPYING
-
-%patch0 -p0
-%patch3 -p1 -b .multilib
 
 %build
 %ifarch ppc64 ppc64le
