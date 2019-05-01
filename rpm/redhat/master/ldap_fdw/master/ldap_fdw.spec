@@ -13,7 +13,7 @@ Release:	1%{?dist}.1
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-makefile-pgxs.patch
+Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/ldap_fdw/
 BuildRequires:	postgresql%{pgmajorversion}-devel, curl-devel
 Requires:	postgresql%{pgmajorversion}-server
