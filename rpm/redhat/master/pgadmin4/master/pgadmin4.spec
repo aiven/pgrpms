@@ -211,8 +211,8 @@ find web/node_modules -type f -name '*.py' -exec rm {} +
 %{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{pgadmin4instdir}/doc/en_US/html/
 
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
-%{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/bin
-chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/bin/pgAdmin4
+%{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
+chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/runtime/pgAdmin4
 
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/venv
 %{__cp} -pR venv/* %{buildroot}%{pgadmin4instdir}/venv
@@ -342,7 +342,7 @@ fi
 
 %files -n %{name}-desktop-common
 %defattr(-,root,root,-)
-%{pgadmin4instdir}/bin/pgAdmin4
+%{pgadmin4instdir}/runtime/pgAdmin4
 %{_datadir}/applications/%{name}.desktop
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
 %{_sysconfdir}/xdg/pgadmin/%{name}.conf
