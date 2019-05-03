@@ -30,8 +30,8 @@ BuildRequires:	python36-sphinx
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.5
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.6
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -190,6 +190,7 @@ cd ../
 # Build JS libraries
 %{__make} install-node
 %{__make} bundle
+find web/node_modules -type f -name '*.py' -exec rm {} +
 
 # Build docs
 %if 0%{?fedora} > 25
@@ -353,6 +354,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri May 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-1
+- Update to 4.6
+- Remove unnecessary python files, per Dave.
+
 * Mon Apr 29 2019 - Devrim Gündüz <devrim@gunduz.org> 4.5-2
 - More virtualenv updates. Use Python 3 on RHEL as well while
   building the package. Users won't be affected, they will use
