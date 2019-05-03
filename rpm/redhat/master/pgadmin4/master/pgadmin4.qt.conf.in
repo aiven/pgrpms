@@ -1,3 +1,3 @@
-ApplicationPath="PDADMIN4INSTDIR/web/"
-PythonPath="PGADMIN4INSTDIR/venv"
+ApplicationPath="PGADMIN4INSTDIR/web/"
+PythonPath="PGADMIN4INSTDIR/venv/bin/"
 
