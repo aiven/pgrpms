@@ -210,7 +210,7 @@ find web/node_modules -type f -name '*.py' -exec rm {} +
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/doc/en_US/html
 %{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{pgadmin4instdir}/doc/en_US/html/
 
-%{__install} -d %{buildroot}%{pgadmin4instdir}/bin
+%{__install} -d %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
 chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/runtime/pgAdmin4
 
