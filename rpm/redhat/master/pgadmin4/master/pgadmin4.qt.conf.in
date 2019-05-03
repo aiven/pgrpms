@@ -1,2 +1,2 @@
 ApplicationPath="PGADMIN4INSTDIR/web/"
-PythonPath="PGADMIN4INSTDIR/venv/lib64/python3.7;PGADMIN4INSTDIR/venv/lib/python3.7;PGADMIN4INSTDIR/venv/lib/python3.7/site-packages;PGADMIN4INSTDIR/venv/lib64/python3.7/site-packages"
+PythonPath="PGADMIN4INSTDIR/venv/lib64/pythonPYVER;PGADMIN4INSTDIR/venv/lib/pythonPYVER;PGADMIN4INSTDIR/venv/lib/pythonPYVER/site-packages;PGADMIN4INSTDIR/venv/lib64/pythonPYVER/site-packages"

@@ -5,6 +5,9 @@
 %global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
 %global __ospython %{pgadmin4instdir}/venv/bin/python3
+
+%global __python_requires %{SOURCE9}
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
 %else
@@ -15,7 +18,7 @@
 %global QMAKE  /usr/bin/qmake-qt5
 BuildRequires:	python3-virtualenvwrapper python3-virtualenv python3-pip
 BuildRequires:	python3-sphinx
-%global pyver 3.7
+%global pyver	3.7
 %endif
 
 %if 0%{?rhel} == 6
@@ -43,6 +46,7 @@ Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
+Source9:	%{name}-filter-requires-python.sh
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
@@ -242,7 +246,7 @@ find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF
 %if 0%{?fedora} > 25 || 0%{?rhel} == 8
 # Fedora 24+
 %{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
-%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' <%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
+%{__sed} -e 's@PGADMIN4INSTDIR@%{pgadmin4instdir}@g' -e 's@PYVER@%{pyver}@g' <%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
 %else
 # CentOS 7
 %{__install} -d "%{buildroot}%{_sysconfdir}/pgadmin/"
