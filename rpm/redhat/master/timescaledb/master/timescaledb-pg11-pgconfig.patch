@@ -1,6 +1,6 @@
---- CMakeLists.txt.old	2018-02-06 20:47:37.894178361 +0000
-+++ CMakeLists.txt	2018-02-06 20:47:49.192250521 +0000
-@@ -61,7 +61,7 @@
+--- CMakeLists.txt.old	2019-05-06 21:22:47.654356261 +0100
++++ CMakeLists.txt	2019-05-06 21:22:59.503428759 +0100
+@@ -128,7 +128,7 @@
      "The path to a PostgreSQL installation")
  endif (UNIX)
  
