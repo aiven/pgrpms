@@ -85,8 +85,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.7
-Release:	2PGDG%{?dist}
+Version:	10.8
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1438,10 +1438,15 @@ fi
 %endif
 
 %changelog
+* Mon May 6 2019 Devrim Gündüz <devrim@gunduz.org> - 10.8-1PGDG
+- Update to 10.8, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-8.html
+
 * Sun Feb 24 2019 Devrim Gündüz <devrim@gunduz.org> - 10.7-2PGDG
 - Disable jit on s390. Patch from Mark Wong.
 - Fix PL/Python3 builds.
 
+* Tue Feb 12 2019 Devrim Gündüz <devrim@gunduz.org> - 10.7-1PGDG
 - Update to 10.7, per changes described at
   https://www.postgresql.org/docs/devel/static/release-10-7.html
 
