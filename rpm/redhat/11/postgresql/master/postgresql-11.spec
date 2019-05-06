@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.2
-Release:	2PGDG%{?dist}
+Version:	11.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1526,6 +1526,10 @@ fi
 %endif
 
 %changelog
+* Mon May 6 2019 Devrim Gündüz <devrim@gunduz.org> - 11.3-1PGDG
+- Update to 11.3, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-11-3.html
+
 * Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 11.2-2PGDG
 - Disable jit on s390. Patch from Mark Wong.
 - Fix PL/Python3 builds.
