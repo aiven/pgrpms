@@ -165,7 +165,7 @@ BuildRequires:	perl-ExtUtils-Embed
 %endif
 
 %if %plpython
-BuildRequires:	python-devel
+BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
