@@ -372,6 +372,8 @@ BuildRequires:	perl-IPC-Run
 %endif
 %endif
 
+Provides:	postgresql-devel
+
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime

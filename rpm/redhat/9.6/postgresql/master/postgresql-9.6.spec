@@ -358,6 +358,8 @@ BuildRequires:	perl-IPC-Run
 %endif
 %endif
 
+Provides:	postgresql-devel
+
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
