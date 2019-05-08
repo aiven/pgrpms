@@ -95,6 +95,13 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 
+%if 0%{?rhel} >= 8
+# RHEL 8 now use Python3
+%{!?plpython3:%global plpython3 1}
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython ltree_plpython
+%endif
+
 %if 0%{?fedora} > 23
 # All Fedora releases now use Python3
 %{!?plpython3:%global plpython3 1}
