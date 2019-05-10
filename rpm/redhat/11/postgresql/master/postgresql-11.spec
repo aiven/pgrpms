@@ -44,7 +44,7 @@
 %endif
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1499
+%if 0%{?suse_version} >= 1315
 # Disable PL/Python 3 on SLES 12
 %{!?plpython3:%global plpython3 0}
 %endif
