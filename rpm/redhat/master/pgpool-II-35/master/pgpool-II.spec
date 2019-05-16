@@ -27,8 +27,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.5.19
-Release:		2%{?dist}
+Version:		3.5.21
+Release:		1%{?dist}
 License:		BSD
 Group:			Applications/Databases
 URL:			http://pgpool.net
@@ -328,6 +328,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu May 16 2019 Devrim Gündüz <devrim@gunduz.org> - 3.5.21-1
+- Update to 3.5.21
+
 * Thu Mar 7 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.5.19-2
 - Fix typo in -extensions package
 
