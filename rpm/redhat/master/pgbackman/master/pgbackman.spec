@@ -32,10 +32,10 @@ elements associated to it.
 %setup -q
 
 %build
-python setup.py build
+python2 setup.py build
 
 %install
-python setup.py install -O1 --skip-build --root %{buildroot}
+python2 setup.py install -O1 --skip-build --root %{buildroot}
 %{__mkdir} -p %{buildroot}/var/lib/%{name}
 touch %{buildroot}/var/log/%{name}/%{name}.log
 
