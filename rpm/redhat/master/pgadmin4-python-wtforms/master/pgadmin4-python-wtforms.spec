@@ -63,12 +63,10 @@ This allows you to maintain separation of code and presentation,
 and keep those messy parameters out of your python code.
 
 %prep
-%setup -q -n %{mod_name}-%{version}
-sed -i "s|\r||g" docs/html/_sources/index.txt
+%setup -q -n wtforms-%{version}
 sed -i "s|\r||g" docs/conf.py
 sed -i "s|\r||g" docs/Makefile
 sed -i "s|\r||g" docs/index.rst
-sed -i "s|\r||g" docs/html/_static/jquery.js
 %{__rm} -f docs/html/.buildinfo
 
 %build
@@ -88,10 +86,10 @@ sed -i "s|\r||g" docs/html/_static/jquery.js
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc docs/ LICENSE.txt PKG-INFO
+%doc docs/ LICENSE.rst
 %else
-%license LICENSE.txt
-%doc docs/ PKG-INFO
+%license LICENSE.rst
+%doc docs/
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{mod_name}*.egg-info
