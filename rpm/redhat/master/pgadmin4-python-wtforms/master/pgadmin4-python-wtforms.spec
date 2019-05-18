@@ -40,7 +40,7 @@ Summary:	Forms validation and rendering library for python
 Group:		Development/Libraries
 License:	BSD
 URL:		http://wtforms.simplecodes.com/
-Source0:	https://pypi.python.org/packages/source/W/%{mod_name}/%{mod_name}-%{version}.zip
+Source0:	https://github.com/wtforms/wtforms/archive/%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -49,7 +49,7 @@ BuildRequires:	python3-devel python3-setuptools
 %endif
 
 %if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
+Obsoletes:	pgadmin4-python-%{sname} < 2.1.0
 BuildRequires:	python34-devel python34-setuptools
 %endif
 
