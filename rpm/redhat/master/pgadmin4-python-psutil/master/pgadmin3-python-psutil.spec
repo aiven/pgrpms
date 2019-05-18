@@ -95,6 +95,7 @@ export PYTHONUSERBASE=%{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
 %if 0%{?with_python3}
+%{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/%{sname} %{buildroot}/%{pgadmin4py3instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/ %{buildroot}/%{pgadmin4py3instdir}/
 %else # Python 2
