@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f26
+DIST=.f42
 SPECFILE="pgadmin4-python-flask-paranoid.spec"
 
 # Now, include global Makefile

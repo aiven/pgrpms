@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f29
+DIST=.f42
 SPECFILE="pgadmin4-python-sshtunnel.spec"
 
 # Now, include global Makefile

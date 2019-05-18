@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f26
+DIST=.f42
 SPECFILE="amcheck.spec"
 
 # Now, include global Makefile

@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f29
+DIST=.f42
 SPECFILE="geos36.spec"
 
 # Now, include global Makefile

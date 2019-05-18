@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f30
+DIST=.f42
 SPECFILE="pgadmin3-python-psutil.spec"
 
 # Now, include global Makefile

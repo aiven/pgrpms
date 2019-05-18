@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f42
 SPECFILE="mysql_fdw.spec"
 
 # Now, include global Makefile

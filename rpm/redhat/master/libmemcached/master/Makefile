@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.f42
 SPECFILE="libmemcached.spec"
 
 # Now, include global Makefile

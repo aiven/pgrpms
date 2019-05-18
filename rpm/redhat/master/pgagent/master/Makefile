@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f25
+DIST=.f42
 SPECFILE="pgagent.spec"
 
 # Now, include global Makefile

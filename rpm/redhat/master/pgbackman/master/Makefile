@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f30
+DIST=.f42
 SPECFILE="pgbackman.spec"
 
 # Now, include global Makefile

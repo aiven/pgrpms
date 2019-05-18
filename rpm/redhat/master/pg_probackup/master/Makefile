@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f42
-SPECFILE="www_fdw.spec"
+SPECFILE="pg_probackup.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global

@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel6
+DIST=.f42
 SPECFILE="pgadmin4-python-speaklater.spec"
 
 # Now, include global Makefile
