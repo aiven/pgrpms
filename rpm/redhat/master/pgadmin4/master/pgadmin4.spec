@@ -5,8 +5,10 @@
 %global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
 %global __ospython %{pgadmin4instdir}/venv/bin/python3
+%global __pgadminpython %{buildroot}%{pgadmin4instdir}/venv/bin/python3
 
-%global __python_requires %{SOURCE9}
+AutoReq:	0
+%global __perl_requires %{SOURCE10}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %{!?systemd_enabled:%global systemd_enabled 0}
@@ -46,14 +48,15 @@ Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
-Source9:	%{name}-filter-requires-python.sh
+Source10:	%{name}-filter-requires-perl.sh
+
 # Adding this patch to be able to build docs on < Fedora 24.
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
+Obsoletes:	pgadmin4-v1 <= 1.0.0 pgadmin4-v2 <= 2.0.0 pgadmin4-v3 <= 3.0.0
 
 BuildRequires:	gcc-c++ yarn patchelf chrpath
 
@@ -92,7 +95,7 @@ Summary:	pgAdmin4 web package
 Requires:	%{name}-docs
 Requires:	httpd
 
-Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
+Obsoletes:	pgadmin4-v1-web <= 1.0.0 pgadmin4-v2-web <= 2.0.0 pgadmin4-v3-web <= 3.0.0
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -107,7 +110,7 @@ This package contains the required files to run pgAdmin4 as a web application
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v1-docs pgadmin4-v2-docs pgadmin4-v3-docs
+Obsoletes:	pgadmin4-v1-docs <= 1.0.0 pgadmin4-v2-docs <= 2.0.0 pgadmin4-v3-docs <= 3.0.0
 
 %description -n %{name}-docs
 Documentation of pgadmin4.
@@ -170,10 +173,6 @@ GNOME Desktop components of pgAdmin4.
 
 %{_bindir}/virtualenv -p %{_bindir}/python3 venv
 source $PWD/venv/bin/activate
-#%if 0%{?rhel} == 6
-#prelink -u linux-build/venv/bin/python3.4
-#prelink -u linux-build/venv/lib/*.so*
-#%endif
 export PATH=%{pginstdir}/bin/:$PATH
 
 pip3 --cache-dir "~/.cache/pip3-pgadmin" install -r requirements.txt
@@ -184,7 +183,7 @@ LDFLAGS="-Wl,--rpath,$PYSITEPACKAGES/psycopg2/.libs"
 pip3 install -v --no-cache-dir --no-binary :all: psycopg2
 
 cd runtime
-export PYTHON_CONFIG=/usr/bin/python3-config
+export PYTHON_CONFIG="$PWD/../venv/bin/python-config"
 export PYTHONPATH=$PWD/../venv/lib/python%{pyver}/site-packages/:$PYTHONPATH
 PGADMIN_LDFLAGS="-Wl,--rpath,%{buildroot}%{pgadmin4instdir}/venv/lib"; export PGADMIN_LDFLAGS
 %{QMAKE} -o Makefile pgAdmin4.pro
@@ -220,7 +219,7 @@ chrpath -r "\${ORIGIN}/../venv/lib" %{buildroot}%{pgadmin4instdir}/runtime/pgAdm
 
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/venv
 %{__cp} -pR venv/* %{buildroot}%{pgadmin4instdir}/venv
-patchelf --set-rpath '${ORIGIN}/../lib' %{buildroot}%{pgadmin4instdir}/venv/bin/python3
+patchelf --set-rpath '${ORIGIN}/../lib' %{__pgadminpython}
 
 find %{buildroot}%{pgadmin4instdir}/venv -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod -x {}
 
@@ -273,10 +272,11 @@ echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
 # Manually invoke the python byte compile macro for each path that needs byte
 # compilation. All platforms except RHEL 6:
+%{__chmod} +x %{__pgadminpython}
 %if 0%{?rhel} <= 6
 /bin/true
 %else
-%py_byte_compile %{_bindir}/python3 %{buildroot}
+%py_byte_compile %{__pgadminpython} %{buildroot}
 %endif
 
 %clean
@@ -310,7 +310,7 @@ fi
 %endif
 
 %post -n %{name}-web
-find %{pgadmin4instdir}/venv/* -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod +x {}
+#find %{pgadmin4instdir}/venv/* -type f | xargs -I{} file {} | grep ELF | cut -f1 -d":" | xargs -I{} chmod +x {}
 
 %postun
 # Remove symlink only during uninstall
