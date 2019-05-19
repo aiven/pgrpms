@@ -62,7 +62,11 @@ BuildRequires:	python-devel
 %endif
 
 %if %{?with_python3}
+%if 0%{fedora} >= 30
+Requires:	python3-flask
+%else
 Requires:	pgadmin4-python3-flask
+%endif
 %else
 Requires:	pgadmin4-python-flask
 %endif
