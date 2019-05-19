@@ -188,7 +188,7 @@ Requires:	python3-wtforms >= 2.2.1
 Requires:	python3-simplejson >= 3.16.0 python3-dateutil >= 2.8.0
 Requires:	python3-sqlparse >= 0.2.4 python3-flask-gravatar >= 0.5.0
 Requires:	python3-flask-babel >= 0.11.1 python3-passlib >= 1.7.1
-Requires:	python3-Flask-Mail >= 0.9.1 python3-flask-security >= 3.0.0
+Requires:	python3-flask-mail >= 0.9.1 python3-flask-security >= 3.0.0
 Requires:	python3-flask-login >= 0.4.1 python3-flask-paranoid >= 0.2
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
