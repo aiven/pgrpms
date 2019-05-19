@@ -180,7 +180,7 @@ Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
 %if 0%{?fedora} >= 30
-Requires:	%{name}-pytz >= 2018.9 python3-click %{name}-pgadmin4-python3-psutil >= 5.5.1
+Requires:	%{name}-pytz >= 2018.9 python3-click %{name}-python3-psutil >= 5.5.1
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
 Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
 Requires:	python3-flask-wtf >= 0.14.2 python3-sqlalchemy >= 1.2.18
