@@ -182,9 +182,10 @@ Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %if 0%{?fedora} >= 30
 Requires:	%{name}-pytz >= 2018.9 python3-click %{name}-python3-psutil >= 5.5.1
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
+Requires:	%{name}-python3-sshtunnel >= 0.1.4
 Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
 Requires:	python3-flask-wtf >= 0.14.2 python3-sqlalchemy >= 1.2.18
-Requires:	python3-wtforms >= 2.2.1
+Requires:	python3-wtforms >= 2.2.1 python3-speaklater >= 1.3
 Requires:	python3-simplejson >= 3.16.0 python3-dateutil >= 2.8.0
 Requires:	python3-sqlparse >= 0.2.4 python3-flask-gravatar >= 0.5.0
 Requires:	python3-flask-babel >= 0.11.1 python3-passlib >= 1.7.1
@@ -196,7 +197,6 @@ Requires:	python3-beautifulsoup4 >= 4.4.1 python3-flask-babelex
 Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8
 Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
-Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
