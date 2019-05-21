@@ -81,7 +81,7 @@ application.
 %{__rm} -f %{buildroot}/%{pgadmin4py3instdir}/__init__*.pyc
 %else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_htmlmin/  %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_htmlmin/  %{buildroot}%{python2_sitelib}/Flask_HTMLmin-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
