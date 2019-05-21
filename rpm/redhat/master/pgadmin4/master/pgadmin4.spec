@@ -292,7 +292,7 @@ Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.4.0
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.4
 Requires:	python >= 2.7 pgadmin4-python-six >= 1.12.0 python-psycopg2 >= 2.8
 Requires:	python-speaklater >= 1.3 python-click
-Requires:	python-crypto >= 2.6.1 mod_wsgi pgadmin4-python2-psutil >= 5.5.1
+Requires:	python-crypto >= 2.6.1 mod_wsgi pgadmin4-python-psutil >= 5.5.1
 %endif
 
 %if 0%{?suse_version}
