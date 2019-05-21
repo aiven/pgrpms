@@ -71,9 +71,17 @@ BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-flask-babelex
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
-BuildRequires:	python3-itsdangerous python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
+BuildRequires:	python3-itsdangerous python3-flask-sqlalchemy >= 2.3.2
 BuildRequires:	python3-sphinx
 %global QMAKE	/usr/bin/qmake-qt5
+%endif
+
+%if 0%{?fedora} && 0%{?fedora} == 28
+BuildRequires:	pgadmin4-python3-blinker >= 1.4
+%endif
+
+%if 0%{?fedora} && 0%{?fedora} == 29
+BuildRequires:	python3-blinker >= 1.4
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
@@ -185,12 +193,18 @@ Requires:	%{name}-python3-flask-migrate >= 2.4.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex pgadmin4-python3-psutil >= 5.5.1
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
-Requires:	python3-beautifulsoup4 >= 4.4.1
-Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
-Requires:	python3-psycopg2 >= 2.8
+Requires:	python3-beautifulsoup4 >= 4.4.1 python3-itsdangerous >= 0.24
+Requires:	python3-psycopg2 >= 2.8 python3-speaklater >= 1.3
 Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
-Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
+%endif
+
+%if 0%{?fedora} && 0%{?fedora} == 28
+Requires:	pgadmin4-python3-blinker >= 1.4
+%endif
+
+%if 0%{?fedora} && 0%{?fedora} == 29
+Requires:	python3-blinker >= 1.4
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
