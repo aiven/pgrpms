@@ -1,20 +1,24 @@
-%if 0%{?fedora} > 25
+%if 0%{?fedora} && 0%{?fedora} > 27
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %global __python_ver python3
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} <= 7
+%if 0%{?rhel} && 0%{?rhel} > 7
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%global __python_ver python3
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
-%global __python_ver python
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global __python_ver python2
 %endif
 
-%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)
+%global pybasever %(%{__ospython} -c "import sys; print(sys.version[:3])")
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -24,7 +28,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.7
+Version:	2.8
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -34,15 +38,51 @@ Source1:	%{name}.logrotate
 Source2:	%{name}.cron
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
-Requires:	%{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
+BuildRequires:	%{__python_ver}-setuptools
 Requires:	/usr/sbin/useradd
 Requires:	rsync >= 3.0.4
+Requires:	%{__python_ver}-barman = %{version}
 
 %description
 Barman (Backup and Recovery Manager) is an open-source
 administration tool for disaster recovery of PostgreSQL
 servers written in Python.
-It allows your organisation to perform remote backups of
+It allows your organization to perform remote backups of
+multiple servers in business critical environments to
+reduce risk and help DBAs during the recovery phase.
+
+Barman is distributed under GNU GPL 3 and maintained
+by 2ndQuadrant.
+
+%package -n barman-cli
+Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
+Group:		Applications/Databases
+Requires:	%{__python_ver}-barman = %{version}
+%description -n barman-cli
+Client utilities for the integration of Barman in
+PostgreSQL clusters.
+
+Barman (Backup and Recovery Manager) is an open-source
+administration tool for disaster recovery of PostgreSQL
+servers written in Python.
+It allows your organization to perform remote backups of
+multiple servers in business critical environments to
+reduce risk and help DBAs during the recovery phase.
+
+Barman is distributed under GNU GPL 3 and maintained
+by 2ndQuadrant.
+
+%package -n %{__python_ver}-barman
+Summary:	The shared libraries required for Barman family components
+Group:		Applications/Databases
+Requires:	%{__python_ver}-setuptools, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
+%description -n %{__python_ver}-barman
+Python libraries used by Barman.
+
+Barman (Backup and Recovery Manager) is an open-source
+administration tool for disaster recovery of PostgreSQL
+servers written in Python.
+It allows your organization to perform remote backups of
 multiple servers in business critical environments to
 reduce risk and help DBAs during the recovery phase.
 
@@ -80,9 +120,7 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 
 %files
 %defattr(-,root,root)
-%doc INSTALL NEWS README.rst
-%{python_sitelib}/%{name}-%{version}%{?extra_version:%{extra_version}}-py%{pybasever}.egg-info
-%{python_sitelib}/%{name}/
+%doc NEWS README.rst
 %{_bindir}/%{name}
 %doc %{_mandir}/man1/%{name}.1.gz
 %doc %{_mandir}/man5/%{name}.5.gz
@@ -95,7 +133,26 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %attr(755,barman,barman) %dir /var/log/%{name}
 %attr(600,barman,barman) %ghost /var/log/%{name}/%{name}.log
 
+%files -n barman-cli
+%defattr(-,root,root)
+%doc NEWS README.rst
+%{_bindir}/barman-wal-archive
+%{_bindir}/barman-wal-restore
+%doc %{_mandir}/man1/barman-wal-archive.1.gz
+%doc %{_mandir}/man1/barman-wal-restore.1.gz
+
+%files -n %{__python_ver}-barman
+%defattr(-,root,root)
+%doc NEWS README.rst
+%{python_sitelib}/%{name}-%{version}%{?extra_version:%{extra_version}}-py%{pybasever}.egg-info
+%{python_sitelib}/%{name}/
+
 %changelog
+* Wed May 15 2019 Marco Nenciarini <marco.nenciarini@2ndquadrant.it> 2.8-1
+- New upstream version 2.8
+- Add python3-barman and barman-cli binaries
+- Build with python3 on FC > 27 and RHEL >= 8
+
 * Sun Mar 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.7-1
 - Update to 2.7
 
