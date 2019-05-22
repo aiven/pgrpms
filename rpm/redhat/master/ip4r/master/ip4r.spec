@@ -8,7 +8,7 @@
 
 Name:           %{sname}%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
-Version:	2.4
+Version:	2.4.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -75,6 +75,9 @@ be used as a more flexible, indexable version of the cidr type.
 %endif
 
 %changelog
+* Wed May 22 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
+- Update to 2.4.1
+
 * Tue Apr 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4-1
 - Update to 2.4
 
