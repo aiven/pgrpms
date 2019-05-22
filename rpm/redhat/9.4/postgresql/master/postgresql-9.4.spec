@@ -1,3 +1,4 @@
+%global pgmajorversion 94
 # These are macros to be used with find_lang and other stuff
 %global sname postgresql
 
@@ -25,7 +26,7 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plpython:%global plpython 1}
+%{!?plpython:%global plpython2 1}
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
@@ -42,6 +43,7 @@
 %{!?sdt:%global sdt 1}
 %{!?selinux:%global selinux 1}
 %endif
+
 %if 0%{?fedora} > 23
 %global _hardened_build 1
 %endif
@@ -49,6 +51,11 @@
 %if 0%{?rhel} && 0%{?rhel} <= 7
 # RHEL 6 and 7 does not have Python 3
 %{!?plpython3:%global plpython3 0}
+%endif
+
+%if 0%{?rhel} >= 8
+# RHEL 8 now use Python3
+%{!?plpython3:%global plpython3 1}
 %endif
 
 %if 0%{?fedora} > 23
@@ -66,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.4.22
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -107,8 +114,8 @@ BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
 
-%if %plpython
-BuildRequires:	python-devel
+%if %plpython2
+BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
@@ -351,7 +358,7 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
-%if %plpython
+%if %plpython2
 %package plpython
 Summary:	The Python procedural language for PostgreSQL
 Group:		Applications/Databases
@@ -359,6 +366,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
+Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -571,7 +579,7 @@ export PYTHON=/usr/bin/python2
 %if %plperl
 	--with-perl \
 %endif
-%if %plpython
+%if %plpython2
 	--with-python \
 %endif
 %if %pltcl
@@ -836,7 +844,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > postgresql.init
 cat plperl-%{majorversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{majorversion}
-%if %plpython
+%if %plpython2
 %find_lang plpython-%{majorversion}
 cat plpython-%{majorversion}.lang > pg_plpython.lst
 %endif
@@ -929,7 +937,7 @@ fi
 %postun	-p /sbin/ldconfig 	plperl
 %endif
 
-%if %plpython
+%if %plpython2
 %post 	-p /sbin/ldconfig	plpython
 %postun	-p /sbin/ldconfig 	plpython
 %endif
@@ -1312,7 +1320,7 @@ fi
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
-%if %plpython
+%if %plpython2
 %files plpython -f pg_plpython.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/plpython2.so
@@ -1334,6 +1342,10 @@ fi
 %endif
 
 %changelog
+* Wed May 22 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.22-2PGDG
+- Initial attempt for RHEL 8 packaging updates.
+- Rename plpython macro to plpython2, to stress that it is for Python 2.
+
 * Mon May 6 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.22-1PGDG
 - Update to 9.4.22, per changes described at:
   https://www.postgresql.org/docs/9.4/static/release-9-4-22.html
