@@ -53,8 +53,8 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 
-%if 0%{?rhel} >= 8
-# RHEL 8 now use Python3
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 %endif
 
