@@ -5,7 +5,6 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global pgdg_build_timestamp %(date +"%Y%m%d")
 %global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -90,14 +89,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.0
-Release:	devel_%{pgdg_build_timestamp}_1PGDG%{?dist}
+Version:	12beta1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
-#Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -549,7 +547,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-12devel
+%setup -q -n %{sname}-12beta1
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1191,7 +1189,7 @@ fi
 %dir %{pgbaseinstdir}/lib/bitcode
 %endif
 %doc doc/KNOWN_BUGS doc/MISSING_FEATURES
-%doc COPYRIGHT doc/bug.template
+%doc COPYRIGHT
 %doc README.rpm-dist
 %{pgbaseinstdir}/bin/clusterdb
 %{pgbaseinstdir}/bin/createdb
@@ -1527,12 +1525,12 @@ fi
 %endif
 
 %changelog
-* Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
-- Disable jit on s390. Patch from Mark Wong.
+* Thu May 23 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta1_1PGDG
+- Update to 12beta1
+- Re-arrange changelog (after removing daily build macro)
 
-* Wed Nov 21 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
+* Fri Feb 15 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-devel
+- Disable jit on s390. Patch from Mark Wong.
 - Initial attempt for RHEL 8 packaging updates.
 - Rename plpython macro to plpython2, to stress that it is for Python 2.
-
-* Mon Oct 29 2018 Devrim Gündüz <devrim@gunduz.org> - 12.0-%{pgdg_build_timestamp}_1PGDG
 - Initial cut for PostgreSQL 12
