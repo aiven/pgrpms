@@ -8,7 +8,7 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %endif
 
-%if 0%{?fedora} > 25 || 0%{?rhel} == 8
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -50,7 +50,7 @@ Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
-# Adding this patch to be able to build docs on < Fedora 24.
+# Adding this patch to be able to build docs on < Fedora 27+.
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
@@ -408,13 +408,13 @@ make PYTHON=/usr/bin/python docs
 
 # Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
-%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE7} > %{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE7} > "%{buildroot}%{pgadmin4instdir}/bin/%{name}-web-setup.sh"
 
 # Install desktop file, and its icon
 %{__install} -d -m 755 %{buildroot}%{PYTHON_SITELIB}/%{name}-web/pgadmin/static/img/
 %{__install} -m 755 runtime/pgAdmin4.ico %{buildroot}%{PYTHON_SITELIB}/%{name}-web/pgadmin/static/img/
 %{__install} -d %{buildroot}%{_datadir}/applications/
-%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE4} > %{buildroot}%{_datadir}/applications/%{name}.desktop
+%{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE4} > "%{buildroot}%{_datadir}/applications/%{name}.desktop"
 
 # Install QT conf file.
 # Directories are different on RHEL 7 and Fedora 24+.
@@ -517,6 +517,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu May 23 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-2
+- Fix setup script. Per report from Michael Monerau.
+
 * Sun May 19 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-1
 - Update to 4.6
 
