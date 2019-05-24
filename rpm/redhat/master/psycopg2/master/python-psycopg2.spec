@@ -38,7 +38,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python2-%{sname}
 Version:	2.8.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
@@ -47,6 +47,7 @@ Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-8/%{sname}-%{version}
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	python-%{sname} = %{version}-%{release}
+Obsoletes:	python-%{sname} >= 2.0.0
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python2-devel
@@ -85,6 +86,7 @@ Summary:	A PostgreSQL database adapter for Python 2 (debug build)
 # Require the base package, as we're sharing .py/.pyc files:
 Requires:	%{name} = %{version}-%{release}
 Group:		Applications/Databases
+Obsoletes:	python-%{sname}-debug >= 2.0.0
 
 %description debug
 This is a build of the psycopg PostgreSQL database adapter for the debug
@@ -93,6 +95,7 @@ build of Python 2.
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for %sum 2
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	python-%{sname}-tests >= 2.0.0
 
 %description -n python2-%{sname}-tests
 %desc
@@ -132,6 +135,7 @@ build of Python 3.
 Summary:	Documentation for psycopg python PostgreSQL database adapter
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	python-%{sname}-docs >= 2.0.0
 
 %description doc
 Documentation and example files for the psycopg python PostgreSQL
@@ -238,6 +242,10 @@ done
 %endif
 
 %changelog
+* Fri May 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.2-2
+- Fix conflict with existing packages, per
+  https://redmine.postgresql.org/issues/4287
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8.2-1
 - Update to 2.8.2
 - Disable -doc subpackage for now. We need sphinx to build the docs,
