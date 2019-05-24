@@ -87,6 +87,7 @@ Summary:	A PostgreSQL database adapter for Python 2 (debug build)
 Requires:	%{name} = %{version}-%{release}
 Group:		Applications/Databases
 Obsoletes:	python-%{sname}-debug >= 2.0.0
+Provides:	python-%{sname}-debug = %{version}-%{release}
 
 %description debug
 This is a build of the psycopg PostgreSQL database adapter for the debug
@@ -96,6 +97,7 @@ build of Python 2.
 Summary:	A testsuite for %sum 2
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	python-%{sname}-tests >= 2.0.0
+Provides:	python-%{sname}-tests = %{version}-%{release}
 
 %description -n python2-%{sname}-tests
 %desc
@@ -135,7 +137,8 @@ build of Python 3.
 Summary:	Documentation for psycopg python PostgreSQL database adapter
 Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	python-%{sname}-docs >= 2.0.0
+Obsoletes:	python-%{sname}-doc >= 2.0.0
+Provides:	python-%{sname}-doc = %{version}-%{release}
 
 %description doc
 Documentation and example files for the psycopg python PostgreSQL
