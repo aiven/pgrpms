@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -517,6 +517,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri May 24 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-3
+- Add SELinux bits to the setup script, per report from Michael Monerau.
+
 * Thu May 23 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-2
 - Fix setup script. Per report from Michael Monerau.
 

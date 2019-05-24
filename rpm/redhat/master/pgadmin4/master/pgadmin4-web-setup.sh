@@ -13,8 +13,17 @@ then
 	exit 1
 fi
 
-# Own directories:
+# Create and own directories:
+mkdir -p /var/log/pgadmin /var/lib/pgadmin
 chown apache: /var/log/pgadmin /var/lib/pgadmin -R
+
+# Set SELinux up:
+setsebool -P httpd_can_network_connect 1
+setsebool -P httpd_can_network_connect_db 1
+semanage fcontext -a -t httpd_var_lib_t '/var/lib/pgadmin(/.*)?'
+restorecon -R -v /var/lib/pgadmin
+semanage fcontext -a -t httpd_log_t '/var/log/pgadmin(/.*)?'
+restorecon -R -v /var/log/pgadmin
 
 echo "We can now configure the Apache Web server for you. This will create the pgAdmin4 conf file under /etc/httpd/conf.d/. Do you wish to continue?"
 select pgayn in "Yes" "No"; do
