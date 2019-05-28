@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.6
-Release:	3%{?dist}
+Version:	%{pgadminmajorversion}.7
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -56,7 +56,7 @@ Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-Obsoletes:	pgadmin4-v1 <= 1.0.0 pgadmin4-v2 <= 2.0.0 pgadmin4-v3 <= 3.0.0
+Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
 
 BuildRequires:	gcc-c++
 
@@ -177,7 +177,7 @@ Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v1-web <= 1.0.0 pgadmin4-v2-web <= 2.0.0 pgadmin4-v3-web <= 3.0.0
+Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
 
 %if 0%{?fedora} && 0%{?fedora} < 30
 Requires:	%{name}-python3-flask-htmlmin >= 1.5.0 %{name}-python3-flask >= 1.0.2
@@ -186,7 +186,7 @@ Requires:	%{name}-python3-wtforms >= 2.2.1
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-dateutil >= 2.8.0
 Requires:	%{name}-python3-sqlparse >= 0.2.4 %{name}-python3-flask-gravatar >= 0.5.0
 Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
-Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 3.0.0
+Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >= 0.2
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.4.0
@@ -308,7 +308,7 @@ This package contains the required files to run pgAdmin4 as a web application
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v1-docs <= 1.0.0 pgadmin4-v2-docs <= 2.0.0 pgadmin4-v3-docs <= 3.0.0
+Obsoletes:	pgadmin4-v1-docs pgadmin4-v2-docs pgadmin4-v3-docs
 
 %description -n %{name}-docs
 Documentation of pgadmin4.
@@ -517,6 +517,11 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue May 28 2019 - Devrim Gündüz <devrim@gunduz.org> 4.7-1
+- Update to 4.7
+- Remove version numbers from obsoletes, as I'm too lazy to find out
+  what exactly we are obsoleting. Per https://redmine.postgresql.org/issues/4299
+
 * Fri May 24 2019 - Devrim Gündüz <devrim@gunduz.org> 4.6-3
 - Add SELinux bits to the setup script, per report from Michael Monerau.
 
