@@ -33,7 +33,7 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.12.4
+Version:	1.0.2
 Release:	1%{?dist}
 Epoch:		1
 Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
@@ -107,10 +107,10 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE CHANGES README
+%doc LICENSE CHANGES.rst README.rst
 %else
 %license LICENSE
-%doc CHANGES README
+%doc CHANGES.rst README.rst
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{srcname}*.egg-info
@@ -121,6 +121,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Thu May 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.2-1
+- Update to 1.0.2
+
 * Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> - 1:0.12.4-1
 - Update to 0.12.4
 
