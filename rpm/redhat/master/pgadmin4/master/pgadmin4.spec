@@ -37,8 +37,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.7
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.8
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -517,6 +517,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Jun 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.8-1
+- Update to 4.8
+
 * Thu May 30 2019 - Devrim Gündüz <devrim@gunduz.org> 4.7-2
 - Rebuild
 
