@@ -6,8 +6,8 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-Version:	1.3.2
-Release:	1%{?dist}.1
+Version:	1.3.7
+Release:	1%{?dist}
 License:	GLPLv2
 Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
@@ -126,6 +126,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Mon Jun 3 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-1
+- Update to 1.3.7
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1.1
 - Rebuild against PostgreSQL 11.0
 
