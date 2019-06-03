@@ -16,6 +16,12 @@
 %global __python_ver python2
 %endif
 
+%if 0%{?suse_version} >= 1315
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%global __python_ver python2
+%endif
+
 %global pybasever %(%{__ospython} -c "import sys; print(sys.version[:3])")
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
