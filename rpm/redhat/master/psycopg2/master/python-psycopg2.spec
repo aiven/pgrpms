@@ -31,6 +31,10 @@
 %{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
+%if 0%{?suse_version} >= 1315
+%{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%endif
+
 %if 0%{?with_python3}
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
 %endif # with_python3
