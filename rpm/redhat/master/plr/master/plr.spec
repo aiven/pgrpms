@@ -61,6 +61,7 @@ statistical computing and graphics".
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
+%doc changelog.md compilingplr.md userguide.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
 %ifarch ppc64 ppc64le
