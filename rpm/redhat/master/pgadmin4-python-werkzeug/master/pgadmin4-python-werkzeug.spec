@@ -87,7 +87,7 @@ bulletin boards, etc.).
 
 %prep
 %setup -q -n werkzeug-%{version}
-%{__sed} -i 's/\r//' LICENSE
+%{__sed} -i 's/\r//' LICENSE.rst
 %{__sed} -i '1d' tests/multipart/test_collect.py
 
 %build
@@ -116,9 +116,9 @@ find examples/ -name '*.png' -executable | xargs chmod -x
 %files
 %defattr(-, root, root, -)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
+%doc LICENSE.rst
 %else
-%license LICENSE
+%license LICENSE.rst
 %endif
 %if 0%{?with_python3}
 %{pgadmin4py3instdir}/*%{srcname}*.egg-info*
