@@ -7,11 +7,11 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
-Version:	8.3.0.18
-Release:	1%{?dist}.1
+Version:	8.4
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_3_0_18.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
@@ -32,7 +32,7 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}-REL8_3_0_18
+%setup -q -n %{sname}-REL8_4
 %patch0 -p0
 
 %build
@@ -48,6 +48,10 @@ statistical computing and graphics".
 %{__rm} -rf %{buildroot}
 %{__make} USE_PGXS=1 DESTDIR=%{buildroot}/ install
 
+# Install documentation with a better name:
+%{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
+%{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -56,7 +60,7 @@ statistical computing and graphics".
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/README.%{sname}
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
 %ifarch ppc64 ppc64le
@@ -71,10 +75,14 @@ statistical computing and graphics".
 %endif
 
 %changelog
+* Tue Jun 4 2019 Devrim Gündüz <devrim@gunduz.org> - 8.4-1
+- Update to 8.4
+- Rename README file, so that it is consistent with many other packages.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
-* Wed Oct 1 2018 - John K. Harvey <john.harvey@crunchydata.com> 8.3.0-18-1
+* Mon Oct 1 2018 - John K. Harvey <john.harvey@crunchydata.com> 8.3.0-18-1
 - Update to 8.3.0.18
 - PG11 LLVM support
 
