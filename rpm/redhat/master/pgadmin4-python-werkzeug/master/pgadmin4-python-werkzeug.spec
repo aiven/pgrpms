@@ -28,14 +28,22 @@
 %global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
+%if 0%{?rhel} == 8
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
+
 %if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
 
-Version:	0.11.11
-Release:	4%{?dist}.1
+Version:	0.15.4
+Release:	1%{?dist}
 Summary:	The Swiss Army knife of Python web development
 
 Group:		Development/Libraries
@@ -121,6 +129,9 @@ find examples/ -name '*.png' -executable | xargs chmod -x
 %endif
 
 %changelog
+* Tue Jun 4 2019 Devrim Gündüz <devrim@gunduz.org> - 0.15.4-1
+- Update to 0.15.4
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.11.11-4.1
 - Rebuild against PostgreSQL 11.0
 
