@@ -259,7 +259,7 @@ Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-wtforms >= 2.2.1
 Requires:	%{name}-python3-beautifulsoup4 >= 4.4.1 %{name}-python3-blinker >= 1.4
 Requires:	%{name}-python3-itsdangerous >= 0.24
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-dateutil >= 2.8.0
-Requires:	%{name}-python3-werkzeug >= 0.9.6 %{name}-python3-sqlparse >= 0.2.4
+Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-sqlparse >= 0.2.4
 Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
 Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-Flask-Mail >= 0.9.1
 Requires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-login >= 0.4.1
@@ -281,7 +281,7 @@ Requires:	%{name}-python-markupsafe >= 0.23 %{name}-python-sqlalchemy >= 1.2.18
 Requires:	%{name}-python-wtforms >= 2.2.1 %{name}-python-beautifulsoup4 >= 4.4.1
 Requires:	%{name}-python-blinker >= 1.4 %{name}-python-flask-paranoid >= 0.2
 Requires:	%{name}-python-itsdangerous >= 0.24 %{name}-python-simplejson >= 3.16.0
-Requires:	%{name}-python-werkzeug >= 0.9.6 %{name}-python-backports.csv >= 1.0.5
+Requires:	%{name}-python-werkzeug >= 0.15.4 %{name}-python-backports.csv >= 1.0.5
 Requires:	%{name}-pytz >= 2018.9 %{name}-python-sqlparse >= 0.2.4
 Requires:	%{name}-python-flask-babel >= 0.11.1 %{name}-python-flask-gravatar >= 0.5.0
 Requires:	%{name}-python-Flask-Mail >= 0.9.1 %{name}-python-flask-security >= 3.0.0
