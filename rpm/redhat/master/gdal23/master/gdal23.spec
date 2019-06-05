@@ -28,7 +28,6 @@
 
 # Tests can be of a different version
 %global testversion 2.3.2
-%global run_tests 0
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
@@ -54,9 +53,6 @@
 %global spatialite "--with-spatialite"
 %endif
 
-%bcond_with python2
-%bcond_without python3
-
 # No ppc64 build for spatialite in EL6
 # https://bugzilla.redhat.com/show_bug.cgi?id=663938
 %if 0%{?rhel} == 6
@@ -76,17 +72,13 @@ URL:		http://www.gdal.org
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
-Source1:	http://download.osgeo.org/%{name}/%{testversion}/%{sname}autotest-%{testversion}.tar.gz
+Source1:	%{sname}autotest-%{testversion}.tar.gz
 
 # Cleaner script for the tarball
 Source3:	%{sname}-cleaner.sh
 
 Source4:	PROVENANCE.TXT-fedora
 
-# Patch to use system g2clib
-Patch1:		%{sname}-g2clib.patch
-# Patch for Fedora JNI library location
-Patch2:		%{sname}-jni.patch
 # Fix bash-completion install dir
 Patch3:		%{sname}-completion.patch
 
@@ -166,14 +158,6 @@ BuildRequires:	%{_bindir}/pkg-config
 BuildRequires:	poppler-devel
 %endif
 BuildRequires:	proj-devel >= 5.2.0
-%if %{with python2}
-BuildRequires:	python2-devel
-BuildRequires:	python2-numpy
-%endif
-%if %{with python3}
-BuildRequires:	python3-devel
-BuildRequires:	python3-numpy
-%endif
 BuildRequires:	sqlite-devel
 BuildRequires:	swig
 %if %{build_refman}
@@ -215,11 +199,6 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
   %global cpuarch 32
 %else
   %global cpuarch 64
-%endif
-
-%if ! (0%{?fedora} || 0%{?rhel} > 5)
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")}
 %endif
 
 #TODO: Description on the lib?
@@ -264,9 +243,6 @@ BuildArch:	noarch
 %description doc
 This package contains HTML and PDF documentation for GDAL.
 
-# We don't want to provide private Python extension libs
-%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\.so$
-
 %prep
 %setup -q -n %{sname}-%{version}-fedora -a 1
 
@@ -280,8 +256,6 @@ rm -rf frmts/gtiff/libgeotiff \
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
-#%%patch1 -p1 -b .g2clib~
-#%%patch2 -p1 -b .jni~
 %patch3 -p1 -b .completion~
 %patch8 -p1 -b .java~
 %patch9 -p1 -b .zlib~
@@ -592,36 +566,6 @@ done
 %{__mv} %{buildroot}%{_includedir}/* %{buildroot}%{gdalinstdir}/include
 
 %check
-%if %{run_tests}
-for i in -I/usr/lib/jvm/java/include{,/linux}; do
-    java_inc="$java_inc $i"
-done
-
-
-pushd %{name}autotest-%{testversion}
-	# Export test enviroment
-	export PYTHONPATH=$PYTHONPATH:%{buildroot}%{python_sitearch}
-	#TODO: Nötig?
-	export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%{buildroot}%{_libdir}
-	# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:%%{buildroot}%%{_libdir}:$java_inc
-
-	export GDAL_DATA=%{buildroot}%{_datadir}/%{name}/
-
-	# Enable these tests on demand
-	#export GDAL_RUN_SLOW_TESTS=1
-	#export GDAL_DOWNLOAD_TEST_DATA=1
-
-	# Remove some test cases that would require special preparation
-	rm -rf ogr/ogr_pg.py # No database available
-	rm -rf ogr/ogr_mysql.py # No database available
-	rm -rf osr/osr_esri.py # ESRI datum absent
-	rm -rf osr/osr_erm.py # File from ECW absent
-
-	# Run tests but force normal exit in the end
-	./run_all.py || true
-popd
-%endif #%%{run_tests}
-
 
 %ldconfig_scriptlets libs
 
