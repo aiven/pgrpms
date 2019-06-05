@@ -5,6 +5,7 @@
 %global sname	postgis
 %global geosinstdir /usr/geos37
 %global projinstdir /usr/proj49
+%global gdal23instdir /usr/gdal23
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -67,7 +68,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal-devel >= 1.11.4-3
+BuildRequires:	gdal23-devel >= 2.3.2-7
   %endif
 %endif
 %ifarch ppc64 ppc64le
@@ -90,7 +91,7 @@ Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal-libs >= 1.11.4-3
+Requires:	gdal23-libs >= 2.3.2-7
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
@@ -197,6 +198,8 @@ The %{name}-utils package provides the utilities for PostGIS.
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 
+CFLAGS="${CFLAGS:-%optflags}"
+
 %ifarch ppc64 ppc64le
 	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
 	CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
@@ -204,6 +207,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
+# Strip out fstack-clash-protection from CFLAGS:
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v fstack-clash-protection|xargs -n 100`; export CFLAGS
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
@@ -216,6 +221,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
+	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-projdir=%{projinstdir}
@@ -367,6 +373,10 @@ fi
 %endif
 
 %changelog
+* Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-2
+- Fix Fedora builds (CLANG)
+- Use new gdal23 package as dependency.
+
 * Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-1
 - Update to 2.4.7
 
