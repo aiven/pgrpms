@@ -227,7 +227,7 @@ CFLAGS="$CFLAGS -I%{gdal23instdir}/include"; export CFLAGS
 	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
 	--includedir=%{gdal23instdir}/include
 
-SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}so"
+SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
 %{__make} -C extensions
 
