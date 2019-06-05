@@ -551,10 +551,10 @@ cat > %{buildroot}%{gdalinstdir}/bin/%{sname}-config <<EOF
 ARCH=\$(uname -m)
 case \$ARCH in
 x86_64 | ppc64 | ppc64le | ia64 | s390x | sparc64 | alpha | alphaev6 | aarch64 )
-%{gdalinstdir}/bin/%{name}-config-64 \${*}
+%{gdalinstdir}/bin/%{sname}-config-64 \${*}
 ;;
 *)
-%{gdalinstdir}/bin/%{name}-config-32 \${*}
+%{gdalinstdir}/bin/%{sname}-config-32 \${*}
 ;;
 esac
 EOF
