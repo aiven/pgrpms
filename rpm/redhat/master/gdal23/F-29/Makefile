@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f29
 SPECFILE="gdal23.spec"
 
 # Now, include global Makefile
