@@ -6,7 +6,12 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
+%if 0%{fedora} || 0%{?rhel} >= 8
 Version:	1.3.7
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 7
+Version:	1.3.1
+%endif
 Release:	1%{?dist}
 License:	GLPLv2
 Group:		System Environment/Libraries
