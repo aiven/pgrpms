@@ -35,7 +35,6 @@
 
 %if 0%{?bootstrap}
 %global build_refman 0
-%global with_mysql 0
 %global mysql --without-mysql
 %global with_poppler 0
 %global poppler --without-poppler
@@ -131,8 +130,9 @@ BuildRequires:	libgta-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 # No libkml in EL
+%if 0%{?fedora}
 BuildRequires:	libkml-devel
-
+%endif
 %if %{with_spatialite}
 BuildRequires:	libspatialite-devel
 %endif
@@ -145,7 +145,10 @@ BuildRequires:	giflib-devel
 BuildRequires:	netcdf-devel
 BuildRequires:	libdap-devel
 BuildRequires:	librx-devel
-%if 0%{?with_mysql}
+%if 0%{?rhel}
+BuildRequires:	mariadb-devel
+%endif
+%if 0%{?fedora}
 BuildRequires:	mariadb-connector-c-devel
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -174,7 +177,6 @@ BuildRequires:	texlive-collection-latex
 BuildRequires:	texlive-epstopdf
 BuildRequires:	tex(multirow.sty)
 BuildRequires:	tex(sectsty.sty)
-BuildRequires:	tex(tabu.sty)
 BuildRequires:	tex(tocloft.sty)
 BuildRequires:	tex(xtab.sty)
 %endif
@@ -386,10 +388,12 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 	%{spatialite}		\
 	--with-sqlite3		\
 	--with-threads		\
+%if 0%{?fedora}
+	--with-libkml		\
+%endif
 	--with-webp		\
 	--with-xerces		\
-	--enable-shared		\
-	--with-libkml
+	--enable-shared
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
