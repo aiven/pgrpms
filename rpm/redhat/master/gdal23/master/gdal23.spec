@@ -121,7 +121,6 @@ BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	jasper-devel
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
-BuildRequires:	javapackages-local
 BuildRequires:	json-c-devel
 BuildRequires:	libgeotiff-devel
 # No libgta in EL5
