@@ -100,6 +100,8 @@ Patch10:	%{sname}-2.3.1-perl-build.patch
 
 Patch11:	%{sname}-2.3.2-poppler-0.73.0.patch
 
+# PGDG patches
+Patch12:	%{name}-gdalconfig-pgdg-path.patch
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
@@ -285,6 +287,7 @@ rm -rf frmts/gtiff/libgeotiff \
 %patch9 -p1 -b .zlib~
 %patch10 -p1 -b .perl-build~
 %patch11 -p1 -b .poppler-0.73.0
+%patch12 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE4 .
