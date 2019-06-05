@@ -263,7 +263,9 @@ rm -rf frmts/gtiff/libgeotiff \
 %patch8 -p1 -b .java~
 %patch9 -p1 -b .zlib~
 %patch10 -p1 -b .perl-build~
+%if 0%{?fedora} >= 30
 %patch11 -p1 -b .poppler-0.73.0
+%endif
 %patch12 -p0
 
 # Copy in PROVENANCE.TXT-fedora
@@ -573,8 +575,8 @@ done
 
 %check
 
-%ldconfig_scriptlets libs
-
+%post libs -p /sbin/ldconfig
+%postun libs -p /sbin/ldconfig
 
 %files
 %{bashcompletiondir}/*
