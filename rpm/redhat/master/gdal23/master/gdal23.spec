@@ -255,75 +255,6 @@ Obsoletes:	%{name}-ruby < 1.11.0-1
 %description libs
 This package contains the GDAL file format library.
 
-
-%package java
-Summary:	Java modules for the GDAL file format library
-Requires:	jpackage-utils
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-
-%description java
-The GDAL Java modules provide support to handle multiple GIS file formats.
-
-
-%package javadoc
-Summary:	Javadocs for %{name}
-Requires:	jpackage-utils
-BuildArch:	noarch
-
-%description javadoc
-This package contains the API documentation for %{name}.
-
-
-%package perl
-Summary:	Perl modules for the GDAL file format library
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-
-%description perl
-The GDAL Perl modules provide support to handle multiple GIS file formats.
-
-%if %{with python2}
-%package -n python2-gdal
-%{?python_provide:%python_provide python2-gdal}
-# Remove before F30
-Provides: %{name}-python = %{version}-%{release}
-Provides: %{name}-python%{?_isa} = %{version}-%{release}
-Obsoletes: %{name}-python < %{version}-%{release}
-Summary:	Python modules for the GDAL file format library
-Requires:	numpy
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-
-%description -n python2-gdal
-The GDAL Python modules provide support to handle multiple GIS file formats.
-The package also includes a couple of useful utilities in Python.
-%endif
-
-
-%if %{with python3}
-%package -n python3-gdal
-%{?python_provide:%python_provide python3-gdal}
-Summary:	Python modules for the GDAL file format library
-Requires:	python3-numpy
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Obsoletes:	gdal-python3 < 2.3.1
-Provides:	gdal-python3 = %version-%release
-
-%description -n python3-gdal
-The GDAL Python 3 modules provide support to handle multiple GIS file formats.
-%endif
-
-
-%if %{with python2} || %{with python3}
-%package python-tools
-Summary:	Python tools for the GDAL file format library
-Requires:	%{?with_python3:python3-gdal}%{?!with_python3:python2-gdal}
-
-%description python-tools
-The GDAL Python package provides number of tools for programming and
-manipulating GDAL file format library
-%endif
-
-
 %package doc
 Summary:	Documentation for GDAL
 BuildArch:	noarch
@@ -398,18 +329,6 @@ sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' configure
 # libproj is dlopened; upstream sources point to .so, which is usually not present
 # http://trac.osgeo.org/gdal/ticket/3602
 sed -i 's|libproj.so|libproj.so.%{proj_somaj}|g' ogr/ogrct.cpp
-
-%if %{with python3} || %{with python2}
-# Fix Python samples to depend on correct interpreter
-mkdir -p swig/python3/samples
-pushd swig/python/samples
-for f in `find . -name '*.py'`; do
-  sed 's|^#!.\+python$|#!/usr/bin/python3|' $f > ../../python3/samples/$f
-  chmod --reference=$f ../../python3/samples/$f
-  sed -i 's|^#!.\+python$|#!/usr/bin/python2|' $f
-done
-popd
-%endif
 
 # Adjust check for LibDAP version
 # http://trac.osgeo.org/gdal/ticket/4545
@@ -519,26 +438,6 @@ pushd frmts/iso8211/
   make all
 popd
 
-# Make Java module and documentation
-pushd swig/java
-  make
-  ant maven
-popd
-
-%mvn_artifact swig/java/build/maven/gdal-%version.pom swig/java/build/maven/gdal-%version.jar
-
-# Make Python modules
-pushd swig/python
-  %{?with_python2:%py2_build}
-  %{?with_python3:%py3_build}
-popd
-
-# Make Python modules
-pushd swig/perl
-  perl Makefile.PL INSTALLDIRS=vendor
-  %make_build
-popd
-
 # --------- Documentation ----------
 
 # No useful documentation in swig
@@ -576,15 +475,6 @@ done
 %install
 rm -rf %{buildroot}
 
-pushd swig/python
-  %{?with_python2:%py2_install}
-  %{?with_python3:%py3_install}
-popd
-
-pushd swig/perl
-  %make_install
-popd
-
 make	DESTDIR=%{buildroot}	\
 	install	\
 	install-man
@@ -596,51 +486,6 @@ make	DESTDIR=%{buildroot}	\
 
 # Directory for auto-loading plugins
 mkdir -p %{buildroot}%{_libdir}/%{name}plugins
-
-#TODO: Don't do that?
-find %{buildroot}%{perl_vendorarch} -name "*.dox" -exec rm -rf '{}' \;
-%{__rm} %{buildroot}%{perl_archlib}/perllocal.pod
-
-%if %{without python} && %{without python3}
-%{__rm} %buildroot%_mandir/man1/{pct2rgb,rgb2pct}.1
-%endif
-
-# Correct permissions
-#TODO and potential ticket: Why are the permissions not correct?
-find %{buildroot}%{perl_vendorarch} -name "*.so" -exec chmod 755 '{}' \;
-find %{buildroot}%{perl_vendorarch} -name "*.pm" -exec chmod 644 '{}' \;
-
-# install Java plugin
-%mvn_install -J swig/java/java
-
-# 775 on the .so?
-# copy JNI libraries and links, non versioned link needed by JNI
-# What is linked here?
-%{__mkdir} -p %{buildroot}%{_jnidir}/%{name}
-%{__cp} -pl swig/java/.libs/*.so*  \
-    %{buildroot}%{_jnidir}/%{name}/
-chrpath --delete %{buildroot}%{_jnidir}/%{name}/*jni.so*
-
-# Install Java API documentation in the designated place
-%{__mkdir} -p %{buildroot}%{_javadocdir}/%{name}
-%{__cp} -pr swig/java/java/org %{buildroot}%{_javadocdir}/%{name}
-
-# Install refmans
-for docdir in %{docdirs}; do
-  pushd $docdir
-    path=%{_builddir}/%{name}-%{version}-fedora/refman
-    mkdir -p $path/html/$docdir
-    cp -r html $path/html/$docdir
-
-    # Install all Refmans
-    %if %{build_refman}
-	if [ -f latex/refman.pdf ]; then
-		mkdir -p $path/pdf/$docdir
-		cp latex/refman.pdf $path/pdf/$docdir
-	fi
-    %endif
-  popd
-done
 
 # Install formats documentation
 for dir in gdal_frmts ogrsf_frmts; do
@@ -742,8 +587,6 @@ done
 %{__mkdir} -p %{buildroot}%{gdalinstdir}/include
 %{__mkdir} -p %{buildroot}%{gdalinstdir}/share/man
 %{__mv} %{buildroot}%{_includedir}/* %{buildroot}%{gdalinstdir}/include
-%{__mv} %{buildroot}%{_datadir}/man %{buildroot}%{gdalinstdir}/share/man
-%{__mv} %{buildroot}%{_datadir}/* %{buildroot}%{gdalinstdir}/share
 
 %check
 %if %{run_tests}
@@ -832,58 +675,7 @@ popd
 %{gdalinstdir}/include/*.h
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
-
-# Can I even have a separate Java package anymore?
-%files java -f .mfiles
-%doc swig/java/apps
-%{_jnidir}/%{name}/libgdalalljni.so*
-
-%files javadoc -f .mfiles-javadoc
-
-%files perl
-%doc swig/perl/README
-%{perl_vendorarch}/*
-%{_mandir}/man3/*.3pm*
-
-%if %{with python2}
-%files -n python2-gdal
-%doc swig/python/README.txt
-%doc swig/python/samples
-%{python2_sitearch}/osgeo
-%{python2_sitearch}/GDAL-%{version}-py*.egg-info
-%{python2_sitearch}/osr.py*
-%{python2_sitearch}/ogr.py*
-%{python2_sitearch}/gdal*.py*
-%{python2_sitearch}/gnm.py*
-%endif
-
-%if %{with python3}
-%files -n python3-gdal
-%doc swig/python/README.txt
-%doc swig/python3/samples
-%{python3_sitearch}/osgeo
-%{python3_sitearch}/GDAL-%{version}-py*.egg-info
-%{python3_sitearch}/osr.py
-%{python3_sitearch}/__pycache__/osr.*.py*
-%{python3_sitearch}/ogr.py
-%{python3_sitearch}/__pycache__/ogr.*.py*
-%{python3_sitearch}/gdal*.py
-%{python3_sitearch}/__pycache__/gdal*.*.py*
-%{python3_sitearch}/gnm.py*
-%{python3_sitearch}/__pycache__/gnm.*.py*
-%endif
-
-%if %{with python2} || %{with python3}
-%files python-tools
-%_bindir/*.py
-%{gdalinstdir}/share/man/man1/pct2rgb.1*
-%{gdalinstdir}/share/man/man1/rgb2pct.1*
-%{gdalinstdir}/share/man/man1/gdal2tiles.1*
-%{gdalinstdir}/share/man/man1/gdal_fillnodata.1*
-%{gdalinstdir}/share/man/man1/gdal_merge.1*
-%{gdalinstdir}/share/man/man1/gdal_retile.1*
-%{gdalinstdir}/share/man/man1/gdal_sieve.1*
-%endif
+%{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
 %doc gdal_frmts ogrsf_frmts
