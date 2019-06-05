@@ -1,6 +1,8 @@
 %global pgmajorversion 11
 %global sname gdal
 %global gdalinstdir /usr/%{name}
+%global geos37instdir /usr/geos37
+%global proj52instdir /usr/proj52
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
@@ -111,7 +113,7 @@ BuildRequires:	fontconfig-devel
 # No freexl in EL5
 BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
-BuildRequires:	geos-devel >= 3.7.1
+BuildRequires:	geos37-devel >= 3.7.1
 BuildRequires:	ghostscript
 BuildRequires:	hdf-devel
 BuildRequires:	hdf-static
@@ -157,7 +159,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj-devel >= 5.2.0
+BuildRequires:	proj52-devel >= 5.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	swig
 %if %{build_refman}
@@ -355,7 +357,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 	--with-dods-root=%{_prefix}	\
 	--with-expat		\
 	--with-freexl		\
-	--with-geos		\
+	--with-geos=%{geos37instdir}/bin/geos-config	\
 	--with-geotiff=external	\
 	--with-gif		\
 	--with-gta		\
@@ -380,6 +382,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 	--with-pg=%{pginstdir}/bin/pg_config	\
 	--with-png		\
 	%{poppler}		\
+	--with-proj=%{proj52instdir}	\
 	%{spatialite}		\
 	--with-sqlite3		\
 	--with-threads		\
