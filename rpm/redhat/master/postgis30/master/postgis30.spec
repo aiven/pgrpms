@@ -1,5 +1,6 @@
 %undefine _debugsource_packages
 %global postgismajorversion 3.0
+%global postgissomajorversion 3
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.5
 %global sname	postgis
@@ -230,7 +231,7 @@ CFLAGS="$CFLAGS -I%{gdal23instdir}/include"; export CFLAGS
 	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
 	--includedir=%{gdal23instdir}/include
 
-SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}so"
 
 %{__make} -C extensions
 
@@ -248,10 +249,10 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 %endif
 
 # Create symlink of .so file. PostGIS hackers said that this is safe:
-%{__ln_s} %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
-%{__ln_s} %{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/%{sname}-%{postgissomajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/%{sname}_topology-%{postgissomajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 %if %{raster}
-%{__ln_s} %{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/postgis_raster-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
 %endif
 
 # Create alternatives entries for common binaries
@@ -282,7 +283,6 @@ fi
 %{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_for_extension.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_upgrade*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_restore.pl
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_postgis.sql
@@ -293,28 +293,32 @@ fi
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*sfcgal*.sql
 %endif
 %{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
-%attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgismajorversion}.so
+%attr(755,root,root) %{pginstdir}/lib/%{sname}-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %if %{sfcgal}
 %{pginstdir}/share/extension/%{sname}_sfcgal*.sql
 %{pginstdir}/share/extension/%{sname}_sfcgal.control
 %endif
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/lib/liblwgeom*.so.*
-%{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so
+%{pginstdir}/lib/%{sname}_topology-%{postgissomajorversion}.so
 %{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 %{pginstdir}/lib/address_standardizer.so
-%{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
 %if %{raster}
+%{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis.sql
+%{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_legacy.sql
+%{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_proc_set_search_path.sql
+%{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_upgrade.sql
+%{pginstdir}/share/contrib/postgis-%{postgismajorversion}/uninstall_rtpostgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/*rtpostgis*.sql
+%{pginstdir}/share/extension/postgis_raster*.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
-%{pginstdir}/lib/rtpostgis-%{postgismajorversion}.so
-%{pginstdir}/lib/rtpostgis-%{postgisprevmajorversion}.so
+%{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
+%{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
+%{pginstdir}/share/extension/%{sname}_raster.control
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
@@ -327,13 +331,13 @@ fi
   %else
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer/*.bc
-   %{pginstdir}/lib/bitcode/postgis-%{postgismajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_topology-%{postgismajorversion}/*.bc
-   %{pginstdir}/lib/bitcode/postgis_topology-%{postgismajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis-%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
    %if %raster
-   %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}*.bc
-   %{pginstdir}/lib/bitcode/rtpostgis-%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
    %endif
   %endif
  %endif
@@ -347,10 +351,6 @@ fi
 
 %files devel
 %defattr(644,root,root)
-%{_includedir}/liblwgeom.h
-%{_includedir}/liblwgeom_topo.h
-%{pginstdir}/lib/liblwgeom*.a
-%{pginstdir}/lib/liblwgeom*.la
 
 %files docs
 %defattr(-,root,root)
@@ -372,35 +372,5 @@ fi
 %endif
 
 %changelog
-* Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-1
-- Update to 2.5.2
-
-* Tue Jan 29 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.5.1-5
-- Support builds on EL-6
-- Break out postgis-gui components into their own sub-package
-
-* Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-4
-- Enable rpath builds to embed the right GeOS and Proj version to
-  PostGIS libraries.
-
-* Sun Dec 30 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-3
-- Also add a symlink for postgis_topology, per Paul.
-
-* Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-2
-- Attempt to fix pg_upgrade issues on RHEL 7.
-
-* Thu Nov 29 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-1
-* Fix RHEL 7 issues. Patch from John Harvey.
-- Update to 2.5.1
-
-* Wed Oct 24 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-2
-- Depend on GeOS 3.7
-
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1.1
-- Rebuild against PostgreSQL 11.0
-
-* Mon Sep 24 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1
-- Update to 2.5.0 Gold
-
-* Thu Aug 23 2018 Devrim Gündüz <devrim@gunduz.org> - 2.5.0beta2-1
-- Initial cut for PostGIS 2.5.0 beta2
+* Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-1
+- Initial cut for PostGIS 3.0.0 Alpha 2
