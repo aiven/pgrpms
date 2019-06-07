@@ -39,7 +39,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -273,7 +273,6 @@ fi
 %{__rm} -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE.TXT
@@ -373,6 +372,10 @@ fi
 %endif
 
 %changelog
+* Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-3
+- Fix build-id conflict. Per report from Laurenz Albe:
+  https://www.postgresql.org/message-id/33eb80b3f74b332d5eeee95825f91e45858ecd90.camel%40cybertec.at
+
 * Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-2
 - Fix Fedora builds (CLANG)
 - Use new gdal23 package as dependency.
