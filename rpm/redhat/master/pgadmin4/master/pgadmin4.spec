@@ -195,7 +195,7 @@ Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8 python3-speaklater >= 1.3
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
+Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
@@ -224,7 +224,7 @@ Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
+Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
@@ -246,7 +246,7 @@ Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-flask-babelex
 Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.9.6
+Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
