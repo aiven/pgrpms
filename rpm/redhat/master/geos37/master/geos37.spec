@@ -29,7 +29,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	gcc-c++
 Obsoletes:	geos36 >= 3.6.0
-Provides:	geos36 >= 3.6.0
+Obsoletes:	geos36 >= 3.6.0
+Provides:	geos37-python >= 3.7.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
