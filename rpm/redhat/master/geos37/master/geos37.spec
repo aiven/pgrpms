@@ -15,7 +15,7 @@
 %endif
 
 Name:		%{sname}37
-Version:	3.7.1
+Version:	3.7.2
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -27,7 +27,6 @@ Patch0:		%{name}-gcc43.patch
 
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
-BuildRequires:	python-devel
 BuildRequires:	gcc-c++
 Obsoletes:	geos36 >= 3.6.0
 Provides:	geos36 >= 3.6.0
@@ -40,12 +39,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
-
-%global __ospython %{_bindir}/python2
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -71,21 +64,6 @@ functions such as IsValid()
 This package contains the development files to build applications that
 use GEOS
 
-%package python
-Summary:	Python modules for GEOS
-Group:		Development/Libraries
-Requires:	%{name} = %{version}-%{release}
-BuildRequires:	swig
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-Obsoletes:	geos36-python >= 3.6.0
-Provides:	geos36-python >= 3.6.0
-
-%description python
-Python module to build applications using GEOS and python
-
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
@@ -98,10 +76,6 @@ Python module to build applications using GEOS and python
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-# fix python path on 64bit
-sed -i -e 's|\/lib\/python|$libdir\/python|g' configure
-sed -i -e 's|.get_python_lib(0|.get_python_lib(1|g' configure
-
 # disable internal libtool to avoid hardcoded r-path
 %if 0%{?rhel} && 0%{?rhel} >= 7
 for makefile in $(find . -type f -name 'Makefile.in'); do
@@ -109,7 +83,7 @@ sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 %endif
 
-PYTHON=/usr/bin/python2 ./configure --prefix=%{geosinstdir} --libdir=/usr/geos37/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
+./configure --prefix=%{geosinstdir} --libdir=/usr/geos37/%{_geoslibdir} --disable-static --disable-dependency-tracking --disable-python
 # Touch the file, since we are not using ruby bindings anymore:
 # Per http://lists.osgeo.org/pipermail/geos-devel/2009-May/004149.html
 touch swig/python/geos_wrap.cxx
@@ -127,10 +101,6 @@ cd doc
 # Create linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
-
-%check
-# test module
-%{__make} %{?_smp_mflags} check || exit 0
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -167,21 +137,12 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/bin/geos-config
 %{geosinstdir}/include/*
 
-%files python
-%defattr(-,root,root,-)
-%defattr(-,root,root,-)
-%dir %exclude %{geosinstdir}/
-%dir %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/
-%exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.la
-%if 0%{?rhel} && 0%{?rhel} >= 7
-%exclude %{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.a
-%endif
-%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/_%{sname}.so
-%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}.pth
-%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py
-%{geosinstdir}/%{_geoslibdir}/python%{pyver}/site-packages/%{sname}/%{sname}.py?
-
 %changelog
+* Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.2-1
+- Update to 3.7.2
+- Remove Python bindings. We should have done it several releases ago.
+- Remove %%check
+
 * Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.1-1
 - Update to 3.7.1
 
