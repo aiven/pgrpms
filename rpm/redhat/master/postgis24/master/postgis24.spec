@@ -37,7 +37,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -376,7 +376,7 @@ fi
 %endif
 
 %changelog
-* Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-2
+* Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-3
 - Fix build-id conflict. Per report from Laurenz Albe:
   https://www.postgresql.org/message-id/33eb80b3f74b332d5eeee95825f91e45858ecd90.camel%40cybertec.at
 - Link to our GeOS.
