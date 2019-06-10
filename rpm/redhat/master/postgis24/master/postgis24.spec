@@ -37,7 +37,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -194,9 +194,13 @@ The %{name}-utils package provides the utilities for PostGIS.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
 
-%build
+# Add GeOS flags
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
+
+# GDAL:
+LDFLAGS="-Wl,-rpath,%{gdal23instdir}/lib ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{gdal23instdir}/lib" ; export SHLIB_LINK
 
 CFLAGS="${CFLAGS:-%optflags}"
 
@@ -267,7 +271,6 @@ fi
 %{__rm} -rf %{buildroot}
 
 %files
-%defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc LICENSE.TXT
@@ -373,6 +376,11 @@ fi
 %endif
 
 %changelog
+* Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-2
+- Fix build-id conflict. Per report from Laurenz Albe:
+  https://www.postgresql.org/message-id/33eb80b3f74b332d5eeee95825f91e45858ecd90.camel%40cybertec.at
+- Link to our GeOS.
+
 * Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-2
 - Fix Fedora builds (CLANG)
 - Use new gdal23 package as dependency.
