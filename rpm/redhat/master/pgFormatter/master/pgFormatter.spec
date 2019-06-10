@@ -1,6 +1,6 @@
 Summary:	A PostgreSQL SQL syntax beautifier
 Name:		pgFormatter
-Version:	3.3
+Version:	4.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -44,6 +44,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{perl_vendorlib}/regress_test.pl
 
 %changelog
+* Tue Jun 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.0-1
+- Update to 4.0
+
 * Tue Dec 11 2018 - Devrim Gündüz <devrim@gunduz.org> 3.3-1
 - Update to 3.3
 
