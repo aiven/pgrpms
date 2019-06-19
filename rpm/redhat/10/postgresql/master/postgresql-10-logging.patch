@@ -52,13 +52,13 @@
  					#   %a = application name
  					#   %u = user name
  					#   %d = database name
---- src/test/perl/PostgresNode.pm.old	2018-05-08 11:52:55.206799322 +0100
-+++ src/test/perl/PostgresNode.pm	2018-05-08 11:53:10.083890804 +0100
-@@ -414,6 +414,7 @@
+--- src/test/perl/PostgresNode.pm.old	2019-06-19 20:37:21.541015301 +0300
++++ src/test/perl/PostgresNode.pm	2019-06-19 20:37:38.676127250 +0300
+@@ -420,6 +420,7 @@
  	print $conf "fsync = off\n";
  	print $conf "restart_after_crash = off\n";
  	print $conf "log_line_prefix = '%m [%p] %q%a '\n";
 +	print $conf "logging_collector = off\n";
  	print $conf "log_statement = all\n";
  	print $conf "wal_retrieve_retry_interval = '500ms'\n";
- 	print $conf "port = $port\n";
+ 
