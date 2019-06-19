@@ -72,8 +72,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.22
-Release:	2PGDG%{?dist}
+Version:	9.4.23
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -1342,6 +1342,10 @@ fi
 %endif
 
 %changelog
+* Wed Jun 19 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.23-1PGDG
+- Update to 9.4.23, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-23.html
+
 * Wed May 22 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.22-2PGDG
 - Initial attempt for RHEL 8 packaging updates.
 - Rename plpython macro to plpython2, to stress that it is for Python 2.
