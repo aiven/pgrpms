@@ -2,7 +2,7 @@
 %global sname e-maj
 
 Name:		emaj
-Version:	3.0.0
+Version:	3.1.0
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 Group:		Applications/Databases
@@ -40,6 +40,9 @@ in time.
 %{_datadir}/%{name}-%{version}/sql/*.sql
 
 %changelog
+* Sun Jun 23 2019 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
+- Update to 3.1.0
+
 * Sun Mar 24 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 
