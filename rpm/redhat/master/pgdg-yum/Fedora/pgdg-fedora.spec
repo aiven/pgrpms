@@ -1,6 +1,6 @@
 Name:		pgdg-fedora-repo
 Version:	42.0
-Release:	4
+Release:	5
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
 Group:		System Environment/Base
 License:	PostgreSQL
@@ -42,6 +42,10 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-5
+- Add module_hotfixes=true for RHEL 8 and Fedora users, per
+  https://bugzilla.redhat.com/show_bug.cgi?id=1718201
+
 * Wed Apr 17 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-4
 - Remove major version from GPG file name in the repo file as well.
 
