@@ -6,8 +6,8 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.3.0
-Release:	2%{?dist}
+Version:	4.4.0
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -170,6 +170,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 27 2019 - Devrim Gündüz <devrim@gunduz.org> 4.4.0-1
+- Update to 4.4.0
+
 * Fri Apr 12 2019 - Devrim Gündüz <devrim@gunduz.org> 4.3.0-2
 - Fix tmpfilesd directory. Per https://redmine.postgresql.org/issues/4156
 
