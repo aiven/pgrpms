@@ -40,7 +40,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha2.tar.gz
@@ -79,6 +79,8 @@ BuildRequires:	gdal23-devel >= 2.3.2-7
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
+BuildRequires:	protobuf-c-devel
+
 Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
 Requires:	postgresql%{pgmajorversion}-contrib proj49
 %if 0%{?rhel} && 0%{?rhel} < 6
@@ -99,6 +101,9 @@ Requires:	gdal23-libs >= 2.3.2-7
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
+
+Requires:	protobuf-c
+
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -368,5 +373,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-2
+- Add protobuf-c dependency, so that related functions can be used.
+  Per https://redmine.postgresql.org/issues/4390
+
 * Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-1
 - Initial cut for PostGIS 3.0.0 Alpha 2
