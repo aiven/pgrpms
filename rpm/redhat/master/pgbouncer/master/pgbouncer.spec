@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.9.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
@@ -202,6 +202,10 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-3
+- Change/Fix pgBouncer systemd configuration, per Peter:
+  https://redmine.postgresql.org/issues/4398
+
 * Fri Apr 12 2019 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-2
 - Fix tmpfiles.d directory.
 

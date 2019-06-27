@@ -13,7 +13,7 @@ After=syslog.target
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 
 User=pgbouncer
 Group=pgbouncer
@@ -27,7 +27,7 @@ PIDFile=/var/run/pgbouncer/pgbouncer.pid
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 
-ExecStart=/usr/bin/pgbouncer -d -q ${BOUNCERCONF}
+ExecStart=/usr/bin/pgbouncer ${BOUNCERCONF}
 ExecReload=/usr/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
