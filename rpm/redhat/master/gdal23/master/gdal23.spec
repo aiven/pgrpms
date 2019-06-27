@@ -65,7 +65,7 @@
 
 Name:		%{sname}23
 Version:	2.3.2
-Release:	7%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	8%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -79,6 +79,7 @@ Source1:	%{sname}autotest-%{testversion}.tar.gz
 Source3:	%{sname}-cleaner.sh
 
 Source4:	PROVENANCE.TXT-fedora
+Source5:	%{name}-pgdg-libs.conf
 
 # Fix bash-completion install dir
 Patch3:		%{sname}-completion.patch
@@ -573,6 +574,10 @@ done
 %{__mkdir} -p %{buildroot}%{gdalinstdir}/share/man
 %{__mv} %{buildroot}%{_includedir}/* %{buildroot}%{gdalinstdir}/include
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE5} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 %check
 
 %post libs -p /sbin/ldconfig
@@ -621,6 +626,7 @@ done
 %{gdalinstdir}/share/
 #TODO: Possibly remove files like .dxf, .dgn, ...
 %dir %{gdalinstdir}/lib/%{sname}plugins
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %{gdalinstdir}/bin/%{sname}-config
@@ -644,6 +650,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-8
+- Add linker config file, per various bug reports.
+
 * Wed Jun 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-7
 - Initial packaging for PostgreSQL RPM repository, based on
   Fedora packaging.
