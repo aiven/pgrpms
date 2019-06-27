@@ -39,7 +39,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -74,6 +74,9 @@ BuildRequires:	gdal-devel >= 1.9.2-9
 BuildRequires:	gdal23-devel >= 2.3.2-7
   %endif
 %endif
+
+Requires:	protobuf-c-devel
+
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
@@ -96,6 +99,9 @@ Requires:	gdal-libs >= 1.9.2-9
 %else
 Requires:	gdal23-libs >= 2.3.2-7
 %endif
+
+Requires:	protobuf-c
+
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 %ifarch ppc64 ppc64le
@@ -377,6 +383,10 @@ fi
 %endif
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-4
+- Add protobuf-c dependency, so that related functions can be used.
+  Per https://redmine.postgresql.org/issues/4390
+
 * Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-3
 - Fix build-id conflict. Per report from Laurenz Albe:
   https://www.postgresql.org/message-id/33eb80b3f74b332d5eeee95825f91e45858ecd90.camel%40cybertec.at
