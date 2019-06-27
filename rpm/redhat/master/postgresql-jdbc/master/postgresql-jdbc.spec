@@ -2,7 +2,7 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.2.5
+Version:	42.2.6
 Release:	1%{?dist}.1
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
@@ -142,6 +142,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 42.2.6-1
+- Update to 42.2.6
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 42.2.5-1.1
 - Rebuild against PostgreSQL 11.0
 
