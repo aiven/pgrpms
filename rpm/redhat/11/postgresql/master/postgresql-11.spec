@@ -420,7 +420,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	llvm5.0 >= 5.0
 %else
+%if 0%{?suse_version} >= 1500
+Requires:	llvm5
+%else
 Requires:	llvm => 5.0
+%endif
 %endif
 Provides:	postgresql-llvmjit
 
