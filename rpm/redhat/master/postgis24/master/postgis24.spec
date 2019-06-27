@@ -199,6 +199,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
 
+%build
 # Add GeOS flags
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
@@ -220,7 +221,6 @@ CFLAGS="${CFLAGS:-%optflags}"
 CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v fstack-clash-protection|xargs -n 100`; export CFLAGS
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
-%build
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
 	--without-raster \
