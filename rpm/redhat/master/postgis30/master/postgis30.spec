@@ -40,7 +40,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha2.tar.gz
@@ -110,8 +110,8 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
-Obsoletes:	%{sname}2_%{pgmajorversion} <= %{postgismajorversion}.2-1
-Provides:	%{sname}2_%{pgmajorversion} => %{postgismajorversion}.0
+Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
+Provides:	%{sname}3_%{pgmajorversion} => %{postgismajorversion}.0
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
@@ -373,6 +373,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-3
+- Obsolete correct version. Patch from Alan Ivey
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-2
 - Add protobuf-c dependency, so that related functions can be used.
   Per https://redmine.postgresql.org/issues/4390
