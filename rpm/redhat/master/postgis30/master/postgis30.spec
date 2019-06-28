@@ -40,11 +40,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha2.tar.gz
-#http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
@@ -79,7 +78,9 @@ BuildRequires:	gdal23-devel >= 2.3.2-7
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel
+%endif
 
 Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
 Requires:	postgresql%{pgmajorversion}-contrib proj49
@@ -102,7 +103,9 @@ Requires:	gdal23-libs >= 2.3.2-7
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 Requires:	protobuf-c
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -373,6 +376,10 @@ fi
 %endif
 
 %changelog
+* Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-4
+- Add protobuf dependency only for RHEL 8 and Fedora, per
+  https://redmine.postgresql.org/issues/4390#note-3
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-3
 - Obsolete correct version. Patch from Alan Ivey
 

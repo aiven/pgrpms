@@ -37,7 +37,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -72,7 +72,9 @@ BuildRequires:	gdal23-devel >= 2.3.2-7
   %endif
 %endif
 
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel
+%endif
 
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
@@ -99,8 +101,9 @@ Requires:	gdal23-libs >= 2.3.2-7
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
-Requires:	protobuf-c-devel
-
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+Requires:	protobuf-c
+%
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -382,6 +385,10 @@ fi
 %endif
 
 %changelog
+* Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-5
+- Add protobuf dependency only for RHEL 8 and Fedora, per
+  https://redmine.postgresql.org/issues/4390#note-3
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-4
 - Add protobuf-c dependency, so that related functions can be used.
   Per https://redmine.postgresql.org/issues/4390

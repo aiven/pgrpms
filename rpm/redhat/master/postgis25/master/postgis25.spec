@@ -75,7 +75,9 @@ BuildRequires:	gdal23-devel >= 2.3.2-7
   %endif
 %endif
 
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel
+%endif
 
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
@@ -100,7 +102,9 @@ Requires:	gdal-libs >= 1.9.2-9
 Requires:	gdal23-libs >= 2.3.2-7
 %endif
 
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 Requires:	protobuf-c
+%endif
 
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
@@ -384,7 +388,8 @@ fi
 
 %changelog
 * Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-5
-- Fix protobuf-c BR dependency
+- Add protobuf dependency only for RHEL 8 and Fedora, per
+  https://redmine.postgresql.org/issues/4390#note-3
 
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-4
 - Add protobuf-c dependency, so that related functions can be used.
