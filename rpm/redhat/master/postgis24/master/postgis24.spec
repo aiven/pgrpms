@@ -103,7 +103,8 @@ Requires(post):	%{_sbindir}/update-alternatives
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 Requires:	protobuf-c
-%
+%endif
+
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
