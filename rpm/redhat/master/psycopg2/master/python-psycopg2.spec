@@ -41,13 +41,13 @@
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python2-%{sname}
-Version:	2.8.2
-Release:	2%{?dist}
+Version:	2.8.3
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Group:		Applications/Databases
-Url:		http://www.psycopg.org/psycopg/
-Source0:	http://www.psycopg.org/psycopg/tarballs/PSYCOPG-2-8/%{sname}-%{version}.tar.gz
+Url:		http://initd.org/psycopg/
+Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	python-%{sname} = %{version}-%{release}
@@ -249,6 +249,9 @@ done
 %endif
 
 %changelog
+* Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-1
+- Update to 2.8.3
+
 * Fri May 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.2-2
 - Fix conflict with existing packages, per
   https://redmine.postgresql.org/issues/4287
