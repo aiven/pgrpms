@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.10.0
-Release:	3%{?dist}
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://pgbouncer.github.io/
