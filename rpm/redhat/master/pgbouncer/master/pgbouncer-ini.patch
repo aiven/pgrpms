@@ -1,6 +1,6 @@
---- etc/pgbouncer.ini.old	2012-04-24 01:42:43.093199723 +0300
-+++ etc/pgbouncer.ini	2012-04-24 01:43:58.083201432 +0300
-@@ -59,10 +59,10 @@
+--- etc/pgbouncer.ini.old	2019-07-02 11:25:10.885907281 +0100
++++ etc/pgbouncer.ini	2019-07-02 11:25:48.976581540 +0100
+@@ -118,10 +118,10 @@
  ;;;
  
  ; comma-separated list of users, who are allowed to change settings
