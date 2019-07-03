@@ -8,11 +8,11 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.5.2
-Release:	1%{?dist}.1
+Version:	1.5.8
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}-4.tar.gz
+Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -74,7 +74,10 @@ to manage partitions.
 %endif
 
 %changelog
-* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org>
+* Wed Jul 3 2019 Devrim Gündüz <devrim@gunduz.org> 1.5.8-1
+- Update to 1.5.8
+
+* Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> 1.5.2-1.1
 - Rebuild against PostgreSQL 11.0
 
 * Tue Oct 16 2018 - Devrim Gündüz <devrim@gunduz.org> 1.5.2-1
