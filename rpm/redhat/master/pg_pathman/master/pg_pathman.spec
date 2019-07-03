@@ -10,7 +10,7 @@ Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.5.8
 Release:	1%{?dist}
-License:	BSD
+License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -33,7 +33,7 @@ The pg_pathman module provides optimized partitioning mechanism and functions
 to manage partitions.
 
 %prep
-%setup -q -n %{sname}-%{version}-4
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
