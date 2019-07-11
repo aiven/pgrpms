@@ -38,7 +38,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 Group:		Applications/Databases
 License:	PostgreSQL
@@ -190,17 +190,17 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >= 0.2
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.4.0
-Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex pgadmin4-python3-psutil >= 5.5.1
+Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex %{name}-python3-psutil >= 5.5.1
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8 python3-speaklater >= 1.3
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
+Requires:	%{name}-python3-six >= 1.12.0 python3-crypto >= 2.6.1 %{name}-python3-werkzeug >= 0.15.4
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} == 28
-Requires:	pgadmin4-python3-blinker >= 1.4
+Requires:	%{name}-python3-blinker >= 1.4
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} == 29
@@ -218,13 +218,13 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security >= 
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >= 0.2
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.4.0
-Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex pgadmin4-python3-psutil >= 5.5.1
+Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex %{name}-python3-psutil >= 5.5.1
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
+Requires:	%{name}-python3-six >= 1.12.0 python3-crypto >= 2.6.1 %{name}-python3-werkzeug >= 0.15.4
 Requires:	python3-speaklater >= 1.3
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
@@ -246,7 +246,7 @@ Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-flask-babelex
 Requires:	python3-blinker >= 1.4 python3-itsdangerous >= 0.24
 Requires:	python3-psycopg2 >= 2.8
-Requires:	pgadmin4-python3-six >= 1.12.0 python3-crypto >= 2.6.1 python3-werkzeug >= 0.15.4
+Requires:	%{name}-python3-six >= 1.12.0 python3-crypto >= 2.6.1 %{name}-python3-werkzeug >= 0.15.4
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
@@ -290,9 +290,9 @@ Requires:	%{name}-python-dateutil >= 2.8.0
 Requires:	%{name}-python-flask-babelex
 Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.4.0
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.4
-Requires:	python >= 2.7 pgadmin4-python-six >= 1.12.0 python-psycopg2 >= 2.8
+Requires:	python >= 2.7 %{name}-python-six >= 1.12.0 python-psycopg2 >= 2.8
 Requires:	python-speaklater >= 1.3 python-click
-Requires:	python-crypto >= 2.6.1 mod_wsgi pgadmin4-python-psutil >= 5.5.1
+Requires:	python-crypto >= 2.6.1 mod_wsgi %{name}-python-psutil >= 5.5.1
 %endif
 
 %if 0%{?suse_version}
@@ -517,6 +517,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Jul 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.10-2
+- Fix werkzeug dependency.
+
 * Wed Jul 3 2019 - Devrim Gündüz <devrim@gunduz.org> 4.10-1
 - Update to 4.10
 
