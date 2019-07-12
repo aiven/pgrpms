@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.2.2
+Version:	8.3.0
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
@@ -106,6 +106,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Fri Jul 12 2019 Devrim Gündüz <devrim@gunduz.org> 8.3.0-1
+- Update to 8.3.0
+
 * Thu Jun 13 2019 Devrim Gündüz <devrim@gunduz.org> 8.2.2-1
 - Update to 8.2.2
 
