@@ -1,1 +1,0 @@
-../master/pgadmin3-python-psutil.spec

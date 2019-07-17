@@ -1,1 +1,0 @@
-../master/www_fdw.spec

@@ -1,1 +1,0 @@
-../master/pgaudit13.spec
