@@ -7,7 +7,7 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%if 0%{?fedora} > 26
+%if 0%{?fedora} > 26 || 0%{?rhel} >= 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython3 %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
