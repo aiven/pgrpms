@@ -6,13 +6,13 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-%if 0%{fedora} || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Version:	1.3.7
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 %endif
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GLPLv2
 Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
@@ -131,6 +131,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Fri Jul 19 2019 John K. Harvey <john.harvey@crunchydata.com> - 1.3.7-2
+- Fix broken macro
+
 * Mon Jun 3 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-1
 - Update to 1.3.7
 
