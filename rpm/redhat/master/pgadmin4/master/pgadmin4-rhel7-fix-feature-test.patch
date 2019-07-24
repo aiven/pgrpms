@@ -1,0 +1,10 @@
+--- web/pgadmin/feature_tests/query_tool_journey_test.py.old
++++ web/pgadmin/feature_tests/query_tool_journey_test.py
+@@ -7,6 +7,7 @@
+ #
+ ##########################################################################
+ 
++from __future__ import print_function
+ import sys
+ import pyperclip
+ import random

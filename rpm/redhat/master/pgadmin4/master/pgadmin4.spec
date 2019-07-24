@@ -54,6 +54,8 @@ Source8:	%{name}.service.in
 Patch0:		%{name}-sphinx-theme.patch
 Patch2:		%{name}-rhel6-sphinx.patch
 Patch4:		%{name}-rhel7-sphinx.patch
+# This patch will probably go away in 4.12:
+Patch5:		%{name}-rhel7-fix-feature-test.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
@@ -356,6 +358,8 @@ GNOME Desktop components of pgAdmin4.
 # Apply this patch only to RHEL 6 and 7:
 %if 0%{?rhel} <= 7
 %patch0 -p0
+# This patch will probably go away in 4.12:
+%patch5 -p0
 %endif
 
 # Apply this patch only to RHEL 6
@@ -519,6 +523,7 @@ fi
 %changelog
 * Tue Jul 23 2019 - Devrim Gündüz <devrim@gunduz.org> 4.11-1
 - Update to 4.11
+- Add a patch to fix feature tests on RHEL 7. Contributed by Akshay Joshi.
 
 * Thu Jul 11 2019 - Devrim Gündüz <devrim@gunduz.org> 4.10-2
 - Fix werkzeug dependency.
