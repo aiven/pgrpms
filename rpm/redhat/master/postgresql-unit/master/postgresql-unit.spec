@@ -7,7 +7,7 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	7.0
+Version:	7.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -79,6 +79,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %endif
 
 %changelog
+* Thu Jul 25 2019 Devrim Gündüz <devrim@gunduz.org> 7.1-1
+- Update to 7.1
+
 * Tue Oct 23 2018 Devrim Gündüz <devrim@gunduz.org> 7.0-1
 - Update to 7.0
 
