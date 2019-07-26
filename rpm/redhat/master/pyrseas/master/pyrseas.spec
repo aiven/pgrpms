@@ -22,8 +22,8 @@
 
 Summary:	Compare and synchronize PostgreSQL database schemas
 Name:		python2-%{sname}
-Version:	0.8.0
-Release:	1%{?dist}.1
+Version:	0.9.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/perseas/%{cname}/archive/v%{version}.tar.gz
@@ -31,6 +31,7 @@ URL:		https://github.com/perseas/%{cname}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
+Requires:	python2-pgdbconn
 %description
 Pyrseas provides a framework and utilities to upgrade and maintain a relational
 database. Its purpose is to enhance and follow through on the concepts of the
@@ -39,6 +40,7 @@ Andromeda Project.
 %if 0%{?with_python3}
 %package -n python3-%{sname}
 Summary:	Compare and synchronize PostgreSQL database schemas
+Requires:	python3-pgdbconn
 
 %description -n python3-%{sname}
 Pyrseas provides a framework and utilities to upgrade and maintain a relational
@@ -85,6 +87,10 @@ Andromeda Project. This is Python 3 version.
 %endif
 
 %changelog
+* Fri Jul 26 2019 - Devrim Gündüz <devrim@gunduz.org> 0.9.0-1
+- Update to 0.9.0
+- Add dbpgconn dependency
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.8.0-1.1
 - Rebuild against PostgreSQL 11.0
 
