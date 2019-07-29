@@ -41,4 +41,4 @@ include ../../../common/Makefile.global-PG10
 include ../../../common/Makefile.global-PG11-testing
 include ../../../common/Makefile.global-PG11
 include ../../../common/Makefile.global-PG12-testing
-
+include ../../../common/Makefile.global-PG12
