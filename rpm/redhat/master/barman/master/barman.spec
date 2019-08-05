@@ -34,7 +34,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.8
+Version:	2.9
 Release:	1%{?dist}
 License:	GPLv3
 Group:		Applications/Databases
@@ -154,6 +154,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Aug 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
+- Update to 2.9
+
 * Wed May 15 2019 Marco Nenciarini <marco.nenciarini@2ndquadrant.it> 2.8-1
 - New upstream version 2.8
 - Add python3-barman and barman-cli binaries
