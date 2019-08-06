@@ -88,7 +88,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.4
+Version:	11.5
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -1530,6 +1530,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 11.5-1PGDG
+- Update to 11.5, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-11-5.html
+
 * Wed Jun 19 2019 Devrim Gündüz <devrim@gunduz.org> - 11.4-1PGDG
 - Update to 11.4, per changes described at
   https://www.postgresql.org/docs/devel/static/release-11-4.html
