@@ -89,7 +89,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12beta2
+Version:	12beta3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -551,7 +551,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-12beta2
+%setup -q -n %{sname}-12beta3
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1531,6 +1531,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta3_1PGDG
+- Update to 12beta3
+
 * Wed Jun 19 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta2_1PGDG
 - Update to 12beta2
 
