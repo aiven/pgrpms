@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
-Version:	1.6.0
+Version:	1.7.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -54,7 +54,7 @@ access to the row revisions
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__install} -d %{buildroot}%{pginstdir}/bin
 %{__mv} %{buildroot}/usr/local/bin/table_version-loader %{buildroot}/%{pginstdir}/bin/
-%{__mv} %{buildroot}/usr/local/share/table_version/table_version-1.6.0.sql.tpl %{buildroot}%{pginstdir}/share/extension/
+%{__mv} %{buildroot}/usr/local/share/table_version/table_version-1.7.1.sql.tpl %{buildroot}%{pginstdir}/share/extension/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -73,6 +73,9 @@ access to the row revisions
 %{pginstdir}/doc/extension/how_to_release.md
 
 %changelog
+* Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
+- Update to 1.7.1
+
 * Fri Feb 8 2019 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
 - Update to 1.6.0
 
