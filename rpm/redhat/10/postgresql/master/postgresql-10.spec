@@ -85,7 +85,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.9
+Version:	10.10
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -1440,6 +1440,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 10.10-1PGDG
+- Update to 10.10, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-10.html
+
 * Wed Jun 19 2019 Devrim Gündüz <devrim@gunduz.org> - 10.9-1PGDG
 - Update to 10.9, per changes described at
   https://www.postgresql.org/docs/devel/static/release-10-9.html
