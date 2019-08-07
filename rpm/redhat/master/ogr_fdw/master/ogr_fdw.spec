@@ -8,15 +8,16 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.7
+Version:	1.0.8
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch2:		ogr_fdw-makefile-gdal23.patch
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal-devel
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal23-devel
+Requires:	postgresql%{pgmajorversion}-server gdal23-libs
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
@@ -35,6 +36,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %prep
 %setup -q -n pgsql-ogr-fdw-%{version}
 %patch0 -p0
+%patch2 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -82,6 +84,10 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
+* Wed Aug 7 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1
+- Update to 1.0.8
+- Use our gdal23 packages
+
 * Tue Oct 16 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
 - Update to 1.0.7
 - Install bitcode files.
