@@ -13,7 +13,7 @@ Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.ta
 License:	BSD
 Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-Url:		http://pgxnclient.projects.postgresql.org/
+Url:		https://github.com/pgxn/pgxnclient
 BuildRequires:	python-devel python-setuptools
 
 %description
@@ -29,8 +29,8 @@ removing extensions in a PostgreSQL installation or database.
 
 %install
 %{__rm} -rf %{buildroot}
-mkdir -p %{buildroot}%{python_sitearch}/%{name}
-mkdir -p %{buildroot}%{python_sitearch}/%{name}/tests
+%{__mkdir} -p %{buildroot}%{python_sitearch}/%{name}
+%{__mkdir} -p %{buildroot}%{python_sitearch}/%{name}/tests
 %{__python} setup.py install --root %{buildroot}
 
 %clean
