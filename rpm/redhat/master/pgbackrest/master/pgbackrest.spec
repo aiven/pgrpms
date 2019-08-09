@@ -2,7 +2,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.15.1
+Version:	2.16
 Release:	1%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -19,6 +19,9 @@ Requires:	perl-JSON-PP
 Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes zlib
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires:	openssl-devel zlib-devel perl-ExtUtils-Embed
+BuildRequires:	postgresql%{pgajorversion}-devel
+Requires:	postgresql%{pgajorversion}-libs
+
 
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
@@ -36,7 +39,8 @@ are required to perform a backup which increases security.
 
 %build
 pushd src
-%configure
+export CPPFLAGS='-I %{pginstdir}/include'
+LDFLAGS='-L%{pginstdir}/lib' %configure
 %{__make}
 popd
 
@@ -66,6 +70,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Fri Aug 9 2019 Devrim Gündüz <devrim@gunduz.org> - 2.16-1
+- Update to 2.16
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.15.1-1
 - Update to 2.15.1, which fixes an upstream tag issue.
 
