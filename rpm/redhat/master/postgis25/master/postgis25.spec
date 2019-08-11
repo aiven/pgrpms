@@ -38,8 +38,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.2
-Release:	5%{?dist}
+Version:	%{postgismajorversion}.3
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-1
+- Update to 2.5.3
+
 * Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.2-5
 - Add protobuf dependency only for RHEL 8 and Fedora, per
   https://redmine.postgresql.org/issues/4390#note-3
