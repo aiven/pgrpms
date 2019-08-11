@@ -1,3 +1,4 @@
+%global pgmajorversion 11
 %global debug_package %{nil}
 
 %global postgismajorversion 2.3
@@ -69,7 +70,15 @@ BuildRequires:	SFCGAL-devel
 Requires:	SFCGAL
 %endif
 %if %{raster}
-BuildRequires:	gdal-devel >= 1.9.0
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	gdal-devel >= 1.9.2-9
+  %else
+BuildRequires:	gdal23-devel >= 2.3.2-7
+  %endif
+%endif
+
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+BuildRequires:	protobuf-c-devel
 %endif
 
 %ifarch ppc64 ppc64le
@@ -83,13 +92,21 @@ Requires:	hdf5 < 1.8.7
 %else
 Requires:	hdf5
 %endif
-
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c2 libgdal20
 %else
-Requires:	json-c gdal-libs >= 1.9.0
+Requires:	json-c
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	gdal-libs >= 1.9.2-9
+%else
+Requires:	gdal23-libs >= 2.3.2-7
 %endif
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+Requires:	protobuf-c
+%endif
+%endif
+
 Requires(post):	%{_sbindir}/update-alternatives
 
 %ifarch ppc64 ppc64le
