@@ -39,11 +39,11 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0alpha2
-Release:	4%{?dist}
+Version:	%{postgismajorversion}.0alpha4
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
-Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha2.tar.gz
+Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
@@ -306,7 +306,7 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}_topology-%{postgissomajorversion}.so
 %{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
-%{pginstdir}/lib/address_standardizer.so
+%{pginstdir}/lib/address_standardizer-3.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
@@ -334,7 +334,7 @@ fi
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
-   %{pginstdir}/lib/bitcode/address_standardizer/*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
@@ -376,6 +376,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-1
+- Update to 3.0.0 Alpha 4
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha2-4
 - Add protobuf dependency only for RHEL 8 and Fedora, per
   https://redmine.postgresql.org/issues/4390#note-3
