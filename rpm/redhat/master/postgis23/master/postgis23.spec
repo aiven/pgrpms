@@ -4,6 +4,9 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.2
 %global sname	postgis
+%global geosinstdir /usr/geos37
+%global projinstdir /usr/proj49
+%global gdal23instdir /usr/gdal23
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -34,8 +37,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.7
-Release:	2%{?dist}.1
+Version:	%{postgismajorversion}.10
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -49,7 +52,7 @@ Patch1:		%{sname}23-json-c_013.patch
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos36-devel >= 3.6.2, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos37-devel >= 3.6.2, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
@@ -73,7 +76,7 @@ BuildRequires:	gdal-devel >= 1.9.0
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
+Requires:	postgresql%{pgmajorversion} geos36 >= 3.7.2
 Requires:	postgresql%{pgmajorversion}-contrib proj49
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -181,6 +184,15 @@ The postgis-utils package provides the utilities for PostGIS.
 %endif
 
 %build
+# Add GeOS flags
+LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
+
+# GDAL:
+LDFLAGS="-Wl,-rpath,%{gdal23instdir}/lib ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{gdal23instdir}/lib" ; export SHLIB_LINK
+
+CFLAGS="${CFLAGS:-%optflags}"
 
 %ifarch ppc64 ppc64le
 	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
@@ -189,7 +201,10 @@ The postgis-utils package provides the utilities for PostGIS.
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
+
+# Strip out fstack-clash-protection from CFLAGS:
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v fstack-clash-protection|xargs -n 100`; export CFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -201,11 +216,13 @@ LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-	--disable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/usr/geos36/bin/geos-config \
-	--with-projdir=/usr/proj49
+	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
+	--enable-rpath --libdir=%{pginstdir}/lib \
+	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
+	--with-projdir=%{projinstdir}
 
-%{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+
 %{__make} -C extensions
 
 %if %utils
@@ -319,6 +336,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.10-1
+- Update to 2.3.10
+- Use our own GeOS and Proj.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.7-2.1
 - Rebuild against PostgreSQL 11.0
 
