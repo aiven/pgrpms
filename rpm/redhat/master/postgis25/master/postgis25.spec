@@ -241,7 +241,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-        --with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
+	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-projdir=%{projinstdir}
