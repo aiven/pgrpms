@@ -36,8 +36,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.7
-Release:	5%{?dist}
+Version:	%{postgismajorversion}.8
+Release:	1%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -311,7 +311,7 @@ fi
 %{pginstdir}/lib/liblwgeom*.so.*
 %{pginstdir}/lib/%{sname}_topology-%{postgismajorversion}.so
 %{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
-%{pginstdir}/lib/address_standardizer-%{postgismajorversion}.so
+%{pginstdir}/lib/address_standardizer.so
 %{pginstdir}/lib/liblwgeom.so
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
@@ -332,8 +332,8 @@ fi
  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
-   %{pginstdir}/lib/bitcode/address_standardizer-%{postgismajorversion}*.bc
-   %{pginstdir}/lib/bitcode/address_standardizer-%{postgismajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer/*.bc
    %{pginstdir}/lib/bitcode/%{sname}_topology-%{postgismajorversion}*.bc
    %{pginstdir}/lib/bitcode/%{sname}_topology-%{postgismajorversion}/*.bc
    %{pginstdir}/lib/bitcode/rt%{sname}-%{postgismajorversion}*.bc
@@ -386,6 +386,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.8-1
+- Update to 2.4.8
+
 * Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.7-5
 - Add protobuf dependency only for RHEL 8 and Fedora, per
   https://redmine.postgresql.org/issues/4390#note-3
