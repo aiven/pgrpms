@@ -2,7 +2,7 @@
 +++ Makefile	2019-08-14 09:49:09.558783388 +0300
 @@ -1,4 +1,4 @@
 -PG_CONFIG    = pg_config
-+PG_CONFIG    = /usr/pgsql-95/bin/pg_config
++PG_CONFIG    = /usr/pgsql-9.5/bin/pg_config
  PKG_CONFIG   = pkg-config
  
  EXTENSION    = ddlx
