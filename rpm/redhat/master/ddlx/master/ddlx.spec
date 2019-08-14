@@ -13,7 +13,7 @@ Version:	0.14
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
-Source0:	https://github.com/lacanoid/%{sname}/archive/%{version}.tar.gz
+Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lacanoid/%{pname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
