@@ -19,8 +19,8 @@ Requires:	perl-JSON-PP
 Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes zlib
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires:	openssl-devel zlib-devel perl-ExtUtils-Embed
-BuildRequires:	postgresql%{pgajorversion}-devel
-Requires:	postgresql%{pgajorversion}-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-libs
 
 
 %description
