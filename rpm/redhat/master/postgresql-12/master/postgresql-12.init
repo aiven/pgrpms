@@ -60,12 +60,16 @@
 # Version 10 Devrim Gunduz <devrim@gunduz.org>
 # Fix CVE-2017-12172
 
+# Version 12 Devrim Gunduz <devrim@gunduz.org>
+# Make sure that postmaster starts also in beta versions.
+# Patch from Justin Pryzby.
+
 # PGVERSION is the full package version, e.g., 12
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
-# PGMAJORVERSION is major version, e.g., 10 (this should match PG_VERSION)
-PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\)\.[0-9]*$/\1/'`
-PGPREVMAJORVERSION=9.6
+# PGMAJORVERSION is major version, e.g., 12 (this should match PG_VERSION)
+PGMAJORVERSION=`echo "$PGVERSION" | sed 's/beta[0-9]*$//'`
+PGPREVMAJORVERSION=11
 
 # Source function library.
 INITD=/etc/rc.d/init.d
