@@ -348,19 +348,6 @@ GNOME Desktop components of pgAdmin4.
 
 %prep
 %setup -q -n %{name}-%{version}
-# Apply this patch only to RHEL 6 and 7:
-%if 0%{?rhel} <= 7
-%patch0 -p0
-%endif
-
-# Apply this patch only to RHEL 6
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%patch2 -p0
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} >= 7
-%patch4 -p0
-%endif
 
 %build
 cd runtime
