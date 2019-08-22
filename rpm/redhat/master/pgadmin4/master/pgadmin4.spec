@@ -44,16 +44,13 @@ Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
 Source0:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/source/%{name}-%{version}.tar.gz
-Source1:	%{name}.conf
+Source1:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/source/%{name}-%{version}-docs.tar.gz
+Source2:	%{name}.conf
 Source3:	%{name}.tmpfiles.d
 Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
-# Adding this patch to be able to build docs on < Fedora 27+.
-Patch0:		%{name}-sphinx-theme.patch
-Patch2:		%{name}-rhel6-sphinx.patch
-Patch4:		%{name}-rhel7-sphinx.patch
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
@@ -70,9 +67,8 @@ BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-pri
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
+BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-itsdangerous python3-flask-sqlalchemy >= 2.3.2
-BuildRequires:	python3-sphinx
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -92,9 +88,8 @@ BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-pri
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
+BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-itsdangerous python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
-BuildRequires:	python3-sphinx
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -106,9 +101,9 @@ BuildRequires:	python3-flask-security >= 3.0.0 python3-flask-principal >= 0.4.0
 BuildRequires:	python3-flask-wtf >= 0.14.2 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.2.18 python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-sphinx python3-devel
+BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-itsdangerous python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
-BuildRequires:	python3-sphinx python3-flask-babel python3-alembic
+BuildRequires:	python3-flask-babel python3-alembic
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -123,7 +118,7 @@ BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login
 BuildRequires:	%{name}-python3-itsdangerous %{name}-python3-blinker >= 1.4 %{name}-python3-flask-babelex
 BuildRequires:	%{name}-python3-flask-sqlalchemy >= 2.3.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-sqlalchemy >= 1.2.18
-BuildRequires:	python34-devel python34-sqlalchemy >= 1.2.18 python-sphinx10
+BuildRequires:	python34-devel python34-sqlalchemy >= 1.2.18
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -138,7 +133,7 @@ BuildRequires:	%{name}-python-dateutil >= 2.8.0 %{name}-python-flask-gravatar
 BuildRequires:	%{name}-python-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python-passlib >= 1.7.1 %{name}-python-sqlalchemy >= 1.2.18
 BuildRequires:	%{name}-python-wtforms >= 2.2.1
-BuildRequires:	python-devel python-sphinx
+BuildRequires:	python-devel
 BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
@@ -380,21 +375,15 @@ export PYTHONPATH=%{python2_sitelib}/%{name}-web/:$PYTHONPATH
 make
 cd ../
 
-# Build docs
-%if 0%{?fedora} > 25 || 0%{?rhel} == 8
-make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-build-3 docs
-%endif
-%if 0%{?rhel} == 6
-make PYTHON=/usr/bin/python3 SPHINXBUILD=/usr/bin/sphinx-1.0-build docs
-%endif
-%if 0%{?rhel} == 7
-make PYTHON=/usr/bin/python docs
-%endif
-
 %install
 %{__rm} -rf %{buildroot}
+
+# Install prebuilt docs
 %{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}-docs/en_US/html
-%{__cp} -pr docs/en_US/_build/html/* %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
+%{__tar} zxf %{SOURCE1}
+pushd %{name}-%{version}-docs
+%{__cp} -pr * %{buildroot}%{_docdir}/%{name}-docs/en_US/html/
+popd
 
 %{__install} -d -m 755 %{buildroot}%{pgadmin4instdir}/runtime
 %{__cp} runtime/pgAdmin4 %{buildroot}%{pgadmin4instdir}/runtime
@@ -404,7 +393,7 @@ make PYTHON=/usr/bin/python docs
 
 # Install Apache sample config file
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE1} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 
 # Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
@@ -520,6 +509,7 @@ fi
 * Thu Aug 22 2019 - Devrim Gündüz <devrim@gunduz.org> 4.12-1
 - Update to 4.12
 - Remove the patch that was temporarily added in 4.11.
+- Do not build docs -- use prebuilt one.
 
 * Tue Jul 23 2019 - Devrim Gündüz <devrim@gunduz.org> 4.11-1
 - Update to 4.11
