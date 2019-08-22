@@ -1,7 +1,7 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	2.3.1
-Release:	2%{?dist}.1
+Version:	2.4.0
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
@@ -40,6 +40,9 @@ ln -s %{_bindir}/%{name} %{buildroot}/%{_bindir}/%{name}.pl
 %attr(644,root,root) %{_docdir}/%{name}/README.md
 
 %changelog
+* Thu Aug 22 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
+- Update to 2.4.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-2.1
 - Rebuild against PostgreSQL 11.0
 
