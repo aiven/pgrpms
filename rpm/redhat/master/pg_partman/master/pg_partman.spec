@@ -16,7 +16,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	4.1.0
+Version:	4.2.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
@@ -98,6 +98,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Thu Aug 22 2019 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
+- Update to 4.2.0
+
 * Thu Apr 25 2019 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1
 - Update to 4.1.0
 - Fix Python paths.
