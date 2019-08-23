@@ -39,7 +39,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -75,7 +75,7 @@ BuildRequires:	gdal23-devel >= 2.3.2-7
   %endif
 %endif
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
 BuildRequires:	protobuf-c-devel
 %endif
 
@@ -102,7 +102,7 @@ Requires:	gdal-libs >= 1.9.2-9
 Requires:	gdal23-libs >= 2.3.2-7
 %endif
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
 Requires:	protobuf-c
 %endif
 
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Fri Aug 23 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.5.3-2
+- Update to 2.5.3-2, which allows protocol buffer support in EL-7
+
 * Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-1
 - Update to 2.5.3
 
