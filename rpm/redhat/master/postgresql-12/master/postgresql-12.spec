@@ -298,6 +298,7 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Group:		Applications/Databases
 Provides:	postgresql-libs = %{pgmajorversion}
+Requires:	openssl-libs >= 1.0.2k
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
