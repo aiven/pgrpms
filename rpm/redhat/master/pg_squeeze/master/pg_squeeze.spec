@@ -8,11 +8,11 @@
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}%{pgmajorversion}
-Version:	1.1.0
+Version:	1.2.0
 Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
-Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL1_1_0.tar.gz
+Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL1_2_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/cybertec-postgresql/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -34,7 +34,7 @@ optionally sorts tuples according to particular index (as if CLUSTER
 command was executed concurrently with regular reads / writes).
 
 %prep
-%setup -q -n %{sname}-REL1_1_0
+%setup -q -n %{sname}-REL1_2_0
 %patch0 -p0
 
 %build
@@ -78,5 +78,8 @@ command was executed concurrently with regular reads / writes).
 %endif
 
 %changelog
+* Mon Aug 26 2019 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+
 * Mon Nov 5 2018 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
