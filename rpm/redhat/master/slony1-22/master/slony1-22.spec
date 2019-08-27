@@ -19,8 +19,8 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2.7
-Release:	4%{?dist}
+Version:	2.2.8
+Release:	1%{?dist}
 License:	BSD
 Group:		Applications/Databases
 URL:		http://www.slony.info/
@@ -254,6 +254,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 27 2019 - Devrim Gündüz <devrim@gunduz.org> 2.2.8-1
+- Update to 2.2.8
+
 * Sat Apr 13 2019 - Devrim Gündüz <devrim@gunduz.org> 2.2.7-4
 - More fixes for the pid file location
 
