@@ -2,18 +2,24 @@
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %global __python_ver python3
+BuildRequires:	python3
+Requires:	python3
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} > 7
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %global __python_ver python3
+BuildRequires:	python36
+Requires:	python36
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
 %global __python_ver python2
+BuildRequires:	python
+Requires:	python
 %endif
 
 %if 0%{?suse_version} >= 1315
@@ -45,38 +51,23 @@ Source2:	%{name}.cron
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 BuildRequires:	%{__python_ver}-setuptools
-Requires:	/usr/sbin/useradd
-Requires:	rsync >= 3.0.4
+Requires:	/usr/sbin/useradd rsync >= 3.0.4
 Requires:	%{__python_ver}-barman = %{version}
 
 %description
-Barman (Backup and Recovery Manager) is an open-source
-administration tool for disaster recovery of PostgreSQL
-servers written in Python.
-It allows your organization to perform remote backups of
-multiple servers in business critical environments to
-reduce risk and help DBAs during the recovery phase.
+Barman (Backup and Recovery Manager) is an open-source administration tool for
+disaster recovery of PostgreSQL servers written in Python. It allows your
+organization to perform remote backups of multiple servers in business
+critical environments to reduce risk and help DBAs during the recovery phase.
 
-Barman is distributed under GNU GPL 3 and maintained
-by 2ndQuadrant.
+Barman is distributed under GNU GPL 3 and maintained by 2ndQuadrant.
 
 %package -n barman-cli
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
 Group:		Applications/Databases
 Requires:	%{__python_ver}-barman = %{version}
 %description -n barman-cli
-Client utilities for the integration of Barman in
-PostgreSQL clusters.
-
-Barman (Backup and Recovery Manager) is an open-source
-administration tool for disaster recovery of PostgreSQL
-servers written in Python.
-It allows your organization to perform remote backups of
-multiple servers in business critical environments to
-reduce risk and help DBAs during the recovery phase.
-
-Barman is distributed under GNU GPL 3 and maintained
-by 2ndQuadrant.
+Client utilities for the integration of Barman in PostgreSQL clusters.
 
 %package -n %{__python_ver}-barman
 Summary:	The shared libraries required for Barman family components
@@ -84,16 +75,6 @@ Group:		Applications/Databases
 Requires:	%{__python_ver}-setuptools, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
 %description -n %{__python_ver}-barman
 Python libraries used by Barman.
-
-Barman (Backup and Recovery Manager) is an open-source
-administration tool for disaster recovery of PostgreSQL
-servers written in Python.
-It allows your organization to perform remote backups of
-multiple servers in business critical environments to
-reduce risk and help DBAs during the recovery phase.
-
-Barman is distributed under GNU GPL 3 and maintained
-by 2ndQuadrant.
 
 %prep
 %setup -n barman-%{version}%{?extra_version:%{extra_version}} -q
