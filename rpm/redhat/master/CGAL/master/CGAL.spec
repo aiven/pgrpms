@@ -28,9 +28,16 @@ BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_versio
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libqt4-devel libqt5-qtbase-common-devel
 %endif
-%else
+%endif
+
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+BuildRequires:	qt5-devel
+%endif
+
+%if 0%{?rhel} < 8
 BuildRequires:	qt3-devel qt-devel >= %{qt_version}
 %endif
+
 BuildRequires:	zlib-devel
 BuildRequires:	blas-devel lapack-devel mpfr-devel gcc-c++
 
@@ -53,14 +60,22 @@ Requires:	boost-devel%{?_isa} >= %{boost_version}
 %if 0%{?suse_version} >= 1315
 Requires:	libqt4-devel libqt5-qtbase-common-devel
 %endif
-%else
+%endif
+
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+Requires:	qt5-devel
+%endif
+
+%if 0%{?rhel} < 8
 Requires:	qt-devel%{?_isa} >= %{qt_version} qt3-devel%{?_isa}
 %endif
+
+
 Requires:	blas-devel%{?_isa} lapack-devel%{?_isa} zlib-devel%{?_isa} gmp-devel%{?_isa}
 Requires:	mpfr-devel%{?_isa}
 
 %description devel
-The %{name}-devel package provides the headers files and tools you may need to 
+The %{name}-devel package provides the headers files and tools you may need to
 develop applications using CGAL.
 
 
