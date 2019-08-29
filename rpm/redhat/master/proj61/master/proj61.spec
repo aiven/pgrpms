@@ -24,7 +24,11 @@ Patch0:		%{sname}-4.8.0-removeinclude.patch
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	libtool sqlite-devel >= 3.7
+%if 0%{?fedora} > 28 || 0%{?rhel} == 8
 Requires:	sqlite-libs >= 3.7
+%else
+Requires:	sqlite
+%endif
 
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
