@@ -39,7 +39,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
@@ -84,7 +84,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
-Requires:	postgresql%{pgmajorversion}-contrib proj49
+Requires:	postgresql%{pgmajorversion}-contrib proj49 xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Fri Aug 30 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-3
+- Add xerces-c dependency, per https://redmine.postgresql.org/issues/4672
+
 * Fri Aug 23 2019 John K. Harvey <john.harvey@crunchydata.com> - 2.5.3-2
 - Update to 2.5.3-2, which allows protocol buffer support in EL-7
 
