@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=".sles12"
 SPECFILE="safeupdate.spec"
 
 # Now, include global Makefile
