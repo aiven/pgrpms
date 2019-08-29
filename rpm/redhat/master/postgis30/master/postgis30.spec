@@ -88,7 +88,7 @@ BuildRequires:	protobuf-c-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.7.0
-Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion}
+Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -383,6 +383,7 @@ fi
 %changelog
 * Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-2
 - PostGIS 30: Use a few more macros, and also update Proj dependency to 6.1
+- Add xerces-c dependency, per https://redmine.postgresql.org/issues/4672
 
 * Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-1
 - Update to 3.0.0 Alpha 4
