@@ -4,9 +4,14 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.5
 %global sname	postgis
-%global	geosinstdir /usr/geos37
-%global	projinstdir /usr/proj49
-%global gdal23instdir /usr/gdal23
+
+%global geosversion	37
+%global gdalversion	23
+%global projversion	61
+
+%global	geosinstdir /usr/geos%{geosversion}
+%global	projinstdir /usr/proj%{projversion}
+%global gdal23instdir /usr/gdal%{gdalversion}
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -51,13 +56,13 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos37-devel >= 3.7.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
 %endif
 %else
-BuildRequires:	proj49-devel, flex, json-c-devel
+BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -71,7 +76,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal23-devel >= 2.3.2-7
+BuildRequires:	gdal%{gdalversion}-devel >= 2.3.2-7
   %endif
 %endif
 %ifarch ppc64 ppc64le
@@ -82,8 +87,8 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
-Requires:	postgresql%{pgmajorversion}-contrib proj49
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.7.0
+Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -98,7 +103,7 @@ Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal23-libs >= 2.3.2-7
+Requires:	gdal%{gdalversion}-libs >= 2.3.2-7
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
