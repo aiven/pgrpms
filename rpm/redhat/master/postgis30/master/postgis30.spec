@@ -45,7 +45,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
@@ -381,6 +381,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-2
+- PostGIS 30: Use a few more macros, and also update Proj dependency to 6.1
+
 * Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-1
 - Update to 3.0.0 Alpha 4
 
