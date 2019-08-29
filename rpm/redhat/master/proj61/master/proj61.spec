@@ -23,7 +23,8 @@ Source2:	%{name}-pgdg-libs.conf
 Patch0:		%{sname}-4.8.0-removeinclude.patch
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
-BuildRequires:	libtool
+BuildRequires:	libtool sqlite-devel >= 3.26
+Requires:	sqlite-libs
 
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
