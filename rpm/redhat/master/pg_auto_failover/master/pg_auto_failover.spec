@@ -8,7 +8,7 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.2
+Version:	1.0.3
 Release:	1%{dist}
 License:	Apache
 Group:		Applications/Databases
@@ -79,5 +79,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1
+- Update to 1.0.3
+- Fix OS versions in Makefile, the distro name in the packages changed.
+
 * Mon Jun 3 2019 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository.
