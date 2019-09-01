@@ -52,7 +52,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
-* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-2
 - Fix OS versions in Makefile, the distro name in the packages changed.
 
 * Fri Aug 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
