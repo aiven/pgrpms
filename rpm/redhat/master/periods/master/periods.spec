@@ -4,7 +4,7 @@ Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
@@ -52,5 +52,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
+- Fix OS versions in Makefile, the distro name in the packages changed.
+
 * Fri Aug 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
