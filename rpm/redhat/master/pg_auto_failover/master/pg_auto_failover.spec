@@ -65,7 +65,7 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{pginstdir}/bin/pg_autoctl
 %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/pgautofailover.so
-%{pginstdir}/share/extension/pgautofailover--1.0.sql
+%{pginstdir}/share/extension/pgautofailover--1.0*.sql
 %{pginstdir}/share/extension/pgautofailover.control
 %ifarch ppc64 ppc64le
  %else
