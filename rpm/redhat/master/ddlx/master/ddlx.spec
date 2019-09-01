@@ -10,7 +10,7 @@
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.14
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
@@ -70,5 +70,8 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 0.14-1
+- Fix OS versions in Makefile, the distro name in the packages changed.
+
 * Wed Aug 14 2019 Devrim Gündüz <devrim@gunduz.org> 0.14-1
 - Initial packaging for PostgreSQL RPM Repository
