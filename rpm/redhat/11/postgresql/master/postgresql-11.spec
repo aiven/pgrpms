@@ -24,8 +24,8 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
-# RHEL 6 and 7 does not have Python 3
+%if 0%{?rhel} && 0%{?rhel} < 7
+# RHEL 6 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %endif
 
@@ -36,8 +36,9 @@
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# RHEL 8 now uses Python3
+%if 0%{?rhel} >= 7
+# Support Python3 on RHEL 7 via EPEL.
+# RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
@@ -89,7 +90,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Group:		Applications/Databases
 Url:		https://www.postgresql.org/
@@ -198,7 +199,14 @@ BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
+%if 0%{?rhel} == 7
+# Packagers: Use EPEL.
+BuildRequires:	python36-devel
+Requires:	python36-libs
+%else
 BuildRequires:	python3-devel
+Requires:	python3-libs
+%endif
 %endif
 
 %if %pltcl
@@ -983,8 +991,8 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
-# Quick hack for RHEL <= 7 and not compiled with PL/Python3 support:
-%if 0%{?rhel} <= 7 && ! 0%{?plpython3}
+# Quick hack for RHEL < 7 and not compiled with PL/Python3 support:
+%if 0%{?rhel} < 7 && ! 0%{?plpython3}
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/hstore_plpython3u*
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/jsonb_plpython3u*
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/ltree_plpython3u*
@@ -1531,7 +1539,11 @@ fi
 %endif
 
 %changelog
-* Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 11.5-1PGDG
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 11.5-2PGDG
+- Initial attempt to support PL/Python3 on RHEL 7. Python2 is almost
+  EOL, so this is a sane move now.
+  Per https://redmine.postgresql.org/issues/2701
+
 - Update to 11.5, per changes described at
   https://www.postgresql.org/docs/devel/static/release-11-5.html
 
