@@ -22,7 +22,7 @@
 Summary:	Object-oriented layer over Psycopg2 to connect and interact with Postgres databases
 Name:		python2-%{sname}
 Version:	0.8.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/perseas/%{sname}/archive/v%{version}.tar.gz
@@ -82,6 +82,9 @@ Postgres tables. This is Python 3 version.
 %endif
 
 %changelog
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 0.8.0-2
+- Fix OS versions in Makefile, the distro name in the packages changed.
+
 * Fri Jul 26 2019 - Devrim Gündüz <devrim@gunduz.org> 0.8.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository to satisfy
   pyrseas dependency.
