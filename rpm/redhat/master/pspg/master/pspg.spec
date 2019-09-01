@@ -1,6 +1,6 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	1.6.8
+Version:	1.7.1
 Release:	1%{?dist}
 License:	BSD
 Group:		Development/Tools
@@ -43,6 +43,9 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 %{_bindir}/*
 
 %changelog
+* Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
+- Update to 1.7.1
+
 * Sun Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> - 1.6.8-1
 - Update to 1.6.8
 
