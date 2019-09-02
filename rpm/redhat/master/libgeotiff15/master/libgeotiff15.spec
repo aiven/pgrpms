@@ -1,6 +1,6 @@
 %global	sname libgeotiff
 %global	libgeotiffversion 15
-%global	libgeotiffinstdir /usr/%{name}%{libgeotiffversion}
+%global	libgeotiffinstdir /usr/%{sname}%{libgeotiffversion}
 %global	projinstdir /usr/proj61
 
 Name:		%{sname}%{libgeotiffversion}
