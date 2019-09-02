@@ -1,8 +1,8 @@
-%global pgmajorversion 11
 %global sname gdal
 %global gdalinstdir /usr/%{name}
 %global geos37instdir /usr/geos37
-%global proj52instdir /usr/proj52
+%global proj62instdir /usr/proj62
+%global libgeotiff15instdir /usr/libgeotiff15
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
@@ -26,7 +26,7 @@
 # He also suggest to use --with-static-proj4 to actually link to proj, instead of dlopen()ing it.
 
 # Major digit of the proj so version
-%global proj_somaj 13
+%global proj_somaj 15
 
 # Tests can be of a different version
 %global testversion 2.3.2
@@ -65,7 +65,7 @@
 
 Name:		%{sname}23
 Version:	2.3.2
-Release:	8%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	9%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -123,7 +123,7 @@ BuildRequires:	jasper-devel
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
 BuildRequires:	json-c-devel
-BuildRequires:	libgeotiff-devel
+BuildRequires:	libgeotiff15-devel
 # No libgta in EL5
 BuildRequires:	libgta-devel
 
@@ -162,7 +162,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj52-devel >= 5.2.0
+BuildRequires:	proj62-devel >= 6.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	swig
 %if %{build_refman}
@@ -251,12 +251,12 @@ This package contains HTML and PDF documentation for GDAL.
 %setup -q -n %{sname}-%{version}-fedora -a 1
 
 # Delete bundled libraries
-rm -rf frmts/zlib
-rm -rf frmts/png/libpng
-rm -rf frmts/gif/giflib
-rm -rf frmts/jpeg/libjpeg \
+%{__rm} -rf frmts/zlib
+%{__rm} -rf frmts/png/libpng
+%{__rm} -rf frmts/gif/giflib
+%{__rm} -rf frmts/jpeg/libjpeg \
     frmts/jpeg/libjpeg12
-rm -rf frmts/gtiff/libgeotiff \
+%{__rm} -rf frmts/gtiff/libgeotiff \
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
@@ -333,8 +333,10 @@ export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
+export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS -L%{libgeotiff15instdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
@@ -346,7 +348,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 %global g2clib grib2c
 %endif
 
-%configure \
+./configure \
 	LIBS="-l%{g2clib} -ltirpc" \
 	--prefix=%{gdalinstdir}	\
 	--bindir=%{gdalinstdir}/bin	\
@@ -362,7 +364,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 	--with-expat		\
 	--with-freexl		\
 	--with-geos=%{geos37instdir}/bin/geos-config	\
-	--with-geotiff=external	\
+	--with-geotiff=%{libgeotiff15instdir}	\
 	--with-gif		\
 	--with-gta		\
 	--with-hdf4		\
@@ -386,7 +388,7 @@ export CPPFLAGS="$CPPFLAGS -I%{_includedir}/libgeotiff -I%{_includedir}/tirpc"
 	--with-pg=%{pginstdir}/bin/pg_config	\
 	--with-png		\
 	%{poppler}		\
-	--with-proj=%{proj52instdir}	\
+	--with-proj=%{proj62instdir}	\
 	%{spatialite}		\
 	--with-sqlite3		\
 	--with-threads		\
@@ -410,18 +412,19 @@ POPPLER_OPTS="POPPLER_0_20_OR_LATER=yes POPPLER_0_23_OR_LATER=yes POPPLER_BASE_S
 POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 %endif
 
-make %{?_smp_mflags} $POPPLER_OPTS
+export SHLIB_LINK="$SHLIB_LINK"
+%{__make} %{?_smp_mflags} $POPPLER_OPTS
 
-make man
-make docs
+%{__make} man
+%{__make} docs
 
 # Build some utilities, as requested in BZ #1271906
 pushd ogr/ogrsf_frmts/s57/
-  make all
+  %{__make} all
 popd
 
 pushd frmts/iso8211/
-  make all
+  %{__make} all
 popd
 
 # --------- Documentation ----------
@@ -443,7 +446,7 @@ for docdir in %{docdirs}; do
     if [ $docdir == "doc/ru" ]; then
       sed -i -e 's|^OUTPUT_LANGUAGE|OUTPUT_LANGUAGE = Russian\n#OUTPUT_LANGUAGE |' Doxyfile
     fi
-    rm -rf latex html
+    %{__rm} -rf latex html
     doxygen
 
     %if %{build_refman}
@@ -451,7 +454,7 @@ for docdir in %{docdirs}; do
 	sed -i -e '/rfoot\[/d' -e '/lfoot\[/d' doxygen.sty
 	sed -i -e '/small/d' -e '/large/d' refman.tex
 	sed -i -e 's|pdflatex|pdflatex -interaction nonstopmode |g' Makefile
-	make refman.pdf || true
+	%{__make} refman.pdf || true
       popd
     %endif
   popd
@@ -459,9 +462,14 @@ done
 
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-make	DESTDIR=%{buildroot}	\
+export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS -L%{libgeotiff15instdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
+
+SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
 	install	\
 	install-man
 
@@ -471,11 +479,11 @@ make	DESTDIR=%{buildroot}	\
 %{__install} -pm 755 frmts/iso8211/8211view %{buildroot}%{gdalinstdir}/bin
 
 # Directory for auto-loading plugins
-mkdir -p %{buildroot}%{_libdir}/%{name}plugins
+%{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
 
 # Install formats documentation
 for dir in gdal_frmts ogrsf_frmts; do
-  mkdir -p $dir
+  %{__mkdir} -p $dir
   find frmts -name "*.html" -exec install -p -m 644 '{}' $dir \;
 done
 
@@ -520,8 +528,8 @@ Libs: -L\${libdir} -lgdal
 Cflags: -I\${includedir}/%{name}
 EOF
 #<<<<<<<<<<<<<
-mkdir -p %{buildroot}%{_libdir}/pkgconfig/
-install -m 644 %{name}.pc %{buildroot}%{_libdir}/pkgconfig/
+%{__mkdir} -p %{buildroot}%{_libdir}/pkgconfig/
+%{__install} -m 644 %{name}.pc %{buildroot}%{_libdir}/pkgconfig/
 touch -r NEWS %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 
 # Multilib gdal-config
@@ -562,7 +570,7 @@ done
 
 # Throw away random API man mages plus artefact seemingly caused by Doxygen 1.8.1 or 1.8.1.1
 for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetProperty EnhanceCBInfo ListFieldDesc NamedColor OGRSplitListFieldLayer VRTBuilder; do
-  rm -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
+  %{__rm} -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
 done
 
 #TODO: What's that?
@@ -572,7 +580,6 @@ done
 # PGDG: Move includes under gdalinst directory:
 %{__mkdir} -p %{buildroot}%{gdalinstdir}/include
 %{__mkdir} -p %{buildroot}%{gdalinstdir}/share/man
-%{__mv} %{buildroot}%{_includedir}/* %{buildroot}%{gdalinstdir}/include
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -650,6 +657,11 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Mon Sep 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-9
+- Use our own libgeotiff15 package
+- Update Proj to 6.2.0
+- Use more macros
+
 * Thu Jun 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-8
 - Add linker config file, per various bug reports.
 
