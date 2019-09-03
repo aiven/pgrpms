@@ -7,7 +7,7 @@
 
 %global geosversion	37
 %global gdalversion	23
-%global projversion	61
+%global projversion	62
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
@@ -45,7 +45,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Group:		Applications/Databases
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
@@ -381,6 +381,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-3
+- Update Proj to 6.2
+
 * Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-2
 - PostGIS 30: Use a few more macros, and also update Proj dependency to 6.1
 - Add xerces-c dependency, per https://redmine.postgresql.org/issues/4672
