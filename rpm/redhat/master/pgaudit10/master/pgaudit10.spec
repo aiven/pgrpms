@@ -11,7 +11,6 @@ Name:		%{sname}10_%{pgmajorversion}
 Version:	1.0.5
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://www.pgaudit.org

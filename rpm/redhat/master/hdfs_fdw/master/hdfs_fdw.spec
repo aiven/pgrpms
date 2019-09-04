@@ -10,7 +10,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.4
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/%{sname}

@@ -13,7 +13,6 @@ Name:		pgpoolAdmin
 Version:	%{pgpoolmajorversion}.1
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 URL:		http://pgpool.net
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 

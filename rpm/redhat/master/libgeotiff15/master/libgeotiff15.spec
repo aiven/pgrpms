@@ -7,7 +7,6 @@ Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
 Release:	1%{?dist}
 Summary:	GeoTIFF format library
-Group:		System Environment/Libraries
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
@@ -22,7 +21,6 @@ raster imagery.
 
 %package devel
 Summary:	Development Libraries for the GeoTIFF file format library
-Group:		Development/Libraries
 Requires:	pkgconfig libtiff-devel
 Requires:	%{name} = %{version}-%{release}
 

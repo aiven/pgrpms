@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	2.12
 Release:	1%{dist}
 License:	Apache
-Group:		Applications/Databases
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel

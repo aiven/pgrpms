@@ -30,7 +30,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
 Release:	2%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/%{swebname}/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
@@ -68,7 +67,6 @@ It is similar to Oracle AWR or SQL Server MDW.
 
 %package web
 Summary:	The user interface of powa
-Group:		Applications/Databases
 BuildRequires:	python-setuptools
 Requires:	python-tornado >= 2.0, python-psycopg2, python-sqlalchemy
 

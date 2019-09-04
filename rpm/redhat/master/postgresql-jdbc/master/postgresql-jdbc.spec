@@ -6,7 +6,6 @@ Version:	42.2.6
 Release:	1%{?dist}.1
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
-Group:		Applications/Databases
 URL:		https://jdbc.postgresql.org/
 Source0:	https://github.com/pgjdbc/pgjdbc/archive/REL%{version}.tar.gz
 Source1:	%{name}.pom
@@ -41,7 +40,6 @@ Java programs to access a PostgreSQL database.
 
 %package javadoc
 Summary:	API docs for %{name}
-Group:		Documentation
 
 %description javadoc
 This package contains the API Documentation for %{name}.

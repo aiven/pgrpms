@@ -43,7 +43,6 @@ Name:		barman
 Version:	2.9
 Release:	1%{?dist}
 License:	GPLv3
-Group:		Applications/Databases
 Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
@@ -64,14 +63,12 @@ Barman is distributed under GNU GPL 3 and maintained by 2ndQuadrant.
 
 %package -n barman-cli
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{__python_ver}-barman = %{version}
 %description -n barman-cli
 Client utilities for the integration of Barman in PostgreSQL clusters.
 
 %package -n %{__python_ver}-barman
 Summary:	The shared libraries required for Barman family components
-Group:		Applications/Databases
 Requires:	%{__python_ver}-setuptools, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
 %description -n %{__python_ver}-barman
 Python libraries used by Barman.

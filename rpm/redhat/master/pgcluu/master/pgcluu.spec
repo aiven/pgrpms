@@ -9,7 +9,6 @@ Name:		pgcluu
 Version:	2.9
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/

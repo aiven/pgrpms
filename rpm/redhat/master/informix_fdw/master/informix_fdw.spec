@@ -7,7 +7,6 @@ Summary:	A PostgreSQL Foreign Data Wrapper for Informix
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ifxfdwmajver}.%{ifxfdwmidver}.%{ifxfdwminver}
 Release:	1%{?dist}
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
 Source0:	https://github.com/credativ/%{sname}/archive/REL%{ifxfdwmajver}_%{ifxfdwmidver}_%{ifxfdwminver}.tar.gz

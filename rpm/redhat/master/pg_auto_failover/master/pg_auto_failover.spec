@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.3
 Release:	1%{dist}
 License:	Apache
-Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
 Requires:	postgresql%{pgmajorversion}-server

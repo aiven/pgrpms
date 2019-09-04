@@ -32,8 +32,6 @@ Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
-# This is for older spec files (RHEL <= 6)
-Group:		Applications/Databases
 BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:	postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
@@ -59,7 +57,6 @@ future PostgreSQL versions.
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %package devel
 Summary:	Development header files of repmgr
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel

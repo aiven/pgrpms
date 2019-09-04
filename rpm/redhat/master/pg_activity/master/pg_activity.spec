@@ -8,7 +8,6 @@ Name:		pg_activity
 Version:	1.4.0
 Release:	1%{?dist}.1
 License:	GPLv3
-Group:		Applications/Databases
 Url:		https://github.com/julmon/pg_activity/
 Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)

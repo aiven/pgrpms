@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	0.3.0
 Release:	1%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/postgresql_anonymizer/%{version}/postgresql_anonymizer-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://gitlab.com/daamien/postgresql_anonymizer

@@ -35,7 +35,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	4.5.1
 Release:	3%{?dist}.1
 Summary:	HTML/XML parser for quick-turnaround applications like screen-scraping
-Group:		Development/Languages
 License:	MIT
 URL:		http://www.crummy.com/software/BeautifulSoup/
 Source0:	https://files.pythonhosted.org/packages/source/b/%{sname}/%{sname}-%{version}.tar.gz

@@ -11,7 +11,6 @@ Name:		pgcenter
 Version:	0.3.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/lesovsky/%{name}/archive/%{version}.tar.gz
 Patch0:		%{name}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lesovsky/%{name}

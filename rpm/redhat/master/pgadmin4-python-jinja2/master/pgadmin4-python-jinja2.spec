@@ -40,7 +40,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	2.8
 Release:	9%{?dist}.1
 Summary:	General purpose template engine
-Group:		Development/Languages
 License:	BSD
 URL:		http://jinja.pocoo.org/
 Source0:	https://pypi.python.org/packages/source/J/Jinja2/Jinja2-%{version}.tar.gz

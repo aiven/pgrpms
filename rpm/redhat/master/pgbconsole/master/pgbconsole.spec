@@ -12,7 +12,6 @@ Name:		pgbconsole%{pgmajorversion}
 Version:	0.1.1
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lesovsky/%{sname}

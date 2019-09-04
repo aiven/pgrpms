@@ -37,7 +37,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	1.5.0
 Release:	1%{?dist}
 Summary:	Flask html response minifier
-Group:		Development/Libraries
 License:	BSD
 URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz

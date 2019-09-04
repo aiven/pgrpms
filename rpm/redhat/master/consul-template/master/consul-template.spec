@@ -11,7 +11,6 @@ Version:	%{_verstr}
 Release:	1%{?dist}
 Summary:	consul-template watches a series of templates on the file system, writing new changes when Consul is updated. It runs until an interrupt is received unless the -once flag is specified.
 
-Group:		System Environment/Daemons
 License:	MPLv2.0
 URL:		http://www.consul.io
 Source0:	https://releases.hashicorp.com/%{name}/%{version}/%{name}_%{version}_linux_amd64.zip

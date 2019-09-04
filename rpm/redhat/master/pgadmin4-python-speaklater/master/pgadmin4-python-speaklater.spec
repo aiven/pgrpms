@@ -35,7 +35,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	1.3
 Release:	3%{?dist}.1
 Summary:	Implements a lazy string for python useful for use with get-text
-Group:		Development/Libraries
 License:	BSD
 URL:		http://github.com/mitsuhiko/speaklater
 Source0:	https://pypi.python.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz

@@ -40,7 +40,6 @@ Name:		pgadmin4
 Version:	%{pgadminmajorversion}.12
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
 Source0:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/source/%{name}-%{version}.tar.gz

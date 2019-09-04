@@ -5,7 +5,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	2.0.1
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 URL:		https://github.com/devrimgunduz/%{sname}
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

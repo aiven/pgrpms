@@ -3,7 +3,6 @@ Name:		pg_dumpbinary
 Version:	1.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/darold/%{name}
 Requires:	perl-Time-HiRes

@@ -37,7 +37,6 @@ Version:	2.2.1
 Release:	1%{?dist}
 Summary:	Forms validation and rendering library for python
 
-Group:		Development/Libraries
 License:	BSD
 URL:		http://wtforms.simplecodes.com/
 Source0:	https://github.com/wtforms/wtforms/archive/%{version}.tar.gz

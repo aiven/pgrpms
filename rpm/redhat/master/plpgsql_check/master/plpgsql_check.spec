@@ -11,7 +11,6 @@ Version:	1.7.4
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
-Group:		Applications/Databases
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
 Source0:	https://github.com/okbob/%{sname}/archive/v%{version}.tar.gz

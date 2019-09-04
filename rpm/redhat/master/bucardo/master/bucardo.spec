@@ -4,7 +4,6 @@ Version:	5.5.0
 Release:	1%{?dist}
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
-Group:		Applications/Databases
 License:	BSD
 URL:		https://bucardo.org/wiki/Bucardo
 Source0:	https://bucardo.org/downloads/Bucardo-%{version}.tar.gz

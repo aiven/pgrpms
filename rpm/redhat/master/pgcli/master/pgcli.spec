@@ -31,7 +31,6 @@ Version:	2.1.0
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
-Group:		Applications/Databases
 Url:		https://github.com/amjith/%{name}
 Source0:	https://github.com/amjith/%{name}/archive/v%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
@@ -64,7 +63,6 @@ This is a PostgreSQL client that does auto-completion and syntax highlighting.
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting (debug build)
 # Require the base package, as we're sharing .py/.pyc files:
 Requires:	%{name} = %{version}-%{release}
-Group:		Applications/Databases
 
 %description debug
 This is a build of the for the debug build of Python 2.

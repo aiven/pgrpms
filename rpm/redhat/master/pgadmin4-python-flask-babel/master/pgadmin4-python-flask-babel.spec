@@ -37,7 +37,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	0.11.1
 Release:	4%{?dist}.1
 Summary:	Adds i18n/l10n support to Flask applications
-Group:		Development/Libraries
 License:	BSD
 URL:		http://github.com/mitsuhiko/%{sname}/
 Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz

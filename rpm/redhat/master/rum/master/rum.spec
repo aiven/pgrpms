@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.1
 Release:	1%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}/
@@ -32,7 +31,6 @@ It is based on the GIN access methods code.
 
 %package devel
 Summary:        RUM access method development header files
-Group:          Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
 

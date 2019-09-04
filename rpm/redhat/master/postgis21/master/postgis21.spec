@@ -28,7 +28,6 @@ Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
 Release:	3%{?dist}.1
 License:	GPLv2+
-Group:		Applications/Databases
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -87,7 +86,6 @@ certified as compliant with the "Types and Functions" profile.
 
 %package client
 Summary:	Client tools and their libraries of PostGIS
-Group:		Applications/Databases
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 %ifarch ppc64 ppc64le
@@ -103,7 +101,6 @@ of PostGIS.
 
 %package devel
 Summary:	Development headers and libraries for PostGIS
-Group:		Development/Libraries
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.5-1
@@ -120,7 +117,6 @@ with PostGIS.
 
 %package docs
 Summary:	Extra documentation for PostGIS
-Group:		Applications/Databases
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
@@ -134,7 +130,6 @@ The postgis-docs package includes PDF documentation of PostGIS.
 %if %utils
 %package utils
 Summary:	The utils for PostGIS
-Group:		Applications/Databases
 Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.5-1

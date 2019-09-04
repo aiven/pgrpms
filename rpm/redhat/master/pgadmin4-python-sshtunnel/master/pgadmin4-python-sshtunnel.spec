@@ -29,7 +29,6 @@ Version:	0.1.4
 Release:	1%{?dist}
 Summary:	SSH tunnels to remote server.
 
-Group:		Development/Libraries
 License:	MIT
 URL:		https://github.com/pahaz/%{sname}
 Source0:	https://files.pythonhosted.org/packages/bf/8d/385c7e7c90e17934b3102ad2902e224c27a7173a6a57ef4805dcef8043b1/sshtunnel-%{version}.tar.gz

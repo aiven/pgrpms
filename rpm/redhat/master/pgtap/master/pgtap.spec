@@ -10,7 +10,6 @@ Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
 Release:	1%{?dist}
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip

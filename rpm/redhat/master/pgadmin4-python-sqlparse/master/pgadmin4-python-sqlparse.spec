@@ -36,7 +36,6 @@ Version:	0.2.4
 Release:	1%{?dist}.1
 Summary:	Non-validating SQL parser for Python
 
-Group:		Development/Languages
 License:	BSD
 URL:		https://github.com/andialbrecht/%{sname}
 Source0:	https://github.com/andialbrecht/%{sname}/archive/%{version}/%{sname}-%{version}.tar.gz

@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.1.1
 Release:	4%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
 Source1:	%{sname}.control
 Patch0:		%{sname}-pg92-languages.patch

@@ -4,7 +4,6 @@ Version:	0.9.9.9
 Release:	1%{dist}.1
 URL:		http://mhash.sourceforge.net/
 License:	LGPL
-Group:		System Environment/Libraries
 Source:		http://downloads.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 Provides:	libmhash = %{version}-%{release}
@@ -25,7 +24,6 @@ Whirlpool, SNEFRU128/256, CRC32B and CRC32 checksums.
 
 %package -n %{name}-devel
 Summary: Header files and libraries for developing apps which use mhash
-Group: Development/Libraries
 Requires: %{name} = %{version}-%{release}
 Provides: libmhash-devel = %{version}-%{release}
 

@@ -5,7 +5,6 @@ Name:		pgMail
 Version:	1.4
 Release:	1%{?dist}.1
 License:	Apache
-Group:		Applications/Databases
 Source0:	https://github.com/captbrando/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/captbrando/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

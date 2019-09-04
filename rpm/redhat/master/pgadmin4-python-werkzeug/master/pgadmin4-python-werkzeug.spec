@@ -46,7 +46,6 @@ Version:	0.15.4
 Release:	1%{?dist}
 Summary:	The Swiss Army knife of Python web development
 
-Group:		Development/Libraries
 License:	BSD
 URL:		http://werkzeug.pocoo.org/
 Source0:	https://github.com/pallets/werkzeug/archive/%{version}.tar.gz

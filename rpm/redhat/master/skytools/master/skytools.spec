@@ -14,7 +14,6 @@ Name:		%{sname}-%{pgmajorversion}
 Version:	3.2.6
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/markokr/%{sname}/archive/%{version}.tar.gz
 Source1:	https://github.com/markokr/libusual/archive/2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b.zip
 URL:		https://github.com/markokr/skytools
@@ -36,7 +35,6 @@ The tools are named walmgr, PgQ and Londiste, respectively.
 
 %package modules
 Summary:	PostgreSQL modules of Skytools
-Group:		Applications/Databases
 Requires:	%{sname}-%{pgmajorversion} = %{version}-%{release}
 
 %description modules

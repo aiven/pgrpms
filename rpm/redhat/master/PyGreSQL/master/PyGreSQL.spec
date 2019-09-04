@@ -26,7 +26,6 @@ Version:	5.0.6
 Release:	2%{?dist}.1
 Summary:	%{sum}
 
-Group:		Applications/Databases
 URL:		http://www.pygresql.org/
 # Author states his intention is to dual license under PostgreSQL or Python
 # licenses --- this is not too clear from the current tarball documentation,

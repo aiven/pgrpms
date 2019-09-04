@@ -2,7 +2,6 @@ Name:		postgresql_autodoc
 Version:	1.41.1
 Release:	1%{?dist}.1
 Summary:	PostgreSQL AutoDoc Utility
-Group:		Applications/Databases
 License:	BSD
 # I forked this for YUM repo, because old code base was not available anymore
 # and the "official" fork does not have a release (yet)

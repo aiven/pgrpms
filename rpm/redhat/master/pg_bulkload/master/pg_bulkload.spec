@@ -12,7 +12,6 @@ URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 License:	BSD
-Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
 BuildRequires:	libsepol-devel, readline-devel, krb5-devel
@@ -24,7 +23,6 @@ pg_bulkload provides high-speed data loading capability to PostgreSQL users.
 
 %package client
 Summary:	High speed data loading utility for PostgreSQL
-Group:		Applications/Databases
 Requires:	postgresql%{pgmajorversion}-libs
 
 %description client

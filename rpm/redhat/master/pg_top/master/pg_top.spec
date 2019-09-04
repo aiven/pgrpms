@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
 Release:	5%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel

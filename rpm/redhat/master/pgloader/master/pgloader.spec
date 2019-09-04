@@ -6,7 +6,6 @@ Name:		pgloader
 Version:	3.6.1
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 URL:		http://pgloader.io
 Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

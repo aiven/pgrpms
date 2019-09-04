@@ -34,7 +34,6 @@ Version:        39.0.1
 Release:        1%{?dist}.1
 Summary:        Easily build and distribute Python packages
 
-Group:          Applications/System
 License:        MIT
 URL:            https://pypi.python.org/pypi/%{srcname}
 Source0:        https://files.pythonhosted.org/packages/source/s/%{srcname}/%{srcname}-%{version}.zip
@@ -111,7 +110,6 @@ execute the software that requires pkg_resources.py.
 %if %{with python3}
 %package -n python3-setuptools
 Summary:        Easily build and distribute Python 3 packages
-Group:          Applications/System
 %{?python_provide:%python_provide python3-setuptools}
 Obsoletes:      platform-python-setuptools < %{version}-%{release}
 

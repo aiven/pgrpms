@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.7.1
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/linz/postgresql-tableversion/

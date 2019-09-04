@@ -5,7 +5,6 @@ Name:		emaj
 Version:	3.1.0
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
-Group:		Applications/Databases
 License:	GPLv2
 URL:		https://pgxn.org/dist/%{sname}/
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip

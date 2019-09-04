@@ -41,7 +41,6 @@ Name:		barman-cli
 Version:	%{main_version}
 Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version}}%{?dist}.1
 License:	GPLv3
-Group:		Applications/Databases
 Url:		http://www.pgbarman.org/
 Source0:	https://github.com/2ndquadrant-it/barman-cli/archive/release/%{main_version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)

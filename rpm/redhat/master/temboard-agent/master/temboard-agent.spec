@@ -11,7 +11,6 @@ Version:	1.2
 Release:	1%{?dist}.1
 Summary:	PostgreSQL Remote Control agent
 
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://temboard.io/
 Source0:	https://github.com/dalibo/%{name}/archive/%{version}.tar.gz

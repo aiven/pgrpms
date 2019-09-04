@@ -10,7 +10,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.0.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/anayrat/%{sname}

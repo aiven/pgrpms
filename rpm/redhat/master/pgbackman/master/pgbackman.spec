@@ -8,7 +8,6 @@ Name:		pgbackman
 Version:	1.2.0
 Release:	1%{?dist}
 License:	GPLv3
-Group:		Applications/Databases
 Url:		http://www.pgbackman.org/
 Source0:	https://github.com/rafaelma/%{name}/archive/%{version}.tar.gz
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

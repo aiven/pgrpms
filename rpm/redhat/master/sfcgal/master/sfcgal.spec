@@ -14,7 +14,6 @@ Version:	1.3.1
 %endif
 Release:	2%{?dist}
 License:	GLPLv2
-Group:		System Environment/Libraries
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 URL:		http://sfcgal.org/
 BuildRequires:	cmake, CGAL-devel
@@ -52,7 +51,6 @@ can be either 2D or 3D.
 
 %package libs
 Summary:	The shared libraries required for SFCGAL
-Group:		Applications/Databases
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -62,9 +60,8 @@ Requires:	advance-toolchain-%{atstring}-runtime
 The sfcgal-libs package provides the essential shared libraries for SFCGAL.
 
 %package devel
-Summary:	The development files for SFCGAL
-Group:		Development/Libraries
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Summary: The development files for SFCGAL
+Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 Development headers and libraries for SFCGAL.

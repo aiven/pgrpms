@@ -5,7 +5,6 @@ Version:	1.1.0
 Release:	1%{dist}.1
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
-Group:		Applications/Databases
 Url:		https://clusterlabs.github.io/PAF/
 Source0:	https://github.com/ClusterLabs/PAF/archive/v%{version}.tar.gz
 BuildArch:	noarch

@@ -7,7 +7,6 @@ Version:	2.4
 Release:	1%{dist}
 Summary:	PostgreSQL monitoring plugin for Nagios
 License:	PostgreSQL
-Group:		Applications/Databases
 Url:		http://opm.io
 Source0:	https://github.com/OPMDG/%{sname}/archive/%{_tag}.tar.gz
 BuildArch:	noarch

@@ -38,7 +38,6 @@ Summary:	Small extension for Flask to make usage of Gravatar service easy
 Version:	0.5.0
 Release:	1%{?dist}.1
 License:	Python
-Group:		Development/Languages
 URL:		https://github.com/zzzsochi/%{pypi_name}
 Source0:	https://github.com/zzzsochi/%{pypi_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch

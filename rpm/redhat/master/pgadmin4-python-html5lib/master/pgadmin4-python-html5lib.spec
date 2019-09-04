@@ -36,7 +36,6 @@ Summary:	A python based HTML parser/tokenizer
 Version:	1.0.1
 Release:	1%{?dist}.1
 Epoch:		1
-Group:		Development/Libraries
 License:	MIT
 URL:		https://pypi.python.org/pypi/%{sname}
 

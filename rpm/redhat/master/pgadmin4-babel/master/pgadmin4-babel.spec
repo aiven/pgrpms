@@ -31,7 +31,6 @@ Version:	2.3.4
 Release:	2%{?dist}.1
 Summary:	Tools for internationalizing Python applications
 
-Group:		Development/Languages
 License:	BSD
 URL:		http://babel.pocoo.org/
 Source0:	https://files.pythonhosted.org/packages/source/B/Babel/Babel-%{version}.tar.gz
@@ -79,7 +78,6 @@ Babel is composed of two major parts:
 %package -n pgadmin4-python-babel
 %endif
 Summary:	Library for internationalizing Python applications
-Group:		Development/Languages
 
 %if 0%{?fedora} > 25
 Requires:	python3-setuptools pytz
@@ -114,7 +112,6 @@ Babel is composed of two major parts:
 
 %package doc
 Summary:	Documentation for Babel
-Group:		Development/Languages
 Provides:	python-babel-doc = %{version}-%{release}
 
 %description doc

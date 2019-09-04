@@ -37,7 +37,6 @@ Version:	0.23
 Release:	13%{?dist}.1
 Summary:	Implements a XML/HTML/XHTML Markup safe string for Python
 
-Group:		Development/Languages
 License:	BSD
 URL:		https://pypi.python.org/pypi/%{mod_name}
 Source0:	https://pypi.python.org/packages/source/M/%{mod_name}/%{mod_name}-%{version}.tar.gz

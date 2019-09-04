@@ -45,7 +45,6 @@ Summary:	A Flask extension for sending email messages
 Version:	0.9.1
 Release:	4%{?dist}.1
 License:	Python
-Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/Flask-Mail
 Source0:	https://pypi.python.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildArch:	noarch

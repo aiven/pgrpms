@@ -11,7 +11,6 @@ Version:	%{_verstr}
 Release:	1%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
-Group:		System Environment/Daemons
 License:	MPLv2.0
 URL:		http://www.consul.io
 Source0:	https://releases.hashicorp.com/%{name}/%{version}/%{name}_%{version}_linux_amd64.zip

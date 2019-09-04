@@ -11,7 +11,6 @@ Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
 Version:	2.4.1
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/RhodiumToad/ip4r

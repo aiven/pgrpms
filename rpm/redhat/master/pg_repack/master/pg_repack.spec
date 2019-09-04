@@ -13,7 +13,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.4.4
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		pg_repack-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://pgxn.org/dist/pg_repack/

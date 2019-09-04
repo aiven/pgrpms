@@ -5,7 +5,6 @@ Name:		pghoard
 Version:	2.0.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/ohmu/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ohmu/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

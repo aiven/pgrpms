@@ -3,7 +3,6 @@ Name:		split_postgres_dump
 Version:	1.3.3
 Release:	2%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/bucardo/Split_postgres_dump/archive/%{version}.tar.gz
 Source2:	README.%{name}
 URL:		https://github.com/bucardo/Split_postgres_dump

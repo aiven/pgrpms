@@ -10,7 +10,6 @@ Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}%{pgmajorversion}
 Version:	2.8
 Release:	1%{?dist}.1
-Group:		Applications/Databases
 License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz

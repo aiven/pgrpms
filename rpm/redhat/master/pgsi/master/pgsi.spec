@@ -3,7 +3,6 @@ Name:		pgsi
 Version:	1.7.1
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/pgsi
 Requires:	perl(Data::Dumper) perl(Getopt::Long) perl(IO::Handle) perl(Time::Local)

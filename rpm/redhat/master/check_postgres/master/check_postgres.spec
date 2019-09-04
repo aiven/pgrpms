@@ -3,7 +3,6 @@ Name:		check_postgres
 Version:	2.24.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://bucardo.org/wiki/Check_postgres
 BuildArch:	noarch

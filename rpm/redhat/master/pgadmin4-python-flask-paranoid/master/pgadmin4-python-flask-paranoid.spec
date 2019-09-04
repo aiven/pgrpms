@@ -36,7 +36,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	0.2
 Release:	1%{?dist}.1
 Summary:	Simple user session protection
-Group:		Development/Libraries
 License:	MIT
 URL:		https://github.com/miguelgrinberg/%{sname}
 Source0:	https://github.com/miguelgrinberg/%{sname}/archive/v%{version}.tar.gz

@@ -37,7 +37,6 @@ Summary:	Simple security for Flask apps
 Version:	3.0.0
 Release:	1%{?dist}.1
 License:	Python
-Group:		Development/Languages
 URL:		https://pypi.python.org/pypi/%{mod_name}
 Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 

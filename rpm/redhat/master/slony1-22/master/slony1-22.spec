@@ -22,7 +22,6 @@ Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.8
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 URL:		http://www.slony.info/
 Source0:	http://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
@@ -85,7 +84,6 @@ are available
 %if %docs
 %package docs
 Summary:	Documentation for Slony-I
-Group:		Applications/Databases
 Requires:	%{sname}-%{pgmajorversion}
 BuildRequires:	libjpeg, netpbm-progs, groff, docbook-style-dsssl, ghostscript
 

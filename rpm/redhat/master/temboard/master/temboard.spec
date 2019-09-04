@@ -6,7 +6,6 @@ Version:	2.0
 Release:	1%{?dist}.1
 Summary:	temBoard Web Interface
 
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://temboard.io/
 Source0:	https://github.com/dalibo/%{name}/archive/%{version}.tar.gz

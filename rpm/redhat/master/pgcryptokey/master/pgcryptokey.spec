@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	0.83
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	http://momjian.us/download/%{sname}/%{sname}-0.83.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://momjian.us/download/%{sname}/

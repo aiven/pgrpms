@@ -11,7 +11,6 @@ Summary:	PostgreSQL ODBC driver
 Version:	11.01.0000
 Release:	1PGDG%{?dist}
 License:	LGPLv2
-Group:		Applications/Databases
 URL:		https://odbc.postgresql.org/
 
 Source0:	http://download.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz

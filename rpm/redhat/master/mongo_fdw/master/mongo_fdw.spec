@@ -12,7 +12,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	5.2.3
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
 %ifarch ppc64 ppc64le

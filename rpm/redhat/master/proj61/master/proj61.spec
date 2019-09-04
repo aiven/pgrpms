@@ -13,7 +13,6 @@ Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ.4)
 
-Group:		Applications/Engineering
 License:	MIT
 URL:		https://proj4.org
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
@@ -41,7 +40,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %package devel
 Summary:	Development files for PROJ.4
-Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -50,7 +48,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %package static
 Summary:	Development files for PROJ.4
-Group:		Development/Libraries
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0

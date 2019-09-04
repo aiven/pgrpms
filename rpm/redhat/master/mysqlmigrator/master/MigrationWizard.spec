@@ -3,7 +3,6 @@ Version:        1.1
 Release:        3%{?dist}.1
 Summary:	MySQL to PostgreSQL Migration Wizard
 
-Group:		Application/Databases
 License:	BSD
 URL:		https://www.enterprisedb.com/
 Source0:	%{name}-%{version}.tar.bz2

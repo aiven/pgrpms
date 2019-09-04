@@ -37,7 +37,6 @@ Version:	0.14.2
 Release:	1%{?dist}.1
 Summary:	Simple integration of Flask and WTForms
 
-Group:		Development/Libraries
 License:	BSD
 URL:		https://github.com/lepture/%{sname}
 Source0:	https://github.com/lepture/%{sname}/archive/v%{version}.tar.gz

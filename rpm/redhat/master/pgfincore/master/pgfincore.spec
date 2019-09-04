@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.1.2
 Release:	2%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/klando/pgfincore

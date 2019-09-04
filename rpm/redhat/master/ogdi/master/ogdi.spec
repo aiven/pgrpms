@@ -2,7 +2,6 @@ Name:		ogdi
 Version:	3.2.0
 Release:	4%{?dist}.1
 Summary:	Open Geographic Datastore Interface
-Group:		Applications/Engineering
 License:	BSD
 URL:		http://ogdi.sourceforge.net/
 Source0:	https://downloads.sourceforge.net/project/ogdi/ogdi/3.2.0/ogdi-3.2.0.tar.gz
@@ -26,7 +25,6 @@ data products/formats.
 
 %package devel
 Summary:	OGDI header files and documentation
-Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 Requires:	pkgconfig
 Requires:	zlib-devel expat-devel proj49-devel
@@ -37,7 +35,6 @@ OGDI header files and developer's documentation.
 
 %package odbc
 Summary:	ODBC driver for OGDI
-Group:		System Environment/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description odbc
@@ -46,7 +43,6 @@ ODBC driver for OGDI.
 
 %package tcl
 Summary:	TCL wrapper for OGDI
-Group:		System Environment/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description tcl

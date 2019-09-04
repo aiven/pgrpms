@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
 Release:	1%{?dist}.1
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/ver_1.1.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}/
@@ -41,7 +40,6 @@ match operator for jsonb.
 
 %package devel
 Summary:	JsQuery development header files
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 

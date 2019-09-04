@@ -25,7 +25,6 @@ Name:		python2-%{sname}
 Version:	0.9.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/perseas/%{cname}/archive/v%{version}.tar.gz
 URL:		https://github.com/perseas/%{cname}/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

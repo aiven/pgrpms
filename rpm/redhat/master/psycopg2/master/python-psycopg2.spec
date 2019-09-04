@@ -45,7 +45,6 @@ Version:	2.8.3
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
-Group:		Applications/Databases
 Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
@@ -89,7 +88,6 @@ features offered by PostgreSQL.
 Summary:	A PostgreSQL database adapter for Python 2 (debug build)
 # Require the base package, as we're sharing .py/.pyc files:
 Requires:	%{name} = %{version}-%{release}
-Group:		Applications/Databases
 Obsoletes:	python-%{sname}-debug >= 2.0.0
 Provides:	python-%{sname}-debug = %{version}-%{release}
 
@@ -139,7 +137,6 @@ build of Python 3.
 %if %with_docs
 %package doc
 Summary:	Documentation for psycopg python PostgreSQL database adapter
-Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 Obsoletes:	python-%{sname}-doc >= 2.0.0
 Provides:	python-%{sname}-doc = %{version}-%{release}

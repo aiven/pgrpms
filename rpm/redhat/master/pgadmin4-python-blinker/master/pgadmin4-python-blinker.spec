@@ -36,7 +36,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	1.4
 Release:	3%{?dist}.1
 Summary:	Fast, simple object-to-object and broadcast signaling
-Group:		Development/Libraries
 License:	MIT
 URL:		http://discorporate.us/projects/Blinker/
 Source0:	https://pypi.python.org/packages/source/b/%{sname}/%{sname}-%{version}.tar.gz

@@ -12,7 +12,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.3.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/laurenz/pgreplay/archive/%{vname}.tar.gz
 URL:		https://github.com/laurenz/pgreplay
 Requires:	postgresql%{pgmajorversion}

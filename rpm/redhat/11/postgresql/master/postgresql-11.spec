@@ -92,7 +92,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	11.5
 Release:	2PGDG%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Url:		https://www.postgresql.org/
 
 Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
@@ -303,7 +302,6 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
-Group:		Applications/Databases
 Provides:	postgresql-libs = %{pgmajorversion}
 Requires:	openssl-libs >= 1.0.2k
 
@@ -320,7 +318,6 @@ PostgreSQL server.
 
 %package server
 Summary:	The programs needed to create and run a PostgreSQL server
-Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
@@ -357,7 +354,6 @@ and maintain PostgreSQL databases.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
-Group:		Applications/Databases
 Provides:	postgresql-docs
 
 %description docs
@@ -369,7 +365,6 @@ includes HTML version of the documentation.
 
 %package contrib
 Summary:	Contributed source and binaries distributed with PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
@@ -385,7 +380,6 @@ included in the PostgreSQL distribution.
 
 %package devel
 Summary:	PostgreSQL development header files and libraries
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %icu
@@ -424,7 +418,6 @@ to develop applications which will interact with a PostgreSQL server.
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	llvm5.0 >= 5.0
@@ -452,7 +445,6 @@ goal of accelerating analytics queries.
 %if %plperl
 %package plperl
 Summary:	The Perl procedural language for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
@@ -476,7 +468,6 @@ Install this if you want to write database functions in Perl.
 %if %plpython2
 %package plpython
 Summary:	The Python procedural language for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
@@ -498,7 +489,6 @@ Install this if you want to write database functions in Python.
 %if %plpython3
 %package plpython3
 Summary:	The Python3 procedural language for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl
@@ -519,7 +509,6 @@ Install this if you want to write database functions in Python 3.
 %if %pltcl
 %package pltcl
 Summary:	The Tcl procedural language for PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
@@ -540,7 +529,6 @@ for the backend.
 %if %test
 %package test
 Summary:	The test suite distributed with PostgreSQL
-Group:		Applications/Databases
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test

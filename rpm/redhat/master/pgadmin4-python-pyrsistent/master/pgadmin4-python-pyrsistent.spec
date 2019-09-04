@@ -36,7 +36,6 @@ Summary:	Persistent/Functional/Immutable data structures
 Version:	0.14.2
 Release:	1%{?dist}.2
 License:	MIT
-Group:		Libraries/Python
 Source0:	https://github.com/tobgu/%{sname}/archive/v%{version}.tar.gz
 URL:		http://github.com/tobgu/%{sname}/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)

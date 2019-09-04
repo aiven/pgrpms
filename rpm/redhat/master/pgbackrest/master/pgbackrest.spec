@@ -5,7 +5,6 @@ Name:		pgbackrest
 Version:	2.17
 Release:	1%{?dist}
 License:	MIT
-Group:		Applications/Databases
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch

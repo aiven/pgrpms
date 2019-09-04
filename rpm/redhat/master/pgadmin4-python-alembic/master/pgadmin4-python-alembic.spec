@@ -37,7 +37,6 @@ Version:	0.9.7
 Release:	3%{?dist}.1
 Summary:	Database migration tool for SQLAlchemy
 
-Group:		Development/Libraries
 License:	MIT
 URL:		https://pypi.io/project/alembic
 Source0:	https://pypi.io/packages/source/a/%{sname}/%{sname}-%{version}.tar.gz

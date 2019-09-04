@@ -10,7 +10,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	0.1.8
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/www_fdw/

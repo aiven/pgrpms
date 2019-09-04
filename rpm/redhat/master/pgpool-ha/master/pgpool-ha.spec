@@ -7,7 +7,6 @@ Name:		%{sname}
 Version:	3.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 URL:		http://www.pgpool.net
 Source0:	http://www.pgpool.net/download.php?f=%{sname}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)

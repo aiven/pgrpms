@@ -3,7 +3,6 @@ Summary:	Client library and command line tools for memcached server
 Version:	1.0.18
 Release:	1%{?dist}.1
 License:	BSD
-Group:		System Environment/Libraries
 URL:		http://libmemcached.org/
 # Original sources:
 #   http://launchpad.net/libmemcached/1.0/%%{version}/+download/libmemcached-%%{version}.tar.gz
@@ -54,7 +53,6 @@ memtouch	Touches a key
 
 %package devel
 Summary:	Header files and development libraries for %{name}
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	pkgconfig
 Requires:	cyrus-sasl-devel%{?_isa}

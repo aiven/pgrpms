@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.20151224
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/petere/pguri

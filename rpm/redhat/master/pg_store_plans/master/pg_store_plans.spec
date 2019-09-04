@@ -10,7 +10,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.3
 Release:	1%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	https://github.com/ossc-db/%{sname}/archive/1.3.tar.gz
 Source1:	README-%{sname}.txt
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch

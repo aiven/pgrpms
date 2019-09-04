@@ -28,7 +28,6 @@ Name:			%{sname}-%{pgmajorversion}
 Version:		4.0.6
 Release:		1%{?dist}
 License:		BSD
-Group:			Applications/Databases
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:		%{sname}-pg%{pgmajorversion}.service
@@ -91,7 +90,6 @@ DB nodes to be connected, which was not possible in pgpool-I.
 
 %package devel
 Summary:	The development files for pgpool-II
-Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 
 %description devel
@@ -99,7 +97,6 @@ Development headers and libraries for pgpool-II.
 
 %package extensions
 Summary:	Postgresql extensions for pgpool-II
-Group:		Applications/Databases
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server

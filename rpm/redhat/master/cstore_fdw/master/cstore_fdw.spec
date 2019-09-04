@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.2
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://citusdata.github.io/cstore_fdw/

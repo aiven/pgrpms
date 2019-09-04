@@ -4,7 +4,6 @@ Release:        1%{?dist}
 Summary:        Simple backup script for PostgreSQL
 
 License:        BSD
-Group:          Applications/Databases
 URL:            https://github.com/orgrim/%{name}
 Source0:        https://github.com/orgrim/%{name}/archive/v%{version}.tar.gz
 BuildArch:      noarch

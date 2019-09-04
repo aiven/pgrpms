@@ -3,7 +3,6 @@ Version:        2.3
 Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
-Group:          Applications/Databases
 URL:            https://github.com/dalibo/%{name}
 Source0:        https://dl.dalibo.com/public/%{name}/%{name}-%{version}.tar.gz
 Patch1:         %{name}.config.patch

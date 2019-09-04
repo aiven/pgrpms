@@ -36,7 +36,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	3.16.0
 Release:	1%{?dist}
 Summary:	Simple, fast, extensible JSON encoder/decoder for Python
-Group:		System Environment/Libraries
 # The main code is licensed MIT.
 # The docs include jquery which is licensed MIT or GPLv2
 License:	(MIT or AFL) and (MIT or GPLv2)

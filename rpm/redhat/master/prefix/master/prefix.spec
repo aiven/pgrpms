@@ -10,7 +10,6 @@ Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
 URL:		https://github.com/dimitri/prefix
 # This is for older spec files (RHEL <= 6)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Group:		Application/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel

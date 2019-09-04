@@ -5,7 +5,6 @@ Name:		%{sname}-%{pgmajorversion}
 Version:	1.5.2
 Release:	2%{?dist}
 License:	BSD
-Group:		Applications/Databases
 URL:		http://tada.github.io/%{sname}/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 

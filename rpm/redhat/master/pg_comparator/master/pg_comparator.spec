@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	2.2.5
 Release:	2%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/koordinates/%{sname}

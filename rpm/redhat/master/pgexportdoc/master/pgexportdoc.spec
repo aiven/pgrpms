@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	0.1.3
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/okbob/%{sname}

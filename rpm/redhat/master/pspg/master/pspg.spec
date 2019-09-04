@@ -3,7 +3,6 @@ Name:		pspg
 Version:	1.7.1
 Release:	1%{?dist}
 License:	BSD
-Group:		Development/Tools
 URL:		https://github.com/okbob/%{name}
 Source:		https://github.com/okbob/%{name}/archive/%{version}.tar.gz
 BuildRequires:	ncurses-devel readline-devel

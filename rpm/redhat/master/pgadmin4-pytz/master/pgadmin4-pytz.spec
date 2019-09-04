@@ -36,7 +36,6 @@ Version:	2018.9
 Release:	1%{?dist}
 Summary:	World Timezone Definitions for Python
 
-Group:		Development/Languages
 License:	MIT
 URL:		http://pytz.sourceforge.net/
 Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz

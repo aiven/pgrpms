@@ -14,7 +14,6 @@ Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
 URL:		https://github.com/%{sname}/%{sname}
-Group:		System Environment/Base
 BuildRequires:	postgresql%{pgmajorversion}-devel, pam-devel, mhash-devel
 Requires:	postgresql%{pgmajorversion}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

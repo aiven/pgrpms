@@ -11,7 +11,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	2.1.0
 Release:	1%{dist}.1
 License:	AGPLv3
-Group:		Applications/Databases
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/citusdata/postgresql-%{sname}/

@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.5.8
 Release:	1%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}

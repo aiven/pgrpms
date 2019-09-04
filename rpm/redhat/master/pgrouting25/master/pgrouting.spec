@@ -13,7 +13,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.5
 Release:	1%{dist}
 License:	GPLv2
-Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++

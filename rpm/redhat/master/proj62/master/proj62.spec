@@ -13,7 +13,6 @@ Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
-Group:		Applications/Engineering
 License:	MIT
 URL:		https://proj.org
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
@@ -40,7 +39,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %package devel
 Summary:	Development files for PROJ
-Group:		Development/Libraries
 Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -49,7 +47,6 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %package static
 Summary:	Development files for PROJ
-Group:		Development/Libraries
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0

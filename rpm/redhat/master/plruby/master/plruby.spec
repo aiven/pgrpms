@@ -19,7 +19,6 @@ Source1:	plruby.control
 Patch0:		%{sname}-rhel6-include.patch
 %endif
 License:	Ruby or GPL+
-Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Url:		https://github.com/devrimgunduz/postgresql-plruby
 BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql%{pgmajorversion}
@@ -40,7 +39,6 @@ procedures.
 
 %package doc
 Summary:	Documentation for plruby
-Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
 %description doc

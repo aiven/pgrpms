@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.20171014
 Release:	1%{?dist}.2
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch0:		plsh-pg11-build.patch
 

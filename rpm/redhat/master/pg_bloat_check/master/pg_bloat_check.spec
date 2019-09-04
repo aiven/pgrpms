@@ -3,7 +3,6 @@ Name:		pg_bloat_check
 Version:	2.6.0
 Release:	1%{?dist}
 License:	PostgreSQL
-Group:		Applications/Databases
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}-LICENSE
 URL:		https://github.com/keithf4/%{name}

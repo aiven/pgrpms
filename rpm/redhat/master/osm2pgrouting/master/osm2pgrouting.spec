@@ -13,7 +13,6 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	%{osmpgroutingmajorversion}.5
 Release:	1%{dist}.1
 License:	GPLv2
-Group:		Applications/Databases
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
 BuildRequires:	gcc-c++ libpqxx-devel

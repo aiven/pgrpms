@@ -10,7 +10,6 @@ Version:	6.4.4
 Release:	1%{?dist}
 Summary:	C++ client API for PostgreSQL
 
-Group:		System Environment/Libraries
 License:	BSD
 URL:		https://github.com/jtv/%{name}
 Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
@@ -35,7 +34,6 @@ Supersedes older libpq++ interface.
 
 %package devel
 Summary:	Development tools for %{name}
-Group:		Development/Libraries
 Requires:	%{name}%{?_isa} = %{epoch}:%{version}-%{release}
 Requires:	pkgconfig
 Requires:	postgresql%{pgmajorversion}-devel

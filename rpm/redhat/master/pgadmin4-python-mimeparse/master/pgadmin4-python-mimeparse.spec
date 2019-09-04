@@ -35,7 +35,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	1.6.0
 Release:	1%{?dist}.1
 Summary:	Python module for parsing mime-type names
-Group:		Development/Languages
 License:	MIT
 URL:		https://pypi.python.org/pypi/python-mimeparse
 Source0:	https://files.pythonhosted.org/packages/source/p/python-%{sname}/python-%{sname}-%{version}.tar.gz

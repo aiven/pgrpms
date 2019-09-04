@@ -14,7 +14,6 @@ Version:	4.14
 Release:	1%{alphatag}%{?dist}
 Summary:	Computational Geometry Algorithms Library
 
-Group:		System Environment/Libraries
 License:	LGPLv3+ and GPLv3+ and Boost
 URL:		http://www.cgal.org/
 Source0:	https://github.com/CGAL/cgal/releases/download/releases/%{name}-%{version}/%{name}-%{version}.tar.xz
@@ -51,7 +50,6 @@ access to useful, reliable geometric algorithms.
 
 
 %package devel
-Group:		Development/Libraries
 Summary:	Development files and tools for CGAL applications
 Requires:	cmake
 Requires:	%{name} = %{version}-%{release}
@@ -80,7 +78,6 @@ develop applications using CGAL.
 
 
 %package demos-source
-Group:		Documentation
 Summary:	Examples and demos of CGAL algorithms
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 

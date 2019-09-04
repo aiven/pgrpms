@@ -12,7 +12,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	3.1.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw

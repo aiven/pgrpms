@@ -11,7 +11,6 @@ Version:	1.2.1
 Release:	2%{?dist}.1
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
-Group:		Applications/Databases
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Url:		https://github.com/pgxn/pgxnclient
 BuildRequires:	python-devel python-setuptools

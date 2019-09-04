@@ -38,7 +38,6 @@ Version:	2.3.2
 Release:	1%{?dist}.1
 Summary:	Adds SQLAlchemy support to Flask application
 
-Group:		Development/Libraries
 License:	BSD
 URL:		https://github.com/mitsuhiko/%{sname}
 Source0:	https://github.com/mitsuhiko/%{sname}/archive/%{version}.tar.gz

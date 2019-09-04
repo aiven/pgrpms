@@ -21,7 +21,6 @@ Name:		wal-e
 Version:	1.1.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/%{name}/%{name}
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)

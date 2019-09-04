@@ -8,7 +8,6 @@ Release:        1%{?dist}.1
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
-Group:          System Environment/Daemons
 License:        BSD
 URL:            http://www.memcached.org/
 Source0:        http://www.memcached.org/files/%{name}-%{version}.tar.gz
@@ -31,7 +30,6 @@ web applications by alleviating database load.
 
 %package devel
 Summary: Files needed for development using memcached protocol
-Group: Development/Libraries
 Requires: %{name} = %{epoch}:%{version}-%{release}
 
 %description devel

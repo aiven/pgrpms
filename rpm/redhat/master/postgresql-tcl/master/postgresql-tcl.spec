@@ -15,7 +15,6 @@ Version:	%{pgtclmajorversion}.0
 Release:	2%{?dist}.1
 Summary:	A Tcl client library for PostgreSQL
 
-Group:		Applications/Databases
 URL:		https://github.com/flightaware/Pgtcl
 License:	BSD
 

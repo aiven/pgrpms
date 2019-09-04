@@ -20,7 +20,6 @@ Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
 Release:	1%{?dist}.1
-Group:		Applications/Databases
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz

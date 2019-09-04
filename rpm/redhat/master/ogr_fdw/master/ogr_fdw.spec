@@ -11,7 +11,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	1.0.8
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Patch2:		ogr_fdw-makefile-gdal23.patch

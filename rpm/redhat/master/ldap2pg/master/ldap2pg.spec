@@ -33,7 +33,6 @@ Name:		python-%{sname}
 Version:	5.0
 Release:	1%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 
@@ -87,7 +86,6 @@ This is a build of the ldap2pg for Python 3.
 
 %package doc
 Summary:	Documentation for ldap2pg
-Group:		Documentation
 Requires:	%{name} = %{version}-%{release}
 
 %description doc

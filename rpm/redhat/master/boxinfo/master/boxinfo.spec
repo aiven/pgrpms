@@ -3,7 +3,6 @@ Name:		boxinfo
 Version:	1.4.0
 Release:	1%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	http://bucardo.org/downloads/%{name}.pl
 Source2:	README.%{name}
 URL:		http://bucardo.org/wiki/Boxinfo

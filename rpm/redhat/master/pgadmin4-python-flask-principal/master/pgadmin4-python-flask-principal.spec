@@ -38,7 +38,6 @@ Version:	0.4.0
 Release:	14%{?dist}.1
 Summary:	%{sum}
 
-Group:		Development/Languages
 License:	MIT
 URL:		https://pypi.python.org/pypi/%{pypi_name}
 Source0:	https://pypi.python.org/packages/source/F/%{pypi_name}/%{pypi_name}-%{version}.tar.gz

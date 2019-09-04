@@ -34,7 +34,6 @@ Name:		pgadmin4-python-%{sname}
 Version:	1.2.18
 Release:	1%{?dist}
 Summary:	Modular and flexible ORM library for python
-Group:		Development/Libraries
 License:	MIT
 URL:		http://www.sqlalchemy.org/
 Source0:	https://files.pythonhosted.org/packages/source/S/%{srcname}/%{srcname}-%{version}.tar.gz

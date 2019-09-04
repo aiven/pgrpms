@@ -11,7 +11,6 @@ Name:		%{sname}-%{pgmajorversion}
 Version:	2.3.0
 Release:	3%{?dist}.1
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/Ohmu/%{sname}

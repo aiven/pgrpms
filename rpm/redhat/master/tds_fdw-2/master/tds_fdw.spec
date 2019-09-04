@@ -10,7 +10,6 @@ Name:		%{sname}%{pgmajorversion}
 Version:	2.0.0
 Release:	alpha.3%{?dist}
 License:	BSD
-Group:		Applications/Databases
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}-alpha.3.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tds-fdw/%{sname}
