@@ -2,12 +2,10 @@ Name:		pgdg-redhat-repo
 Version:	42.0
 Release:	5
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS / Scientific Linux
-Group:		System Environment/Base
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-redhat-all.repo
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 Obsoletes:	pgdg-centos12 pgdg-redhat12 pgdg-sl12
@@ -35,9 +33,6 @@ This package contains yum configuration for Red Hat Enterprise Linux, CentOS
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 %{__install} -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)

@@ -2,12 +2,10 @@ Name:		pgdg-fedora-repo
 Version:	42.0
 Release:	5
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
-Group:		System Environment/Base
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-fedora-all.repo
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	/etc/fedora-release
 Obsoletes:	pgdg-fedora94 pgdg-fedora95 pgdg-fedora96
@@ -31,9 +29,6 @@ key for PGDG RPMs.
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 %{__install} -pm 644 %{SOURCE2}  \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
