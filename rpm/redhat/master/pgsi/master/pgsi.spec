@@ -8,7 +8,6 @@ URL:		http://bucardo.org/pgsi
 Requires:	perl(Data::Dumper) perl(Getopt::Long) perl(IO::Handle) perl(Time::Local)
 BuildRequires:	perl-Test-Simple >= 0.80 perl-ExtUtils-MakeMaker
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 PGSI is a Perl utility for parsing and analyzing PostgreSQL logs to

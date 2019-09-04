@@ -32,7 +32,6 @@ Requires(preun):	chkconfig
 # This is for /sbin/service
 Requires(preun):	initscripts
 Requires(postun):	initscripts
-BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:	postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel, pam-devel, openssl-devel, readline-devel
@@ -290,7 +289,6 @@ fi
 
 * Wed Apr 29 2015 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-3
 - Add %%license macro
-- Omit obsoleted BuildRoot and Group macros.
 - Use %%make_install macro
 - Omit %%clean
 - No need to cleanup buildroot during %%install

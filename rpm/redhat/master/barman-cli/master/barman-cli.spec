@@ -43,7 +43,6 @@ Release:	%{?extra_version:0.}%{package_release}%{?extra_version:.%{extra_version
 License:	GPLv3
 Url:		http://www.pgbarman.org/
 Source0:	https://github.com/2ndquadrant-it/barman-cli/archive/release/%{main_version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 Requires:	python-abi = %{pybasever}, %{__python_ver}-argparse
 

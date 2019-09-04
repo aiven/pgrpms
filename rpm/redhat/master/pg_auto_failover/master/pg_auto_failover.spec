@@ -14,7 +14,6 @@ License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
 Requires:	postgresql%{pgmajorversion}-server
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

@@ -19,7 +19,6 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/%{sname}-datumgrid-1.8.zip
 Source2:	%{name}-pgdg-libs.conf
 
-BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	sqlite-devel >= 3.7 gcc-c++
 %if 0%{?fedora} > 28 || 0%{?rhel} == 8

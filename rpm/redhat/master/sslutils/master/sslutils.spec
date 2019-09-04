@@ -14,7 +14,6 @@ License:	PostgreSQL
 URL:		https://www.EDBPostgres.com
 Source0:	%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel
 Requires:	postgresql%{pgmajorversion}-server
 

@@ -20,7 +20,6 @@ Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcac
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

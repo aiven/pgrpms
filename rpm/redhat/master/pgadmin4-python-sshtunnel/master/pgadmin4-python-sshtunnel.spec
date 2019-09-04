@@ -32,7 +32,6 @@ Summary:	SSH tunnels to remote server.
 License:	MIT
 URL:		https://github.com/pahaz/%{sname}
 Source0:	https://files.pythonhosted.org/packages/bf/8d/385c7e7c90e17934b3102ad2902e224c27a7173a6a57ef4805dcef8043b1/sshtunnel-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 %if 0%{?with_python3}

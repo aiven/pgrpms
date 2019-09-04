@@ -6,7 +6,6 @@ License:	BSD
 Source0:	http://bucardo.org/downloads/%{name}.pl
 Source2:	README.%{name}
 URL:		http://bucardo.org/wiki/Boxinfo
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Buildarch:	noarch
 
 %description

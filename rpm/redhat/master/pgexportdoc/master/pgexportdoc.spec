@@ -14,7 +14,6 @@ License:	BSD
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/okbob/%{sname}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}
 Requires:	postgresql%{pgmajorversion}
 

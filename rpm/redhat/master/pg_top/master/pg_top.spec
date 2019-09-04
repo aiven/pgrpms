@@ -16,7 +16,6 @@ URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
 BuildRequires:	autoconf
 Requires:	postgresql%{pgmajorversion}-server
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 %ifarch ppc64 ppc64le

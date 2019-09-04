@@ -16,7 +16,6 @@ URL:		https://odbc.postgresql.org/
 Source0:	http://download.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
 Source1:	acinclude.m4
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	unixODBC-devel
 BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel

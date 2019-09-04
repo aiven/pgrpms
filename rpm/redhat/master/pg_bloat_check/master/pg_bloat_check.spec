@@ -6,7 +6,6 @@ License:	PostgreSQL
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}-LICENSE
 URL:		https://github.com/keithf4/%{name}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 Requires:	python2-psycopg2

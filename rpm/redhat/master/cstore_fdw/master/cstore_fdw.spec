@@ -14,7 +14,6 @@ License:	BSD
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://citusdata.github.io/cstore_fdw/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %if 0%{?suse_version} >= 1315
 BuildRequires:	protobuf-c libprotobuf-c-devel
 %else

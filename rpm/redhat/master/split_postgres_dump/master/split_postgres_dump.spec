@@ -7,7 +7,6 @@ Source0:	https://github.com/bucardo/Split_postgres_dump/archive/%{version}.tar.g
 Source2:	README.%{name}
 URL:		https://github.com/bucardo/Split_postgres_dump
 Requires:	perl-Data-Dumper
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description

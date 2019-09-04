@@ -15,7 +15,6 @@ Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://pgxn.org/dist/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel, gmp-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	gmp
 
 %ifarch ppc64 ppc64le

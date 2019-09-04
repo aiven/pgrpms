@@ -9,7 +9,6 @@ URL:		https://bucardo.org/wiki/Bucardo
 Source0:	https://bucardo.org/downloads/Bucardo-%{version}.tar.gz
 Source1:	bucardo-master-master-replication-example.txt
 Source2:	bucardo.init
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Obsoletes:	bucardo
 

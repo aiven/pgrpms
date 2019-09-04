@@ -8,7 +8,6 @@ Release:	1%{?dist}
 License:	BSD
 URL:		http://pgloader.io
 Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	sbcl >= 1.3.6
 BuildRequires:	freetds-devel

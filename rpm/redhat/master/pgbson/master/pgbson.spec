@@ -23,7 +23,6 @@ BuildRequires:	cmake28
 BuildRequires:	cmake
 %endif
 Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

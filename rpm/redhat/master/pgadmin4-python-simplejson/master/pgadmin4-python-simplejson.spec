@@ -44,7 +44,6 @@ Source0:	https://files.pythonhosted.org/packages/source/s/%{sname}/%{sname}-%{ve
 %if 0%{?rhel} == 6
 Patch0:		pgadmin4-python-simplejson-rhel6-sphinx.patch
 %endif
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315

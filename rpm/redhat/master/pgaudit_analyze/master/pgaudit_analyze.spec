@@ -8,7 +8,6 @@ Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgaudit/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/pgaudit/%{name}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	perl-Carp
 

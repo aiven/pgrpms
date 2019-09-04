@@ -20,7 +20,6 @@ Source1:	http://download.osgeo.org/%{sname}/%{sname}-datumgrid-1.8.zip
 Source2:	%{name}-pgdg-libs.conf
 
 Patch0:		%{sname}-4.8.0-removeinclude.patch
-BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	libtool sqlite-devel >= 3.7
 %if 0%{?fedora} > 28 || 0%{?rhel} == 8

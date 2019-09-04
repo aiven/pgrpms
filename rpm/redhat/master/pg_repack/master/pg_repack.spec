@@ -16,7 +16,6 @@ License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		pg_repack-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://pgxn.org/dist/pg_repack/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}
 Requires:	postgresql%{pgmajorversion}

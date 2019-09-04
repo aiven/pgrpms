@@ -7,7 +7,6 @@ URL:            https://github.com/dalibo/%{name}
 Source0:        https://dl.dalibo.com/public/%{name}/%{name}-%{version}.tar.gz
 Patch1:         %{name}.config.patch
 BuildArch:      noarch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:       bash, rsync
 
 %description

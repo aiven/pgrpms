@@ -37,7 +37,6 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 Patch1:		postgis21-2.0.7-pg95.patch
 
 URL:		http://www.postgis.net/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos36-devel >= 3.6.2, pcre-devel
 BuildRequires:	proj49-devel, flex, json-c-devel, libxml2-devel

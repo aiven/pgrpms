@@ -23,7 +23,6 @@ License:	BSD
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/arcapos/%{name}/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	lua-devel
 BuildRequires: 	postgresql%{pgmajorversion}-devel lua-devel
 Requires:	postgresql%{pgmajorversion}-server

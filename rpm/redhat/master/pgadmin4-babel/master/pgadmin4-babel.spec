@@ -35,7 +35,6 @@ License:	BSD
 URL:		http://babel.pocoo.org/
 Source0:	https://files.pythonhosted.org/packages/source/B/Babel/Babel-%{version}.tar.gz
 Patch0:		%{name}-remove-pytz-version.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %if 0%{?fedora} > 25

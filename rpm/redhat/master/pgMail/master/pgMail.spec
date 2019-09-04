@@ -7,7 +7,6 @@ Release:	1%{?dist}.1
 License:	Apache
 Source0:	https://github.com/captbrando/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/captbrando/%{name}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 

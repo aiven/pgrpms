@@ -17,7 +17,6 @@ URL:		https://gitlab.com/daamien/postgresql_anonymizer
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildArch:	noarch
 Requires:	postgresql%{pgmajorversion}-server ddlx_%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

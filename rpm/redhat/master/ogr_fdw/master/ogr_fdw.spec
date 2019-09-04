@@ -17,7 +17,6 @@ Patch2:		ogr_fdw-makefile-gdal23.patch
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal23-devel
 Requires:	postgresql%{pgmajorversion}-server gdal23-libs
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

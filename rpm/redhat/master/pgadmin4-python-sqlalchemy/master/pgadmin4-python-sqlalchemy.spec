@@ -37,7 +37,6 @@ Summary:	Modular and flexible ORM library for python
 License:	MIT
 URL:		http://www.sqlalchemy.org/
 Source0:	https://files.pythonhosted.org/packages/source/S/%{srcname}/%{srcname}-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 SQLAlchemy is an Object Relational Mappper (ORM) that provides a flexible,

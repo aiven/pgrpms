@@ -15,7 +15,6 @@ Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
 Patch1:		%{sname}-cmake3-rhel7.patch
 URL:		https://github.com/timescale/timescaledb
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3

@@ -9,7 +9,6 @@ Source0:	http://download.osgeo.org/geos/%{name}-%{version}.tar.bz2
 Patch0:		geos-gcc43.patch
 Patch2:		geos-3.3.2-php-5.4.patch
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
 BuildRequires:	gcc-c++

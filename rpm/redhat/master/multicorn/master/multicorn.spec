@@ -38,7 +38,6 @@ BuildRequires:	python-devel
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
 %endif # with_python3
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

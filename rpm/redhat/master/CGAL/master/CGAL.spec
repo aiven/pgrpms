@@ -19,7 +19,6 @@ URL:		http://www.cgal.org/
 Source0:	https://github.com/CGAL/cgal/releases/download/releases/%{name}-%{version}/%{name}-%{version}.tar.xz
 Source10:	CGAL-README.Fedora
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 # Required devel packages.
 BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_version}

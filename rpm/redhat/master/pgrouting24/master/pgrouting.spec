@@ -20,7 +20,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
 BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

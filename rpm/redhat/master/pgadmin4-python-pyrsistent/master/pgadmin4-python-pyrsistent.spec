@@ -38,7 +38,6 @@ Release:	1%{?dist}.2
 License:	MIT
 Source0:	https://github.com/tobgu/%{sname}/archive/v%{version}.tar.gz
 URL:		http://github.com/tobgu/%{sname}/
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools

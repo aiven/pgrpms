@@ -40,7 +40,6 @@ Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
 Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
 Requires:	hypopg_%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if %{systemd_enabled}
 Requires:		systemd

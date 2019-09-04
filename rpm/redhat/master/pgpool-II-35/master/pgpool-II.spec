@@ -38,7 +38,6 @@ Source3:		%{sname}-pg%{pgmajorversion}.init
 Source9:		%{sname}-pg%{pgmajorversion}-libs.conf
 Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
-BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel openssl-devel
@@ -416,7 +415,6 @@ fi
   http://www.pgpool.net/docs/pgpool-II-3.4.2/NEWS.txt
 
 * Fri Feb 6 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-2
-- Add missing BuildRoot macro.
 - Fix rpmlint warnings/errors.
 
 * Thu Feb 5 2015 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1

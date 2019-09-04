@@ -41,7 +41,6 @@ License:	Python
 URL:		https://github.com/zzzsochi/%{pypi_name}
 Source0:	https://github.com/zzzsochi/%{pypi_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?with_python3}
 Requires:	pgadmin4-python3-flask

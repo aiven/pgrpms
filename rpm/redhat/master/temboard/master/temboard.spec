@@ -13,7 +13,6 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 Patch0:		%{name}-conf.patch
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	python-setuptools
 Requires:	python-tornado >= 3.2 python-sqlalchemy >= 0.9.8

@@ -10,7 +10,6 @@ License:	PostgreSQL
 Url:		http://opm.io
 Source0:	https://github.com/OPMDG/%{sname}/archive/%{_tag}.tar.gz
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	postgresql%{pgmajorversion}
 Requires:	nagios-plugins
 Provides:	%{sname} = %{version}

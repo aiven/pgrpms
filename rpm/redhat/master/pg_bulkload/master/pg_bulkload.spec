@@ -12,7 +12,6 @@ URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 License:	BSD
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
 BuildRequires:	libsepol-devel, readline-devel, krb5-devel
 Requires:	postgresql%{pgmajorversion}-server %{sname}%{pgmajorversion}-client

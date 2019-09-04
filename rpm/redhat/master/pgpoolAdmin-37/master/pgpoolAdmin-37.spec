@@ -14,7 +14,6 @@ Version:	%{pgpoolmajorversion}.1
 Release:	1%{?dist}.1
 License:	BSD
 URL:		http://pgpool.net
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Source0:	http://www.pgpool.net/download.php?f=%{name}-%{version}.tar.gz
 Source1:	%{name}.conf

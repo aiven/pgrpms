@@ -10,7 +10,6 @@ Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
 URL:		https://github.com/dimitri/prefix
 # This is for older spec files (RHEL <= 6)
 %if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -66,7 +65,6 @@ searches.
 * Mon Jan 12 2015 - Devrim Gündüz <devrim@gunduz.org> 1.2.3-1
 - Omit deprecated Group: tags and %%clean section
 - Use %%make_install macro
-- Get rid of BuildRoot definition
 - No need to cleanup buildroot during %%install
 - Remove %%defattr
 - Run ldconfig

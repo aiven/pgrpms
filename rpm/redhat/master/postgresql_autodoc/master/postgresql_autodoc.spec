@@ -9,7 +9,6 @@ License:	BSD
 URL:		https://github.com/devrimgunduz/%{name}/
 Source0:	https://github.com/devrimgunduz/%{name}/archive/%{version}.tar.gz
 Patch0:		%{name}-makefile.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	perl(DBD::Pg)

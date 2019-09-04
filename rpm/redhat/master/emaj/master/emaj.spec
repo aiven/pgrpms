@@ -8,7 +8,6 @@ Summary:	A table update logger for PostgreSQL
 License:	GPLv2
 URL:		https://pgxn.org/dist/%{sname}/
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 E-Maj is a set of PL/pgSQL functions allowing PostgreSQL Database

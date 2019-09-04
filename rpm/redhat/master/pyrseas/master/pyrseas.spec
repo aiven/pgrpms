@@ -27,7 +27,6 @@ Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/perseas/%{cname}/archive/v%{version}.tar.gz
 URL:		https://github.com/perseas/%{cname}/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 Requires:	python2-pgdbconn

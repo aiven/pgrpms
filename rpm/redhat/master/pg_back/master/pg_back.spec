@@ -7,7 +7,6 @@ License:        BSD
 URL:            https://github.com/orgrim/%{name}
 Source0:        https://github.com/orgrim/%{name}/archive/v%{version}.tar.gz
 BuildArch:      noarch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 pg_back is a simple backup script for PostgreSQL.

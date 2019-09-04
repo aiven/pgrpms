@@ -6,7 +6,6 @@ License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://bucardo.org/wiki/Check_postgres
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	perl-ExtUtils-MakeMaker
 Requires:	perl-DateTime-Format-DateParse
 Requires:	perl-File-Temp perl-Time-HiRes

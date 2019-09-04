@@ -7,7 +7,6 @@ License:	BSD
 URL:		https://www.enterprisedb.com/
 Source0:	%{name}-%{version}.tar.bz2
 Patch0:		%{name}-jdk-version.patch
-BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:	noarch
 

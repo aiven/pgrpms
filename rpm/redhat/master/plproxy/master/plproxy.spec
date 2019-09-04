@@ -14,7 +14,6 @@ License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel flex >= 2.5.4
 Requires:	postgresql%{pgmajorversion}

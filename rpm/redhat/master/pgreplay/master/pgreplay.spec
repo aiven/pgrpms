@@ -16,7 +16,6 @@ Source0:	https://github.com/laurenz/pgreplay/archive/%{vname}.tar.gz
 URL:		https://github.com/laurenz/pgreplay
 Requires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime

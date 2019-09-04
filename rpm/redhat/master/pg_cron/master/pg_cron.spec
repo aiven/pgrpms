@@ -18,7 +18,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel openssl-devel
 Requires:	postgresql%{pgmajorversion}-server openssl-libs
 Requires(post):	%{_sbindir}/update-alternatives openldap
 Requires(postun):	%{_sbindir}/update-alternatives
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

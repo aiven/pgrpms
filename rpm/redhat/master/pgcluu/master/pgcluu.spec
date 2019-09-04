@@ -12,7 +12,6 @@ License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description

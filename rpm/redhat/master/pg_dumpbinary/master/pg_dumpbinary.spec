@@ -8,7 +8,6 @@ URL:		https://github.com/darold/%{name}
 Requires:	perl-Time-HiRes
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 pg_dumpbinary is a program used to dump a PostgreSQL database with data

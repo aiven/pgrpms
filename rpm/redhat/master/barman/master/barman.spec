@@ -47,7 +47,6 @@ Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 BuildArch:	noarch
 BuildRequires:	%{__python_ver}-setuptools
 Requires:	/usr/sbin/useradd rsync >= 3.0.4

@@ -13,7 +13,6 @@ Version:	9.6.0
 Release:	1%{?dist}.1
 URL:		https://github.com/ChristophBerg/%{sname}
 License:	GPLv2+
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel
 
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{sversion}.tar.gz

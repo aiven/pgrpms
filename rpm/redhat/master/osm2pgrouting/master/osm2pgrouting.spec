@@ -25,7 +25,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, expat-devel
 BuildRequires:	boost-devel >= 1.53 postgis
 Requires:	postgis2_%{pgmajorversion} >= %{postgisminmajorversion}
 Requires:	postgresql%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

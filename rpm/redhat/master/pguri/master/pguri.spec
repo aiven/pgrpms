@@ -16,7 +16,6 @@ Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/petere/pguri
 BuildRequires:	postgresql%{pgmajorversion}-devel, uriparser-devel
 Requires:	postgresql%{pgmajorversion}-server, uriparser
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

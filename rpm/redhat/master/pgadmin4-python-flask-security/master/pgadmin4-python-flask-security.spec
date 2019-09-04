@@ -41,7 +41,6 @@ URL:		https://pypi.python.org/pypi/%{mod_name}
 Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 
 BuildArch:	noarch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools

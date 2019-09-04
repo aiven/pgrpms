@@ -15,7 +15,6 @@ Source0:	https://github.com/2ndquadrant-it/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/2ndquadrant-it/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

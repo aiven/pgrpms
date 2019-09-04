@@ -19,7 +19,6 @@ Source2:	%{name}.service
 Source3:	%{name}.init
 Source4:	%{name}.json
 Source5:	%{name}.logrotate
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
 BuildRequires:	systemd-units

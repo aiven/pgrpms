@@ -38,7 +38,6 @@ Source3:		%{sname}-pg%{pgmajorversion}.init
 Source9:		%{sname}-pg%{pgmajorversion}-libs.conf
 Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
-BuildRoot:		%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel openssl-devel

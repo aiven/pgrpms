@@ -15,7 +15,6 @@ Release:	2%{?dist}.1
 License:	BSD
 Source0:	https://github.com/daamien/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/daamien/mailchimp_fdw
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 This is a PostgreSQL FDW for Mailchimp

@@ -14,7 +14,6 @@ License:	BSD
 Source0:	https://github.com/lesovsky/%{name}/archive/%{version}.tar.gz
 Patch0:		%{name}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lesovsky/%{name}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	postgresql%{pgmajorversion}-libs
 BuildRequires:	postgresql%{pgmajorversion}, ncurses-devel
 

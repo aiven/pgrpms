@@ -16,7 +16,6 @@ License:	GPLv2
 URL:		https://github.com/%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, pam-devel, mhash-devel
 Requires:	postgresql%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives

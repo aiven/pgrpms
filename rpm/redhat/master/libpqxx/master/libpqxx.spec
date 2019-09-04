@@ -13,7 +13,6 @@ Summary:	C++ client API for PostgreSQL
 License:	BSD
 URL:		https://github.com/jtv/%{name}
 Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
 BuildRequires:	pkgconfig doxygen xmlto

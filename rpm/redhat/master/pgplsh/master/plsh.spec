@@ -18,7 +18,6 @@ Patch1:		%{sname}-pg%{pgmajorversion}-makefile.patch
 URL:		https://github.com/petere/plsh
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

@@ -20,7 +20,6 @@ License:	BSD
 
 Source0:	https://github.com/flightaware/Pgtcl/archive/v%{version}.tar.gz
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root
 
 Requires:	tcl(abi) >= 8.5
 

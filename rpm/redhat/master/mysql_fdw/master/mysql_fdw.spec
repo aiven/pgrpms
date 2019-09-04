@@ -19,7 +19,6 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel, mysql-devel
 Requires:	postgresql%{pgmajorversion}-server mysql-libs mysql-devel
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %ifarch ppc64 ppc64le
 AutoReq:	0

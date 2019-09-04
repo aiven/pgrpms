@@ -5,7 +5,6 @@ Release:	1%{?dist}
 License:	GPLv3
 URL:		http://ora2pg.darold.net/
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 BuildRequires:	perl

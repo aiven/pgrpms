@@ -38,7 +38,6 @@ Summary:	Implements a lazy string for python useful for use with get-text
 License:	BSD
 URL:		http://github.com/mitsuhiko/speaklater
 Source0:	https://pypi.python.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %if 0%{?fedora} > 25

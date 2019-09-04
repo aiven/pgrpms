@@ -29,7 +29,6 @@ Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
-BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, flex
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
 Conflicts:	slony1

@@ -19,7 +19,6 @@ Source1:	https://github.com/markokr/libusual/archive/2c1cb7f9bfa0a2a183354eb2630
 URL:		https://github.com/markokr/skytools
 BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel, xmlto, asciidoc
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime

@@ -7,7 +7,6 @@ Release:	1%{?dist}.1
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 Requires:	postgresql%{pgmajorversion}
 BuildArch:	noarch

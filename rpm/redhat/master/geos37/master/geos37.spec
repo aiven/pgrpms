@@ -24,7 +24,6 @@ URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	doxygen libtool
 BuildRequires:	gcc-c++
 Obsoletes:	geos36 >= 3.6.0

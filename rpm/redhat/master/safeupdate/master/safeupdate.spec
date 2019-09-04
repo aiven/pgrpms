@@ -9,7 +9,6 @@ License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
 Source0:	https://github.com/eradman/pg-safeupdate/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %description
 safeupdate is a simple extension to PostgreSQL that raises an error if UPDATE

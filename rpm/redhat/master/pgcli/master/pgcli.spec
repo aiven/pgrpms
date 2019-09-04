@@ -33,7 +33,6 @@ Release:	1%{?dist}
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/amjith/%{name}
 Source0:	https://github.com/amjith/%{name}/archive/v%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildRequires:	python2-devel
 %if 0%{?with_python3}

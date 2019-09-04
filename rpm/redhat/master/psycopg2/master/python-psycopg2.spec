@@ -48,7 +48,6 @@ License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Provides:	python-%{sname} = %{version}-%{release}
 Obsoletes:	python-%{sname} >= 2.0.0
 

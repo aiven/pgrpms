@@ -40,7 +40,6 @@ Summary:	Implements a XML/HTML/XHTML Markup safe string for Python
 License:	BSD
 URL:		https://pypi.python.org/pypi/%{mod_name}
 Source0:	https://pypi.python.org/packages/source/M/%{mod_name}/%{mod_name}-%{version}.tar.gz
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 %if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools

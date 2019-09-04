@@ -8,7 +8,6 @@ License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Requires:	perl-XML-LibXML perl-IO-Socket-SSL
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	perl-parent perl-JSON perl-Time-HiRes

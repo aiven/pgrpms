@@ -5,7 +5,6 @@ Release:	1%{dist}.1
 URL:		http://mhash.sourceforge.net/
 License:	LGPL
 Source:		http://downloads.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-buildroot-%(%{__id_u} -n)
 Provides:	libmhash = %{version}-%{release}
 
 %description

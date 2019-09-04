@@ -26,7 +26,6 @@ Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/perseas/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/perseas/%{sname}/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description

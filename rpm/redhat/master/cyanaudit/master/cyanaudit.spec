@@ -26,7 +26,6 @@ BuildRequires:	protobuf-c libprotobuf-c-devel postgresql%{pgmajorversion}
 %else
 BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
 %endif
-BuildRoot:	%{_tmppath}/%{sname}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
 %description
