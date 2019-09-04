@@ -1,0 +1,10 @@
+--- Makefile.old	2019-08-26 17:32:39.601072351 +0100
++++ Makefile	2019-08-26 17:32:53.180147167 +0100
+@@ -14,6 +14,6 @@
+ 
+ OBJS = src/decoderbufs.o src/proto/pg_logicaldec.pb-c.o
+ 
+-PG_CONFIG ?= pg_config
++PG_CONFIG ?= /usr/pgsql-11/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
