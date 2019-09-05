@@ -7,7 +7,7 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	7.1
+Version:	7.2
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
@@ -77,6 +77,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %endif
 
 %changelog
+* Thu Sep 5 2019 Devrim Gündüz <devrim@gunduz.org> 7.2-1
+- Update to 7.2
+
 * Thu Jul 25 2019 Devrim Gündüz <devrim@gunduz.org> 7.1-1
 - Update to 7.1
 
