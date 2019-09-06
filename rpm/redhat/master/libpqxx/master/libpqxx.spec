@@ -14,6 +14,7 @@ License:	BSD
 URL:		https://github.com/jtv/%{name}
 Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
 
+Patch0:		%{name}-python3.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
 BuildRequires:	pkgconfig doxygen xmlto
 
@@ -42,6 +43,9 @@ Requires:	postgresql%{pgmajorversion}-devel
 
 %prep
 %setup -q
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%patch0 -p0
+%endif
 
 # fix spurious permissions
 %{__chmod} -x COPYING
@@ -90,6 +94,7 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %changelog
 * Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 6.4.5-1
 - Update to 6.4.5
+- Add new patch for Python3 distros.
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:5.0.1-2.1
 - Rebuild against PostgreSQL 11.0
