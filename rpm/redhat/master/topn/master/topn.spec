@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.0
-Release:	1%{dist}.1
+Version:	2.2.2
+Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -82,6 +82,9 @@ HLL extension, you can think of TopN as its cousin.
 %endif
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1
+- Update to 2.2.2
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
