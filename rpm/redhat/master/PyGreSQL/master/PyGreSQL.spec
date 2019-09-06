@@ -22,8 +22,8 @@
 %endif
 
 Name:		%{srcname}
-Version:	5.0.6
-Release:	2%{?dist}.1
+Version:	5.1
+Release:	1%{?dist}
 Summary:	%{sum}
 
 URL:		http://www.pygresql.org/
@@ -128,6 +128,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 5.1-1
+- Update to 5.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 5.0.6-2.1
 - Rebuild against PostgreSQL 11.0
 
