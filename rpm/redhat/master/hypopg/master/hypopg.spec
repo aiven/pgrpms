@@ -8,7 +8,7 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.2
+Version:	1.1.3
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
@@ -65,11 +65,15 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
   %else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/import/*.bc
   %endif
  %endif
 %endif
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-1
+- Update to 1.1.3
+
 * Thu Dec 6 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.2-1
 - Update to 1.1.2
 
