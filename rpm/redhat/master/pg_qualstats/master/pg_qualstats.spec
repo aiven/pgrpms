@@ -8,7 +8,7 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.7
+Version:	1.0.9
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
@@ -91,6 +91,9 @@ together.
 %endif
 
 %changelog
+* Fri Sep 6 2019 - Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1
+- Update to 1.0.9
+
 * Wed Nov 21 2018 - Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
 - Update to 1.0.7
 
