@@ -10,8 +10,8 @@
 
 Summary:	Import tool for OpenStreetMap data to pgRouting database
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{osmpgroutingmajorversion}.5
-Release:	1%{dist}.1
+Version:	%{osmpgroutingmajorversion}.6
+Release:	1%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
@@ -36,7 +36,6 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 %description
-
 Import tool for OpenStreetMap data to pgRouting database.
 
 %prep
@@ -92,6 +91,9 @@ cd build/
 %{_datadir}/%{sname}/mapconfig_for_pedestrian.xml
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> 2.3.6-1
+- Update to 2.3.6
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.5-1.1
 - Rebuild against PostgreSQL 11.0
 
