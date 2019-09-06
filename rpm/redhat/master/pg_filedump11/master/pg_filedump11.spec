@@ -60,24 +60,5 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-1.1
-- Rebuild against PostgreSQL 11.0
-
-* Fri Jun 2 2017 Devrim Gündüz <devrim@gunduz.org> 9.6.0-1
-- Update to 9.6.0
-
-* Wed Jun 25 2014 Devrim Gündüz <devrim@gunduz.org> 9.3.0-1
-- Update to 9.3.0
-
-* Wed Nov 14 2012 Devrim Gündüz <devrim@gunduz.org> 9.2.0-1
-- Update to 9.2.0
-- Remove no-more-needed pg_crc.c
-
-* Mon Jan 3 2011 Devrim Gündüz <devrim@gunduz.org> 9.0-1
-- Update to 9.0
-
-* Tue Mar 11 2008 Devrim Gündüz <devrim@gunduz.org> 8.3-1
-- Initial packaging for PGDG Repository, using the Fedora
-  spec of Tom, with minor stylistic cleanup. Also, conflict
-  with rhdb-utils.
-
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 11.0-1
+- Initial packaging for PostgreSQL RPM Repository
