@@ -1,4 +1,4 @@
-%global postgismajorversion 2.4
+%global postgismajorversion 2.5
 %global pgroutingmajorversion 2.6
 %global sname	pgrouting
 
@@ -10,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.2
+Version:	%{pgroutingmajorversion}.3
 Release:	1%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
@@ -23,7 +23,7 @@ BuildRequires:  cmake => 2.8.8
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
-Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
+Requires:	postgis25_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
@@ -94,6 +94,11 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 2.6.3-1
+- Update to 2.6.3
+- Update PostGIS version to 2.5, and update dependency to match
+  the PostGIS version numbering.
+
 * Thu Dec 6 2018 Devrim Gündüz <devrim@gunduz.org> - 2.6.2-1
 - Update to 2.6.2
 
