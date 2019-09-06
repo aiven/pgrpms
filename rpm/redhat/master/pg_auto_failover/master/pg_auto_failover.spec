@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname pg_auto_failover
 
 %ifarch ppc64 ppc64le
@@ -8,7 +9,7 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.3
+Version:	1.0.4
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -77,6 +78,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
+- Update to 1.0.4
+
 * Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1
 - Update to 1.0.3
 - Fix OS versions in Makefile, the distro name in the packages changed.
