@@ -6,7 +6,7 @@
 
 Name:		libpqxx
 Epoch:		1
-Version:	6.4.4
+Version:	6.4.5
 Release:	1%{?dist}
 Summary:	C++ client API for PostgreSQL
 
@@ -88,6 +88,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 6.4.5-1
+- Update to 6.4.5
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:5.0.1-2.1
 - Rebuild against PostgreSQL 11.0
 
