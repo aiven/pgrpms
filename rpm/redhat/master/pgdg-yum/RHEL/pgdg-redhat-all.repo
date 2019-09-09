@@ -4,7 +4,6 @@
 name=PostgreSQL 12 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/12/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -12,7 +11,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 11 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/11/redhat/rhel-$releasever-$basearch
 enabled=1
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -20,7 +18,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 10 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-$releasever-$basearch
 enabled=1
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -28,7 +25,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 9.6 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-$releasever-$basearch
 enabled=1
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -36,7 +32,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 9.5 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-$releasever-$basearch
 enabled=1
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -44,7 +39,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 9.4 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/9.4/redhat/rhel-$releasever-$basearch
 enabled=1
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -56,7 +50,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 12 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/12/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -64,7 +57,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 11 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/11/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -72,7 +64,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 10 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/10/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -80,7 +71,6 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 9.6 $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -91,7 +81,6 @@ name=PostgreSQL 12 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/12/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -100,7 +89,6 @@ name=PostgreSQL 12 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/12/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -109,7 +97,6 @@ name=PostgreSQL 11 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/11/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -118,7 +105,6 @@ name=PostgreSQL 11 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/11/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -127,7 +113,6 @@ name=PostgreSQL 10 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/10/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -136,7 +121,6 @@ name=PostgreSQL 10 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/10/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -145,7 +129,6 @@ name=PostgreSQL 9.6 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -154,7 +137,6 @@ name=PostgreSQL 9.6 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -163,7 +145,6 @@ name=PostgreSQL 9.5 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.5/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
@@ -172,6 +153,5 @@ name=PostgreSQL 9.4 $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.4/redhat/rhel-$releasever-$basearch
 enabled=0
-module_hotfixes=true
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
