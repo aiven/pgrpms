@@ -17,7 +17,7 @@ Obsoletes:	pgdg-centos94 pgdg-redhat94 pgdg-sl94
 
 %description
 This package contains yum configuration for Red Hat Enterprise Linux, CentOS
- and Scientific Linux. and also the GPG key for PGDG RPMs.
+and Scientific Linux. and also the GPG key for PGDG RPMs.
 
 %prep
 %setup -q  -c -T
