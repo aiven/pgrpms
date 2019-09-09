@@ -37,7 +37,7 @@
 %endif
 
 %if 0%{?rhel} >= 7
-# Support Python3 on RHEL 7 via EPEL.
+# Support Python3 on RHEL/CentOS 7 as of 7.7+.
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
@@ -199,9 +199,9 @@ BuildRequires:	python2-devel
 
 %if %plpython3
 %if 0%{?rhel} == 7
-# Packagers: Use EPEL.
-BuildRequires:	python36-devel
-Requires:	python36-libs
+# This is supported as of RHEL/CentOS 7.7
+BuildRequires:	python3-devel
+Requires:	python3-libs
 %else
 BuildRequires:	python3-devel
 Requires:	python3-libs
