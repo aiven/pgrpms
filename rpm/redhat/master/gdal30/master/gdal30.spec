@@ -3,6 +3,7 @@
 %global geos37instdir /usr/geos37
 %global proj62instdir /usr/proj62
 %global libgeotiff15instdir /usr/libgeotiff15
+%global	gdal30somajorversion	26
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
@@ -356,7 +357,6 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LI
 	--libdir=%{gdalinstdir}/lib	\
 	--datadir=%{gdalinstdir}/share	\
 	--datarootdir=%{gdalinstdir}/share	\
-	--with-autoload=%{_libdir}/%{name}plugins \
 	--with-armadillo	\
 	--with-curl		\
 	--with-cfitsio=%{_prefix}	\
@@ -423,9 +423,9 @@ pushd ogr/ogrsf_frmts/s57/
   %{__make} all
 popd
 
-pushd frmts/iso8211/
-  %{__make} all
-popd
+#pushd frmts/iso8211/
+#  %%{__make} all
+#popd
 
 # --------- Documentation ----------
 
@@ -474,9 +474,6 @@ SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
 	install-man
 
 %{__install} -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{gdalinstdir}/bin
-%{__install} -pm 755 frmts/iso8211/8211createfromxml %{buildroot}%{gdalinstdir}/bin
-%{__install} -pm 755 frmts/iso8211/8211dump %{buildroot}%{gdalinstdir}/bin
-%{__install} -pm 755 frmts/iso8211/8211view %{buildroot}%{gdalinstdir}/bin
 
 # Directory for auto-loading plugins
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
@@ -610,7 +607,6 @@ done
 %{gdalinstdir}/bin/gdaltransform
 %{gdalinstdir}/bin/nearblack
 %{gdalinstdir}/bin/ogr*
-%{gdalinstdir}/bin/8211*
 %{gdalinstdir}/bin/s57*
 %{gdalinstdir}/bin/testepsg
 %{gdalinstdir}/bin/gnmanalyse
@@ -628,8 +624,8 @@ done
 
 %files libs
 %doc LICENSE.TXT NEWS PROVENANCE.TXT COMMITTERS PROVENANCE.TXT-fedora
-%{gdalinstdir}/lib/libgdal.so.20
-%{gdalinstdir}/lib/libgdal.so.20.*
+%{gdalinstdir}/lib/libgdal.so.%{gdal30somajorversion}
+%{gdalinstdir}/lib/libgdal.so.%{gdal30somajorversion}.*
 %{gdalinstdir}/share/
 #TODO: Possibly remove files like .dxf, .dgn, ...
 %dir %{gdalinstdir}/lib/%{sname}plugins
@@ -657,5 +653,5 @@ done
 #Or as before, using ldconfig
 
 %changelog
-* Mon Sep 2 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
+* Tue Sep 10 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
 - Initial packaging for PostgreSQL RPM repository
