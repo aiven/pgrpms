@@ -1,16 +1,23 @@
+%global		gittag	4_1_0
+
 Name:		ogdi
-Version:	3.2.0
-Release:	4%{?dist}.1
+Version:	4.1.0
+Release:	2%{?dist}
 Summary:	Open Geographic Datastore Interface
 License:	BSD
 URL:		http://ogdi.sourceforge.net/
-Source0:	https://downloads.sourceforge.net/project/ogdi/ogdi/3.2.0/ogdi-3.2.0.tar.gz
+# new project location is https://github.com/libogdi/ogdi
+Source0:	https://github.com/libogdi/ogdi/archive/%{name}_%{gittag}.tar.gz
 Source1:	http://ogdi.sourceforge.net/ogdi.pdf
 # https://bugzilla.redhat.com/show_bug.cgi?id=1470896
-Patch0:		ogdi-3.2.0.beta2-sailer.patch
+Patch0:		ogdi-%{version}-sailer.patch
 
-BuildRequires:	unixODBC-devel zlib-devel
-BuildRequires:	expat-devel proj49-devel tcl-devel
+BuildRequires:	gcc
+BuildRequires:	unixODBC-devel
+BuildRequires:	zlib-devel
+BuildRequires:	expat-devel
+BuildRequires:	tcl-devel
+BuildRequires:	libtirpc-devel
 
 %description
 OGDI is the Open Geographic Datastore Interface. OGDI is an
@@ -27,7 +34,7 @@ data products/formats.
 Summary:	OGDI header files and documentation
 Requires:	%{name} = %{version}-%{release}
 Requires:	pkgconfig
-Requires:	zlib-devel expat-devel proj49-devel
+Requires:	zlib-devel expat-devel
 
 %description devel
 OGDI header files and developer's documentation.
@@ -50,8 +57,7 @@ TCL wrapper for OGDI.
 
 
 %prep
-%setup -q
-%patch0 -p0 -b .rhbz1470896
+%autosetup -p1 -n %{name}-%{name}_%{gittag}
 
 # include documentation
 %{__cp} -p %{SOURCE1} .
@@ -62,13 +68,12 @@ TOPDIR=`pwd`; TARGET=Linux; export TOPDIR TARGET
 INST_LIB=%{_libdir}/;export INST_LIB
 export CFG=debug # for -g
 
-# do not compile with ssp. it will trigger internal bugs (to_fix_upstream)
-OPT_FLAGS=`echo $RPM_OPT_FLAGS|sed -e 's/-Wp,-D_FORTIFY_SOURCE=2//g'`
-export CFLAGS="$OPT_FLAGS -fPIC -DPIC -DDONT_TD_VOID -DUSE_TERMIO"
+# removal of -D_FORTIFY_SOURCE from preprocessor flags seems not needed any more
+# ogdits-3.1 test suite produces same result with and without the flag
+export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 %configure \
 	--with-binconfigs \
 	--with-expat \
-	--with-proj=/usr/proj49 \
 	--with-zlib
 
 # WARNING !!!
@@ -83,10 +88,8 @@ export CFLAGS="$OPT_FLAGS -fPIC -DPIC -DDONT_TD_VOID -DUSE_TERMIO"
 %{__make} -C contrib/gdal
 
 # build odbc drivers
-ODBC_LINKLIB="-lodbc"
 %{__make} -C ogdi/attr_driver/odbc \
 	ODBC_LINKLIB="-lodbc"
-
 
 %install
 # export env
@@ -140,10 +143,6 @@ chmod 755 %{buildroot}%{_bindir}/%{name}-config
 touch -r ogdi-config.in %{buildroot}%{_bindir}/%{name}-config
 
 
-%post   -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
-
 %files
 %doc LICENSE NEWS ChangeLog README
 %{_bindir}/gltpd
@@ -173,6 +172,10 @@ touch -r ogdi-config.in %{buildroot}%{_bindir}/%{name}-config
 
 
 %changelog
+* Tue Sep 10 2019 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2
+- Update to 4.1.0
+- Remove PROJ dependency. The new OGDI does not use it.
+-
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-4.1
 - Rebuild against PostgreSQL 11.0
 
