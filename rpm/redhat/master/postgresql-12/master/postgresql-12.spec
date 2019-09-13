@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12beta4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -307,7 +307,11 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl-libs
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1531,6 +1535,9 @@ fi
 %endif
 
 %changelog
+* Fri Sep 13 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta4_2PGDG
+- Fix RHEL 6 packaging. Per report from Justin Pryzby.
+
 * Fri Sep 13 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta4_1PGDG
 - Update to PostgreSQL 12 Beta 4.
 
