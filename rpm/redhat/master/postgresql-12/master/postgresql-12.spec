@@ -198,7 +198,11 @@ BuildRequires:	perl-ExtUtils-Embed
 
 %if %plpython2
 BuildRequires:	python2-devel
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	python-libs
+%else
 Requires:	python2-libs
+%endif
 %endif
 
 %if %plpython3
