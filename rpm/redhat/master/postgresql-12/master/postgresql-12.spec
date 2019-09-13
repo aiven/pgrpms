@@ -37,7 +37,7 @@
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
-%if 0%{?rhel} > 7
+%if 0%{?rhel} >= 7
 # Support Python3 on RHEL/CentOS 7 as of 7.7+.
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
