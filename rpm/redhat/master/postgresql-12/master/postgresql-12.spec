@@ -38,7 +38,9 @@
 %endif
 
 %if 0%{?rhel} >= 7
-# Support Python3 on RHEL/CentOS 7 as of 7.7+.
+# Support Python3 on RHEL 7 via EPEL.
+# We will support Python3 natively on RHEL/CentOS 7 as of 7.7+,
+# when CentOS 7.7 will be released.
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
@@ -201,9 +203,10 @@ Requires:	python2-libs
 
 %if %plpython3
 %if 0%{?rhel} == 7
-# This is supported as of RHEL/CentOS 7.7
-BuildRequires:	python3-devel
-Requires:	python3-libs
+# We will support Python3 natively on RHEL/CentOS 7 as of 7.7+,
+# when CentOS 7.7 will be released.
+BuildRequires:	python36-devel
+Requires:	python36-libs
 %else
 BuildRequires:	python3-devel
 Requires:	python3-libs
