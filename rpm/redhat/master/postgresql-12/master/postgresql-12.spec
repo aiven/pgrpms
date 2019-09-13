@@ -308,7 +308,7 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl-libs
+Requires:	openssl
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
