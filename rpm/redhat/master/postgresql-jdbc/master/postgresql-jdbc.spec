@@ -121,6 +121,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_datadir}/maven-fragments/%{name}
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+%{_datadir}/maven-poms/JPP-%{name}.pom
+%endif
 %if 0%{?fedora}
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
