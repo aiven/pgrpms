@@ -90,8 +90,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12beta3
-Release:	2PGDG%{?dist}
+Version:	12beta4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -548,7 +548,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-12beta3
+%setup -q -n %{sname}-12beta4
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1528,6 +1528,9 @@ fi
 %endif
 
 %changelog
+* Fri Sep 13 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta4_1PGDG
+- Update to PostgreSQL 12 Beta 4.
+
 * Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta3_2PGDG
 - Initial attempt to support PL/Python3 on RHEL 7. Python2 is almost
   EOL, so this is a sane move now.
