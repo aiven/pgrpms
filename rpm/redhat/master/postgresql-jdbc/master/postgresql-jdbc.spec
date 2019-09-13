@@ -85,11 +85,6 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 %{__install} -d -m 755 %{buildroot}%{_mavenpomdir}/
 %{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 
-# This macro is currently only available on Fedora and RHEL 7
-%if 0%{?fedora} && 0%{?fedora} < 28 || 0%{?rhel} >= 7
-%add_maven_depmap
-%endif
-
 %{__install} -d -m 755 %{buildroot}%{_javadocdir}
 %{__cp} -ra pgjdbc/target/apidocs %{buildroot}%{_javadocdir}/%{name}
 %{__install} -d pgjdbc/target/apidocs docs/%{name}
