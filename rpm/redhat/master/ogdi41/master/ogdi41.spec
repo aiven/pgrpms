@@ -14,8 +14,8 @@ Source0:	https://github.com/libogdi/ogdi/archive/%{sname}_%{gittag}.tar.gz
 Source1:	http://ogdi.sourceforge.net/ogdi.pdf
 Source2:	%{name}-pgdg-libs.conf
 # https://bugzilla.redhat.com/show_bug.cgi?id=1470896
-Patch0:		ogdi-%{version}-sailer.patch
-Patch1:		ogdi-4.1.0-mkinstalldirs.patch
+Patch0:		%{name}-4.1.0-sailer.patch
+Patch1:		%{name}-4.1.0-mkinstalldirs.patch
 
 BuildRequires:	gcc
 BuildRequires:	unixODBC-devel
