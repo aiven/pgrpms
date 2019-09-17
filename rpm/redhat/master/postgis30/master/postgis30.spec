@@ -6,12 +6,14 @@
 %global sname	postgis
 
 %global geosversion	37
-%global gdalversion	23
+%global gdalversion	30
 %global projversion	62
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
-%global gdal23instdir /usr/gdal%{gdalversion}
+%global gdalinstdir /usr/gdal%{gdalversion}
+
+%global gdalminorversion 3.0.1
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -45,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -74,7 +76,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal%{gdalversion}-devel >= 2.3.2-7
+BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
   %endif
 %endif
 %ifarch ppc64 ppc64le
@@ -101,7 +103,7 @@ Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal%{gdalversion}-libs >= 2.3.2-7
+Requires:	gdal%{gdalversion}-libs >= %{gdalminorversion}
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
@@ -214,8 +216,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64 -L%{gdal23instdir}/lib"; export LDFLAGS
-CFLAGS="$CFLAGS -I%{gdal23instdir}/include"; export CFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64 -L%{gdalinstdir}/lib"; export LDFLAGS
+CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -230,8 +232,8 @@ CFLAGS="$CFLAGS -I%{gdal23instdir}/include"; export CFLAGS
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-projdir=%{projinstdir} \
-	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
-	--includedir=%{gdal23instdir}/include
+	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config \
+	--includedir=%{gdalinstdir}/include
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
@@ -374,6 +376,10 @@ fi
 %endif
 
 %changelog
+* Tue Sep 17 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-4
+- Update GDAL dependency to 3.0.1
+- Use a few more macros for easier maintenance.
+
 * Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-3
 - Update Proj to 6.2
 
