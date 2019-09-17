@@ -216,7 +216,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64 -L%{gdalinstdir}/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/lib"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
@@ -232,8 +232,7 @@ CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-projdir=%{projinstdir} \
-	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config \
-	--includedir=%{gdalinstdir}/include
+	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
