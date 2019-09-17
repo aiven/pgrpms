@@ -9,5 +9,5 @@ Index: gdal-2.2.3-fedora/scripts/GNUmakefile
 -		$(INSTALL_DIR) $(DESTDIR)${prefix}`pkg-config --variable=compatdir bash-completion` ; \
 -		cp gdal-bash-completion.sh $(DESTDIR)${prefix}`pkg-config --variable=compatdir bash-completion`; \
 +		$(INSTALL_DIR) $(DESTDIR)`pkg-config --variable=compatdir bash-completion` ; \
-+		$(INSTALL_DATA) gdal-bash-completion.sh $(DESTDIR)`pkg-config --variable=compatdir bash-completion`/gdal; \
++		$(INSTALL_DATA) gdal-bash-completion.sh $(DESTDIR)`pkg-config --variable=compatdir bash-completion`/gdal30; \
  	fi

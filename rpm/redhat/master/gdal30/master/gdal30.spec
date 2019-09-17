@@ -74,7 +74,7 @@
 
 Name:		%{sname}30
 Version:	3.0.1
-Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -91,7 +91,7 @@ Source4:	PROVENANCE.TXT-fedora
 Source5:	%{name}-pgdg-libs.conf
 
 # Fix bash-completion install dir
-Patch3:		%{sname}-completion.patch
+Patch3:		%{name}-completion.patch
 
 # Fedora uses Alternatives for Java
 Patch8:		%{sname}-1.9.0-java.patch
@@ -666,5 +666,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Tue Sep 17 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-2
+- Fix a conflict with GDAL23 package
+
+- Initial packaging for PostgreSQL RPM repository
 * Tue Sep 10 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
 - Initial packaging for PostgreSQL RPM repository
