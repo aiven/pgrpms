@@ -1,0 +1,11 @@
+--- configure.old	2019-09-17 00:33:23.449514329 +0300
++++ configure	2019-09-17 00:33:54.205707931 +0300
+@@ -30448,6 +30448,8 @@
+           OGDI_INCLUDE="-I/usr/include"
+       elif test -f "/usr/local/include/ecs.h"; then
+           OGDI_INCLUDE="-I/usr/local/include"
++      elif test -f "/usr/ogdi41/include/ecs.h"; then
++          OGDI_INCLUDE="-I/usr/ogdi41/include"
+       fi
+     fi
+ 

@@ -1,9 +1,19 @@
 %global sname gdal
 %global gdalinstdir /usr/%{name}
-%global geos37instdir /usr/geos37
-%global proj62instdir /usr/proj62
-%global libgeotiff15instdir /usr/libgeotiff15
 %global	gdal30somajorversion	26
+
+%global	geosmajorversion	37
+%global	libgeotiffmajorversion	15
+%global	ogdimajorversion	41
+%global	projmajorversion	62
+
+%global geos37instdir /usr/geos%{geosmajorversion}
+%global libgeotiff15instdir /usr/libgeotiff%{libgeotiffmajorversion}
+%global ogdi41instdir /usr/ogdi%{ogdimajorversion}
+%global proj62instdir /usr/proj%{projmajorversion}
+
+# Major digit of the proj so version
+%global proj_somaj 15
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
@@ -26,8 +36,6 @@
 
 # He also suggest to use --with-static-proj4 to actually link to proj, instead of dlopen()ing it.
 
-# Major digit of the proj so version
-%global proj_somaj 15
 
 # Tests can be of a different version
 %global testversion 3.0.1
@@ -97,6 +105,7 @@ Patch10:	%{sname}-3.0.1-perl-build.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
+Patch13:	gdal30-configure-ogdi41.patch
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
@@ -114,7 +123,7 @@ BuildRequires:	fontconfig-devel
 # No freexl in EL5
 BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
-BuildRequires:	geos37-devel >= 3.7.1
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.1
 BuildRequires:	ghostscript
 BuildRequires:	hdf-devel
 BuildRequires:	hdf-static
@@ -124,7 +133,7 @@ BuildRequires:	jasper-devel
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
 BuildRequires:	json-c-devel
-BuildRequires:	libgeotiff15-devel
+BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 # No libgta in EL5
 BuildRequires:	libgta-devel
 
@@ -154,7 +163,7 @@ BuildRequires:	mariadb-connector-c-devel
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	pcre-devel
-BuildRequires:	ogdi-devel
+BuildRequires:	ogdi41-devel
 BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	openjpeg2-devel
@@ -163,7 +172,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj62-devel >= 6.2.0
+BuildRequires:	proj%{projmajorversion}-devel >= 6.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	swig
 %if %{build_refman}
@@ -269,6 +278,7 @@ This package contains HTML and PDF documentation for GDAL.
 #%patch11 -p1 -b .poppler-0.73.0
 %endif
 %patch12 -p0
+%patch13 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE4 .
@@ -334,10 +344,13 @@ export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS -L%{libgeotiff15instdir}/lib"; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
+export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
+export OGDI_CFLAGS='-I%{ogdi41instdir}/include/ogdi'
+export OGDI_INCLUDE='-I%{ogdi41instdir}/include/ogdi'
+export OGDI_LIBS='-L%{ogdi41instdir}/lib'
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
@@ -381,7 +394,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LI
 	%{mysql}		\
 	--with-netcdf		\
 	--with-odbc		\
-	--with-ogdi		\
+	--with-ogdi=%{ogdi41instdir}	\
 	--without-msg		\
 	--with-openjpeg		\
 	--with-pcraster		\
