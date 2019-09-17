@@ -104,7 +104,7 @@ export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 TOPDIR=`pwd`; TARGET=Linux; export TOPDIR TARGET
 export DESTDIR=%{buildroot}
 %{__make} install \
-	INST_INCLUDE=%{buildroot}%{ogdi41instdir}/include/%{sname} \
+	INST_INCLUDE=%{buildroot}%{ogdi41instdir}/include/ \
 	INST_LIB=%{buildroot}%{ogdi41instdir}/lib \
 	INST_BIN=%{buildroot}%{ogdi41instdir}/bin
 
@@ -172,8 +172,8 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %{ogdi41instdir}/bin/%{sname}-config
 %{ogdi41instdir}/bin/%{sname}-config-%{cpuarch}
 %{ogdi41instdir}/lib/pkgconfig/%{sname}.pc
-%dir %{ogdi41instdir}/include/%{sname}
-%{ogdi41instdir}/include/%{sname}/*.h
+%dir %{ogdi41instdir}/include/
+%{ogdi41instdir}/include/*.h
 
 %files odbc
 %{ogdi41instdir}/lib/%{sname}/liblodbc.so
