@@ -37,7 +37,7 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.12
+Version:	%{pgadminmajorversion}.13
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -491,6 +491,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Sep 19 2019 - Devrim Gündüz <devrim@gunduz.org> 4.13-1
+- Update to 4.13
+
 * Thu Aug 22 2019 - Devrim Gündüz <devrim@gunduz.org> 4.12-1
 - Update to 4.12
 - Remove the patch that was temporarily added in 4.11.
