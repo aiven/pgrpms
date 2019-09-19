@@ -1,7 +1,7 @@
 %global sname	flask-babel
 %global mod_name	Flask-Babel
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -43,7 +43,7 @@ Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 BuildRequires:	python3-babel python3-devel
 BuildRequires:	python3-flask python3-setuptools
 BuildRequires:	python3-speaklater python3-pytz
