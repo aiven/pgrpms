@@ -91,6 +91,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; ex
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
+%if 0%{?rhel} == 7
+	--disable-knn \
+%endif
 	--libdir=%{libspatialiteinstdir}/lib \
 	--disable-static \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
