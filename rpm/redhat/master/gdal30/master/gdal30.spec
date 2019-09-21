@@ -4,9 +4,13 @@
 
 %global	geosmajorversion	37
 %global	libgeotiffmajorversion	15
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global	libspatialiteversion	43
+%else
+%global	libspatialiteversion	50
+%endif
 %global	ogdimajorversion	41
 %global	projmajorversion	62
-
 %global geos37instdir /usr/geos%{geosmajorversion}
 %global libgeotiff15instdir /usr/libgeotiff%{libgeotiffmajorversion}
 %global ogdi41instdir /usr/ogdi%{ogdimajorversion}
@@ -60,7 +64,7 @@
 %global with_poppler 1
 %global poppler --with-poppler
 %global with_spatialite 1
-%global spatialite "--with-spatialite"
+%global spatialite "--with-spatialite=/usr/libspatialite%{libspatialiteversion}"
 %endif
 
 # No ppc64 build for spatialite in EL6
@@ -74,7 +78,7 @@
 
 Name:		%{sname}30
 Version:	3.0.1
-Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -144,7 +148,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libkml-devel
 %endif
 %if %{with_spatialite}
-BuildRequires:	libspatialite-devel
+BuildRequires:	libspatialite%{libspatialiteversion}-devel
 %endif
 
 BuildRequires:	libtiff-devel
@@ -666,6 +670,10 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Sat Sep 23 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-3
+- Use our own libspatialite package, to avoid Proj dependency that
+  comes from OS.
+
 * Tue Sep 17 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-2
 - Fix a conflict with GDAL23 package
 
