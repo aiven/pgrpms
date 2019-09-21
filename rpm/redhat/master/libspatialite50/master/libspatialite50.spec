@@ -1,5 +1,6 @@
+%global debug_package		%{nil}
 %global sname libspatialite
-%global libspatialiteinstdir /usr/%{name}
+%global libspatialiteinstdir	/usr/%{name}
 
 %global	libspatialiteversion	50
 
