@@ -105,8 +105,6 @@ Patch9:		%{sname}-3.0.1-zlib.patch
 # https://github.com/OSGeo/gdal/pull/876
 Patch10:	%{sname}-3.0.1-perl-build.patch
 
-#Patch11:	%{sname}-2.3.2-poppler-0.73.0.patch
-
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
 Patch13:	gdal30-configure-ogdi41.patch
@@ -278,9 +276,6 @@ This package contains HTML and PDF documentation for GDAL.
 %patch8 -p1 -b .java~
 %patch9 -p0 -b .zlib~
 %patch10 -p0 -b .perl-build~
-%if 0%{?fedora} >= 30
-#%patch11 -p1 -b .poppler-0.73.0
-%endif
 %patch12 -p0
 %patch13 -p0
 
@@ -670,7 +665,7 @@ done
 #Or as before, using ldconfig
 
 %changelog
-* Sat Sep 23 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-3
+* Sat Sep 21 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-3
 - Use our own libspatialite package, to avoid Proj dependency that
   comes from OS.
 
