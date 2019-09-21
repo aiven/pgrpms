@@ -86,17 +86,14 @@ developing applications that use %{name}.
 autoconf
 
 %build
-CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
+CFLAGS="$CFLAGS -I%{projinstdir}/include -I%{geosinstdir}/include"; export CFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; export SHLIB_LINK
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
-%if 0%{?rhel} == 7
-	--enable-knn=no \
-%endif
 	--libdir=%{libspatialiteinstdir}/lib \
 	--disable-static \
-	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
+	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-lwgeom \
 	--enable-libxml2 \
 	%{?_geocallback}   \
@@ -120,7 +117,8 @@ find %{buildroot} -type f -name "*.la" -delete
 #%%{__make} check V=1
 %endif
 
-%ldconfig_scriptlets
+%post -p %{_sbindir}/ldconfig
+%postun -p %{_sbindir}/ldconfig
 
 %clean
 %{__rm} -rf %{buildroot}
