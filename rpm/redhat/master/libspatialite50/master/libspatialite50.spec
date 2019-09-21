@@ -92,7 +92,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
 %if 0%{?rhel} == 7
-	--disable-knn \
+	--enable-knn=no \
 %endif
 	--libdir=%{libspatialiteinstdir}/lib \
 	--disable-static \
