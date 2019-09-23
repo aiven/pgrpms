@@ -8,12 +8,12 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.3.0
+Version:	0.3.1
 Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	http://api.pgxn.org/dist/postgresql_anonymizer/%{version}/postgresql_anonymizer-%{version}.zip
+Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://gitlab.com/daamien/postgresql_anonymizer
+URL:		https://gitlab.com/daamien/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildArch:	noarch
 Requires:	postgresql%{pgmajorversion}-server ddlx_%{pgmajorversion}
@@ -66,6 +66,9 @@ PostgreSQL database.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Tue Sep 24 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.1-1
+- Update to 0.3.1
+
 * Wed Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
 - Update to 0.3.0
 - Add ddlx dependency
