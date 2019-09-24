@@ -3,9 +3,16 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.4
 %global sname	postgis
-%global	geosinstdir /usr/geos37
-%global	projinstdir /usr/proj49
-%global gdal23instdir /usr/gdal23
+
+%global geosversion	37
+%global gdalversion	30
+%global projversion	62
+
+%global	geosinstdir	/usr/geos%{geosversion}
+%global	projinstdir	/usr/proj%{projversion}
+%global	gdalinstdir	/usr/gdal%{gdalversion}
+
+%global	gdalminorversion	3.0.1
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -39,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -49,13 +56,13 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos37-devel >= 3.7.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
 %endif
 %else
-BuildRequires:	proj49-devel, flex, json-c-devel
+BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -69,11 +76,11 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal23-devel >= 2.3.2-7
+BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
   %endif
 %endif
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel
 %endif
 
@@ -81,8 +88,8 @@ BuildRequires:	protobuf-c-devel
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos37 >= 3.7.0
-Requires:	postgresql%{pgmajorversion}-contrib proj49 xerces-c
+Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
+Requires:	geos%{geosversion} >= 3.7.0 proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -97,10 +104,10 @@ Requires:	json-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal23-libs >= 2.3.2-7
+Requires:	gdal%{gdalversion}-libs >= %{gdalminorversion}
 %endif
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 Requires:	protobuf-c
 %endif
 
@@ -203,15 +210,11 @@ The %{name}-utils package provides the utilities for PostGIS.
 %endif
 
 %build
-# Add GeOS flags
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
-
-# GDAL:
-LDFLAGS="-Wl,-rpath,%{gdal23instdir}/lib ${LDFLAGS}" ; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{gdal23instdir}/lib" ; export SHLIB_LINK
-
-CFLAGS="${CFLAGS:-%optflags}"
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/lib"; export LDFLAGS
+CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 
 %ifarch ppc64 ppc64le
 	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
@@ -234,12 +237,12 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-	--with-gdalconfig=%{gdal23instdir}/bin/gdal-config \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
+	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config \
 	--with-projdir=%{projinstdir}
 
-SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{name}.so"
+SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
 %{__make} -C extensions
 
@@ -380,6 +383,11 @@ fi
 %endif
 
 %changelog
+* Tue Sep 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-4
+- Sync with 3.0 spec file
+- Update GDAL dependency to 3.0.1
+- Update Proj to 6.2
+
 * Fri Aug 30 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-3
 - Add xerces-c dependency, per https://redmine.postgresql.org/issues/4672
 
