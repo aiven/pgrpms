@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -255,7 +255,7 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 %{__ln_s} %{pginstdir}/lib/%{sname}-%{postgissomajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}-%{postgisprevmajorversion}.so
 %{__ln_s} %{pginstdir}/lib/%{sname}_topology-%{postgissomajorversion}.so %{buildroot}%{pginstdir}/lib/%{sname}_topology-%{postgisprevmajorversion}.so
 %if %{raster}
-%{__ln_s} %{pginstdir}/lib/postgis_raster-%{postgismajorversion}.so %{buildroot}%{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
+%{__ln_s} %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so %{buildroot}%{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
 %endif
 
 # Create alternatives entries for common binaries
@@ -375,6 +375,10 @@ fi
 %endif
 
 %changelog
+* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0alpha4-6
+- Fix broken symlink, per report from Paul Ramsey:
+  https://redmine.postgresql.org/issues/4776
+
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0alpha4-5
 - Rebuild for GeOS 3.7.2
 
