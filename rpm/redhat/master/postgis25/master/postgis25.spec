@@ -46,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -56,7 +56,7 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.2, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
@@ -89,7 +89,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= 3.7.0 proj%{projversion} xerces-c
+Requires:	geos%{geosversion} >= 3.7.2 proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -385,6 +385,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 2.5.3-5
+- Rebuild for GeOS 3.7.2
+
 * Tue Sep 24 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-4
 - Sync with 3.0 spec file
 - Update GDAL dependency to 3.0.1

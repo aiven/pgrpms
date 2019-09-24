@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -56,7 +56,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.2, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
@@ -87,7 +87,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.7.0
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.7.2
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -375,6 +375,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0alpha4-5
+- Rebuild for GeOS 3.7.2
+
 * Tue Sep 17 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0alpha4-4
 - Update GDAL dependency to 3.0.1
 - Use a few more macros for easier maintenance.
