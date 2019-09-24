@@ -80,7 +80,7 @@
 
 Name:		%{sname}30
 Version:	3.0.1
-Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	4%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -127,7 +127,7 @@ BuildRequires:	fontconfig-devel
 # No freexl in EL5
 BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.1
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	ghostscript
 BuildRequires:	hdf-devel
 BuildRequires:	hdf-static
@@ -670,6 +670,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4
+- Rebuild for GeOS 3.7.2
+
 * Sat Sep 21 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-3
 - Use our own libspatialite package, to avoid Proj dependency that
   comes from OS.
