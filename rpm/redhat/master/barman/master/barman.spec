@@ -17,7 +17,7 @@ Requires:	python36
 %if 0%{?rhel} && 0%{?rhel} <= 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
-%global __python_ver python2
+%global __python_ver python
 BuildRequires:	python
 Requires:	python
 %endif
@@ -41,7 +41,7 @@ Requires:	python
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
@@ -131,6 +131,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Aug 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-2
+- Un-break RHEL 6 packages. Per https://redmine.postgresql.org/issues/4767
+
 * Mon Aug 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
 - Update to 2.9
 
