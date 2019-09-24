@@ -45,7 +45,7 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	4.3.0a
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -54,7 +54,7 @@ Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
 BuildRequires:	freexl-devel
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.1
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 6.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	zlib-devel
@@ -140,5 +140,8 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
-* Sat Sep 21 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a
+* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-2
+- Rebuild for GeOS 3.7.2
+
+* Sat Sep 21 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-1
 - Initial packaging for PostgreSQL RPM repository for RHEL 7.
