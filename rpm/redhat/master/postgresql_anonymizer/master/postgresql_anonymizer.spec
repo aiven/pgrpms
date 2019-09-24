@@ -69,7 +69,7 @@ PostgreSQL database.
 * Tue Sep 24 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.1-1
 - Update to 0.3.1
 
-* Wed Aug 11 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
+* Wed Aug 14 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
 - Update to 0.3.0
 - Add ddlx dependency
 
