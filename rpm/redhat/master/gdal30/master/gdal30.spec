@@ -11,10 +11,12 @@
 %endif
 %global	ogdimajorversion	41
 %global	projmajorversion	62
-%global geos37instdir /usr/geos%{geosmajorversion}
-%global libgeotiff15instdir /usr/libgeotiff%{libgeotiffmajorversion}
-%global ogdi41instdir /usr/ogdi%{ogdimajorversion}
-%global proj62instdir /usr/proj%{projmajorversion}
+
+%global geos37instdir		/usr/geos%{geosmajorversion}
+%global libgeotiff15instdir	/usr/libgeotiff%{libgeotiffmajorversion}
+%global libspatialiteinstdir	/usr/libspatialite%{libgeotiffmajorversion}
+%global ogdi41instdir		/usr/ogdi%{ogdimajorversion}
+%global proj62instdir		/usr/proj%{projmajorversion}
 
 # Major digit of the proj so version
 %global proj_somaj 15
@@ -64,7 +66,7 @@
 %global with_poppler 1
 %global poppler --with-poppler
 %global with_spatialite 1
-%global spatialite "--with-spatialite=/usr/libspatialite%{libspatialiteversion}"
+%global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 %endif
 
 # No ppc64 build for spatialite in EL6
@@ -343,10 +345,10 @@ export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib"; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
+export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdi41instdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdi41instdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdi41instdir}/lib'
@@ -476,10 +478,13 @@ done
 %install
 %{__rm} -rf %{buildroot}
 
-export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS -L%{libgeotiff15instdir}/lib"; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{libgeotiff15instdir}/lib" ; export SHLIB_LINK
+export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
+export OGDI_CFLAGS='-I%{ogdi41instdir}/include/ogdi'
+export OGDI_INCLUDE='-I%{ogdi41instdir}/include/ogdi'
+export OGDI_LIBS='-L%{ogdi41instdir}/lib'
 
 SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
 	install	\
