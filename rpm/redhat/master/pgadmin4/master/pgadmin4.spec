@@ -43,7 +43,7 @@ Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
 Source0:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/source/%{name}-%{version}.tar.gz
-Source1:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/source/%{name}-%{version}-docs.tar.gz
+Source1:	https://download.postgresql.org/pub/pgadmin/%{name}/v%{version}/docs/%{name}-%{version}-docs.tar.gz
 Source2:	%{name}.conf
 Source3:	%{name}.tmpfiles.d
 Source4:	%{name}.desktop.in
@@ -348,6 +348,10 @@ GNOME Desktop components of pgAdmin4.
 %setup -q -n %{name}-%{version}
 
 %build
+# Remove tests and regression directories, per Dave:
+find . -name tests -type d -print0|xargs -0 rm -r --
+%{__rm} -rf web/regression
+
 cd runtime
 %if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
