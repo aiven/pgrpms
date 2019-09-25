@@ -5,7 +5,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -92,8 +92,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12beta4
-Release:	2PGDG%{?dist}
+Version:	12rc1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -559,7 +559,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-12beta4
+%setup -q -n %{sname}-%{version}
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
