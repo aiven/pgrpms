@@ -1,6 +1,6 @@
 %global sname gdal
 %global gdalinstdir /usr/%{name}
-%global	gdal30somajorversion	26
+%global	gdalsomajorversion	26
 
 %global	geosmajorversion	37
 %global	libgeotiffmajorversion	15
@@ -12,11 +12,11 @@
 %global	ogdimajorversion	41
 %global	projmajorversion	62
 
-%global geos37instdir		/usr/geos%{geosmajorversion}
-%global libgeotiff15instdir	/usr/libgeotiff%{libgeotiffmajorversion}
+%global geosinstdir		/usr/geos%{geosmajorversion}
+%global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
 %global libspatialiteinstdir	/usr/libspatialite%{libgeotiffmajorversion}
-%global ogdi41instdir		/usr/ogdi%{ogdimajorversion}
-%global proj62instdir		/usr/proj%{projmajorversion}
+%global ogdiinstdir		/usr/ogdi%{ogdimajorversion}
+%global projinstdir		/usr/proj%{projmajorversion}
 
 # Major digit of the proj so version
 %global proj_somaj 15
@@ -345,13 +345,13 @@ export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
-export OGDI_CFLAGS='-I%{ogdi41instdir}/include/ogdi'
-export OGDI_INCLUDE='-I%{ogdi41instdir}/include/ogdi'
-export OGDI_LIBS='-L%{ogdi41instdir}/lib'
+export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiffinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
+export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
+export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
+export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
@@ -377,8 +377,8 @@ export OGDI_LIBS='-L%{ogdi41instdir}/lib'
 	--with-dods-root=%{_prefix}	\
 	--with-expat		\
 	--with-freexl		\
-	--with-geos=%{geos37instdir}/bin/geos-config	\
-	--with-geotiff=%{libgeotiff15instdir}	\
+	--with-geos=%{geosinstdir}/bin/geos-config	\
+	--with-geotiff=%{libgeotiffinstdir}	\
 	--with-gif		\
 	--with-gta		\
 	--with-hdf4		\
@@ -395,14 +395,14 @@ export OGDI_LIBS='-L%{ogdi41instdir}/lib'
 	%{mysql}		\
 	--with-netcdf		\
 	--with-odbc		\
-	--with-ogdi=%{ogdi41instdir}	\
+	--with-ogdi=%{ogdiinstdir}	\
 	--without-msg		\
 	--with-openjpeg		\
 	--with-pcraster		\
 	--with-pg=%{pginstdir}/bin/pg_config	\
 	--with-png		\
 	%{poppler}		\
-	--with-proj=%{proj62instdir}	\
+	--with-proj=%{projinstdir}	\
 	%{spatialite}		\
 	--with-sqlite3		\
 	--with-threads		\
@@ -478,13 +478,13 @@ done
 %install
 %{__rm} -rf %{buildroot}
 
-export CXXFLAGS="$CFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{libgeotiff15instdir}/include -I%{ogdi41instdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdi41instdir}/lib -L%{libgeotiff15instdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdi41instdir}/lib,%{libgeotiff15instdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
-export OGDI_CFLAGS='-I%{ogdi41instdir}/include/ogdi'
-export OGDI_INCLUDE='-I%{ogdi41instdir}/include/ogdi'
-export OGDI_LIBS='-L%{ogdi41instdir}/lib'
+export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{libgeotiffinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
+export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
+export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
+export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
 SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
 	install	\
@@ -641,8 +641,8 @@ done
 
 %files libs
 %doc LICENSE.TXT NEWS PROVENANCE.TXT COMMITTERS PROVENANCE.TXT-fedora
-%{gdalinstdir}/lib/libgdal.so.%{gdal30somajorversion}
-%{gdalinstdir}/lib/libgdal.so.%{gdal30somajorversion}.*
+%{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}
+%{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}.*
 %{gdalinstdir}/share/
 #TODO: Possibly remove files like .dxf, .dgn, ...
 %dir %{gdalinstdir}/lib/%{sname}plugins
