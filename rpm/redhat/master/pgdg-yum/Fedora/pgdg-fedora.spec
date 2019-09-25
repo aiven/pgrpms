@@ -37,6 +37,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Sep 25 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-5
+- Enable v12 stable repo, and improve description of repo names.
+
 * Wed Apr 17 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-4
 - Remove major version from GPG file name in the repo file as well.
 
