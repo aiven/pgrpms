@@ -1011,7 +1011,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 
 %if %nls
 %find_lang ecpg-%{pgmajorversion}
-%find_lang ecpglib7-%{pgmajorversion}
+%find_lang ecpglib6-%{pgmajorversion}
 %find_lang initdb-%{pgmajorversion}
 %find_lang libpq5-%{pgmajorversion}
 %find_lang pg_archivecleanup-%{pgmajorversion}
@@ -1051,7 +1051,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %find_lang psql-%{pgmajorversion}
 
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
-cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib7-%{pgmajorversion}.lang > pg_devel.lst
+cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
 cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang   > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang > pg_server.lst
 %endif
