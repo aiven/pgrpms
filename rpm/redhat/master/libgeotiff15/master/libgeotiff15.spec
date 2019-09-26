@@ -1,17 +1,17 @@
 %global	sname libgeotiff
 %global	libgeotiffversion 15
 %global	libgeotiffinstdir /usr/%{sname}%{libgeotiffversion}
-%global	projinstdir /usr/proj61
+%global	projinstdir /usr/proj62
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
-BuildRequires:	libtiff-devel libjpeg-devel proj61-devel zlib-devel
+BuildRequires:	libtiff-devel libjpeg-devel proj62-devel zlib-devel
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -133,7 +133,10 @@ EOF
 
 
 %changelog
-* Mon Sep 2 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1.1
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-2
+- Rebuild for Proj 6.2.0
+
+* Mon Sep 2 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
 - Update to 1.5.1, which is needed by Proj 6.x.
 - Change installation directory, so that it does not conflict
   with the OS packages.
