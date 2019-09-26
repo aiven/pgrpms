@@ -7,7 +7,7 @@
 
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.0
+Version:	2.0.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
