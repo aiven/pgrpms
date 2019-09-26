@@ -9,7 +9,7 @@
 Summary:	uri type for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.20151224
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -84,6 +84,9 @@ arbitrary junk.
 
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-1.1
 - Rebuild against PostgreSQL 11.0
 

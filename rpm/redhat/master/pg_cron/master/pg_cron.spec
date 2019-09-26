@@ -9,7 +9,7 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.0
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
@@ -81,6 +81,9 @@ schedule PostgreSQL commands directly from the database.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 

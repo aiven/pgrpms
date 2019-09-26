@@ -9,7 +9,7 @@
 Summary:	PostgreSQL extension to partition tables following a foreign key
 Name:		%{sname}%{pgmajorversion}
 Version:	1.6.0
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 License:	GPLv2
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -62,6 +62,9 @@ USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1.2
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1.1
 - Rebuild against PostgreSQL 11.0
 

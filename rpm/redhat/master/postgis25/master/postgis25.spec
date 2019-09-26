@@ -46,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -385,6 +385,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 2.5.3-5
 - Rebuild for GeOS 3.7.2
 

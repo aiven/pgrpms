@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}%{pgmajorversion}
 Version:	1.2.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL1_2_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -76,6 +76,9 @@ command was executed concurrently with regular reads / writes).
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Mon Aug 26 2019 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
 - Update to 1.2.0
 

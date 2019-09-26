@@ -12,7 +12,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	2%{?dist}.1
+Release:	2%{?dist}.2
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -88,6 +88,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2.2
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2.1
 - Rebuild against PostgreSQL 11.0
 

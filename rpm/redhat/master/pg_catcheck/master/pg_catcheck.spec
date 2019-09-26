@@ -3,7 +3,7 @@
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}%{pgmajorversion}
 Version:	1.1.0
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -53,6 +53,9 @@ checksum feature (`initdb -k`).
 %{pginstdir}/doc/README-%{sname}.md
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.2
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
 - Rebuild against PostgreSQL 11.0
 

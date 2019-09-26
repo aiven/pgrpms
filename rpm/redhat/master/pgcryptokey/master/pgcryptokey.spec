@@ -9,7 +9,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
 Version:	0.83
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	http://momjian.us/download/%{sname}/%{sname}-0.83.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -76,5 +76,8 @@ data key requires the proper access password.
 
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 0.83-1
 - Initial packaging for PostgreSQL RPM repository.

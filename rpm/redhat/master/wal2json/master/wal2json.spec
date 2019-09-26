@@ -3,7 +3,7 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_1_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -57,6 +57,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Wed Feb 13 2019 Devrim Gündüz <devrim@gunduz.org> 1.0-3
 - Rebuild against PostgreSQL 11.2
 

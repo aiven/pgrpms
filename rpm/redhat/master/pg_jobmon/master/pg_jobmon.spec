@@ -9,7 +9,7 @@
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.3.3
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Source0:	https://github.com/omniti-labs/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -61,6 +61,9 @@ install -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-2.1
+- Rebuild for PostgreSQL 12
+
 * Thu Jul 25 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-2
 - Add -contrib dependency, required for dblink extension.
 

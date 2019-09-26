@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL API to interface with memcached
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.3.0
-Release:	3%{?dist}.1
+Release:	3%{?dist}.2
 License:	BSD
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -76,6 +76,9 @@ an interface to memcached.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 

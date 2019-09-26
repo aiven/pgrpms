@@ -9,7 +9,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
 Version:	1.7.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -71,6 +71,9 @@ access to the row revisions
 %{pginstdir}/doc/extension/how_to_release.md
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1.1
+- Rebuild for PostgreSQL 12
+
 * Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
 - Update to 1.7.1
 

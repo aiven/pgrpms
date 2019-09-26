@@ -7,7 +7,7 @@
 Name:		libpqxx
 Epoch:		1
 Version:	6.4.5
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	C++ client API for PostgreSQL
 
 License:	BSD
@@ -92,6 +92,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1:6.4.5-1.1
+- Rebuild for PostgreSQL 12
+
 * Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 6.4.5-1
 - Update to 6.4.5
 - Add new patch for Python3 distros.

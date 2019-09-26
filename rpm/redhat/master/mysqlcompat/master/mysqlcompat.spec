@@ -9,7 +9,7 @@
 Summary:	MySQL compatibility functions for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.0.7
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -72,6 +72,9 @@ rely heavily on certain MySQL functions.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 0.0.7-1.2
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.0.7-1.1
 - Rebuild against PostgreSQL 11.0
 

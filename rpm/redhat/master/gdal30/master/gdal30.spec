@@ -80,7 +80,7 @@
 
 Name:		%{sname}30
 Version:	3.0.1
-Release:	4%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	4%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}.1
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -670,6 +670,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-4.1
+- Rebuild for PostgreSQL 12
+
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4
 - Rebuild for GeOS 3.7.2
 

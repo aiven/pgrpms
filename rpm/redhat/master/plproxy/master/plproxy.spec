@@ -9,7 +9,7 @@
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}%{pgmajorversion}
 Version:	2.9
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
@@ -80,6 +80,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
 - Update to 2.9
 

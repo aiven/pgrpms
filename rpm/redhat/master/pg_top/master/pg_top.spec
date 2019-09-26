@@ -9,7 +9,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}%{pgmajorversion}
 Version:	3.7.0
-Release:	5%{?dist}.1
+Release:	5%{?dist}.2
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
@@ -83,6 +83,9 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-5.2
+- Rebuild for PostgreSQL 12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-5.1
 - Rebuild against PostgreSQL 11.0
 

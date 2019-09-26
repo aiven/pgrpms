@@ -8,7 +8,7 @@
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}%{pgmajorversion}
 Version:	1.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/1.3.tar.gz
 Source1:	README-%{sname}.txt
@@ -80,5 +80,8 @@ to add or remove the module.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Fri Mar 15 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Initial packaging for PostgreSQL RPM Repository

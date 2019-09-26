@@ -10,7 +10,7 @@
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -78,6 +78,9 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1.1
+- Rebuild for PostgreSQL 12
+
 * Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.0
 

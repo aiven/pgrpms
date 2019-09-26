@@ -8,7 +8,7 @@
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	7.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -77,6 +77,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Thu Sep 5 2019 Devrim Gündüz <devrim@gunduz.org> 7.2-1
 - Update to 7.2
 

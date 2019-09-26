@@ -28,7 +28,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/%{swebname}/archive/%{powawebversion}.tar.gz
@@ -152,6 +152,9 @@ popd
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Fri Nov 9 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-2
 - Update powa-web to 3.2.0
 

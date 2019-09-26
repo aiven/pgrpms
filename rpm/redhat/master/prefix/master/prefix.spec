@@ -3,7 +3,7 @@
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.2.9
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
@@ -50,6 +50,9 @@ searches.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Thu Sep 26 2019 - Devrim Gündüz <devrim@gunduz.org> 1.2.9-1
 - Update to 1.2.9
 

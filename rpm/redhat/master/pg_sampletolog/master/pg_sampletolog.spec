@@ -8,7 +8,7 @@
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -85,5 +85,8 @@ pg_sampletolog allows to:
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Wed Apr 24 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for PostgreSQL RPM Repository

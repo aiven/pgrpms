@@ -3,7 +3,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.9.5
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
 License:	MIT
@@ -52,5 +52,8 @@ A PostgreSQL logical decoder output plugin to deliver data as Protocol Buffers m
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Tue May 14 2019 - Jiri Pechanec <jpechane@redhat.com> 0.9.5-1
 - Initial RPM packaging

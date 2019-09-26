@@ -8,7 +8,7 @@
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}%{pgmajorversion}
 Version:	8.4
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -74,6 +74,9 @@ statistical computing and graphics".
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Fri Jul 12 2019 Devrim Gündüz <devrim@gunduz.org> - 8.4-2
 - Rebuilt, per a potential packaging issue reported by Dave Cramer.
 

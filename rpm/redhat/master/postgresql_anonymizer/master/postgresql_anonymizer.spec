@@ -9,7 +9,7 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.3.1
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -66,6 +66,9 @@ PostgreSQL database.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1.1
+- Rebuild for PostgreSQL 12
+
 * Tue Sep 24 2019 Devrim Gündüz <devrim@gunduz.org> 0.3.1-1
 - Update to 0.3.1
 

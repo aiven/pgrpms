@@ -15,7 +15,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -183,6 +183,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-3.1
+- Rebuild for PostgreSQL 12
+
 * Fri Apr 12 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-3
 - Really fix pgAgent tmpfiles.d directory.
 

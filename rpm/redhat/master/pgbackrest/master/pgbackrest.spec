@@ -3,7 +3,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.17
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -68,6 +68,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.17-1.1
+- Rebuild for PostgreSQL 12
+
 * Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> - 2.17-1
 - Update to 2.17
 

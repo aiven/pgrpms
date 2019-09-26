@@ -9,7 +9,7 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.20171014
-Release:	1%{?dist}.2
+Release:	1%{?dist}.3
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch0:		plsh-pg11-build.patch
@@ -85,6 +85,9 @@ allows you to write stored procedures in a shell of your choice.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Sun Jan 20 2019 Devrim Gündüz <devrim@gunduz.org> - 1.20171014-1.2
 - Fix PostgreSQL 11 builds
 

@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0alpha4
-Release:	6%{?dist}
+Release:	6%{?dist}.1
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -375,6 +375,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+- Rebuild for PostgreSQL 12
+
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0alpha4-6
 - Fix broken symlink, per report from Paul Ramsey:
   https://redmine.postgresql.org/issues/4776
