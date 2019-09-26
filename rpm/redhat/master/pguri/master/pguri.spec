@@ -71,6 +71,17 @@ arbitrary junk.
 %{pginstdir}/lib/uri.so
 %{pginstdir}/share/extension/uri-*.sql
 %{pginstdir}/share/extension/uri.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/uri*.bc
+   %{pginstdir}/lib/bitcode/uri/*.bc
+  %endif
+ %endif
+%endif
+
 
 %changelog
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-1.1
