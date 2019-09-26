@@ -8,8 +8,8 @@
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}%{pgmajorversion}
-Version:	2.8
-Release:	1%{?dist}.1
+Version:	2.9
+Release:	1%{?dist}
 License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
@@ -63,11 +63,26 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/plproxy--2.5.0--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy--2.6.0--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy--2.7.0--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy--2.8.0--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy--unpackaged--%{version}.0.sql
 %{pginstdir}/share/extension/plproxy.control
 
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+  %endif
+ %endif
+%endif
+
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
+- Update to 2.9
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8-1.1
 - Rebuild against PostgreSQL 11.0
 
