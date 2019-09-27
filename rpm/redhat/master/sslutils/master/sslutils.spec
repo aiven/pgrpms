@@ -8,11 +8,11 @@
 
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
-Release:	1%{?dist}.1
+Version:	1.3
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://www.EDBPostgres.com
-Source0:	%{sname}-%{version}.zip
+Source0:	%{sname}-%{version}.tar.bz2
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -30,7 +30,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 Required extension for Postgres Enterprise Manager (PEM) Server
 
 %prep
-%setup -q  -n %{sname}
+%setup -q  -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -94,6 +94,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
+- Update to 1.3
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2-1.1
 - Rebuild against PostgreSQL 11.0
 
