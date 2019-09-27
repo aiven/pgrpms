@@ -71,7 +71,7 @@ Requires:	python-speaklater pgadmin4-pytz
 %if 0%{?rhel} == 8
 BuildRequires:	python3-babel python3-devel
 BuildRequires:	python3-flask python3-setuptools
-BuildRequires:	python3-speaklater python3-pytz
+BuildRequires:	pgadmin4-python3-speaklater python3-pytz
 Requires:	python3-babel python3-flask
 Requires:	pgadmin4-python3-speaklater python3-pytz
 %endif
