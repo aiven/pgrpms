@@ -3,7 +3,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -44,7 +44,7 @@ BuildArch:	noarch
 %description
 Simple user session protection.
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 BuildRequires:	python3-devel python3-setuptools
 %endif
 
