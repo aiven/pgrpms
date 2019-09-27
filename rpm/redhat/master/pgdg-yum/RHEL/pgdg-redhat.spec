@@ -44,6 +44,7 @@ and also the GPG key for PGDG RPMs.
 * Wed Sep 25 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-5
 - Enable v12 stable repo, and improve description of repo names.
 - Drop support for Scientific Linux (project discontinued)
+- Add v13 testing repo, and make repo files more consistent with RHEL ones.
 
 * Wed Apr 17 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-4
 - Remove major version from GPG file name in the repo file as well.
