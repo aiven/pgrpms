@@ -6,7 +6,7 @@
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	2.9
+Version:	3.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -46,7 +46,7 @@ of the PostgreSQL cluster and the system utilization
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(755,root,root) %{_bindir}/%{name}_collectd
 %perl_vendorarch/auto/pgCluu/.packlist
-%{_mandir}/man1/%{name}.1.gz
+%{_mandir}/man1/%{name}.1p.gz
 %if %{systemd_enabled}
 %{_unitdir}/%{name}_collectd.service
 %{_unitdir}/%{name}.service
@@ -54,6 +54,9 @@ of the PostgreSQL cluster and the system utilization
 %endif
 
 %changelog
+* Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> 3.0-1
+- Update to 3.0
+
 * Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> 2.9-1
 - Update to 2.9
 
