@@ -17,8 +17,16 @@ License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel, mysql-devel
-Requires:	postgresql%{pgmajorversion}-server mysql-libs mysql-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+BuildRequires:	mysql-devel
+Requires:	mysql-libs mysql-devel
+%else
+BuildRequires:	mariadb-devel
+Requires:	mariadb-devel
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
