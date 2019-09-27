@@ -4,7 +4,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -41,7 +41,7 @@ URL:		https://github.com/mrjoes/%{sname}
 Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name}-%{version}.tar.gz
 BuildArch:	noarch
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27
 BuildRequires:	python3-devel python3-setuptools
 BuildRequires:	pgadmin4-python3-flask
 Requires:	pgadmin4-python3-flask python3-babel
@@ -61,6 +61,13 @@ BuildRequires:	python2-devel python-setuptools
 BuildRequires:	pgadmin4-python-flask
 Requires:	pgadmin4-python-flask pgadmin4-python-babel
 Requires:	python-speaklater pgadmin4-python-jinja2
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires:	python3-devel python3-setuptools
+BuildRequires:	pgadmin4-python3-flask
+Requires:	pgadmin4-python3-flask python3-babel
+Requires:	python3-jinja2
 %endif
 
 %description
