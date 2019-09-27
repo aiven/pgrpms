@@ -5,8 +5,8 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	1.4.0
-Release:	1%{?dist}.1
+Version:	1.5.0
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://github.com/julmon/pg_activity/
 Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
@@ -38,6 +38,9 @@ rm -rf %{buildroot}
 %{python_sitelib}/pgactivity/*.py*
 
 %changelog
+* Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-1
+- Update to 1.5.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1.1
 - Rebuild against PostgreSQL 11.0
 
