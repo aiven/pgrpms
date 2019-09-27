@@ -44,6 +44,10 @@ Source0:	https://files.pythonhosted.org/packages/source/s/%{sname}/%{sname}-%{ve
 %if 0%{?rhel} == 6
 Patch0:		pgadmin4-python-simplejson-rhel6-sphinx.patch
 %endif
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+Patch1:		pgadmin4-python-simplejson-python3.patch
+%endif
+
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -89,6 +93,9 @@ python stdlib.
 %setup -q -n simplejson-%{version}
 %if 0%{?rhel} == 6
 %patch0 -p0
+%endif
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+%patch1 -p0
 %endif
 
 %if 0%{?with_python3}
