@@ -39,8 +39,6 @@ Summary:	World Timezone Definitions for Python
 License:	MIT
 URL:		http://pytz.sourceforge.net/
 Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
-# Patch to use the system supplied zoneinfo files
-#Patch0:		%{name}-zoneinfo.patch
 BuildArch:	noarch
 Requires:	tzdata
 
