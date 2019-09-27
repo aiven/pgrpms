@@ -4,7 +4,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -43,7 +43,7 @@ Source0:	https://github.com/lepture/%{sname}/archive/v%{version}.tar.gz
 
 BuildArch:	noarch
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27
 BuildRequires:  python3-devel python3-setuptools python3-wtforms > 1.0
 BuildRequires:	python3-flask-babel python3-flask python3-nose
 %endif
@@ -59,6 +59,11 @@ BuildRequires:	python-nose
 BuildRequires:  python2-devel python-setuptools pgadmin4-python-wtforms
 BuildRequires:	pgadmin4-python-flask-babel pgadmin4-python-flask
 BuildRequires:	python-nose
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires:  python3-devel python3-setuptools pgadmin4-python3-wtforms > 1.0
+BuildRequires:	pgadmin4-python3-flask-babel python3-flask python3-nose
 %endif
 
 %if 0%{?suse_version}
