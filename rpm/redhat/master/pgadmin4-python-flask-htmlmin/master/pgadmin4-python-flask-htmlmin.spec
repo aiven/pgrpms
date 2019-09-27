@@ -4,7 +4,7 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -42,7 +42,7 @@ URL:		https://github.com/hamidfzm/%{mod_name}/
 Source0:	https://github.com/hamidfzm/%{mod_name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27
 BuildRequires:	python3-devel python3-setuptools
 Requires:	python3-htmlmin
 %endif
@@ -56,6 +56,11 @@ Requires:	pgadmin4-python3-htmlmin
 %if 0%{?rhel} == 7
 BuildRequires:	python2-devel python-setuptools
 Requires:	pgadmin4-python-htmlmin
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires:	python3-devel python3-setuptools
+Requires:	pgadmin4-python3-htmlmin
 %endif
 
 %description
