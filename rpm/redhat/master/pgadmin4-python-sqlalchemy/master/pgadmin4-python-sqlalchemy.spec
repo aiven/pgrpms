@@ -1,7 +1,7 @@
 %global srcname SQLAlchemy
 %global sname sqlalchemy
 
-%if 0%{?fedora} > 25
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -60,6 +60,10 @@ BuildRequires:	python-setuptools pytest python-mock python2-devel
 
 %if 0%{?fedora} > 25
 BuildRequires:	python3-setuptools python3-devel pytest python3-mock
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires:	python3-setuptools python3-devel python3-pytest python3-mock
 %endif
 
 %if 0%{?suse_version}
