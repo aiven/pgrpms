@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12rc1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1539,7 +1539,9 @@ fi
 %endif
 
 %changelog
-* Fri Sep 13 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta4_2PGDG
+* Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 12rc1_2
+- Update to PostgreSQL 12 RC1
+- Fix RHEL 6 init script for rc, per patch and report from Justin Pryzby.
 - Fix RHEL 6 packaging. Per report from Justin Pryzby.
 
 * Fri Sep 13 2019 Devrim Gündüz <devrim@gunduz.org> - 12beta4_1PGDG

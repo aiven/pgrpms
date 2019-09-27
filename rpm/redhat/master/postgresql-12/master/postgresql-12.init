@@ -68,7 +68,7 @@
 # Note: the specfile inserts the correct value during package build
 PGVERSION=xxxx
 # PGMAJORVERSION is major version, e.g., 12 (this should match PG_VERSION)
-PGMAJORVERSION=`echo "$PGVERSION" | sed 's/beta[0-9]*$//'`
+PGMAJORVERSION=`echo "$PGVERSION" | sed -r 's/(\.|rc|beta)[0-9]*$//'`
 PGPREVMAJORVERSION=11
 
 # Source function library.
