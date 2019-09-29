@@ -11,14 +11,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -48,16 +40,6 @@ BuildRequires:	python3-devel python3-setuptools
 BuildRequires:	python3-mock python3-dateutil
 BuildRequires:	python3-editor python3-pytest
 BuildRequires:	python3-sqlalchemy >= 0.7.4
-Requires:       python3-editor python3-dateutil
-Requires:       python3-mako
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
-BuildRequires:	python34-devel python34-setuptools
-BuildRequires:	python34-mock pgadmin4-python3-dateutil
-BuildRequires:	python34-pytest
-BuildRequires:	python34-sqlalchemy >= 0.7.4
 Requires:       python3-editor python3-dateutil
 Requires:       python3-mako
 %endif

@@ -13,14 +13,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -50,13 +42,6 @@ BuildArch:	noarch
 BuildRequires:	python3-devel python3-setuptools
 Requires:	python3-flask
 Requires:	python3-blinker
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
-BuildRequires:	python34-devel python34-setuptools
-Requires:	pgadmin4-python3-flask
-Requires:	pgadmin4-python3-blinker
 %endif
 
 %if 0%{?rhel} == 7

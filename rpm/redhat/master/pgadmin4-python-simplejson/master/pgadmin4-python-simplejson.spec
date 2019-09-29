@@ -11,14 +11,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -41,9 +33,6 @@ Summary:	Simple, fast, extensible JSON encoder/decoder for Python
 License:	(MIT or AFL) and (MIT or GPLv2)
 URL:		http://undefined.org/python/#simplejson
 Source0:	https://files.pythonhosted.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
-%if 0%{?rhel} == 6
-Patch0:		pgadmin4-python-simplejson-rhel6-sphinx.patch
-%endif
 %if 0%{?fedora} > 27 || 0%{?rhel} == 8
 Patch1:		pgadmin4-python-simplejson-python3.patch
 %endif
@@ -57,11 +46,6 @@ BuildRequires:	python-devel
 
 %if 0%{?fedora} > 27 || 0%{?rhel} == 8
 BuildRequires:	python3-devel python3-setuptools python3-nose python3-sphinx
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname} < %{version}
-BuildRequires:	python34-devel python34-setuptools python34-nose python-sphinx10
 %endif
 
 %if 0%{?rhel} == 7
@@ -91,9 +75,6 @@ python stdlib.
 
 %prep
 %setup -q -n simplejson-%{version}
-%if 0%{?rhel} == 6
-%patch0 -p0
-%endif
 %if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %patch1 -p0
 %endif

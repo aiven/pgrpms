@@ -12,14 +12,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -43,22 +35,12 @@ Summary:	General purpose template engine
 License:	BSD
 URL:		http://jinja.pocoo.org/
 Source0:	https://pypi.python.org/packages/source/J/Jinja2/Jinja2-%{version}.tar.gz
-%if 0%{?rhel} == 6
-Patch0:		pgadmin4-python-jinja2-rhel6-sphinx.patch
-%endif
 BuildArch:	noarch
 
 %if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-pytest python3-setuptools
 BuildRequires:	python3-markupsafe python3-sphinx
 Requires:	python3-babel >= 0.8 python3-markupsafe python3-setuptools
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
-BuildRequires:	python34-devel python34-pytest python34-setuptools
-BuildRequires:	python34-markupsafe python-sphinx10
-Requires:	python-babel >= 0.8 python34-markupsafe python34-setuptools
 %endif
 
 %if 0%{?rhel} == 7
@@ -86,9 +68,6 @@ environments.
 
 %prep
 %setup -qc -n %{srcname}-%{version}
-%if 0%{?rhel} == 6
-%patch0 -p0
-%endif
 
 pushd %{srcname}-%{version}
 # cleanup

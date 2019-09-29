@@ -17,15 +17,7 @@
 %global PYTHON_SITELIB %{python3_sitelib}
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 %endif
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3.4
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%global PYTHON_SITELIB %{python2_sitelib}
-%global PYTHON_SITELIB64 %{python2_sitelib64}
-%endif
+
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -101,21 +93,6 @@ BuildRequires:	python3-sqlalchemy >= 1.2.18 python3-flask-babelex
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-itsdangerous python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
 BuildRequires:	python3-flask-babel python3-alembic
-%global QMAKE	/usr/bin/qmake-qt5
-%endif
-
-%if 0%{?rhel} == 6
-BuildRequires:	qt5-qtbase-devel >= 5.1
-BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-simplejson >= 3.16.0
-BuildRequires:	%{name}-python3-Flask-Mail >= 0.9.1%{name}-python3-flask-gravatar
-BuildRequires:	%{name}-python3-flask-babel %{name}-python3-flask-htmlmin >= 1.5.0
-BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal >= 0.4.0
-BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
-BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
-BuildRequires:	%{name}-python3-itsdangerous %{name}-python3-blinker >= 1.4 %{name}-python3-flask-babelex
-BuildRequires:	%{name}-python3-flask-sqlalchemy >= 2.3.2
-BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-sqlalchemy >= 1.2.18
-BuildRequires:	python34-devel python34-sqlalchemy >= 1.2.18
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -242,29 +219,6 @@ Requires:	%{name}-python3-six >= 1.12.0 python3-crypto >= 2.6.1 %{name}-python3-
 Requires:	python3-mod_wsgi python3-unittest2 python3-alembic
 %endif
 
-%if 0%{?rhel} == 6
-Requires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-flask-migrate >= 2.4.0
-Requires:	%{name}-python3-crypto >= 2.6.1 %{name}-python3-speaklater >= 1.3
-Requires:	%{name}-python3-babel >= 2.3.4 %{name}-python3-flask >= 1.0.2
-Requires:	%{name}-python3-flask-htmlmin >= 1.5.0 %{name}-python3-flask-sqlalchemy >= 2.3.2
-Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-wtforms >= 2.2.1
-Requires:	%{name}-python3-beautifulsoup4 >= 4.4.1 %{name}-python3-blinker >= 1.4
-Requires:	%{name}-python3-itsdangerous >= 0.24
-Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-dateutil >= 2.8.0
-Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-sqlparse >= 0.2.4
-Requires:	%{name}-python3-flask-babel >= 0.11.1 %{name}-python3-passlib >= 1.7.1
-Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-Flask-Mail >= 0.9.1
-Requires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-login >= 0.4.1
-Requires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-principal >= 0.4.0
-Requires:	%{name}-python3-flask-migrate >= 2.4.0
-Requires:	%{name}-python3-sqlalchemy >= 2.3.2
-Requires:	%{name}-pytz >= 2018.9 %{name}-python3-click
-Requires:	python34 >= 3.4 python-importlib >= 1.0.3 python-unittest2
-Requires:	python34-jinja2 >= 2.7.3 python34-markupsafe >= 0.23
-Requires:	python-psycopg2 >= 2.8 python34-six >= 1.12.0
-Requires:	mod_wsgi python-unittest2
-%endif
-
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	%{name}-python-babel >= 2.3.4 %{name}-python-flask >= 1.0.2
 Requires:	%{name}-python-flask-htmlmin >= 1.5.0 %{name}-python-flask-sqlalchemy >= 2.3.2
@@ -312,9 +266,6 @@ Requires:	%{name}-web
 %if 0%{?fedora} || 0%{?rhel} == 8
 Requires:	qt >= 5.1
 %endif
-%if 0%{?rhel} == 6
-Requires:	qt >= 4.6
-%endif
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6
 %endif
@@ -332,9 +283,6 @@ Requires:	%{name}-desktop-common
 %if 0%{?fedora} || 0%{?rhel} == 8
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
-%endif
-%if 0%{?rhel} == 6
-Requires:	qt >= 4.6
 %endif
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6

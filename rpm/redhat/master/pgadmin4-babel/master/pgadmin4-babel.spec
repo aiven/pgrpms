@@ -10,14 +10,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -41,13 +33,6 @@ BuildArch:	noarch
 BuildRequires:	python3-devel python3-setuptools python3-pytz
 BuildRequires:	make python3-sphinx
 Requires:	python3-babel python-setuptools
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-babel
-BuildRequires:	python34-devel python34-setuptools pgadmin4-pytz
-BuildRequires:	make python-sphinx10
-Requires:	python-babel python34-setuptools
 %endif
 
 %if 0%{?rhel} == 7
@@ -80,10 +65,6 @@ Summary:	Library for internationalizing Python applications
 
 %if 0%{?fedora} > 25
 Requires:	python3-setuptools pytz
-%endif
-
-%if 0%{?rhel} == 6
-Requires:	python34-setuptools pgadmin4-pytz
 %endif
 
 %if 0%{?rhel} == 7

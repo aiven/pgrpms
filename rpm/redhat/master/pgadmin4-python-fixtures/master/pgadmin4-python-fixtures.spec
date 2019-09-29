@@ -10,14 +10,6 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 6
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 %if 0%{?rhel} == 7
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
@@ -52,14 +44,6 @@ BuildRequires:	python3-devel python3-mock
 BuildRequires:	pgadmin4-python3-pbr >= 0.11
 BuildRequires:	python3-testtools >= 0.9.22
 Requires:	python3-testtools >= 0.9.22 python3-six
-%endif
-
-%if 0%{?rhel} == 6
-Obsoletes:	pgadmin4-python-%{sname}
-BuildRequires:  python34-devel python34-mock
-BuildRequires:	pgadmin4-python3-pbr >= 0.11
-BuildRequires:	python-testtools >= 0.9.22
-Requires:	python-testtools >= 0.9.22 python34-six
 %endif
 
 %if 0%{?rhel} == 7
