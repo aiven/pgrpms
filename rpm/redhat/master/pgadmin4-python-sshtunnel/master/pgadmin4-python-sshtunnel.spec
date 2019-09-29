@@ -1,21 +1,24 @@
-%if 0%{?fedora} > 26
+%global sname sshtunnel
+
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %{!?with_python3:%global with_python3 1}
-%global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global __ospython2 %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%else
-%{!?with_python3:%global with_python3 0}
-%global __ospython2 %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython2} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython2} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%if 0%{?rhel} == 7
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
 
-%global sname sshtunnel
+%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
+%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
+
 
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
@@ -34,14 +37,23 @@ URL:		https://github.com/pahaz/%{sname}
 Source0:	https://files.pythonhosted.org/packages/bf/8d/385c7e7c90e17934b3102ad2902e224c27a7173a6a57ef4805dcef8043b1/sshtunnel-%{version}.tar.gz
 
 BuildArch:	noarch
-%if 0%{?with_python3}
+
+%if 0%{?fedora} > 27
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
 Requires:	python3-paramiko
-%else
+%endif
+
+%if 0%{?rhel} == 7
 BuildRequires:	python-devel
 BuildRequires:	python-setuptools
 Requires:	python-paramiko
+%endif
+
+%if 0%{?rhel} == 8
+BuildRequires:	python3-devel
+BuildRequires:	python3-setuptools
+Requires:	pgadmin4-python3-paramiko
 %endif
 
 %description
