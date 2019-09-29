@@ -19,10 +19,6 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
-%global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
-
 %if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
 %else
@@ -71,10 +67,10 @@ Pure python SSH tunnels.
 %build
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__ospython3} setup.py build
+%{__ospython} setup.py build
 popd
 %else
-%{__ospython2} setup.py build
+%{__ospython} setup.py build
 %endif
 
 %install
@@ -82,16 +78,16 @@ popd
 
 %if 0%{?with_python3}
 pushd %{py3dir}
-%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/%{sname}.py* %{buildroot}%{python3_sitelib}/__pycache__/%{sname}* %{buildroot}%{python3_sitelib}/%{sname}-%{version}*-py%{py3ver}.egg-info  %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/%{sname}.py* %{buildroot}%{python3_sitelib}/__pycache__/%{sname}* %{buildroot}%{python3_sitelib}/%{sname}-%{version}*-py%{pyver}.egg-info  %{buildroot}/%{pgadmin4py3instdir}
 popd
 %else
-%{__ospython2} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/%{sname}.py* %{buildroot}%{python2_sitelib}/%{sname}-%{version}*-py%{py2ver}.egg-info  %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/%{sname}.py* %{buildroot}%{python2_sitelib}/%{sname}-%{version}*-py%{pyver}.egg-info  %{buildroot}/%{pgadmin4py2instdir}
 %endif
 %{__rm} %{buildroot}%{_bindir}/%{sname}
 
