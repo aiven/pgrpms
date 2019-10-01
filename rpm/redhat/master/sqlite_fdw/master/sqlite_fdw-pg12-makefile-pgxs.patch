@@ -1,0 +1,11 @@
+--- Makefile.old	2018-10-23 22:50:19.894546652 +0100
++++ Makefile	2018-10-23 22:50:31.780612738 +0100
+@@ -30,7 +30,7 @@
+ SHLIB_LINK := -lsqlite3
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-12/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ ifndef MAJORVERSION
