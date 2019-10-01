@@ -15,7 +15,7 @@
 %endif
 
 %if 0%{?with_python3}
- %global	python_runtimes	python2 python-debug python3 python3-debug
+ %global	python_runtimes	python2 python2-debug python3 python3-debug
 %else
   %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
     %global	python_runtimes	python2
@@ -73,7 +73,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion}-libs
+Requires:	postgresql-libs
 
 Conflicts:	python-%{sname}-zope < %{version}
 
