@@ -42,7 +42,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python2-%{sname}
 Version:	2.8.3
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -245,6 +245,9 @@ done
 %endif
 
 %changelog
+* Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-2
+- Rebuilt
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-1.1
 - Rebuild for PostgreSQL 12
 
