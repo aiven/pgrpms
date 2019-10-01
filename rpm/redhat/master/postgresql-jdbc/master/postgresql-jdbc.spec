@@ -64,6 +64,10 @@ export CLASSPATH=
 # different platforms don't build in the same minute.  For now, rely on
 # upstream to have updated the translations files before packaging.
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%pom_remove_plugin :karaf-maven-plugin pgjdbc
+%endif
+
 mvn -DskipTests -P release-artifacts clean package
 
 %install
@@ -118,7 +122,6 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
-%{_datadir}/maven-fragments/%{name}
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
