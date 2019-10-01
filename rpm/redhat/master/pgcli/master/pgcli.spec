@@ -20,7 +20,7 @@
 %endif
 
 %if 0%{?with_python3}
-%global	python_runtimes	python2 python-debug python3 python3-debug
+%global	python_runtimes	python2 python2-debug python3 python3-debug
 %else
 %global python_runtimes	python2
 %endif # with_python3
