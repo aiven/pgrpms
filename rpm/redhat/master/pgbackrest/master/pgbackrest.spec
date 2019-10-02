@@ -2,8 +2,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.17
-Release:	1%{?dist}.1
+Version:	2.18
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -18,7 +18,7 @@ Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes zlib
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires:	openssl-devel zlib-devel perl-ExtUtils-Embed
 BuildRequires:	postgresql%{pgmajorversion}-devel
-Requires:	postgresql%{pgmajorversion}-libs
+Requires:	postgresql-libs
 
 
 %description
@@ -68,6 +68,11 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Wed Oct 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.18-1
+- Update to 2.18
+- Require versionless -libs subpackage. Fixes
+  https://redmine.postgresql.org/issues/4799
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.17-1.1
 - Rebuild for PostgreSQL 12
 
