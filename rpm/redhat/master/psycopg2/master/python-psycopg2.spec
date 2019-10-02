@@ -247,6 +247,9 @@ done
 %changelog
 * Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-2
 - Rebuilt
+- Require versionless -libs subpackage. Fixes
+  https://redmine.postgresql.org/issues/4798
+  https://redmine.postgresql.org/issues/4799
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-1.1
 - Rebuild for PostgreSQL 12
