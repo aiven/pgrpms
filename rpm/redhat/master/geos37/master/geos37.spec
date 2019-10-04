@@ -16,7 +16,7 @@
 
 Name:		%{sname}37
 Version:	3.7.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -27,7 +27,7 @@ Patch0:		%{name}-gcc43.patch
 BuildRequires:	doxygen libtool
 BuildRequires:	gcc-c++
 Obsoletes:	geos36 >= 3.6.0
-Obsoletes:	geos36 >= 3.6.0
+Provides:	geos36 >= 3.6.0
 Provides:	geos37-python >= 3.7.0
 
 %ifarch ppc64 ppc64le
@@ -136,6 +136,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/include/*
 
 %changelog
+* Fri Oct 4 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.7.2-2
+- Small Provides: fix to support legacy postgis22 / 23
+
 * Fri Jun 7 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.2-1
 - Update to 3.7.2
 - Remove Python bindings. We should have done it several releases ago.
