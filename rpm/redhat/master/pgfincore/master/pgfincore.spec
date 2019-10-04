@@ -8,11 +8,12 @@
 
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}%{pgmajorversion}
-Version:	1.1.2
-Release:	2%{?dist}.1
+Version:	1.2.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch1:		%{sname}-1.2.1-fixbuild.patch
 URL:		https://github.com/klando/pgfincore
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -32,6 +33,7 @@ PgFincore is a set of functions to manage blocks in memory.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -40,14 +42,14 @@ PgFincore is a set of functions to manage blocks in memory.
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-make USE_PGXS=1 %{?_smp_mflags}
+%{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/pgfincore
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/pgfincore
-make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -57,7 +59,7 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/pgfincore/README.rst
+%doc %{pginstdir}/doc/pgfincore/README.md
 %doc AUTHORS ChangeLog
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc COPYRIGHT
@@ -67,8 +69,22 @@ make USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/pgfincore/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Fri Oct 4 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-1
+- Update to 1.2.1
+- Add a patch (from git master) to fix build issues.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.2-2.1
 - Rebuild against PostgreSQL 11.0
 
