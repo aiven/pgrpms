@@ -2,13 +2,13 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	1.5.2
-Release:	2%{?dist}
+Version:	1.5.3
+Release:	1%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
-Source0:	https://github.com/tada/%{sname}/archive/V1_5_2.tar.gz
+Source0:	https://github.com/tada/%{sname}/archive/V1_5_3.tar.gz
 Source1:	%{sname}.pom
 
 BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
@@ -20,7 +20,7 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -q -n %{sname}-1_5_2
+%setup -q -n %{sname}-1_5_3
 %patch0 -p0
 
 %build
@@ -40,6 +40,7 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
 %{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0--1.5.1.sql
 %{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1--1.5.2.sql
+%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.2--1.5.3.sql
 %{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA1--1.5.1.sql
 %{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA2--1.5.1.sql
 %{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA3--1.5.1.sql
@@ -63,13 +64,16 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
 %{pginstdir}/lib/libpljava-so-%{version}.so
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/%{sname}/%{sname}--*.sql
+%{pginstdir}/share/%{sname}/%{sname}--1*.sql
 %{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 %{pginstdir}/share/%{sname}/%{sname}-%{version}.jar
 %{pginstdir}/share/%{sname}/%{sname}-examples-%{version}.jar
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Sat Oct 5 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.3-1
+- Update to 1.5.3
+
 * Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2
 - Create symlinks of .sql files for extension updates. Per Chapman.
 
