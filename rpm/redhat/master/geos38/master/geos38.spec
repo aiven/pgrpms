@@ -17,7 +17,7 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.8.0
-Release:	rc2_1%{?dist}
+Release:	rc2_2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -28,7 +28,7 @@ Patch0:		%{name}-gcc43.patch
 BuildRequires:	doxygen libtool
 BuildRequires:	gcc-c++
 Obsoletes:	geos36 >= 3.6.0
-Obsoletes:	geos36 >= 3.6.0
+Provides:	geos36 >= 3.6.0
 Provides:	geos%{_geosversion}-python >= %{version}
 
 %ifarch ppc64 ppc64le
@@ -137,6 +137,10 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/include/*
 
 %changelog
+%changelog
+* Sat Oct 5 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.8.0rc2_2
+- Small Provides: fix to support legacy postgis22 / 23
+
 * Fri Oct 4 2019 Devrim Gündüz <devrim@gunduz.org> - 3.8.0rc2
 - Initial packaging of 3.8 for PostgreSQL RPM Repository,
   which is to satisfy PostGIS on older platforms, so that
