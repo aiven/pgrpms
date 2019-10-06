@@ -1,7 +1,16 @@
-#Python major version.
-%{expand: %%global pybasever %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%endif
+
+%if 0%{?rhel} == 7
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
@@ -21,13 +30,13 @@ top like application for PostgreSQL server activity monitoring.
 %setup -q -n %{name}-%{version}
 
 %build
-%{__python} setup.py build
+%{__ospython} setup.py build
 
 %install
-%{__python} setup.py install --with-man -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install --with-man -O1 --skip-build --root %{buildroot}
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -36,6 +45,9 @@ rm -rf %{buildroot}
 %{_mandir}/man1/%{name}.1.gz
 %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
 %{python_sitelib}/pgactivity/*.py*
+%if 0%{?with_python3}
+%{python_sitelib}/pgactivity/__pycache__/*.pyc
+%endif
 
 %changelog
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-1
