@@ -3,6 +3,7 @@
 %global __ospython %{_bindir}/python3
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+BuildRequires:	python3-setuptools >= 0.6.10
 %endif
 
 %if 0%{?rhel} == 7
@@ -10,6 +11,7 @@
 %global __ospython %{_bindir}/python2
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+BuildRequires:	python2-setuptools >= 0.6.10
 %endif
 
 Summary:	Top like application for PostgreSQL server activity monitoring
@@ -21,7 +23,6 @@ Url:		https://github.com/julmon/pg_activity/
 Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python > 2.6, python-psutil > 0.4.1, python-psycopg2 >= 2.2.1
-BuildRequires:	python%{pybasever}-setuptools >= 0.6.10
 
 %description
 top like application for PostgreSQL server activity monitoring.
