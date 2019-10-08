@@ -1,14 +1,23 @@
 %global debug_package %{nil}
 
-# Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%endif
+
+%if 0%{?rhel} == 7
+%{!?with_python3:%global with_python3 0}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
 
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
-Version:	1.2.1
-Release:	2%{?dist}.1
+Version:	1.3
+Release:	1%{?dist}
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
 Url:		https://github.com/pgxn/pgxnclient
@@ -23,13 +32,13 @@ removing extensions in a PostgreSQL installation or database.
 %setup -q -n %{name}-%{version}
 
 %build
-%{__python} setup.py build
+%{__ospython} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__mkdir} -p %{buildroot}%{python_sitearch}/%{name}
-%{__mkdir} -p %{buildroot}%{python_sitearch}/%{name}/tests
-%{__python} setup.py install --root %{buildroot}
+%{__ospython} setup.py install --root %{buildroot}
+
+%{__mv} %{buildroot}%{python_sitelib}/tests %{buildroot}%{python_sitelib}/%{name}/tests
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -42,33 +51,27 @@ removing extensions in a PostgreSQL installation or database.
 %else
 %license COPYING
 %endif
-%dir %{python_sitearch}/
-%dir %{python_sitearch}/%{name}
-%dir %{python_sitearch}/%{name}/tests
+%dir %{python_sitelib}/
+%dir %{python_sitelib}/%{name}
 %{_bindir}/pgxn
 %{_bindir}/%{name}
-%if 0%{?suse_version} >= 1315
-%{python_sitelib}/%{name}/*.py
-%{python_sitelib}/%{name}/tests/*.py
-%{python_sitelib}/%{name}/utils/*.py
-%else
-%{python_sitelib}/%{name}/*.py
-%{python_sitelib}/%{name}/*.pyc
-%{python_sitelib}/%{name}/*.pyo
-%{python_sitelib}/%{name}/tests/*.py
-%{python_sitelib}/%{name}/tests/*.pyc
-%{python_sitelib}/%{name}/tests/*.pyo
-%{python_sitelib}/%{name}/utils/*.py
-%{python_sitelib}/%{name}/utils/*.pyc
-%{python_sitelib}/%{name}/utils/*.pyo
-%endif
-%{python_sitelib}/%{name}/commands/*.py
-%{python_sitelib}/%{name}/commands/*.pyc
-%{python_sitelib}/%{name}/commands/*.pyo
+%{python_sitelib}/%{name}/*.py*
+%{python_sitelib}/%{name}/tests/*.py*
+%{python_sitelib}/%{name}/utils/*.py*
+%{python_sitelib}/%{name}/commands/*.py*
 %{python_sitelib}/%{name}/libexec/*
-%{python_sitelib}/%{name}-%{version}-py%{pyver}.egg-info/*
+%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
+%if 0%{with_python3}
+%{python_sitelib}/%{name}/__pycache__/*.p*
+%{python_sitelib}/%{name}/commands/__pycache__/*.p*
+%{python_sitelib}/%{name}/tests/__pycache__/*.p*
+%{python_sitelib}/%{name}/utils/__pycache__/*.p*
+%endif
 
 %changelog
+* Mon Oct 7 2019 Devrim Gündüz <devrim@gunduz.org> 1.3-1
+- Update to 1.3
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-2.1
 - Rebuild against PostgreSQL 11.0
 
