@@ -17,12 +17,12 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.8.0
-Release:	rc2_2%{?dist}
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
-Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}rc2.tar.bz2
+Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
 BuildRequires:	doxygen libtool
@@ -64,7 +64,7 @@ This package contains the development files to build applications that
 use GEOS
 
 %prep
-%setup -q -n %{sname}-%{version}rc2
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -138,6 +138,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %changelog
 %changelog
+* Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.8.0
+- Update to 3.8.0
+
 * Sat Oct 5 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.8.0rc2_2
 - Small Provides: fix to support legacy postgis22 / 23
 
