@@ -2,7 +2,7 @@
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	26
 
-%global	geosmajorversion	37
+%global	geosmajorversion	38
 %global	libgeotiffmajorversion	15
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global	libspatialiteversion	43
@@ -80,7 +80,7 @@
 
 Name:		%{sname}30
 Version:	3.0.1
-Release:	4%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}.1
+Release:	5%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -127,7 +127,7 @@ BuildRequires:	fontconfig-devel
 # No freexl in EL5
 BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.0
 BuildRequires:	ghostscript
 BuildRequires:	hdf-devel
 BuildRequires:	hdf-static
@@ -670,6 +670,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Mon Oct 7 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-5
+- Rebuild for GeOS 3.8.0
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-4.1
 - Rebuild for PostgreSQL 12
 
