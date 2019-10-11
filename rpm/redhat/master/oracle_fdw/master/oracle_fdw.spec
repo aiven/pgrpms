@@ -1,6 +1,6 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
-%global ofdwmidver 1
+%global ofdwmidver 2
 %global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
@@ -79,6 +79,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+
+* Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
+- Update to 2.2.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1.1
 - Rebuild against PostgreSQL 11.0
 
