@@ -5,7 +5,7 @@
 %global postgisprevmajorversion 2.5
 %global sname	postgis
 
-%global geosversion	37
+%global geosversion	38
 %global gdalversion	30
 %global projversion	62
 
@@ -46,17 +46,17 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0alpha4
-Release:	6%{?dist}.1
+Version:	%{postgismajorversion}.0rc1
+Release:	1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0alpha4.tar.gz
+Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0rc1.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.2, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
@@ -87,7 +87,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.7.2
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.8.0
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -375,6 +375,13 @@ fi
 %endif
 
 %changelog
+* Fri Oct 11 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0rc1
+- Update to rc1
+
+* Fri Oct 4 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0beta1
+- Update to beta1
+- Use Geos 3.8
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
