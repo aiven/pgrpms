@@ -8,14 +8,13 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.3.1
-Release:	1%{?dist}.1
+Version:	0.4.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://gitlab.com/daamien/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildArch:	noarch
 Requires:	postgresql%{pgmajorversion}-server ddlx_%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
@@ -61,11 +60,25 @@ PostgreSQL database.
 %license LICENSE.md
 %endif
 %defattr(644,root,root,755)
+%{pginstdir}/lib/anon.so
 %{pginstdir}/share/extension/anon/*
 %{pginstdir}/share/extension/anon.control
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/anon*.bc
+   %{pginstdir}/lib/bitcode/anon/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
+* Sat Oct 12 2019 Devrim Gündüz <devrim@gunduz.org> 0.4.0-1
+- Update to 0.4.0
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1.1
 - Rebuild for PostgreSQL 12
 

@@ -1,6 +1,6 @@
---- Makefile.old	2018-11-06 12:31:35.347236762 +0000
-+++ Makefile	2018-11-06 12:31:41.011268758 +0000
-@@ -115,6 +115,6 @@
+--- Makefile.old	2019-10-12 17:41:04.571523968 +0100
++++ Makefile	2019-10-12 17:41:11.682570340 +0100
+@@ -43,7 +43,7 @@
  ##
  ## Mandatory PGXS stuff
  ##
@@ -8,3 +8,4 @@
 +PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
+ 
