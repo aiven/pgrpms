@@ -1,17 +1,10 @@
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+
+%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 BuildRequires:	python3-setuptools >= 0.6.10
-%endif
-
-%if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-BuildRequires:	python2-setuptools >= 0.6.10
 %endif
 
 Summary:	Top like application for PostgreSQL server activity monitoring
