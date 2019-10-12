@@ -15,7 +15,13 @@ License:	GPLv3
 Url:		https://github.com/julmon/pg_activity/
 Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
-Requires:	python > 2.6, python-psutil > 0.4.1, python-psycopg2 >= 2.2.1
+Requires:	python3 > 3.6, python3-psycopg2 >= 2.8.3
+%if 0%{?rhel} == 7
+Requires:	python36-psutil
+%endif
+%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+Requires:	python3-psutil
+%endif
 
 %description
 top like application for PostgreSQL server activity monitoring.
