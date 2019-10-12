@@ -9,11 +9,12 @@
 
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.0
+Version:	4.0.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch1:		%{sname}-missinginclude.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel
 Requires:	postgresql%{pgmajorversion}-server, protobuf-c
@@ -34,6 +35,7 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -67,7 +69,7 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %attr(755,root,root) %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--3.0.0.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
@@ -83,6 +85,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Sat Oct 12 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1
+- Update to 4.0.0
+
 * Wed Jan 2 2019 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
 - Update to 3.1.0
 

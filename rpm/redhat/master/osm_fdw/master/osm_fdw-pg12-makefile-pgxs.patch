@@ -5,7 +5,7 @@
  .DEFAULT_GOAL := all
  SHELL = /bin/bash
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
++PG_CONFIG = /usr/pgsql-12/bin/pg_config
  
  MODULE_big = osm_fdw
  
@@ -14,6 +14,6 @@
  	echo $(PG_VERSION)
  
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
++PG_CONFIG = /usr/pgsql-12/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)

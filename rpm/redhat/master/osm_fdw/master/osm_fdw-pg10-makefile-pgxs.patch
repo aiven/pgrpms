@@ -1,8 +1,17 @@
---- Makefile.old	2019-01-02 18:21:36.122994891 +0000
-+++ Makefile	2019-01-02 18:21:46.410054076 +0000
-@@ -45,6 +45,6 @@
- 	rm -rf /tmp/monaco.osm.pbf
- 	cp data/monaco.osm.pbf /tmp/
+--- Makefile.old	2019-10-12 17:46:56.759788387 +0100
++++ Makefile	2019-10-12 17:47:21.469944546 +0100
+@@ -1,7 +1,7 @@
+ 
+ .DEFAULT_GOAL := all
+ SHELL = /bin/bash
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
+ 
+ MODULE_big = osm_fdw
+ 
+@@ -62,6 +62,6 @@
+ ver:
+ 	echo $(PG_VERSION)
  
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-10/bin/pg_config
