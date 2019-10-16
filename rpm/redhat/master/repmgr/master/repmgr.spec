@@ -6,7 +6,7 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	4.4.0
+Version:	5.0.0
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -166,6 +166,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 16 2019 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
+- Update to 5.0.0
+
 * Thu Jun 27 2019 - Devrim Gündüz <devrim@gunduz.org> 4.4.0-1
 - Update to 4.4.0
 
