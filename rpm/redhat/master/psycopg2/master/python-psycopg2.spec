@@ -15,12 +15,12 @@
 %endif
 
 %if 0%{?with_python3}
- %global	python_runtimes	python2 python2-debug python3 python3-debug
+ %global	python_runtimes	python python3
 %else
   %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
     %global	python_runtimes	python2
    %else
-    %global python_runtimes python2 python-debug
+    %global python_runtimes python2
   %endif
 %endif
 
@@ -42,7 +42,7 @@
 Summary:	A PostgreSQL database adapter for Python
 Name:		python2-%{sname}
 Version:	2.8.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -55,15 +55,8 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
-BuildRequires:	python3-debug
 %endif # with_python3
 
-%if 0%{?fedora} >= 23 || 0%{?rhel} >= 8
-BuildRequires:	python2-debug
-%endif # Python 2.7
-%if 0%{?rhel} == 7
-BuildRequires:	python-debug
-%endif # Python 2.7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -82,17 +75,6 @@ Psycopg is the most popular PostgreSQL adapter for the Python
 programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
-
-%package debug
-Summary:	A PostgreSQL database adapter for Python 2 (debug build)
-# Require the base package, as we're sharing .py/.pyc files:
-Requires:	%{name} = %{version}-%{release}
-Obsoletes:	python-%{sname}-debug >= 2.0.0
-Provides:	python-%{sname}-debug = %{version}-%{release}
-
-%description debug
-This is a build of the psycopg PostgreSQL database adapter for the debug
-build of Python 2.
 
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for %sum 2
@@ -123,14 +105,6 @@ Requires:	python3-%sname = %version-%release
 %desc
 This sub-package delivers set of tests for the adapter.
 
-%package -n python3-%{sname}-debug
-Summary:	A PostgreSQL database adapter for Python 3 (debug build)
-# Require base python 3 package, as we're sharing .py/.pyc files:
-Requires:	python3-%{sname} = %{version}-%{release}
-
-%description -n python3-%{sname}-debug
-This is a build of the psycopg PostgreSQL database adapter for the debug
-build of Python 3.
 %endif # with_python3
 
 %if %with_docs
@@ -211,13 +185,6 @@ done
 %files -n python2-%{sname}-tests
 %{python2_sitearch}/%{sname}/tests
 
-%if 0%{?fedora} >= 23 || 0%{?rhel} >= 7
-%files debug
-%defattr(-,root,root)
-%doc LICENSE
-%{python2_sitearch}/%{sname}/_psycopg_d.so
-%endif
-
 %if 0%{?with_python3}
 %files -n python3-%{sname}
 %defattr(-,root,root)
@@ -232,10 +199,6 @@ done
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 
-%files -n python3-%{sname}-debug
-%defattr(-,root,root)
-%doc LICENSE
-%{python3_sitearch}/%{sname}/_psycopg.cpython-3*dm*.so
 %endif # with_python3
 
 %if %with_docs
@@ -245,6 +208,10 @@ done
 %endif
 
 %changelog
+* Wed Oct 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-3
+- Add PY3 support to RHEL 7 package
+- Get rid of -debug subpackage
+
 * Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-2
 - Rebuilt
 - Require versionless -libs subpackage. Fixes
