@@ -8,7 +8,7 @@
 
 %{!?with_docs:%global with_docs 0}
 
-%if  0%{?rhel} && 0%{?rhel} >= 8 || 0%{?fedora} > 23
+%if  0%{?rhel} && 0%{?rhel} >= 7 || 0%{?fedora} > 23
 %global with_python3 1
 %else
 %global with_python3 0
