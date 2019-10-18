@@ -21,8 +21,8 @@ Version:	1.12.0
 Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
-URL:		https://pgbouncer.github.io/
-Source0:	https://pgbouncer.github.io/downloads/files/%{version}/%{name}-%{version}.tar.gz
+URL:		https://www.pgbouncer.org/
+Source0:	https://www.pgbouncer.org/downloads/files/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
