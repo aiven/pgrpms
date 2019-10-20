@@ -70,7 +70,7 @@ Flask-Compress will solve the problem for you.
 %else
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_compress.py %{buildroot}%{python2_sitelib}/Flask_Compress-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
+%{__mv} %{buildroot}%{python2_sitelib}/flask_compress.py* %{buildroot}%{python2_sitelib}/Flask_Compress-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
 %endif
 
 %files
@@ -82,7 +82,7 @@ Flask-Compress will solve the problem for you.
 %{pgadmin4py3instdir}/__pycache__/flask_compress*
 %else
 %{pgadmin4py2instdir}/*.egg-info/
-%{pgadmin4py2instdir}/flask_compress.py
+%{pgadmin4py2instdir}/flask_compress.py*
 %endif
 
 %changelog
