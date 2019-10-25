@@ -23,7 +23,6 @@ Requires:	webserver
 Requires:	pgpool-II-%{pgmajorversion} >= %{version}
 
 BuildArch:	noarch
-BuildRequires:	httpd
 
 %if %{systemd_enabled}
 BuildRequires:	systemd
