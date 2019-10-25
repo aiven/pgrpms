@@ -16,8 +16,8 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	4.2.0
-Release:	1%{?dist}.1
+Version:	4.2.2
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -96,6 +96,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
+- Update to 4.2.2
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
