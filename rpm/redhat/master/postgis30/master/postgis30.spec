@@ -46,10 +46,10 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0rc1
+Version:	%{postgismajorversion}.0
 Release:	1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0rc1.tar.gz
+Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
@@ -375,6 +375,12 @@ fi
 %endif
 
 %changelog
+* Fri Oct 25 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0
+
+* Wed Oct 16 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0rc2
+- Update to 3.0.0rc2
+
 * Fri Oct 11 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0rc1
 - Update to rc1
 
