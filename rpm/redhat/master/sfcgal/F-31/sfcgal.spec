@@ -1,0 +1,1 @@
+../master/sfcgal.spec

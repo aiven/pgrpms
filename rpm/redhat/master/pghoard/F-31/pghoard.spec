@@ -1,0 +1,1 @@
+../master/pghoard.spec
