@@ -8,10 +8,10 @@
 
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.3
-Release:	2%{?dist}.1
+Version:	1.4.0
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/omniti-labs/%{sname}/archive/v%{version}.tar.gz
+Source0:	http://api.pgxn.org/dist/pg_jobmon/%{version}/pg_jobmon-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/omniti-labs/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -61,6 +61,9 @@ install -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-2.1
 - Rebuild for PostgreSQL 12
 
