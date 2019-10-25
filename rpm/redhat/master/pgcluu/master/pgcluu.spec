@@ -4,15 +4,23 @@
 %global systemd_enabled 1
 %endif
 
+%global 	pgcluudatadir		/var/lib/pgcluu/data
+%global 	pgcluureportdir		/var/lib/pgcluu/report
+
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
+Source1:	%{name}.service
+Source2:	%{name}_collectd.service
+Source3:	%{name}.timer
+Source4:	%{name}-httpd.conf
 Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/
 BuildArch:	noarch
+Requires:	httpd
 
 %description
 pgCluu is a PostgreSQL performances monitoring and auditing tool.
@@ -32,10 +40,20 @@ of the PostgreSQL cluster and the system utilization
 %{__rm} -rf %{buildroot}
 %{__make} pure_install PERL_INSTALL_ROOT=%{buildroot}
 
+# Install Apache sample config file
+%{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
+%{__install} -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
+
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 644 %{name}_collectd.service %{name}.service %{name}.timer %{buildroot}%{_unitdir}/
+%{__install} -m 644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{buildroot}%{_unitdir}/
 %endif
+
+%post
+%{__mkdir} -p %{pgcluudatadir}
+%{__mkdir} -p %{pgcluureportdir}
+%{__chown} postgres:postgres %{pgcluureportdir}
+%{__chmod} u=rwX,g=rsX,o= %{pgcluureportdir}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -47,6 +65,7 @@ of the PostgreSQL cluster and the system utilization
 %attr(755,root,root) %{_bindir}/%{name}_collectd
 %perl_vendorarch/auto/pgCluu/.packlist
 %{_mandir}/man1/%{name}.1p.gz
+%{_sysconfdir}/httpd/conf.d/%{name}.conf
 %if %{systemd_enabled}
 %{_unitdir}/%{name}_collectd.service
 %{_unitdir}/%{name}.service
@@ -54,6 +73,9 @@ of the PostgreSQL cluster and the system utilization
 %endif
 
 %changelog
+* Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> 3.0-2
+- Various fixes for https://redmine.postgresql.org/issues/4833
+
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> 3.0-1
 - Update to 3.0
 
