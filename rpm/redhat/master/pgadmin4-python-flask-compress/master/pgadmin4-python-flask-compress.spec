@@ -43,7 +43,7 @@ BuildRequires:	pgadmin4-python-flask python36-brotli
 %endif
 
 %if 0%{?rhel} == 8
-BuildRequires:	python3-flask pgadmin4-python-brotli
+BuildRequires:	python3-flask pgadmin4-python3-brotli
 %endif
 
 %description
