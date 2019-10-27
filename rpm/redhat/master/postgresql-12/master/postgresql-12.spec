@@ -1072,7 +1072,11 @@ if [ $1 -eq 1 ] ; then
    %endif
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
-   %tmpfiles_create
+   %if 0%{?fedora} >= 31
+    %tmpfiles_create %{name} %{SOURCE19}
+   %else
+    %tmpfiles_create
+   %endif
    %endif
   %else
    chkconfig --add %{sname}-%{pgpackageversion}
