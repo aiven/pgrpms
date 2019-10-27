@@ -54,7 +54,7 @@ Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
 BuildRequires:	freexl-devel
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.0
 BuildRequires:	proj%{projmajorversion}-devel >= 6.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	zlib-devel
@@ -87,6 +87,7 @@ autoconf
 
 %build
 CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
+CFLAGS="$CFLAGS -I%{geosinstdir}/include"; export CFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; export SHLIB_LINK
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 ./configure \
