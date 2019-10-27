@@ -228,7 +228,7 @@ BuildRequires:	systemtap-sdt-devel
 %if %selinux
 # All supported distros have libselinux-devel package:
 BuildRequires:	libselinux-devel >= 2.0.93
-# SLES: SLES 15 does  not have selinux-policy package. Use
+# SLES: SLES 15 does not have selinux-policy package. Use
 # it only on SLES 12:
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	selinux-policy >= 3.9.13
@@ -299,9 +299,9 @@ Requires:	advance-toolchain-%{atstring}-runtime
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The base postgresql package contains the client programs that you'll need to
 access a PostgreSQL DBMS server, as well as HTML documentation for the whole
-system.  These client programs can be located on the same machine as the
+system. These client programs can be located on the same machine as the
 PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
-over a network connection.  The PostgreSQL server can be found in the
+over a network connection. The PostgreSQL server can be found in the
 postgresql%{pgmajorversion}-server sub-package.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
@@ -423,7 +423,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
-with a PostgreSQL database management server.  It also contains the ecpg
+with a PostgreSQL database management server. It also contains the ecpg
 Embedded C Postgres preprocessor. You need to install this package if you want
 to develop applications which will interact with a PostgreSQL server.
 
@@ -462,7 +462,7 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql%{pgmajorversion}-pl
+Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl
 
 %ifarch ppc64 ppc64le
@@ -482,7 +482,7 @@ Install this if you want to write database functions in Perl.
 Summary:	The Python procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
+Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 
@@ -503,7 +503,7 @@ Install this if you want to write database functions in Python.
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
+Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3
 
 %ifarch ppc64 ppc64le
@@ -524,7 +524,7 @@ Summary:	The Tcl procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
-Obsoletes:	%{name}-pl
+Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl
 
 %ifarch ppc64 ppc64le
@@ -604,8 +604,8 @@ export CFLAGS
 %endif
 
 # plpython requires separate configure/build runs to build against python 2
-# versus python 3.  Our strategy is to do the python 3 run first, then make
-# distclean and do it again for the "normal" build.  Note that the installed
+# versus python 3. Our strategy is to do the python 3 run first, then make
+# distclean and do it again for the "normal" build. Note that the installed
 # Makefile.global will reflect the python 2 build, which seems appropriate
 # since that's still considered the default plpython version.
 %if %plpython3
@@ -815,7 +815,7 @@ sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > s
 
 # run_testsuite WHERE
 # -------------------
-# Run 'make check' in WHERE path.  When that command fails, return the logs
+# Run 'make check' in WHERE path. When that command fails, return the logs
 # given by PostgreSQL build system and set 'test_failure=1'.
 
 run_testsuite()
@@ -967,13 +967,13 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
@@ -988,7 +988,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/doc/html
 %{__mv} doc/src/sgml/html doc
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/man/
-%{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7  %{buildroot}%{pgbaseinstdir}/share/man/
+%{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7 %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
 # Quick hack for RHEL < 7 and not compiled with PL/Python3 support:
@@ -1052,7 +1052,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
-cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang   > pg_main.lst
+cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang > pg_server.lst
 %endif
 
@@ -1073,7 +1073,7 @@ if [ $1 -eq 1 ] ; then
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
    %if 0%{?fedora} >= 31
-    %tmpfiles_create %{name} %{SOURCE19}
+    %tmpfiles_create %{sname}-%{pgmajorversion} %{SOURCE19}
    %else
     %tmpfiles_create
    %endif
