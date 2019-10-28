@@ -27,25 +27,21 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global with_python3 1
 %endif
 
-%if 0%{?with_python3}
- %global	python_runtimes	python python3
-%else
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-    %global	python_runtimes	python2
-   %else
-    %global python_runtimes python2
-  %endif
-%endif
-
-%{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
-# The python2_sitearch is already defined on RHEL 8 and Fedora, so set this on RHEL 6 and 7:
-%if  0%{?rhel} && 0%{?rhel} <= 7
-# Python major version.
-%{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
-%if 0%{?with_python3}
+%global	python3_runtimes python3
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
+
+%if 0%{?with_python2}
+ %global python2_runtimes python2
+%endif
+
+
+%if 0%{?with_python2}
+ %{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
+ # The python2_sitearch is already defined on RHEL 8 and Fedora, so set this on RHEL 6 and 7:
+ %if  0%{?rhel} && 0%{?rhel} <= 7
+  # Python major version.
+  %{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+ %endif
 %endif
 
 Summary:	A PostgreSQL database adapter for Python 3
@@ -132,9 +128,15 @@ database adapter.
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
 for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" $i; done
 
-for python in %{python_runtimes} ; do
+for python in %{python3_runtimes} ; do
+  $python setup.py build
+
+done
+%if 0%{?with_python2}
+for python in %{python2_runtimes} ; do
   $python setup.py build
 done
+%endif
 
 %if %with_docs
 # Fix for wrong-file-end-of-line-encoding problem; upstream also must fix this.
@@ -146,20 +148,23 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %endif
 
 %install
-for python in %{python_runtimes} ; do
+for python in %{python3_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
+%if 0%{?with_python2}
+for python in %{python2_runtimes} ; do
+  $python setup.py install --no-compile --root %{buildroot}
+done
+%endif
 
 # Copy tests directory:
-%{__mkdir} -p %{buildroot}%{python2_sitearch}/%{sname}/
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
-%{__cp} -rp tests %{buildroot}%{python2_sitearch}/%{sname}/tests
-%if 0%{?with_python3}
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
-%endif
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
-%if 0%{?with_python3}
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
+%if 0%{?with_python2}
+%{__mkdir} -p %{buildroot}%{python2_sitearch}/%{sname}/
+%{__cp} -rp tests %{buildroot}%{python2_sitearch}/%{sname}/tests
 %endif
 
 %clean
@@ -203,6 +208,7 @@ done
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-4
 - Make PY3 package the default one, so that we can build this
   package easier on Fedora 31+ (and RHEL 9+)
+- Remove SLES bits
 
 * Wed Oct 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-3
 - Add PY3 support to RHEL 7 package
