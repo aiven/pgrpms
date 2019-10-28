@@ -130,8 +130,6 @@ EOF
 if [ $1 -eq 1 ] ; then
 %if %{systemd_enabled}
 %systemd_post %{sname}_%{pgmajorversion}.service
-%tmpfiles_create
-    # Initial installation
 %else
 chkconfig --add %{name}
 %endif
