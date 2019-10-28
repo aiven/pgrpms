@@ -368,7 +368,6 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql%{pgmajorversion}-pl
 Provides:	postgresql-plperl
 
 %ifarch ppc64 ppc64le
@@ -388,7 +387,6 @@ Install this if you want to write database functions in Perl.
 Summary:	The Python procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 
@@ -409,7 +407,6 @@ Install this if you want to write database functions in Python.
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython3
 
 %ifarch ppc64 ppc64le
@@ -430,7 +427,6 @@ Summary:	The Tcl procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
-Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
 
 %ifarch ppc64 ppc64le
