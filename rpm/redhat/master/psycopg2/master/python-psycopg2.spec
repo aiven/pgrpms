@@ -37,7 +37,7 @@
 
 %if 0%{?with_python3}
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
-%endif # with_python3
+%endif
 
 Summary:	A PostgreSQL database adapter for Python
 Name:		python2-%{sname}
@@ -49,13 +49,13 @@ Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 Provides:	python-%{sname} = %{version}-%{release}
-Obsoletes:	python-%{sname} >= 2.0.0
+Obsoletes:	python-%{sname} <= 2.0.0
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
-%endif # with_python3
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -79,7 +79,7 @@ features offered by PostgreSQL.
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for %sum 2
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	python-%{sname}-tests >= 2.0.0
+Obsoletes:	python-%{sname}-tests <= 2.0.0
 Provides:	python-%{sname}-tests = %{version}-%{release}
 
 %description -n python2-%{sname}-tests
@@ -105,7 +105,7 @@ Requires:	python3-%sname = %version-%release
 %desc
 This sub-package delivers set of tests for the adapter.
 
-%endif # with_python3
+%endif
 
 %if %with_docs
 %package doc
@@ -199,7 +199,7 @@ done
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 
-%endif # with_python3
+%endif
 
 %if %with_docs
 %files doc
