@@ -36,11 +36,6 @@ Summary:	%{sum}
 License:	BSD
 URL:		https://github.com/giampaolo/psutil
 Source0:	https://github.com/giampaolo/psutil/archive/release-%{version}.tar.gz#/%{sname}-%{version}.tar.gz
-#
-# Disable upstream failing test
-# https://github.com/giampaolo/psutil/issues/946
-#
-#Patch0:	psutil-5.4.3-disable-broken-tests.patch
 
 BuildRequires:	gcc
 
@@ -85,11 +80,11 @@ export PYTHONUSERBASE=%{buildroot}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/%{sname} %{buildroot}/%{pgadmin4py3instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/ %{buildroot}/%{pgadmin4py3instdir}/
-%else # Python 2
+%else
 %{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/%{sname} %{buildroot}/%{pgadmin4py2instdir}/
 %{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/ %{buildroot}/%{pgadmin4py2instdir}/
-%endif # with_python3
+%endif
 
 %files
 %doc CREDITS HISTORY.rst README.rst
@@ -97,12 +92,12 @@ export PYTHONUSERBASE=%{buildroot}
 %dir %{pgadmin4py3instdir}/%{sname}/
 %{pgadmin4py3instdir}/%{sname}/*
 %{pgadmin4py3instdir}/%{sname}*egg*
-%else # Python 2
+%else
 %doc docs LICENSE
 %dir %{pgadmin4py2instdir}/%{sname}/
 %{pgadmin4py2instdir}/%{sname}/*
 %{pgadmin4py2instdir}/%{sname}*egg*
-%endif # python3
+%endif
 
 %changelog
 * Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 5.5.1-1
