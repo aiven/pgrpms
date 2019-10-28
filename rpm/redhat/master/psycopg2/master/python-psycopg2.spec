@@ -1,17 +1,30 @@
 %global sname psycopg2
 %global pname python-%{sname}
 %ifarch ppc64 ppc64le
+
 # Define the AT version and path.
 %global atstring	at10.0
 %global atpath		/opt/%{atstring}
 %endif
 
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+
+%ifarch ppc64 ppc64le
+BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
+
 %{!?with_docs:%global with_docs 0}
 
-%if  0%{?rhel} && 0%{?rhel} >= 7 || 0%{?fedora} > 23
+%if  0%{?rhel} && 0%{?rhel} <= 8 || 0%{?fedora} < 31
+%global with_python2 1
 %global with_python3 1
-%else
-%global with_python3 0
+%endif
+%if  0%{?rhel} && 0%{?rhel} >= 9 || 0%{?fedora} >= 31
+%global with_python2 0
+%global with_python3 1
 %endif
 
 %if 0%{?with_python3}
@@ -39,31 +52,21 @@
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
 %endif
 
-Summary:	A PostgreSQL database adapter for Python
-Name:		python2-%{sname}
+Summary:	A PostgreSQL database adapter for Python 3
+Name:		python3-%{sname}
 Version:	2.8.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
-Provides:	python-%{sname} = %{version}-%{release}
-Obsoletes:	python-%{sname} <= 2.0.0
 
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	python2-devel
-%if 0%{?with_python3}
 BuildRequires:	python3-devel
-%endif
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%if 0%{?with_python2}
+BuildRequires:	python2-devel
 %endif
 
 Requires:	postgresql-libs
@@ -76,35 +79,33 @@ programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
-%package -n python2-%{sname}-tests
-Summary:	A testsuite for %sum 2
-Requires:	%{name} = %{version}-%{release}
-Obsoletes:	python-%{sname}-tests <= 2.0.0
-Provides:	python-%{sname}-tests = %{version}-%{release}
-
-%description -n python2-%{sname}-tests
-%desc
-This sub-package delivers set of tests for the adapter.
-
-%if 0%{?with_python3}
-%package -n python3-%{sname}
-Summary:	A PostgreSQL database adapter for Python 3
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%description  -n python3-%{sname}
-This is a build of the psycopg PostgreSQL database adapter for Python 3.
-
 %package -n python3-%{sname}-tests
-Summary:	A testsuite for %sum 2
+Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
 
 %description -n python3-%{sname}-tests
-%desc
 This sub-package delivers set of tests for the adapter.
 
+%if 0%{?with_python2}
+%package -n python2-%{sname}
+Summary:	A PostgreSQL database adapter for Python 2
+
+%description -n python2-%{sname}
+Psycopg is the most popular PostgreSQL adapter for the Python
+programming language. At its core it fully implements the Python DB
+API 2.0 specifications. Several extensions allow access to many of the
+features offered by PostgreSQL.
+
+This is a build of the psycopg PostgreSQL database adapter for Python 2.
+
+%package -n python2-%{sname}-tests
+Summary:	A testsuite for Python 2
+Requires:	%{name} = %{version}-%{release}
+Provides:	python-%{sname} = %{version}-%{release}
+Obsoletes:	python-%{sname} <= 2.0.0
+
+%description -n python2-%{sname}-tests
+This sub-package delivers set of tests for the adapter.
 %endif
 
 %if %with_docs
@@ -171,24 +172,6 @@ done
 %files
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
-%dir %{python2_sitearch}/%{sname}
-%{python2_sitearch}/%{sname}/*.py
-%{python2_sitearch}/%{sname}/_psycopg.so
-%if 0%{?suse_version} >= 1315
-%{python_sitearch}/%{sname}/*.py
-%else
-%{python2_sitearch}/%{sname}/*.pyc
-%{python2_sitearch}/%{sname}/*.pyo
-%endif
-%{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
-
-%files -n python2-%{sname}-tests
-%{python2_sitearch}/%{sname}/tests
-
-%if 0%{?with_python3}
-%files -n python3-%{sname}
-%defattr(-,root,root)
-%doc AUTHORS LICENSE NEWS README.rst
 %dir %{python3_sitearch}/%{sname}
 %{python3_sitearch}/%{sname}/*.py
 %dir %{python3_sitearch}/%{sname}/__pycache__
@@ -199,6 +182,24 @@ done
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 
+
+%if 0%{?with_python2}
+%files -n python2-%{sname}
+%defattr(-,root,root)
+%doc AUTHORS LICENSE NEWS README.rst
+%dir %{python2_sitearch}/%{sname}
+%{python2_sitearch}/%{sname}/*.py
+ %{python2_sitearch}/%{sname}/_psycopg.so
+%if 0%{?suse_version} >= 1315
+%{python_sitearch}/%{sname}/*.py
+%else
+%{python2_sitearch}/%{sname}/*.pyc
+%{python2_sitearch}/%{sname}/*.pyo
+%endif
+%{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
+
+%files -n python2-%{sname}-tests
+%{python2_sitearch}/%{sname}/tests
 %endif
 
 %if %with_docs
@@ -208,6 +209,10 @@ done
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-4
+- Make PY3 package the default one, so that we can build this
+  package easier on Fedora 31+ (and RHEL 9+)
+
 * Wed Oct 16 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-3
 - Add PY3 support to RHEL 7 package
 - Get rid of -debug subpackage
