@@ -30,7 +30,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %if 0%{?with_python3}
  %global	python_runtimes	python python3
 %else
-  %if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
+  %if 0%{?rhel} && 0%{?rhel} <= 6
     %global	python_runtimes	python2
    %else
     %global python_runtimes python2
@@ -41,10 +41,6 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 # The python2_sitearch is already defined on RHEL 8 and Fedora, so set this on RHEL 6 and 7:
 %if  0%{?rhel} && 0%{?rhel} <= 7
 # Python major version.
-%{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%endif
-
-%if 0%{?suse_version} >= 1315
 %{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %endif
 
@@ -182,7 +178,6 @@ done
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 
-
 %if 0%{?with_python2}
 %files -n python2-%{sname}
 %defattr(-,root,root)
@@ -190,12 +185,8 @@ done
 %dir %{python2_sitearch}/%{sname}
 %{python2_sitearch}/%{sname}/*.py
  %{python2_sitearch}/%{sname}/_psycopg.so
-%if 0%{?suse_version} >= 1315
-%{python_sitearch}/%{sname}/*.py
-%else
 %{python2_sitearch}/%{sname}/*.pyc
 %{python2_sitearch}/%{sname}/*.pyo
-%endif
 %{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %files -n python2-%{sname}-tests
