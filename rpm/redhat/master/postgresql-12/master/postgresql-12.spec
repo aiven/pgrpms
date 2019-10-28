@@ -93,7 +93,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1072,11 +1072,6 @@ if [ $1 -eq 1 ] ; then
    %endif
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
-   %if 0%{?fedora} >= 31
-    %tmpfiles_create %{sname}-%{pgmajorversion} %{SOURCE19}
-   %else
-    %tmpfiles_create
-   %endif
    %endif
   %else
    chkconfig --add %{sname}-%{pgpackageversion}
@@ -1543,6 +1538,10 @@ fi
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-2PGDG
+- Remove obsoleted tmpfiles_create macro. We don't need it anyway,
+  already manually install the file.
+
 * Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-1
 - Please welcome PostgreSQL 12.0!
 

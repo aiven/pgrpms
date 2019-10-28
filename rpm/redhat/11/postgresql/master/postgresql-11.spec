@@ -1058,7 +1058,6 @@ if [ $1 -eq 1 ] ; then
    %endif
    %else
    %systemd_post %{sname}-%{pgmajorversion}.service
-   %tmpfiles_create
    %endif
   %else
    chkconfig --add %{sname}-%{pgmajorversion}
@@ -1526,6 +1525,10 @@ fi
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 11.5-2PGDG
+- Remove obsoleted tmpfiles_create macro. We don't need it anyway,
+  already manually install the file.
+
 * Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 11.5-2PGDG
 - Initial attempt to support PL/Python3 on RHEL 7. Python2 is almost
   EOL, so this is a sane move now.

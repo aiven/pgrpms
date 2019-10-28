@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.15
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -949,7 +949,6 @@ if [ $1 -eq 1 ] ; then
    %endif
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
-   %tmpfiles_create
    %endif
   %else
    chkconfig --add %{sname}-%{pgpackageversion}
@@ -1412,6 +1411,10 @@ fi
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.15-2PGDG
+- Remove obsoleted tmpfiles_create macro. We don't need it anyway,
+  already manually install the file.
+
 * Tue Aug 6 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.15-1PGDG
 - Update to 9.6.15, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-6-15.html
