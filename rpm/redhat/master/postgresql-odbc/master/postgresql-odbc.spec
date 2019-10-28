@@ -8,8 +8,8 @@
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	11.01.0000
-Release:	1PGDG%{?dist}.1
+Version:	12.00.0000
+Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -103,6 +103,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 12.00.0000-1PGDG
+- Update to 12.00.0000
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 11.01.0000-1PGDG.1
 - Rebuild for PostgreSQL 12
 
