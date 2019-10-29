@@ -39,7 +39,7 @@ Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 BuildRequires:	python-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
-%endif # with_python3
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -82,7 +82,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %description  -n python3-%{sname}
 This is a build of the ldap2pg for Python 3.
-%endif # with_python3
+%endif
 
 %package doc
 Summary:	Documentation for ldap2pg
@@ -148,7 +148,7 @@ done
 %{python3_sitelib}/%{sname}/*.py
 %{python3_sitelib}/%{sname}/__pycache__/*
 %{python3_sitelib}/%{sname}-%{version}-py%{py3ver}.egg-info
-%endif # with_python3
+%endif
 
 %files doc
 %defattr(-,root,root)
