@@ -23,7 +23,7 @@
 %global	python_runtimes	python2 python2-debug python3 python3-debug
 %else
 %global python_runtimes	python2
-%endif # with_python3
+%endif
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
@@ -38,7 +38,7 @@ BuildRequires:	python2-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
-%endif # with_python3
+%endif
 
 %if 0%{?with_python3}
 Requires:	python3-click => 3.2, python3-pygments => 2.0
@@ -83,7 +83,7 @@ Requires:	python3-%{name} = %{version}-%{release}
 %description -n python3-%{name}-debug
 This is a build of the pgcli for the debug build of Python 3.
 %endif
-%endif # with_python3
+%endif
 
 %prep
 %setup -q
@@ -140,7 +140,7 @@ rm -rf %{buildroot}
 %defattr(-,root,root)
 %doc LICENSE
 %endif
-%endif # with_python3
+%endif
 
 %changelog
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-1
