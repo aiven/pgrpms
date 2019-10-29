@@ -4,13 +4,13 @@
 %global systemd_enabled 1
 %endif
 
-%global 	pgcluudatadir		/var/lib/pgcluu/data
-%global 	pgcluureportdir		/var/lib/pgcluu/report
+%global		pgcluudatadir		/var/lib/pgcluu/data
+%global		pgcluureportdir		/var/lib/pgcluu/report
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	3.0
-Release:	2%{?dist}
+Version:	3.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -73,6 +73,9 @@ of the PostgreSQL cluster and the system utilization
 %endif
 
 %changelog
+* Tue Oct 29 2019 Devrim Gündüz <devrim@gunduz.org> 3.1-1
+- Update to 3.1
+
 * Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> 3.0-2
 - Various fixes for https://redmine.postgresql.org/issues/4833
 
