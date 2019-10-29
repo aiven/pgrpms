@@ -10,7 +10,7 @@ Source0:	https://bucardo.org/downloads/Bucardo-%{version}.tar.gz
 Source1:	bucardo-master-master-replication-example.txt
 Source2:	bucardo.init
 
-Obsoletes:	bucardo
+Obsoletes:	bucardo <= 5.3.0
 
 BuildArch:	noarch
 
