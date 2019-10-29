@@ -182,7 +182,6 @@ if [ $1 -eq 1 ] ; then
    %endif
    %else
    %systemd_post %{sname}-%{slonymajorversion}-%{pgmajorversion}.service
-   %tmpfiles_create
    %endif
    %else
    chkconfig --add %{sname}-%{slonymajorversion}-%{pgmajorversion}}
