@@ -7,7 +7,7 @@
 %global python_runtimes python python-debug python3 python3-debug
 %else
 %global python_runtimes python
-%endif # with_python3
+%endif
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
@@ -15,8 +15,7 @@
 
 %if 0%{?with_python3}
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
-%endif # with_python3
-
+%endif
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -37,7 +36,7 @@ BuildRequires:	python-devel
 %if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
-%endif # with_python3
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
