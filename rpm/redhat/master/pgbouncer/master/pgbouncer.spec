@@ -136,7 +136,6 @@ EOF
 %post
 %if %{systemd_enabled}
 %systemd_post %{name}.service
-%tmpfiles_create
 %else
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
