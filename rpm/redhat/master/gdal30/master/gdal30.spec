@@ -44,7 +44,7 @@
 
 
 # Tests can be of a different version
-%global testversion 3.0.1
+%global testversion 3.0.2
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
@@ -58,7 +58,7 @@
 %else
 # Enable/disable generating refmans
 # texlive currently broken deps and FTBFS in rawhide
-%global build_refman 1
+%global build_refman 0
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 %global with_mysql 1
 %global mysql --with-mysql
@@ -79,8 +79,8 @@
 %endif
 
 Name:		%{sname}30
-Version:	3.0.1
-Release:	5%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Version:	3.0.2
+Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -100,12 +100,12 @@ Source5:	%{name}-pgdg-libs.conf
 Patch3:		%{name}-completion.patch
 
 # Fedora uses Alternatives for Java
-Patch8:		%{sname}-1.9.0-java.patch
+Patch8:		%{sname}-%{version}-java.patch
 
-Patch9:		%{sname}-3.0.1-zlib.patch
+Patch9:		%{sname}-%{version}-zlib.patch
 
 # https://github.com/OSGeo/gdal/pull/876
-Patch10:	%{sname}-3.0.1-perl-build.patch
+Patch10:	%{sname}-%{version}-perl-build.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
@@ -180,14 +180,12 @@ BuildRequires:	proj%{projmajorversion}-devel >= 6.2.0
 BuildRequires:	sqlite-devel
 BuildRequires:	swig
 %if %{build_refman}
-BuildRequires:	texlive-latex
 BuildRequires:	texlive-collection-fontsrecommended
 %if 0%{?fedora}
 BuildRequires:	texlive-collection-langcyrillic
 BuildRequires:	texlive-collection-langportuguese
 BuildRequires:	texlive-newunicodechar
 %endif
-BuildRequires:	texlive-collection-latex
 BuildRequires:	texlive-epstopdf
 BuildRequires:	tex(multirow.sty)
 BuildRequires:	tex(sectsty.sty)
@@ -264,6 +262,7 @@ This package contains HTML and PDF documentation for GDAL.
 %prep
 %setup -q -n %{sname}-%{version}-fedora -a 1
 
+pushd gdal
 # Delete bundled libraries
 %{__rm} -rf frmts/zlib
 %{__rm} -rf frmts/png/libpng
@@ -273,10 +272,11 @@ This package contains HTML and PDF documentation for GDAL.
 %{__rm} -rf frmts/gtiff/libgeotiff \
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
+popd
 
-%patch3 -p1 -b .completion~
-%patch8 -p1 -b .java~
-%patch9 -p0 -b .zlib~
+%patch3 -p0 -b .completion~
+%patch8 -p0 -b .java~
+#%patch9 -p0 -b .zlib~
 %patch10 -p0 -b .perl-build~
 %patch12 -p0
 %patch13 -p0
@@ -305,38 +305,38 @@ done
 set -x
 
 for f in apps; do
-pushd $f
+pushd gdal/$f
   chmod 644 *.cpp
 popd
 done
 
 # Replace hard-coded library- and include paths
-sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
-sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' configure
-sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' configure
-sed -i 's|-L\$DODS_LIB -ldap++|-ldap++|g' configure
-sed -i 's|-L\$with_ogdi -L\$with_ogdi/lib -logdi|-logdi|g' configure
-sed -i 's|-L\$with_jpeg -L\$with_jpeg/lib -ljpeg|-ljpeg|g' configure
-sed -i 's|-L\$with_libtiff\/lib -ltiff|-ltiff|g' configure
-sed -i 's|-lgeotiff -L$with_geotiff $LIBS|-lgeotiff $LIBS|g' configure
-sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' configure
+sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' gdal/configure
+sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' gdal/configure
+sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' gdal/configure
+sed -i 's|-L\$DODS_LIB -ldap++|-ldap++|g' gdal/configure
+sed -i 's|-L\$with_ogdi -L\$with_ogdi/lib -logdi|-logdi|g' gdal/configure
+sed -i 's|-L\$with_jpeg -L\$with_jpeg/lib -ljpeg|-ljpeg|g' gdal/configure
+sed -i 's|-L\$with_libtiff\/lib -ltiff|-ltiff|g' gdal/configure
+sed -i 's|-lgeotiff -L$with_geotiff $LIBS|-lgeotiff $LIBS|g' gdal/configure
+sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' gdal/configure
 
 # libproj is dlopened; upstream sources point to .so, which is usually not present
 # http://trac.osgeo.org/gdal/ticket/3602
-sed -i 's|libproj.so|libproj.so.%{proj_somaj}|g' ogr/ogrct.cpp
+sed -i 's|libproj.so|libproj.so.%{proj_somaj}|g' gdal/ogr/ogrct.cpp
 
 # Adjust check for LibDAP version
 # http://trac.osgeo.org/gdal/ticket/4545
 %if %cpuarch == 64
-  sed -i 's|with_dods_root/lib|with_dods_root/lib64|' configure
+  sed -i 's|with_dods_root/lib|with_dods_root/lib64|' gdal/configure
 %endif
 
 # Fix mandir
-sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
+sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" gdal/configure
 
 # Add our custom cflags when trying to find geos
 # https://bugzilla.redhat.com/show_bug.cgi?id=1284714
-sed -i 's|CFLAGS=\"${GEOS_CFLAGS}\"|CFLAGS=\"${CFLAGS} ${GEOS_CFLAGS}\"|g' configure
+sed -i 's|CFLAGS=\"${GEOS_CFLAGS}\"|CFLAGS=\"${CFLAGS} ${GEOS_CFLAGS}\"|g' gdal/configure
 
 %build
 #TODO: Couldn't I have modified that in the prep section?
@@ -363,6 +363,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %global g2clib grib2c
 %endif
 
+pushd gdal
 ./configure \
 	LIBS="-l%{g2clib} -ltirpc" \
 	--prefix=%{gdalinstdir}	\
@@ -415,6 +416,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+popd
 
 # {?_smp_mflags} doesn't work; Or it does -- who knows!
 # NOTE: running autoconf seems to break build:
@@ -425,17 +427,20 @@ POPPLER_OPTS="POPPLER_0_20_OR_LATER=yes POPPLER_0_23_OR_LATER=yes POPPLER_BASE_S
 %if 0%{?fedora} > 26 || 0%{?rhel} > 7
 POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 %endif
-
+pushd gdal
 export SHLIB_LINK="$SHLIB_LINK"
 %{__make} %{?_smp_mflags} $POPPLER_OPTS
 
 %{__make} man
 %{__make} docs
+popd
 
 # Build some utilities, as requested in BZ #1271906
-pushd ogr/ogrsf_frmts/s57/
+echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
+pushd gdal/ogr/ogrsf_frmts/s57/
   %{__make} all
 popd
+echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
 
 #pushd frmts/iso8211/
 #  %%{__make} all
@@ -447,7 +452,7 @@ popd
 %global docdirs apps doc doc/br doc/ru ogr ogr/ogrsf_frmts frmts/gxf frmts/iso8211 frmts/pcidsk frmts/sdts frmts/vrt ogr/ogrsf_frmts/dgn/
 for docdir in %{docdirs}; do
   # CreateHTML and PDF documentation, if specified
-  pushd $docdir
+  pushd gdal/$docdir
     if [ ! -f Doxyfile ]; then
       doxygen -g
     else
@@ -463,14 +468,6 @@ for docdir in %{docdirs}; do
     %{__rm} -rf latex html
     doxygen
 
-    %if %{build_refman}
-      pushd latex
-	sed -i -e '/rfoot\[/d' -e '/lfoot\[/d' doxygen.sty
-	sed -i -e '/small/d' -e '/large/d' refman.tex
-	sed -i -e 's|pdflatex|pdflatex -interaction nonstopmode |g' Makefile
-	%{__make} refman.pdf || true
-      popd
-    %endif
   popd
 done
 
@@ -486,7 +483,9 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
-SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
+# Starts here
+pushd gdal
+SHLIB_LINK="$SHLIB_LINK" make DESTDIR=%{buildroot}	\
 	install	\
 	install-man
 
@@ -496,9 +495,9 @@ SHLIB_LINK="$SHLIB_LINK" make	DESTDIR=%{buildroot}	\
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
 
 # Install formats documentation
-for dir in gdal_frmts ogrsf_frmts; do
+for dir in gdal/frmts gdal/ogr/ogrsf_frmts gdal/ogr; do
   %{__mkdir} -p $dir
-  find frmts -name "*.html" -exec install -p -m 644 '{}' $dir \;
+  find $dir -name "*.html" -exec install -p -m 644 '{}' $dir \;
 done
 
 #TODO: Header date lost during installation
@@ -587,6 +586,9 @@ for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetPropert
   %{__rm} -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
 done
 
+# ends here
+popd
+
 #TODO: What's that?
 %{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/*_%{name}-%{version}-fedora_apps_*
 %{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps_.1*
@@ -640,7 +642,7 @@ done
 %{gdalinstdir}/share/man/man1/gnm*.1
 
 %files libs
-%doc LICENSE.TXT NEWS PROVENANCE.TXT COMMITTERS PROVENANCE.TXT-fedora
+%doc gdal/LICENSE.TXT gdal/NEWS gdal/PROVENANCE.TXT gdal/COMMITTERS
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}.*
 %{gdalinstdir}/share/
@@ -659,7 +661,7 @@ done
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
-%doc gdal_frmts ogrsf_frmts
+%doc README.md
 
 #TODO: jvm
 #Should be managed by the Alternatives system and not via ldconfig
@@ -670,6 +672,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Tue Oct 29 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-1
+- Update to 3.0.2
+
 * Mon Oct 7 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-5
 - Rebuild for GeOS 3.8.0
 

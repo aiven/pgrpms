@@ -1,8 +1,6 @@
-Index: gdal-2.2.3-fedora/scripts/GNUmakefile
-===================================================================
---- gdal-2.2.3-fedora.orig/scripts/GNUmakefile
-+++ gdal-2.2.3-fedora/scripts/GNUmakefile
-@@ -5,6 +5,6 @@ completion:
+--- gdal/scripts/GNUmakefile.old	2019-10-29 13:02:12.524895548 +0000
++++ gdal/scripts/GNUmakefile	2019-10-29 13:02:50.251244028 +0000
+@@ -5,6 +5,6 @@
  
  install:
  	if test "x`pkg-config --version 2>/dev/null`" != "x" -a "x`pkg-config --variable=compatdir bash-completion`" != "x"; then \
