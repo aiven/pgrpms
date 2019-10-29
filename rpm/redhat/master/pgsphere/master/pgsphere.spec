@@ -13,7 +13,6 @@ Release:	4%{?dist}.1
 License:	BSD
 Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
 Source1:	%{sname}.control
-Patch0:		%{sname}-pg92-languages.patch
 Patch1:		%{sname}-int4.patch
 Patch2:		%{sname}-makefile-extension.patch
 URL:		http://pgfoundry.org/projects/%{sname}
@@ -36,7 +35,6 @@ spherical objects.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 %patch1 -p0
 %patch2 -p0
 
