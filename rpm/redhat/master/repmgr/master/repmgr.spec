@@ -161,7 +161,6 @@ fi
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %files devel
 %defattr(-,root,root,-)
-#%{pginstdir}/include/server/extension/%{sname}/*.h
 %endif
 
 %changelog
