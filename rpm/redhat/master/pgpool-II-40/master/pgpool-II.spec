@@ -25,8 +25,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		4.0.6
-Release:		1%{?dist}.1
+Version:		4.0.7
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -58,7 +58,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-Obsoletes:		postgresql-pgpool > 1.0.0
+Obsoletes:		postgresql-pgpool < 1.0.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -206,7 +206,6 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
-%tmpfiles_create
 %else
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
@@ -350,7 +349,11 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.7-1
+- Update to 4.0.7
+- Fix for F-31 packaging
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.6-1.1
 - Rebuild for PostgreSQL 12
 
 * Thu Aug 15 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.6-1
