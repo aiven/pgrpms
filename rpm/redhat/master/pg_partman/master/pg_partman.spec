@@ -17,13 +17,19 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
 Version:	4.2.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/pgpartman/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
+Requires:	postgresql%{pgmajorversion}-server
+%if 0%{?rhel}  == 6
+Requires:	python-psycopg2
+%endif
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+Requires:	python3-psycopg2
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -96,6 +102,10 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-2
+- Depend on python3-psycopg2 on RHEL >= 7, and Fedora. Use python-psycopg2
+  on RHEL 6.
+
 * Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
 - Update to 4.2.2
 
