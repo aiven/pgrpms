@@ -25,12 +25,12 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		4.1
-Release:		beta1_1%{?dist}
+Version:		4.1.0
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 #Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Source0:		http://www.pgpool.net/download.php?f=pgpool-II-%{version}beta1.tar.gz
+Source0:		http://www.pgpool.net/download.php?f=pgpool-II-%{version}.tar.gz
 Source1:		%{sname}-pg%{pgmajorversion}.service
 Source2:		%{sname}.sysconfig
 Source3:		%{sname}-pg%{pgmajorversion}.init
@@ -59,7 +59,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-Obsoletes:		postgresql-pgpool > 1.0.0
+Obsoletes:		postgresql-pgpool < 1.0.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -105,7 +105,7 @@ Requires:	postgresql%{pgmajorversion}-server
 Postgresql extensions libraries and sql files for pgpool-II.
 
 %prep
-%setup -q -n %{sname}-%{version}beta1
+%setup -q -n %{sname}-%{version}
 %patch1 -p0
 %patch2 -p0
 
@@ -207,7 +207,6 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
-%tmpfiles_create
 %else
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
@@ -346,6 +345,6 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Wed Sep 11 2019 Devrim Gündüz <devrim@gunduz.org> 4.1-beta1-1
+* Wed Sep 11 2019 Devrim Gündüz <devrim@gunduz.org> 4.1.0-1
 - Initial packaging for 4.1
 
