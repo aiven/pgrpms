@@ -336,11 +336,11 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Thu Aug 15 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.12-1
+* Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.12-1
 - Update to 3.7.12
 - Fix F-31 packaging by removing unused macro in the spec file.
 
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.11-1.1
 - Rebuild for PostgreSQL 12
 
 * Thu Aug 15 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.11-1
