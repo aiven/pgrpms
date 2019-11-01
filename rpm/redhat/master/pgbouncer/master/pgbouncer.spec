@@ -28,7 +28,7 @@ Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
-Patch1:		%{sname}-mkauth-py3.patch
+Patch1:		%{name}-mkauth-py3.patch
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libcares-devel libevent-devel
