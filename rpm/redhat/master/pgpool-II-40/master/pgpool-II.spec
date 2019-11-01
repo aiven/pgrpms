@@ -351,7 +351,7 @@ fi
 %changelog
 * Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.7-1
 - Update to 4.0.7
-- Fix for F-31 packaging
+- Fix F-31 packaging by removing unused macro in the spec file.
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.6-1.1
 - Rebuild for PostgreSQL 12
