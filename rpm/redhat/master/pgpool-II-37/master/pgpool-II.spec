@@ -27,8 +27,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.7.11
-Release:		1%{?dist}.1
+Version:		3.7.12
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -59,7 +59,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-Obsoletes:		postgresql-pgpool > 1.0.0
+Obsoletes:		postgresql-pgpool < 1.0.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -202,7 +202,6 @@ EOF
 /sbin/ldconfig
 %if %{systemd_enabled}
 %systemd_post %{sname}-%{pgmajorversion}.service
-%tmpfiles_create
 %else
 # This adds the proper /etc/rc*.d links for the script
 /sbin/chkconfig --add %{name}
@@ -337,6 +336,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu Aug 15 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.12-1
+- Update to 3.7.12
+- Fix F-31 packaging by removing unused macro in the spec file.
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
