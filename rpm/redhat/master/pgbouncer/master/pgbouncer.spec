@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.12.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -28,6 +28,7 @@ Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
+Patch1:		%{sname}-mkauth-py3.patch
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libcares-devel libevent-devel
@@ -44,7 +45,7 @@ BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel pam-devel
-Requires:	c-ares pam python-psycopg2
+Requires:	c-ares pam python3-psycopg2
 Requires:	initscripts
 
 %if %{systemd_enabled}
@@ -80,6 +81,7 @@ pgbouncer uses libevent for low-level socket handling.
 %prep
 %setup -q
 %patch0 -p0
+%patch1 -p0
 
 %build
 sed -i.fedora \
@@ -198,6 +200,11 @@ fi
 %{_sysconfdir}/%{name}/mkauth.py*
 
 %changelog
+* Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-2
+- Use python3-psycopg2 as the dependency. instead of python-psycopg2.
+  This will help us to solve conflict on Fedora 31 and onwards.
+  All supported distros have this dependency anyway.
+
 * Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-1
 - Update to 1.12.0
 
