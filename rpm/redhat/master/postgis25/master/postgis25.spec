@@ -4,7 +4,7 @@
 %global postgisprevmajorversion 2.4
 %global sname	postgis
 
-%global geosversion	37
+%global geosversion	38
 %global gdalversion	30
 %global projversion	62
 
@@ -12,7 +12,7 @@
 %global	projinstdir	/usr/proj%{projversion}
 %global	gdalinstdir	/usr/gdal%{gdalversion}
 
-%global	gdalminorversion	3.0.1
+%global	gdalminorversion	3.0.2
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -46,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	5%{?dist}.1
+Release:	6%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -385,7 +385,10 @@ fi
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> 2.5.3-6
+- Rebuild for GeOS 3.8 and GDAL 3.0.2
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-5.1
 - Rebuild for PostgreSQL 12
 
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 2.5.3-5
