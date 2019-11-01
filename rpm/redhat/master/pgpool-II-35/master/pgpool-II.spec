@@ -57,7 +57,7 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
-Obsoletes:		postgresql-pgpool > 1.0.0
+Obsoletes:		postgresql-pgpool < 1.0.0
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
