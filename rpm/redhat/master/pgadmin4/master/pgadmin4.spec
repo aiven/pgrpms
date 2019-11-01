@@ -374,16 +374,7 @@ echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 if [ $1 -eq 1 ] ; then
  %if %{systemd_enabled}
   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %if 0%{?suse_version}
-   %if 0%{?suse_version} >= 1315
-   :
-   %endif
-   %else
-   %tmpfiles_create
-   %endif
-  %else
-   :
-  %endif
+ %endif
 fi
 
 %post -n %{name}-desktop-common
