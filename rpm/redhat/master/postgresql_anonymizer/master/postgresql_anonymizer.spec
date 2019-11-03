@@ -9,13 +9,13 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	0.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://gitlab.com/daamien/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-Requires:	postgresql%{pgmajorversion}-server ddlx_%{pgmajorversion}
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -76,6 +76,10 @@ PostgreSQL database.
 %endif
 
 %changelog
+* Sun Nov 3 2019 Devrim Gündüz <devrim@gunduz.org> 0.4.1-2
+- Require -contrib subpackage for tsm_system_rows extension. Per
+  Damien: https://redmine.postgresql.org/issues/4861
+
 * Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> 0.4.1-1
 - Update to 0.4.1
 
