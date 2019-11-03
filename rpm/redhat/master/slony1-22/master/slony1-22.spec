@@ -20,7 +20,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.8
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 URL:		http://www.slony.info/
 Source0:	http://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
@@ -184,7 +184,7 @@ if [ $1 -eq 1 ] ; then
    %systemd_post %{sname}-%{slonymajorversion}-%{pgmajorversion}.service
    %endif
    %else
-   chkconfig --add %{sname}-%{slonymajorversion}-%{pgmajorversion}}
+   chkconfig --add %{sname}-%{slonymajorversion}-%{pgmajorversion}
   %endif
 fi
 if [ ! -e "/var/log/slony1-%{pgmajorversion}" -a ! -h "/var/log/slony1-%{pgmajorversion}" ]
@@ -250,6 +250,9 @@ fi
 %endif
 
 %changelog
+* Sun Nov 3 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-2
+- Fix RHEL 6 packaging. Patch from Sandeep Thakkar.
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-1.1
 - Rebuild for PostgreSQL 12
 
