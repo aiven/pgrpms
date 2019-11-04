@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.8
-Release:	2%{?dist}.1
+Version:	1.0.9
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -82,7 +82,10 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Mon Nov 4 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1
+- Update to 1.0.9
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-2.1
 - Rebuild for PostgreSQL 12
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-2
