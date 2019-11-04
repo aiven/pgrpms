@@ -1,9 +1,9 @@
 #!/bin/bash
 VERSION="3.0.2"
 
-tar zvf gdal-"${VERSION}".tar.gz
+tar zxf v"${VERSION}".tar.gz
 
-mv gdal-"${VERSION}"{,-fedora} && pushd gdal-"${VERSION}"-fedora
+mv gdal-"${VERSION}"{,-fedora} && pushd gdal-"${VERSION}"-fedora/gdal
 
 rm data/cubewerx_extra.wkt
 rm data/esri_extra.wkt
