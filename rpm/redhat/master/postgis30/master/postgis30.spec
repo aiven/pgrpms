@@ -13,7 +13,7 @@
 %global	projinstdir /usr/proj%{projversion}
 %global gdalinstdir /usr/gdal%{gdalversion}
 
-%global gdalminorversion 3.0.1
+%global gdalminorversion 3.0.2
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
