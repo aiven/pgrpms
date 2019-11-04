@@ -8,7 +8,7 @@
 %endif
 
 Name:		%{sname}62
-Version:	6.2.0
+Version:	6.2.1
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -142,5 +142,8 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{projinstdir}/lib/libproj.la
 
 %changelog
-* Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.1.0-1
-- Initial 6.1 packaging for PostgreSQL RPM Repository
+* Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.2.1-1
+- Update to 6.2.1
+
+* Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.2.0-1
+- Initial 6.2 packaging for PostgreSQL RPM Repository
