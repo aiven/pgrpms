@@ -56,7 +56,7 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.7.2, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel libproj-devel
@@ -89,7 +89,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= 3.7.2 proj%{projversion} xerces-c
+Requires:	geos%{geosversion} >= 3.8.0 proj%{projversion} xerces-c
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -386,7 +386,7 @@ fi
 
 %changelog
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> 2.5.3-6
-- Rebuild for GeOS 3.8 and GDAL 3.0.2
+- Rebuild for GEOS 3.8.0, Proj 6.2.1 and GDAL 3.0.2
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-5.1
 - Rebuild for PostgreSQL 12
