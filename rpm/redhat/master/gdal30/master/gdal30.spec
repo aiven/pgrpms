@@ -88,7 +88,7 @@ URL:		http://www.gdal.org
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
-Source1:	%{sname}autotest-%{testversion}.zip
+Source1:	%{sname}autotest-3.0.1.zip
 
 # Cleaner script for the tarball
 Source3:	%{sname}-cleaner.sh
