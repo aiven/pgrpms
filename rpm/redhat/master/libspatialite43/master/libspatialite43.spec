@@ -140,7 +140,7 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
-* Fri OCt 11 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-3
+* Fri Oct 11 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-3
 - Rebuild for GeOS 3.8.0
 
 * Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-2
