@@ -198,15 +198,7 @@ BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
-%if 0%{?rhel} == 7
-xxx
-# This is supported as of RHEL/CentOS 7.7
 BuildRequires:	python3-devel
-Requires:	python3-libs
-%else
-BuildRequires:	python3-devel
-Requires:	python3-libs
-%endif
 %endif
 
 %if %pltcl
