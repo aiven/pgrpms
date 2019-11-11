@@ -1531,8 +1531,8 @@ fi
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 12.1-1PGDG
 - Update to 12.1
-- Attempt to fix Python dependency issue in the main package, and
-  move all plpython* packages into their respective subpackages.
+- Fix Python dependency issue in the main package, and move all
+  plpython* packages into their respective subpackages.
 
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
