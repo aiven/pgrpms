@@ -497,7 +497,7 @@ Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3
 %if 0%{?rhel} == 7
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
-Requires:	python36-libs
+Requires:	python3-libs
 %else
 Requires:	python3-libs
 %endif
