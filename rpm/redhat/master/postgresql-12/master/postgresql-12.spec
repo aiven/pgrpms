@@ -273,7 +273,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-Provides:	%{sname}
+Provides:	%{sname} >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -336,7 +336,7 @@ Requires(postun):	systemd
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
-Provides:	postgresql-server
+Provides:	postgresql-server >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -351,7 +351,7 @@ and maintain PostgreSQL databases.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
-Provides:	postgresql-docs
+Provides:	postgresql-docs >= %{version}-%{release}
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
@@ -364,7 +364,7 @@ includes HTML version of the documentation.
 Summary:	Contributed source and binaries distributed with PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Provides:	postgresql-contrib
+Provides:	postgresql-contrib >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -398,7 +398,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 %endif
 
-Provides:	postgresql-devel
+Provides:	postgresql-devel >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -425,7 +425,7 @@ Requires:	llvm5
 Requires:	llvm => 5.0
 %endif
 %endif
-Provides:	postgresql-llvmjit
+Provides:	postgresql-llvmjit >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -448,7 +448,7 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
-Provides:	postgresql-plperl
+Provides:	postgresql-plperl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -468,7 +468,7 @@ Summary:	The Python procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
-Provides:	postgresql-plpython
+Provides:	postgresql-plpython >= %{version}-%{release}
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-libs
@@ -494,7 +494,7 @@ Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
-Provides:	postgresql-plpython3
+Provides:	postgresql-plpython3 >= %{version}-%{release}
 %if 0%{?rhel} == 7
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
 Requires:	python3-libs
@@ -521,7 +521,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
 Obsoletes:	%{name}-pl <= %{version}-%{release}
-Provides:	postgresql-pltcl
+Provides:	postgresql-pltcl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -539,7 +539,7 @@ for the backend.
 Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-Provides:	postgresql-test
+Provides:	postgresql-test >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -723,6 +723,7 @@ export PYTHON=/usr/bin/python2
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
 	--includedir=%{pgbaseinstdir}/include \
+	--libdir=%{pgbaseinstdir}/lib \
 	--mandir=%{pgbaseinstdir}/share/man \
 	--datadir=%{pgbaseinstdir}/share \
 %if %beta
