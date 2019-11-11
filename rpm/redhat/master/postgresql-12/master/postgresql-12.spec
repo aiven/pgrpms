@@ -38,9 +38,7 @@
 %endif
 
 %if 0%{?rhel} >= 7
-# Support Python3 on RHEL 7 via EPEL.
-# We will support Python3 natively on RHEL/CentOS 7 as of 7.7+,
-# when CentOS 7.7 will be released.
+# Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
@@ -93,7 +91,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.0
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -198,23 +196,10 @@ BuildRequires:	perl-ExtUtils-Embed
 
 %if %plpython2
 BuildRequires:	python2-devel
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	python-libs
-%else
-Requires:	python2-libs
-%endif
 %endif
 
 %if %plpython3
-%if 0%{?rhel} == 7
-# We will support Python3 natively on RHEL/CentOS 7 as of 7.7+,
-# when CentOS 7.7 will be released.
-BuildRequires:	python36-devel
-Requires:	python36-libs
-%else
 BuildRequires:	python3-devel
-Requires:	python3-libs
-%endif
 %endif
 
 %if %pltcl
@@ -485,6 +470,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	python-libs
+%else
+Requires:	python2-libs
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -505,6 +495,12 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3
+%if 0%{?rhel} == 7
+# We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
+Requires:	python36-libs
+%else
+Requires:	python3-libs
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1286,23 +1282,8 @@ fi
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.sql
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.control
 %endif
-%%if %plpython2
-%{pgbaseinstdir}/lib/hstore_plpython2.so
-%{pgbaseinstdir}/lib/jsonb_plpython2.so
-%{pgbaseinstdir}/lib/ltree_plpython2.so
-%{pgbaseinstdir}/share/extension/*_plpythonu*
-%{pgbaseinstdir}/share/extension/*_plpython2u*
-%endif
-%if %plpython3
-%{pgbaseinstdir}/lib/hstore_plpython3.so
-%{pgbaseinstdir}/lib/jsonb_plpython3.so
-%{pgbaseinstdir}/lib/ltree_plpython3.so
-%{pgbaseinstdir}/share/extension/*_plpython3u*
-%endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
-%if %plpython2
-%endif
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
@@ -1522,12 +1503,21 @@ fi
 %{pgbaseinstdir}/lib/plpython2.so
 %{pgbaseinstdir}/share/extension/plpython2u*
 %{pgbaseinstdir}/share/extension/plpythonu*
+%{pgbaseinstdir}/lib/hstore_plpython2.so
+%{pgbaseinstdir}/lib/jsonb_plpython2.so
+%{pgbaseinstdir}/lib/ltree_plpython2.so
+%{pgbaseinstdir}/share/extension/*_plpythonu*
+%{pgbaseinstdir}/share/extension/*_plpython2u*
 %endif
 
 %if %plpython3
 %files plpython3 -f pg_plpython3.lst
 %{pgbaseinstdir}/share/extension/plpython3*
 %{pgbaseinstdir}/lib/plpython3.so
+%{pgbaseinstdir}/lib/hstore_plpython3.so
+%{pgbaseinstdir}/lib/jsonb_plpython3.so
+%{pgbaseinstdir}/lib/ltree_plpython3.so
+%{pgbaseinstdir}/share/extension/*_plpython3u*
 %endif
 
 %if %test
@@ -1538,6 +1528,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-3PGDG
+- Attempt to fix Python dependency issue in the main package, and
+  move all plpython* packages into their respective subpackages.
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
   already manually install the file.
