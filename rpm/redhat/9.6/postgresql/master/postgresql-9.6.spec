@@ -82,8 +82,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.15
-Release:	2PGDG%{?dist}
+Version:	9.6.16
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -234,7 +234,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-Provides:	postgresql
+Provides:	postgresql >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -292,7 +292,7 @@ Requires(postun):	systemd-units
 %else
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
-Provides:	postgresql-server
+Provides:	postgresql-server >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -307,7 +307,7 @@ and maintain PostgreSQL databases.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
-Provides:	postgresql-docs
+Provides:	postgresql-docs >= %{version}-%{release}
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
@@ -320,7 +320,7 @@ includes HTML version of the documentation.
 Summary:	Contributed source and binaries distributed with PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Provides:	postgresql-contrib
+Provides:	postgresql-contrib >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -351,7 +351,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 %endif
 
-Provides:	postgresql-devel
+Provides:	postgresql-devel >= %{version}-%{release}
 
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
@@ -368,7 +368,7 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Provides:	postgresql-plperl
+Provides:	postgresql-plperl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -387,8 +387,15 @@ Install this if you want to write database functions in Perl.
 Summary:	The Python procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Provides:	postgresql-plpython
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-plpython >= %{version}-%{release}
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	python-libs
+%else
+Requires:	python2-libs
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -407,7 +414,9 @@ Install this if you want to write database functions in Python.
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Provides:	postgresql-plpython3
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-plpython3 >= %{version}-%{release}
+Requires:	python3-libs
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -427,7 +436,8 @@ Summary:	The Tcl procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
-Provides:	postgresql-pltcl
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-pltcl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -445,7 +455,7 @@ for the backend.
 Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-Provides:	postgresql-test
+Provides:	postgresql-test >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1162,17 +1172,6 @@ fi
 %if %plperl
 %{pginstdir}/lib/hstore_plperl.so
 %endif
-%if %plpython2
-%{pginstdir}/lib/hstore_plpython2.so
-%{pginstdir}/lib/ltree_plpython2.so
-%{pginstdir}/share/extension/*_plpythonu*
-%{pginstdir}/share/extension/*_plpython2u*
-%endif
-%if %plpython3
-%{pginstdir}/lib/hstore_plpython3.so
-%{pginstdir}/lib/ltree_plpython3.so
-%{pginstdir}/share/extension/*_plpython3u*
-%endif
 %{pginstdir}/lib/lo.so
 %{pginstdir}/lib/ltree.so
 %{pginstdir}/lib/moddatetime.so
@@ -1391,12 +1390,19 @@ fi
 %{pginstdir}/lib/plpython2.so
 %{pginstdir}/share/extension/plpython2u*
 %{pginstdir}/share/extension/plpythonu*
+%{pginstdir}/lib/hstore_plpython2.so
+%{pginstdir}/lib/ltree_plpython2.so
+%{pginstdir}/share/extension/*_plpythonu*
+%{pginstdir}/share/extension/*_plpython2u*
 %endif
 
 %if %plpython3
 %files plpython3 -f pg_plpython3.lst
 %{pginstdir}/share/extension/plpython3*
 %{pginstdir}/lib/plpython3.so
+%{pginstdir}/lib/hstore_plpython3.so
+%{pginstdir}/lib/ltree_plpython3.so
+%{pginstdir}/share/extension/*_plpython3u*
 %endif
 
 %if %test
@@ -1407,6 +1413,11 @@ fi
 %endif
 
 %changelog
+* Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.16-1PGDG
+- Update to 9.6.16
+- Fix Python dependency issue in the main package, and move all
+  plpython* packages into their respective subpackages.
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.15-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
   already manually install the file.
