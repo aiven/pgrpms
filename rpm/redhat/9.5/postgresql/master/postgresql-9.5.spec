@@ -118,8 +118,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.19
-Release:	2PGDG%{?dist}
+Version:	9.5.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -271,7 +271,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-Provides:	postgresql
+Provides:	postgresql >= %{version}-%{release}
 
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
@@ -323,7 +323,7 @@ Requires(postun):	systemd-units
 Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Requires:	%{name} = %{version}-%{release}
-Provides:	postgresql-server
+Provides:	postgresql-server >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -337,7 +337,7 @@ and maintain PostgreSQL databases.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
-Provides:	postgresql-docs
+Provides:	postgresql-docs >= %{version}-%{release}
 
 %description docs
 The postgresql%{packageversion}-docs package includes the SGML source for the documentation
@@ -350,7 +350,7 @@ includes HTML version of the documentation.
 Summary:	Contributed source and binaries distributed with PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Provides:	postgresql-contrib
+Provides:	postgresql-contrib >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -364,7 +364,7 @@ included in the PostgreSQL distribution.
 Summary:	PostgreSQL development header files and libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Provides:	postgresql-devel
+Provides:	postgresql-devel >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -386,8 +386,8 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql%{packageversion}-pl
-Provides:	postgresql-plperl
+Obsoletes:	postgresql%{packageversion}-pl <= %{version}-%{release}
+Provides:	postgresql-plperl >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -405,8 +405,8 @@ Install this if you want to write database functions in Perl.
 Summary:	The Python procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
-Provides:	postgresql-plpython
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-plpython >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -424,8 +424,8 @@ Install this if you want to write database functions in Python.
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl
-Provides:	postgresql-plpython3
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-plpython3 >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -444,8 +444,8 @@ Summary:	The Tcl procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
-Obsoletes:	%{name}-pl
-Provides:	postgresql-pltcl
+Obsoletes:	%{name}-pl <= %{version}-%{release}
+Provides:	postgresql-pltcl >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -462,7 +462,7 @@ for the backend.
 Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-Provides:	postgresql-test
+Provides:	postgresql-test >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -631,6 +631,7 @@ export PYTHON=/usr/bin/python2
 	--includedir=%{pgbaseinstdir}/include \
 	--mandir=%{pgbaseinstdir}/share/man \
 	--datadir=%{pgbaseinstdir}/share \
+	--libdir=%{pgbaseinstdir}/lib \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
@@ -1427,6 +1428,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.5.20-1PGDG
+- Update to 9.5.20, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-20.html
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 9.5.19-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
   already manually install the file.
