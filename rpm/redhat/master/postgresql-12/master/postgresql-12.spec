@@ -90,8 +90,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.0
-Release:	3PGDG%{?dist}
+Version:	12.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1529,7 +1529,8 @@ fi
 %endif
 
 %changelog
-* Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 12.0-3PGDG
+* Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 12.1-1PGDG
+- Update to 12.1
 - Attempt to fix Python dependency issue in the main package, and
   move all plpython* packages into their respective subpackages.
 
