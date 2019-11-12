@@ -1431,7 +1431,8 @@ fi
 
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 10.11-1PGDG
-- Update to 10.11
+- Update to 10.11, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-10-11.html
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
 
