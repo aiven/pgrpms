@@ -80,7 +80,7 @@
 
 Name:		%{sname}30
 Version:	3.0.2
-Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -672,6 +672,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Tue Nov 12 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-2
+- Rebuild for new poppler on RHEL 8.1
+
 * Tue Oct 29 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-1
 - Update to 3.0.2
 
