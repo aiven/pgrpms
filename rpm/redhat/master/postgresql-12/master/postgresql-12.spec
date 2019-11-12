@@ -1530,7 +1530,8 @@ fi
 
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 12.1-1PGDG
-- Update to 12.1
+- Update to 12.1, per changes described at
+  https://www.postgresql.org/docs/release/12.1/
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
 
