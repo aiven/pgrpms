@@ -1520,7 +1520,7 @@ fi
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-1PGDG
 - Update to 11.6, per changes described at
-  https://www.postgresql.org/docs/devel/static/release-11-6.html
+  https://www.postgresql.org/docs/release/11.6/
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
 
