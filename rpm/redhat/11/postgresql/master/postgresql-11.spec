@@ -1519,7 +1519,8 @@ fi
 
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-1PGDG
-- Update to 11.6
+- Update to 11.6, per changes described at
+  https://www.postgresql.org/docs/devel/static/release-11-6.html
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
 
@@ -1531,7 +1532,6 @@ fi
 - Initial attempt to support PL/Python3 on RHEL 7. Python2 is almost
   EOL, so this is a sane move now.
   Per https://redmine.postgresql.org/issues/2701
-
 - Update to 11.5, per changes described at
   https://www.postgresql.org/docs/devel/static/release-11-5.html
 
