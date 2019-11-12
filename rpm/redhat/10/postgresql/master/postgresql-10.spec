@@ -268,7 +268,11 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1435,6 +1439,7 @@ fi
   https://www.postgresql.org/docs/release/10.11/
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
+- Use correct openssl-libs dependency, per John Harvey.
 
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 10.10-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
