@@ -1414,7 +1414,8 @@ fi
 
 %changelog
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.16-1PGDG
-- Update to 9.6.16
+- Update to 9.6.16, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-6-16.html
 - Fix Python dependency issue in the main package, and move all
   plpython* packages into their respective subpackages.
 
