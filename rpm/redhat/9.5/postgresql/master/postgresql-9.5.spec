@@ -289,6 +289,12 @@ if you're installing the postgresql%{packageversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{majorversion}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl
+%else
+Requires:	openssl-libs >= 1.0.2k
+%endif
+
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
@@ -1431,6 +1437,7 @@ fi
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.5.20-1PGDG
 - Update to 9.5.20, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-20.html
+- Specify dependency on openssl-libs, per John Harvey.
 
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 9.5.19-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
