@@ -72,8 +72,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.4.24
-Release:	2PGDG%{?dist}
+Version:	9.4.25
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1329,6 +1329,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 12 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.25-1PGDG
+- Update to 9.4.25, per changes described at:
+  https://www.postgresql.org/docs/9.4/static/release-9-4-25.html
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 9.4.24-2PGDG
 - Remove obsoleted tmpfiles_create macro. We don't need it anyway,
   already manually install the file.
