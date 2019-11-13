@@ -179,7 +179,8 @@ chmod 0755 ${RPM_BUILD_ROOT}/%{tcl_sitearch}/sqlite3/*.so
 %{__rm} -f $RPM_BUILD_ROOT/%{sqlite33instdir}/lib/*.{la,a}
 %endif
 
-%ldconfig_scriptlets libs
+%post libs
+/usr/sbin/ldconfig
 
 %files
 %{sqlite33instdir}/bin/sqlite3
