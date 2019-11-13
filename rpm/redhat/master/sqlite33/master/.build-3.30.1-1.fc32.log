@@ -1,0 +1,1327 @@
+
+
+setting SOURCE_DATE_EPOCH=1571011200
+Executing(%prep): /bin/sh -e /var/tmp/rpm-tmp.X3wFMd
+Patch #1 (sqlite-3.6.23-lemon-system-template.patch):
+patching file tool/lemon.c
+Hunk #1 succeeded at 3529 (offset 166 lines).
+Hunk #2 succeeded at 3542 (offset 166 lines).
+Patch #2 (sqlite-3.12.2-no-malloc-usable-size.patch):
+patching file configure.ac
+patching file configure
+Hunk #1 succeeded at 10284 (offset 9 lines).
+Patch #3 (sqlite-3.8.0-percentile-test.patch):
+patching file test/percentile.test
+Patch #5 (sqlite-3.18.0-sync2-dirsync.patch):
+patching file test/sync2.test
+Hunk #1 succeeded at 45 (offset 1 line).
+Hunk #2 succeeded at 63 (offset 1 line).
+Hunk #3 succeeded at 80 (offset 1 line).
+Hunk #4 succeeded at 89 (offset 1 line).
+Hunk #5 succeeded at 122 (offset 1 line).
+Hunk #6 succeeded at 139 (offset 1 line).
+Hunk #7 succeeded at 162 (offset 1 line).
+Executing(%build): /bin/sh -e /var/tmp/rpm-tmp.xUTYmd
+checking build system type... x86_64-pc-linux-gnu
+checking host system type... x86_64-pc-linux-gnu
+checking for gcc... gcc
+checking whether the C compiler works... yes
+checking for C compiler default output file name... a.out
+checking for suffix of executables... 
+checking whether we are cross compiling... no
+checking for suffix of object files... o
+checking whether we are using the GNU C compiler... yes
+checking whether gcc accepts -g... yes
+checking for gcc option to accept ISO C89... none needed
+checking for a sed that does not truncate output... /usr/bin/sed
+checking for grep that handles long lines and -e... /usr/bin/grep
+checking for egrep... /usr/bin/grep -E
+checking for fgrep... /usr/bin/grep -F
+checking for ld used by gcc... /usr/bin/ld
+checking if the linker (/usr/bin/ld) is GNU ld... yes
+checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+checking the name lister (/usr/bin/nm -B) interface... BSD nm
+checking whether ln -s works... yes
+checking the maximum length of command line arguments... 1572864
+checking whether the shell understands some XSI constructs... yes
+checking whether the shell understands "+="... yes
+checking for /usr/bin/ld option to reload object files... -r
+checking for objdump... objdump
+checking how to recognize dependent libraries... pass_all
+checking for ar... ar
+checking for strip... strip
+checking for ranlib... ranlib
+checking command to parse /usr/bin/nm -B output from gcc object... ok
+checking how to run the C preprocessor... gcc -E
+checking for ANSI C header files... yes
+checking for sys/types.h... yes
+checking for sys/stat.h... yes
+checking for stdlib.h... yes
+checking for string.h... yes
+checking for memory.h... yes
+checking for strings.h... yes
+checking for inttypes.h... yes
+checking for stdint.h... yes
+checking for unistd.h... yes
+checking for dlfcn.h... yes
+checking for objdir... .libs
+checking if gcc supports -fno-rtti -fno-exceptions... no
+checking for gcc option to produce PIC... -fPIC -DPIC
+checking if gcc PIC flag -fPIC -DPIC works... yes
+checking if gcc static flag -static works... no
+checking if gcc supports -c -o file.o... yes
+checking if gcc supports -c -o file.o... (cached) yes
+checking whether the gcc linker (/usr/bin/ld -m elf_x86_64) supports shared libraries... yes
+checking whether -lc should be explicitly linked in... no
+checking dynamic linker characteristics... GNU/Linux ld.so
+checking how to hardcode library paths into programs... immediate
+checking whether stripping libraries is possible... yes
+checking if libtool supports shared libraries... yes
+checking whether to build shared libraries... yes
+checking whether to build static libraries... yes
+checking for a BSD-compatible install... /usr/bin/install -c
+checking for special C compiler options needed for large files... no
+checking for _FILE_OFFSET_BITS value needed for large files... no
+checking for int8_t... yes
+checking for int16_t... yes
+checking for int32_t... yes
+checking for int64_t... yes
+checking for intptr_t... yes
+checking for uint8_t... yes
+checking for uint16_t... yes
+checking for uint32_t... yes
+checking for uint64_t... yes
+checking for uintptr_t... yes
+checking for sys/types.h... (cached) yes
+checking for stdlib.h... (cached) yes
+checking for stdint.h... (cached) yes
+checking for inttypes.h... (cached) yes
+checking malloc.h usability... yes
+checking malloc.h presence... yes
+checking for malloc.h... yes
+checking for fdatasync... yes
+checking for gmtime_r... yes
+checking for isnan... yes
+checking for localtime_r... yes
+checking for localtime_s... no
+checking for strchrnul... yes
+checking for usleep... yes
+checking for utime... yes
+checking for pread... yes
+checking for pread64... yes
+checking for pwrite... yes
+checking for pwrite64... yes
+checking for tclsh8.7... no
+checking for tclsh8.6... tclsh8.6
+configure: Version set to 3.30
+configure: Release set to 3.30.1
+configure: Version number set to 3030001
+checking whether to support threadsafe operation... yes
+checking for library containing pthread_create... -lpthread
+checking for library containing pthread_mutexattr_init... none required
+checking whether to support shared library linked as release mode or not... no
+checking whether to use an in-ram database for temporary tables... no
+checking if executables have the .exe suffix... unknown
+checking for Tcl configuration... found /usr/lib64/tcl8.6/tclConfig.sh
+checking for existence of /usr/lib64/tcl8.6/tclConfig.sh... loading
+checking for library containing readline... -ledit
+checking for library containing fdatasync... none required
+checking zlib.h usability... yes
+checking zlib.h presence... yes
+checking for zlib.h... yes
+checking for library containing deflate... -lz
+checking for library containing dlopen... -ldl
+checking whether to support MEMSYS5... no
+checking whether to support MEMSYS3... no
+checking for library containing log... -lm
+configure: creating ./config.status
+config.status: creating Makefile
+config.status: creating sqlite3.pc
+config.status: creating config.h
+config.status: executing libtool commands
+gcc  -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -o mksourceid /home/devrim/sqlite/master/sqlite-src-3300100/tool/mksourceid.c
+gcc  -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -o mkkeywordhash -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkkeywordhash.c
+gcc  -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -o lemon /home/devrim/sqlite/master/sqlite-src-3300100/tool/lemon.c
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkshellc.tcl >shell.c
+./mkkeywordhash >keywordhash.h
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mksqlite3h.tcl /home/devrim/sqlite/master/sqlite-src-3300100 >sqlite3.h
+cp /home/devrim/sqlite/master/sqlite-src-3300100/tool/lempar.c .
+cp /home/devrim/sqlite/master/sqlite-src-3300100/src/parse.y .
+cp /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5parse.y .
+rm -f fts5parse.h
+./lemon -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  parse.y
+./lemon  fts5parse.y
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/tool/mkfts5c.tcl
+cat parse.h /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbe.c | tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkopcodeh.tcl >opcodes.h
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkopcodec.tcl opcodes.h >opcodes.c
+./libtool --mode=compile --tag=CC gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1  -DUSE_TCL_STUBS=1 -c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c
+libtool: compile:  gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DUSE_TCL_STUBS=1 -c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c  -fPIC -DPIC -o .libs/tclsqlite.o
+libtool: compile:  gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DUSE_TCL_STUBS=1 -c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c -o tclsqlite.o >/dev/null 2>&1
+cp /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5.h .
+rm -rf tsrc
+mkdir tsrc
+cp -f /home/devrim/sqlite/master/sqlite-src-3300100/src/alter.c /home/devrim/sqlite/master/sqlite-src-3300100/src/analyze.c /home/devrim/sqlite/master/sqlite-src-3300100/src/attach.c /home/devrim/sqlite/master/sqlite-src-3300100/src/auth.c /home/devrim/sqlite/master/sqlite-src-3300100/src/backup.c /home/devrim/sqlite/master/sqlite-src-3300100/src/bitvec.c /home/devrim/sqlite/master/sqlite-src-3300100/src/btmutex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/btree.c /home/devrim/sqlite/master/sqlite-src-3300100/src/btree.h /home/devrim/sqlite/master/sqlite-src-3300100/src/btreeInt.h /home/devrim/sqlite/master/sqlite-src-3300100/src/build.c /home/devrim/sqlite/master/sqlite-src-3300100/src/callback.c /home/devrim/sqlite/master/sqlite-src-3300100/src/complete.c /home/devrim/sqlite/master/sqlite-src-3300100/src/ctime.c /home/devrim/sqlite/master/sqlite-src-3300100/src/date.c /home/devrim/sqlite/master/sqlite-src-3300100/src/dbpage.c /home/devrim/sqlite/master/sqlite-src-3300100/src/dbstat.c /home/devrim/sqlite/master/sqlite-src-3300100/src/delete.c /home/devrim/sqlite/master/sqlite-src-3300100/src/expr.c /home/devrim/sqlite/master/sqlite-src-3300100/src/fault.c /home/devrim/sqlite/master/sqlite-src-3300100/src/fkey.c /home/devrim/sqlite/master/sqlite-src-3300100/src/func.c /home/devrim/sqlite/master/sqlite-src-3300100/src/global.c /home/devrim/sqlite/master/sqlite-src-3300100/src/hash.c /home/devrim/sqlite/master/sqlite-src-3300100/src/hash.h /home/devrim/sqlite/master/sqlite-src-3300100/src/hwtime.h /home/devrim/sqlite/master/sqlite-src-3300100/src/insert.c /home/devrim/sqlite/master/sqlite-src-3300100/src/legacy.c /home/devrim/sqlite/master/sqlite-src-3300100/src/loadext.c /home/devrim/sqlite/master/sqlite-src-3300100/src/main.c /home/devrim/sqlite/master/sqlite-src-3300100/src/malloc.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mem0.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mem1.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mem2.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mem3.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mem5.c /home/devrim/sqlite/master/sqlite-src-3300100/src/memdb.c /home/devrim/sqlite/master/sqlite-src-3300100/src/memjournal.c /home/devrim/sqlite/master/sqlite-src-3300100/src/msvc.h /home/devrim/sqlite/master/sqlite-src-3300100/src/mutex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mutex.h /home/devrim/sqlite/master/sqlite-src-3300100/src/mutex_noop.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mutex_unix.c /home/devrim/sqlite/master/sqlite-src-3300100/src/mutex_w32.c /home/devrim/sqlite/master/sqlite-src-3300100/src/notify.c /home/devrim/sqlite/master/sqlite-src-3300100/src/os.c /home/devrim/sqlite/master/sqlite-src-3300100/src/os.h /home/devrim/sqlite/master/sqlite-src-3300100/src/os_common.h /home/devrim/sqlite/master/sqlite-src-3300100/src/os_setup.h /home/devrim/sqlite/master/sqlite-src-3300100/src/os_unix.c /home/devrim/sqlite/master/sqlite-src-3300100/src/os_win.c /home/devrim/sqlite/master/sqlite-src-3300100/src/os_win.h /home/devrim/sqlite/master/sqlite-src-3300100/src/pager.c /home/devrim/sqlite/master/sqlite-src-3300100/src/pager.h /home/devrim/sqlite/master/sqlite-src-3300100/src/parse.y /home/devrim/sqlite/master/sqlite-src-3300100/src/pcache.c /home/devrim/sqlite/master/sqlite-src-3300100/src/pcache.h /home/devrim/sqlite/master/sqlite-src-3300100/src/pcache1.c /home/devrim/sqlite/master/sqlite-src-3300100/src/pragma.c /home/devrim/sqlite/master/sqlite-src-3300100/src/pragma.h /home/devrim/sqlite/master/sqlite-src-3300100/src/prepare.c /home/devrim/sqlite/master/sqlite-src-3300100/src/printf.c /home/devrim/sqlite/master/sqlite-src-3300100/src/random.c /home/devrim/sqlite/master/sqlite-src-3300100/src/resolve.c /home/devrim/sqlite/master/sqlite-src-3300100/src/rowset.c /home/devrim/sqlite/master/sqlite-src-3300100/src/select.c /home/devrim/sqlite/master/sqlite-src-3300100/src/status.c /home/devrim/sqlite/master/sqlite-src-3300100/src/shell.c.in /home/devrim/sqlite/master/sqlite-src-3300100/src/sqlite.h.in /home/devrim/sqlite/master/sqlite-src-3300100/src/sqlite3ext.h /home/devrim/sqlite/master/sqlite-src-3300100/src/sqliteInt.h /home/devrim/sqlite/master/sqlite-src-3300100/src/sqliteLimit.h /home/devrim/sqlite/master/sqlite-src-3300100/src/table.c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c /home/devrim/sqlite/master/sqlite-src-3300100/src/threads.c /home/devrim/sqlite/master/sqlite-src-3300100/src/tokenize.c /home/devrim/sqlite/master/sqlite-src-3300100/src/treeview.c /home/devrim/sqlite/master/sqlite-src-3300100/src/trigger.c /home/devrim/sqlite/master/sqlite-src-3300100/src/utf.c /home/devrim/sqlite/master/sqlite-src-3300100/src/update.c /home/devrim/sqlite/master/sqlite-src-3300100/src/upsert.c /home/devrim/sqlite/master/sqlite-src-3300100/src/util.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vacuum.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbe.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbe.h /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbeapi.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbeaux.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbeblob.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbemem.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbesort.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbetrace.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vdbeInt.h /home/devrim/sqlite/master/sqlite-src-3300100/src/vtab.c /home/devrim/sqlite/master/sqlite-src-3300100/src/vxworks.h /home/devrim/sqlite/master/sqlite-src-3300100/src/wal.c /home/devrim/sqlite/master/sqlite-src-3300100/src/wal.h /home/devrim/sqlite/master/sqlite-src-3300100/src/walker.c /home/devrim/sqlite/master/sqlite-src-3300100/src/where.c /home/devrim/sqlite/master/sqlite-src-3300100/src/wherecode.c /home/devrim/sqlite/master/sqlite-src-3300100/src/whereexpr.c /home/devrim/sqlite/master/sqlite-src-3300100/src/whereInt.h /home/devrim/sqlite/master/sqlite-src-3300100/src/window.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1_hash.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1_hash.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1_porter.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1_tokenizer.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts1/fts1_tokenizer1.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_hash.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_hash.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_icu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_porter.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_tokenizer.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_tokenizer.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts2/fts2_tokenizer1.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3Int.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_aux.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_expr.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_hash.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_hash.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_icu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_porter.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_snippet.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_tokenizer.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_tokenizer.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_tokenizer1.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_tokenize_vtab.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_unicode.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_unicode2.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_write.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/icu/sqliteicu.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/icu/icu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree/rtree.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree/rtree.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree/geopoly.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/session/sqlite3session.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/session/sqlite3session.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth/userauth.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth/sqlite3userauth.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/rbu/sqlite3rbu.h /home/devrim/sqlite/master/sqlite-src-3300100/ext/rbu/sqlite3rbu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/json1.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/stmt.c keywordhash.h opcodes.c opcodes.h parse.c parse.h config.h shell.c sqlite3.h tsrc
+rm tsrc/sqlite.h.in tsrc/parse.y
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/vdbe-compress.tcl  <tsrc/vdbe.c >vdbe.new
+mv vdbe.new tsrc/vdbe.c
+cp fts5.c fts5.h tsrc
+touch .target_source
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mksqlite3c.tcl
+cp tsrc/sqlite3ext.h .
+cp /home/devrim/sqlite/master/sqlite-src-3300100/ext/session/sqlite3session.h .
+./libtool --mode=compile --tag=CC gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1  -DSQLITE_TEMP_STORE=1 -c sqlite3.c
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -DHAVE_READLINE=0  -DHAVE_EDITLINE=1 -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_EXPLAIN_COMMENTS -DSQLITE_ENABLE_UNKNOWN_SQL_FUNCTION -DSQLITE_ENABLE_STMTVTAB -DSQLITE_ENABLE_DBPAGE_VTAB -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_OFFSET_SQL_FUNC -DSQLITE_ENABLE_DESERIALIZE -o sqlite3 \
+	shell.c sqlite3.c \
+	-ledit  -lm -ldl -lz -lpthread   -rpath "/usr/sqlite330/lib"
+libtool: compile:  gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DSQLITE_TEMP_STORE=1 -c sqlite3.c  -fPIC -DPIC -o .libs/sqlite3.o
+libtool: compile:  gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DSQLITE_TEMP_STORE=1 -c sqlite3.c -o sqlite3.o >/dev/null 2>&1
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DHAVE_READLINE=0 -DHAVE_EDITLINE=1 -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_EXPLAIN_COMMENTS -DSQLITE_ENABLE_UNKNOWN_SQL_FUNCTION -DSQLITE_ENABLE_STMTVTAB -DSQLITE_ENABLE_DBPAGE_VTAB -DSQLITE_ENABLE_DBSTAT_VTAB -DSQLITE_ENABLE_OFFSET_SQL_FUNC -DSQLITE_ENABLE_DESERIALIZE -o sqlite3 shell.c sqlite3.c  -ledit -lm -ldl -lz -lpthread
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -no-undefined -o libsqlite3.la sqlite3.lo -lm -ldl -lz -lpthread   \
+	 -rpath "/usr/sqlite330/lib" -version-info "8:6:8"
+libtool: link: gcc -shared  .libs/sqlite3.o   -lm -ldl -lz -lpthread  -m64 -mtune=generic -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now   -Wl,-soname -Wl,libsqlite3.so.0 -o .libs/libsqlite3.so.0.8.6
+libtool: link: (cd ".libs" && rm -f "libsqlite3.so.0" && ln -s "libsqlite3.so.0.8.6" "libsqlite3.so.0")
+libtool: link: (cd ".libs" && rm -f "libsqlite3.so" && ln -s "libsqlite3.so.0.8.6" "libsqlite3.so")
+libtool: link: ar cru .libs/libsqlite3.a  sqlite3.o
+libtool: link: ranlib .libs/libsqlite3.a
+libtool: link: ( cd ".libs" && rm -f "libsqlite3.la" && ln -s "../libsqlite3.la" "libsqlite3.la" )
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -no-undefined -o libtclsqlite3.la tclsqlite.lo \
+	libsqlite3.la -L/usr/lib64 -ltclstub8.6 -lm -ldl -lz -lpthread   \
+	-rpath "/usr/lib64/tcl8.6/sqlite3" \
+	-version-info "8:6:8" \
+	-avoid-version
+libtool: link: gcc -shared  .libs/tclsqlite.o   ./.libs/libsqlite3.so -L/usr/lib64 -ltclstub8.6 -lm -ldl -lz -lpthread  -m64 -mtune=generic -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now   -Wl,-soname -Wl,libtclsqlite3.so -o .libs/libtclsqlite3.so
+libtool: link: ar cru .libs/libtclsqlite3.a  tclsqlite.o
+libtool: link: ranlib .libs/libtclsqlite3.a
+libtool: link: ( cd ".libs" && rm -f "libtclsqlite3.la" && ln -s "../libtclsqlite3.la" "libtclsqlite3.la" )
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkccode.tcl /home/devrim/sqlite/master/sqlite-src-3300100/tool/sqlite3_analyzer.c.in >sqlite3_analyzer.c
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    sqlite3_analyzer.c -o sqlite3_analyzer -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 sqlite3_analyzer.c -o sqlite3_analyzer  -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread
+Executing(%install): /bin/sh -e /var/tmp/rpm-tmp.Aa20Qb
+/usr/bin/install -c -d /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib
+./libtool --mode=install /usr/bin/install -c libsqlite3.la /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib
+libtool: install: /usr/bin/install -c .libs/libsqlite3.so.0.8.6 /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.so.0.8.6
+libtool: install: (cd /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib && { ln -s -f libsqlite3.so.0.8.6 libsqlite3.so.0 || { rm -f libsqlite3.so.0 && ln -s libsqlite3.so.0.8.6 libsqlite3.so.0; }; })
+libtool: install: (cd /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib && { ln -s -f libsqlite3.so.0.8.6 libsqlite3.so || { rm -f libsqlite3.so && ln -s libsqlite3.so.0.8.6 libsqlite3.so; }; })
+libtool: install: /usr/bin/install -c .libs/libsqlite3.lai /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.la
+libtool: install: /usr/bin/install -c .libs/libsqlite3.a /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.a
+libtool: install: chmod 644 /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.a
+libtool: install: ranlib /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.a
+echo 'package ifneeded sqlite3 3.30.1 [list load [file join $dir libtclsqlite3[info sharedlibextension]] sqlite3]' > pkgIndex.tcl
+/usr/bin/install -c -d /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3
+./libtool --mode=install /usr/bin/install -c libtclsqlite3.la /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3
+libtool: install: (cd /home/devrim/sqlite/master/sqlite-src-3300100; /bin/sh /home/devrim/sqlite/master/sqlite-src-3300100/libtool  --mode=relink gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -no-undefined -o libtclsqlite3.la tclsqlite.lo libsqlite3.la -L/usr/lib64 -ltclstub8.6 -lm -ldl -lz -lpthread -rpath /usr/lib64/tcl8.6/sqlite3 -version-info 8:6:8 -avoid-version -inst-prefix-dir /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64)
+libtool: relink: gcc -shared  .libs/tclsqlite.o   -L/home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib -L/usr/sqlite330/lib -lsqlite3 -L/usr/lib64 -ltclstub8.6 -lm -ldl -lz -lpthread  -m64 -mtune=generic -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now   -Wl,-soname -Wl,libtclsqlite3.so -o .libs/libtclsqlite3.so
+libtool: install: /usr/bin/install -c .libs/libtclsqlite3.soT /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.so
+libtool: install: /usr/bin/install -c .libs/libtclsqlite3.lai /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.la
+libtool: install: /usr/bin/install -c .libs/libtclsqlite3.a /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.a
+libtool: install: chmod 644 /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.a
+libtool: install: ranlib /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.a
+rm -f /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.la /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.a
+/usr/bin/install -c -m 0644 pkgIndex.tcl /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3
+/usr/bin/install -c -d /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/bin
+./libtool --mode=install /usr/bin/install -c sqlite3 /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/bin
+libtool: install: /usr/bin/install -c sqlite3 /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/bin/sqlite3
+/usr/bin/install -c -d /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/include
+/usr/bin/install -c -m 0644 sqlite3.h /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/include
+/usr/bin/install -c -m 0644 /home/devrim/sqlite/master/sqlite-src-3300100/src/sqlite3ext.h /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/include
+/usr/bin/install -c -d /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/pkgconfig
+/usr/bin/install -c -m 0644 sqlite3.pc /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/pkgconfig
+explicitly decompress any DWARF compressed ELF sections in /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/bin/sqlite3_analyzer
+explicitly decompress any DWARF compressed ELF sections in /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/bin/lemon
+explicitly decompress any DWARF compressed ELF sections in /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.so
+explicitly decompress any DWARF compressed ELF sections in /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/bin/sqlite3
+extracting debug info from /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/bin/sqlite3_analyzer
+extracting debug info from /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/bin/lemon
+extracting debug info from /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/lib64/tcl8.6/sqlite3/libtclsqlite3.so
+extracting debug info from /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/bin/sqlite3
+explicitly decompress any DWARF compressed ELF sections in /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.so.0.8.6
+extracting debug info from /home/devrim/rpmbuild/BUILDROOT/sqlite-3.30.1-1.fc32.x86_64/usr/sqlite330/lib/libsqlite3.so.0.8.6
+original debug info size: 19736kB, size after compression: 19104kB
+/usr/lib/rpm/sepdebugcrcfix: Updated 5 CRC32s, 0 CRC32s did match.
+Executing(%check): /bin/sh -e /var/tmp/rpm-tmp.LvhJif
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -o fuzzcheck -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_MEMSYS5 -DSQLITE_OSS_FUZZ -DSQLITE_MAX_MEMORY=50000000 -DSQLITE_PRINTF_PRECISION_LIMIT=1000 -DSQLITE_ENABLE_DESERIALIZE -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_GEOPOLY -DSQLITE_ENABLE_DBSTAT_VTAB /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzcheck.c /home/devrim/sqlite/master/sqlite-src-3300100/test/ossfuzz.c sqlite3.c -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -o fuzzcheck -DSQLITE_ENABLE_JSON1 -DSQLITE_ENABLE_MEMSYS5 -DSQLITE_OSS_FUZZ -DSQLITE_MAX_MEMORY=50000000 -DSQLITE_PRINTF_PRECISION_LIMIT=1000 -DSQLITE_ENABLE_DESERIALIZE -DSQLITE_ENABLE_FTS4 -DSQLITE_ENABLE_RTREE -DSQLITE_ENABLE_GEOPOLY -DSQLITE_ENABLE_DBSTAT_VTAB /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzcheck.c /home/devrim/sqlite/master/sqlite-src-3300100/test/ossfuzz.c sqlite3.c  -lm -ldl -lz -lpthread
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -o sessionfuzz /home/devrim/sqlite/master/sqlite-src-3300100/test/sessionfuzz.c -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -o sessionfuzz /home/devrim/sqlite/master/sqlite-src-3300100/test/sessionfuzz.c  -lm -ldl -lz -lpthread
+./fuzzcheck --limit-mem 100M /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata1.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata2.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata3.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata4.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata5.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata6.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata7.db /home/devrim/sqlite/master/sqlite-src-3300100/test/fuzzdata8.db
+fuzzdata1.db: SQL fuzz as of 2015-06-20
+fuzzdata1.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 9903 tests
+fuzzdata2.db: SQL tests from Michal Zalewski on 2015-05-01
+fuzzdata2.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 9959 tests
+fuzzdata3.db: Database fuzz as of 2015-06-24
+fuzzdata3.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 2316 tests
+fuzzdata4.db: JSON1 test cases as of 2015-09-23
+fuzzdata4.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 2575 tests
+fuzzdata5.db: Test cases received from the OSS-FUZZ project
+fuzzdata5.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 8834 tests
+fuzzdata6.db: Test cases for UPSERT
+fuzzdata6.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 3896 tests
+fuzzdata7.db: DB cases created using dbfuzz2
+fuzzdata7.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 8144 tests
+fuzzdata8.db: Interesting dbsqlfuzz cases
+fuzzdata8.db: 0% 10% 20% 30% 40% 50% 60% 70% 80% 90% 100% - 228 tests
+fuzzcheck: 0 errors out of 45855 tests in 20.315 seconds
+SQLite 3.30.1 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3dfalt1
+./sessionfuzz run /home/devrim/sqlite/master/sqlite-src-3300100/test/sessionfuzz-data1.db
+sessionfuzz-data1.db:  339 cases, 0 crashes
+gcc  -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -o srcck1 /home/devrim/sqlite/master/sqlite-src-3300100/tool/srcck1.c
+./srcck1 sqlite3.c
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -DSQLITE_NO_SYNC=1 -DSQLITE_TEMP_STORE=1 -DSQLITE_TEST=1 -DSQLITE_CRASH_TEST=1 -DTCLSH_INIT_PROC=sqlite3TestInit -DSQLITE_SERVER=1 -DSQLITE_PRIVATE="" -DSQLITE_CORE -DBUILD_sqlite -DSQLITE_SERIES_CONSTRAINT_VERIFY=1 -DSQLITE_DEFAULT_PAGE_SIZE=1024 -DSQLITE_ENABLE_STMTVTAB -DSQLITE_ENABLE_DBPAGE_VTAB -DSQLITE_ENABLE_DESERIALIZE \
+	-o testfixture /home/devrim/sqlite/master/sqlite-src-3300100/src/test1.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test2.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test3.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test4.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test5.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test6.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test7.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test8.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test9.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_autoext.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_async.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_backup.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_bestindex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_blob.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_btree.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_config.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_delete.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_demovfs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_devsym.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_fs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_func.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_hexio.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_init.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_intarray.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_journal.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_malloc.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_md5.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_multiplex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_mutex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_onefile.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_osinst.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_pcache.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_quota.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_rtree.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_schema.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_server.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_superlock.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_syscall.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_tclsh.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_tclvar.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_thread.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_vdbecov.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_vfs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_windirent.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_window.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_wsd.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_term.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_test.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/session/test_session.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/rbu/test_rbu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/expert/sqlite3expert.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/expert/test_expert.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/amatch.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/carray.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/closure.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/csv.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/eval.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/explain.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/fileio.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/fuzzer.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_tcl.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_test_mi.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_test_tok.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/ieee754.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/mmapwarm.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/nextchar.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/normalize.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/percentile.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/prefixes.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/regexp.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/remember.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/series.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/spellfix.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/totype.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/unionvtab.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/wholenumber.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/zipfile.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth/userauth.c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c sqlite3.c -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -DSQLITE_NO_SYNC=1 -DSQLITE_TEMP_STORE=1 -DSQLITE_TEST=1 -DSQLITE_CRASH_TEST=1 -DTCLSH_INIT_PROC=sqlite3TestInit -DSQLITE_SERVER=1 -DSQLITE_PRIVATE= -DSQLITE_CORE -DBUILD_sqlite -DSQLITE_SERIES_CONSTRAINT_VERIFY=1 -DSQLITE_DEFAULT_PAGE_SIZE=1024 -DSQLITE_ENABLE_STMTVTAB -DSQLITE_ENABLE_DBPAGE_VTAB -DSQLITE_ENABLE_DESERIALIZE -o testfixture /home/devrim/sqlite/master/sqlite-src-3300100/src/test1.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test2.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test3.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test4.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test5.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test6.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test7.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test8.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test9.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_autoext.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_async.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_backup.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_bestindex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_blob.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_btree.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_config.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_delete.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_demovfs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_devsym.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_fs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_func.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_hexio.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_init.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_intarray.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_journal.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_malloc.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_md5.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_multiplex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_mutex.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_onefile.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_osinst.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_pcache.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_quota.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_rtree.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_schema.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_server.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_superlock.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_syscall.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_tclsh.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_tclvar.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_thread.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_vdbecov.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_vfs.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_windirent.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_window.c /home/devrim/sqlite/master/sqlite-src-3300100/src/test_wsd.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_term.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3/fts3_test.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/session/test_session.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/rbu/test_rbu.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/expert/sqlite3expert.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/expert/test_expert.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/amatch.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/carray.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/closure.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/csv.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/eval.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/explain.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/fileio.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/fuzzer.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_tcl.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_test_mi.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/fts5/fts5_test_tok.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/ieee754.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/mmapwarm.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/nextchar.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/normalize.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/percentile.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/prefixes.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/regexp.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/remember.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/series.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/spellfix.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/totype.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/unionvtab.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/wholenumber.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/misc/zipfile.c /home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth/userauth.c /home/devrim/sqlite/master/sqlite-src-3300100/src/tclsqlite.c sqlite3.c  -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -o sqldiff /home/devrim/sqlite/master/sqlite-src-3300100/tool/sqldiff.c sqlite3.lo -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -o sqldiff /home/devrim/sqlite/master/sqlite-src-3300100/tool/sqldiff.c .libs/sqlite3.o  -lm -ldl -lz -lpthread 
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    -o dbhash /home/devrim/sqlite/master/sqlite-src-3300100/tool/dbhash.c sqlite3.lo -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 -o dbhash /home/devrim/sqlite/master/sqlite-src-3300100/tool/dbhash.c .libs/sqlite3.o  -lm -ldl -lz -lpthread 
+tclsh8.6 /home/devrim/sqlite/master/sqlite-src-3300100/tool/mkccode.tcl /home/devrim/sqlite/master/sqlite-src-3300100/tool/sqltclsh.c.in >sqltclsh.c
+./libtool --mode=link gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z,relro -Wl,--as-needed -Wl,-z,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1  -DSQLITE_HAVE_ZLIB=1    sqltclsh.c -o sqltclsh -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread  
+libtool: link: gcc -O2 -g -pipe -Wall -Werror=format-security -Wp,-D_FORTIFY_SOURCE=2 -Wp,-D_GLIBCXX_ASSERTIONS -fexceptions -fstack-protector-strong -grecord-gcc-switches -specs=/usr/lib/rpm/redhat/redhat-hardened-cc1 -specs=/usr/lib/rpm/redhat/redhat-annobin-cc1 -m64 -mtune=generic -fasynchronous-unwind-tables -fstack-clash-protection -fcf-protection -Wl,-z -Wl,relro -Wl,--as-needed -Wl,-z -Wl,now -specs=/usr/lib/rpm/redhat/redhat-hardened-ld -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_SECURE_DELETE=1 -Wall -fno-strict-aliasing -DSQLITE_OS_UNIX=1 -I. -I/home/devrim/sqlite/master/sqlite-src-3300100/src -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/rtree -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/icu -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/fts3 -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/async -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/session -I/home/devrim/sqlite/master/sqlite-src-3300100/ext/userauth -D_HAVE_SQLITE_CONFIG_H -DBUILD_sqlite -DNDEBUG -I/usr/include -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_FTS5 -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 -DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 -DSQLITE_HAVE_ZLIB=1 sqltclsh.c -o sqltclsh  -L/usr/lib64 -ltcl8.6 -lm -ldl -lz -lpthread
+./testfixture /home/devrim/sqlite/master/sqlite-src-3300100/test/veryquick.test --verbose=file --output=test-out.txt
+Copying output to file /home/devrim/sqlite/master/sqlite-src-3300100/test-out.txt
+Time: expert1.test 102 ms
+Time: fts5aa.test 2598 ms
+Time: fts5ab.test 822 ms
+Time: fts5ac.test 23301 ms
+Time: fts5ad.test 598 ms
+Time: fts5ae.test 56 ms
+Time: fts5af.test 194 ms
+Time: fts5ag.test 284 ms
+Time: fts5ah.test 3676 ms
+Time: fts5ai.test 13 ms
+Time: fts5ak.test 29 ms
+Time: fts5al.test 60 ms
+Time: fts5alter.test 29 ms
+Time: fts5auto.test 2376 ms
+Time: fts5aux.test 25 ms
+Time: fts5auxdata.test 10 ms
+Time: fts5cat.test 12 ms
+Time: fts5circref.test 12 ms
+Time: fts5colset.test 16 ms
+Time: fts5columnsize.test 18 ms
+Time: fts5config.test 24 ms
+Time: fts5conflict.test 11 ms
+Time: fts5connect.test 87 ms
+Time: fts5content.test 25 ms
+Time: fts5delete.test 186 ms
+Time: fts5detail.test 25 ms
+Time: fts5determin.test 18 ms
+Time: fts5dlidx.test 6926 ms
+Time: fts5doclist.test 140 ms
+Time: fts5ea.test 10 ms
+Time: fts5eb.test 10 ms
+Time: fts5first.test 12 ms
+Time: fts5full.test 362 ms
+Time: fts5fuzz1.test 11 ms
+Time: fts5hash.test 470 ms
+Time: fts5integrity.test 800 ms
+Time: fts5interrupt.test 223 ms
+Time: fts5lastrowid.test 10 ms
+Time: fts5leftjoin.test 9 ms
+Time: fts5matchinfo.test 166 ms
+Time: fts5merge.test 156 ms
+Time: fts5merge2.test 88 ms
+Time: fts5misc.test 13 ms
+Time: fts5multi.test 16 ms
+Time: fts5multiclient.test 49 ms
+Time: fts5near.test 16 ms
+Time: fts5onepass.test 18 ms
+Time: fts5optimize.test 176 ms
+Time: fts5phrase.test 17 ms
+Time: fts5plan.test 10 ms
+Time: fts5porter.test 1166 ms
+Time: fts5porter2.test 9 ms
+Time: fts5prefix.test 4053 ms
+Time: fts5query.test 145 ms
+Time: fts5rank.test 25 ms
+Time: fts5rebuild.test 10 ms
+Time: fts5restart.test 137 ms
+Time: fts5rowid.test 538 ms
+Time: fts5simple.test 96 ms
+Time: fts5simple2.test 36 ms
+Time: fts5simple3.test 40 ms
+Time: fts5synonym.test 149 ms
+Time: fts5synonym2.test 4569 ms
+Time: fts5tok1.test 11 ms
+Time: fts5tok2.test 1775 ms
+Time: fts5tokenizer.test 31 ms
+Time: fts5umlaut.test 19 ms
+Time: fts5unicode2.test 248 ms
+Time: fts5unicode3.test 1609 ms
+Time: fts5unicode4.test 9 ms
+Time: fts5unindexed.test 14 ms
+Time: fts5update.test 2109 ms
+Time: fts5version.test 13 ms
+Time: fts5vocab.test 204 ms
+Time: fts5vocab2.test 18 ms
+Time: lsm1_simple.test 8 ms
+Time: rtree1.test 80 ms
+Time: rtree2.test 580 ms
+Time: rtree5.test 9 ms
+Time: rtree6.test 13 ms
+Time: rtree7.test 28 ms
+Time: rtree8.test 203 ms
+Time: rtree9.test 241 ms
+Time: rtreeA.test 74 ms
+Time: rtreeB.test 9 ms
+Time: rtreeC.test 25 ms
+Time: rtreeD.test 21 ms
+Time: rtreeE.test 319 ms
+Time: rtreeF.test 10 ms
+Time: rtreeG.test 9 ms
+Time: rtreeH.test 109 ms
+Time: rtreecheck.test 28 ms
+Time: rtreecirc.test 11 ms
+Time: rtreeconnect.test 10 ms
+Time: rtreefuzz001.test 16 ms
+Time: tkt3363.test 13 ms
+Time: changesetfuzz1.test 7 ms
+Time: session1.test 7 ms
+Time: session2.test 7 ms
+Time: session3.test 8 ms
+Time: session4.test 7 ms
+Time: session5.test 7 ms
+Time: session6.test 7 ms
+Time: session8.test 8 ms
+Time: session9.test 7 ms
+Time: sessionA.test 8 ms
+Time: sessionB.test 9 ms
+Time: sessionC.test 8 ms
+Time: sessionD.test 8 ms
+Time: sessionE.test 8 ms
+Time: sessionF.test 7 ms
+Time: sessionG.test 7 ms
+Time: sessionH.test 7 ms
+Time: sessionat.test 7 ms
+Time: sessiondiff.test 7 ms
+Time: sessioninvert.test 7 ms
+Time: sessionrebase.test 7 ms
+Time: sessionstat1.test 7 ms
+Time: sessionwor.test 7 ms
+Time: 8_3_names.test 7 ms
+Time: affinity2.test 12 ms
+Time: affinity3.test 11 ms
+Time: aggerror.test 9 ms
+Time: aggnested.test 15 ms
+Time: alias.test 7 ms
+Time: alter.test 43 ms
+Time: alter2.test 22 ms
+Time: alter3.test 41 ms
+Time: alter4.test 33 ms
+Time: alterauth.test 10 ms
+Time: alterauth2.test 14 ms
+Time: altercol.test 98 ms
+Time: alterlegacy.test 51 ms
+Time: altertab.test 62 ms
+Time: altertab2.test 44 ms
+Time: altertab3.test 29 ms
+Query against fts4aux: 83641 microseconds per iteration
+Query against ordinary table: 9263 microseconds per iteration
+Temp table initialized from fts4aux: 4525 microseconds per iteration
+Query against temp table: 9792 microseconds per iteration
+Time: amatch1.test 448 ms
+Time: analyze.test 21 ms
+Time: analyze3.test 7 ms
+Time: analyze4.test 13 ms
+Time: analyze5.test 7 ms
+Time: analyze6.test 7 ms
+Time: analyze7.test 11 ms
+Time: analyze8.test 7 ms
+Time: analyze9.test 7 ms
+Time: analyzeC.test 14 ms
+Time: analyzeD.test 7 ms
+Time: analyzeE.test 7 ms
+Time: analyzeF.test 7 ms
+Time: analyzer1.test 19 ms
+Time: async4.test 7 ms
+Time: async5.test 7 ms
+Time: atof1.test 2871 ms
+No f2fs atomic-batch-write support. Skipping tests...
+Time: atomic.test 7 ms
+No f2fs atomic-batch-write support. Skipping tests...
+Time: atomic2.test 8 ms
+Time: attach.test 29 ms
+Time: attach2.test 15 ms
+Time: attach3.test 15 ms
+Testing with SQLITE_MAX_ATTACHED=10
+Time: attach4.test 23 ms
+Time: auth.test 48 ms
+Time: auth2.test 9 ms
+Time: auth3.test 10 ms
+Time: autoanalyze1.test 7 ms
+Time: autoinc.test 34 ms
+Time: autoindex1.test 52 ms
+Time: autoindex2.test 15 ms
+Time: autoindex3.test 12 ms
+Time: autoindex4.test 11 ms
+Time: autoindex5.test 15 ms
+Time: autovacuum.test 208 ms
+Time: avtrans.test 727 ms
+WARNING: No historical binaries to test against.
+WARNING: Omitting backwards-compatibility tests
+Time: backcompat.test 8 ms
+Time: backup2.test 324 ms
+Time: backup4.test 24 ms
+Time: backup5.test 10 ms
+Time: badutf.test 10 ms
+Time: badutf2.test 10 ms
+Time: bestindex1.test 15 ms
+Time: bestindex2.test 9 ms
+Time: bestindex3.test 12 ms
+Time: bestindex4.test 279 ms
+Time: bestindex5.test 14 ms
+Time: bestindex6.test 9 ms
+Time: between.test 14 ms
+Skipping bigmmap.test - requires SQLITE_MAX_MMAP_SIZE >= 8G
+Time: bigmmap.test 7 ms
+Time: bigrow.test 134 ms
+Time: bind.test 20 ms
+Time: bindxfer.test 8 ms
+Time: bitvec.test 1703 ms
+Time: blob.test 11 ms
+Time: boundary1.test 151 ms
+Time: boundary2.test 300 ms
+Time: boundary3.test 232 ms
+Time: boundary4.test 21 ms
+Time: btree01.test 269 ms
+Time: btree02.test 11 ms
+Time: busy.test 13 ms
+Time: cache.test 20 ms
+Time: cacheflush.test 21 ms
+Time: cachespill.test 14 ms
+Time: capi2.test 20 ms
+Time: capi3.test 118 ms
+Time: capi3b.test 26 ms
+Time: capi3c.test 127 ms
+Time: capi3d.test 157 ms
+Time: capi3e.test 19 ms
+Time: cast.test 15 ms
+Time: check.test 23 ms
+Time: chunksize.test 9 ms
+Time: close.test 9 ms
+Time: closure01.test 499 ms
+Time: coalesce.test 10 ms
+Time: collate1.test 17 ms
+Time: collate2.test 24 ms
+Time: collate3.test 20 ms
+Time: collate4.test 31 ms
+Time: collate5.test 84 ms
+Time: collate6.test 17 ms
+Time: collate7.test 9 ms
+Time: collate8.test 10 ms
+Time: collate9.test 10 ms
+Time: collateA.test 13 ms
+Time: collateB.test 11 ms
+Time: colmeta.test 16 ms
+Time: colname.test 18 ms
+Time: conflict.test 71 ms
+Time: conflict2.test 79 ms
+Time: conflict3.test 26 ms
+Time: contrib01.test 11 ms
+Time: corrupt2.test 41 ms
+Time: corrupt3.test 9 ms
+Time: corrupt4.test 9 ms
+Time: corrupt5.test 9 ms
+Time: corrupt6.test 13 ms
+Time: corrupt7.test 9 ms
+Time: corrupt8.test 45 ms
+Time: corrupt9.test 14 ms
+Time: corruptA.test 10 ms
+Time: corruptB.test 66 ms
+Time: corruptD.test 14 ms
+Time: corruptE.test 17 ms
+Time: corruptF.test 165 ms
+Time: corruptG.test 9 ms
+Time: corruptH.test 18 ms
+Time: corruptI.test 19 ms
+Time: corruptJ.test 10 ms
+Time: corruptK.test 13 ms
+Time: corruptL.test 19 ms
+Time: corruptM.test 14 ms
+Time: cost.test 27 ms
+Time: count.test 127 ms
+Time: countofview.test 10 ms
+Time: coveridxscan.test 11 ms
+Time: crash8.test 978 ms
+Time: crashM.test 7 ms
+Time: createtab.test 133 ms
+Time: cse.test 38 ms
+Time: csv01.test 14 ms
+Time: ctime.test 12 ms
+Time: cursorhint.test 9 ms
+Time: cursorhint2.test 8 ms
+Time: dataversion1.test 10 ms
+Time: date.test 382 ms
+Time: date2.test 32 ms
+Time: dbdata.test 9 ms
+Time: dbfuzz001.test 11 ms
+Time: dbpage.test 12 ms
+Time: dbstatus.test 168 ms
+Time: dbstatus2.test 18 ms
+Time: delete.test 103 ms
+Time: delete2.test 12 ms
+Time: delete4.test 38 ms
+Time: delete_db.test 33 ms
+Time: descidx1.test 18 ms
+Time: descidx2.test 17 ms
+Time: descidx3.test 17 ms
+Time: diskfull.test 532 ms
+Time: distinct.test 22 ms
+Time: distinct2.test 21 ms
+Time: distinctagg.test 9 ms
+Time: e_blobbytes.test 136 ms
+Time: e_blobclose.test 16 ms
+Time: e_blobopen.test 26 ms
+Time: e_blobwrite.test 15 ms
+Time: e_changes.test 31 ms
+Time: e_createtable.test 1139 ms
+Time: e_delete.test 133 ms
+Time: e_droptrigger.test 1621 ms
+Time: e_dropview.test 443 ms
+Time: e_expr.test 1442 ms
+Time: e_insert.test 321 ms
+Time: e_reindex.test 178 ms
+Time: e_resolve.test 180 ms
+Time: e_select.test 819 ms
+Time: e_select2.test 152 ms
+Time: e_totalchanges.test 184 ms
+Time: e_update.test 219 ms
+Time: e_uri.test 181 ms
+Time: e_vacuum.test 388 ms
+Time: e_wal.test 31 ms
+Time: e_walauto.test 1502 ms
+Time: e_walckpt.test 268 ms
+Time: e_walhook.test 10 ms
+Time: emptytable.test 10 ms
+Time: enc.test 29 ms
+Time: enc2.test 31 ms
+Time: enc3.test 11 ms
+Time: enc4.test 124 ms
+Time: eqp.test 32 ms
+Time: errmsg.test 11 ms
+Time: eval.test 12 ms
+Time: exclusive.test 17 ms
+Time: exclusive2.test 15 ms
+Time: exec.test 9 ms
+Time: exists.test 226 ms
+Time: expr.test 98 ms
+Time: expr2.test 8 ms
+Time: extension01.test 8 ms
+Time: fallocate.test 32 ms
+Time: filectrl.test 8 ms
+Time: filefmt.test 20 ms
+Time: filter1.test 15 ms
+Time: filter2.test 10 ms
+Time: fkey1.test 16 ms
+Time: fkey2.test 190 ms
+Time: fkey3.test 16 ms
+Time: fkey4.test 13 ms
+Time: fkey5.test 23 ms
+Time: fkey6.test 17 ms
+Time: fkey7.test 14 ms
+Time: fkey8.test 33 ms
+Time: fordelete.test 21 ms
+Time: format4.test 9 ms
+Time: fts-9fd058691.test 11 ms
+Time: fts1a.test 8 ms
+Time: fts1b.test 8 ms
+Time: fts1c.test 8 ms
+Time: fts1d.test 7 ms
+Time: fts1e.test 7 ms
+Time: fts1f.test 7 ms
+Time: fts1i.test 7 ms
+Time: fts1j.test 9 ms
+Time: fts1k.test 12 ms
+Time: fts1l.test 11 ms
+Time: fts1m.test 8 ms
+Time: fts1n.test 7 ms
+Time: fts1o.test 7 ms
+Time: fts1porter.test 15 ms
+Time: fts2.test 8 ms
+Time: fts2a.test 8 ms
+Time: fts2b.test 8 ms
+Time: fts2c.test 8 ms
+Time: fts2d.test 7 ms
+Time: fts2e.test 7 ms
+Time: fts2f.test 7 ms
+Time: fts2g.test 7 ms
+Time: fts2h.test 7 ms
+Time: fts2i.test 8 ms
+Time: fts2j.test 12 ms
+Time: fts2k.test 11 ms
+Time: fts2l.test 8 ms
+Time: fts2m.test 7 ms
+Time: fts2n.test 8 ms
+Time: fts2o.test 7 ms
+Time: fts2p.test 8 ms
+Time: fts2q.test 7 ms
+Time: fts2r.test 8 ms
+Time: fts2token.test 7 ms
+Time: fts3aa.test 23 ms
+Time: fts3ab.test 19 ms
+Time: fts3ac.test 18 ms
+Time: fts3ad.test 15 ms
+Time: fts3ae.test 14 ms
+Time: fts3af.test 14 ms
+Time: fts3ag.test 11 ms
+Time: fts3ah.test 11 ms
+Time: fts3ai.test 10 ms
+Time: fts3aj.test 12 ms
+Time: fts3ak.test 10 ms
+Time: fts3al.test 9 ms
+Time: fts3am.test 9 ms
+Time: fts3ao.test 33 ms
+Time: fts3atoken.test 11 ms
+Time: fts3auto.test 652 ms
+Time: fts3aux1.test 32 ms
+Time: fts3aux2.test 12 ms
+Time: fts3b.test 611 ms
+Time: fts3c.test 32 ms
+Time: fts3comp1.test 14 ms
+Time: fts3conf.test 70 ms
+Time: fts3corrupt.test 18 ms
+Time: fts3corrupt3.test 10 ms
+Time: fts3corrupt4.test 71 ms
+Time: fts3corrupt5.test 10 ms
+Time: fts3d.test 41 ms
+Time: fts3defer2.test 34 ms
+Time: fts3defer3.test 14 ms
+Time: fts3drop.test 10 ms
+Time: fts3e.test 13 ms
+Time: fts3expr.test 155 ms
+Time: fts3expr2.test 220 ms
+Time: fts3expr3.test 1412 ms
+Time: fts3expr4.test 8 ms
+Time: fts3expr5.test 9 ms
+Time: fts3first.test 22 ms
+Time: fts3fuzz001.test 9 ms
+Time: fts3join.test 14 ms
+Time: fts3matchinfo.test 75 ms
+Time: fts3misc.test 441 ms
+Time: fts3near.test 20 ms
+Time: fts3offsets.test 12 ms
+Time: fts3prefix.test 69 ms
+Time: fts3prefix2.test 29 ms
+Time: fts3query.test 348 ms
+Time: fts3rank.test 11 ms
+Time: fts3shared.test 15 ms
+Time: fts3tok1.test 11 ms
+Time: fts3varint.test 10 ms
+Time: fts4aa.test 624 ms
+Time: fts4content.test 52 ms
+Time: fts4docid.test 27 ms
+Time: fts4incr.test 287 ms
+Time: fts4lastrowid.test 11 ms
+WARNING: No historical binaries to test against.
+WARNING: Omitting backwards-compatibility tests
+Time: fts4merge3.test 8 ms
+Time: fts4noti.test 53 ms
+Time: fts4onepass.test 18 ms
+Time: fts4opt.test 1762 ms
+Time: fts4record.test 11 ms
+Time: fts4rename.test 8 ms
+Time: fts4umlaut.test 19 ms
+Time: fts4unicode.test 413 ms
+Time: func.test 788 ms
+Time: func2.test 16 ms
+Time: func3.test 11 ms
+Time: func4.test 26 ms
+Time: func5.test 11 ms
+Time: func6.test 7 ms
+Time: fuzz-oss1.test 167 ms
+Time: fuzz2.test 9 ms
+Time: fuzz4.test 10 ms
+Time: fuzzer1.test 97 ms
+Time: having.test 14 ms
+Time: hexlit.test 17 ms
+Time: hidden.test 7 ms
+Time: hook.test 16 ms
+Time: hook2.test 7 ms
+Time: icu.test 8 ms
+Time: ieee754.test 9 ms
+Time: imposter1.test 11 ms
+Time: in.test 28 ms
+Time: in3.test 25 ms
+Time: in4.test 18 ms
+Time: in5.test 20 ms
+Time: in6.test 9 ms
+Time: incrblob.test 31 ms
+Time: incrblob2.test 41 ms
+Time: incrblob3.test 26 ms
+Time: incrblob4.test 18 ms
+Time: incrcorrupt.test 11 ms
+Time: incrvacuum.test 147 ms
+Time: incrvacuum2.test 1124 ms
+Time: incrvacuum3.test 457 ms
+Time: index.test 57 ms
+Time: index2.test 139 ms
+Time: index3.test 11 ms
+Time: index4.test 483 ms
+Time: index5.test 3408 ms
+Time: index6.test 35 ms
+Time: index7.test 24 ms
+Time: index8.test 9 ms
+Time: index9.test 12 ms
+Time: indexedby.test 19 ms
+Time: indexexpr1.test 31 ms
+Time: indexexpr2.test 25 ms
+Time: init.test 12 ms
+Time: insert.test 26 ms
+Time: insert2.test 20 ms
+Time: insert3.test 76 ms
+Time: insert4.test 43 ms
+Time: insert5.test 10 ms
+Time: instr.test 15 ms
+Time: intarray.test 92 ms
+Time: interrupt.test 419 ms
+Time: interrupt2.test 17 ms
+Time: intpkey.test 21 ms
+Time: intreal.test 10 ms
+Time: io.test 42 ms
+Time: istrue.test 16 ms
+Time: join.test 39 ms
+Time: join2.test 19 ms
+Time: join3.test 99 ms
+Time: join4.test 9 ms
+Time: join5.test 191 ms
+Time: join6.test 14 ms
+Time: journal1.test 10 ms
+Time: journal2.test 22 ms
+Time: journal3.test 11 ms
+Time: jrnlmode.test 26 ms
+Time: jrnlmode2.test 10 ms
+Time: jrnlmode3.test 29 ms
+Time: json101.test 24 ms
+Time: json102.test 20 ms
+Time: json103.test 11 ms
+Time: json104.test 12 ms
+Time: keyword1.test 58 ms
+Time: lastinsert.test 15 ms
+Time: laststmtchanges.test 14 ms
+ (18 ms - want less than 1000)  (20 ms - want less than 1000) Time: like.test 38 ms
+Time: like2.test 41 ms
+Time: like3.test 17 ms
+Time: limit.test 36 ms
+Time: limit2.test 21 ms
+Time: loadext2.test 10 ms
+Time: lock.test 829 ms
+Time: lock2.test 28 ms
+Time: lock3.test 9 ms
+Time: lock4.test 58 ms
+Time: lock5.test 13 ms
+Time: lock6.test 8 ms
+Time: lock7.test 9 ms
+Time: lookaside.test 9 ms
+VERSION: 3.30.1 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3dfalt1
+Time: main.test 14 ms
+Time: manydb.test 277 ms
+Time: mem5.test 8 ms
+Time: memdb.test 150 ms
+Time: memdb1.test 25 ms
+Time: memsubsys1.test 86 ms
+Time: memsubsys2.test 10 ms
+Time: minmax.test 24 ms
+Time: minmax2.test 18 ms
+Time: minmax3.test 18 ms
+Time: minmax4.test 18 ms
+Time: misc1.test 143 ms
+Time: misc2.test 38 ms
+Time: misc3.test 18 ms
+Time: misc4.test 12 ms
+Time: misc5.test 77 ms
+Time: misc6.test 7 ms
+Time: misc8.test 13 ms
+Time: misuse.test 10 ms
+Time: mjournal.test 10 ms
+Time: mmap1.test 163 ms
+Time: mmap2.test 145 ms
+Time: mmap3.test 16 ms
+Time: mmapwarm.test 60 ms
+Time: multiplex.test 642 ms
+Time: multiplex2.test 174 ms
+SQLite compiled without SQLITE_ENABLE_8_3_NAMES. Skipping tests multiplex3-*.
+Time: multiplex3.test 9 ms
+Time: multiplex4.test 73 ms
+Time: mutex1.test 21 ms
+Time: nan.test 20 ms
+Time: nockpt.test 12 ms
+Time: nolock.test 13 ms
+Time: normalize.test 8 ms
+Time: notify1.test 345 ms
+Time: notify3.test 14 ms
+Time: notnull.test 32 ms
+Time: null.test 15 ms
+Time: nulls1.test 21 ms
+Time: numcast.test 11 ms
+Time: numindex1.test 13 ms
+Time: offset1.test 12 ms
+Time: openv2.test 9 ms
+Time: orderby1.test 227 ms
+Time: orderby2.test 12 ms
+Time: orderby3.test 12 ms
+Time: orderby4.test 10 ms
+Time: orderby5.test 12 ms
+Time: orderby6.test 74 ms
+Time: orderby7.test 10 ms
+Time: orderby8.test 113 ms
+Time: orderby9.test 10 ms
+Time: orderbyA.test 24 ms
+Time: oserror.test 103 ms
+Time: ovfl.test 44 ms
+Time: pager1.test 2228 ms
+Time: pager2.test 2074 ms
+Time: pager3.test 10 ms
+Time: pager4.test 11 ms
+Time: pageropt.test 8 ms
+Time: pagesize.test 134 ms
+Time: parser1.test 9 ms
+Time: pcache.test 6 ms
+Time: pcache2.test 10 ms
+Time: percentile.test 659 ms
+Time: pragma.test 66 ms
+Time: pragma2.test 23 ms
+Time: pragma3.test 21 ms
+Time: pragma4.test 119 ms
+Time: pragma5.test 9 ms
+Time: prefixes.test 9 ms
+Time: printf.test 73 ms
+Time: printf2.test 12 ms
+Time: progress.test 12 ms
+Time: ptrchng.test 12 ms
+Time: pushdown.test 11 ms
+Time: queryonly.test 11 ms
+Time: quota-glob.test 13 ms
+Time: quota.test 390 ms
+Time: quota2.test 34 ms
+Time: quote.test 12 ms
+Time: randexpr1.test 652 ms
+Time: rdonly.test 9 ms
+Time: recover.test 65 ms
+Time: regexp1.test 12 ms
+Time: regexp2.test 12 ms
+Time: reindex.test 15 ms
+Time: resetdb.test 18 ms
+Time: resolver01.test 13 ms
+Time: rollback.test 11 ms
+Time: rollback2.test 40 ms
+Time: round1.test 6645 ms
+Time: rowallock.test 24 ms
+Time: rowhash.test 937 ms
+Time: rowid.test 69 ms
+Time: rowvalue.test 42 ms
+Time: rowvalue2.test 687 ms
+Time: rowvalue3.test 29 ms
+Time: rowvalue4.test 49 ms
+Time: rowvalue5.test 10 ms
+Time: rowvalue6.test 8 ms
+Time: rowvalue7.test 11 ms
+Time: rowvalue8.test 10 ms
+Time: rowvalue9.test 27 ms
+Time: savepoint.test 189 ms
+Time: savepoint2.test 916 ms
+Time: savepoint5.test 8 ms
+Time: savepoint7.test 40 ms
+Time: scanstatus.test 8 ms
+Time: schema.test 16 ms
+Time: schema2.test 16 ms
+Time: schema3.test 44 ms
+Time: schema4.test 18 ms
+Time: schema5.test 9 ms
+Time: schema6.test 22 ms
+Time: securedel.test 8 ms
+Time: select1.test 37 ms
+time with cache: 70506 microseconds per iteration
+time without cache: 223886 microseconds per iteration
+Time: select2.test 325 ms
+Time: select3.test 35 ms
+Time: select4.test 28 ms
+Time: select5.test 16 ms
+Time: select6.test 25 ms
+Time: select7.test 16 ms
+Time: select8.test 8 ms
+Time: selectA.test 44 ms
+Time: selectB.test 34 ms
+Time: selectC.test 15 ms
+Time: selectD.test 15 ms
+Time: selectE.test 9 ms
+Time: selectF.test 8 ms
+Time: selectG.test 424 ms
+Time: server1.test 12 ms
+Time: shared.test 145 ms
+Time: shared2.test 25 ms
+Time: shared3.test 13 ms
+Time: shared4.test 13 ms
+Time: shared6.test 13 ms
+Time: shared7.test 8 ms
+Time: shared8.test 10 ms
+Time: shared9.test 22 ms
+Time: sharedA.test 1015 ms
+Time: sharedB.test 48 ms
+Time: sharedlock.test 11 ms
+Time: shell1.test 1296 ms
+Time: shell2.test 368 ms
+Time: shell3.test 159 ms
+Time: shell4.test 92 ms
+Time: shell5.test 744 ms
+Time: shell6.test 100 ms
+Time: shell7.test 45 ms
+Time: shell8.test 2356 ms
+Time: shmlock.test 876 ms
+Time: shortread1.test 9 ms
+Time: shrink.test 30 ms
+Time: sidedelete.test 170 ms
+Time: skipscan1.test 27 ms
+Time: skipscan2.test 121 ms
+Time: skipscan3.test 14 ms
+Time: skipscan5.test 8 ms
+Time: skipscan6.test 10 ms
+Time: snapshot.test 8 ms
+Time: snapshot2.test 8 ms
+Time: snapshot3.test 8 ms
+Time: snapshot4.test 10 ms
+Time: snapshot_up.test 8 ms
+Time: softheap1.test 10 ms
+Time: sort.test 715 ms
+Time: sort2.test 787 ms
+Time: sort5.test 277 ms
+Time: sorterref.test 11 ms
+Time: spellfix.test 111 ms
+Time: spellfix2.test 14 ms
+Time: spellfix3.test 9 ms
+Time: spellfix4.test 161 ms
+Time: sqldiff1.test 21 ms
+Time: sqllog.test 8 ms
+Time: stat.test 25 ms
+Time: stmt.test 11 ms
+Time: stmtvtab1.test 11 ms
+Time: subjournal.test 25 ms
+Time: subquery.test 25 ms
+Time: subquery2.test 16 ms
+Time: subselect.test 14 ms
+Time: substr.test 25 ms
+Time: subtype1.test 8 ms
+Time: superlock.test 47 ms
+Time: swarmvtab.test 1937 ms
+Time: swarmvtab2.test 16 ms
+Time: swarmvtab3.test 338 ms
+Time: symlink.test 21 ms
+Time: sync.test 11 ms
+Time: sync2.test 8 ms
+Time: syscall.test 114 ms
+Time: tabfunc01.test 14 ms
+Time: table.test 567 ms
+Time: tableapi.test 195 ms
+Time: tableopts.test 11 ms
+Time: tclsqlite.test 25 ms
+Time: tempdb.test 10 ms
+Time: tempdb2.test 13 ms
+Time: temptable.test 18 ms
+Time: temptable2.test 4620 ms
+Time: temptable3.test 9 ms
+Time: temptrigger.test 16 ms
+Time: thread1.test 13 ms
+Time: thread2.test 10 ms
+Time: tkt-02a8e81d44.test 8 ms
+Time: tkt-18458b1a.test 10 ms
+Time: tkt-26ff0c2d1e.test 8 ms
+Time: tkt-2a5629202f.test 10 ms
+Time: tkt-2d1a5c67d.test 239 ms
+Time: tkt-2ea2425d34.test 23 ms
+Time: tkt-31338dca7e.test 20 ms
+Time: tkt-313723c356.test 45 ms
+Time: tkt-385a5b56b9.test 9 ms
+Time: tkt-38cb5df375.test 32 ms
+Time: tkt-3998683a16.test 10 ms
+Time: tkt-3a77c9714e.test 10 ms
+Time: tkt-3fe897352e.test 8 ms
+Time: tkt-4a03edc4c8.test 8 ms
+Time: tkt-4c86b126f2.test 10 ms
+Time: tkt-4dd95f6943.test 49 ms
+Time: tkt-4ef7e3cfca.test 11 ms
+Time: tkt-54844eea3f.test 10 ms
+Time: tkt-5d863f876e.test 32 ms
+Time: tkt-5e10420e8d.test 20 ms
+Time: tkt-5ee23731f.test 9 ms
+Time: tkt-6bfb98dfc0.test 10 ms
+Time: tkt-752e1646fc.test 9 ms
+Time: tkt-78e04e52ea.test 11 ms
+Time: tkt-7a31705a7e6.test 8 ms
+Time: tkt-7bbfb7d442.test 12 ms
+Time: tkt-80ba201079.test 15 ms
+Time: tkt-80e031a00f.test 21 ms
+Time: tkt-8454a207b9.test 11 ms
+Time: tkt-868145d012.test 9 ms
+Time: tkt-8c63ff0ec.test 9 ms
+Time: tkt-91e2e8ba6f.test 9 ms
+Time: tkt-94c04eaadb.test 7 ms
+Time: tkt-9a8b09f8e6.test 14 ms
+Time: tkt-9d68c883.test 65 ms
+Time: tkt-9f2eb3abac.test 127 ms
+Time: tkt-a7b7803e.test 9 ms
+Time: tkt-a7debbe0.test 15 ms
+Time: tkt-a8a0d2996a.test 10 ms
+Time: tkt-b1d3a2e531.test 13 ms
+Time: tkt-b351d95f9.test 9 ms
+Time: tkt-b72787b1.test 8 ms
+Time: tkt-b75a9ca6b0.test 11 ms
+Time: tkt-ba7cbfaedc.test 13 ms
+Time: tkt-bd484a090c.test 8 ms
+Time: tkt-bdc6bbbb38.test 16 ms
+Time: tkt-c48d99d690.test 8 ms
+Time: tkt-c694113d5.test 7 ms
+Time: tkt-cbd054fa6b.test 7 ms
+Time: tkt-d11f09d36e.test 95 ms
+Time: tkt-d635236375.test 9 ms
+Time: tkt-d82e3f3721.test 11 ms
+Time: tkt-f3e5abed55.test 12 ms
+Time: tkt-f67b41381a.test 14 ms
+Time: tkt-f777251dc7a.test 11 ms
+Time: tkt-f7b4edec.test 9 ms
+Time: tkt-f973c7ac31.test 10 ms
+Time: tkt-fa7bf5ec.test 8 ms
+Time: tkt-fc62af4523.test 230 ms
+Time: tkt-fc7bd6358f.test 13 ms
+Time: tkt1435.test 8 ms
+Time: tkt1443.test 9 ms
+Time: tkt1444.test 9 ms
+Time: tkt1449.test 15 ms
+Time: tkt1473.test 15 ms
+Time: tkt1501.test 8 ms
+Time: tkt1512.test 8 ms
+Time: tkt1514.test 8 ms
+Time: tkt1536.test 9 ms
+Time: tkt1537.test 11 ms
+Time: tkt1567.test 32 ms
+Time: tkt1644.test 9 ms
+Time: tkt1667.test 226 ms
+Time: tkt1873.test 9 ms
+Time: tkt2141.test 9 ms
+Time: tkt2192.test 12 ms
+Time: tkt2213.test 9 ms
+Time: tkt2251.test 10 ms
+Time: tkt2285.test 8 ms
+Time: tkt2332.test 41 ms
+Time: tkt2339.test 11 ms
+Time: tkt2391.test 10 ms
+Time: tkt2409.test 348 ms
+Time: tkt2450.test 10 ms
+Time: tkt2565.test 16 ms
+Time: tkt2640.test 11 ms
+Time: tkt2643.test 11 ms
+Time: tkt2767.test 10 ms
+Time: tkt2817.test 11 ms
+Time: tkt2820.test 15 ms
+Time: tkt2822.test 13 ms
+Time: tkt2832.test 9 ms
+Time: tkt2854.test 12 ms
+Time: tkt2920.test 9 ms
+Time: tkt2927.test 17 ms
+Time: tkt2942.test 11 ms
+Time: tkt3080.test 10 ms
+Time: tkt3093.test 9 ms
+Time: tkt3121.test 9 ms
+Time: tkt3201.test 13 ms
+Time: tkt3292.test 9 ms
+Time: tkt3298.test 10 ms
+Time: tkt3334.test 9 ms
+Time: tkt3346.test 12 ms
+Time: tkt3357.test 8 ms
+Time: tkt3419.test 10 ms
+Time: tkt3424.test 9 ms
+Time: tkt3442.test 10 ms
+Time: tkt3457.test 9 ms
+Time: tkt3461.test 8 ms
+Time: tkt3493.test 12 ms
+Time: tkt3508.test 9 ms
+Time: tkt3522.test 8 ms
+Time: tkt3527.test 11 ms
+Time: tkt3541.test 10 ms
+Time: tkt3554.test 10 ms
+Time: tkt3581.test 9 ms
+Time: tkt35xx.test 10 ms
+Time: tkt3630.test 11 ms
+Time: tkt3718.test 22 ms
+Time: tkt3731.test 9 ms
+Time: tkt3757.test 10 ms
+Time: tkt3761.test 8 ms
+Time: tkt3762.test 17 ms
+Time: tkt3773.test 8 ms
+Time: tkt3791.test 8 ms
+Time: tkt3793.test 17 ms
+Time: tkt3810.test 10 ms
+Time: tkt3824.test 11 ms
+Time: tkt3832.test 8 ms
+Time: tkt3838.test 11 ms
+Time: tkt3841.test 10 ms
+Time: tkt3871.test 11 ms
+Time: tkt3879.test 9 ms
+Time: tkt3911.test 10 ms
+Time: tkt3918.test 15 ms
+Time: tkt3922.test 10 ms
+Time: tkt3929.test 20 ms
+Time: tkt3935.test 9 ms
+Time: tkt3992.test 12 ms
+Time: tkt3997.test 10 ms
+Time: tkt4018.test 934 ms
+Time: tokenize.test 9 ms
+Time: tpch01.test 16 ms
+Time: trace.test 15 ms
+Time: trace2.test 12 ms
+Time: trace3.test 15 ms
+Time: trans.test 768 ms
+Time: trans3.test 10 ms
+Time: transitive1.test 27 ms
+Time: trigger1.test 32 ms
+Time: trigger2.test 117 ms
+Time: trigger3.test 14 ms
+Time: trigger4.test 19 ms
+Time: trigger5.test 15 ms
+Time: trigger6.test 17 ms
+Time: trigger7.test 19 ms
+Time: trigger8.test 15 ms
+Time: trigger9.test 28 ms
+Time: triggerA.test 745 ms
+Time: triggerB.test 110 ms
+Time: triggerC.test 2161 ms
+Time: triggerD.test 17 ms
+Time: triggerE.test 13 ms
+Time: triggerF.test 16 ms
+Time: triggerG.test 11 ms
+Time: types.test 44 ms
+Time: types2.test 52 ms
+Time: types3.test 9 ms
+Time: unionvtab.test 39 ms
+Time: unique.test 16 ms
+Time: unique2.test 18 ms
+Time: unixexcl.test 58 ms
+Time: unordered.test 11 ms
+Time: update.test 67 ms
+Time: update2.test 28 ms
+Time: upsert1.test 23 ms
+Time: upsert2.test 18 ms
+Time: upsert3.test 10 ms
+Time: upsert4.test 41 ms
+Time: uri.test 39 ms
+Time: uri2.test 7 ms
+Time: userauth01.test 8 ms
+Time: utf16align.test 12 ms
+Time: vacuum-into.test 18 ms
+Time: vacuum.test 43 ms
+Time: vacuum2.test 20 ms
+Time: vacuum4.test 10 ms
+Time: vacuum5.test 69 ms
+Time: vacuummem.test 2007 ms
+Time: varint.test 112 ms
+Time: view.test 1193 ms
+Time: vtab1.test 269 ms
+Time: vtab2.test 13 ms
+Time: vtab3.test 11 ms
+Time: vtab4.test 12 ms
+Time: vtab5.test 13 ms
+Time: vtab6.test 530 ms
+Time: vtab7.test 13 ms
+Time: vtab8.test 12 ms
+Time: vtab9.test 10 ms
+Time: vtabA.test 16 ms
+Time: vtabB.test 12 ms
+Time: vtabC.test 1544 ms
+Time: vtabD.test 902 ms
+Time: vtabE.test 9 ms
+Time: vtabF.test 10 ms
+Time: vtabH.test 28 ms
+Time: vtabI.test 13 ms
+Time: vtabJ.test 13 ms
+Time: vtab_alter.test 13 ms
+Time: vtab_shared.test 24 ms
+Time: vtabdrop.test 14 ms
+Time: wal.test 1694 ms
+Time: wal2.test 657 ms
+Time: wal3.test 15609 ms
+Time: wal4.test 169 ms
+Time: wal5.test 866 ms
+Time: wal6.test 24 ms
+Time: wal64k.test 1044 ms
+Time: wal7.test 47 ms
+Time: wal8.test 12 ms
+Time: wal9.test 1099 ms
+Time: walbak.test 83 ms
+Time: walbig.test 11 ms
+Time: walblock.test 8 ms
+Time: walcksum.test 59 ms
+Time: walcrash4.test 2592 ms
+Time: walhook.test 19 ms
+Time: walmode.test 26 ms
+Time: walnoshm.test 13 ms
+Time: waloverwrite.test 52 ms
+Time: walpersist.test 36 ms
+Time: walprotocol2.test 20 ms
+Time: walro.test 69 ms
+Time: walro2.test 291 ms
+Time: walshared.test 11 ms
+# WARNING: This next test takes around 12 seconds
+Time: walvfs.test 9995 ms
+Time: where.test 74 ms
+Time: where2.test 34 ms
+Time: where3.test 32 ms
+Time: where4.test 17 ms
+Time: where5.test 13 ms
+Time: where6.test 12 ms
+Time: where7.test 394 ms
+Time: where8.test 2397 ms
+Time: where9.test 42 ms
+Time: whereA.test 13 ms
+Time: whereB.test 23 ms
+Time: whereC.test 15 ms
+Time: whereD.test 29 ms
+Time: whereE.test 19 ms
+Time: whereF.test 21 ms
+Time: whereG.test 30 ms
+Time: whereH.test 15 ms
+Time: whereI.test 12 ms
+Time: whereJ.test 8 ms
+Time: whereK.test 9 ms
+Time: whereL.test 13 ms
+Time: wherelimit.test 8 ms
+Time: wherelimit2.test 8 ms
+Time: win32heap.test 2 ms
+Time: win32lock.test 2 ms
+Time: win32longpath.test 2 ms
+Time: win32nolock.test 1 ms
+Time: window1.test 50 ms
+Time: window2.test 28 ms
+Time: window3.test 1175 ms
+Time: window4.test 55 ms
+Time: window5.test 10 ms
+Time: window6.test 27 ms
+Time: window7.test 11 ms
+Time: window8.test 351 ms
+Time: window9.test 18 ms
+Time: windowA.test 14 ms
+Time: windowB.test 21 ms
+Time: windowerr.test 10 ms
+Time: with1.test 564 ms
+Time: with2.test 32 ms
+Time: with3.test 14 ms
+Time: with4.test 9 ms
+Time: withM.test 294 ms
+Time: without_rowid1.test 33 ms
+Time: without_rowid2.test 12 ms
+Time: without_rowid3.test 198 ms
+Time: without_rowid4.test 109 ms
+Time: without_rowid5.test 15 ms
+Time: without_rowid6.test 16 ms
+Time: without_rowid7.test 10 ms
+Time: writecrash.test 99392 ms
+Time: zeroblob.test 23 ms
+Time: zerodamage.test 11 ms
+Time: zipfile.test 218 ms
+Time: zipfile2.test 12 ms
+SQLite 2019-10-10 20:19:45 18db032d058f1436ce3dea84081f4ee5a0f2259ad97301d43c426bc7f3dfalt1
+0 errors out of 293331 tests on asus-laptop04.gunduz.org Linux 64-bit little-endian
+All memory allocations freed - no leaks
+Maximum memory usage: 9291968 bytes
+Current memory usage: 0 bytes
+Number of malloc()  : -1 calls
+Processing files: sqlite-3.30.1-1.fc32.x86_64
+
+
+RPM build errors:
