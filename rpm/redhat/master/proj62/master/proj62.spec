@@ -1,6 +1,13 @@
 %global sname proj
 %global projinstdir /usr/%{sname}62
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global sqlitepname	sqlite33
+%global sqlite33dir	/usr/sqlite330
+%else
+%global sqlitepname	sqlite
+%endif
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -9,7 +16,7 @@
 
 Name:		%{sname}62
 Version:	6.2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -20,11 +27,11 @@ Source1:	http://download.osgeo.org/%{sname}/%{sname}-datumgrid-1.8.zip
 Source2:	%{name}-pgdg-libs.conf
 
 
-BuildRequires:	sqlite-devel >= 3.7 gcc-c++
+BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++
 %if 0%{?fedora} > 28 || 0%{?rhel} == 8
-Requires:	sqlite-libs >= 3.7
+Requires:	%{sqlitepname}-libs >= 3.7
 %else
-Requires:	sqlite
+Requires:	%{sqlitepname}
 %endif
 
 %ifarch ppc64 ppc64le
@@ -80,6 +87,9 @@ done
 %endif
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
+%if 0%{?rhel} && 0%{?rhel} == 7
+export SQLITE3_LIBS='-I %{sqlite33dir}/lib'
+%endif
 
 ./configure --prefix=%{projinstdir} --without-jni
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -142,6 +152,9 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Wed Nov 13 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.2.1-2
+- Use our own sqlite33 package on RHEL 7 to fix performance issues.
+
 * Thu Aug 29 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.2.1-1
 - Update to 6.2.1
 
