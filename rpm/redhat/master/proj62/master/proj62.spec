@@ -87,6 +87,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
+LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %endif
 
 ./configure --prefix=%{projinstdir} --without-jni
@@ -98,6 +100,8 @@ export PATH=%{sqlite33dir}/bin/:$PATH
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
+LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %endif
 
 %{__rm} -rf %{buildroot}
