@@ -73,11 +73,6 @@ This package contains libproj static library.
 %prep
 %setup -q -n %{sname}-%{version}
 
-# disable internal libtool to avoid hardcoded r-path
-for makefile in `find . -type f -name 'Makefile.in'`; do
-sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
-done
-
 %build
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
@@ -87,16 +82,24 @@ done
 %endif
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
+
 %if 0%{?rhel} && 0%{?rhel} == 7
-export SQLITE3_LIBS='-I %{sqlite33dir}/lib'
+export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
+export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
+export PATH=%{sqlite33dir}/bin/:$PATH
 %endif
 
 ./configure --prefix=%{projinstdir} --without-jni
-sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
-sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
+
 %{__make} %{?_smp_mflags}
 
 %install
+%if 0%{?rhel} && 0%{?rhel} == 7
+export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
+export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
+export PATH=%{sqlite33dir}/bin/:$PATH
+%endif
+
 %{__rm} -rf %{buildroot}
 %make_install
 %{__install} -d %{buildroot}%{projinstdir}/share/%{sname}
