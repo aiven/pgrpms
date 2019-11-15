@@ -27,6 +27,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	llvm clang
 # Package builder needs to adjust this as needed.
 #BuildRequires:	oracle-instantclient11.2-basic
 #BuildRequires:	oracle-instantclient11.2-devel
@@ -77,9 +78,18 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/*.control
 %{pginstdir}/doc/extension/README.%{sname}
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %endif
+ %endif
+%endif
 
 %changelog
-
 * Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 
