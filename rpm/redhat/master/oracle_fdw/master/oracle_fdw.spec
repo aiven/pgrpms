@@ -26,8 +26,20 @@ Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+# Packages come from EPEL and SCL:
+BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 5.0.1
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+%endif
+%if 0%{?fedora}
+BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server
-BuildRequires:	llvm clang
+Requires:	libnsl
 # Package builder needs to adjust this as needed.
 #BuildRequires:	oracle-instantclient11.2-basic
 #BuildRequires:	oracle-instantclient11.2-devel
