@@ -20,6 +20,7 @@ Source0:	https://www.cpan.org/modules/by-module/DBD/DBD-Oracle-1.80.tar.gz
 Requires:	libaio
 Requires:	perl(:MODULE_COMPAT_%(eval "$(%{__perl} -V:version)"; echo $version))
 Requires:	perl(ExtUtils::MakeMaker) >= 6.30
+BuildRequires:	perl(DBI) >= 1.51 perl(ExtUtils::MakeMaker) >= 6.30
 Requires:	perl(DBI) >= 1.51
 Requires:	oracle-%{oi_ver}-basic = %{oi_release}
 BuildRequires:	oracle-%{oi_ver}-devel = %{oi_release}
