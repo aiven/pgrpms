@@ -1,4 +1,4 @@
-Name:		pgdg-redhat-nonfree-epo
+Name:		pgdg-redhat-nonfree-repo
 Version:	42.0
 Release:	6
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS NonFree
