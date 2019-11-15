@@ -36,13 +36,6 @@ enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg94-nonfree]
-name=PostgreSQL 9.4 for Fedora $releasever - $basearch - NonFree
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/9.4/fedora/fedora-$releasever-$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 # PGDG Fedora Updates Testing repositories (These packages should not be used in production)
 # Available for 9.6 and above.
 
@@ -183,14 +176,6 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg94-source-nonfree]
-name=PostgreSQL 9.4 for Fedora $releasever - $basearch - NonFree - Source
-failovermethod=priority
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/9.4/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 # Debuginfo repositories
 
 [pgdg12-debuginfo-nonfree]
@@ -220,11 +205,3 @@ baseurl=https://download.postgresql.org/pub/repos/yum/non-free/debug/9.5/fedora/
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg94-debuginfo-nonfree]
-name=PostgreSQL 9.4 for Fedora $releasever - $basearch - NonFree - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/debug/9.4/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
