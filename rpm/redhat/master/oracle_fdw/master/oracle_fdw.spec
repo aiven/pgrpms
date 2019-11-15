@@ -6,6 +6,7 @@
 # Override RPM dependency generation to filter out libclntsh.so.
 # http://fedoraproject.org/wiki/PackagingDrafts/FilteringAutomaticDependencies
 %global		_use_internal_dependency_generator 0
+%global		__find_requires %{SOURCE1}
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -23,6 +24,7 @@ Release:	1%{?dist}.1
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
+Source1:	%{sname}-filter-requires-libclntsh.sh
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
