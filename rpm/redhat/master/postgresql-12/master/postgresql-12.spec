@@ -64,7 +64,7 @@
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
-# LLVM version in RHEL 6 is not sufficient to build PG 12
+# LLVM version in RHEL 6 is not sufficient to build LLVM
 %{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
@@ -968,15 +968,20 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
-	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	strip *.so
-	%{__rm} -f GNUmakefile Makefile *.o
-	chmod 0755 pg_regress regress.so
-	popd
-	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
-	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
+        # pg_regress binary should be only in one subpackage,
+        # there will be a symlink from -test to -devel
+        %{__rm} -f %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
+	pwd
+        ls -l ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
+        %{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
+        pushd  %{buildroot}%{pginstdir}/lib/pgsql/test/regress
+        %{__rm} -f GNUmakefile Makefile *.o
+        %{__chmod} 0755 pg_regress regress.so
+        popd
+	sed 's|@bindir@|%{pginstdirr}bin/|g' \
+                < %{SOURCE4} \xxx
+                > %{buildroot}%{pginstdir}/lib/pgsql/test/regress/Makefile
+        chmod 0644 %{buildroot}%{pginstdir}/lib/pgsql/test/regress/Makefile
 %endif
 
 # Fix some more documentation
