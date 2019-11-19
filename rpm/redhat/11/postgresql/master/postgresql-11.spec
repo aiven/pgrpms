@@ -63,7 +63,7 @@
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
-# LLVM version in RHEL 6 is not sufficient to build PG 11
+# LLVM version in RHEL 6 is not sufficient to build LLVM
 %{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
@@ -71,8 +71,13 @@
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+%{!?llvm:%global llvm 0}
+ %{!?sdt:%global sdt 1}
+%else
 %{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
+%endif
 %endif
 %{!?selinux:%global selinux 1}
 %endif
@@ -227,7 +232,11 @@ BuildRequires:	selinux-policy >= 3.9.13
 # We depend un the SSL libraries provided by Advance Toolchain on PPC,
 # so use openssl-devel only on other platforms:
 %ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
 BuildRequires:	openssl-devel
+%endif
 %endif
 %endif
 
@@ -298,7 +307,11 @@ Provides:	postgresql-libs = %{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	libopenssl1_0_0
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 
 %ifarch ppc64 ppc64le
