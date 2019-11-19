@@ -71,13 +71,8 @@
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-%{!?llvm:%global llvm 0}
- %{!?sdt:%global sdt 1}
-%else
 %{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
-%endif
 %endif
 %{!?selinux:%global selinux 1}
 %endif
@@ -95,7 +90,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.6
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1535,6 +1530,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 19 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-2PGDG
+- Re-enable llvmjit subpackage on SLES 12
+
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-1PGDG
 - Update to 11.6, per changes described at
   https://www.postgresql.org/docs/release/11.6/
