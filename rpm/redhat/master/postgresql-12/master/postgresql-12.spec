@@ -72,8 +72,13 @@
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+%{!?llvm:%global llvm 0}
+ %{!?sdt:%global sdt 1}
+%else
 %{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
+%endif
 %endif
 %{!?selinux:%global selinux 1}
 %endif
@@ -228,7 +233,11 @@ BuildRequires:	selinux-policy >= 3.9.13
 # We depend un the SSL libraries provided by Advance Toolchain on PPC,
 # so use openssl-devel only on other platforms:
 %ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
 BuildRequires:	openssl-devel
+%endif
 %endif
 %endif
 
@@ -299,7 +308,11 @@ Provides:	postgresql-libs = %{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	libopenssl1_0_0
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 
 %ifarch ppc64 ppc64le
@@ -964,24 +977,19 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness. We replace the original
+	# but include them anyway for completeness.  We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
-        # pg_regress binary should be only in one subpackage,
-        # there will be a symlink from -test to -devel
-        %{__rm} -f %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
-	pwd
-        ls -l ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
-        %{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/pgsql/test/regress/pg_regress
-        pushd  %{buildroot}%{pginstdir}/lib/pgsql/test/regress
-        %{__rm} -f GNUmakefile Makefile *.o
-        %{__chmod} 0755 pg_regress regress.so
-        popd
-	sed 's|@bindir@|%{pginstdirr}bin/|g' \
-                < %{SOURCE4} \xxx
-                > %{buildroot}%{pginstdir}/lib/pgsql/test/regress/Makefile
-        chmod 0644 %{buildroot}%{pginstdir}/lib/pgsql/test/regress/Makefile
+	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	strip *.so
+	%{__rm} -f GNUmakefile Makefile *.o
+	chmod 0755 pg_regress regress.so
+	popd
+	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
+	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
 # Fix some more documentation
