@@ -1,0 +1,43 @@
+#  -*- Mode: rpm-spec; indent-tabs-mode: nil -*- */
+#  SPDX-License-Identifier: PostgreSQL
+#
+#  This file is part of PostgreSQL Global Development Group RPM Packages
+#
+#  Copyright 2019 Devrim Gündüz <devrim@gunduz.org>
+
+# RPM macros for building PostgreSQL RPM Packages
+
+%pgbaseinstdir   /usr/pgsql-%{pgmajorversion}
+
+%pgdg_set_ppc64le_compiler\
+%ifarch ppc64 ppc64le\
+# Define the AT version and path.  \
+%global atstring        at10.0 \
+%global atpath          /opt/%{atstring} \
+%endif\
+
+# PGDG Fedora Globals
+%pgdg_fedora_global_macros\
+%endif\
+
+# PGDG Python3 common macros
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%python3_build_list hstore_plpython jsonb_plpython ltree_plpython
+
+%pgdg_plpython_version\
+%if 0%{?rhel} && 0%{?rhel} <= 7\
+# RHEL 6 and 7 does not have Python 3\
+%{!?plpython3:%global plpython3 0}\
+%endif\
+%if 0%{?fedora} && 0%{?fedora} > 27\
+# All Fedora releases use Python3\
+%{!?plpython3:%global plpython3 1}\
+%endif\
+%if 0%{?rhel} && 0%{?rhel} >= 8\
+# RHEL 8 uses Python3\
+%{!?plpython3:%global plpython3 1}\
+%endif\
+
+# Macro for the dail snapshot packages
+%pgdg_build_timestamp %(date +"%Y%m%d")
+
