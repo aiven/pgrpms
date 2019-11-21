@@ -10,6 +10,13 @@
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global sqlitepname		sqlite33
+%global sqlite33dir		/usr/sqlite330
+%else
+%global sqlitepname		sqlite
+%endif
+
 # Warning to ELGIS:
 # 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
 # Tests pass though on PPC and PPC64
@@ -45,7 +52,7 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	4.3.0a
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -140,6 +147,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-5
+- Use our own sqlite33 package on RHEL 7 to fix performance issues.
+
 * Mon Nov 4 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-4
 - Rebuild for Proj 6.2.1
 
