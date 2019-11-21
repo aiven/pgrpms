@@ -18,6 +18,13 @@
 %global ogdiinstdir		/usr/ogdi%{ogdimajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global sqlitepname	sqlite33
+%global sqlite33dir	/usr/sqlite330
+%else
+%global sqlitepname	sqlite
+%endif
+
 # Major digit of the proj so version
 %global proj_somaj 15
 
@@ -80,7 +87,7 @@
 
 Name:		%{sname}30
 Version:	3.0.2
-Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -177,7 +184,11 @@ BuildRequires:	%{_bindir}/pkg-config
 BuildRequires:	poppler-devel
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 6.2.1
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	%{sqlitepname}-devel
+%else
 BuildRequires:	sqlite-devel
+%endif
 BuildRequires:	swig
 %if %{build_refman}
 BuildRequires:	texlive-collection-fontsrecommended
@@ -405,7 +416,11 @@ pushd gdal
 	%{poppler}		\
 	--with-proj=%{projinstdir}	\
 	%{spatialite}		\
+%if 0%{?rhel} && 0%{?rhel} == 7
+	--with-sqlite3=%{sqlite33dir}/lib	\
+%else
 	--with-sqlite3		\
+%endif
 	--with-threads		\
 %if 0%{?fedora}
 	--with-libkml		\
@@ -672,6 +687,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-3
+- Use our own sqlite33 package on RHEL 7 to fix performance issues.
+
 * Tue Nov 12 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-2
 - Rebuild for new poppler on RHEL 8.1
 
