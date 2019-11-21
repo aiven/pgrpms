@@ -1,1 +1,0 @@
-../master/pgdg-rpm-macros.spec
