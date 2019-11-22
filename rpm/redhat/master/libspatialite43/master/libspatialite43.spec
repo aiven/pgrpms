@@ -10,12 +10,8 @@
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
 %global sqlitepname		sqlite33
 %global sqlite33dir		/usr/sqlite330
-%else
-%global sqlitepname		sqlite
-%endif
 
 # Warning to ELGIS:
 # 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
@@ -34,14 +30,6 @@
 # Geocallbacks work with SQLite 3.7.3 and up, available in Fedora and EL 7
 %if (0%{?fedora} || 0%{?rhel} > 6)
   %global _geocallback "--enable-geocallbacks"
-%endif
-
-%if 0%{?rhel} == 6
-# Checks are known to fail if libspatialite is built without geosadvanced
-#TODO: Fails to build, reported by mail. If geosadvanced is disabled, linker flags miss geos_c
-#TODO: Check if that's still true anywhere
-  %global _geosadvanced "--disable-geosadvanced"
-  %global _no_checks 1
 %endif
 
 # check_bufovflw test fails on gcc 4.9
@@ -65,10 +53,7 @@ BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 6.2.1
 BuildRequires:	sqlite-devel
 BuildRequires:	zlib-devel
-
-%if (0%{?fedora} || 0%{?rhel} > 6)
-BuildRequires: libxml2-devel
-%endif
+BuildRequires:	libxml2-devel
 
 
 %description
@@ -103,8 +88,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-lwgeom \
 	--enable-libxml2 \
-	%{?_geocallback}   \
-	%{?_geosadvanced}
+	%{?_geocallback}
 
 %{__make} %{?_smp_mflags}
 
@@ -115,14 +99,6 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 
 # Delete undesired libtool archives
 find %{buildroot} -type f -name "*.la" -delete
-
-%check
-%if 0%{?_no_checks}
-# Run check but don't fail build
-#%%{__make} check V=1 ||:
-#%%else
-#%%{__make} check V=1
-%endif
 
 %post -p %{_sbindir}/ldconfig
 %postun -p %{_sbindir}/ldconfig
