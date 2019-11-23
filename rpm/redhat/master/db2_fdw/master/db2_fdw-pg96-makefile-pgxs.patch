@@ -5,7 +5,7 @@
  PG_CPPFLAGS  = -g -fPIC -I$(DB2_HOME)/include
  SHLIB_LINK   = -fPIC -L$(DB2_HOME)/lib64 -L$(DB2_HOME)/bin  -ldb2ci
 -PG_CONFIG    = pg_config
-+PG_CONFIG    = /usr/pgsql-96/bin/pg_config
++PG_CONFIG    = /usr/pgsql-9.6/bin/pg_config
  
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
