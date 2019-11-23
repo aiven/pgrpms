@@ -43,8 +43,6 @@ Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
 
-Obsoletes:	pgadmin4-v1 pgadmin4-v2 pgadmin4-v3
-
 BuildRequires:	gcc-c++
 
 Requires:	%{name}-web
@@ -148,8 +146,6 @@ Requires:	%{name}-docs
 Requires:	httpd
 BuildArch:	noarch
 
-Obsoletes:	pgadmin4-v1-web pgadmin4-v2-web pgadmin4-v3-web
-
 %if 0%{?rhel} && 0%{?rhel} == 8
 Requires:	%{name}-python3-flask-htmlmin >= 1.5.0 %{name}-python3-flask >= 1.0.2
 Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-sqlalchemy >= 1.2.18
@@ -226,8 +222,6 @@ This package contains the required files to run pgAdmin4 as a web application
 %package	-n %{name}-docs
 Summary:	pgAdmin4 documentation
 BuildArch:	noarch
-
-Obsoletes:	pgadmin4-v1-docs pgadmin4-v2-docs pgadmin4-v3-docs
 
 %description -n %{name}-docs
 Documentation of pgadmin4.
