@@ -11,6 +11,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/wolfgangbrandl/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	libstdc++.i686 pam.i686
 
 %description
 db2_fdw is a PostgreSQL extension that provides a Foreign Data Wrapper for
