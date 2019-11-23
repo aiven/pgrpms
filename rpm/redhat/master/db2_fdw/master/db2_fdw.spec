@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname db2_fdw
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
@@ -5,7 +6,7 @@ Name:		%{sname}%{pgmajorversion}
 Version:	2.0.1
 Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	http://api.pgxn.org/dist/db2_fdw/%{version}/db2_fdw-%{version}.zip
+Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/wolfgangbrandl/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -21,6 +22,7 @@ conditions and required columns as well as comprehensive EXPLAIN support.
 %patch0 -p0
 
 %build
+export DB2_HOME="/opt/ibm/db2/V11.5/"
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
@@ -37,6 +39,7 @@ conditions and required columns as well as comprehensive EXPLAIN support.
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/*%{sname}*.sql
 %{pginstdir}/lib/%{sname}.so
 %ifarch ppc64 ppc64le
  %else
@@ -44,7 +47,7 @@ conditions and required columns as well as comprehensive EXPLAIN support.
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
   %endif
  %endif
 %endif
