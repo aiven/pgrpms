@@ -78,14 +78,14 @@ BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-pri
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-flask-babelex
-Requires:	%{name}-python3-Flask-Compress >= 1.4.0
+Requires:	%{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-itsdangerous python3-blinker >= 1.4
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
 BuildRequires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
-Requires:	%{name}-python3-Flask-Compress >= 1.4.0
+Requires:	%{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python3-passlib >= 1.7.1 python3-dateutil >= 2.8.0 python3-simplejson >= 3.16.0
 BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
 BuildRequires:	python3-flask-security >= 3.0.0 python3-flask-principal >= 0.4.0
@@ -108,7 +108,7 @@ BuildRequires:	%{name}-python-flask-sqlalchemy >= 2.3.2 %{name}-python-Flask-Mai
 BuildRequires:	%{name}-python-dateutil >= 2.8.0 %{name}-python-flask-gravatar
 BuildRequires:	%{name}-python-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python-passlib >= 1.7.1 %{name}-python-sqlalchemy >= 1.2.18
-BuildRequires:	%{name}-python-wtforms >= 2.2.1 %{name}-python3-Flask-Compress >= 1.4.0
+BuildRequires:	%{name}-python-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python-devel
 BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
 %global QMAKE	/usr/bin/qmake-qt4
@@ -164,7 +164,7 @@ Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-six >= 1.12.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex
 Requires:	%{name}-python3-unittest2 %{name}-python3-psutil >= 5.5.1
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
-Requires:	%{name}-python3-Flask-Compress >= 1.4.0
+Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-blinker >= 1.4
@@ -175,7 +175,7 @@ Requires:	python3-mod_wsgi python3-alembic
 %if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	%{name}-pytz >= 2018.9 python3-click %{name}-python3-psutil >= 5.5.1
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
-Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-Flask-Compress >= 1.4.0
+Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
 Requires:	python3-flask-wtf >= 0.14.2 python3-sqlalchemy >= 1.2.18
 Requires:	python3-wtforms >= 2.2.1 python3-speaklater >= 1.3
@@ -206,7 +206,7 @@ Requires:	%{name}-pytz >= 2018.9 %{name}-python-sqlparse >= 0.2.4
 Requires:	%{name}-python-flask-babel >= 0.11.1 %{name}-python-flask-gravatar >= 0.5.0
 Requires:	%{name}-python-Flask-Mail >= 0.9.1 %{name}-python-flask-security >= 3.0.0
 Requires:	%{name}-python-flask-login >= 0.4.1 %{name}-python-flask-principal >= 0.4.0
-Requires:	%{name}-python-dateutil >= 2.8.0 %{name}-python-flask-babelex %{name}-python3-Flask-Compress >= 1.4.0
+Requires:	%{name}-python-dateutil >= 2.8.0 %{name}-python-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python-passlib >= 1.7.1 %{name}-python-flask-migrate >= 2.4.0
 Requires:	%{name}-python-alembic %{name}-python-sshtunnel >= 0.1.4
 Requires:	python >= 2.7 %{name}-python-six >= 1.12.0 python-psycopg2 >= 2.8
