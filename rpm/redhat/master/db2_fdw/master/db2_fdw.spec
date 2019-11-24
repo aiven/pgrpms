@@ -1,5 +1,6 @@
 %global debug_package %{nil}
 %global sname db2_fdw
++%global db2_home "/opt/ibm/db2/V11.5/"
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}%{pgmajorversion}
@@ -23,7 +24,7 @@ conditions and required columns as well as comprehensive EXPLAIN support.
 %patch0 -p0
 
 %build
-export DB2_HOME="/opt/ibm/db2/V11.5/"
+export DB2_HOME="%{db2_home}"
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
