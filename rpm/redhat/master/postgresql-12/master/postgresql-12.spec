@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 120
 %global pgpackageversion 12
@@ -25,19 +26,11 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} < 7
+%if 0%{?rhel} && 0%{?rhel} <7
 # RHEL 6 does not have Python 3
 %{!?plpython3:%global plpython3 0}
-%endif
-
-%if 0%{?fedora} > 23
+%else
 # All Fedora releases now use Python3
-%{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
-%endif
-
-%if 0%{?rhel} >= 7
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
