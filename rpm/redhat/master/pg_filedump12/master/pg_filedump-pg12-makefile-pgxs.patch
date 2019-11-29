@@ -1,0 +1,11 @@
+--- Makefile.old	2019-11-29 08:50:51.237350033 +0300
++++ Makefile	2019-11-29 08:51:02.445492623 +0300
+@@ -7,7 +7,7 @@
+ OBJS = pg_filedump.o decode.o stringinfo.o
+ REGRESS = pg_filedump
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-12/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
