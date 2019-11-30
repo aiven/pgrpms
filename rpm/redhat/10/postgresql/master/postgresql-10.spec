@@ -25,23 +25,16 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
-# RHEL 6 and 7 does not have Python 3
+%if 0%{?rhel} && 0%{?rhel} < 7
+# RHEL 6 does not have Python 3
 %{!?plpython3:%global plpython3 0}
-%endif
-
-%if 0%{?fedora} && 0%{?fedora} > 27
-# All Fedora releases now use Python3
+%else
+# All Fedora releases use Python3
+# Support Python3 on RHEL 7.7+ natively
+# RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
-%global python3_build_list hstore_plpython ltree_plpython
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# RHEL 8 now uses Python3
-%{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global python3_build_list hstore_plpython ltree_plpython
+%global	python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
