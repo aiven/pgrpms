@@ -1,0 +1,8 @@
+--- mini/CMakeLists.txt.old	2019-11-30 15:59:55.304970311 +0300
++++ mini/CMakeLists.txt	2019-11-30 16:00:03.775168163 +0300
+@@ -9,4 +9,4 @@
+ 	mini-strip.h
+ )
+ 
+-install(TARGETS mini DESTINATION lib)
++install(TARGETS mini DESTINATION lib64)
