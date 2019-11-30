@@ -8,7 +8,7 @@
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.0
+Version:	1.1.0
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
@@ -83,6 +83,9 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+- Update to 1.1.0
+
 * Fri Feb 22 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Update to 1.0.0
 
