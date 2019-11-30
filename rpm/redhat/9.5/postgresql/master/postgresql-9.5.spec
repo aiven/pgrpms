@@ -99,7 +99,7 @@
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
-%global	python3_build_list hstore_plpython jsonb_plpython ltree_plpython
+%global	python3_build_list hstore_plpython jsonb_plpython
 %endif
 
 %if 0%{?suse_version}
