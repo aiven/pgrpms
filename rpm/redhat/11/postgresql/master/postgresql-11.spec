@@ -1524,6 +1524,7 @@ fi
 %changelog
 * Tue Nov 19 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-2PGDG
 - Re-enable llvmjit subpackage on SLES 12
+- Fix PL/Python 3 packaging.
 
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 11.6-1PGDG
 - Update to 11.6, per changes described at

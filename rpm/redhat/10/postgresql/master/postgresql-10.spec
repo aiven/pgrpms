@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.11
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1427,6 +1427,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 10.11-2PGDG
+- Fix PL/Python 3 packaging.
+
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 10.11-1PGDG
 - Update to 10.11, per changes described at
   https://www.postgresql.org/docs/release/10.11/

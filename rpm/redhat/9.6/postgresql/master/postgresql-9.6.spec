@@ -76,7 +76,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.16
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1411,6 +1411,9 @@ fi
 %endif
 
 %changelog
+* Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.16-2PGDG
+- Fix PL/Python 3 packaging.
+
 * Mon Nov 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.16-1PGDG
 - Update to 9.6.16, per changes described at:
   https://www.postgresql.org/docs/release/9.6.16/
