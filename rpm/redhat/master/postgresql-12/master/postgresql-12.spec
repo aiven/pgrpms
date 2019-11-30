@@ -26,7 +26,7 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} <7
+%if 0%{?rhel} && 0%{?rhel} < 7
 # RHEL 6 does not have Python 3
 %{!?plpython3:%global plpython3 0}
 %else
