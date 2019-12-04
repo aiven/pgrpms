@@ -1,4 +1,5 @@
 %global sname tds_fdw
+
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
@@ -7,10 +8,10 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.0
-Release:	alpha.3%{?dist}
+Version:	2.0.1
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}-alpha.3.zip
+Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tds-fdw/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
@@ -30,7 +31,7 @@ called "tds_fdw". It can be used to communicate with Microsoft SQL
 Server and Sybase databases.
 
 %prep
-%setup -q -n %{sname}-%{version}-alpha.3
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -48,12 +49,14 @@ Server and Sybase databases.
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -m 644 ForeignSchemaImporting.md %{buildroot}%{pginstdir}/doc/extension/ForeignSchemaImporting-%{sname}.md
 %{__install} -m 644 ForeignServerCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignServerCreation-%{sname}.md
 %{__install} -m 644 ForeignTableCreation.md %{buildroot}%{pginstdir}/doc/extension/ForeignTableCreation-%{sname}.md
 %{__install} -m 644 UserMappingCreation.md %{buildroot}%{pginstdir}/doc/extension/UserMappingCreation-%{sname}.md
 %{__install} -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{sname}.md
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%{__rm} -f %{buildroot}/%{_docdir}/pgsql/extension/README.%{sname}.md
+%{__rm} -f %{buildroot}/%{pginstdir}/doc/extension/README.%{sname}.md
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -64,7 +67,7 @@ Server and Sybase databases.
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
-%{pginstdir}/share/extension/%{sname}--%{version}-alpha.3.sql
+%{pginstdir}/share/extension/%{sname}--%{version}.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
 %ifarch ppc64 ppc64le
@@ -79,6 +82,9 @@ Server and Sybase databases.
 %endif
 
 %changelog
+* Wed Dec 4 2019 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
+- Update to 2.0.1
+
 * Sat Jan 19 2019 - Devrim Gündüz <devrim@gunduz.org> 2.0.0-alpha.3
 - Update to 2.0.0-alpha.3 for testing repo only.
 
