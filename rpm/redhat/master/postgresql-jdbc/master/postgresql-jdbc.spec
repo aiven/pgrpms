@@ -16,6 +16,7 @@ Requires:	java-headless >= 1:1.8
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	java-1_8_0-openjdk-devel
+Patch0:		%{name}-sles12-java8.patch
 %endif
 %else
 BuildRequires:	java-1.8.0-openjdk-devel
@@ -46,7 +47,11 @@ This package contains the API Documentation for %{name}.
 
 %prep
 %setup -c -q -n %{tarballname}
-
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%patch0 -p0
+%endif
+%endif
 %{__mv} -f %{tarballname}/* .
 %{__rm} -f %{tarballname}/.gitattributes
 %{__rm} -f %{tarballname}/.gitignore
