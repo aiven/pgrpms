@@ -122,12 +122,20 @@ fi
 
 %post
 /sbin/ldconfig
-%if %{systemd_enabled}
-%systemd_post %{sname}-%{pgmajorversion}.service
-%else
-# This adds the proper /etc/rc*.d links for the script
-/sbin/chkconfig --add %{sname}-%{pgpackageversion}
-%endif
+if [ $1 -eq 1 ] ; then
+ %if %{systemd_enabled}
+   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} >= 1315
+    %systemd_add_pre %{sname}-%{pgmajorversion}.service
+   %endif
+   %else
+    %systemd_post %{sname}-%{pgmajorversion}.service
+   %endif
+  %else
+   /sbin/chkconfig --add %{sname}-%{pgpackageversion}
+  %endif
+fi
 
 %postun -p /sbin/ldconfig
 
