@@ -127,7 +127,7 @@ if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
-    %systemd_add_pre %{sname}-%{pgmajorversion}.service
+    %service_add_pre %{sname}-%{pgmajorversion}.service
    %endif
    %else
     %systemd_post %{sname}-%{pgmajorversion}.service
