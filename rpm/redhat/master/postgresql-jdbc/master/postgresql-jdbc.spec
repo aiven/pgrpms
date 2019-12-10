@@ -21,7 +21,7 @@ BuildRequires:	java-1_8_0-openjdk-devel
 BuildRequires:	java-1.8.0-openjdk-devel
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
+%if 0%{?rhel} && 0%{?rhel} <= 6
 # On RHEL 6, we depend on the apache-maven package that we provide via our
 # repo. Build servers should not have any other apache-maven package from other
 # repos, because they depend on java-1.7.0, which is not supported by pgjdbc.
