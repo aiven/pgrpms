@@ -40,8 +40,8 @@ Requires:	python
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.9
-Release:	2%{?dist}
+Version:	2.10
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
@@ -121,8 +121,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %doc NEWS README.rst
 %{_bindir}/barman-wal-archive
 %{_bindir}/barman-wal-restore
-%doc %{_mandir}/man1/barman-wal-archive.1.gz
-%doc %{_mandir}/man1/barman-wal-restore.1.gz
+%{_bindir}/barman-cloud-backup
+%{_bindir}/barman-cloud-wal-archive
+%doc %{_mandir}/man1/barman-cloud*
+%doc %{_mandir}/man1/barman-wal*
 
 %files -n %{__python_ver}-barman
 %defattr(-,root,root)
@@ -131,6 +133,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Tue Dec 10 2019 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
+- Update to 2.10, per changes described at:
+  https://www.pgbarman.org/barman-2-10-released/#release-notes
+
 * Mon Aug 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-2
 - Un-break RHEL 6 packages. Per https://redmine.postgresql.org/issues/4767
 
