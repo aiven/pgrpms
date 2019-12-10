@@ -47,6 +47,7 @@ Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
+Patch0:		%{name}-no-connection-from-backupinfo.patch
 BuildArch:	noarch
 BuildRequires:	%{__python_ver}-setuptools
 Requires:	/usr/sbin/useradd rsync >= 3.0.4
@@ -68,12 +69,16 @@ Client utilities for the integration of Barman in PostgreSQL clusters.
 
 %package -n %{__python_ver}-barman
 Summary:	The shared libraries required for Barman family components
-Requires:	%{__python_ver}-setuptools, %{__python_ver}-psycopg2 >= 2.4.2, %{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete, %{__python_ver}-dateutil
+Requires:	%{__python_ver}-setuptools %{__python_ver}-psycopg2 >= 2.4.2 %{__python_ver}-dateutil
+%if 0%{?rhel} || 0%{?fedora}
+Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
+%endif
 %description -n %{__python_ver}-barman
 Python libraries used by Barman.
 
 %prep
 %setup -n barman-%{version}%{?extra_version:%{extra_version}} -q
+%patch0 -p1
 
 %build
 %{__ospython} setup.py build
@@ -136,6 +141,8 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 * Tue Dec 10 2019 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
 - Update to 2.10, per changes described at:
   https://www.pgbarman.org/barman-2-10-released/#release-notes
+- Add a temp patch, per https://redmine.postgresql.org/issues/4992#note-2
+- Relax SLES 12 dependencies. Per #4910
 
 * Mon Aug 5 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-2
 - Un-break RHEL 6 packages. Per https://redmine.postgresql.org/issues/4767
