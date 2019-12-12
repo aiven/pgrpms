@@ -29,7 +29,7 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.15
+Version:	%{pgadminmajorversion}.16
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -400,6 +400,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Dec 12 2019 - Devrim Gündüz <devrim@gunduz.org> 4.16-1
+- Update to 4.16
+
 * Sat Nov 23 2019 - Devrim Gündüz <devrim@gunduz.org> 4.15-1
 - Update to 4.15
 
