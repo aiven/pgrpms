@@ -42,7 +42,7 @@ This package provides test tools and scripts related to PG-Strom
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} CUDA_PATH=%{__cuda_path}  PG_CONFIG=%{pginstdir}/bin/pg_config DESTDIR=%{buildroot} install
+%{__make} CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config DESTDIR=%{buildroot} install
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}/%{__systemd_conf}
 
 %clean
@@ -74,7 +74,6 @@ This package provides test tools and scripts related to PG-Strom
   %endif
  %endif
 %endif
-
 
 %files test
 %{pginstdir}/bin/dbgen-ssbm
