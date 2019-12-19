@@ -35,14 +35,14 @@ Requires:	%{sname}-%{pgmajorversion}
 This package provides test tools and scripts related to PG-Strom
 
 %prep
-%setup -q -n %{sname}-2.2-2
+%setup -q -n pg-strom-%{version}
 
 %build
-%{__make} -j 8 CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/pg_config
+%{__make} -j 8 CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} CUDA_PATH=%{__cuda_path} PG_CONFIG=%{__pg_config} DESTDIR=%{buildroot} install
+%{__make} CUDA_PATH=%{__cuda_path}  PG_CONFIG=%{pginstdir}/bin/pg_config DESTDIR=%{buildroot} install
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}/%{__systemd_conf}
 
 %clean
@@ -57,11 +57,12 @@ This package provides test tools and scripts related to PG-Strom
 %files
 %defattr(-,root,root,-)
 %doc LICENSE README.md
-%{__pkglibdir}/%{sname}.so
-%{__pkgbindir}/gpuinfo
-%{__pkgbindir}/pg2arrow
-%{__pkgsharedir}/extension/%{sname}.control
-%{__pkgsharedir}/%{sname}/*
+
+%{pginstdir}/lib/%{sname}.so
+%{pginstdir}/bin/gpuinfo
+%{pginstdir}/bin/pg2arrow
+%{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/%{sname}/*
 %config %{__systemd_conf}
 %ifarch ppc64 ppc64le
  %else
@@ -69,14 +70,15 @@ This package provides test tools and scripts related to PG-Strom
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
   %endif
  %endif
 %endif
 
 
 %files test
-%{__pkgbindir}/dbgen-ssbm
-%{__pkgbindir}/testapp_largeobject
+%{pginstdir}/bin/dbgen-ssbm
+%{pginstdir}/bin/testapp_largeobject
 
 %changelog
 * Thu Dec 19 2019 Devrim Gündüz <devrim@gunduz.org> 2.2-2
