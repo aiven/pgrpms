@@ -80,6 +80,6 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/testapp_largeobject
 
 %changelog
-* Thu Dec 19 2019 Devrim Gündüz <devrim@gunduz.org> 2.2-2
+* Thu Dec 19 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2-2
 - Initial packaging for the PostgreSQL RPM repository,
-  based on KaiGai's spec fle.
+  based on KaiGai's spec file
