@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.12.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -125,6 +125,9 @@ EOF
 %{__install} -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
 %endif
 
+# Create the directory for the pid files (defined in pgbouncer.ini)
+%{__install} -d -m 755 %{buildroot}/var/run/%{name}
+
 # Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
@@ -198,8 +201,13 @@ fi
 %{_mandir}/man1/%{name}.*
 %{_mandir}/man5/%{name}.*
 %{_sysconfdir}/%{name}/mkauth.py*
+%attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Thu Dec 19 2019 - John Harvey <john.harvey@crunchydata.com> 1.12.0-3
+- Make sure that directory /var/run/pgbouncer is created with the RPM.
+  This will ensure that pgbouncer.ini will work with its defaults.
+
 * Thu Oct 17 2019 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-2
 - Use python3-psycopg2 as the dependency. instead of python-psycopg2.
   This will help us to solve conflict on Fedora 31 and onwards.
