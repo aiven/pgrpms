@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.1.0
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 #Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -170,6 +170,9 @@ EOF
 %{__install} -d %{buildroot}%{_sysconfdir}/init.d
 %{__install} -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/%{name}
 %endif
+
+# Create the directory for the pid files (defined in pgpool.conf.sample)
+%{__install} -d -m 755 %{buildroot}/var/run/%{name}
 
 %{__install} -d %{buildroot}%{_sysconfdir}/sysconfig
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_sysconfdir}/sysconfig/%{name}
@@ -322,6 +325,7 @@ fi
  %{pginstdir}/lib/bitcode/pgpool-recovery/*.bc
  %endif
 %endif
+%attr(755,postgres,postgres) %dir /var/run/%{name}
 
 %files devel
 %{pgpoolinstdir}/include/libpcp_ext.h
@@ -345,6 +349,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Dec 20 2019 - John Harvey <john.harvey@crunchydata.com> 4.1.0-2
+- Make sure that directory /var/run/%{name} is created with the RPM.
+  This will ensure that pgpool.conf.sample will work with its defaults.
+
 * Wed Sep 11 2019 Devrim Gündüz <devrim@gunduz.org> 4.1.0-1
 - Initial packaging for 4.1
 
