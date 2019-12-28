@@ -1,1 +1,0 @@
-../master/pg_squeeze.spec

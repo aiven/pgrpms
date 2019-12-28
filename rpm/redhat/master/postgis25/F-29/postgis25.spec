@@ -1,1 +1,0 @@
-../master/postgis25.spec
