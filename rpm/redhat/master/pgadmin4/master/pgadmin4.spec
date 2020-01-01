@@ -30,7 +30,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.16
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -46,27 +46,6 @@ Source8:	%{name}.service.in
 BuildRequires:	gcc-c++
 
 Requires:	%{name}-web
-
-%if 0%{?fedora} && 0%{?fedora} < 30
-BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-dateutil >= 2.8.0 %{name}-python3-simplejson >= 3.16.0
-BuildRequires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-gravatar >= 0.5.0
-BuildRequires:	%{name}-python3-flask-babel %{name}-python3-flask-htmlmin >= 1.5.0
-BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal >= 0.4.0
-BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
-BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
-BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-flask-babelex
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
-BuildRequires:	python3-itsdangerous python3-flask-sqlalchemy >= 2.3.2
-%global QMAKE	/usr/bin/qmake-qt5
-%endif
-
-%if 0%{?fedora} && 0%{?fedora} == 28
-BuildRequires:	pgadmin4-python3-blinker >= 1.4
-%endif
-
-%if 0%{?fedora} && 0%{?fedora} == 29
-BuildRequires:	python3-blinker >= 1.4
-%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
 BuildRequires:	%{name}-python3-passlib >= 1.7.1 %{name}-python3-dateutil >= 2.8.0 %{name}-python3-simplejson >= 3.16.0
@@ -158,14 +137,13 @@ Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >=
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-six >= 1.12.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex
-Requires:	%{name}-python3-unittest2 %{name}-python3-psutil >= 5.5.1
+Requires:	%{name}-python3-psutil >= 5.5.1  %{sname}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-babel >= 2.3.4
-Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23
+Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23 python3-babel >= 2.3.4
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-blinker >= 1.4
 Requires:	python3-psycopg2 >= 2.8 python3-itsdangerous >= 0.24
-Requires:	python3-mod_wsgi python3-alembic
+Requires:	python3-mod_wsgi python3-alembic python3-unittest2
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
@@ -400,6 +378,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Jan 1 2020 - Devrim Gündüz <devrim@gunduz.org> 4.16-2
+- Fix a dependency for RHEL 8
+- Clean references to unsupported distros
+
 * Thu Dec 12 2019 - Devrim Gündüz <devrim@gunduz.org> 4.16-1
 - Update to 4.16
 
