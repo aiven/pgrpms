@@ -1,0 +1,1 @@
+../master/pgadmin4-python-brotli.spec
