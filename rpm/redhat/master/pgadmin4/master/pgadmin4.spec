@@ -137,7 +137,7 @@ Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >=
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9 python3-click
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-six >= 1.12.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-babelex
-Requires:	%{name}-python3-psutil >= 5.5.1  %{sname}-python3-flask-sqlalchemy >= 2.3.2
+Requires:	%{name}-python3-psutil >= 5.5.1  %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23 python3-babel >= 2.3.4
