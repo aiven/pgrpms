@@ -10,7 +10,7 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	3.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -44,6 +44,14 @@ of the PostgreSQL cluster and the system utilization
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
+# Install CGI
+%{__install} -d %{buildroot}/var/www/cgi-bin
+%{__install} -m 644 cgi-bin/%{name}.cgi %{buildroot}/var/www/cgi-bin/%{name}.cgi
+
+# Install pgCluu config file
+%{__install} -d %{buildroot}%{_sysconfdir}/
+%{__install} -m 644 pgcluu.conf %{buildroot}%{_sysconfdir}/%{name}.conf
+
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{buildroot}%{_unitdir}/
@@ -66,6 +74,8 @@ of the PostgreSQL cluster and the system utilization
 %perl_vendorarch/auto/pgCluu/.packlist
 %{_mandir}/man1/%{name}.1p.gz
 %{_sysconfdir}/httpd/conf.d/%{name}.conf
+%{_sysconfdir}/%{name}.conf
+/var/www/cgi-bin/%{name}.cgi
 %if %{systemd_enabled}
 %{_unitdir}/%{name}_collectd.service
 %{_unitdir}/%{name}.service
@@ -73,6 +83,9 @@ of the PostgreSQL cluster and the system utilization
 %endif
 
 %changelog
+* Wed Jan 1 2020 Devrim Gündüz <devrim@gunduz.org> 3.1-2
+- Add cgi file and config file, per #4833
+
 * Tue Oct 29 2019 Devrim Gündüz <devrim@gunduz.org> 3.1-1
 - Update to 3.1
 
