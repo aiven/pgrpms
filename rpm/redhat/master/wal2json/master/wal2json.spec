@@ -3,8 +3,8 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0
-Release:	3%{?dist}.1
-License:	PostgreSQL
+Release:	4%{?dist}
+License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_1_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/eulerto/wal2json
@@ -57,6 +57,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Thu Jan 2 2020 - John Harvey <john.harvey@crunchydata.com> 1.0-4
+- Update license type
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
