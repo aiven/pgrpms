@@ -3,9 +3,9 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
 Version:	2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
-Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_1_0.tar.gz
+Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_0.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/eulerto/wal2json
 # This is for older spec files (RHEL <= 6)
@@ -27,7 +27,7 @@ options to include properties such as transaction timestamp,
 schema-qualified, data types, and transaction ids.
 
 %prep
-%setup -q -n %{sname}-%{sname}_1_0
+%setup -q -n %{sname}-%{sname}_2_0
 %patch0 -p0
 
 %build
@@ -57,6 +57,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Mon Jan 6 2020 - John Harvey <john.harvey@crunchydata.com> 2.0-2
+- fix source pathing
+
 * Sun Jan 5 2020 Devrim Gündüz <devrim@gunduz.org> 2.0-1
 - Update to 2.0
 

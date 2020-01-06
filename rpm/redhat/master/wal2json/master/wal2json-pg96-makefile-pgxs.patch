@@ -1,8 +1,8 @@
---- Makefile.old	2018-07-02 15:02:33.115783692 +0100
-+++ Makefile	2018-07-02 15:02:41.804831356 +0100
+--- Makefile.old	2020-01-06 10:03:03.000000000 -0500
++++ Makefile	2020-01-06 10:03:20.000000000 -0500
 @@ -5,7 +5,7 @@
- 		  delete3 delete4 savepoint specialvalue toast bytea message typmod \
- 		  filtertable selecttable
+ 		  filtertable selecttable include_timestamp include_lsn include_xids \
+ 		  truncate actions
  
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
