@@ -2,22 +2,13 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.20
+Version:	2.21
 Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
-Requires:	perl-XML-LibXML perl-IO-Socket-SSL
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	perl-parent perl-JSON perl-Time-HiRes
-%else
-Requires:	perl-JSON-PP
-%endif
-Requires:	perl-Digest-SHA perl-DBD-Pg perl-Time-HiRes zlib
-Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-BuildRequires:	openssl-devel zlib-devel perl-ExtUtils-Embed
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 Requires:	postgresql-libs
 
 
@@ -68,8 +59,8 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Thu Dec 12 2019 Devrim Gündüz <devrim@gunduz.org> - 2.20-1
-- Update to 2.20
+* Thu Jan 16 2020 Devrim Gündüz <devrim@gunduz.org> - 2.21-1
+- Update to 2.21
 
 * Tue Nov 12 2019 Devrim Gündüz <devrim@gunduz.org> - 2.19-1
 - Update to 2.19
