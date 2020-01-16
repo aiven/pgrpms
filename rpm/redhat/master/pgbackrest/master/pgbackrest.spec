@@ -8,6 +8,7 @@ License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
+Patch0:		pgbackrest-libxmlinclude.patch
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 Requires:	postgresql-libs
 
@@ -25,6 +26,7 @@ are required to perform a backup which increases security.
 
 %prep
 %setup -q -n %{name}-release-%{version}
+%patch0 -p0
 
 %build
 pushd src
