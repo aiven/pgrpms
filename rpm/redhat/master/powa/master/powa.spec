@@ -91,7 +91,7 @@ This is the user interface of POWA.
 # Build powa-web
 tar zxf %{SOURCE1}
 pushd %{swebname}-%{powawebversion}
-%{__python} setup.py build
+%{__ospython} setup.py build
 popd
 
 %install
@@ -103,7 +103,7 @@ popd
 
 # Install powa-web
 pushd %{swebname}-%{powawebversion}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 # Install sample conf file
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
 %{__install} powa-web.conf-dist %{buildroot}%{_sysconfdir}
