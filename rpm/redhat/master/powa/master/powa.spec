@@ -21,14 +21,17 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%if 0%{?fedora} >= 30 || 0%{?rhel} == 8
+%global __ospython %{_bindir}/python3
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%endif
 
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}.1
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/%{swebname}/archive/%{powawebversion}.tar.gz
@@ -67,7 +70,7 @@ It is similar to Oracle AWR or SQL Server MDW.
 %package web
 Summary:	The user interface of powa
 BuildRequires:	python-setuptools
-Requires:	python-tornado >= 2.0, python-psycopg2, python-sqlalchemy
+Requires:	python-tornado >= 2.0, python3-psycopg2, python-sqlalchemy
 
 %description web
 This is the user interface of POWA.
@@ -152,6 +155,9 @@ popd
 %endif
 
 %changelog
+* Sat Jan 18 2020 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-3
+- Attempt to fix RHEL 8 builds. Move to Python3.
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
