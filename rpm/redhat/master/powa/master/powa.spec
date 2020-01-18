@@ -69,8 +69,8 @@ It is similar to Oracle AWR or SQL Server MDW.
 
 %package web
 Summary:	The user interface of powa
-BuildRequires:	python-setuptools
-Requires:	python-tornado >= 2.0, python3-psycopg2, python-sqlalchemy
+BuildRequires:	python3-setuptools
+Requires:	python3-tornado >= 2.0, python3-psycopg2, python3-sqlalchemy
 
 %description web
 This is the user interface of POWA.
