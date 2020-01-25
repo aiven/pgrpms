@@ -67,7 +67,8 @@ trail or audit log. The term audit log is used in this documentation.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/pgaudit--1.0--1.1.1.sql
-%{pginstdir}/share/extension/pgaudit--1.1.1.sql
+%{pginstdir}/share/extension/pgaudit--1.1.1--1.1.2.sql
+%{pginstdir}/share/extension/pgaudit--1.1.2.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
