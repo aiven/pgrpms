@@ -29,8 +29,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.16
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.17
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -208,8 +208,11 @@ Documentation of pgadmin4.
 %package	-n %{name}-desktop-common
 Summary:	Desktop components of pgAdmin4 for all window managers.
 Requires:	%{name}-web
-%if 0%{?fedora} || 0%{?rhel} == 8
+%if 0%{?fedora}
 Requires:	qt >= 5.1
+%endif
+%if 0%{?rhel} == 8
+Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6
@@ -225,9 +228,13 @@ Requires:	%{name}-web
 BuildArch:	noarch
 Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
-%if 0%{?fedora} || 0%{?rhel} == 8
+%if 0%{?fedora}
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
+%endif
+%if 0%{?rhel} == 8
+Requires:	gnome-shell
+Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6
@@ -378,6 +385,10 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Sat Jan 25 2020 - Devrim Gündüz <devrim@gunduz.org> 4.17-1
+- Update to 4.17
+- More RHEL 8 fixes
+
 * Wed Jan 1 2020 - Devrim Gündüz <devrim@gunduz.org> 4.16-2
 - Fix a dependency for RHEL 8
 - Clean references to unsupported distros
