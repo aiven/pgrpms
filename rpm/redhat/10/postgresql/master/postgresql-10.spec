@@ -273,6 +273,7 @@ Requires:      libopenssl1_0_0
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
+%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
