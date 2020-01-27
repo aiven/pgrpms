@@ -1,10 +1,10 @@
 Name:           pitrery
-Version:        2.3
+Version:        3.0
 Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
 URL:            https://github.com/dalibo/%{name}
-Source0:        https://dl.dalibo.com/public/%{name}/%{name}-%{version}.tar.gz
+Source0:        https://github.com/dalibo/%{name}/releases/download/v%{version}/%{name}-%{version}.tar.gz
 Patch1:         %{name}.config.patch
 BuildArch:      noarch
 Requires:       bash, rsync
@@ -32,9 +32,9 @@ restores for PostgreSQL.
 %files
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
-%{_bindir}/archive_xlog
+%{_bindir}/archive_wal
 %{_bindir}/%{name}
-%{_bindir}/restore_xlog
+%{_bindir}/restore_wal
 %dir %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/COPYRIGHT
 %doc %{_docdir}/%{name}/INSTALL.md
@@ -42,10 +42,13 @@ restores for PostgreSQL.
 %doc %{_docdir}/%{name}/%{name}.conf
 %doc %{_docdir}/%{name}/CHANGELOG
 %doc %{_mandir}/man1/%{name}.1.gz
-%doc %{_mandir}/man1/archive_xlog.1.gz
-%doc %{_mandir}/man1/restore_xlog.1.gz
+%doc %{_mandir}/man1/archive_wal.1.gz
+%doc %{_mandir}/man1/restore_wal.1.gz
 
 %changelog
+* Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0-1
+- Update to 3.0
+
 * Fri Jul 12 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3-1
 - Update to 2.3
 
