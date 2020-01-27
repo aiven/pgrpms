@@ -2,11 +2,11 @@
 
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_15
+%global pgbulkloadpackagever 3_1_16
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	3.1.15
+Version:	3.1.16
 Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
@@ -73,6 +73,9 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.16-1
+- Update to 3.1.16
+
 * Tue Jan 22 2019 Devrim Gündüz <devrim@gunduz.org> - 3.1.15-1
 - Update to 3.1.15
 
