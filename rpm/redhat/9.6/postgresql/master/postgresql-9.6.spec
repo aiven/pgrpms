@@ -1,6 +1,5 @@
 # These are macros to be used with find_lang and other stuff
 %global sname postgresql
-%global pgmajorversion 96
 %global prevmajorversion 9.5
 %global pgpackageversion 9.6
 %global pginstdir /usr/pgsql-%{pgpackageversion}
@@ -141,10 +140,14 @@ BuildRequires:	readline-devel
 BuildRequires:	zlib-devel >= 1.0.4
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
+# We depend on the SSL libraries provided by Advance Toolchain on PPC,
 # so use openssl-devel only on other platforms:
 %ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
 BuildRequires:	openssl-devel
+%endif
 %endif
 %endif
 
@@ -253,7 +256,11 @@ Provides:	postgresql-libs = %{pgpackageversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:      libopenssl1_0_0
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 
 %ifarch ppc64 ppc64le
@@ -1331,7 +1338,6 @@ fi
 %dir %{pginstdir}/share
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-#%attr(700,postgres,postgres) %dir /var/lib/pgsql
 %endif
 %else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
