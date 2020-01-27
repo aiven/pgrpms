@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.11
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -190,10 +190,14 @@ BuildRequires: selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
+# We depend on the SSL libraries provided by Advance Toolchain on PPC,
 # so use openssl-devel only on other platforms:
 %ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
 BuildRequires:	openssl-devel
+%endif
 %endif
 %endif
 
@@ -263,6 +267,9 @@ Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
+%else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:      libopenssl1_0_0
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
@@ -1427,6 +1434,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 10.11-3PGDG
+- SLES 12 fixes
+
 * Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 10.11-2PGDG
 - Fix PL/Python 3 packaging.
 
