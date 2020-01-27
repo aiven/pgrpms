@@ -30,7 +30,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.17
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -144,6 +144,7 @@ Requires:	python3-jinja2 >= 2.7.3	python3-markupsafe >= 0.23 python3-babel >= 2.
 Requires:	python3-beautifulsoup4 >= 4.4.1 python3-blinker >= 1.4
 Requires:	python3-psycopg2 >= 2.8 python3-itsdangerous >= 0.24
 Requires:	python3-mod_wsgi python3-alembic python3-unittest2
+Requires:	python3-cryptography python3-bcrypt python3-pynacl
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
@@ -385,6 +386,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Jan 27 2020 - Devrim Gündüz <devrim@gunduz.org> 4.17-2
+- Final RHEL 8 fixes, per Svensson Peter.
+
 * Sat Jan 25 2020 - Devrim Gündüz <devrim@gunduz.org> 4.17-1
 - Update to 4.17
 - More RHEL 8 fixes
