@@ -2,7 +2,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.22
+Version:	2.23
 Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -31,6 +31,7 @@ are required to perform a backup which increases security.
 %build
 pushd src
 export CPPFLAGS='-I %{pginstdir}/include'
+export PATH=%{pginstdir}/bin/:$PATH
 LDFLAGS='-L%{pginstdir}/lib' %configure
 %{__make}
 popd
@@ -61,6 +62,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Jan 28 2020 Devrim Gündüz <devrim@gunduz.org> - 2.23-1
+- Update to 2.23
+
 * Sat Jan 25 2020 Devrim Gündüz <devrim@gunduz.org> - 2.22-1
 - Update to 2.22
 
