@@ -7,8 +7,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.7.6
-Release:	1%{?dist}.1
+Version:	1.8.2
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -77,6 +77,9 @@ performance issues.
 %endif
 
 %changelog
+* Fri Jan 31 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.2-1
+- Update to 1.8.2
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
