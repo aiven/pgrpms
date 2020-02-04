@@ -1,10 +1,10 @@
 Summary:	Dump a PostgreSQL database with data dumped in binary format
 Name:		pg_dumpbinary
-Version:	1.0
+Version:	2.0
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
-URL:		https://github.com/darold/%{name}
+Source0:	https://github.com/lzlabs/%{name}/archive/v%{version}.tar.gz
+URL:		https://github.com/lzlabs/%{name}
 Requires:	perl-Time-HiRes
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildArch:	noarch
@@ -44,5 +44,8 @@ pg_restorebinary.
 %{_mandir}/man1/pg_restorebinary.1p.gz
 
 %changelog
+* Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
+- Update to 2.0
+
 * Sun Sep 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial packaging for PostgreSQL RPM Repository.
