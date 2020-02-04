@@ -1,5 +1,5 @@
---- ./src/backend/utils/misc/postgresql.conf.sample.old	2020-02-04 19:29:30.546783980 +0300
-+++ ./src/backend/utils/misc/postgresql.conf.sample	2020-02-04 19:29:43.334852142 +0300
+--- src/backend/utils/misc/postgresql.conf.sample.old	2020-02-04 19:29:30.546783980 +0300
++++ src/backend/utils/misc/postgresql.conf.sample	2020-02-04 19:29:43.334852142 +0300
 @@ -418,25 +418,25 @@
  
  # - Where to Log -
