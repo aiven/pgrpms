@@ -1,54 +1,47 @@
---- postgresql.conf.sample.old	2020-02-04 19:29:30.546783980 +0300
-+++ postgresql.conf.sample	2020-02-04 19:29:43.334852142 +0300
-@@ -418,25 +418,25 @@
+Change the built-in default socket directory to be /var/run/postgresql.
+For backwards compatibility with (probably non-libpq-based) clients that
+might still expect to find the socket in /tmp, also create a socket in
+/tmp.  This is to resolve communication problems with clients operating
+under systemd's PrivateTmp environment, which won't be using the same
+global /tmp directory as the server; see bug #825448.
+
+Note that we apply the socket directory change at the level of the
+hard-wired defaults in the C code, not by just twiddling the setting in
+postgresql.conf.sample; this is so that the change will take effect on
+server package update, without requiring any existing postgresql.conf
+to be updated.  (Of course, a user who dislikes this behavior can still
+override it via postgresql.conf.)
+
+--- src/backend/utils/misc/guc.c.old	2020-02-04 19:31:44.260496683 +0300
++++ src/backend/utils/misc/guc.c	2020-02-04 19:33:03.402918515 +0300
+@@ -4064,7 +4064,7 @@
+ 		},
+ 		&Unix_socket_directories,
+ #ifdef HAVE_UNIX_SOCKETS
+-		DEFAULT_PGSOCKET_DIR,
++		DEFAULT_PGSOCKET_DIR ", /tmp",
+ #else
+ 		"",
+ #endif
+--- src/bin/initdb/initdb.c.old	2020-02-04 19:31:54.060548918 +0300
++++ src/bin/initdb/initdb.c	2020-02-04 19:33:03.403918520 +0300
+@@ -1091,7 +1091,7 @@
  
- # - Where to Log -
+ #ifdef HAVE_UNIX_SOCKETS
+ 	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = '%s'",
+-			 DEFAULT_PGSOCKET_DIR);
++			 DEFAULT_PGSOCKET_DIR ", /tmp");
+ #else
+ 	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = ''");
+ #endif
+--- src/include/pg_config_manual.h.old	2020-02-04 19:32:11.436641533 +0300
++++ src/include/pg_config_manual.h	2020-02-04 19:33:03.403918520 +0300
+@@ -197,7 +197,7 @@
+  * is changed, a client will connect via TCP/IP by default and will only use
+  * an AF_UNIX socket if one is explicitly specified.
+  */
+-#define DEFAULT_PGSOCKET_DIR  "/tmp"
++#define DEFAULT_PGSOCKET_DIR  "/var/run/postgresql"
  
--#log_destination = 'stderr'		# Valid values are combinations of
-+log_destination = 'stderr'		# Valid values are combinations of
- 					# stderr, csvlog, syslog, and eventlog,
- 					# depending on platform.  csvlog
- 					# requires logging_collector to be on.
- 
- # This is used when logging to stderr:
--#logging_collector = off		# Enable capturing of stderr and csvlog
-+logging_collector = on			# Enable capturing of stderr and csvlog
- 					# into log files. Required to be on for
- 					# csvlogs.
- 					# (change requires restart)
- 
- # These are only used if logging_collector is on:
--#log_directory = 'log'			# directory where log files are written,
-+log_directory = 'log'			# directory where log files are written,
- 					# can be absolute or relative to PGDATA
--#log_filename = 'postgresql-%Y-%m-%d_%H%M%S.log'	# log file name pattern,
-+log_filename = 'postgresql-%a.log'	# log file name pattern,
- 					# can include strftime() escapes
- #log_file_mode = 0600			# creation mode for log files,
- 					# begin with 0 to use octal notation
--#log_truncate_on_rotation = off		# If on, an existing log file with the
-+log_truncate_on_rotation = on		# If on, an existing log file with the
- 					# same name as the new log file will be
- 					# truncated rather than appended to.
- 					# But such truncation only occurs on
-@@ -444,9 +444,9 @@
- 					# or size-driven rotation.  Default is
- 					# off, meaning append to existing files
- 					# in all cases.
--#log_rotation_age = 1d			# Automatic rotation of logfiles will
-+log_rotation_age = 1d			# Automatic rotation of logfiles will
- 					# happen after that time.  0 disables.
--#log_rotation_size = 10MB		# Automatic rotation of logfiles will
-+log_rotation_size = 0			# Automatic rotation of logfiles will
- 					# happen after that much log output.
- 					# 0 disables.
- 
-@@ -522,7 +522,7 @@
- #log_duration = off
- #log_error_verbosity = default		# terse, default, or verbose messages
- #log_hostname = off
--#log_line_prefix = '%m [%p] '		# special values:
-+log_line_prefix = '%m [%p] '		# special values:
- 					#   %a = application name
- 					#   %u = user name
- 					#   %d = database name
+ /*
+  * This is the default event source for Windows event log.
