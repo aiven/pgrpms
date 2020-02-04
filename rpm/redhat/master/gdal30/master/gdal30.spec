@@ -51,7 +51,7 @@
 
 
 # Tests can be of a different version
-%global testversion 3.0.2
+%global testversion 3.0.4
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
@@ -86,8 +86,8 @@
 %endif
 
 Name:		%{sname}30
-Version:	3.0.2
-Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Version:	3.0.4
+Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -95,7 +95,7 @@ URL:		http://www.gdal.org
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
-Source1:	%{sname}autotest-3.0.1.zip
+Source1:	%{sname}autotest-3.0.4.zip
 
 # Cleaner script for the tarball
 Source3:	%{sname}-cleaner.sh
@@ -273,7 +273,6 @@ This package contains HTML and PDF documentation for GDAL.
 %prep
 %setup -q -n %{sname}-%{version}-fedora -a 1
 
-pushd gdal
 # Delete bundled libraries
 %{__rm} -rf frmts/zlib
 %{__rm} -rf frmts/png/libpng
@@ -283,7 +282,6 @@ pushd gdal
 %{__rm} -rf frmts/gtiff/libgeotiff \
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
-popd
 
 %patch3 -p0 -b .completion~
 %patch8 -p0 -b .java~
@@ -316,38 +314,38 @@ done
 set -x
 
 for f in apps; do
-pushd gdal/$f
+pushd $f
   chmod 644 *.cpp
 popd
 done
 
 # Replace hard-coded library- and include paths
-sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' gdal/configure
-sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' gdal/configure
-sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' gdal/configure
-sed -i 's|-L\$DODS_LIB -ldap++|-ldap++|g' gdal/configure
-sed -i 's|-L\$with_ogdi -L\$with_ogdi/lib -logdi|-logdi|g' gdal/configure
-sed -i 's|-L\$with_jpeg -L\$with_jpeg/lib -ljpeg|-ljpeg|g' gdal/configure
-sed -i 's|-L\$with_libtiff\/lib -ltiff|-ltiff|g' gdal/configure
-sed -i 's|-lgeotiff -L$with_geotiff $LIBS|-lgeotiff $LIBS|g' gdal/configure
-sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' gdal/configure
+sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
+sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' configure
+sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' configure
+sed -i 's|-L\$DODS_LIB -ldap++|-ldap++|g' configure
+sed -i 's|-L\$with_ogdi -L\$with_ogdi/lib -logdi|-logdi|g' configure
+sed -i 's|-L\$with_jpeg -L\$with_jpeg/lib -ljpeg|-ljpeg|g' configure
+sed -i 's|-L\$with_libtiff\/lib -ltiff|-ltiff|g' configure
+sed -i 's|-lgeotiff -L$with_geotiff $LIBS|-lgeotiff $LIBS|g' configure
+sed -i 's|-L\$with_geotiff\/lib -lgeotiff $LIBS|-lgeotiff $LIBS|g' configure
 
 # libproj is dlopened; upstream sources point to .so, which is usually not present
 # http://trac.osgeo.org/gdal/ticket/3602
-sed -i 's|libproj.so|libproj.so.%{proj_somaj}|g' gdal/ogr/ogrct.cpp
+sed -i 's|libproj.so|libproj.so.%{proj_somaj}|g' ogr/ogrct.cpp
 
 # Adjust check for LibDAP version
 # http://trac.osgeo.org/gdal/ticket/4545
 %if %cpuarch == 64
-  sed -i 's|with_dods_root/lib|with_dods_root/lib64|' gdal/configure
+  sed -i 's|with_dods_root/lib|with_dods_root/lib64|' configure
 %endif
 
 # Fix mandir
-sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" gdal/configure
+sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
 
 # Add our custom cflags when trying to find geos
 # https://bugzilla.redhat.com/show_bug.cgi?id=1284714
-sed -i 's|CFLAGS=\"${GEOS_CFLAGS}\"|CFLAGS=\"${CFLAGS} ${GEOS_CFLAGS}\"|g' gdal/configure
+sed -i 's|CFLAGS=\"${GEOS_CFLAGS}\"|CFLAGS=\"${CFLAGS} ${GEOS_CFLAGS}\"|g' configure
 
 %build
 #TODO: Couldn't I have modified that in the prep section?
@@ -374,7 +372,6 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %global g2clib grib2c
 %endif
 
-pushd gdal
 ./configure \
 	LIBS="-l%{g2clib} -ltirpc" \
 	--prefix=%{gdalinstdir}	\
@@ -431,7 +428,6 @@ pushd gdal
 
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
 sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
-popd
 
 # {?_smp_mflags} doesn't work; Or it does -- who knows!
 # NOTE: running autoconf seems to break build:
@@ -442,17 +438,15 @@ POPPLER_OPTS="POPPLER_0_20_OR_LATER=yes POPPLER_0_23_OR_LATER=yes POPPLER_BASE_S
 %if 0%{?fedora} > 26 || 0%{?rhel} > 7
 POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 %endif
-pushd gdal
 export SHLIB_LINK="$SHLIB_LINK"
 %{__make} %{?_smp_mflags} $POPPLER_OPTS
 
 %{__make} man
 %{__make} docs
-popd
 
 # Build some utilities, as requested in BZ #1271906
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
-pushd gdal/ogr/ogrsf_frmts/s57/
+pushd ogr/ogrsf_frmts/s57/
   %{__make} all
 popd
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
@@ -467,7 +461,7 @@ echo "-------------------------------------------------------------------#######
 %global docdirs apps doc doc/br doc/ru ogr ogr/ogrsf_frmts frmts/gxf frmts/iso8211 frmts/pcidsk frmts/sdts frmts/vrt ogr/ogrsf_frmts/dgn/
 for docdir in %{docdirs}; do
   # CreateHTML and PDF documentation, if specified
-  pushd gdal/$docdir
+  pushd $docdir
     if [ ! -f Doxyfile ]; then
       doxygen -g
     else
@@ -499,7 +493,6 @@ export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
 # Starts here
-pushd gdal
 SHLIB_LINK="$SHLIB_LINK" make DESTDIR=%{buildroot}	\
 	install	\
 	install-man
@@ -510,7 +503,7 @@ SHLIB_LINK="$SHLIB_LINK" make DESTDIR=%{buildroot}	\
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
 
 # Install formats documentation
-for dir in gdal/frmts gdal/ogr/ogrsf_frmts gdal/ogr; do
+for dir in frmts ogr/ogrsf_frmts ogr; do
   %{__mkdir} -p $dir
   find $dir -name "*.html" -exec install -p -m 644 '{}' $dir \;
 done
@@ -601,9 +594,6 @@ for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetPropert
   %{__rm} -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
 done
 
-# ends here
-popd
-
 #TODO: What's that?
 %{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/*_%{name}-%{version}-fedora_apps_*
 %{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps_.1*
@@ -657,7 +647,7 @@ popd
 %{gdalinstdir}/share/man/man1/gnm*.1
 
 %files libs
-%doc gdal/LICENSE.TXT gdal/NEWS gdal/PROVENANCE.TXT gdal/COMMITTERS
+%doc LICENSE.TXT NEWS PROVENANCE.TXT COMMITTERS
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}.*
 %{gdalinstdir}/share/
@@ -676,7 +666,6 @@ popd
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
-%doc README.md
 
 #TODO: jvm
 #Should be managed by the Alternatives system and not via ldconfig
@@ -687,6 +676,9 @@ popd
 #Or as before, using ldconfig
 
 %changelog
+* Tue Feb 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
+- Update to 3.0.4
+
 * Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-3
 - Use our own sqlite33 package on RHEL 7 to fix performance issues.
 

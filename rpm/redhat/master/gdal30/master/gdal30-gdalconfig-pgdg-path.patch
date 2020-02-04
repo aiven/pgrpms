@@ -1,5 +1,5 @@
---- gdal/apps/GNUmakefile.old	2019-10-29 13:09:53.782156222 +0000
-+++ gdal/apps/GNUmakefile	2019-10-29 13:10:27.692469453 +0000
+--- apps/GNUmakefile.old	2019-10-29 13:09:53.782156222 +0000
++++ apps/GNUmakefile	2019-10-29 13:10:27.692469453 +0000
 @@ -203,8 +203,8 @@
  	echo '#!/bin/sh' > gdal-config-inst
  	echo 'CONFIG_LIBS="$(CONFIG_LIBS_INS)"' >> gdal-config-inst
