@@ -90,7 +90,7 @@ Release:	%{pgdg_build_timestamp}_devel_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-#Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
+#Source0:	https://download.postgresql.org/pub/source/v%%{version}/postgresql-%%{version}.tar.bz2
 Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
