@@ -1,7 +1,7 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
-Version:	2.24.0
-Release:	1%{?dist}.1
+Version:	2.25.0
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://bucardo.org/wiki/Check_postgres
@@ -47,6 +47,9 @@ scripts.
 %{_bindir}/%{name}.pl
 
 %changelog
+* Tue Feb 4 2020 - Devrim Gündüz <devrim@gunduz.org> 2.25.0-1
+- Update to 2.25.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.24.0-1.1
 - Rebuild against PostgreSQL 11.0
 
