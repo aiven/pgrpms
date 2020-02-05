@@ -11,7 +11,7 @@ Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 # Remove this patch in next release:
 %if 0%{?rhel} && 0%{?rhel} == 7
-Patch1:		%{name}-%{version}-rhel7-build.patch
+Patch1:		%{sname}-%{version}-rhel7-build.patch
 %endif
 
 %description
