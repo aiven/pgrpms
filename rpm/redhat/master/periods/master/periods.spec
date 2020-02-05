@@ -4,11 +4,15 @@ Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+# Remove this patch in next release:
+%if 0%{?rhel} && 0%{?rhel} == 7
+Patch1:		%{name}-%{version}-rhel7-build.patch
+%endif
 
 %description
 This extension recreates the behavior defined in SQL:2016 (originally in
@@ -20,6 +24,10 @@ to simulate the behavior once the feature is finally integrated.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+# Remove this patch in next release:
+%if 0%{?rhel} && 0%{?rhel} == 7
+%patch1  -p0
+%endif
 
 %build
 USE_PGXS=1 %{__make} %{?_smp_mflags}
@@ -51,6 +59,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
+- Add a patch to fix RHEL 7 builds, per Vik.
+
 * Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
 - Update to 1.1
 
