@@ -10,7 +10,7 @@
 %global	libspatialiteversion	50
 %endif
 %global	ogdimajorversion	41
-%global	projmajorversion	62
+%global	projmajorversion	63
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
@@ -183,7 +183,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 6.2.1
+BuildRequires:	proj%{projmajorversion}-devel >= 6.3.1
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
@@ -678,6 +678,7 @@ done
 %changelog
 * Tue Feb 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
 - Update to 3.0.4
+- Update Proj dependency to 6.3.0
 
 * Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-3
 - Use our own sqlite33 package on RHEL 7 to fix performance issues.
