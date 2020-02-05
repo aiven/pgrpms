@@ -7,26 +7,26 @@
 
 %global geosversion	38
 %global gdalversion	30
-%global projversion	62
+%global projversion	63
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
 %global gdalinstdir /usr/gdal%{gdalversion}
 
-%global gdalminorversion 3.0.2
+%global gdalminorversion 3.0.4
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global     sfcgal 1}
@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-3.0.0.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -375,6 +375,9 @@ fi
 %endif
 
 %changelog
+* Wed Feb 5 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-2
+- Rebuild for Proj 6.3.0 and GDAL 3.0.4
+
 * Fri Oct 25 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 
