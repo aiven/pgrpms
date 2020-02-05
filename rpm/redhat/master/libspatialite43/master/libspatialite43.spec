@@ -5,7 +5,7 @@
 %global	libspatialiteversion	43
 
 %global geosmajorversion	38
-%global projmajorversion	62
+%global projmajorversion	63
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
@@ -40,7 +40,7 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	4.3.0a
-Release:	5%{?dist}
+Release:	6%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -50,7 +50,7 @@ Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
 BuildRequires:	freexl-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
-BuildRequires:	proj%{projmajorversion}-devel >= 6.2.1
+BuildRequires:	proj%{projmajorversion}-devel >= 6.3.0
 BuildRequires:	sqlite-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libxml2-devel
@@ -123,6 +123,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Wed Feb 5 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-6
+- Rebuild for Proj 6.3.0
+
 * Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-5
 - Use our own sqlite33 package on RHEL 7 to fix performance issues.
 
