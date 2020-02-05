@@ -29,8 +29,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.17
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.18
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -386,6 +386,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Feb 5 2020 - Devrim Gündüz <devrim@gunduz.org> 4.18-1
+- Update to 4.18
+
 * Mon Jan 27 2020 - Devrim Gündüz <devrim@gunduz.org> 4.17-2
 - Final RHEL 8 fixes, per Svensson Peter.
 
