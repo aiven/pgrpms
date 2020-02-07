@@ -1,4 +1,5 @@
 %global sname		pljava
+%global debug_package %{nil}
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
@@ -38,15 +39,6 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__cp} -f %{sname}-examples/target/%{sname}-examples-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
 %{__cp} -f %{sname}-api/target/%{sname}-api-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--%{version}.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1--1.5.2.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.2--1.5.3.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA1--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA2--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.0-BETA3--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA1--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA2--1.5.1.sql
-%{__ln_s} -s %{pginstdir}/share/%{sname}/%{sname}--%{version}.sql  %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--1.5.1-BETA3--1.5.1.sql
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}--unpackaged.sql %{buildroot}%{pginstdir}/share/%{sname}/%{sname}--unpackaged--%{version}.sql
 
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
