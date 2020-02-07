@@ -64,7 +64,7 @@ using pgAdmin.
 if [ $1 -eq 1 ] ; then
 groupadd -r pgagent >/dev/null 2>&1 || :
 useradd -g pgagent -r -s /bin/false \
-	-c "pgAgent Job Schedule" pgagent >/dev/null 2>&1 || :
+	-c "pgAgent Job Scheduler" pgagent >/dev/null 2>&1 || :
 touch /var/log/pgagent_%{pgmajorversion}.log
 fi
 %{__chown} pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
