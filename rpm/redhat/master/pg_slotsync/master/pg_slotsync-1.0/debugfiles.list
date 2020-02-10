@@ -1,5 +1,0 @@
-%dir /usr/lib/debug
-%dir /usr/lib/debug/usr
-%dir /usr/lib/debug/usr/pgsql-9.6
-%dir /usr/lib/debug/usr/pgsql-9.6/lib
-/usr/lib/debug/usr/pgsql-9.6/lib/pg_slotcontrol.so-1.0-1.f42.1.x86_64.debug
