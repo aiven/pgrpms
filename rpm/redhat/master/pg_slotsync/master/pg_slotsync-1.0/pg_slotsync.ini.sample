@@ -1,0 +1,8 @@
+[global]
+slotname=testslot
+interval=5
+
+[servers]
+alpha=host=/tmp port=5500 dbname=postgres
+bravo=host=/tmp port=5501 dbname=postgres
+charlie=host=/tmp port=5502 dbname=postgres
