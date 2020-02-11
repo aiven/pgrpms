@@ -111,8 +111,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.20
-Release:	2PGDG%{?dist}
+Version:	9.5.21
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -1427,6 +1427,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.21-1PGDG
+- Update to 9.5.21, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-21.html
+
 * Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 9.5.20-2PGDG
 - Fix PL/Python 3 packaging.
 
