@@ -1417,7 +1417,7 @@ fi
 %endif
 
 %changelog
-* Tue Feb 11 2019 Devrim Gündüz <devrim@gunduz.org> - 9.6.17-1PGDG
+* Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.17-1PGDG
 - Update to 9.6.17, per changes described at:
   https://www.postgresql.org/docs/release/9.6.17/
 
