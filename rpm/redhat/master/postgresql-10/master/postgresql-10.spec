@@ -78,8 +78,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.11
-Release:	3PGDG%{?dist}
+Version:	10.12
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1435,6 +1435,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 10.12-1PGDG
+- Update to 10.12, per changes described at
+  https://www.postgresql.org/docs/release/10.12/
+
 * Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 10.11-3PGDG
 - SLES 12 fixes
 
