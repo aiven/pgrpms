@@ -83,8 +83,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.1
-Release:	2PGDG%{?dist}
+Version:	12.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1530,6 +1530,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-1PGDG
+- Update to 12.2, per changes described at
+  https://www.postgresql.org/docs/release/12.2/
+
 * Tue Nov 19 2019 Devrim Gündüz <devrim@gunduz.org> - 12.1-2PGDG
 - Re-enable llvmjit subpackage on SLES 12
 - Fix PL/Python 3 packaging.
