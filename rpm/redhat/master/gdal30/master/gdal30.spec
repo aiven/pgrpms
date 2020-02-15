@@ -4,7 +4,7 @@
 
 %global	geosmajorversion	38
 %global	libgeotiffmajorversion	15
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global	libspatialiteversion	43
 %else
 %global	libspatialiteversion	50
