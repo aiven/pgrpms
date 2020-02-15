@@ -1,7 +1,7 @@
 %global sname proj
 %global projinstdir /usr/%{sname}63
 
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global sqlitepname	sqlite33
 %global sqlite33dir	/usr/sqlite330
 %else
@@ -83,7 +83,7 @@ This package contains libproj static library.
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
 
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
@@ -96,7 +96,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{__make} %{?_smp_mflags}
 
 %install
-%if 0%{?rhel} && 0%{?rhel} == 7
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
