@@ -20,7 +20,11 @@ Patch1:		%{name}-4.1.0-mkinstalldirs.patch
 BuildRequires:	gcc
 BuildRequires:	unixODBC-devel
 BuildRequires:	zlib-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libexpat-devel
+%else
 BuildRequires:	expat-devel
+%endif
 BuildRequires:	tcl-devel
 BuildRequires:	libtirpc-devel
 
@@ -39,7 +43,12 @@ data products/formats.
 Summary:	OGDI header files and documentation
 Requires:	%{name} = %{version}-%{release}
 Requires:	pkgconfig
-Requires:	zlib-devel expat-devel
+Requires:	zlib-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libexpat-devel
+%else
+BuildRequires:	expat-devel
+%endif
 
 %description devel
 OGDI header files and developer's documentation.
