@@ -100,8 +100,8 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 # Delete undesired libtool archives
 find %{buildroot} -type f -name "*.la" -delete
 
-%post -p %{_sbindir}/ldconfig
-%postun -p %{_sbindir}/ldconfig
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %clean
 %{__rm} -rf %{buildroot}
