@@ -1,10 +1,6 @@
 %global sname	sqlite
 %global sqlite33instdir /usr/sqlite330
 
-# bcond default logic is nicely backwards...
-%bcond_without tcl
-%bcond_with static
-
 %define	realver	3300100
 %define	docver	3300100
 %define	rpmver	3.30.1
@@ -12,7 +8,7 @@
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	Public Domain
 URL:		http://www.sqlite.org/
 
@@ -35,12 +31,6 @@ Patch5:		sqlite-3.18.0-sync2-dirsync.patch
 BuildRequires:	gcc
 BuildRequires:	ncurses-devel readline-devel glibc-devel
 BuildRequires:	autoconf
-%if %{with tcl}
-BuildRequires:	/usr/bin/tclsh
-BuildRequires:	tcl-devel
-%{!?tcl_version:	%global tcl_version 8.6}
-%{!?tcl_sitearch:	%global tcl_sitearch %{sqlite33instdir}/lib/tcl%{tcl_version}}
-%endif
 
 Requires:		%{name}-libs = %{version}-%{release}
 
@@ -100,24 +90,6 @@ that can be used to eliminate resource leaks, making is suitable for
 use in long-running programs such as graphical user interfaces or
 embedded controllers.
 
-%if %{with tcl}
-%package tcl
-Summary:	Tcl module for the sqlite3 embeddable SQL database engine
-Requires:	%{name} = %{version}-%{release}
-Requires:	tcl(abi) = %{tcl_version}
-
-%description tcl
-This package contains the tcl modules for %{name}.
-
-%package analyzer
-Summary:	An analysis program for sqlite3 database files
-Requires:	%{name} = %{version}-%{release}
-Requires:	tcl(abi) = %{tcl_version}
-
-%description analyzer
-This package contains the analysis program for %{name}.
-%endif
-
 %prep
 %setup -q -a1 -n sqlite-src-%{realver}
 %patch1 -p1
@@ -140,14 +112,13 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 		-DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 \
 		-DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
 		-Wall -fno-strict-aliasing"
-./configure %{!?with_tcl:--disable-tcl} \
+./configure --disable-tcl \
 	--prefix=%{sqlite33instdir} \
 	--libdir=%{sqlite33instdir}/lib \
 	--enable-fts5 \
 	--enable-threadsafe \
 	--enable-threads-override-locks \
-	--enable-load-extension \
-	%{?with_tcl:TCLLIBDIR=%{tcl_sitearch}/sqlite3}
+	--enable-load-extension
 
 # rpath removal
 sed -i 's|^hardcode_libdir_flag_spec=.*|hardcode_libdir_flag_spec=""|g' libtool
@@ -155,25 +126,12 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %{__make} %{?_smp_mflags}
 
-# Build sqlite3_analyzer
-# depends on tcl
-%if %{with tcl}
-%{__make} %{?_smp_mflags} sqlite3_analyzer
-%endif
-
 %install
 %{__make} DESTDIR=${RPM_BUILD_ROOT} install
 
 %{__install} -D -m0644 sqlite3.1 $RPM_BUILD_ROOT/%{sqlite33instdir}/man/man1/sqlite3.1
 %{__install} -D -m0755 lemon $RPM_BUILD_ROOT/%{sqlite33instdir}/bin/lemon
 %{__install} -D -m0644 tool/lempar.c $RPM_BUILD_ROOT/%{sqlite33instdir}/data/lemon/lempar.c
-
-%if %{with tcl}
-# fix up permissions to enable dep extraction
-chmod 0755 ${RPM_BUILD_ROOT}/%{tcl_sitearch}/sqlite3/*.so
-# Install sqlite3_analyzer
-%{__install} -D -m0755 sqlite3_analyzer $RPM_BUILD_ROOT/%{sqlite33instdir}/bin/sqlite3_analyzer
-%endif
 
 %if ! %{with static}
 %{__rm} -f $RPM_BUILD_ROOT/%{sqlite33instdir}/lib/*.{la,a}
@@ -206,15 +164,10 @@ chmod 0755 ${RPM_BUILD_ROOT}/%{tcl_sitearch}/sqlite3/*.so
 %{sqlite33instdir}/bin/lemon
 %{sqlite33instdir}/data/lemon
 
-%if %{with tcl}
-%files tcl
-%{tcl_sitearch}/sqlite3
-
-%files analyzer
-%{sqlite33instdir}/bin/sqlite3_analyzer
-%endif
-
 %changelog
+* Sat Feb 15 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-2
+- Remove tcl and  analyze subpackages. We don't need them.
+
 * Wed Nov 13 2019 Devrim Gündüz <devrim@gunduz.org> - 3.30-1.1
 - Initial packaging for PostgreSQL RPM repository to fix
   performance issues on RHEL 7 with new Proj and co.
