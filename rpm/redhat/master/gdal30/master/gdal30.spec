@@ -200,8 +200,8 @@ BuildRequires:	tex(xtab.sty)
 %endif
 BuildRequires:	unixODBC-devel
 %if 0%{?suse_version} >= 1315
-BuildRequires:	hdf hdf-devel hdf-static
-BuildRequires:	hdf5 hdf5-devel hdf5-static
+BuildRequires:	hdf hdf-devel hdf-devel-static
+BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
 BuildRequires:	libexpat-devel
 BuildRequires:	libxerces-c-devel
 BuildRequires:	java-1_8_0-openjdk-devel
