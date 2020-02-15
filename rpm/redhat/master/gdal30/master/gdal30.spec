@@ -106,8 +106,12 @@ Source5:	%{name}-pgdg-libs.conf
 # Fix bash-completion install dir
 Patch3:		%{name}-completion.patch
 
+%if 0%{?suse_version} >= 1315
+Patch8:		%{sname}-%{version}-java-sles.patch
+%else
 # Fedora uses Alternatives for Java
 Patch8:		%{sname}-%{version}-java.patch
+%endif
 
 Patch9:		%{sname}-%{version}-zlib.patch
 
