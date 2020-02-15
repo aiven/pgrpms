@@ -138,9 +138,6 @@ BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-# No libgta in EL5
-BuildRequires:	libgta-devel
-
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
 # No libkml in EL
@@ -157,7 +154,6 @@ BuildRequires:	libwebp-devel
 BuildRequires:	libtool
 BuildRequires:	giflib-devel
 BuildRequires:	netcdf-devel
-BuildRequires:	libdap-devel
 BuildRequires:	librx-devel
 %if 0%{?rhel}
 BuildRequires:	mariadb-devel
@@ -205,12 +201,11 @@ BuildRequires:	libxerces-c-devel
 BuildRequires:	java-1_8_0-openjdk-devel
 %else
 BuildRequires:	expat--devel
-BuildRequires:	hdf-devel
-BuildRequires:	hdf-static
-BuildRequires:	hdf5-devel
+BuildRequires:	hdf-devel hdf-static hdf5-devel
 BuildRequires:	jasper-devel
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	json-c-devel
+BuildRequires:	libdap-devel libgta-devel
 BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
 %endif
@@ -332,7 +327,11 @@ done
 sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
 sed -i 's|-I\$with_cfitsio -I\$with_cfitsio/include|-I\$with_cfitsio/include/cfitsio|g' configure
 sed -i 's|-L\$with_netcdf -L\$with_netcdf/lib -lnetcdf|-lnetcdf|g' configure
+%if 0%{?suse_version} >= 1315
+:
+%else
 sed -i 's|-L\$DODS_LIB -ldap++|-ldap++|g' configure
+%endif
 sed -i 's|-L\$with_ogdi -L\$with_ogdi/lib -logdi|-logdi|g' configure
 sed -i 's|-L\$with_jpeg -L\$with_jpeg/lib -ljpeg|-ljpeg|g' configure
 sed -i 's|-L\$with_libtiff\/lib -ltiff|-ltiff|g' configure
@@ -398,7 +397,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-geos=%{geosinstdir}/bin/geos-config	\
 	--with-geotiff=%{libgeotiffinstdir}	\
 	--with-gif		\
+%if 0%{?suse_version} >= 1315
+	--without-gta		\
+%else
 	--with-gta		\
+%endif
 	--with-hdf4		\
 	--with-hdf5		\
 	--with-jasper		\
