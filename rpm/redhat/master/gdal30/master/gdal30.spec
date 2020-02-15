@@ -135,10 +135,8 @@ BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.0
 BuildRequires:	ghostscript
-BuildRequires:	jasper-devel
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
-BuildRequires:	json-c-devel
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 # No libgta in EL5
 BuildRequires:	libgta-devel
@@ -171,7 +169,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	pcre-devel
 BuildRequires:	ogdi41-devel
 BuildRequires:	perl-devel
-BuildRequires:	perl-generators
 BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
@@ -202,7 +199,8 @@ BuildRequires:	unixODBC-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	hdf hdf-devel hdf-devel-static
 BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
-BuildRequires:	libexpat-devel
+BuildRequires:	libexpat-devel libjson-c-devel
+BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
 BuildRequires:	java-1_8_0-openjdk-devel
 %else
@@ -210,7 +208,10 @@ BuildRequires:	expat--devel
 BuildRequires:	hdf-devel
 BuildRequires:	hdf-static
 BuildRequires:	hdf5-devel
+BuildRequires:	jasper-devel
 BuildRequires:	java-devel >= 1:1.6.0
+BuildRequires:	json-c-devel
+BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
 %endif
 BuildRequires:	xz-devel
