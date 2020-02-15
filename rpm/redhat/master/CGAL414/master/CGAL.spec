@@ -32,7 +32,7 @@ BuildRequires:	libqt4-devel libqt5-qtbase-common-devel
 BuildRequires:	qt5-devel
 %endif
 
-%if 0%{?rhel} < 8
+%if 0%{?rhel} && 0%{?rhel} < 8
 BuildRequires:	qt3-devel qt-devel >= %{qt_version}
 %endif
 
@@ -63,10 +63,9 @@ Requires:	libqt4-devel libqt5-qtbase-common-devel
 Requires:	qt5-devel
 %endif
 
-%if 0%{?rhel} < 8
+%if 0%{?rhel} && 0%{?rhel} < 8
 Requires:	qt-devel%{?_isa} >= %{qt_version} qt3-devel%{?_isa}
 %endif
-
 
 Requires:	blas-devel%{?_isa} lapack-devel%{?_isa} zlib-devel%{?_isa} gmp-devel%{?_isa}
 Requires:	mpfr-devel%{?_isa}
