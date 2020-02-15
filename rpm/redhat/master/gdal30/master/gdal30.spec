@@ -204,7 +204,11 @@ BuildRequires:	tex(tocloft.sty)
 BuildRequires:	tex(xtab.sty)
 %endif
 BuildRequires:	unixODBC-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libxerces-c-devel
+%else
 BuildRequires:	xerces-c-devel
+%endif
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
