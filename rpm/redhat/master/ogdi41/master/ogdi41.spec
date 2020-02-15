@@ -5,7 +5,7 @@
 
 Name:		ogdi%{ogdimajorver}
 Version:	4.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Open Geographic Datastore Interface
 License:	BSD
 URL:		http://ogdi.sourceforge.net/
@@ -25,7 +25,6 @@ BuildRequires:	libexpat-devel
 %else
 BuildRequires:	expat-devel
 %endif
-BuildRequires:	tcl-devel
 BuildRequires:	libtirpc-devel
 
 %description
@@ -61,15 +60,6 @@ Requires:	%{name} = %{version}-%{release}
 %description odbc
 ODBC driver for OGDI.
 
-
-%package tcl
-Summary:	TCL wrapper for OGDI
-Requires:	%{name} = %{version}-%{release}
-
-%description tcl
-TCL wrapper for OGDI.
-
-
 %prep
 %setup -q -n %{sname}-%{sname}_%{gittag}
 %patch0 -p1
@@ -97,10 +87,6 @@ export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 # using %{?_smp_mflags} may break build
 %{__make}
 
-# build tcl interface
-%{__make} -C ogdi/tcl_interface \
-	TCL_LINKLIB="-ltcl"
-
 # build contributions
 %{__make} -C contrib/gdal
 
@@ -118,8 +104,6 @@ export DESTDIR=%{buildroot}
 	INST_BIN=%{buildroot}%{ogdi41instdir}/bin
 
 # install plugins olso
-%{__make} install -C ogdi/tcl_interface \
-	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
 %{__make} install -C contrib/gdal \
 	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
 %{__make} install -C ogdi/attr_driver/odbc \
@@ -187,10 +171,10 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %files odbc
 %{ogdi41instdir}/lib/%{sname}/liblodbc.so
 
-%files tcl
-%{ogdi41instdir}/lib/%{sname}/libecs_tcl.so
-
-
 %changelog
+* Sat Feb 15 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-3
+* Remove tcl subpackage We don't need it (and also SLES is throwing build
+  errors)
+
 * Mon Sep 16 2019 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2
 * Initial ogdi41 packaging for PostgreSQL RPM repository
