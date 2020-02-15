@@ -154,7 +154,6 @@ BuildRequires:	libwebp-devel
 BuildRequires:	libtool
 BuildRequires:	giflib-devel
 BuildRequires:	netcdf-devel
-BuildRequires:	librx-devel
 %if 0%{?rhel}
 BuildRequires:	mariadb-devel
 %endif
@@ -164,7 +163,6 @@ BuildRequires:	mariadb-connector-c-devel
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	pcre-devel
 BuildRequires:	ogdi41-devel
-BuildRequires:	perl-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
@@ -206,6 +204,8 @@ BuildRequires:	jasper-devel
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	json-c-devel
 BuildRequires:	libdap-devel libgta-devel
+BuildRequires:	librx-devel
+BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
 %endif
