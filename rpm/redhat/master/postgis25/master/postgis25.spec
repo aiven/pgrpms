@@ -59,7 +59,7 @@ URL:		http://www.postgis.net/
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel libproj-devel
+BuildRequires:	libjson-c-devel proj%{projversion}-devel
 %endif
 %else
 BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
@@ -89,7 +89,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= 3.8.0 proj%{projversion} xerces-c
+Requires:	geos%{geosversion} >= 3.8.0 proj%{projversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -98,9 +98,10 @@ Requires:	hdf5
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 libgdal20
+Requires:	libjson-c2 gdal%{gdalversion}-libs >= %{gdalminorversion}
+Requires:	libxerces-c-3_1
 %else
-Requires:	json-c
+Requires:	json-c xerces-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
