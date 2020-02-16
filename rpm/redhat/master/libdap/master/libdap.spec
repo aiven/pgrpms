@@ -60,7 +60,7 @@ Documentation of the libdap library.
 
 
 %prep
-%setup -n %{name}-%{version} -p1
+%setup -qn %{name}-%{version}
 iconv -f latin1 -t utf8 < COPYRIGHT_W3C > COPYRIGHT_W3C.utf8
 touch -r COPYRIGHT_W3C COPYRIGHT_W3C.utf8
 mv COPYRIGHT_W3C.utf8 COPYRIGHT_W3C
