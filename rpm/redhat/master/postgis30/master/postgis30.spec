@@ -59,7 +59,7 @@ URL:		http://www.postgis.net/
 BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel libproj-devel
+BuildRequires:	libjson-c-devel proj%{projversion}-devel
 %endif
 %else
 BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
