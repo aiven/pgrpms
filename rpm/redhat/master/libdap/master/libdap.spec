@@ -12,7 +12,7 @@ Patch0:		libdap-offline.patch
 BuildRequires:	gcc-c++
 # For autoreconf
 BuildRequires:	libtool
-BuildRequires:	bison >= 3.0
+BuildRequires:	bison
 BuildRequires:	cppunit-devel
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
@@ -60,7 +60,7 @@ Documentation of the libdap library.
 
 
 %prep
-%autosetup -n %{name}-%{version} -p1
+%setup -n %{name}-%{version} -p1
 iconv -f latin1 -t utf8 < COPYRIGHT_W3C > COPYRIGHT_W3C.utf8
 touch -r COPYRIGHT_W3C COPYRIGHT_W3C.utf8
 mv COPYRIGHT_W3C.utf8 COPYRIGHT_W3C
