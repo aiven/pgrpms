@@ -70,13 +70,13 @@ mv COPYRIGHT_W3C.utf8 COPYRIGHT_W3C
 autoreconf -f -i
 %configure --disable-static --disable-dependency-tracking
 # --enable-valgrind - missing valgrind exclusions file
-%make_build
+%{__make} %{?_smp_mflags}
 
-%{__make} docs
+%{__make} %{?_smp_mflags} docs
 
 
 %install
-%make_install INSTALL="%{__install} -p"
+%{__make} %{?_smp_mflags} install INSTALL="%{__install} -p"
 %{__mkdir} -p %{buildroot}%{_libdir}/libdap
 %{__mv} %{buildroot}%{_libdir}/libtest-types.a %{buildroot}%{_libdir}/libdap/
 %{__rm} %{buildroot}%{_libdir}/*.la
