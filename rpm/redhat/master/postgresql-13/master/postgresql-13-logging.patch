@@ -1,6 +1,6 @@
---- src/backend/utils/misc/postgresql.conf.sample.old	2018-06-27 00:25:50.289570862 +0100
-+++ src/backend/utils/misc/postgresql.conf.sample	2018-06-27 00:26:02.151635283 +0100
-@@ -359,25 +359,25 @@
+--- src/backend/utils/misc/postgresql.conf.sample.old	2020-02-16 19:53:21.012054698 +0300
++++ src/backend/utils/misc/postgresql.conf.sample	2020-02-16 19:53:26.148087616 +0300
+@@ -418,25 +418,25 @@
  
  # - Where to Log -
  
@@ -31,7 +31,7 @@
  					# same name as the new log file will be
  					# truncated rather than appended to.
  					# But such truncation only occurs on
-@@ -385,9 +385,9 @@
+@@ -444,9 +444,9 @@
  					# or size-driven rotation.  Default is
  					# off, meaning append to existing files
  					# in all cases.
@@ -43,7 +43,7 @@
  					# happen after that much log output.
  					# 0 disables.
  
-@@ -460,7 +460,7 @@
+@@ -522,7 +522,7 @@
  #log_duration = off
  #log_error_verbosity = default		# terse, default, or verbose messages
  #log_hostname = off
