@@ -213,13 +213,12 @@ BuildRequires:	librx-devel
 BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
+# Run time dependency for gpsbabel driver
+Requires:	gpsbabel
 %endif
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
-
-# Run time dependency for gpsbabel driver
-Requires:	gpsbabel
 
 # proj DL-opened in ogrct.cpp, see also fix in %%prep
 %if 0%{?__isa_bits} == 64
