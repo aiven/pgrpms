@@ -410,7 +410,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-hdf4		\
 	--with-hdf5		\
 	--with-jasper		\
+%if 0%{?suse_version} >= 1315
+	--without-java		\
+%else
 	--with-java		\
+%endif
 	--with-jpeg		\
 	--with-libjson-c	\
 	--without-jpeg12	\
