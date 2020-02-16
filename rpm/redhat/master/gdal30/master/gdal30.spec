@@ -197,6 +197,7 @@ BuildRequires:	unixODBC-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	hdf hdf-devel hdf-devel-static
 BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
+BuildRequires:	libdap-devel
 BuildRequires:	libexpat-devel libjson-c-devel
 BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
