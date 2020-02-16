@@ -1,33 +1,33 @@
-Name: libdap
-Summary: The C++ DAP2 library from OPeNDAP
-Version: 3.20.5
-Release: 1%{?dist}
+Name:		libdap
+Summary:	The C++ DAP2 library from OPeNDAP
+Version:	3.20.5
+Release:	1%{?dist}
 
-License: LGPLv2+
-libtirpc-develURL: http://www.opendap.org/
-Source0: http://www.opendap.org/pub/source/libdap-%{version}.tar.gz
+License:	LGPLv2+
+URL:		 http://www.opendap.org/
+Source0:	http://www.opendap.org/pub/source/libdap-%{version}.tar.gz
 #Don't run HTTP tests - builders don't have network connections
-Patch0: libdap-offline.patch
+Patch0:		libdap-offline.patch
 
-BuildRequires: gcc-c++
+BuildRequires:	gcc-c++
 # For autoreconf
-BuildRequires: libtool
-BuildRequires: bison >= 3.0
-BuildRequires: cppunit-devel
-BuildRequires: curl-devel
-BuildRequires: doxygen
-BuildRequires: flex
-BuildRequires: graphviz
-BuildRequires: libtirpc-devel
-BuildRequires: libuuid-devel
-BuildRequires: libxml2-devel
-BuildRequires: openssl-devel
-BuildRequires: pkgconfig
+BuildRequires:	libtool
+BuildRequires:	bison >= 3.0
+BuildRequires:	cppunit-devel
+BuildRequires:	curl-devel
+BuildRequires:	doxygen
+BuildRequires:	flex
+BuildRequires:	graphviz
+BuildRequires:	libtirpc-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	libxml2-devel
+BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig
 %ifnarch s390 %{mips}
-BuildRequires: valgrind
+BuildRequires:	valgrind
 %endif
 
-Provides: bundled(gnulib)
+Provides:	bundled(gnulib)
 
 
 %description
@@ -39,13 +39,13 @@ library and demonstrates simple uses of it.
 
 
 %package devel
-Summary: Development and header files from libdap
-Requires: %{name} = %{version}-%{release}
-Requires: curl-devel
-Requires: libxml2-devel
-Requires: pkgconfig
+Summary:	Development and header files from libdap
+Requires:	%{name} = %{version}-%{release}
+Requires:	curl-devel
+Requires:	libxml2-devel
+Requires:	pkgconfig
 # for the /usr/share/aclocal directory ownership
-Requires: automake
+Requires:	automake
 
 %description devel
 This package contains all the files needed to develop applications that
@@ -53,7 +53,7 @@ will use libdap.
 
 
 %package doc
-Summary: Documentation of the libdap library
+Summary:	Documentation of the libdap library
 
 %description doc
 Documentation of the libdap library.
@@ -65,7 +65,6 @@ iconv -f latin1 -t utf8 < COPYRIGHT_W3C > COPYRIGHT_W3C.utf8
 touch -r COPYRIGHT_W3C COPYRIGHT_W3C.utf8
 mv COPYRIGHT_W3C.utf8 COPYRIGHT_W3C
 
-
 %build
 # To fix rpath
 autoreconf -f -i
@@ -73,31 +72,26 @@ autoreconf -f -i
 # --enable-valgrind - missing valgrind exclusions file
 %make_build
 
-make docs
+%{__make} docs
 
 
 %install
 %make_install INSTALL="%{__install} -p"
-mkdir -p $RPM_BUILD_ROOT%{_libdir}/libdap
-mv $RPM_BUILD_ROOT%{_libdir}/libtest-types.a $RPM_BUILD_ROOT%{_libdir}/libdap/
-rm $RPM_BUILD_ROOT%{_libdir}/*.la
-mv $RPM_BUILD_ROOT%{_bindir}/dap-config-pkgconfig $RPM_BUILD_ROOT%{_bindir}/dap-config
+%{__mkdir} -p %{buildroot}%{_libdir}/libdap
+%{__mv} %{buildroot}%{_libdir}/libtest-types.a %{buildroot}%{_libdir}/libdap/
+%{__rm} %{buildroot}%{_libdir}/*.la
+%{__mv} %{buildroot}%{_bindir}/dap-config-pkgconfig %{buildroot}%{_bindir}/dap-config
 
-rm -rf __dist_docs
-cp -pr html __dist_docs
+%{__rm} -rf __dist_docs
+%{__cp} -pr html __dist_docs
 # those .map and .md5 are of dubious use, remove them
-rm -f __dist_docs/*.map __dist_docs/*.md5
+%{__rm} -f __dist_docs/*.map __dist_docs/*.md5
 # use the ChangeLog timestamp to have the same timestamps for the doc files 
 # for all arches
 touch -r ChangeLog __dist_docs/*
 
-
-%check
-# tarball is missing some needed files
-make check || :
-
-%post /sbin/ldconfig
-%postun /sbin/ldconfig
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
 
 %files
 %license COPYRIGHT_W3C COPYING COPYRIGHT_URI
