@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1529,6 +1529,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 17 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-2PGDG
+- Re-add debuginfo package
+
 * Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-1PGDG
 - Update to 12.2, per changes described at
   https://www.postgresql.org/docs/release/12.2/
