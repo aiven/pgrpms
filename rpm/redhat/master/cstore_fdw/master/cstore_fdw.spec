@@ -8,8 +8,8 @@
 
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.2
-Release:	1%{?dist}.1
+Version:	1.7.0
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -84,6 +84,9 @@ let you:
 
 
 %changelog
+* Tue Feb 18 2020 - Devrim Gündüz <devrim@gunduz.org> 1.7.0-1
+- Update to 1.7.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild against PostgreSQL 11.0
 
