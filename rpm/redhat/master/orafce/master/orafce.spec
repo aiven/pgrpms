@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 8
+%global orafcemidver 9
 %global orafceminver 0
 
 %ifarch ppc64 ppc64le
@@ -77,6 +77,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %endif
 
 %changelog
+* Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> 3.9.0-1
+- Update to 3.9.0
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
