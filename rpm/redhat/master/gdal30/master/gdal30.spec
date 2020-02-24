@@ -87,7 +87,7 @@
 
 Name:		%{sname}30
 Version:	3.0.4
-Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -203,7 +203,7 @@ BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
 BuildRequires:	java-1_8_0-openjdk-devel
 %else
-BuildRequires:	expat--devel
+BuildRequires:	expat-devel
 BuildRequires:	hdf-devel hdf-static hdf5-devel
 BuildRequires:	jasper-devel
 BuildRequires:	java-devel >= 1:1.6.0
@@ -373,6 +373,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{pginstdir}/lib/pkgconfig
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
@@ -428,7 +429,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--without-msg		\
 	--with-openjpeg		\
 	--with-pcraster		\
-	--with-pg=%{pginstdir}/bin/pg_config	\
+	--with-pg=yes		\
 	--with-png		\
 	%{poppler}		\
 	--with-proj=%{projinstdir}	\
@@ -696,6 +697,10 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-2
+- Fix PostgreSQL driver. Per report and analysis from Mika Heiskanen in:
+  https://redmine.postgresql.org/issues/5187
+
 * Tue Feb 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
 - Update to 3.0.4
 - Update Proj dependency to 6.3.0
