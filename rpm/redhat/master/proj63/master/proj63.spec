@@ -15,7 +15,7 @@
 %endif
 
 Name:		%{sname}63
-Version:	6.3.0
+Version:	6.3.1
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -158,5 +158,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Mon Feb 24 2020 Devrim Gündüz <devrim@gunduz.org> - 0:6.3.1-1
+- Update to 6.3.1
+
 * Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 0:6.3.0-1
 - Initial 6.3 packaging for PostgreSQL RPM Repository
