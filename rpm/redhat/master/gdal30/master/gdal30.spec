@@ -700,6 +700,7 @@ done
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-2
 - Fix PostgreSQL driver. Per report and analysis from Mika Heiskanen in:
   https://redmine.postgresql.org/issues/5187
+- Rebuild for Proj 6.3.1
 
 * Tue Feb 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
 - Update to 3.0.4
