@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f31
+DIST=.f30
 SPECFILE="proj63.spec"
 
 # Now, include global Makefile
