@@ -1,7 +1,7 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
 %global ofdwmidver 2
-%global ofdwminver 1
+%global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
 # http://fedoraproject.org/wiki/PackagingDrafts/FilteringAutomaticDependencies
@@ -20,7 +20,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
@@ -105,9 +105,6 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
-* Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> 2.2.1-1
-- Update to 2.2.1
-
 * Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 
