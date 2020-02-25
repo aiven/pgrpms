@@ -5,7 +5,7 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
@@ -133,6 +133,9 @@ EOF
 
 
 %changelog
+* Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-5
+- Rebuild for Proj 6.3.1
+
 * Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-4
 - Rebuild for Proj 6.3.0
 
