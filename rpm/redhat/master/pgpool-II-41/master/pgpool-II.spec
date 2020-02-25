@@ -25,12 +25,11 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		4.1.0
-Release:		2%{?dist}
+Version:		4.1.1
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
-#Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Source0:		http://www.pgpool.net/download.php?f=pgpool-II-%{version}.tar.gz
+Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:		%{sname}-pg%{pgmajorversion}.service
 Source2:		%{sname}.sysconfig
 Source3:		%{sname}-pg%{pgmajorversion}.init
@@ -188,7 +187,7 @@ EOF
 %pre
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-        -c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post
 # Create alternatives entries for common binaries and man files
@@ -349,8 +348,12 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> 4.1.1-1
+- Update to 4.1.1
+- Use direct download URL
+
 * Fri Dec 20 2019 - John Harvey <john.harvey@crunchydata.com> 4.1.0-2
-- Make sure that directory /var/run/%{name} is created with the RPM.
+- Make sure that directory /var/run/%%{name} is created with the RPM.
   This will ensure that pgpool.conf.sample will work with its defaults.
 
 * Wed Sep 11 2019 Devrim Gündüz <devrim@gunduz.org> 4.1.0-1
