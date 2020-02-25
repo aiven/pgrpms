@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -219,6 +219,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/lib"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -232,7 +233,6 @@ CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 %endif
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
-	--with-projdir=%{projinstdir} \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
@@ -376,6 +376,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-2
+- Use pkgconfig for Proj support, per warnings.
+
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-1
 - Update to 3.0.1
 
