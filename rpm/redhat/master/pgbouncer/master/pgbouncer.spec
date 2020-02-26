@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.12.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -31,12 +31,11 @@ Patch0:		%{name}-ini.patch
 Patch1:		%{name}-mkauth-py3.patch
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libcares-devel libevent-devel
+BuildRequires:	libevent-devel
 Requires:	libevent-devel
-%else
-BuildRequires:	c-ares-devel
 %endif
 %endif
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
 Requires:	libevent2 >= 2.0
@@ -45,8 +44,14 @@ BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 %endif
 BuildRequires:	openssl-devel pam-devel
-Requires:	c-ares pam python3-psycopg2
+Requires:	python3-psycopg2
 Requires:	initscripts
+
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+BuildRequires:	c-ares-devel >= 1.11
+Requires:	c-ares >= 1.11
+%endif
+
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -96,7 +101,11 @@ sed -i.fedora \
 	CC=%{atpath}/bin/gcc; export CC
 %endif
 
-%configure --datadir=%{_datadir} --disable-evdns --with-pam
+%configure --datadir=%{_datadir} --disable-evdns \
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+	--with-cares \
+%endif
+	--with-pam
 
 %{__make} %{?_smp_mflags} V=1
 
@@ -204,6 +213,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-4
+- Fix c-ares support. Per Peter:
+  https://redmine.postgresql.org/issues/4808
+
 * Thu Dec 19 2019 - John Harvey <john.harvey@crunchydata.com> 1.12.0-3
 - Make sure that directory /var/run/pgbouncer is created with the RPM.
   This will ensure that pgbouncer.ini will work with its defaults.
@@ -366,4 +379,3 @@ fi
 
 * Tue Mar 16 2010 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1
 - Fix some issues in init script. Fixes pgrpms.org #9.
-
