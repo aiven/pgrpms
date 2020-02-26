@@ -45,7 +45,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.8-8
+- Rebuild for Proj 6.3.1
+
 * Wed Feb 5 2020 Devrim Gunduz <devrim@gunduz.org> - 2.4.8-7
 - Proj 6.3.0 and GDAL 3.0.4
 
