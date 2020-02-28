@@ -26,8 +26,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	2.3.2
-Release:	1%{?dist}.1
+Version:	2.4.1
+Release:	1%{?dist}
 Summary:	Adds SQLAlchemy support to Flask application
 
 License:	BSD
@@ -88,6 +88,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
+- Update to 2.4.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-1.1
 - Rebuild against PostgreSQL 11.0
 
