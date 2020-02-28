@@ -25,8 +25,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	0.14.2
-Release:	1%{?dist}.1
+Version:	0.14.3
+Release:	1%{?dist}
 Summary:	Simple integration of Flask and WTForms
 
 License:	BSD
@@ -100,6 +100,9 @@ includes optional CSRF handling for greater security.
 %endif
 
 %changelog
+* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 0.14.3-1
+- Update to 0.14.3
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.14.2-1.1
 - Rebuild against PostgreSQL 11.0
 
