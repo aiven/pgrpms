@@ -25,7 +25,7 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.2.18
+Version:	1.3.13
 Release:	1%{?dist}
 Summary:	Modular and flexible ORM library for python
 License:	MIT
@@ -103,6 +103,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %endif
 
 %changelog
+* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.13-1
+- Update to 1.3.13
+
 * Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.18-1
 - Update to 1.2.18
 
