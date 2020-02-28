@@ -24,8 +24,8 @@ Name:		pgadmin4-python3-%{sname}
 %else
 Name:		pgadmin4-python-%{sname}
 %endif
-Version:	1.7.1
-Release:	1%{?dist}.1
+Version:	1.7.2
+Release:	1%{?dist}
 Summary:	Comprehensive password hashing framework supporting over 20 schemes
 
 License:	BSD and Beerware and Copyright only
@@ -87,6 +87,9 @@ multi-user application.
 %endif
 
 %changelog
+* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-1
+- Update to 1.7.2
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1.1
 - Rebuild against PostgreSQL 11.0
 
