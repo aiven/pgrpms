@@ -1,55 +1,33 @@
 %global sname simplejson
 
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
-%{!?with_python3:%global with_python3 1}
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
-%if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
-%else
-Name:		pgadmin4-python-%{sname}
-%endif
-
 Version:	3.16.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Simple, fast, extensible JSON encoder/decoder for Python
 # The main code is licensed MIT.
 # The docs include jquery which is licensed MIT or GPLv2
 License:	(MIT or AFL) and (MIT or GPLv2)
 URL:		http://undefined.org/python/#simplejson
 Source0:	https://files.pythonhosted.org/packages/source/s/%{sname}/%{sname}-%{version}.tar.gz
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 Patch1:		pgadmin4-python-simplejson-python3.patch
-%endif
 
+BuildRequires:	python3-devel python3-setuptools python3-sphinx
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	python-devel
-%endif
-%endif
-
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
-BuildRequires:	python3-devel python3-setuptools python3-nose python3-sphinx
+%if 0%{?fedora} >= 29 || 0%{?rhel} == 8
+BuildRequires:	python3-nose
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	python2-devel python-setuptools python-nose python-sphinx
+BuildRequires:	python36-nose2
 %endif
 
 # we don't want to provide private python extension libs
@@ -75,14 +53,10 @@ python stdlib.
 
 %prep
 %setup -q -n simplejson-%{version}
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
 %patch1 -p0
-%endif
 
-%if 0%{?with_python3}
 %{__rm} -rf %{py3dir}
 %{__cp} -a . %{py3dir}
-%endif # with_python3
 
 %build
 %{__ospython} setup.py build
@@ -94,15 +68,9 @@ python stdlib.
 %{__ospython} setup.py install --skip-build --root=%{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
-%if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}/%{sname}
 %{__mv} %{buildroot}%{python3_sitearch}/%{sname}/* %{buildroot}/%{pgadmin4py3instdir}/%{sname}
 %{__mv} %{buildroot}%{python3_sitearch}/%{sname}*egg* %{buildroot}/%{pgadmin4py3instdir}/
-%else # Python 2
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}/%{sname}
-%{__mv} %{buildroot}%{python2_sitearch}/%{sname}/* %{buildroot}/%{pgadmin4py2instdir}/%{sname}
-%{__mv} %{buildroot}%{python2_sitearch}/%{sname}*egg* %{buildroot}/%{pgadmin4py2instdir}
-%endif # with_python3
 
 %{__rm} docs/.buildinfo
 %{__rm} docs/.nojekyll
@@ -113,18 +81,14 @@ python stdlib.
 %files
 %defattr(-,root,root,-)
 %doc docs LICENSE.txt
-%if 0%{?with_python3}
 %dir %{pgadmin4py3instdir}/%{sname}/
 %{pgadmin4py3instdir}/%{sname}/*
 %{pgadmin4py3instdir}/%{sname}*egg*
-%else # Python 2
-%doc docs LICENSE.txt
-%dir %{pgadmin4py2instdir}/%{sname}/
-%{pgadmin4py2instdir}/%{sname}/*
-%{pgadmin4py2instdir}/%{sname}*egg*
-%endif # python3
 
 %changelog
+* Sat Feb 29 2020 Devrim Gündüz <devrim@gunduz.org> - 3.16.0-2
+- Switch to PY3 on RHEL 7
+
 * Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 3.16.0-1
 - Update to 3.16.0
 
