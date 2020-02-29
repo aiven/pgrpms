@@ -33,7 +33,6 @@ Requires:	python3-speaklater python3-pytz
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
 BuildRequires:	pgadmin4-python3-speaklater
-Requires:	python3-babel python3-flask
 Requires:	pgadmin4-python3-speaklater
 %endif
 
@@ -45,6 +44,7 @@ Requires:	pgadmin4-pytz
 
 %if 0%{?rhel} == 8
 BuildRequires:	python3-babel python3-flask python3-pytz
+Requires:	python3-flask python3-babel
 Requires:	python3-pytz
 %endif
 
