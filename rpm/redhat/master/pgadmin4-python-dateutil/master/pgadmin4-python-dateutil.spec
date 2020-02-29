@@ -20,7 +20,9 @@ Source0:	https://files.pythonhosted.org/packages/ad/99/5b2e99737edeb28c71bcbec5b
 
 BuildArch:	noarch
 
-BuildRequires:	python3-sphinx python3-devel python3-setuptools
+Obsoletes:	pgadmin4-python3-%{sname}-docs
+
+BuildRequires:	 python3-devel python3-setuptools
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} == 8
 Requires:	python3-six
@@ -51,7 +53,6 @@ iconv --from=ISO-8859-1 --to=UTF-8 NEWS > NEWS.new
 mv NEWS.new NEWS
 
 %build
-%{__make} -C docs html
 %{__ospython} setup.py build
 
 %install
@@ -65,10 +66,6 @@ mv NEWS.new NEWS
 %doc NEWS README.rst
 %{pgadmin4py3instdir}/python_%{sname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}
-
-%files doc
-%license LICENSE
-%doc docs/_build/html
 
 %changelog
 * Sat Feb 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1:2.8.0-2
