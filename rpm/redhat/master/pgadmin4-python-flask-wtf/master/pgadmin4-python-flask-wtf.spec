@@ -27,15 +27,15 @@ BuildRequires:	python3-flask-babel python3-flask python3-nose
 
 %if 0%{?rhel} >= 7
 BuildRequires:	python3-devel python3-setuptools pgadmin4-python3-wtforms > 1.0
-BuildRequires:	pgadmin4-python3-flask-babel python3-flask
+BuildRequires:	pgadmin4-python3-flask-babel
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	python36-nose
+BuildRequires:	python36-nose2 pgadmin4-python3-flask
 %endif
 
 %if 0%{?rhel} == 8
-BuildRequires:	python3-nose
+BuildRequires:	python3-nose python3-flask
 %endif
 
 %description
