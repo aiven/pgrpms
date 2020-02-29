@@ -1,4 +1,3 @@
-%global build_timestamp %(date +"%Y%m%d")
 %global sname	flask-wtf
 
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
@@ -55,7 +54,7 @@ includes optional CSRF handling for greater security.
 
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_wtf %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}.dev%{build_timestamp}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_wtf %{buildroot}%{python3_sitelib}/Flask_WTF-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 
 %clean
 %{__rm} -rf %{buildroot}
