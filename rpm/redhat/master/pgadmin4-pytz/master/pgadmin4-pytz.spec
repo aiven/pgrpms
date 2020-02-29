@@ -20,7 +20,7 @@ BuildArch:	noarch
 Requires:	tzdata
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
-BuildRequires:	python3-devel python3-pytest
+BuildRequires:	python3-devel
 %endif
 
 %description
