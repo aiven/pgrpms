@@ -36,22 +36,11 @@ Requires:	python3-speaklater python3-pytz
 %endif
 
 %if 0%{?rhel} >= 7
-BuildRequires:	python3-devel python3-setuptools
-BuildRequires:	pgadmin4-python3-speaklater python3-pytz
-Requires:	python3-babel python3-flask
-Requires:	pgadmin4-python3-speaklater
-%endif
-
-%if 0%{?rhel} == 7
 BuildRequires:	python3-babel python3-devel
 BuildRequires:	python3-flask python3-setuptools
 BuildRequires:	pgadmin4-python3-speaklater python3-pytz
 Requires:	python3-babel python3-flask
 Requires:	pgadmin4-python3-speaklater python3-pytz
-%endif
-
-%if 0%{?rhel} == 8
-BuildRequires:	python3-babel python3-flask python3-pytz
 %endif
 
 %if 0%{?suse_version}
