@@ -1,4 +1,3 @@
-%global build_timestamp %(date +"%Y%m%d")
 %global sname flask-sqlalchemy
 %global mod_name Flask-SQLAlchemy
 
@@ -53,11 +52,11 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
-%{__mv} %{buildroot}%{python3_sitelib}/flask_sqlalchemy %{buildroot}%{python3_sitelib}/Flask_SQLAlchemy-%{version}.dev%{build_timestamp}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
+%{__mv} %{buildroot}%{python3_sitelib}/flask_sqlalchemy %{buildroot}%{python3_sitelib}/Flask_SQLAlchemy-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
 
 %files
-%license LICENSE
-%doc docs/ README CHANGES.rst
+%license LICENSE.rst
+%doc docs/ README.rst CHANGES.rst
 %{pgadmin4py3instdir}/Flask_SQLAlchemy*.egg-info
 %{pgadmin4py3instdir}/flask_sqlalchemy
 
