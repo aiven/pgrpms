@@ -1,32 +1,18 @@
 %global srcname SQLAlchemy
 %global sname sqlalchemy
 
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
-%{!?with_python3:%global with_python3 1}
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global py2ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
-%else
-Name:		pgadmin4-python-%{sname}
-%endif
 Version:	1.3.13
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Modular and flexible ORM library for python
 License:	MIT
 URL:		http://www.sqlalchemy.org/
@@ -43,26 +29,18 @@ domain.
 
 This package includes the python 2 version of the module.
 
+BuildRequires:	python3-setuptools python3-devel
+
 %if 0%{?rhel} == 7
-BuildRequires:	python-setuptools pytest python-mock python2-devel
+BuildRequires:	python36-mock
 %endif
 
-%if 0%{?fedora} > 25
-BuildRequires:	python3-setuptools python3-devel pytest python3-mock
-%endif
-
-%if 0%{?rhel} == 8
-BuildRequires:	python3-setuptools python3-devel python3-pytest python3-mock
-%endif
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	python-devel python-mock python-pytest
-%endif
+%if 0%{?fedora} >= 30 ||  0%{?rhel} == 8
+BuildRequires:	python3-mock
 %endif
 
 # Filter unnecessary dependencies
-%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\\.so$
+%global __provides_exclude_from ^(%{python3_sitearch})/.*\\.so$
 
 %prep
 %setup -q -n %{srcname}-%{version}
@@ -73,38 +51,30 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %install
 %{__rm} -rf %{buildroot}
 
-%{__mkdir} -p %{buildroot}%{python2_sitelib}
+%{__mkdir} -p %{buildroot}%{python3_sitelib}
 %{__ospython} setup.py install --skip-build --root %{buildroot}
 
 # remove unnecessary scripts for building documentation
 %{__rm} -rf doc/build
 
 # Move everything under pgadmin4 web/ directory.
-%if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
 %{__mv} %{buildroot}%{python3_sitearch}/%{sname} %{buildroot}%{python3_sitearch}/*%{srcname}-%{version}*-py%{py3ver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
-%else
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitearch}/%{sname} %{buildroot}%{python2_sitearch}/*%{srcname}-%{version}*-py%{py2ver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
-%endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc README.rst LICENSE PKG-INFO CHANGES doc examples
-%if 0%{?with_python3}
+%doc README.rst PKG-INFO CHANGES doc examples
+%license LICENSE
 %{pgadmin4py3instdir}/*%{srcname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}
-%else
-%{pgadmin4py2instdir}/*%{srcname}*.egg-info
-%{pgadmin4py2instdir}/%{sname}
-%endif
 
 %changelog
-* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.13-1
+* Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.13-2
 - Update to 1.3.13
+- Switch to PY3 on RHEL 7
 
 * Thu Apr 18 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.18-1
 - Update to 1.2.18
