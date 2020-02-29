@@ -40,7 +40,7 @@ Requires:	%{name}-web
 %if 0%{?rhel} && 0%{?rhel} == 8
 BuildRequires:	%{name}-python3-passlib >= 1.7.2 %{name}-python3-dateutil >= 2.8.0 %{name}-python3-simplejson >= 3.16.0
 BuildRequires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-gravatar >= 0.5.0
-BuildRequires:	%{name}-python3-flask-htmlmin >= 1.5.0 %{name}-python3-flask-sqlalchemy >= 2.3.2
+BuildRequires:	%{name}-python3-flask-sqlalchemy >= 2.3.2
 BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal >= 0.4.0
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
@@ -51,7 +51,7 @@ BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-blinker >= 1.4
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
-BuildRequires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
+BuildRequires:	%{name}-python3-flask-migrate >= 2.4.0
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	%{name}-python3-passlib >= 1.7.2 python3-dateutil >= 2.8.0 python3-simplejson >= 3.16.0
 BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
@@ -66,7 +66,6 @@ BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{name}-python3-flask >= 1.0.2
-BuildRequires:	%{name}-python3-flask-htmlmin >= 1.5.0
 BuildRequires:	%{name}-python3-flask-security >= 3.0.0 %{name}-python3-flask-principal >= 0.4.0
 BuildRequires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-simplejson >= 3.16.0
 BuildRequires:	%{name}-python3-blinker >= 1.4 %{name}-python3-flask-wtf >= 0.14.2
@@ -115,7 +114,7 @@ Requires:	httpd
 BuildArch:	noarch
 
 %if 0%{?rhel} && 0%{?rhel} == 8
-Requires:	%{name}-python3-flask-htmlmin >= 1.5.0 %{name}-python3-flask >= 1.0.2
+Requires:	%{name}-python3-flask >= 1.0.2
 Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-sqlalchemy >= 1.2.18
 Requires:	%{name}-python3-wtforms >= 2.2.1
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-dateutil >= 2.8.0
@@ -129,15 +128,15 @@ Requires:	%{name}-python3-sshtunnel >= 0.1.4
 Requires:	%{name}-python3-psutil >= 5.5.1  %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-beautifulsoup4 >= 4.4.1 python3-blinker >= 1.4
+Requires:	python3-blinker >= 1.4
 Requires:	python3-psycopg2 >= 2.8
-Requires:	python3-mod_wsgi python3-unittest2
+Requires:	python3-mod_wsgi
 Requires:	python3-cryptography python3-bcrypt python3-pynacl
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	%{name}-pytz >= 2018.9 %{name}-python3-psutil >= 5.5.1
-Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-flask-htmlmin >= 1.5.0
+Requires:	%{name}-python3-flask-migrate >= 2.4.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
 Requires:	python3-flask-wtf >= 0.14.2 python3-sqlalchemy >= 1.2.18
@@ -148,18 +147,17 @@ Requires:	%{name}-python3-passlib >= 1.7.2
 Requires:	python3-flask-mail >= 0.9.1 python3-flask-security >= 3.0.0
 Requires:	python3-flask-login >= 0.4.1 python3-flask-paranoid >= 0.2
 Requires:	python3-flask-sqlalchemy >= 2.3.2
-Requires:	python3-beautifulsoup4 >= 4.4.1
 Requires:	python3-blinker >= 1.4
 Requires:	python3-psycopg2 >= 2.8
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-werkzeug >= 0.15.4
-Requires:	python3-mod_wsgi python3-unittest2
+Requires:	python3-mod_wsgi
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	%{name}-python3-flask >= 1.0.2 %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-flask-wtf >= 0.14.2
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18
-Requires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-beautifulsoup4 >= 4.4.1
+Requires:	%{name}-python3-wtforms >= 2.2.1
 Requires:	%{name}-python3-blinker >= 1.4 %{name}-python3-flask-paranoid >= 0.2
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-psutil >= 5.5.1
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-backports.csv >= 1.0.5
