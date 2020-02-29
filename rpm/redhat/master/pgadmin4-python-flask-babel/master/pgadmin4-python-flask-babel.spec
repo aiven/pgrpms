@@ -39,8 +39,8 @@ Requires:	pgadmin4-python3-speaklater
 
 %if 0%{?rhel} == 7
 BuildRequires:	pgadmin4-python3-babel pgadmin4-python3-flask
-BuildRequires:	pgadmin4-python3-pytz
-Requires:	pgadmin4-python3-pytz
+BuildRequires:	pgadmin4-pytz
+Requires:	pgadmin4-pytz
 %endif
 
 %if 0%{?rhel} == 8
