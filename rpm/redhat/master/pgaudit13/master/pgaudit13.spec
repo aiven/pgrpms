@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}13_%{pgmajorversion}
-Version:	1.3.0
+Version:	1.3.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
@@ -66,7 +66,8 @@ trail or audit log. The term audit log is used in this documentation.
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/pgaudit--1.3.sql
+%{pginstdir}/share/extension/pgaudit--1.3.1.sql
+%{pginstdir}/share/extension/pgaudit--1.3--1.3.1.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
@@ -80,5 +81,8 @@ trail or audit log. The term audit log is used in this documentation.
 %endif
 
 %changelog
+* Mon Mar 2 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+
 * Mon Oct 22 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1.1
 - Initial RPM packaging for PostgreSQL RPM Repository
