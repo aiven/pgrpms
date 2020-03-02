@@ -17,7 +17,7 @@ Release:	2%{?dist}
 License:	Python
 URL:		https://github.com/zzzsochi/%{pypi_name}
 Source0:	https://github.com/zzzsochi/%{pypi_name}/archive/v%{version}.tar.gz
-%if 0%{?rhel} >= 7
+%if 0%{?rhel} == 7
 Patch0:		%{name}-py36.patch
 %endif
 BuildArch:	noarch
@@ -29,10 +29,10 @@ BuildRequires:	python3-devel python3-setuptools
 This is small and simple integration gravatar into flask.
 
 %prep
-%if 0%{?rhel} >= 7
+%setup -q -n %{pypi_name}-%{version}
+%if 0%{?rhel} == 7
 %patch0 -p0
 %endif
-%setup -q -n %{pypi_name}-%{version}
 
 %build
 # Devrim: Removed this file to surpress build errors.
