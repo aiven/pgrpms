@@ -17,19 +17,27 @@ Release:	2%{?dist}
 License:	Python
 URL:		https://github.com/zzzsochi/%{pypi_name}
 Source0:	https://github.com/zzzsochi/%{pypi_name}/archive/v%{version}.tar.gz
+%if 0%{?rhel} >= 7
+Patch0:		%{name}-py36.patch
+%endif
 BuildArch:	noarch
 
 Requires:	pgadmin4-python3-flask
-
 BuildRequires:	python3-devel python3-setuptools
 
 %description
 This is small and simple integration gravatar into flask.
 
 %prep
+%if 0%{?rhel} >= 7
+%patch0 -p0
+%endif
 %setup -q -n %{pypi_name}-%{version}
 
 %build
+# Devrim: Removed this file to surpress build errors.
+# Potentially a FIXME for later.
+%{__rm} MANIFEST.in
 %{__ospython} setup.py build
 
 %install
@@ -53,6 +61,7 @@ This is small and simple integration gravatar into flask.
 %changelog
 * Sat Feb 29 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-2
 - Build with PY3 on RHEL 7.
+- Add a patch to fix builds on RHEL 7.
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1.1
 - Rebuild against PostgreSQL 11.0

@@ -1,0 +1,36 @@
+--- setup.py.old	2020-03-02 15:12:07.025683953 +0000
++++ setup.py	2020-03-02 15:12:22.991215869 +0000
+@@ -51,7 +51,7 @@
+ 
+ # Get the version string. Cannot be done with import!
+ g = {}
+-with open(os.path.join('flask_gravatar', 'version.py'), 'rt') as fp:
++with open(os.path.join('flask_gravatar', 'version.py'), 'rt', encoding="utf-8") as fp:
+     exec(fp.read(), g)
+     version = g['__version__']
+ 
+@@ -71,23 +71,5 @@
+     platforms='any',
+     extras_require=extras_require,
+     install_requires=install_requires,
+-    setup_requires=setup_requires,
+-    tests_require=tests_require,
+-    classifiers=[
+-        'Environment :: Web Environment',
+-        'Intended Audience :: Developers',
+-        'License :: OSI Approved :: BSD License',
+-        'Operating System :: OS Independent',
+-        'Programming Language :: Python',
+-        'Framework :: Flask',
+-        'Topic :: Internet :: WWW/HTTP :: Dynamic Content',
+-        'Topic :: Software Development :: Libraries :: Python Modules',
+-        'Programming Language :: Python :: 2',
+-        'Programming Language :: Python :: 2.7',
+-        'Programming Language :: Python :: 3',
+-        'Programming Language :: Python :: 3.4',
+-        'Programming Language :: Python :: 3.5',
+-        'Programming Language :: Python :: 3.6',
+-        'Development Status :: 5 - Production/Stable',
+-    ],
++    setup_requires=setup_requires
+ )
