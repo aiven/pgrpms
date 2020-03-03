@@ -1,32 +1,17 @@
 %global sname alembic
 
-%global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
-%{!?with_python3:%global with_python3 1}
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
-%if 0%{?with_python3}
 Name:		pgadmin4-python3-%{sname}
-%else
-Name:		pgadmin4-python-%{sname}
-%endif
-
 Version:	0.9.7
-Release:	3%{?dist}.1
+Release:	4%{?dist}
 Summary:	Database migration tool for SQLAlchemy
 
 License:	MIT
@@ -35,22 +20,18 @@ Source0:	https://pypi.io/packages/source/a/%{sname}/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 
-%if 0%{?fedora} > 25
 BuildRequires:	python3-devel python3-setuptools
-BuildRequires:	python3-mock python3-dateutil
-BuildRequires:	python3-editor python3-pytest
+
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
+BuildRequires:	python3-dateutil
 BuildRequires:	python3-sqlalchemy >= 0.7.4
-Requires:       python3-editor python3-dateutil
-Requires:       python3-mako
+Requires:       python3-dateutil
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	python2-devel python-setuptools
-BuildRequires:	python-mock python-dateutil
-BuildRequires:	pytest
-BuildRequires:	python-sqlalchemy >= 0.7.4
-Requires:       python-editor python-dateutil
-Requires:       python-mako
+BuildRequires:	pgadmin4-python3-dateutil
+BuildRequires:	pgadmin4-python3-sqlalchemy >= 0.7.4
+Requires:       pgadmin4-python3-dateutil
 %endif
 
 
@@ -84,33 +65,26 @@ mv setup.py.tmp setup.py
 
 %install
 
-install -d -m 0755 %{buildroot}%{_mandir}/man1
+%{__install} -d -m 0755 %{buildroot}%{_mandir}/man1
 
 %{__ospython} setup.py install --skip-build --root %{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
-%if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
 %{__mv} %{buildroot}%{python3_sitelib}/%{sname} %{buildroot}%{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}/
-%else
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/%{sname} %{buildroot}%{python2_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}/
-%endif
 
 # Remove binary, we don't need it in PEM packaging.
 %{__rm} %{buildroot}%{_bindir}/%{sname}
 
 
 %files
-%if 0%{?with_python3}
 %{pgadmin4py3instdir}/%{sname}
 %{pgadmin4py3instdir}/%{sname}-*egg-info*
-%else
-%{pgadmin4py2instdir}/%{sname}
-%{pgadmin4py2instdir}/%{sname}-*egg-info*
-%endif
 
 %changelog
+* Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.7-4
+- Switch to PY3 on RHEL 8.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.9.7-3.1
 - Rebuild against PostgreSQL 11.0
 
