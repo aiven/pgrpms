@@ -21,6 +21,8 @@ Source0:	https://files.pythonhosted.org/packages/source/F/%{mod_name}/%{mod_name
 
 BuildArch:	noarch
 
+Obsoletes:	pgadmin4-python-flask-security
+
 %if 0%{?fedora} > 27 || 0%{?rhel} >= 7
 BuildRequires:	python3-devel python3-setuptools
 %endif
