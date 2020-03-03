@@ -2,21 +2,19 @@
 
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
 
 Name:		pgadmin4-python3-%{sname}
-Version:        0.24
-Release:        11%{?dist}
-Summary:        Python library for passing trusted data to untrusted environments
-License:        BSD
-URL:            http://pythonhosted.org/%{sname}/
-Source0:        https://pypi.python.org/packages/source/i/%{sname}/%{sname}-%{version}.tar.gz
-BuildArch:      noarch
+Version:	0.24
+Release:	11%{?dist}
+Summary:	Python library for passing trusted data to untrusted environments
+License:	BSD
+URL:		http://pythonhosted.org/%{sname}/
+Source0:	https://pypi.python.org/packages/source/i/%{sname}/%{sname}-%{version}.tar.gz
+BuildArch:	noarch
 
 BuildRequires:	python3-devel python3-setuptools
 
@@ -50,7 +48,6 @@ Signatures (JWS).
 %{pgadmin4py3instdir}/%{sname}.py*
 %{pgadmin4py3instdir}/__pycache__/%{sname}.cpython-*.py*
 %{pgadmin4py3instdir}/%{sname}.cpython-*.py*
-%endif
 
 %changelog
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.24-11
