@@ -19,8 +19,8 @@
 %endif
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.18
-Release:	2%{?dist}
+Version:	%{pgadminmajorversion}.19
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -55,7 +55,7 @@ BuildRequires:	%{name}-python3-flask-migrate >= 2.4.0
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	%{name}-python3-passlib >= 1.7.2 python3-dateutil >= 2.8.0 python3-simplejson >= 3.16.0
 BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
-BuildRequires:	python3-flask-security-too >= 3.3.3 python3-flask-principal >= 0.4.0
+BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3 python3-flask-principal >= 0.4.0
 BuildRequires:	python3-flask-wtf >= 0.14.2 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.2.18
@@ -144,7 +144,7 @@ Requires:	python3-wtforms >= 2.2.1 python3-speaklater >= 1.3
 Requires:	python3-simplejson >= 3.16.0 python3-dateutil >= 2.8.0
 Requires:	python3-sqlparse >= 0.2.4 python3-flask-gravatar >= 0.5.0
 Requires:	%{name}-python3-passlib >= 1.7.2
-Requires:	python3-flask-mail >= 0.9.1 python3-flask-security-too >= 3.3.3
+Requires:	python3-flask-mail >= 0.9.1 pgadmin4-python3-flask-security-too >= 3.3.3
 Requires:	python3-flask-login >= 0.4.1 python3-flask-paranoid >= 0.2
 Requires:	python3-flask-sqlalchemy >= 2.3.2
 Requires:	python3-blinker >= 1.4
@@ -369,6 +369,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Mar 3 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-1
+- Update to 4.19
+
 * Fri Feb 28 2020 - Devrim Gündüz <devrim@gunduz.org> 4.18-2
 - Initial attempt to move to Python3 on RHEL 7
 - Update various dependencies for the upcoming 4.19
