@@ -9,7 +9,6 @@
 %endif
 
 %if 0%{?fedora} > 27 || 0%{?rhel} >= 7
-%{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
@@ -236,13 +235,9 @@ find . -name tests -type d -print0|xargs -0 rm -r --
 %{__rm} -rf web/regression
 
 cd runtime
-%if 0%{?with_python3}
 export PYTHON_CONFIG=/usr/bin/python3-config
 export PYTHONPATH=%{python3_sitelib}/%{name}-web/:$PYTHONPATH
-%else
-export PYTHON_CONFIG=/usr/bin/python-config
-export PYTHONPATH=%{python2_sitelib}/%{name}-web/:$PYTHONPATH
-%endif
+
 %{QMAKE} -o Makefile pgAdmin4.pro
 make
 cd ../
