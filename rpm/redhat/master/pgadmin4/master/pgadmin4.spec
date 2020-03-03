@@ -158,9 +158,9 @@ Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security-too
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-principal >= 0.4.0
 Requires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-passlib >= 1.7.2 %{name}-python3-flask-migrate >= 2.4.0
-Requires:	%{name}-python3-sshtunnel >= 0.1.4
+Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-six >= 1.12.0 python3-psycopg2 >= 2.8
-Requires:	python3 >= 3.6 python3-speaklater >= 1.3 mod_wsgi
+Requires:	python3 >= 3.6 mod_wsgi
 %endif
 
 %description -n %{name}-web
