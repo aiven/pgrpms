@@ -23,7 +23,15 @@ URL:		https://github.com/giampaolo/psutil
 Source0:	https://github.com/giampaolo/psutil/archive/release-%{version}.tar.gz#/%{sname}-%{version}.tar.gz
 
 BuildRequires:	gcc
-BuildRequires:	python3-devel python3-mock
+BuildRequires:	python3-devel
+
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
+BuildRequires:	python3-mock
+%endif
+
+%if 0%{?rhel}== 7
+BuildRequires:	python36-mock
+%endif
 
 %description
 psutil is a module providing an interface for retrieving information on all
