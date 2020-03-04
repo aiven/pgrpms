@@ -21,7 +21,7 @@ Source0:	https://github.com/python-babel/flask-babel/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 
-%if 0%{?fedora} > 27
+%if 0%{?fedora} >= 30
 BuildRequires:	python3-babel python3-devel
 BuildRequires:	python3-flask python3-setuptools
 BuildRequires:	python3-speaklater python3-pytz
@@ -37,7 +37,7 @@ Requires:	pgadmin4-python3-speaklater
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	pgadmin4-babel pgadmin4-python3-flask
+BuildRequires:	pgadmin4-python3-babel pgadmin4-python3-flask
 BuildRequires:	pgadmin4-pytz
 Requires:	pgadmin4-pytz
 %endif
