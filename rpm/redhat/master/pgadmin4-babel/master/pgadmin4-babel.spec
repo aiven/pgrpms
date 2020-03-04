@@ -2,25 +2,16 @@
 %global pgadmin4py2instdir %{python2_sitelib}/pgadmin4-web/
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
-%if 0%{?fedora} > 25
-%{!?with_python3:%global with_python3 1}
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 
-%if 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python2_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python2_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
-
 Name:		pgadmin4-babel
 Version:	2.3.4
-Release:	2%{?dist}.1
+Release:	3%{?dist}
 Summary:	Tools for internationalizing Python applications
 
 License:	BSD
@@ -41,12 +32,6 @@ BuildRequires:	make python-sphinx
 Requires:	python-babel python-setuptools
 %endif
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	python-devel python-pytz
-%endif
-%endif
-
 %description
 Babel is composed of two major parts:
 
@@ -56,32 +41,13 @@ Babel is composed of two major parts:
   providing access to various locale display names, localized number
   and date formatting, etc.
 
-%if 0%{?with_python3}
 %package -n pgadmin4-python3-babel
-%else
-%package -n pgadmin4-python-babel
-%endif
+
 Summary:	Library for internationalizing Python applications
 
-%if 0%{?fedora} > 25
 Requires:	python3-setuptools pytz
-%endif
 
-%if 0%{?rhel} == 7
-Requires:	python-setuptools pytz
-%endif
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires:	python-pytz
-%endif
-%endif
-
-%if 0%{?with_python3}
 %description -n pgadmin4-python3-babel
-%else
-%description -n pgadmin4-python-babel
-%endif
 Babel is composed of two major parts:
 
 * tools to build and work with gettext message catalogs
@@ -106,9 +72,6 @@ chmod a-x babel/messages/frontend.py
 %build
 %{__ospython} setup.py build
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-:
-%else
 # build the docs and remove all source files (.rst, Makefile) afterwards
 cd docs
 make html
@@ -116,20 +79,14 @@ make html
 %{__rm} -rf _* api *.rst conf.py objects.inv Makefile make.bat
 %{__mv} html/* .
 %{__rm} -rf html
-%endif
 
 %install
 %{__rm} -rf %{buildroot}
 %{__ospython} setup.py install --skip-build --no-compile --root %{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
-%if 0%{?with_python3}
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}
 %{__mv} %{buildroot}%{python3_sitelib}/babel %{buildroot}%{python3_sitelib}/Babel-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py3instdir}
-%else
-%{__mkdir} -p %{buildroot}/%{pgadmin4py2instdir}
-%{__mv} %{buildroot}%{python2_sitelib}/babel %{buildroot}%{python2_sitelib}/Babel-%{version}-py%{pyver}.egg-info %{buildroot}/%{pgadmin4py2instdir}
-%endif
 
 # Remove binary, we don't need it.
 %{__rm} %{buildroot}%{_bindir}/pybabel
@@ -141,24 +98,17 @@ make html
 %defattr(-,root,root,-)
 %doc CHANGES LICENSE
 
-%if 0%{?with_python3}
 %files -n pgadmin4-python3-babel
-%else
-%files -n pgadmin4-python-babel
-%endif
-%defattr(-,root,root,-)
-%if 0%{?with_python3}
 %{pgadmin4py3instdir}/Babel-%{version}-py*.egg-info
 %{pgadmin4py3instdir}/babel
-%else
-%{pgadmin4py2instdir}/Babel-%{version}-py*.egg-info
-%{pgadmin4py2instdir}/babel
-%endif
 
 %files doc
 %doc docs/*
 
 %changelog
+* Wed Mar 4 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-3
+- Switch to PY3 on RHEL 7
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-2.1
 - Rebuild against PostgreSQL 11.0
 
