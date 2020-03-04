@@ -29,7 +29,7 @@ Requires:	python3-jinja2
 
 %if 0%{?rhel} == 7
 BuildRequires:	pgadmin4-python3-flask
-Requires:	pgadmin4-python3-flask pgadmin4-python3-babel
+Requires:	pgadmin4-python3-flask pgadmin4-babel
 Requires:	pgadmin4-python3-speaklater pgadmin4-python3-jinja2
 %endif
 
