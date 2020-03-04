@@ -87,6 +87,9 @@ popd
 %endif
 
 %changelog
+* Wed Mar 4 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8-10
+- Switch to PY3 on RHEL 7
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.8-9.1
 - Rebuild against PostgreSQL 11.0
 
