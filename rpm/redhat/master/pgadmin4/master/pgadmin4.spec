@@ -72,12 +72,12 @@ BuildRequires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-simplejson >
 BuildRequires:	%{name}-python3-blinker >= 1.4 %{name}-python3-flask-wtf >= 0.14.2
 BuildRequires:	%{name}-python3-flask-sqlalchemy >= 2.3.2 %{name}-python3-Flask-Mail >= 0.9.1
 BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-gravatar
-BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python-alembic
+BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-alembic
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python3-devel
 BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
-Requires:	%{name}-python-flask-babelex %{name}-python3-flask-compress >= 1.4.0
+Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
