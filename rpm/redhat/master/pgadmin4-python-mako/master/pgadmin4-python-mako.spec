@@ -24,8 +24,7 @@ Source0:	https://github.com/sqlalchemy/mako/archive/rel_%(echo %{version} | sed 
 
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
-BuildRequires:	python3-markupsafe
-BuildRequires:	python3-mock
+BuildRequires:	pgadmin4-python3-markupsafe
 
 %description
 Mako is a template library written in Python. It provides a familiar, non-XML\
