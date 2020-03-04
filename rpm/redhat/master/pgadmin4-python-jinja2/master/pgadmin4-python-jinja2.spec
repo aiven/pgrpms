@@ -30,7 +30,7 @@ Requires:	python3-babel >= 0.8 python3-markupsafe
 
 %if 0%{?rhel} == 7
 BuildRequires:	pgadmin4-python3-markupsafe
-Requires:	pgadmin4-babel >= 0.8 pgadmin4-python3-markupsafe
+Requires:	pgadmin4-python3--babel >= 0.8 pgadmin4-python3-markupsafe
 %endif
 
 %description
