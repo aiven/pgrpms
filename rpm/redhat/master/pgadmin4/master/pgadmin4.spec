@@ -8,7 +8,7 @@
 %{!?systemd_enabled:%global systemd_enabled 1}
 %endif
 
-%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
@@ -61,8 +61,8 @@ BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.2.18
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
-Requires:	%{name}-python3-flask-compress >= 1.4.0 %{name}-python3-flask-babelex
-Requires:	%{name}-python3-babel
+Requires:	%{name}-python3-flask-compress >= 1.4.0
+Requires:	python3-babel python3-flask-babelex
 Requires:	python3-alembic python3-mako
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
