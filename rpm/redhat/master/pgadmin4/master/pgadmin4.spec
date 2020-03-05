@@ -62,7 +62,7 @@ BuildRequires:	python3-sqlalchemy >= 1.2.18 python3-mako
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-flask-compress >= 1.4.0 %{name}-python3-flask-babelex
-Requires:	%{sname}-python3-babel
+Requires:	%{name}-python3-babel
 Requires:	python3-alembic
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
