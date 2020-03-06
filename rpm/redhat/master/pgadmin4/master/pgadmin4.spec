@@ -19,7 +19,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -249,7 +249,12 @@ popd
 
 # Install Apache sample config file
 %{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 %{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' < %{SOURCE2} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%endif
+%if 0%{?rhel} == 7
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@modules/mod_wsgi.so@modules/pgadmin4-python3-mod_wsgi.so/g' < %{SOURCE2} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%endif
 
 # Install Apache config script
 %{__install} -d %{buildroot}%{pgadmin4instdir}/bin
@@ -353,6 +358,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Mar 6 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-2
+- Fix server mode on RHEL 7
+
 * Tue Mar 3 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-1
 - Update to 4.19
 
