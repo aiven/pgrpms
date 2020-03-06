@@ -10,15 +10,15 @@
 
 %global debug_package %{nil}
 
-Name:		pgadmin4-python3_mod_wsgi
+Name:		pgadmin4-python3-%{sname}
 Version:	4.6.8
 Release:	2%{?dist}
-Summary:	A WSGI interface for Python web applications in Apache (customized
+Summary:	A WSGI interface for Python web applications in Apache (customized for pgAdmin4)
 License:	ASL 2.0
 URL:		https://modwsgi.readthedocs.io/
-Source0:	https://github.com/GrahamDumpleton/mod_wsgi/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
-Source2:	wsgi-python3.conf
-Patch1:		mod_wsgi-4.5.20-exports.patch
+Source0:	https://github.com/GrahamDumpleton/%{mod_wsgi}/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
+Source2:	%{name}.conf
+Patch1:		%{name}-4.5.20-exports.patch
 
 Requires:	httpd-mmn = %{_httpd_mmn}
 BuildRequires:	python3-devel
@@ -45,37 +45,27 @@ existing WSGI adapters for mod_python or CGI.\
 export LDFLAGS="$RPM_LD_FLAGS -L%{_libdir}"
 export CFLAGS="$RPM_OPT_FLAGS -fno-strict-aliasing"
 
-%{__mkdir} py3build/
-# this always produces an error (because of trying to copy py3build
-# into itself) but we don't mind, so || :
-%{__cp} -R * py3build/ || :
-pushd py3build
 %configure --enable-shared --with-apxs=%{_httpd_apxs} --with-python=python3
 %{__make} %{?_smp_mflags}
 %{_bindir}/python3 setup.py build
-popd
 
 %install
-pushd py3build
-%{__make} install DESTDIR=$RPM_BUILD_ROOT LIBEXECDIR=%{_httpd_moddir}
-%{__mv} $RPM_BUILD_ROOT%{_httpd_moddir}/mod_wsgi.so $RPM_BUILD_ROOT%{_httpd_moddir}/pgadmin4-python3-mod_wsgi.so
-%{__install} -d -m 755 $RPM_BUILD_ROOT%{_httpd_modconfdir}
-# httpd >= 2.4.x
-%{__install} -p -m 644 %{SOURCE2} $RPM_BUILD_ROOT%{_httpd_modconfdir}/10-wsgi-python3.conf
-
+%{__make} install DESTDIR=%{buildroot} LIBEXECDIR=%{_httpd_moddir}
+%{__install} -d -m 755 %{buildroot}%{_httpd_modconfdir}
+%{__install} -p -m 644 %{SOURCE2} %{buildroot}%{_httpd_modconfdir}/10-pgadmin4-python3-mod_wsgi.conf
 %{_bindir}/python3 setup.py install -O1 --skip-build --root %{buildroot}
-%{__mv} $RPM_BUILD_ROOT%{_bindir}/mod_wsgi-express{,-3}
-popd
+%{__mv} %{buildroot}%{_httpd_moddir}/mod_wsgi.so %{buildroot}%{_httpd_moddir}/pgadmin4-python3-mod_wsgi.so
+%{__mv} %{buildroot}%{_bindir}/mod_wsgi-express %{buildroot}%{_bindir}/pgadmin4-mod_wsgi-express-3
 
 %files
 %license LICENSE
 %doc CREDITS.rst README.rst
-%config(noreplace) %{_httpd_modconfdir}/*wsgi-python3.conf
+%config(noreplace) %{_httpd_modconfdir}/*pgadmin4-python3-mod_wsgi.conf
 %{_httpd_moddir}/pgadmin4-python3-mod_wsgi.so
 %{python3_sitearch}/mod_wsgi-*.egg-info
 %{python3_sitearch}/mod_wsgi
-%{_bindir}/mod_wsgi-express-3
+%{_bindir}/pgadmin4-mod_wsgi-express-3
 
 %changelog
-* Wed Jan 29 2020 Fedora Release Engineering <releng@fedoraproject.org> - 4.6.8-2
+* Fri Mar 6 2020 Devrim Gündüz <devrim@gunduz.org> - 4.6.8-2
 - Initial packaging for the PostgreSQL YUM repository
