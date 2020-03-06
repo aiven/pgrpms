@@ -16,7 +16,7 @@ Release:	2%{?dist}
 Summary:	A WSGI interface for Python web applications in Apache (customized for pgAdmin4)
 License:	ASL 2.0
 URL:		https://modwsgi.readthedocs.io/
-Source0:	https://github.com/GrahamDumpleton/%{mod_wsgi}/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
+Source0:	https://github.com/GrahamDumpleton/%{sname}/archive/%{version}.tar.gz#/mod_wsgi-%{version}.tar.gz
 Source2:	%{name}.conf
 Patch1:		%{name}-4.5.20-exports.patch
 
