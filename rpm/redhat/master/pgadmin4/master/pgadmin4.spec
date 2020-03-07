@@ -252,7 +252,7 @@ popd
 %endif
 # On RHEL 7, also use our own packaged mod_wsgi, built against Python 3.
 %if 0%{?rhel} == 7
-%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@modules/mod_wsgi.so@modules/pgadmin4-python3-mod_wsgi.so/g' < %{SOURCE2} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
+%{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@modules/mod_wsgi.so@modules/pgadmin4-python3-mod_wsgi.so@g' < %{SOURCE2} > %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
 %endif
 
 # Install Apache config script
