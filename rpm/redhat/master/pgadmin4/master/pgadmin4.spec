@@ -58,8 +58,7 @@ BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
 BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3 python3-flask-principal >= 0.4.0
 BuildRequires:	python3-flask-wtf >= 0.14.2 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
-BuildRequires:	python3-sqlalchemy >= 1.2.18
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel
+BuildRequires:	python3-sqlalchemy >= 1.2.18 qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-babel python3-flask-babelex
@@ -77,8 +76,7 @@ BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-gravatar
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
-BuildRequires:	python3-devel
-BuildRequires:	mesa-libGL-devel qt-devel >= 4.6
+BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
