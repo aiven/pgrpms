@@ -46,7 +46,7 @@ BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login
 BuildRequires:	%{name}-python3-sqlalchemy >= 1.2.18
 Requires:	%{name}-python3-alembic python3-babel
 Requires:	%{name}-python3-flask-compress >= 1.4.0 %{name}-python3-flask-babelex
-Requires:	python3-mako
+Requires:	python3-mako python3
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-blinker >= 1.4
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -61,7 +61,7 @@ BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.2.18 qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-babel python3-flask-babelex
+Requires:	python3-babel python3-flask-babelex python3
 Requires:	python3-alembic python3-mako
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -77,6 +77,7 @@ BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6
+Requires:	python3
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
