@@ -19,7 +19,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.19
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -358,6 +358,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-3
+- Add python3 dependency to all distros
+
 * Fri Mar 6 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-2
 - Fix server mode on RHEL 7
 
