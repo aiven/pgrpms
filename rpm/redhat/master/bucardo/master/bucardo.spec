@@ -1,6 +1,6 @@
 %global	realname Bucardo
 Name:		bucardo_%{pgmajorversion}
-Version:	5.5.0
+Version:	5.6.0
 Release:	1%{?dist}
 Summary:	Postgres replication system for both multi-master and multi-slave operations
 
@@ -124,6 +124,9 @@ fi
 %{_bindir}/slony_migrator.pl
 
 %changelog
+* Tue Mar 10 2020 Devrim Gündüz <devrim@gunduz.org> - 5.6.0-1
+- Update to 5.6.0
+
 * Tue Oct 30 2018 Devrim Gündüz <devrim@gunduz.org> - 5.5.0-1
 - Update to 5.5.0
 - Add PostgreSQL Remove hardcoded PostgreSQL version number, per PG bug
