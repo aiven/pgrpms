@@ -19,7 +19,7 @@
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.19
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -182,11 +182,11 @@ Requires:	%{name}-web
 %if 0%{?fedora}
 Requires:	qt >= 5.1
 %endif
-%if 0%{?rhel} == 8
-Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
-%endif
 %if 0%{?rhel} == 7
 Requires:	qt >= 4.6
+%endif
+%if 0%{?rhel} == 8
+Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
 
 %description -n %{name}-desktop-common
@@ -203,12 +203,13 @@ Requires:	%{name}-desktop-common
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
 %endif
-%if 0%{?rhel} == 8
-Requires:	gnome-shell
-Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
-%endif
 %if 0%{?rhel} == 7
+Requires:	gnome-shell-extension-top-icons gnome-shell
 Requires:	qt >= 4.6
+%endif
+%if 0%{?rhel} == 8
+Requires:	gnome-shell-extension-appindicator gnome-shell
+Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
 
 %description -n %{name}-desktop-gnome
@@ -358,6 +359,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-4
+- Require desktop tray extension names or RHEL 7 and 8.
+
 * Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-3
 - Add python3 dependency to all distros
 
