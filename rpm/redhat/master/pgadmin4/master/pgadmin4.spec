@@ -77,7 +77,6 @@ BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6
-Requires:	python3
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
@@ -121,10 +120,9 @@ Requires:	%{name}-python3-sshtunnel >= 0.1.4
 Requires:	%{name}-python3-psutil >= 5.5.1 %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-blinker >= 1.4
-Requires:	python3-psycopg2 >= 2.8
-Requires:	python3-mod_wsgi
+Requires:	python3-blinker >= 1.4 python3-psycopg2 >= 2.8 python3-mod_wsgi
 Requires:	python3-cryptography python3-bcrypt python3-pynacl
+Requires:	policycoreutils-python-utils policycoreutils
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
@@ -144,6 +142,7 @@ Requires:	python3-blinker >= 1.4
 Requires:	python3-psycopg2 >= 2.8
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-werkzeug >= 0.15.4
 Requires:	python3-mod_wsgi
+Requires:	policycoreutils-python-utils policycoreutils
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -163,6 +162,7 @@ Requires:	%{name}-python3-passlib >= 1.7.2 %{name}-python3-flask-migrate >= 2.4.
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-six >= 1.12.0 python3-psycopg2 >= 2.8
 Requires:	python3 >= 3.6 %{name}-python3-mod_wsgi
+Requires:	python3 policycoreutils-python policycoreutils
 %endif
 
 %description -n %{name}-web
@@ -367,6 +367,8 @@ fi
 %changelog
 * Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-4
 - Require desktop tray extension names or RHEL 7 and 8.
+* Add dependencies for the setup script. Noted when testing
+  on minimal installation.
 
 * Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-3
 - Add python3 dependency to all distros
