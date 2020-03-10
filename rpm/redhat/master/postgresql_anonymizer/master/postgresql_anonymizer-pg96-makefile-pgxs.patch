@@ -1,8 +1,8 @@
---- Makefile.old	2019-10-12 17:41:04.571523968 +0100
-+++ Makefile	2019-10-12 17:41:11.682570340 +0100
-@@ -43,7 +43,7 @@
- ##
+--- Makefile.old	2020-03-10 09:43:47.261950238 +0000
++++ Makefile	2020-03-10 09:43:53.892016323 +0000
+@@ -46,7 +46,7 @@
  ## Mandatory PGXS stuff
+ ## see https://github.com/postgres/postgres/blob/master/src/makefiles/pgxs.mk
  ##
 -PG_CONFIG = pg_config
 +PG_CONFIG = /usr/pgsql-9.6/bin/pg_config
