@@ -1,7 +1,7 @@
 %global _ocfroot /usr/lib/ocf
 
 Name:		resource-agents-paf
-Version:	2.2.1
+Version:	2.3.0
 Release:	1%{dist}
 Summary:	PostgreSQL resource agent for Pacemaker
 License:	PostgreSQL
@@ -44,6 +44,9 @@ PostgreSQL resource agent for Pacemaker.
 %{_datadir}/resource-agents/ocft/configs/pgsqlms
 
 %changelog
+* Tue Mar 10 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1
+- Update to 2.3.0
+
 * Fri Feb 8 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
 - Update to 2.2.1
 
