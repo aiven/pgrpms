@@ -171,13 +171,13 @@ Documentation of pgadmin4.
 %package	-n %{name}-desktop-common
 Summary:	Desktop components of pgAdmin4 for all window managers.
 Requires:	%{name}-web
-%if 0%{?fedora}
+%if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	qt >= 5.1
 %endif
-%if 0%{?rhel} == 7
+%if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	qt >= 4.6
 %endif
-%if 0%{?rhel} == 8
+%if 0%{?rhel} && 0%{?rhel} == 8
 Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
 
@@ -191,15 +191,15 @@ Requires:	%{name}-web
 BuildArch:	noarch
 Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
-%if 0%{?fedora}
+%if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
 %endif
-%if 0%{?rhel} == 7
-Requires:	gnome-shell-extension-top-icons gnome-classic-session  gnome-shell
+%if 0%{?rhel} && 0%{?rhel} == 7
+Requires:	gnome-shell-extension-top-icons gnome-classic-session gnome-shell
 Requires:	qt >= 4.6
 %endif
-%if 0%{?rhel} == 8
+%if 0%{?rhel} && 0%{?rhel} == 8
 Requires:	gnome-shell-extension-appindicator gnome-shell
 Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
 %endif
