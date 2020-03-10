@@ -204,7 +204,7 @@ Requires:	gnome-shell-extension-topicons-plus gnome-shell
 Requires:	qt >= 5.1
 %endif
 %if 0%{?rhel} == 7
-Requires:	gnome-shell-extension-top-icons gnome-shell
+Requires:	gnome-shell-extension-top-icons gnome-classic-session  gnome-shell
 Requires:	qt >= 4.6
 %endif
 %if 0%{?rhel} == 8
@@ -310,9 +310,15 @@ if [ $1 > 1 ] ; then
 fi
 
 %post -n %{name}-desktop-gnome
-%if 0%{?fedora} >= 30 || 0%{?rhel} == 8
 	# Enable the extension. Don't throw an error if it is already enabled.
+%if 0%{?fedora} >= 30
 	gnome-shell-extension-tool -e topicons-plus >/dev/null 2>&1 || :
+%endif
+%if 0%{?rhel} == 7
+	gnome-shell-extension-tool -e top-icons >/dev/null 2>&1 || :
+%endif
+%if 0%{?rhel} == 8
+	gnome-shell-extension-tool -e appindicatorsupport@rgcjonas.gmail.com >/dev/null 2>&1 || :
 %endif
 
 %postun
