@@ -2,20 +2,12 @@
 %global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?systemd_enabled:%global systemd_enabled 0}
-%else
-%{!?systemd_enabled:%global systemd_enabled 1}
-%endif
-
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %global PYTHON_SITELIB %{python3_sitelib}
 %global PYTHON_SITELIB64 %{python3_sitelib64}
-%endif
 
 Name:		pgadmin4
 Version:	%{pgadminmajorversion}.19
@@ -271,14 +263,12 @@ popd
 %{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/pgadmin/%{name}.conf"
 %endif
 
-%if %{systemd_enabled}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
 %{__sed} -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g' -e 's@OSPYTHON@%{__ospython}@g'<%{SOURCE8} > "%{buildroot}%{_unitdir}/%{name}.service"
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE3} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
-%endif
 
 cd %{buildroot}%{PYTHON_SITELIB}/%{name}-web
 %{__rm} -f %{name}.db
@@ -291,9 +281,7 @@ echo "UPGRADE_CHECK_ENABLED = False" >> config_distro.py
 
 %post
 if [ $1 -eq 1 ] ; then
- %if %{systemd_enabled}
   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
- %endif
 fi
 
 %post -n %{name}-desktop-common
@@ -319,11 +307,7 @@ if [ $1 -gt 0 ] ; then
 	unlink %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 fi
 
-%if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-%else
- :
-%endif
 
 %files
 %defattr(-,root,root,-)
@@ -334,10 +318,8 @@ fi
 %{PYTHON_SITELIB}/%{name}-web/*
 %attr(700,root,root) %{pgadmin4instdir}/bin/%{name}-web-setup.sh
 %config(noreplace) %{_sysconfdir}/httpd/conf.d/%{name}.conf.sample
-%if %{systemd_enabled}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{name}.service
-%endif
 
 %files -n %{name}-docs
 %defattr(-,root,root,-)
@@ -361,6 +343,7 @@ fi
 - Require desktop tray extension names or RHEL 7 and 8.
 - Add dependencies for the setup script. Noted when testing
   on minimal installation.
+- Remove RHEL 6 portions.
 
 * Mon Mar 9 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-3
 - Add python3 dependency to all distros
