@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f31
-SPECFILE="pgadmin3-python-psutil.spec"
+SPECFILE="pgadmin4-python-psutil.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
