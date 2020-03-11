@@ -16,7 +16,7 @@
 %endif
 
 Name:		%{sname}%{_geosversion}
-Version:	3.8.0
+Version:	3.8.1
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -138,6 +138,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %changelog
 %changelog
+* Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 3.8.1
+- Update to 3.8.1
+
 * Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.8.0
 - Update to 3.8.0
 
