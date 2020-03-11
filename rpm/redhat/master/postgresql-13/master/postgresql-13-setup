@@ -111,7 +111,7 @@ export PGDATA
 # For SELinux we need to use 'runuser' not 'su'
 if [ -x /sbin/runuser ]
 then
-    SU=runuser
+    SU=/sbin/runuser
 else
     SU=su
 fi
