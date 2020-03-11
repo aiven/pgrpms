@@ -193,14 +193,14 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg96-updates-debuginfo]k
+[pgdg96-updates-debuginfo]
 name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - Debuginfo
 baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg95-updates-debuginfo]k
+[pgdg95-updates-debuginfo]
 name=PostgreSQL 9.5 for RHEL/CentOS $releasever - $basearch - Debuginfo
 baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.5/redhat/rhel-$releasever-$basearch
 enabled=0
