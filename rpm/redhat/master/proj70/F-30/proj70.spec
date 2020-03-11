@@ -1,0 +1,1 @@
+../master/proj70.spec
