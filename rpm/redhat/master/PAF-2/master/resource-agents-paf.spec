@@ -23,10 +23,7 @@ PostgreSQL resource agent for Pacemaker.
 %install
 %{__rm} -rf %{buildroot}
 ./Build install
-%{__rm} -f %{buildroot}/usr/local/lib64/perl5/auto/PAF/.packlist
-%if 0%{?fedora} && 0%{?fedora} >= 31
-%{__rm} -f %{buildroot}/usr/local/lib64/perl5/5.30/auto/PAF/.packlist
-%endif
+find "%{buildroot}" -type f -name .packlist -delete
 
 %clean
 %{__rm} -rf %{buildroot}
