@@ -6,18 +6,18 @@
 %global atpath		/opt/%{atstring}
 %endif
 
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
+%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
 %{!?with_python3:%global with_python3 1}
 %endif
 
-%if 0%{?rhel} <= 7
+%if 0%{?rhel} <= 6
 %{!?with_python3:%global with_python3 0}
 %endif
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	4.2.2
-Release:	2%{?dist}
+Version:	4.3.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -79,6 +79,7 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/doc/extension/migration_to_partman.md
+%{pginstdir}/doc/extension/migrate_to_native.md
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
@@ -102,6 +103,10 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 4.3.0-1
+- Update to 4.3.0
+- Switch to PY3 on RHEL 7
+
 * Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-2
 - Depend on python3-psycopg2 on RHEL >= 7, and Fedora. Use python-psycopg2
   on RHEL 6.
