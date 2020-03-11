@@ -43,7 +43,7 @@ enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-# PGDG for RHEL/CentOS Updates Testing repositories. (These packages should not be used in production)
+# PGDG RHEL/CentOS Updates Testing repositories. (These packages should not be used in production)
 # Available for 9.6 and above.
 
 [pgdg13-updates-testing]
@@ -81,7 +81,7 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-# Source RPMs (SRPM), and their testing repositories:
+# PGDG Source RPMs (SRPM), and their testing repositories:
 
 [pgdg12-source]
 name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - Source
@@ -159,6 +159,88 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 name=PostgreSQL 9.4 for RHEL/CentOS $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.4/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+# Debuginfo/debugsource packages for stable repos
+
+[pgdg13-updates-debuginfo]
+name=PostgreSQL 13 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/13/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg12-updates-debuginfo]
+name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/12/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg11-updates-debuginfo]
+name=PostgreSQL 11 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/11/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg10-updates-debuginfo]
+name=PostgreSQL 10 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/10/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg96-updates-debuginfo]k
+name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.6/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg95-updates-debuginfo]k
+name=PostgreSQL 9.5 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.5/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+# Debuginfo/debugsource packages for testing repos
+# Available for 9.6 and above.
+
+[pgdg13-updates-testing-debuginfo]
+name=PostgreSQL 13 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/13/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg12-updates-testing-debuginfo]
+name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/12/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg11-updates-testing-debuginfo]
+name=PostgreSQL 11 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/11/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg10-updates-testing-debuginfo]
+name=PostgreSQL 10 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/10/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg96-updates-testing-debuginfo]
+name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
