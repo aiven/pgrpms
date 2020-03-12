@@ -7,7 +7,9 @@
 
 %global geosversion	38
 %global gdalversion	30
-%global projversion	63
+%global projversion	70
+%global	gdalfullversion	3.8.1
+%global	projfullversion	7.0.0
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
@@ -47,7 +49,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -56,13 +58,13 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= %{gdalfullversion}, pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel proj%{projversion}-devel
+BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
+BuildRequires:	proj%{projversion}-devel >= %{projfullversion}, flex, json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -87,8 +89,8 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= 3.8.0
-Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion}
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= %{gdalfullversion}
+Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -376,6 +378,10 @@ fi
 %endif
 
 %changelog
+* Thu Mar 12 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4
+- Rebuild against Proj 7.0.0 and GeOS 3.8.1
+- Make sure that the package requires exact versions of Proj and GeOS.
+
 * Thu Mar 12 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-3
 - Fix alternatives error
 
