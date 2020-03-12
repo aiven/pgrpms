@@ -8,7 +8,7 @@
 %global geosversion	38
 %global gdalversion	30
 %global projversion	70
-%global	gdalfullversion	3.8.1
+%global	geosfullversion	3.8.1
 %global	projfullversion	7.0.0
 
 %global	geosinstdir /usr/geos%{geosversion}
@@ -58,13 +58,13 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= %{gdalfullversion}, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel >= %{projfullversion}, flex, json-c-devel
+BuildRequires:	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -89,7 +89,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= %{gdalfullversion}
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= %{geosfullversion}
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
@@ -187,7 +187,7 @@ The %{name}-gui package provides a gui for PostGIS.
 %if %utils
 %package utils
 Summary:	The utils for PostGIS
-Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
+Requires:	%{name} = %{version}-%{release} perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
