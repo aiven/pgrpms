@@ -1,0 +1,33 @@
+--- src/grids.cpp.old	2020-03-12 18:41:21.231928895 +0000
++++ src/grids.cpp	2020-03-12 18:41:25.023928895 +0000
+@@ -1373,7 +1373,8 @@
+ 
+     if (IsTIFF(header_size, header)) {
+ #ifdef TIFF_ENABLED
+-        auto set = GTiffVGridShiftSet::open(ctx, std::move(fp), actualName);
++        auto set = std::unique_ptr<VerticalShiftGridSet>(
++            GTiffVGridShiftSet::open(ctx, std::move(fp), actualName));
+         if (!set)
+             pj_ctx_set_errno(ctx, PJD_ERR_FAILED_TO_LOAD_GRID);
+         return set;
+@@ -2351,7 +2352,8 @@
+     } else if (IsTIFF(header_size,
+                       reinterpret_cast<const unsigned char *>(header))) {
+ #ifdef TIFF_ENABLED
+-        auto set = GTiffHGridShiftSet::open(ctx, std::move(fp), actualName);
++        auto set = std::unique_ptr<HorizontalShiftGridSet>(
++            GTiffHGridShiftSet::open(ctx, std::move(fp), actualName));
+         if (!set)
+             pj_ctx_set_errno(ctx, PJD_ERR_FAILED_TO_LOAD_GRID);
+         return set;
+@@ -2686,8 +2688,8 @@
+ 
+     if (IsTIFF(header_size, header)) {
+ #ifdef TIFF_ENABLED
+-        auto set =
+-            GTiffGenericGridShiftSet::open(ctx, std::move(fp), actualName);
++        auto set = std::unique_ptr<GenericShiftGridSet>(
++            GTiffGenericGridShiftSet::open(ctx, std::move(fp), actualName));
+         if (!set)
+             pj_ctx_set_errno(ctx, PJD_ERR_FAILED_TO_LOAD_GRID);
+         return set;

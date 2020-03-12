@@ -24,7 +24,9 @@ License:	MIT
 URL:		https://proj.org
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
-
+%if %{?suse_version} == 1315
+Patch0:		proj-7.0.0-sles12.patch
+%endif
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++
 %if 0%{?fedora} > 29 || 0%{?rhel} == 8
@@ -71,6 +73,9 @@ This package contains libproj static library.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%if %{?suse_version} == 1315
+%patch0 -p0
+%endif
 
 %build
 %ifarch ppc64 ppc64le
@@ -159,3 +164,5 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %changelog
 * Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.3.0-1
 - Initial 7.0 packaging for PostgreSQL RPM Repository
+- Add a patch to fix SLES 12 build, per
+  https://github.com/OSGeo/PROJ/issues/2062
