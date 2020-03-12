@@ -260,7 +260,7 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 %endif
 
 # Create alternatives entries for common binaries
-%post
+%post client
 %{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql %{pgmajorversion}0
 
@@ -378,6 +378,7 @@ fi
 %changelog
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-2
 - Use pkgconfig for Proj support, per warnings.
+- Fix alternatives error
 
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-1
 - Update to 3.0.1
