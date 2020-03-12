@@ -7,7 +7,7 @@
 
 %global geosversion	38
 %global gdalversion	30
-%global projversion	63
+%global projversion	70
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
@@ -47,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -260,7 +260,7 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 %endif
 
 # Create alternatives entries for common binaries
-%post
+%post client
 %{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql %{pgmajorversion}0
 
@@ -376,6 +376,10 @@ fi
 %endif
 
 %changelog
+* Wed Mar 11 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-3
+- Rebuild against GeOS 3.8.1 and Proj 6.3.0
+- Fix alternatives error
+
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-2
 - Use pkgconfig for Proj support, per warnings.
 
