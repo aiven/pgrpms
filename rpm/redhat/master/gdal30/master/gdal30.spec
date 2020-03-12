@@ -164,7 +164,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 6.3.0
+BuildRequires:	proj%{projmajorversion}-devel >= 7.0.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
