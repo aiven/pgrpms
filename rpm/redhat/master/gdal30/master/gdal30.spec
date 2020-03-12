@@ -26,7 +26,7 @@
 %endif
 
 # Major digit of the proj so version
-%global proj_somaj 15
+%global proj_somaj 19
 
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
