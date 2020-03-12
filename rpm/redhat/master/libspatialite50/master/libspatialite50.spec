@@ -5,7 +5,7 @@
 %global	libspatialiteversion	50
 
 %global geosmajorversion	38
-%global projmajorversion	63
+%global projmajorversion	70
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
@@ -45,7 +45,7 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	5.0.0
-Release:	beta0_5%{?dist}
+Release:	beta0_6%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -143,6 +143,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Wed Mar 11 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0beta0-6
+- Rebuild against GeOS 3.8.1 and Proj 7.0.0
+
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0beta0-5
 - Rebuild for Proj 6.3.1
 
