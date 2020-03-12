@@ -10,7 +10,7 @@
 %global	libspatialiteversion	50
 %endif
 %global	ogdimajorversion	41
-%global	projmajorversion	63
+%global	projmajorversion	70
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
@@ -76,18 +76,9 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 %endif
 
-# No ppc64 build for spatialite in EL6
-# https://bugzilla.redhat.com/show_bug.cgi?id=663938
-%if 0%{?rhel} == 6
-%ifnarch ppc64
-%global with_spatialite 0
-%global spatialite --without-spatialite
-%endif
-%endif
-
 Name:		%{sname}30
 Version:	3.0.4
-Release:	2%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -697,6 +688,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Thu Mar 12 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-3
+- Rebuild against Proj 7.0.0 and GeOS 3.8.1
+
 * Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-2
 - Fix PostgreSQL driver. Per report and analysis from Mika Heiskanen in:
   https://redmine.postgresql.org/issues/5187
