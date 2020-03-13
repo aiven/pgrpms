@@ -16,7 +16,7 @@
 
 Name:		%{sname}62
 Version:	6.2.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -88,6 +88,7 @@ export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
 LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
+CPPFLAGS="-I%{sqlite33dir}/include/ ${CFLAGS}" ; export CPPFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %endif
 
@@ -101,6 +102,7 @@ export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
 export PATH=%{sqlite33dir}/bin/:$PATH
 LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
+CPPFLAGS="-I%{sqlite33dir}/include/ ${CFLAGS}" ; export CPPFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %endif
 
@@ -159,6 +161,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Fri Mar 13 2020 John K. Harvey <john.harvey@crunchydata.com> - 0:6.2.1-3
+- Add CPPFLAGS for sqlite33dir on EL-7 so that sqlite3.h is picked up during compilation
+
 * Wed Nov 13 2019 Devrim Gündüz <devrim@gunduz.org> - 0:6.2.1-2
 - Use our own sqlite33 package on RHEL 7 to fix performance issues.
 
