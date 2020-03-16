@@ -1424,8 +1424,6 @@ fi
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
-%{pgbaseinstdir}/share/postgres.description
-%{pgbaseinstdir}/share/postgres.shdescription
 %{pgbaseinstdir}/share/system_views.sql
 %{pgbaseinstdir}/share/*.sample
 %{pgbaseinstdir}/share/timezonesets/*
@@ -1492,8 +1490,10 @@ fi
 %if %plperl
 %files plperl -f pg_plperl.lst
 %defattr(-,root,root)
+%{pgbaseinstdir}/lib/bool_plperl.so
 %{pgbaseinstdir}/lib/plperl.so
 %{pgbaseinstdir}/share/extension/plperl*
+%{pgbaseinstdir}/share/extension/bool_plperl*
 %endif
 
 %if %pltcl
