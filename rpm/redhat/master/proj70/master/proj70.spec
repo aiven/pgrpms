@@ -168,7 +168,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %changelog
 * Fri Mar 13 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-1
 - Initial 7.0 packaging for PostgreSQL RPM Repository
-- Addpatches to fix SLES 12 and RHEL 7 builds, per
-  https://github.com/OSGeo/PROJ/issues/2062
-  https://github.com/OSGeo/PROJ/issues/2070
 - Build with curl support
+- Add a patch to fix SLES 12 and  RHEL 7 builds, per
+  https://github.com/OSGeo/PROJ/issues/2062
+- Backport a 7.0.1 patch to fix pkgconfig file:
+  https://github.com/OSGeo/PROJ/issues/2070
