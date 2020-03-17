@@ -12,8 +12,17 @@ Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 Source0:	https://github.com/tada/%{sname}/archive/V1_5_3.tar.gz
 Source1:	%{sname}.pom
 
-BuildRequires:	java-1.8.0-openjdk-devel, openssl-devel
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	java-1_8_0-openjdk-devel
+Requires:	java-1_8_0-openjdk-headless
+%endif
+%else
+BuildRequires:	java-1.8.0-openjdk-devel
 Requires:	java-headless >= 1:1.8
+%endif
+
+BuildRequires:	openssl-devel
 
 %description
 PL/Java is a free open-source extension for PostgreSQL™ that allows
