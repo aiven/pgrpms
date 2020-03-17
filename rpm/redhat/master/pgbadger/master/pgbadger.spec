@@ -1,10 +1,10 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	11.1
+Version:	11.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
-URL:		https://darold.github.io/pgbadger/
+URL:		https://github.com/darold/%{name}
 BuildArch:	noarch
 Requires:	perl-Text-CSV_XS
 
