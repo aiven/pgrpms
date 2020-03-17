@@ -25,13 +25,11 @@ URL:		https://proj.org
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
-# Remove the patches in 7.0.1
+# Remove these two patches in 7.0.1:
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 Patch0:		proj-7.0.0-gcc-4.8.5.patch
 %endif
-%if 0%{?suse_version} == 1315
-Patch1:		proj-7.0.0-sles12-pkgconfig.patch
-%endif
+Patch1:		proj-7.0.0-pkgconfig.patch
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel
 %if 0%{?fedora} > 29 || 0%{?rhel} == 8
@@ -81,9 +79,7 @@ This package contains libproj static library.
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %patch0 -p0
 %endif
-%if 0%{?suse_version} == 1315
 %patch1 -p0
-%endif
 
 %build
 %ifarch ppc64 ppc64le
