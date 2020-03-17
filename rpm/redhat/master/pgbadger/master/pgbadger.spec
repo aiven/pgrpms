@@ -47,6 +47,9 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Tue Mar 17 2020 - Devrim Gündüz <devrim@gunduz.org> 11.2-1
+- Update to 11.2
+
 * Thu Oct 3 2019 - Devrim Gündüz <devrim@gunduz.org> 11.1-1
 - Update to 11.1
 
