@@ -50,8 +50,8 @@ Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
 BuildRequires:	freexl-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
-BuildRequires:	proj%{projmajorversion}-devel >= 6.3.0
-BuildRequires:	sqlite-devel
+BuildRequires:	proj%{projmajorversion}-devel >= 7.0.0
+BuildRequires:	sqlite33-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libxml2-devel
 
