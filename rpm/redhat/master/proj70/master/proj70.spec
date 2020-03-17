@@ -26,8 +26,10 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
 # Remove the patches in 7.0.1
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+Patch0:		proj-7.0.0-gcc-4.8.5.patch
+%endif
 %if 0%{?suse_version} == 1315
-Patch0:		proj-7.0.0-sles12.patch
 Patch1:		proj-7.0.0-sles12-pkgconfig.patch
 %endif
 
@@ -76,8 +78,10 @@ This package contains libproj static library.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%if 0%{?suse_version} == 1315
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %patch0 -p0
+%endif
+%if 0%{?suse_version} == 1315
 %patch1 -p0
 %endif
 
@@ -168,7 +172,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %changelog
 * Fri Mar 13 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-1
 - Initial 7.0 packaging for PostgreSQL RPM Repository
-- Add two patches to fix SLES 12 builds, per
+- Addpatches to fix SLES 12 and RHEL 7 builds, per
   https://github.com/OSGeo/PROJ/issues/2062
   https://github.com/OSGeo/PROJ/issues/2070
 - Build with curl support
