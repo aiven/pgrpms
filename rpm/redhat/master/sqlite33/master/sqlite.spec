@@ -8,7 +8,7 @@
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	Public Domain
 URL:		http://www.sqlite.org/
 
@@ -95,9 +95,7 @@ embedded controllers.
 %patch1 -p1
 %patch2 -p1
 %patch3 -p1
-%ifarch %{ix86}
 %patch4 -p1
-%endif
 %patch5 -p1
 
 # Remove backup-file
@@ -138,7 +136,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %endif
 
 %post libs
-/usr/sbin/ldconfig
+/sbin/ldconfig
 
 %files
 %{sqlite33instdir}/bin/sqlite3
@@ -165,6 +163,10 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Thu Mar 19 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-3
+- Fix ldconfig path (for SLES 12)
+- Fix an rpmlint warning
+
 * Sat Feb 15 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-2
 - Remove tcl and  analyze subpackages. We don't need them.
 
