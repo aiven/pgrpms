@@ -2,9 +2,10 @@
 %global python_runtimes python python-debug python3 python3-debug
 
 # Python major version.
-%{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-%{expand: %%global pyver %(python3 -c 'import sys;print(sys.version[0:3])')}
+%global __ospython %{_bindir}/python2
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
