@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.1
+Version:	3.0.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -55,5 +55,8 @@ export DB2_HOME="%{db2_home}"
 %endif
 
 %changelog
+* Sun Mar 22 2020 - Devrim Gündüz <devrim@gunduz.org> 3.0.0-1
+- Update to 3.0.0
+
 * Sat Nov 23 2019 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Initial packaging for PostgreSQL non-free RPM Repository
