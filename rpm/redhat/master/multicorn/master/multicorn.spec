@@ -22,7 +22,7 @@ Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/multicorn/
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	python-devel
+BuildRequires:	python3-devel
 BuildRequires:	python3-devel
 
 %ifarch ppc64 ppc64le
