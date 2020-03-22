@@ -1,21 +1,10 @@
 %global sname multicorn
-%if 0%{?fedora} > 21
-%global with_python3 1
-%endif
-
-%if 0%{?with_python3}
 %global python_runtimes python python-debug python3 python3-debug
-%else
-%global python_runtimes python
-%endif
 
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
-
-%if 0%{?with_python3}
-%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
-%endif
+%{expand: %%global pyver %(python3 -c 'import sys;print(sys.version[0:3])')}
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -25,18 +14,16 @@
 
 Summary:	Multicorn Python bindings for Postgres 9.2+ FDW
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3.5
-Release:	1%{?dist}.1
+Version:	1.4.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/multicorn/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python-devel
-%if 0%{?with_python3}
 BuildRequires:	python3-devel
 BuildRequires:	python3-debug
-%endif
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -63,6 +50,8 @@ in python.
 	CC=%{atpath}/bin/gcc; export CC
 	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
+export PYTHON_OVERRIDE="python%{pyver}"
+
 %{__make} %{?_smp_mflags}
 
 %install
@@ -74,6 +63,7 @@ in python.
 	CC=%{atpath}/bin/gcc; export CC
 	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
+export PYTHON_OVERRIDE="python3.7"
 %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 %clean
@@ -86,12 +76,26 @@ in python.
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/doc/extension/%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%dir %{python_sitearch}/%{sname}/
-%{python_sitearch}/%{sname}/*
 %dir %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 %{python_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info/*
+%dir %{python_sitearch}/%{sname}/
+%{python_sitearch}/%{sname}/*
+%ifarch ppc64 ppc64le
+ %else
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+  %if 0%{?rhel} && 0%{?rhel} <= 6
+  %else
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+  %endif
+ %endif
+%endif
+
 
 %changelog
+* Sat Mar 21 2020 - Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
+- Update to 1.4.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.5-1.1
 - Rebuild against PostgreSQL 11.0
 
