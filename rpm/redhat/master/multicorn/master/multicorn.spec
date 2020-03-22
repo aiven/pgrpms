@@ -63,7 +63,7 @@ export PYTHON_OVERRIDE="python%{pyver}"
 	CC=%{atpath}/bin/gcc; export CC
 	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
 %endif
-export PYTHON_OVERRIDE="python3.7"
+export PYTHON_OVERRIDE="python%{pyver}"
 %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 %clean
