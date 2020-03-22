@@ -1,5 +1,5 @@
 %global sname multicorn
-%global python_runtimes python python-debug python3 python3-debug
+%global python_runtimes python3
 
 # Python major version.
 %global __ospython %{_bindir}/python2
@@ -24,7 +24,6 @@ URL:		http://pgxn.org/dist/multicorn/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python-devel
 BuildRequires:	python3-devel
-BuildRequires:	python3-debug
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
