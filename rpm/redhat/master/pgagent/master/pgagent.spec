@@ -15,7 +15,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	3%{?dist}.1
+Release:	4%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -181,6 +181,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Mar 23 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-4
+- Make sure that pgAgent restarts itself after a failure.
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-3.1
 - Rebuild for PostgreSQL 12
 
