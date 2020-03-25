@@ -6,27 +6,28 @@
 
 %global	geosversion	38
 %global	gdalversion	30
-%global	projversion	63
+%global	projversion	70
+
+%global	geosfullversion 3.8.1
+%global	projfullversion 7.0.0
+%global	gdalminorversion 3.0.4
 
 %global	geosinstdir	/usr/geos%{geosversion}
 %global	projinstdir	/usr/proj%{projversion}
 %global	gdalinstdir	/usr/gdal%{gdalversion}
 
-%global	gdalminorversion	3.0.4
-
-
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 24 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 %{!?sfcgal:%global     sfcgal 1}
 %else
@@ -45,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -54,14 +55,14 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel proj%{projversion}-devel
+BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel >= 6.3.0, flex, json-c-devel
+BuildRequires: 	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -87,8 +88,8 @@ BuildRequires:	protobuf-c-devel
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= 3.8.0 proj%{projversion} >= 6.3.0
+Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= %{geosfullversion}
+Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -387,6 +388,9 @@ fi
 %endif
 
 %changelog
+* Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.8-9
+- Rebuild for Proj 7.0.0 and GeOS 3.8.1
+
 * Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.8-8
 - Rebuild for Proj 6.3.1
 
