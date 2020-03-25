@@ -6,7 +6,10 @@
 
 %global geosversion	38
 %global gdalversion	30
-%global projversion	63
+%global projversion	70
+%global geosfullversion	3.8.1
+%global projfullversion	7.0.0
+%global gdalminorversion 3.0.4
 
 %global	geosinstdir	/usr/geos%{geosversion}
 %global	projinstdir	/usr/proj%{projversion}
@@ -56,13 +59,14 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos%{geosversion}-devel >= 3.8.0, pcre-devel
+
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel proj%{projversion}-devel
+BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel, flex, json-c-devel
+BuildRequires:	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -89,7 +93,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= 3.8.0 proj%{projversion}
+Requires:	geos%{geosversion} >= %{geosfullversion} proj%{projversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -386,6 +390,10 @@ fi
 %endif
 
 %changelog
+* Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.4-1
+- Update to 2.5.4
+- Build with Proj 7.0.0, and GeOS 3.8.1
+
 * Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.3-8
 - Rebuild for Proj 6.3.1
 
