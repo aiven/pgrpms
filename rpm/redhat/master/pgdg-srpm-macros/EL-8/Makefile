@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel8
-SPECFILE="pgdg-rpm-macros.spec"
+SPECFILE="pgdg-srpm-macros.spec"
 
 # Now, include global Makefile
 include ../../../common/Makefile.global
