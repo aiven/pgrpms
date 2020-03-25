@@ -1,0 +1,11 @@
+--- Makefile.old	2020-03-25 22:16:33.269254951 +0000
++++ Makefile	2020-03-25 22:16:42.459314567 +0000
+@@ -9,7 +9,7 @@
+ REGRESS      = $(patsubst test/sql/%.sql,%,$(TESTS))
+ REGRESS_OPTS = --inputdir=test --load-language=plpgsql
+ MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
+-PG_CONFIG   ?= pg_config
++PG_CONFIG   ?= /usr/pgsql-12/bin/pg_config
+ EXTRA_CLEAN  = sql/$(EXTENSION)--$(EXTVERSION).sql
+ PG92         = $(shell $(PG_CONFIG) --version | grep -qE " 8\.| 9\.0| 9\.1" && echo no || echo yes)
+ 
