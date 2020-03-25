@@ -10,12 +10,11 @@
 %global projversion	70
 %global	geosfullversion	3.8.1
 %global	projfullversion	7.0.0
+%global gdalminorversion 3.0.4
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
 %global gdalinstdir /usr/gdal%{gdalversion}
-
-%global gdalminorversion 3.0.4
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
