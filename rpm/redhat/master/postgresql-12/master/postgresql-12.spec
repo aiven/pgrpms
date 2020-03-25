@@ -379,6 +379,25 @@ included in the PostgreSQL distribution.
 Summary:	PostgreSQL development header files and libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%if %llvm
+%if 0%{?rhel} && 0%{?rhel} == 7
+# Packages come from EPEL and SCL:
+Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# Packages come from EPEL and SCL:
+Requires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+%endif
+%if 0%{?fedora}
+Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	llvm6-devel clang6-devel
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm5-devel clang5-devel
+%endif
+%endif
 %if %icu
 Requires:	libicu-devel
 %endif
