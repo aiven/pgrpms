@@ -41,3 +41,12 @@
 # Macro for the dail snapshot packages
 %pgdg_build_timestamp %(date +"%Y%m%d")
 
+%pgdg_set_gis_versions() %{expand: \
+%global geosversion     38
+%global gdalversion     30
+%global projversion     70
+%global geosfullversion 3.8.1
+%global projfullversion 7.0.0
+%global gdalminorversion 3.0.4
+\
+}
