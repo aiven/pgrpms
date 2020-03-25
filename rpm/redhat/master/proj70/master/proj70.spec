@@ -16,7 +16,7 @@
 
 Name:		%{sname}70
 Version:	7.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -166,6 +166,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-1
+- Relax pkgconfig patch to avoid aclocal calls. Per discussion
+  with upstream
+
 * Fri Mar 13 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-1
 - Initial 7.0 packaging for PostgreSQL RPM Repository
 - Build with curl support
