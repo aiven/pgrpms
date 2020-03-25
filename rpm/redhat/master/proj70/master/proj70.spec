@@ -166,7 +166,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
-* Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-1
+* Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-2
 - Relax pkgconfig patch to avoid aclocal calls. Per discussion
   with upstream
 
