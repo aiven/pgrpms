@@ -37,8 +37,12 @@ echo no build stage needed
 %{__install} -p -D -m 0644 %{SOURCE0} %{buildroot}/%{macros_dir}/macros.pgdg-postgresql
 
 %files
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%doc COPYRIGHT AUTHORS
+%else
 %license COPYRIGHT
 %doc AUTHORS
+%endif
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
