@@ -1,6 +1,6 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
-Version:	2.6.1
+Version:	2.6.2
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
@@ -8,7 +8,11 @@ Source1:	%{name}-LICENSE
 URL:		https://github.com/keithf4/%{name}
 BuildArch:	noarch
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	python2-psycopg2
+%else
 Requires:	python3-psycopg2
+%endif
 
 %description
 Script to provide a bloat report for PostgreSQL tables and/or indexes.
@@ -22,8 +26,13 @@ Requires at least Python 2.6 and the pgstattuple contrib module.
 %install
 %{__rm} -rf %{buildroot}
 
-# Change /usr/bin/python to /usr/bin/python3 in the scripts:
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# Change /usr/bin/python to /usr/bin/python2 in the script:
+sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" pg_bloat_check.py
+%else
+# Change /usr/bin/python to /usr/bin/python3 in the script:
 sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" pg_bloat_check.py
+%endif
 
 %{__install} -d -m 755 %{buildroot}%{_bindir}
 %{__install} -m 755 %{name}.py %{buildroot}%{_bindir}/
@@ -41,6 +50,9 @@ sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" pg_bloat_check.py
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.6.2-1
+- Update to 2.6.2
+- Stick to Python2 on RHEL 6.
 * Sat Nov 9 2019 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
 - Update to 2.6.1
 - Switch to Python3
