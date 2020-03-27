@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.21.2
+%global		_verstr	0.24.1
 %endif
 
 Name:		consul-template
@@ -106,22 +106,8 @@ fi
 
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.24.1-1
+- Update to 0.24.1
+
 * Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> 0.20.0-1
 - Initial packaging for PostgreSQL RPM Repository
-- Update to 1.5.2
-
-* Sun Feb 24 2019 Ilya Voronin <ivoronin@gmail.com>
-- Bump version to 0.20.0
-* Fri Nov 30 2018 Michael Mraz <michaelmraz@gmail.com>
-- Bump version to 0.19.5
-* Sun Mar 25 2018 ambakshi ambakshi@gmail.com
-- Bump version to 0.19.4
-* Tue Aug 22 2017 mh <mh@immerda.ch> - 0.19.0-1
-- Bumped version to 0.19.0
-* Wed Apr 05 2017 mh <mh@immerda.ch>
-- Bumped version to 0.18.2
-- remove legacy location /etc/consul-template/
-* Wed Sep 28 2016 Andy Bohne <andy@andrewbohne.com>
-- Bumped version to 0.16.0
-* Thu Jun 30 2016 Paul Lussier <pllsaph@gmail.com>
-- Created new spec file to build consul-template for rhel7
