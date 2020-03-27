@@ -13,7 +13,7 @@ BuildRequires:	lz4-devel
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	lz4
 %endif
 Requires:	postgresql-libs
