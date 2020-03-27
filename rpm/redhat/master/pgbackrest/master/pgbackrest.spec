@@ -3,19 +3,25 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.25
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
-BuildRequires:	lz4-devel
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
+BuildRequires:	lz4-devel
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	lz4
+BuildRequires:	lz4-devel
 %endif
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+Requires:	liblz4-1_7
+BuildRequires:	liblz4-devel
+%endif
+
 Requires:	postgresql-libs
 
 
@@ -68,6 +74,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.25-2
+- Add SLES-12 support
+
 * Thu Mar 26 2020 Devrim Gündüz <devrim@gunduz.org> - 2.25-1
 - Update to 2.25
 
