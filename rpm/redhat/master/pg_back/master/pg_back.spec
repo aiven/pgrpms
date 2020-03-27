@@ -1,5 +1,5 @@
 Name:           pg_back
-Version:        1.7
+Version:        1.8
 Release:        1%{?dist}
 Summary:        Simple backup script for PostgreSQL
 
@@ -37,6 +37,9 @@ on the command line.
 %{_bindir}/%{name}
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.8-1
+- Update to 1.8
+
 * Tue Dec 11 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7-1
 - Update to 1.7
 
