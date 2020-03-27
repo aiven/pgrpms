@@ -2,27 +2,21 @@
 %global sname pg_auto_failover
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.5
+Version:	1.2
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
 Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	pgdg-srpm-macros
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -41,10 +35,7 @@ commands to configure synchronous streaming replication.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}
@@ -64,7 +55,7 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{pginstdir}/bin/pg_autoctl
 %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/pgautofailover.so
-%{pginstdir}/share/extension/pgautofailover--1.0*.sql
+%{pginstdir}/share/extension/pgautofailover-*.sql
 %{pginstdir}/share/extension/pgautofailover.control
 %ifarch ppc64 ppc64le
  %else
@@ -78,6 +69,10 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+- Depend on new pgdg-srpm-macros RPM.
+
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.5-1
 - Update to 1.0.5
 
