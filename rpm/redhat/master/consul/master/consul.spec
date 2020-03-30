@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	1.6.0
+%global		_verstr	1.7.2
 %endif
 
 Name:		consul
@@ -117,93 +117,8 @@ rm -rf %{buildroot}
 %doc
 
 %changelog
+* Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.7.2-1
+- Update to 1.7.2
+
 * Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> 1.6.0
 - Initial packaging for PostgreSQL RPM Repository
-- Update to 1.5.2
-- Fix bunch of rpmlint warnings
-
-* Wed May 08 2019 Igor Krutyakov <lebriquet@gmail.com>
-- Bump version to 1.4.4
-
-* Sun Feb 24 2019 Ilya Voronin <ivoronin@gmail.com>
-- Bump version to 1.4.2
-
-* Fri Nov 30 2018 Michael Mraz <michaelmraz@gmail.com>
-- Bump version to 1.4.0
-
-* Sun Mar 25 2018 ambakshi ambakshi@gmail.com
-- Bump version to 1.0.6
-
-* Fri Aug 18 2017 leeuwenrjj leeuwenrjj@gmail.com
-- Bump version to 0.9.2
-- Fix issue with prep
-
-* Tue Jul 25 2017 atumasov multibutterbread@gmail.com
-- Bump version to 0.9.0
-- Remove outdated UI package https://github.com/hashicorp/consul/blob/master/CHANGELOG.md#090-july-20-2017
-
-* Mon Apr 24 2017 mh <mh@immerda.ch>
-- Bump to 0.8.1
-- Fix init script to check for http port to be listening
-
-* Wed Apr 05 2017 mh <mh@immerda.ch>
-- Bump to 0.8.0
-- remove legacy location /etc/consul/
-
-* Tue Feb 21 2017 Rumba <ice4o@hotmail.com>
-- Bump to 0.7.5
-
-* Wed Feb 8 2017 Jasper Lievisse Adriaanse <j@jasper.la>
-- Bump to 0.7.4
-
-* Thu Jan 26 2017 mh <mh@immerda.ch>
-- Bump to 0.7.3
-
-* Fri Dec 23 2016 Michael Mraz <michaelmraz@gmail.com>
-- Change default configs directory to /etc/consul.d and /etc/consul-template.d
-  while the old ones are still supported
-
-* Thu Dec 22 2016 Rumba <ice4o@hotmail.com>
-- Bump to 0.7.2
-
-* Wed Dec 14 2016 Rumba <ice4o@hotmail.com>
-- Bump to 0.7.1
-
-* Wed Sep 21 2016 Rumba <ice4o@hotmail.com>
-- Bump to 0.7.0
-
-* Tue Jun 28 2016 Konstantin Gribov <grossws@gmail.com>
-- Bump to v0.6.4
-
-* Sun Jan 31 2016 mh <mh@immerda.ch>
-- Bump to v0.6.3
-
-* Fri Dec 11 2015 mh <mh@immerda.ch>
-- Bump to v0.6
-
-* Sun Oct 18 2015 mh <mh@immerda.ch>
-- logrotate logfile on EL6 - fixes #14 & #15
-
-* Tue May 19 2015 nathan r. hruby <nhruby@gmail.com>
-- Bump to v0.5.2
-
-* Fri May 15 2015 Dan <phrawzty@mozilla.com>
-- Bump to v0.5.1
-
-* Mon Mar 9 2015 Dan <phrawzty@mozilla.com>
-- Internal maintenance (bump release)
-
-* Fri Mar 6 2015 mh <mh@immerda.ch>
-- update to 0.5.0
-- fix SysV init on restart
-- added webui subpackage
-- include statedir in package
-- run as unprivileged user
-- protect deployed configs from overwrites
-
-* Thu Nov 6 2014 Tom Lanyon <tom@netspot.com.au>
-- updated to 0.4.1
-- added support for SysV init (e.g. EL <7)
-
-* Wed Oct 8 2014 Don Ky <don.d.ky@gmail.com>
-- updated to 0.4.0
