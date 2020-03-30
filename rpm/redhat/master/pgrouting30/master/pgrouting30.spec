@@ -3,17 +3,15 @@
 %global sname	pgrouting
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.0
-Release:	beta_1%{dist}
+Release:	rc1_1%{dist}
 License:	GPLv2
-Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}-beta.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}-rc1.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	gcc-c++
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -27,12 +25,7 @@ Requires:	postgis30_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -50,15 +43,14 @@ engine. There is no need for precalculation.
 value can come from multiple fields or tables.
 
 %prep
-%setup -q -n %{sname}-%{version}-beta
+%setup -q -n %{sname}-%{version}-rc1
 
 %build
+%build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
+
 %{__install} -d build
 cd build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -94,6 +86,9 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-rc1.1
+- Update to 3.0.0rc1
+
 * Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-beta-1.1
 - Update to 3.0.0beta
 
