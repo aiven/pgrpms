@@ -146,13 +146,13 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
-* Tue Mar 17 20200 Devrim Gündüz <devrim@gunduz.org> - 42.2.11-1
+* Tue Mar 17 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.11-1
 - Update to 42.2.11
 
 * Fri Feb 7 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.10-1
 - Update to 42.2.10
 
-- Tue Dec 10 2019 Devrim Gündüz <devrim@gunduz.org> - 42.2.9-1
+* Tue Dec 10 2019 Devrim Gündüz <devrim@gunduz.org> - 42.2.9-1
 - Update to 42.2.9
 
 * Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 42.2.8-1
