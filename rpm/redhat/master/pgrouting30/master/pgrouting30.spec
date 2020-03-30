@@ -46,7 +46,6 @@ value can come from multiple fields or tables.
 %setup -q -n %{sname}-%{version}-rc1
 
 %build
-%build
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
