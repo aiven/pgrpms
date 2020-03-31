@@ -47,7 +47,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	2.8.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -175,8 +175,10 @@ done
 %doc AUTHORS LICENSE NEWS README.rst
 %dir %{python3_sitearch}/%{sname}
 %{python3_sitearch}/%{sname}/*.py
+%if ! 0%{?suse_version}
 %dir %{python3_sitearch}/%{sname}/__pycache__
 %{python3_sitearch}/%{sname}/__pycache__/*.pyc
+%endif
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
 %{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
 
@@ -190,8 +192,10 @@ done
 %dir %{python2_sitearch}/%{sname}
 %{python2_sitearch}/%{sname}/*.py
  %{python2_sitearch}/%{sname}/_psycopg.so
+%if ! 0%{?suse_version}
 %{python2_sitearch}/%{sname}/*.pyc
 %{python2_sitearch}/%{sname}/*.pyo
+%endif
 %{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
 
 %files -n python2-%{sname}-tests
@@ -205,6 +209,9 @@ done
 %endif
 
 %changelog
+* Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-5
+- Fix SLES 12 builds. Patch from Talha Bin Rizwan.
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-4
 - Make PY3 package the default one, so that we can build this
   package easier on Fedora 31+ (and RHEL 9+)
