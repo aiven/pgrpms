@@ -1,28 +1,23 @@
 %global sname pgquarrel
-%global sversion 0_6_0
+%global sversion 0_7_0
+
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Compares PostgreSQL database schemas (DDL)
-Name:		%{sname}%{sversion}
-Version:	0.6.0
+Name:		%{sname}
+Version:	0.7.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{sversion}.tar.gz
+Patch0:		pgquarrel-libminipath.patch
 URL:		https://github.com/eulerto/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel cmake
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	postgresql%{pgmajorversion}-devel cmake pgdg-srpm-macros
+Requires:	postgresql-libs
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -41,17 +36,15 @@ database.
 
 %prep
 %setup -q -n %{sname}-%{sname}_%{sversion}
+%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
-	-DCMAKE_INSTALL_PREFIX=%{pginstdir} .
+	-DCMAKE_INSTALL_PREFIX=/usr .
 
 %install
 %{__rm} -rf %{buildroot}
@@ -68,9 +61,13 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %else
 %license LICENSE
 %endif
-%{pginstdir}/bin/%{sname}
-%{pginstdir}/lib/libmini.so
+%attr (755,root,root) %{_bindir}/%{sname}
+%{_libdir}/libmini.so
 
 %changelog
+* Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-1
+- Update to 0.7.0
+- Fix packaging
+
 * Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 0.6.0-1
 - Initial packaging for PostgreSQL RPM Repository
