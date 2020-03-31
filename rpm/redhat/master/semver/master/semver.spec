@@ -30,7 +30,7 @@ Versioning 2.0.0 Specification.
 
 %build
 %ifarch ppc64 ppc64le
-        %pgdg_set_ppc64le_compiler_flags
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 %{__make} USE_PGXS=1 %{?_smp_mflags}
