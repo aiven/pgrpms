@@ -22,7 +22,7 @@ BuildRequires:	java-1.8.0-openjdk-devel
 Requires:	java-headless >= 1:1.8
 %endif
 
-BuildRequires:	openssl-devel
+BuildRequires:	openssl-devel krb5-devel
 
 %description
 PL/Java is a free open-source extension for PostgreSQL™ that allows
