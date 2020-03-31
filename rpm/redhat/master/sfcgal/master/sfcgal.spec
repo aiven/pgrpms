@@ -1,7 +1,5 @@
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	C++ wrapper library around CGAL for PostGIS
@@ -12,11 +10,20 @@ Version:	1.3.7
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 %endif
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GLPLv2
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 URL:		http://sfcgal.org/
-BuildRequires:	cmake, CGAL-devel
+%if 0%{?fedora} || 0%{?rhel} >= 8
+# We provide these package in our repo
+BuildRequires:	CGAL-devel >= 4.14
+Requires:	CGAL => 4.14
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	CGAL-devel
+Requires:	CGAL
+%endif
+BuildRequires:	cmake pgdg-srpm-macros
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libboost_date_time1_54_0 libboost_thread1_54_0
@@ -26,15 +33,10 @@ BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 %endif
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release} CGAL
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -71,11 +73,9 @@ Development headers and libraries for SFCGAL.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
@@ -128,6 +128,10 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-3
+- Clarify dependencies on RHEL 8, per Talha Bin Rizwan.
+- Depend on pgdg-srpm-macros
+
 * Fri Jul 19 2019 John K. Harvey <john.harvey@crunchydata.com> - 1.3.7-2
 - Fix broken macro
 
