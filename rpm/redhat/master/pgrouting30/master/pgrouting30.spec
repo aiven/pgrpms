@@ -9,18 +9,21 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.0
-Release:	rc1_1%{dist}
+Release:	rc1_2%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}-rc1.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	gcc-c++
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
+# EPEL:
+BuildRequires:	boost169-devel
 %else
 BuildRequires:	cmake => 2.8.8
+BuildRequires:	boost-devel >= 1.53
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	boost-devel >= 1.53 gmp-devel
+BuildRequires:	gmp-devel
 Requires:	postgis30_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 
@@ -54,6 +57,7 @@ value can come from multiple fields or tables.
 cd build
 %if 0%{?rhel} && 0%{?rhel} == 7
 cmake3 .. \
+	-DBOOST_ROOT=%{_includedir}/boost169 \
 %else
 %cmake .. \
 %endif
@@ -85,9 +89,12 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-rc1.2
+- Fix RHEL 7 builds, per tip from Florent Jardin.
+
 * Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-rc1.1
 - Update to 3.0.0rc1
-
+-
 * Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-beta-1.1
 - Update to 3.0.0beta
 
