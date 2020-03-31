@@ -10,12 +10,13 @@
 %endif
 Name:		pgadmin4-%{sname}
 Version:	2018.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	World Timezone Definitions for Python
 
 License:	MIT
 URL:		http://pytz.sourceforge.net/
 Source0:	https://pypi.io/packages/source/p/%{sname}/%{sname}-%{version}.tar.gz
+Patch1:		pgadmin4-pytz-tzfile.patch
 BuildArch:	noarch
 Requires:	tzdata
 
@@ -34,6 +35,7 @@ Almost all (over 540) of the Olson timezones are supported.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch1 -p0
 
 %build
 %{__ospython} setup.py build
@@ -54,6 +56,9 @@ chmod +x %{buildroot}%{python3_sitelib}/%{sname}/*.py
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
+* Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 2018.9-3
+- Fix builds on RHEL 8, per patch from Talha Bin Rizwan.
+
 * Sat Feb 29 2020 Devrim Gündüz <devrim@gunduz.org> - 2018.9-2
 - Switch to Python3 on RHEL 7.
 
