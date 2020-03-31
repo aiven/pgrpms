@@ -1,5 +1,5 @@
---- Makefile.old	2015-01-19 15:56:05.997893917 +0200
-+++ Makefile	2015-01-19 15:56:18.456768020 +0200
+--- Makefile.old	2020-03-31 22:26:23.482137741 +0100
++++ Makefile	2020-03-31 22:26:49.356305975 +0100
 @@ -23,7 +23,7 @@
  # You may have to customize this to run the test suite
  # REGRESS_OPTS=--user postgres
@@ -9,12 +9,3 @@
  
  SHLIB_LINK=-lgmp -lm
  
-@@ -40,7 +40,7 @@
- SRCFILES = $(SRC_C) $(SRC_H)
- OBJS = $(patsubst %.c,%.o,$(SRC_C))
- TESTFILES = $(wildcard test/sql/*.sql) $(wildcard test/expected/*.out)
--DOCS = $(wildcard docs/*.rst) docs/conf.py docs/Makefile docs/_static/pgmp.css
-+DOCS = $(wildcard docs/*.rst)
- 
- PKGFILES = AUTHORS COPYING README.rst Makefile \
- 	META.json pgmp.control \
