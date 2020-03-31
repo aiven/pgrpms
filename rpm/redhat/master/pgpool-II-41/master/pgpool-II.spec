@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.1.1
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -47,7 +47,11 @@ Requires(pre):		/usr/sbin/useradd /usr/sbin/groupadd
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%else
 Requires(post):		systemd-sysv
+%endif
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
@@ -348,6 +352,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> 4.1.1-2
+- Fix SLES 12 installations, per patch from Talha Bin Rizwan
+
 * Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> 4.1.1-1
 - Update to 4.1.1
 - Use direct download URL
