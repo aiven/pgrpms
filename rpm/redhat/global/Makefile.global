@@ -31,14 +31,14 @@ clean:
 	rm -f *.src.rpm
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
-include ../../../common/Makefile.global-PG94
-include ../../../common/Makefile.global-PG95
-include ../../../common/Makefile.global-PG96
-include ../../../common/Makefile.global-PG96-testing
-include ../../../common/Makefile.global-PG10-testing
-include ../../../common/Makefile.global-PG10
-include ../../../common/Makefile.global-PG11-testing
-include ../../../common/Makefile.global-PG11
-include ../../../common/Makefile.global-PG12-testing
-include ../../../common/Makefile.global-PG12
-include ../../../common/Makefile.global-PG13-testing
+include ../../../global/Makefile.global-PG94
+include ../../../global/Makefile.global-PG95
+include ../../../global/Makefile.global-PG96
+include ../../../global/Makefile.global-PG96-testing
+include ../../../global/Makefile.global-PG10-testing
+include ../../../global/Makefile.global-PG10
+include ../../../global/Makefile.global-PG11-testing
+include ../../../global/Makefile.global-PG11
+include ../../../global/Makefile.global-PG12-testing
+include ../../../global/Makefile.global-PG12
+include ../../../global/Makefile.global-PG13-testing
