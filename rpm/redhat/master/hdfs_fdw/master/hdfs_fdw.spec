@@ -14,7 +14,11 @@ Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	libxml2-devel java-devel javapackages-tools
+BuildRequires:	libxml2-devel java-devel
+%if 0%{?rhel} && 0%{?rhel} >= 7
+BuildRequires:	javapackages-tools
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
