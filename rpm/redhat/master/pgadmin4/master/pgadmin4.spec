@@ -1,5 +1,4 @@
 %global debug_package %{nil}
-%global pgadminmajorversion 4
 %global	pgadmin4instdir /usr/%{name}
 
 %global __ospython %{_bindir}/python3
@@ -10,8 +9,8 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	%{pgadminmajorversion}.19
-Release:	4%{?dist}
+Version:	4.20
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -339,6 +338,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Apr 1 2020 - Devrim Gündüz <devrim@gunduz.org> 4.20-1
+- Update to 4.20
+
 * Tue Mar 10 2020 - Devrim Gündüz <devrim@gunduz.org> 4.19-4
 - Require desktop tray extension names or RHEL 7 and 8.
 - Add dependencies for the setup script. Noted when testing
