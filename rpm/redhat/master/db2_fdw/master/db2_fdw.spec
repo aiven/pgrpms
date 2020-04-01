@@ -1,6 +1,6 @@
 %global debug_package %{nil}
 %global sname db2_fdw
-+%global db2_home "/opt/ibm/db2/V11.5/"
+%global db2_home "/opt/ibm/db2/V11.5/"
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}%{pgmajorversion}
