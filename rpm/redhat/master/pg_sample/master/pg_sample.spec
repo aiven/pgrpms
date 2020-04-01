@@ -25,10 +25,10 @@ maintains referential integrity, and supports circular dependencies.
 
 %install
 %{__rm} -rf %{buildroot}
-install -d %{buildroot}%{_bindir}
-install -d %{buildroot}%{_docdir}/%{name}
-install -m 755 pg_sample %{buildroot}%{_bindir}/%{name}
-install -m 644 README.md %{buildroot}%{_docdir}/%{name}
+%{__install} -d %{buildroot}%{_bindir}
+%{__install} -d %{buildroot}%{_docdir}/%{name}
+%{__install} -m 755 pg_sample %{buildroot}%{_bindir}/%{name}
+%{__install} -m 644 README.md %{buildroot}%{_docdir}/%{name}
 
 %files
 %doc %{_docdir}/%{name}/README.md
