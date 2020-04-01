@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="postgresql-9.5.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

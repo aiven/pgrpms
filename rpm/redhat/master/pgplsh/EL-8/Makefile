@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="plsh.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

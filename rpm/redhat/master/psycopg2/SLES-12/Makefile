@@ -14,4 +14,4 @@ DIST=".sles12"
 SPECFILE="python-psycopg2.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

@@ -14,4 +14,4 @@ DIST=.f31
 SPECFILE="pg_store_plans.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

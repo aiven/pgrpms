@@ -14,4 +14,4 @@ DIST=.f30
 SPECFILE="pgpoolAdmin-37.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

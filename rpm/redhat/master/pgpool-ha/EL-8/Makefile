@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pgpool-ha.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="pgadmin4-python-mod_wsgi.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

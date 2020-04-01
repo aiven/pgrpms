@@ -14,4 +14,4 @@ DIST=.f30
 SPECFILE="postgis21.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

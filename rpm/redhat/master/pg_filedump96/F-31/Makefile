@@ -14,4 +14,4 @@ DIST=.f31
 SPECFILE="pg_filedump96.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

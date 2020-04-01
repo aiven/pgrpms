@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pgbackman.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

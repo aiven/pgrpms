@@ -14,4 +14,4 @@ DIST=.rhel6
 SPECFILE="pgpoolAdmin-40.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

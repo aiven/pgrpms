@@ -14,4 +14,4 @@ DIST=.f29
 SPECFILE="pgdg-fedora-nonfree.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

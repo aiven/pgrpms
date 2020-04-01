@@ -14,4 +14,4 @@ DIST=".sles12"
 SPECFILE="resource-agents-paf.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

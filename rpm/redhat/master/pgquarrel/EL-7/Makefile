@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="pgquarrel.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

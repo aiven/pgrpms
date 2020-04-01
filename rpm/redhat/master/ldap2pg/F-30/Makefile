@@ -14,4 +14,4 @@ DIST=.f30
 SPECFILE="ldap2pg.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

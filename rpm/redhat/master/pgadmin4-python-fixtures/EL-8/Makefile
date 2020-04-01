@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pgadmin4-python-fixtures.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

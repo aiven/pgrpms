@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pgadmin4-python-extras.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

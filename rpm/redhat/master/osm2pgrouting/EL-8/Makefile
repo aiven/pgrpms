@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="osm2pgrouting.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

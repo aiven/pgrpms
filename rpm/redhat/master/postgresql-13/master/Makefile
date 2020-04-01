@@ -14,4 +14,4 @@ DIST=.f42
 SPECFILE="postgresql-13.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

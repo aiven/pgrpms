@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="pgadmin4-python-dateutil.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

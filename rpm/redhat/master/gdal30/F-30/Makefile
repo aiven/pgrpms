@@ -14,4 +14,4 @@ DIST=.f30
 SPECFILE="gdal30.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

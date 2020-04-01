@@ -14,4 +14,4 @@ DIST=.rhel6
 SPECFILE="pg_fkpart.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

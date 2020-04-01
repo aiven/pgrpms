@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="pg_auto_failover.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

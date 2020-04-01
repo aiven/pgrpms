@@ -14,4 +14,4 @@ DIST=".sles12"
 SPECFILE="pgpoolAdmin-36.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

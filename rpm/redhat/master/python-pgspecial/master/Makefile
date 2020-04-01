@@ -14,4 +14,4 @@ DIST=.f42
 SPECFILE="python-pgspecial.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

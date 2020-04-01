@@ -14,4 +14,4 @@ DIST=.rhel6
 SPECFILE="pgdg-srpm-macros.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

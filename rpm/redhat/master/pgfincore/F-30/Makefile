@@ -14,4 +14,4 @@ DIST=.f30
 SPECFILE="pgfincore.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

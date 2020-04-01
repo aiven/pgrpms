@@ -14,4 +14,4 @@ DIST=.rhel6
 SPECFILE="check_postgres.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

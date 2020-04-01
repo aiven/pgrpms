@@ -14,4 +14,4 @@ DIST=".sles12"
 SPECFILE="pgadmin4-python-flask-security-too.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

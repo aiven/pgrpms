@@ -14,4 +14,4 @@ DIST=.f31
 SPECFILE="slony1-22.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

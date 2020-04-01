@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pg_partman.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

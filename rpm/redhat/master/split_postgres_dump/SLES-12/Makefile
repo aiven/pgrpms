@@ -14,4 +14,4 @@ DIST=".sles12"
 SPECFILE="split_postgres_dump.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global

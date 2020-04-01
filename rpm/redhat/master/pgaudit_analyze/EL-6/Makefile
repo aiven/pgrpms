@@ -14,4 +14,4 @@ DIST=.rhel6
 SPECFILE="pgaudit_analyze.spec"
 
 # Now, include global Makefile
-include ../../../common/Makefile.global
+include ../../../global/Makefile.global
