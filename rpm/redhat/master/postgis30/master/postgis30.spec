@@ -5,12 +5,7 @@
 %global postgisprevmajorversion 2.5
 %global sname	postgis
 
-%global geosversion	38
-%global gdalversion	30
-%global projversion	70
-%global	geosfullversion	3.8.1
-%global	projfullversion	7.0.0
-%global gdalminorversion 3.0.4
+%pgdg_set_gis_versions
 
 %global	geosinstdir /usr/geos%{geosversion}
 %global	projinstdir /usr/proj%{projversion}
@@ -39,11 +34,8 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
-%global _smp_mflags	-j1
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
@@ -57,7 +49,8 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion}
+BuildRequires:	pgdg-srpm-macros pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
@@ -80,8 +73,9 @@ BuildRequires:	gdal-devel >= 1.9.2-9
 BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
   %endif
 %endif
+
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
@@ -114,11 +108,6 @@ Requires(post):	%{_sbindir}/update-alternatives
 Requires:	protobuf-c
 %endif
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
 Provides:	%{sname}3_%{pgmajorversion} => %{postgismajorversion}.0
@@ -135,12 +124,11 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description client
 The %{name}-client package contains the client tools and their libraries
@@ -153,8 +141,7 @@ Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description devel
@@ -166,10 +153,6 @@ with PostGIS.
 Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
 
 %description docs
 The %{name}-docs package includes PDF documentation of PostGIS.
@@ -191,8 +174,7 @@ Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description utils
@@ -212,10 +194,7 @@ LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 
 %ifarch ppc64 ppc64le
-	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
-	CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
-	sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/lib"; export LDFLAGS
