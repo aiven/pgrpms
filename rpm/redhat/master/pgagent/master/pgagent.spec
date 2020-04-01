@@ -30,6 +30,8 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 2.8.8
 %endif
 
+BuildRequires:	boost-devel >= 1.41
+
 %if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
 Requires:		systemd
