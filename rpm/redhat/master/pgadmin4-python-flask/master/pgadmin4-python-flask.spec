@@ -10,7 +10,7 @@
 
 Name:		pgadmin4-python3-%{sname}
 Version:	1.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 Summary:	A micro-framework for Python based on Werkzeug, Jinja 2 and good intentions
 License:	BSD
@@ -28,7 +28,7 @@ Requires:	python3-werkzeug python3-itsdangerous python3-click
 %endif
 
 %if 0%{?rhel} == 7
-BuildRequires:	pgadmin4-python-jinja2 pgadmin4-python-werkzeug
+BuildRequires:	pgadmin4-python3-jinja2 pgadmin4-python3-werkzeug
 BuildRequires:	pgadmin4-python3-itsdangerous python36-click
 Requires:	pgadmin4-python3-jinja2	pgadmin4-python3-werkzeug
 Requires:	pgadmin4-python3-itsdangerous python36-click
@@ -70,6 +70,9 @@ CFLAGS="%{optflags}" %{__ospython} setup.py build
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
+* Wed Apr 1 2020 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.2-3
+- Fix RHEL 7 dependencies, per Talha.
+
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.2-2
 - Switch to PY3 on RHEL 7
 
