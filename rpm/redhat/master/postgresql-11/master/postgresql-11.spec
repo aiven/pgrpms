@@ -59,7 +59,7 @@
 %{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
-%ifarch ppc64 ppc64le s390 s390x
+%ifarch ppc64 ppc64le s390 s390x armv7hl
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
