@@ -17,13 +17,6 @@
 
 ## PostgreSQL 9.6 Testing
 
-prep96testing:
-	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
-	# Update spec file, patches, etc, before running spectool:
-	git pull
-	# Use spectool to download source files, especially tarballs.
-	spectool -g -S --define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" --define "pgpackageversion 9.6" $(SPECFILE)
-
 build96testing: bfsrpm96testing
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
