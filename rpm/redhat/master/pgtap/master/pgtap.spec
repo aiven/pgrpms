@@ -1,9 +1,7 @@
 %global sname	pgtap
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Unit testing for PostgreSQL
@@ -16,18 +14,16 @@ Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 # Use this source for pg_prove and pg_tapgen
 Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRequires:	postgresql%{pgmajorversion} perl-Test-Pod perl-Test-Pod-Coverage
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	perl-Test-Pod perl-Test-Pod-Coverage
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	perl-Module-Build
 %endif
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 BuildArch:	noarch
@@ -44,10 +40,7 @@ test frameworks. It can also be used in the xUnit testing style.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
 
