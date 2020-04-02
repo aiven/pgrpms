@@ -18,6 +18,7 @@ BuildRequires:	protobuf-c libprotobuf-c-devel
 BuildRequires:	protobuf-c-devel
 %endif
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
