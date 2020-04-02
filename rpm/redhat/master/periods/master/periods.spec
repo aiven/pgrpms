@@ -1,5 +1,9 @@
 %global	sname	periods
 
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+
 Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
@@ -12,6 +16,13 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 # Remove this patch in next release:
 %if 0%{?rhel} && 0%{?rhel} == 7
 Patch1:		%{sname}-%{version}-rhel7-build.patch
+%endif
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -30,6 +41,9 @@ to simulate the behavior once the feature is finally integrated.
 %endif
 
 %build
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
