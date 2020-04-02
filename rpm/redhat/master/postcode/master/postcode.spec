@@ -1,8 +1,7 @@
 %global sname postcode
+
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	UK postcode type optimised for indexing
@@ -14,13 +13,12 @@ Source0:	http://api.pgxn.org/dist/postcode/%{version}/postcode-%{version}.zip
 Patch0:		%{sname}-1.3.0-c99.patch
 Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://pgxn.org/dist/postcode/
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -35,10 +33,7 @@ matches. Also provides suitable type for delivery point suffixes.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} %{?_smp_mflags}
 
