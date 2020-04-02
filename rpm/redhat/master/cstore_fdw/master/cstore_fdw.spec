@@ -1,9 +1,7 @@
 %global sname cstore_fdw
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Columnar store extension for PostgreSQL
@@ -19,14 +17,11 @@ BuildRequires:	protobuf-c libprotobuf-c-devel
 %else
 BuildRequires:	protobuf-c-devel
 %endif
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -41,10 +36,7 @@ let you:
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 %{__make}
@@ -81,7 +73,6 @@ let you:
   %endif
  %endif
 %endif
-
 
 %changelog
 * Tue Feb 18 2020 - Devrim Gündüz <devrim@gunduz.org> 1.7.0-1
