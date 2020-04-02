@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.0
+Version:	1.6.1
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -76,6 +76,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Apr 2 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
+- Update to 1.6.1
+
 * Sat Jan 18 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
 - Update to 1.6.0
 
