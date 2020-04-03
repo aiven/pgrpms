@@ -31,13 +31,11 @@ clean:
 	rm -f *.src.rpm
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
-include ../../../global/Makefile.global-PG95
-include ../../../global/Makefile.global-PG96
-include ../../../global/Makefile.global-PG96-testing
-include ../../../global/Makefile.global-PG10-testing
-include ../../../global/Makefile.global-PG10
-include ../../../global/Makefile.global-PG11-testing
-include ../../../global/Makefile.global-PG11
-include ../../../global/Makefile.global-PG12-testing
-include ../../../global/Makefile.global-PG12
-include ../../../global/Makefile.global-PG13-testing
+include ../../../../global/Makefile.global-PG95
+include ../../../../global/Makefile.global-PG96
+include ../../../../global/Makefile.global-PG10
+include ../../../../global/Makefile.global-PG11-testing
+include ../../../../global/Makefile.global-PG11
+include ../../../../global/Makefile.global-PG12-testing
+include ../../../../global/Makefile.global-PG12
+include ../../../../global/Makefile.global-PG13-testing

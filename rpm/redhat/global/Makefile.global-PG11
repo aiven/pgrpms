@@ -108,3 +108,87 @@ noprepsrpm11:
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
+commonbuild11: bfsrpm11
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_builddir $(HOME)/rpm11/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm11/common/RPMS/" --sign \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonsrpm11: prep11
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+commonbfsrpm11: prep11
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" --sign \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+commonbfnosignsrpm11: prep11
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+commonrpm11: prep11
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnosignbuild11: bfnosignsrpm11
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm11/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm11/common/RPMS/" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnoprepbuild11:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" --sign \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm11/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm11/common/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm11/common/RPMS/" --sign \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnopreprpm11:
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnoprepsrpm11:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
+	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
