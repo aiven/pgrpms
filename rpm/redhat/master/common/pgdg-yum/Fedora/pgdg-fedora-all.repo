@@ -1,5 +1,17 @@
+#########################3##
+# PGDG Fedora repositories #
+############################
 
-# PGDG Fedora stable repositories:
+# PGDG Fedora stable common repository for all PostgreSQL versions
+
+[pgdg-common]
+name=PostgreSQL common RPMs for Fedora $releasever - $basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/common/fedora/fedora-$releasever-$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+# PGDG Fedora stable repositories
 
 [pgdg12]
 name=PostgreSQL 12 for Fedora $releasever - $basearch
@@ -43,8 +55,17 @@ enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-# PGDG Fedora Updates Testing repositories (These packages should not be used in production)
-# Available for 9.6 and above.
+# PGDG Fedora testing common repository
+
+[pgdg-common-testing]
+name=PostgreSQL common testing RPMs for Fedora $releasever - $basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/common/fedora/fedora-$releasever-$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+# PGDG Fedora Updates Testing repositories (These packages should not be used in production).
+# Available for 11 and above.
 
 [pgdg13-updates-testing]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Updates testing
@@ -67,21 +88,16 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg10-updates-testing]
-name=PostgreSQL 10 for Fedora $releasever - $basearch - Updates testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/10/fedora/fedora-$releasever-$basearch
-enabled=0
+# PGDG Fedora SRPM testing common repository
+
+[pgdg-common-srpm-testing]
+name=PostgreSQL common testing SRPMs for Fedora $releasever - $basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/common/fedora/fedora-$releasever-$basearch
+enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg96-updates-testing]
-name=PostgreSQL 9.6 for Fedora $releasever - $basearch - Updates testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/9.6/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-# Source RPMs (SRPM), and their testing repositories:
+# Source RPMs (SRPM), and their testing repositories
 
 [pgdg13-source-updates-testing]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Source updates testing
@@ -131,26 +147,10 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg10-source-updates-testing]
-name=PostgreSQL 10 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
-baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/10/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 [pgdg96-source]
 name=PostgreSQL 9.6 for Fedora $releasever - $basearch - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.6/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg96-source-updates-testing]
-name=PostgreSQL 9.6 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
-baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/9.6/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
@@ -230,19 +230,3 @@ baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/11/fedora/fe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg10-updates-testing-debuginfo]
-name=PostgreSQL 10 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/10/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg96-updates-testing-debuginfo]
-name=PostgreSQL 9.6 for Fedora $releasever - $basearch - Debuginfo Testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/9.6/fedora/fedora-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-
