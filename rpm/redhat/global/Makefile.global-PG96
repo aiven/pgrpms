@@ -108,7 +108,7 @@ noprepsrpm96:
 	--define "pgmajorversion 96" --define "pginstdir /usr/pgsql-9.6" --define "pgpackageversion 96" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-commonbuild96: bfsrpm96
+commonbuild96: commonbfsrpm96
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm96/BUILDROOT" \

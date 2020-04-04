@@ -108,7 +108,7 @@ noprepsrpm11:
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-commonbuild11: bfsrpm11
+commonbuild11: commonbfsrpm11
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \

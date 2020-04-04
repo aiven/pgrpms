@@ -108,7 +108,7 @@ noprepsrpm10:
 	--define "pgmajorversion 10" --define "pginstdir /usr/pgsql-10" --define "pgpackageversion 10" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-commonbuild10: bfsrpm10
+commonbuild10: commonbfsrpm10
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm10/BUILDROOT" \

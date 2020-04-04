@@ -108,7 +108,7 @@ noprepsrpm12:
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-commonbuild12: bfsrpm12
+commonbuild12: commonbfsrpm12
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \

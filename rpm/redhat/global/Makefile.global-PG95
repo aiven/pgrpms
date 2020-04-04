@@ -108,7 +108,7 @@ noprepsrpm95:
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 95" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-commonbuild95: bfsrpm95
+commonbuild95: commonbfsrpm95
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
