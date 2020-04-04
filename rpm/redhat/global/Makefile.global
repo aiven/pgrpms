@@ -1,17 +1,10 @@
 #################################
-# General Makefile 	   	#
+# Global Makefile 	   	#
 # for RPM packaging	   	#
 # https://yum.postgresql.org	#
 #			   	#
 # Devrim Gunduz		   	#
 # devrim@gunduz.org	   	#
-#################################
-#			 	#
-#				#
-# build target is for      	#
-# RPM buildfarm		   	#
-#			   	#
-#			   	#
 #################################
 
 prep:
@@ -31,6 +24,7 @@ clean:
 	rm -f *.src.rpm
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
+include ../../../../global/Makefile.global-common
 include ../../../../global/Makefile.global-PG95
 include ../../../../global/Makefile.global-PG96
 include ../../../../global/Makefile.global-PG10
