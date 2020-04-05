@@ -22,7 +22,7 @@ commonbuild: commonbfsrpm
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
-	--define "_rpmdir $(HOME)/rpmcommon/common/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
@@ -48,7 +48,7 @@ commonnoprepbuild:
 	--define  "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
-	--define "_rpmdir $(HOME)/rpmcommon/common/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
