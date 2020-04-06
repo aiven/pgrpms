@@ -1,30 +1,18 @@
 %global sname psycopg2
 %global pname python-%{sname}
-%ifarch ppc64 ppc64le
-
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
-%endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_compiler_at10
 %endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-
 %{!?with_docs:%global with_docs 0}
+
+%global with_python3 1
 
 %if  0%{?rhel} && 0%{?rhel} <= 8 || 0%{?fedora} < 31
 %global with_python2 1
-%global with_python3 1
 %endif
 %if  0%{?rhel} && 0%{?rhel} >= 9 || 0%{?fedora} >= 31
 %global with_python2 0
-%global with_python3 1
 %endif
 
 %global	python3_runtimes python3
@@ -33,7 +21,6 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %if 0%{?with_python2}
  %global python2_runtimes python2
 %endif
-
 
 %if 0%{?with_python2}
  %{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
@@ -46,15 +33,15 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	2.8.3
-Release:	5%{?dist}
+Version:	2.8.5
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
 Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
 %if 0%{?with_python2}
@@ -64,6 +51,10 @@ BuildRequires:	python2-devel
 Requires:	postgresql-libs
 
 Conflicts:	python-%{sname}-zope < %{version}
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 Psycopg is the most popular PostgreSQL adapter for the Python
@@ -118,11 +109,7 @@ database adapter.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
@@ -209,6 +196,9 @@ done
 %endif
 
 %changelog
+* Mon Apr 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-1
+- Update to 2.8.5
+
 * Mon Oct 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.8.3-5
 - Fix SLES 12 builds. Patch from Talha Bin Rizwan.
 
