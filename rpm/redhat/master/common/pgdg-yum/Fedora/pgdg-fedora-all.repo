@@ -60,7 +60,7 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 [pgdg-common-testing]
 name=PostgreSQL common testing RPMs for Fedora $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/common/fedora/fedora-$releasever-$basearch
-enabled=1
+enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
