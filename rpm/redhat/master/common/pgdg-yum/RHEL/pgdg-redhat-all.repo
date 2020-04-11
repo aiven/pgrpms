@@ -5,7 +5,7 @@
 # PGDG Red Hat Enterprise Linux / CentOS stable common repository for all PostgreSQL versions
 
 [pgdg-common]
-name=PostgreSQL common for RHEL/CentOS $releasever - $basearch
+name=PostgreSQL common RPMs for RHEL/CentOS $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/common/redhat/rhel-$releasever-$basearch
 enabled=1
 gpgcheck=1
@@ -90,15 +90,31 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 # PGDG Red Hat Enterprise Linux / CentOS SRPM testing common repository
 
-[pgdg12-source]
+[pgdg-source-common]
 name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - Source
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/common/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
+# PGDG RHEL / CentOS testing common SRPM repository for all PostgreSQL versions
+
+[pgdg-common-srpm-testing]
+name=PostgreSQL common testing SRPMs for RHEL/CentOS $releasever - $basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/common/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
 # PGDG Source RPMs (SRPM), and their testing repositories:
+
+[pgdg13-source-updates-testing]
+name=PostgreSQL 13 for RHEL/CentOS $releasever - $basearch - Source updates testing
+failovermethod=priority
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/13/fedora/fedora-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 [pgdg12-source]
 name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - Source
