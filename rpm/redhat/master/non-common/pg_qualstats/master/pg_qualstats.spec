@@ -1,29 +1,22 @@
 %global sname pg_qualstats
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.9
-Release:	1%{?dist}.1
+Version:	2.0.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/powa-team/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -45,10 +38,7 @@ together.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -91,7 +81,11 @@ together.
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
+- Update to 2.0.0
+- Require pgdg-srpm-macros
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1.1
 - Rebuild for PostgreSQL 12
 
 * Fri Sep 6 2019 - Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1
