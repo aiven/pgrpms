@@ -11,7 +11,6 @@ Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch1:		patch
 URL:		https://github.com/powa-team/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -36,7 +35,6 @@ together.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
