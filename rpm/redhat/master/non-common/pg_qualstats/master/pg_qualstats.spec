@@ -6,11 +6,12 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.0
+Version:	2.0.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch1:		patch
 URL:		https://github.com/powa-team/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -35,6 +36,7 @@ together.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -81,6 +83,9 @@ together.
 %endif
 
 %changelog
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
+- Update to 2.0.1
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.0
 - Require pgdg-srpm-macros
