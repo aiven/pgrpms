@@ -1,0 +1,10 @@
+--- Makefile.old	2020-04-16 12:11:40.794111698 +0100
++++ Makefile	2020-04-16 12:12:00.324302638 +0100
+@@ -13,6 +13,6 @@
+ PG_CPPFLAGS+= -DDO_DEBUG
+ endif
+ 
+-PGXS := $(shell pg_config --pgxs)
++PGXS := $(shell /usr/pgsql-11/bin/pg_config --pgxs)
+ include $(PGXS)
+ 
