@@ -21,6 +21,7 @@
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+	CXX=%{atpath}/bin/g++; export CXX
 \
 
 %pgdg_set_ppc64le_min_requires\

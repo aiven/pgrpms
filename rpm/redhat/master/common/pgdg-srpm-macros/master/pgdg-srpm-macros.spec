@@ -11,7 +11,7 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.0
+Version:	1.0.1
 Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -46,5 +46,8 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
+- Add CXX flags for PPC64LE. Extracted from another patch by Talha.
+
 * Fri May 31 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for PostgreSQL RPM Repository
