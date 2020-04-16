@@ -9,14 +9,12 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		%{sname}70
 Version:	7.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -32,6 +30,8 @@ Patch0:		proj-7.0.0-gcc-4.8.5.patch
 Patch1:		proj-7.0.0-pkgconfig.patch
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel
+BuildRequires:	libtiff-devel pgdg-srpm-macros
+
 %if 0%{?fedora} > 29 || 0%{?rhel} == 8
 Requires:	%{sqlitepname}-libs >= 3.7
 %else
@@ -39,28 +39,21 @@ Requires:	%{sqlitepname}
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %package devel
 Summary:	Development files for PROJ
 Requires:	%{name} = %{version}-%{release}
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -83,10 +76,7 @@ This package contains libproj static library.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
@@ -94,6 +84,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
 export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
+export SQLITE3_CFLAGS="-I%{sqlite33dir}/include"
 export PATH=%{sqlite33dir}/bin/:$PATH
 LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
@@ -166,6 +157,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-3
+- Fix CentOS 7 and CentOS 8 builds, per mock build testing by Talha.
+- Switch to pgdg-srpm-macros
+
 * Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-2
 - Relax pkgconfig patch to avoid aclocal calls. Per discussion
   with upstream
