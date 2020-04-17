@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.5.0
+Version:	0.5.1
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -97,5 +97,8 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgagroal.so.%{version}
 
 %changelog
+* Fri Apr 17 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-1
+- Update to 0.5.1
+
 * Tue Mar 24 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
 - Initial packaging for PostgreSQL RPM repository, per upstream spec.
