@@ -3,7 +3,7 @@
 %global pgpackageversion 12
 %global prevmajorversion 11
 %global sname pgdg-libpq5
-%global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
+%global pgbaseinstdir	/usr/lib64/%{sname}/
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -26,7 +26,6 @@
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
-%{!?runselftest:%global runselftest 0}
 %{!?xml:%global xml 1}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -51,7 +50,7 @@
 %pgdg_set_ppc64le_compiler_at10
 %endif
 
-Summary:	PostgreSQL C client library for PGDG RPMs
+Summary:	The shared libraries required for some PGDG packages
 Name:		pgdg-libpq5
 Version:	12.2
 Release:	1PGDG%{?dist}
@@ -59,7 +58,7 @@ License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
 Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
-Source9:	%{name}libs.conf
+Source9:	%{name}-libs.conf
 
 Patch1:		%{name}-rpm-pgsql.patch
 Patch5:		%{name}-var-run-socket.patch
@@ -142,15 +141,15 @@ BuildRequires:	systemtap-sdt-devel
 
 %if %selinux
 # All supported distros have libselinux-devel package:
-BuildRequires:  libselinux-devel >= 2.0.93
+BuildRequires:	libselinux-devel >= 2.0.93
 # SLES: SLES 15 does not have selinux-policy package. Use
 # it only on SLES 12:
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  selinux-policy >= 3.9.13
+BuildRequires:	selinux-policy >= 3.9.13
 %endif
 # RHEL/Fedora has selinux-policy:
 %if 0%{?rhel} || 0%{?fedora}
-BuildRequires:  selinux-policy >= 3.9.13
+BuildRequires:	selinux-policy >= 3.9.13
 %endif
 %endif
 
@@ -170,29 +169,6 @@ BuildRequires:	openssl-devel
 BuildRequires:	libxml2-devel libxslt-devel
 %endif
 
-Requires(post):	%{_sbindir}/update-alternatives
-Requires(postun):	%{_sbindir}/update-alternatives
-
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-
-%description
-PostgreSQL is an advanced Object-Relational database management system (DBMS).
-The base postgresql package contains the client programs that you'll need to
-access a PostgreSQL DBMS server, as well as HTML documentation for the whole
-system. These client programs can be located on the same machine as the
-PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
-over a network connection. The PostgreSQL server can be found in the
-postgresql%{pgmajorversion}-server sub-package.
-
-If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
-server, you need this package. You also need to install this package
-if you're installing the postgresql%{pgmajorversion}-server package.
-
-%package libs
-Summary:	The shared libraries required for any PostgreSQL clients
-Provides:	postgresql-libs = %{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
@@ -203,18 +179,18 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Provides:	postgresql-libs >= 9.2
 
-%description libs
-The postgresql%{pgmajorversion}-libs package provides the essential shared libraries for any
+%description
+The %{sname} package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
 to use any other PostgreSQL package or any clients that need to connect to a
 PostgreSQL server.
 
-%global __perl_requires %{SOURCE16}
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
+
 
 %prep
 %setup -q -n postgresql-%{version}
@@ -222,17 +198,6 @@ PostgreSQL server.
 %patch5 -p0
 
 %build
-
-# fail quickly and obviously if user tries to build as root
-%if %runselftest
-	if [ x"`id -u`" = x0 ]; then
-		echo "postgresql's regression tests fail if run as root."
-		echo "If you really need to build the RPM as root, use"
-		echo "--define='runselftest 0' to skip the regression tests."
-		exit 1
-	fi
-%endif
-
 CFLAGS="${CFLAGS:-%optflags}"
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
@@ -324,7 +289,7 @@ export PYTHON=/usr/bin/python3
 	--with-libraries=%{atpath}/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
-	--sysconfdir=/etc/sysconfig/pgsql \
+	--sysconfdir=%{_sysconfdir}/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
@@ -337,8 +302,12 @@ pushd src/interfaces/libpq
 %{__make} DESTDIR=%{buildroot} install
 popd
 
+# Install linker config file
+%{__install} -d -m 755 %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} -m 700 %{SOURCE9} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 # Remove some files
-%{__rm} -f %{buildroot}%{pgbaseinstdir}/share/pg_service.conf.sample
+%{__rm} -f %{buildroot}%{pgbaseinstdir}/share/pgsql/pg_service.conf.sample
 %{__rm} -rf %{buildroot}%{pgbaseinstdir}/include
 %{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/pkgconfig/libpq.pc
 %{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/libpq.a
@@ -350,16 +319,10 @@ popd
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 
 %post
-%{_sbindir}/update-alternatives --install /etc/ld.so.conf.d/%{sname}-pgdg-libs.conf pgsql-ld-conf %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf %{packageversion}0
 /sbin/ldconfig
 
 %postun
-if [ "$1" -eq 0 ]
-  then
-	%{_sbindir}/update-alternatives --remove pgsql-ld-conf		%{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
-	/sbin/ldconfig
-fi
-
+/sbin/ldconfig
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -369,7 +332,7 @@ fi
 %files -f pg_libpq5.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/libpq.so*
-#%%config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
+%%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{sname}-libs.conf
 
 %changelog
 * Fri Apr 17 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-1PGDG
