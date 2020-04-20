@@ -1,0 +1,1 @@
+../master/postgresql-12-ecpg_config.h

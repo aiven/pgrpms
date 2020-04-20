@@ -1,0 +1,1 @@
+../master/geos36.spec

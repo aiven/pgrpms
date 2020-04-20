@@ -1,0 +1,1 @@
+../master/hypopg.spec

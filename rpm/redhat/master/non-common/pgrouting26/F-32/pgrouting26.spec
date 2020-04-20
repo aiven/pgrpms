@@ -1,0 +1,1 @@
+../master/pgrouting26.spec
