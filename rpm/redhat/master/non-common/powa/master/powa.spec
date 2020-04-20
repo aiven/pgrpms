@@ -7,11 +7,11 @@
 %global sname powa
 %global swebname powa-web
 # Powa version
-%global powamajorversion 3
-%global powamidversion 2
+%global powamajorversion 4
+%global powamidversion 0
 %global powaminorversion 0
 # powa-web version
-%global powawebversion 3.2.0
+%global powawebversion 4.0.0
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -31,10 +31,10 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	3%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
-Source1:	https://github.com/powa-team/%{swebname}/archive/%{powawebversion}.tar.gz
+Source1:	https://github.com/powa-team/powa-web/archive/%{version}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://dalibo.github.io/powa/
@@ -155,6 +155,9 @@ popd
 %endif
 
 %changelog
+* Mon Apr 20 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1
+- Update to 4.0.0
+
 * Sat Jan 18 2020 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-3
 - Attempt to fix RHEL 8 builds. Move to Python3.
 
