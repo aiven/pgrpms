@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f30
 SPECFILE="pg_wait_sampling.spec"
 
 # Now, include global Makefile
