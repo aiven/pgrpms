@@ -1433,7 +1433,7 @@ fi
 %{pgbaseinstdir}/bin/pg_ctl
 %{pgbaseinstdir}/bin/pg_checksums
 %{pgbaseinstdir}/bin/pg_resetwal
-%{pgbaseinstdir}/bin/pg_validatebackup
+%{pgbaseinstdir}/bin/pg_verifybackup
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
@@ -1441,7 +1441,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
 %{pgbaseinstdir}/share/man/man1/pg_checksums.*
-%{pgbaseinstdir}/share/man/man1/pg_validatebackup.*
+%{pgbaseinstdir}/share/man/man1/pg_verifybackup.*
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
