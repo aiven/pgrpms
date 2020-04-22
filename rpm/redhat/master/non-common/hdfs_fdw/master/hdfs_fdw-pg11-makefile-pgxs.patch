@@ -5,7 +5,7 @@
  DATA = hdfs_fdw--2.0.5.sql hdfs_fdw--2.0.4--2.0.5.sql hdfs_fdw--2.0.4.sql hdfs_fdw--2.0.3--2.0.4.sql hdfs_fdw--2.0.2.sql hdfs_fdw--2.0.3.sql hdfs_fdw--2.0.1--2.0.2.sql hdfs_fdw--2.0.2--2.0.3.sql hdfs_fdw--2.0.1.sql hdfs_fdw--2.0--2.0.1.sql hdfs_fdw--1.0--2.0.sql hdfs_fdw--1.0.sql
  
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-12/bin/pg_config
++PG_CONFIG = /usr/pgsql-11/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
 --- libhive/Makefile.old	2020-04-01 09:45:45.198214325 +0100
@@ -14,7 +14,7 @@
  .PHONY : clean
  
 -PG_INC_PATH=$(shell pg_config --includedir-server)
-+PG_INC_PATH=$(shell /usr/pgsql-12/bin/pg_config --includedir-server)
++PG_INC_PATH=$(shell /usr/pgsql-11/bin/pg_config --includedir-server)
  CPPFLAGS= -Wno-unused-variable -fPIC -Wall -g -I$(PG_INC_PATH) -I$(JDK_INCLUDE) -I$(JDK_INCLUDE)/linux/ -Ijdbc
  LDFLAGS:= $(LDFLAGS) -shared
  
