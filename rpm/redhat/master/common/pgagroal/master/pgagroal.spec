@@ -7,7 +7,7 @@ URL:		https://github.com/agroal/pgagroal
 Source0:	https://github.com/agroal/pgagroal/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake make python3-docutils
-BuildRequires:	libev libev-devel openssl openssl-devel
+BuildRequires:	libev libev-devel openssl openssl-devel chrpath
 Requires:	libev openssl
 
 %description
