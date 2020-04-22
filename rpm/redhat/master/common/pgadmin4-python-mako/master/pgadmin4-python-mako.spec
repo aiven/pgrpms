@@ -1,4 +1,4 @@
-%global sname   mako
+%global	sname mako
 
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
@@ -24,7 +24,12 @@ Source0:	https://github.com/sqlalchemy/mako/archive/rel_%(echo %{version} | sed 
 
 BuildRequires:	python3-devel
 BuildRequires:	python3-setuptools
+%if 0%{?rhel} >= 7
 BuildRequires:	pgadmin4-python3-markupsafe
+%endif
+%if 0%{?fedora} >= 30
+BuildRequires:	python3-markupsafe
+%endif
 
 %description
 Mako is a template library written in Python. It provides a familiar, non-XML\
