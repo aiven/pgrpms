@@ -16,7 +16,7 @@ Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
 # per  https://github.com/Oslandia/SFCGAL/pull/219
 %if 0%{?fedora} >= 32
-Patch0:		fix-ftbfs-with-cgal-5.x.patch
+Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
 Patch1:		sfcgal-config.patch
 %endif
 URL:		http://sfcgal.org/
