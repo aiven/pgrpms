@@ -10,9 +10,15 @@ Version:	1.3.7
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 %endif
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GLPLv2
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
+# Adding patches for CGAL 5.x. Grabbed them from Debian folks
+# per  https://github.com/Oslandia/SFCGAL/pull/219
+%if 0%{?fedora} >= 32
+Patch0:		fix-ftbfs-with-cgal-5.x.patch
+Patch1:		sfcgal-config.patch
+%endif
 URL:		http://sfcgal.org/
 %if 0%{?fedora} || 0%{?rhel} >= 8
 # We provide these package in our repo
@@ -70,7 +76,10 @@ Development headers and libraries for SFCGAL.
 
 %prep
 %setup -q
-
+%if 0%{?fedora} >= 32
+%patch0 -p0
+%patch1 -p0
+%endif
 %build
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
@@ -128,6 +137,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Thu Apr 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-4
+- Add two patches for CGAL 5 builds
+
 * Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-3
 - Clarify dependencies on RHEL 8, per Talha Bin Rizwan.
 - Depend on pgdg-srpm-macros
