@@ -71,7 +71,7 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %cmake \
 %endif
 	-DCGAL_INSTALL_LIB_DIR=%{_lib} -DCGAL_HEADER_ONLY=OFF \
-	-DMAKE_BUILD_TYPE=Release \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DCGAL_INSTALL_DOC_DIR= ${CHANGE_SOVERSION} ..
 %{__make} VERBOSE=1 %{?_smp_mflags}
 popd
