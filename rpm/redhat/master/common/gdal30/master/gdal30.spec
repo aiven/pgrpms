@@ -454,7 +454,6 @@ export SHLIB_LINK="$SHLIB_LINK"
 %{__make} %{?_smp_mflags} $POPPLER_OPTS
 
 %{__make} man
-%{__make} docs
 
 # Build some utilities, as requested in BZ #1271906
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
@@ -462,36 +461,6 @@ pushd ogr/ogrsf_frmts/s57/
   %{__make} all
 popd
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
-
-#pushd frmts/iso8211/
-#  %%{__make} all
-#popd
-
-# --------- Documentation ----------
-
-# No useful documentation in swig
-%global docdirs apps doc doc/br doc/ru ogr ogr/ogrsf_frmts frmts/gxf frmts/iso8211 frmts/pcidsk frmts/sdts frmts/vrt ogr/ogrsf_frmts/dgn/
-for docdir in %{docdirs}; do
-  # CreateHTML and PDF documentation, if specified
-  pushd $docdir
-    if [ ! -f Doxyfile ]; then
-      doxygen -g
-    else
-      doxygen -u
-    fi
-    sed -i -e 's|^GENERATE_LATEX|GENERATE_LATEX = YES\n#GENERATE_LATEX |' Doxyfile
-    sed -i -e 's|^GENERATE_HTML|GENERATE_HTML = YES\n#GENERATE_HTML |' Doxyfile
-    sed -i -e 's|^USE_PDFLATEX|USE_PDFLATEX = YES\n#USE_PDFLATEX |' Doxyfile
-
-    if [ $docdir == "doc/ru" ]; then
-      sed -i -e 's|^OUTPUT_LANGUAGE|OUTPUT_LANGUAGE = Russian\n#OUTPUT_LANGUAGE |' Doxyfile
-    fi
-    %{__rm} -rf latex html
-    doxygen
-
-  popd
-done
-
 
 %install
 %{__rm} -rf %{buildroot}
