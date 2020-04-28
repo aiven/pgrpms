@@ -1,3 +1,4 @@
+%global pgmajorversion 12
 %global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 130
@@ -494,10 +495,14 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython >= %{version}-%{release}
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} <= 6
+%if 0%{?rhel} <= 6
 Requires:	python-libs
-%else
+%endif
+%if 0%{?rhel} == 7 || 0%{?rhel} == 8 || 0%{?fedora} <= 31
 Requires:	python2-libs
+%endif
+%if %{?fedora} >= 32
+Requires:	python27-libs
 %endif
 
 %ifarch ppc64 ppc64le
