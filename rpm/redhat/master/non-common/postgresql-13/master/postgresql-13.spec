@@ -501,7 +501,7 @@ Requires:	python-libs
 Requires:	python2-libs
 %endif
 %if %{?fedora} >= 32
-Requires:	python27-libs
+Requires:	python27
 %endif
 
 %ifarch ppc64 ppc64le
