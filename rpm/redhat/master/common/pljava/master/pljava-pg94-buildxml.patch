@@ -1,16 +1,16 @@
---- pljava-packaging/build.xml.old	2017-06-20 10:34:40.710494632 +0100
-+++ pljava-packaging/build.xml	2017-06-20 10:34:55.801378215 +0100
-@@ -326,7 +326,7 @@
+--- pljava-packaging/build.xml.old	2019-10-05 04:47:46.517128660 +0300
++++ pljava-packaging/build.xml	2019-10-05 04:48:02.184229543 +0300
+@@ -346,7 +346,7 @@
      if ( null === replacement ) {
          var pgc = properties.getProperty('pgconfig');
          if ( null === pgc )
 -            pgc = 'pg_config';
-+            pgc = '/usr/pgsql-9.4/bin/pg_config';
++            pgc = '/usr/pgsql-12/bin/pg_config';
          var pb = new java.lang.ProcessBuilder(pgc, '--'+key);
          pb.redirectErrorStream(true);
          var proc = pb.start();
---- pljava-so/pom.xml.old	2017-06-20 10:41:14.013582588 +0100
-+++ pljava-so/pom.xml	2017-06-20 10:41:24.722515260 +0100
+--- pljava-so/pom.xml.old	2019-10-05 04:48:11.001286317 +0300
++++ pljava-so/pom.xml	2019-10-05 04:48:24.211371380 +0300
 @@ -269,7 +269,7 @@
  				</property>
  			</activation>
@@ -19,4 +19,4 @@
 +				<pgsql.pgconfig>/usr/pgsql-9.4/bin/pg_config</pgsql.pgconfig>
  			</properties>
  		</profile>
- 	</profiles>
+ 

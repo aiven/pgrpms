@@ -3,13 +3,13 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	1.5.3
+Version:	1.5.4
 Release:	1%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
-Source0:	https://github.com/tada/%{sname}/archive/V1_5_3.tar.gz
+Source0:	https://github.com/tada/%{sname}/archive/V1_5_4.tar.gz
 Source1:	%{sname}.pom
 
 %if 0%{?suse_version}
@@ -30,7 +30,7 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -q -n %{sname}-1_5_3
+%setup -q -n %{sname}-1_5_4
 %patch0 -p0
 
 %build
@@ -72,6 +72,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Tue Apr 28 2020 - John Harvey <john.harvey@crunchydata.com> - 1.5.4-1
+- Update to 1.5.4
+
 * Sat Oct 5 2019 Devrim Gündüz <devrim@gunduz.org> - 1.5.3-1
 - Update to 1.5.3
 
