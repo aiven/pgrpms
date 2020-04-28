@@ -112,7 +112,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.21
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -409,6 +409,15 @@ Provides:	postgresql-plpython >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
+%if 0%{?rhel} <= 6
+Requires:	python-libs
+%endif
+%if 0%{?rhel} == 7 || 0%{?rhel} == 8 || 0%{?fedora} <= 31
+Requires:	python2-libs
+%endif
+%if %{?fedora} >= 32
+Requires:	python27
 %endif
 
 %description plpython
@@ -1427,6 +1436,10 @@ fi
 %endif
 
 %changelog
+* Tue Apr 28 2020 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.21-2PGDG
+- Fix F-32 PL/Python2 dependency. Fedora 32 is the last version which
+  supports PL/Python2 package.
+
 * Tue Feb 11 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.21-1PGDG
 - Update to 9.5.21, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-21.html

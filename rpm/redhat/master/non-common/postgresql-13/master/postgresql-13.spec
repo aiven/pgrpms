@@ -1559,6 +1559,6 @@ fi
 %endif
 
 %changelog
-* Sat Dec 28 2019 Devrim Gündüz <devrim@gunduz.org> - 13.1-2PGDG
+* Sat Dec 28 2019 Devrim Gündüz <devrim@gunduz.org> - 13.0-develPGDG
 - Initial cut for PostgreSQL 13
 
