@@ -12,8 +12,8 @@ Name:		pg_activity
 Version:	1.5.0
 Release:	1%{?dist}
 License:	GPLv3
-Url:		https://github.com/julmon/pg_activity/
-Source0:	https://github.com/julmon/%{name}/archive/v%{version}.tar.gz
+Url:		https://github.com/dalibo/pg_activity/
+Source0:	https://github.com/dalibo/pg_activity/archive/v%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python3 > 3.6, python3-psycopg2 >= 2.8.3
 %if 0%{?rhel} == 7
