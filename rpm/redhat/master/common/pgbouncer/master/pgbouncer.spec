@@ -11,13 +11,11 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		pgbouncer
-Version:	1.12.0
+Version:	1.13.0
 Release:	4%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -29,6 +27,8 @@ Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Patch0:		%{name}-ini.patch
 Patch1:		%{name}-mkauth-py3.patch
+
+BuildRequires:	pgdg-srpm-macros
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libevent-devel
@@ -71,12 +71,7 @@ Requires(postun):	initscripts
 Requires:	/usr/sbin/useradd
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -95,10 +90,7 @@ sed -i.fedora \
  configure
 
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 %configure --datadir=%{_datadir} --disable-evdns \
@@ -213,6 +205,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Apr 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1.13.0-1
+- Update to 1.13.0
+- Switch to pgdg-srpm-macros
+
 * Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> - 1.12.0-4
 - Fix c-ares support. Per Peter:
   https://redmine.postgresql.org/issues/4808
