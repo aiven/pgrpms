@@ -24,18 +24,13 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
 BuildRequires:	doxygen libtool
-BuildRequires:	gcc-c++
-Obsoletes:	geos36 >= 3.6.0 geos37 >= 3.7.0
-Provides:	geos36 >= 3.6.0 geos37 >= 3.7.0
+BuildRequires:	gcc-c++ pgdg-srpm-macros
+Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
+Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos%{_geosversion}-python >= %{version}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -48,8 +43,8 @@ functions such as IsValid()
 %package devel
 Summary:	Development files for GEOS
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	geos36 >= 3.6.0 geos37 >= 3.7.0
-Provides:	geos36 >= 3.6.0 geos37 >= 3.7.0
+Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
+Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
 
 %description devel
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -67,10 +62,7 @@ use GEOS
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 # disable internal libtool to avoid hardcoded r-path
@@ -134,7 +126,6 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/bin/geos-config
 %{geosinstdir}/include/*
 
-%changelog
 %changelog
 * Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 3.8.1-2
 - Also obsolete and provide geos37 package. Per
