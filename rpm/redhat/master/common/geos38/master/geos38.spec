@@ -10,14 +10,12 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		%{sname}%{_geosversion}
 Version:	3.8.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -27,8 +25,8 @@ Patch0:		%{name}-gcc43.patch
 
 BuildRequires:	doxygen libtool
 BuildRequires:	gcc-c++
-Obsoletes:	geos36 >= 3.6.0
-Provides:	geos36 >= 3.6.0
+Obsoletes:	geos36 >= 3.6.0 geos37 >= 3.7.0
+Provides:	geos36 >= 3.6.0 geos37 >= 3.7.0
 Provides:	geos%{_geosversion}-python >= %{version}
 
 %ifarch ppc64 ppc64le
@@ -50,8 +48,8 @@ functions such as IsValid()
 %package devel
 Summary:	Development files for GEOS
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	geos36-devel >= 3.6.0
-Provides:	geos36-devel >= 3.6.0
+Obsoletes:	geos36 >= 3.6.0 geos37 >= 3.7.0
+Provides:	geos36 >= 3.6.0 geos37 >= 3.7.0
 
 %description devel
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -138,10 +136,14 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %changelog
 %changelog
-* Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 3.8.1
+* Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 3.8.1-2
+- Also obsolete and provide geos37 package. Per
+  https://www.postgresql.org/message-id/868e611132b1516858dfd402b46eb33f98e62fe0.camel%40cybertec.at
+
+* Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 3.8.1-1
 - Update to 3.8.1
 
-* Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.8.0
+* Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> - 3.8.0-1
 - Update to 3.8.0
 
 * Sat Oct 5 2019 John K. Harvey <john.harvey@crunchydata.com> - 3.8.0rc2_2
