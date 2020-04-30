@@ -1,29 +1,22 @@
 %global sname sslutils
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
-URL:		https://www.EDBPostgres.com
-Source0:	%{sname}-%{version}.tar.bz2
+URL:		https://github.com/EnterpriseDB/%{sname}
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -34,10 +27,8 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 %patch0 -p0
 
 %build
-
 %ifarch ppc64 ppc64le
-        CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-        CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 USE_PGXS=1 %{__make} %{?_smp_mflags}
@@ -94,6 +85,10 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Thu Apr 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
+- Switch to the new open source repo
+- Switch to pgdg-srpm-macros
+
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Update to 1.3
 
