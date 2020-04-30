@@ -9,8 +9,8 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Name:		pgadmin4-python3-%{sname}
-Version:	0.15.4
-Release:	2%{?dist}
+Version:	0.16.0
+Release:	1%{?dist}
 Summary:	The Swiss Army knife of Python web development
 
 License:	BSD
@@ -69,6 +69,9 @@ find examples/ -name '*.png' -executable | xargs chmod -x
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
+* Thu Apr 30 2020 Devrim Gündüz <devrim@gunduz.org> - 0.16.0-1
+- Update to 0.16.0
+
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.15.4-2
 - Switch to Python3 on RHEL 7
 
