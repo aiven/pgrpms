@@ -10,7 +10,7 @@
 
 Name:		pgadmin4
 Version:	4.21
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -39,10 +39,10 @@ BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
 BuildRequires:	python3-flask-wtf >= 0.14.2 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.2.18 qt5-qtbase-devel >= 5.1 python3-devel
-BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2
+BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2 python3-ldap3 >= 2.5.1
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-babel python3-flask-babelex python3
-Requires:	python3-alembic python3-mako
+Requires:	python3-alembic python3-mako python3-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -56,10 +56,11 @@ BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-gravatar
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
-BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6
+BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6 python36-ldap3 >= 2.5.1
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
+Requires:	python36-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt4
 %endif
 
@@ -70,10 +71,10 @@ BuildRequires:	%{name}-python3-flask-sqlalchemy >= 2.3.2 %{name}-python3-sqlalch
 BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3 %{name}-python3-flask-principal >= 0.4.0
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
-BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-blinker >= 1.4
+BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-blinker >= 1.4 python3-ldap3 >= 2.5.1
 Requires:	%{name}-python3-alembic %{name}-python3-flask-babelex
 Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-mako python3 python3-babel
+Requires:	python3-mako python3 python3-babel python3-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
 
@@ -100,7 +101,7 @@ Requires:	httpd
 BuildArch:	noarch
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
-Requires:	%{name}-pytz >= 2018.9 %{name}-python3-psutil >= 5.5.1
+Requires:	%{name}-pytz >= 2018.9 %{name}-python3-psutil >= 5.7.0
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-passlib >= 1.7.2
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-werkzeug >= 0.15.4
@@ -120,7 +121,7 @@ Requires:	policycoreutils-python-utils policycoreutils
 Requires:	%{name}-python3-flask >= 1.0.2 %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-sqlalchemy >= 1.2.18
 Requires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-blinker >= 1.4
-Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-psutil >= 5.5.1
+Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-psutil >= 5.7.0
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-backports.csv >= 1.0.5
 Requires:	%{name}-pytz >= 2018.9 %{name}-python3-sqlparse >= 0.2.4
 Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-flask-paranoid >= 0.2
@@ -144,7 +145,7 @@ Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >=
 Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-six >= 1.12.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
-Requires:	%{name}-python3-psutil >= 5.5.1 %{name}-python3-flask-sqlalchemy >= 2.3.2
+Requires:	%{name}-python3-psutil >= 5.7.0 %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	python3-blinker >= 1.4 python3-psycopg2 >= 2.8 python3-mod_wsgi
 Requires:	python3-cryptography python3-bcrypt python3-pynacl
@@ -344,6 +345,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri May 1 2020 - Devrim Gündüz <devrim@gunduz.org> 4.21-2
+- Update dependencies for 4.21
+
 * Wed Apr 29 2020 - Devrim Gündüz <devrim@gunduz.org> 4.21-1
 - Update to 4.21
 - Add a temp patch for F-32 builds. This patch will disappear
