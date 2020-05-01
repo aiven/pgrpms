@@ -14,8 +14,8 @@
 %endif
 
 Name:		pgadmin4-python3-%{sname}
-Version:	5.5.1
-Release:	2%{?dist}
+Version:	5.7.0
+Release:	1%{?dist}
 Summary:	%{sum}
 
 License:	BSD
@@ -74,6 +74,9 @@ export PYTHONUSERBASE=%{buildroot}
 %{pgadmin4py3instdir}/%{sname}*egg*
 
 %changelog
+* Fri May 1 2020 Devrim Gündüz <devrim@gunduz.org> - 5.7.0-1
+- Update to 5.7.0
+
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 5.5.1-2
 - Switch to Python3 on RHEL 7.
 
