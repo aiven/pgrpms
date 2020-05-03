@@ -12,7 +12,7 @@ Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
