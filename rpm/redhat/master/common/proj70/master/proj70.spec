@@ -13,8 +13,8 @@
 %endif
 
 Name:		%{sname}70
-Version:	7.0.0
-Release:	3%{?dist}
+Version:	7.0.1
+Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -22,12 +22,6 @@ License:	MIT
 URL:		https://proj.org
 Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
-
-# Remove these two patches in 7.0.1:
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-Patch0:		proj-7.0.0-gcc-4.8.5.patch
-%endif
-Patch1:		proj-7.0.0-pkgconfig.patch
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel
 BuildRequires:	libtiff-devel pgdg-srpm-macros
@@ -37,6 +31,9 @@ Requires:	%{sqlitepname}-libs >= 3.7
 %else
 Requires:	%{sqlitepname}
 %endif
+
+Obsoletes:	proj63 <= 6.3.1 proj62 <= 6.2.1
+Provides:	proj63 <= 6.3.1 proj62 <= 6.2.1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -69,10 +66,6 @@ This package contains libproj static library.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%patch0 -p0
-%endif
-%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -157,6 +150,11 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Mon Ma Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-1
+- Update to 7.0.1
+- Obsolete older Proj installations to avoid linking issues with packages
+  depends on Proj.
+
 * Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.0-3
 - Fix CentOS 7 and CentOS 8 builds, per mock build testing by Talha.
 - Switch to pgdg-srpm-macros
