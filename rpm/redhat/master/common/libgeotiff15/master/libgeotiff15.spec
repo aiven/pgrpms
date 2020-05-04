@@ -6,13 +6,15 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
-BuildRequires:	libtiff-devel libjpeg-devel proj%{projversion}-devel zlib-devel
+BuildRequires:	libtiff-devel libjpeg-devel proj%{projversion}-devel
+BuildRequires:	zlib-devel
+Requires:	proj%{projversion}
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -134,6 +136,9 @@ EOF
 
 
 %changelog
+* Mon May 4 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-7
+- Rebuild against Proj 7.0.1
+
 * Thu Mar 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-6
 - Rebuild against Proj 7.0.0
 - Use macros for Proj version
