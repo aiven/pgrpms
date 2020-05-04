@@ -39,13 +39,13 @@
 
 # check_bufovflw test fails on gcc 4.9
 # https://groups.google.com/forum/#!msg/spatialite-users/zkGP-gPByXk/EAZ-schWn1MJ
-%if (0%{?fedora} >= 21 || 0%{?rhel} > 7)
+%if (0%{?fedora} >= 30 || 0%{?rhel} > 7)
   %global _no_checks 1
 %endif
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	5.0.0
-Release:	beta0_6%{?dist}
+Release:	beta0_7%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -54,8 +54,9 @@ Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
 BuildRequires:	freexl-devel
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.0
-BuildRequires:	proj%{projmajorversion}-devel >= 6.3.0
+
+Requires:	geos%{geosmajorversion}-devel >= 3.7.2
+Requires:	proj%{projmajorversion}-devel >= 7.0.1
 BuildRequires:	sqlite-devel
 BuildRequires:	zlib-devel
 
@@ -63,6 +64,8 @@ BuildRequires:	zlib-devel
 BuildRequires: libxml2-devel
 %endif
 
+Requires:	geos%{geosmajorversion} >= 3.7.2
+Requires:	proj%{projmajorversion} >= 7.0.1
 
 %description
 SpatiaLite is a a library extending the basic SQLite core in order to
@@ -143,6 +146,10 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Mon May 4 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0beta0-7
+- Rebuild against Proj 7.0.1
+- Add missing Requires.
+
 * Wed Mar 11 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0beta0-6
 - Rebuild against GeOS 3.8.1 and Proj 7.0.0
 
