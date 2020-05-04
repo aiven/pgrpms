@@ -150,7 +150,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
-* Mon Ma Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-1
+* Mon May 4 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-1
 - Update to 7.0.1
 - Obsolete older Proj installations to avoid linking issues with packages
   depends on Proj.
