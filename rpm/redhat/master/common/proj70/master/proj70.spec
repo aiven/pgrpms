@@ -46,12 +46,19 @@ Requires:	%{name} = %{version}-%{release}
 %pgdg_set_ppc64le_min_requires
 %endif
 
+Obsoletes:	proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
+Provides:	proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
+
+
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
+
+Obsoletes:	proj63-static <= 6.3.1 proj62-static <= 6.2.1
+Provides:	proj63-static <= 6.3.1 proj62-static <= 6.2.1
 
 %description
 Proj and invproj perform respective forward and inverse transformation of
