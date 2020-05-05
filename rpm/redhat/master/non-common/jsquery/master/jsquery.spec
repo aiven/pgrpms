@@ -7,7 +7,7 @@
 Summary:	PostgreSQL json query language with GIN indexing support
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/ver_%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -37,7 +37,6 @@ match operator for jsonb.
 %package devel
 Summary:	JsQuery development header files
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package includes the development headers for the jsquery extension.
@@ -87,6 +86,9 @@ install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.
 %{pginstdir}/include/server/jsquery*.h
 
 %changelog
+* Tue May 5 2020 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-2
+- Fix -devel package dependency, per report from Justin.
+
 * Fri Sep 6 2019 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
 - Update to 1.1.1
 
