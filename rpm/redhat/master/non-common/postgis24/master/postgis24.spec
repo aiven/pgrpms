@@ -8,9 +8,7 @@
 %global	gdalversion	30
 %global	projversion	70
 
-%global	geosfullversion 3.8.1
-%global	projfullversion 7.0.0
-%global	gdalminorversion 3.0.4
+%pgdg_set_gis_versions
 
 %global	geosinstdir	/usr/geos%{geosversion}
 %global	projinstdir	/usr/proj%{projversion}
@@ -38,15 +36,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	9%{?dist}
+Release:	10%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -55,14 +51,15 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion}
+BuildRequires:	pcre-devel pgdg-srpm-macros
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires: 	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
+BuildRequires:	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -217,10 +214,7 @@ CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 CFLAGS="${CFLAGS:-%optflags}"
 
 %ifarch ppc64 ppc64le
-	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
-	CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
-	sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 # Strip out fstack-clash-protection from CFLAGS:
@@ -388,6 +382,9 @@ fi
 %endif
 
 %changelog
+* Tue May 5 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.8-10
+- Rebuild for Proj 7.0.1
+
 * Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.8-9
 - Rebuild for Proj 7.0.0 and GeOS 3.8.1
 
