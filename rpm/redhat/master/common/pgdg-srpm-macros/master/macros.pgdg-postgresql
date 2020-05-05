@@ -60,7 +60,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global gdalversion	30
 %global projversion	70
 %global geosfullversion	3.8.1
-%global projfullversion	7.0.0
+%global projfullversion	7.0.1
 %global gdalminorversion 3.0.4
 \
 }
