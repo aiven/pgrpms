@@ -51,8 +51,6 @@
 
 
 # Tests can be of a different version
-%global testversion 3.0.4
-
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
 %if 0%{?bootstrap}
@@ -78,7 +76,7 @@
 
 Name:		%{sname}30
 Version:	3.0.4
-Release:	3%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	4%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -86,7 +84,6 @@ URL:		http://www.gdal.org
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
-Source1:	%{sname}autotest-3.0.4.zip
 
 # Cleaner script for the tarball
 Source3:	%{sname}-cleaner.sh
@@ -111,7 +108,7 @@ Patch10:	%{sname}-%{version}-perl-build.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
-Patch13:	gdal30-configure-ogdi41.patch
+Patch13:	gdal30-configure-ogdi%{ogdimajorversion}.patch
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
@@ -128,7 +125,7 @@ BuildRequires:	fontconfig-devel
 # No freexl in EL5
 BuildRequires:	freexl-devel
 BuildRequires:	g2clib-static
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.0
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.1
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
@@ -164,7 +161,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.0.0
+BuildRequires:	proj%{projmajorversion}-devel >= 7.0.1
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
@@ -657,6 +654,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Tue May 5 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-4
+- Rebuild against Proj 7.0.1
+
 * Thu Mar 12 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-3
 - Rebuild against Proj 7.0.0 and GeOS 3.8.1
 
