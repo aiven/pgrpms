@@ -3,13 +3,13 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global postgisprevmajorversion 2.4
 %global sname	postgis
+%global _smp_mflags    -j1
 
 %global geosversion	38
 %global gdalversion	30
 %global projversion	70
-%global geosfullversion	3.8.1
-%global projfullversion	7.0.0
-%global gdalminorversion 3.0.4
+
+%pgdg_set_gis_versions
 
 %global	geosinstdir	/usr/geos%{geosversion}
 %global	projinstdir	/usr/proj%{projversion}
@@ -18,17 +18,17 @@
 %global	gdalminorversion	3.0.4
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
 %endif
-%if 0%{?fedora} >= 27 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global     sfcgal 1}
@@ -40,16 +40,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
-%global _smp_mflags	-j1
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -60,7 +57,8 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 URL:		http://www.postgis.net/
 
 
-BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion} pcre-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion}
+BuildRequires:	pcre-devel pgdg-srpm-macros
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
@@ -89,7 +87,7 @@ BuildRequires:	protobuf-c-devel
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
@@ -119,8 +117,7 @@ Requires:	protobuf-c
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
@@ -140,8 +137,7 @@ Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
@@ -157,8 +153,7 @@ Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description devel
@@ -171,8 +166,7 @@ Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description docs
@@ -195,8 +189,7 @@ Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description utils
@@ -224,10 +217,7 @@ CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 CFLAGS="${CFLAGS:-%optflags}"
 
 %ifarch ppc64 ppc64le
-	sed -i 's:^GEOS_LDFLAGS=:GEOS_LDFLAGS=-L%{atpath}/%{_lib} :g' configure
-	CFLAGS="-O3 -mcpu=power8 -mtune=power8 -I%{atpath}/include" LDFLAGS="-L%{atpath}/%{_lib}"
-	sed -i 's:^LDFLAGS = :LDFLAGS = -L%{atpath}/%{_lib} :g' raster/loader/Makefile.in
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 # Strip out fstack-clash-protection from CFLAGS:
@@ -390,6 +380,9 @@ fi
 %endif
 
 %changelog
+* Tue May 5 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.4-2
+- Rebuild against Proj 7.0.1
+
 * Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.4-1
 - Update to 2.5.4
 - Build with Proj 7.0.0, and GeOS 3.8.1
