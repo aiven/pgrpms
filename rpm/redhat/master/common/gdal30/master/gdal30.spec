@@ -86,10 +86,10 @@ URL:		http://www.gdal.org
 Source0:	%{sname}-%{version}-fedora.tar.xz
 
 # Cleaner script for the tarball
-Source3:	%{sname}-cleaner.sh
+Source1:	%{sname}-cleaner.sh
 
-Source4:	PROVENANCE.TXT-fedora
-Source5:	%{name}-pgdg-libs.conf
+Source2:	PROVENANCE.TXT-fedora
+Source3:	%{name}-pgdg-libs.conf
 
 # Fix bash-completion install dir
 Patch3:		%{name}-completion.patch
@@ -267,7 +267,7 @@ BuildArch:	noarch
 This package contains HTML and PDF documentation for GDAL.
 
 %prep
-%setup -q -n %{sname}-%{version}-fedora -a 1
+%setup -q -n %{sname}-%{version}-fedora
 
 # Delete bundled libraries
 %{__rm} -rf frmts/zlib
@@ -287,7 +287,7 @@ This package contains HTML and PDF documentation for GDAL.
 %patch13 -p0
 
 # Copy in PROVENANCE.TXT-fedora
-cp -p %SOURCE4 .
+cp -p %SOURCE2 .
 
 # Sanitize linebreaks and encoding
 #TODO: Don't touch data directory!
@@ -582,7 +582,7 @@ done
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-%{__install} %{SOURCE5} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE3} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %check
 
