@@ -5,10 +5,14 @@
 %define	docver	3300100
 %define	rpmver	3.30.1
 
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	Public Domain
 URL:		http://www.sqlite.org/
 
@@ -27,12 +31,18 @@ Patch3:		sqlite-3.8.0-percentile-test.patch
 Patch4:		sqlite-3.16-datetest-2.2c.patch
 # Modify sync2.test to pass with DIRSYNC turned off
 Patch5:		sqlite-3.18.0-sync2-dirsync.patch
+# Enable ppc64le support in configure
+Patch6:		sqlite33-configure-ppc64le.patch
 
 BuildRequires:	gcc
 BuildRequires:	ncurses-devel readline-devel glibc-devel
-BuildRequires:	autoconf
+BuildRequires:	autoconf pgdg-srpm-macros
 
 Requires:		%{name}-libs = %{version}-%{release}
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 # Ensure updates from pre-split work on multi-lib systems
 Obsoletes:		%{name} < 3.11.0-1
@@ -97,6 +107,7 @@ embedded controllers.
 %patch3 -p1
 %patch4 -p1
 %patch5 -p1
+%patch6 -p0
 
 # Remove backup-file
 %{__rm} -f %{sname}-doc-%{docver}/sqlite.css~ || :
@@ -110,6 +121,11 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 		-DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 \
 		-DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
 		-Wall -fno-strict-aliasing"
+
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
+
 ./configure --disable-tcl \
 	--prefix=%{sqlite33instdir} \
 	--libdir=%{sqlite33instdir}/lib \
@@ -136,7 +152,11 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %endif
 
 %post libs
+%ifarch ppc64 ppc64le
+%{atpath}/sbin/ldconfig
+%else
 /sbin/ldconfig
+%endif
 
 %files
 %{sqlite33instdir}/bin/sqlite3
@@ -163,6 +183,9 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Wed May 6 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-4
+- Add ppc64le support. Patch from Talha Bin Rizwan
+
 * Thu Mar 19 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-3
 - Fix ldconfig path (for SLES 12)
 - Fix an rpmlint warning
