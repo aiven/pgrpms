@@ -39,7 +39,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 
 %pgdg_plpython_version\
-%if 0%{?rhel} && 0%{?rhel} <= 7\
+%if 0%{?rhel} && 0%{?rhel} <= 6\
 # RHEL 6 and 7 does not have Python 3\
 %{!?plpython3:%global plpython3 0}\
 %endif\
