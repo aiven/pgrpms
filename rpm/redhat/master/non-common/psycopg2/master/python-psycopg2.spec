@@ -167,7 +167,7 @@ done
 %{python3_sitearch}/%{sname}/__pycache__/*.pyc
 %endif
 %{python3_sitearch}/%{sname}-%{version}-py%{py3ver}.egg-info
-%{python3_sitearch}/%{sname}/_psycopg.cpython-3?m*.so
+%{python3_sitearch}/%{sname}/_psycopg.cpython-3?*.so
 
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
