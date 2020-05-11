@@ -10,7 +10,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Redis
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
@@ -86,6 +86,8 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/p
 %endif
 
 %changelog
+* Wed May 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.0-2
+- Fix suffixes in RPMs.
+
 * Thu Apr 16 2020 Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM for the PostgreSQL RPM repository
- 

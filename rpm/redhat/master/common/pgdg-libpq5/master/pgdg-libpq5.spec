@@ -1,7 +1,6 @@
 %global debug_package %{nil}
 %global pgmajorversion 12
 %global pgpackageversion 12
-%global prevmajorversion 11
 %global sname pgdg-libpq5
 %global pgbaseinstdir	/usr/lib64/%{sname}/
 
@@ -52,7 +51,7 @@
 
 Summary:	The shared libraries required for some PGDG packages
 Name:		pgdg-libpq5
-Version:	12.2
+Version:	%{pgmajorversion}.2
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/

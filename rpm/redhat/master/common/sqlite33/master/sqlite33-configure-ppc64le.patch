@@ -1,0 +1,14 @@
+--- configure.orig	2020-04-27 09:47:32.309194889 +0000
++++ configure	2020-04-27 09:49:46.765870889 +0000
+@@ -5218,7 +5218,10 @@
+ 	  x86_64-*linux*)
+ 	    LD="${LD-ld} -m elf_x86_64"
+ 	    ;;
+-	  ppc*-*linux*|powerpc*-*linux*)
++	  powerpcle-*linux*)
++	    LD="${LD-ld} -m elf64lppc"
++	    ;;
++	  powerpc-*linux*)
+ 	    LD="${LD-ld} -m elf64ppc"
+ 	    ;;
+ 	  s390*-*linux*|s390*-*tpf*)
