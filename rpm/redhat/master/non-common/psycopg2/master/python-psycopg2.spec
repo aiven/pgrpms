@@ -34,7 +34,7 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	2.8.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -72,6 +72,8 @@ This sub-package delivers set of tests for the adapter.
 %if 0%{?with_python2}
 %package -n python2-%{sname}
 Summary:	A PostgreSQL database adapter for Python 2
+Provides:	python-%{sname} = %{version}-%{release}
+Requires:	postgresql-libs
 
 %description -n python2-%{sname}
 Psycopg is the most popular PostgreSQL adapter for the Python
@@ -84,8 +86,8 @@ This is a build of the psycopg PostgreSQL database adapter for Python 2.
 %package -n python2-%{sname}-tests
 Summary:	A testsuite for Python 2
 Requires:	%{name} = %{version}-%{release}
-Provides:	python-%{sname} = %{version}-%{release}
-Obsoletes:	python-%{sname} <= 2.0.0
+Provides:	python-%{sname}-tests = %{version}-%{release}
+Obsoletes:	python-%{sname}-tests <= 2.0.0
 
 %description -n python2-%{sname}-tests
 This sub-package delivers set of tests for the adapter.
@@ -196,6 +198,10 @@ done
 %endif
 
 %changelog
+* Mon May 11 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-2
+- Let python2-psycopg2 provide python-psycopg2. Per
+  https://redmine.postgresql.org/issues/5491
+
 * Mon Apr 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-1
 - Update to 2.8.5
 
