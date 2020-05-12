@@ -9,7 +9,7 @@
 # Powa version
 %global powamajorversion 4
 %global powamidversion 0
-%global powaminorversion 0
+%global powaminorversion 1
 # powa-web version
 %global powawebversion 4.0.0
 
@@ -34,7 +34,7 @@ Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
-Source1:	https://github.com/powa-team/powa-web/archive/%{version}.tar.gz
+Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://dalibo.github.io/powa/
@@ -155,6 +155,9 @@ popd
 %endif
 
 %changelog
+* Tue May 12 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1
+- Update to 4.0.1
+
 * Mon Apr 20 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1
 - Update to 4.0.0
 
