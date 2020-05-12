@@ -349,6 +349,7 @@ includes HTML version of the documentation.
 Summary:	Contributed source and binaries distributed with PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
