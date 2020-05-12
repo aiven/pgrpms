@@ -78,8 +78,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.12
-Release:	2PGDG%{?dist}
+Version:	10.13
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1440,6 +1440,10 @@ fi
 %endif
 
 %changelog
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 10.13-1PGDG
+- Update to 10.13, per changes described at
+  https://www.postgresql.org/docs/release/10.13/
+
 * Tue Apr 28 2020 2020 Devrim Gündüz <devrim@gunduz.org> - 10.12-2PGDG
 - Fix F-32 PL/Python2 dependency. Fedora 32 is the last version which
   supports PL/Python2 package.

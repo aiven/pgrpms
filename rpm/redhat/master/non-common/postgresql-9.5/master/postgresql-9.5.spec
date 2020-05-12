@@ -1,22 +1,5 @@
 # Conventions for PostgreSQL Global Development Group RPM releases:
-
 # Official PostgreSQL Development Group RPMS have a PGDG after the release number.
-# Integer releases are stable -- 0.1.x releases are Pre-releases, and x.y are
-# test releases.
-
-# Pre-releases are those that are built from CVS snapshots or pre-release
-# tarballs from postgresql.org.  Official beta releases are not
-# considered pre-releases, nor are release candidates, as their beta or
-# release candidate status is reflected in the version of the tarball. Pre-
-# releases' versions do not change -- the pre-release tarball of 7.0.3, for
-# example, has the same tarball version as the final official release of 7.0.3:
-# but the tarball is different.
-
-# Test releases are where PostgreSQL itself is not in beta, but certain parts of
-# the RPM packaging (such as the spec file, the initscript, etc) are in beta.
-
-# Pre-release RPM's should not be put up on the public ftp.postgresql.org server
-# -- only test releases or full releases should be.
 # This is the PostgreSQL Global Development Group Official RPMset spec file,
 # or a derivative thereof.
 # Copyright 2003-2016 Devrim Gündüz <devrim@gunduz.org>
@@ -111,8 +94,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.21
-Release:	2PGDG%{?dist}
+Version:	9.5.22
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -1437,6 +1420,10 @@ fi
 %endif
 
 %changelog
+* May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.22-1PGDG
+- Update to 9.5.22, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-22.html
+
 * Tue Apr 28 2020 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.21-2PGDG
 - Fix F-32 PL/Python2 dependency. Fedora 32 is the last version which
   supports PL/Python2 package.
