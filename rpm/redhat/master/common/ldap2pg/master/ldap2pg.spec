@@ -14,7 +14,7 @@
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
 Version:	5.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
@@ -27,7 +27,7 @@ Obsoletes:	python-ldap2pg < 5.1
 %pgdg_set_ppc64le_min_requires
 %endif
 
-Requires:	postgresql-libs
+Requires:	libpq5 >= 10.0
 
 Requires:	python3-psycopg2 python3-ldap python3-yaml python3-setuptools
 
@@ -99,7 +99,11 @@ done
 %doc docs/
 
 %changelog
-* Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> - 5.0-1
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2-2
+- Depend on "libpq5", which is now provided by the latest
+  PostgreSQL 10+ minor update set.
+
+* Tue Sep 3 2019 Devrim Gündüz <devrim@gunduz.org> - 5.2-1
 - Update to 5.2
 - Switch to PY3-only
 - Depend on versionless postgresql-libs
