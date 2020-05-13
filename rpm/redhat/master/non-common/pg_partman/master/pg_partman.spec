@@ -16,7 +16,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}%{pgmajorversion}
-Version:	4.3.0
+Version:	4.4.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
@@ -103,6 +103,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 4.4.0-1
+- Update to 4.4.0
+
 * Wed Mar 11 2020 Devrim Gündüz <devrim@gunduz.org> - 4.3.0-1
 - Update to 4.3.0
 - Switch to PY3 on RHEL 7
