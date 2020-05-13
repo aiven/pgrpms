@@ -500,7 +500,7 @@ Requires:	python-libs
 %if 0%{?rhel} == 7 || 0%{?rhel} == 8 || 0%{?fedora} <= 31
 Requires:	python2-libs
 %endif
-%if %{?fedora} >= 32
+%if 0%{?fedora} >= 32
 Requires:	python27
 %endif
 
