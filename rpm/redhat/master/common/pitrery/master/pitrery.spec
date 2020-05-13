@@ -1,5 +1,5 @@
 Name:           pitrery
-Version:        3.0
+Version:        3.1
 Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
@@ -33,8 +33,10 @@ restores for PostgreSQL.
 %dir %{_sysconfdir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %{_bindir}/archive_wal
+%{_bindir}/archive_xlog
 %{_bindir}/%{name}
 %{_bindir}/restore_wal
+%{_bindir}/restore_xlog
 %dir %{_docdir}/%{name}
 %doc %{_docdir}/%{name}/COPYRIGHT
 %doc %{_docdir}/%{name}/INSTALL.md
@@ -46,6 +48,9 @@ restores for PostgreSQL.
 %doc %{_mandir}/man1/restore_wal.1.gz
 
 %changelog
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1-1
+- Update to 3.1
+
 * Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0-1
 - Update to 3.0
 
