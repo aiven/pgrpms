@@ -632,10 +632,10 @@ export CFLAGS
 
 export PYTHON=/usr/bin/python3
 %if 0%{?rhel} && 0%{?rhel} == 7
-	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
-	CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
 # These configure options must match main build
 ./configure --enable-rpath \
@@ -745,10 +745,10 @@ unset PYTHON
 export PYTHON=/usr/bin/python2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
-	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
-	CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
 
 # Normal (not python3) build begins here
