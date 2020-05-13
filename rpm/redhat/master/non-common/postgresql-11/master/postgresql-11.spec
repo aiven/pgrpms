@@ -139,8 +139,8 @@ Requires:	libicu
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from EPEL and SCL:
-BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+# Packages come from Appstream:
+BuildRequires:	llvm-devel >= 9.0.1 clang-devel >= 9.0.1
 %endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -385,8 +385,8 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from EPEL and SCL:
-Requires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+# Packages come from Appstream:
+Requires:	llvm-devel >= 9.0.1 clang-devel >= 9.0.1
 %endif
 %if 0%{?fedora}
 Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -625,6 +625,13 @@ export CFLAGS
 %if %plpython3
 export PYTHON=/usr/bin/python3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+
 # These configure options must match main build
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
@@ -643,11 +650,7 @@ export PYTHON=/usr/bin/python3
 	--with-icu \
 %endif
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config --with-llvm \
-%else
 	--with-llvm \
-%endif
 %endif
 %if %plperl
 	--with-perl \
@@ -1549,6 +1552,7 @@ fi
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-1PGDG
 - Update to 11.8, per changes described at
   https://www.postgresql.org/docs/release/11.8/
+- Fix RHEL 8 builds: Paths changed in 8.2...
 
 * Tue Apr 28 2020 2020 Devrim Gündüz <devrim@gunduz.org> - 11.7-2PGDG
 - Fix F-32 PL/Python2 dependency. Fedora 32 is the last version which
