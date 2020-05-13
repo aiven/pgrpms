@@ -1,7 +1,7 @@
---- Makefile.old	2020-02-25 02:29:04.740704949 +0300
-+++ Makefile	2020-02-25 02:29:15.407773670 +0300
+--- Makefile.old	2020-05-13 22:42:03.412537910 +0100
++++ Makefile	2020-05-13 22:42:15.047614506 +0100
 @@ -6,7 +6,7 @@
- DATA = orafce--3.9.sql orafce--3.2--3.3.sql orafce--3.3--3.4.sql orafce--3.4--3.5.sql orafce--3.5--3.6.sql orafce--3.6--3.7.sql orafce--3.7--3.8.sql orafce--3.8--3.9.sql
+ DATA = orafce--3.11.sql orafce--3.2--3.3.sql orafce--3.3--3.4.sql orafce--3.4--3.5.sql orafce--3.5--3.6.sql orafce--3.6--3.7.sql orafce--3.7--3.8.sql orafce--3.8--3.9.sql orafce--3.9--3.10.sql orafce--3.10--3.11.sql
  DOCS = README.asciidoc COPYRIGHT.orafce INSTALL.orafce
  
 -PG_CONFIG ?= pg_config
@@ -9,7 +9,7 @@
  
  # make "all" the default target
  all:
-@@ -23,7 +23,7 @@
+@@ -24,7 +24,7 @@
  include $(top_builddir)/src/Makefile.global
  include $(top_srcdir)/contrib/contrib-global.mk
  else

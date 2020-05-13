@@ -1,33 +1,27 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 9
-%global orafceminver 0
+%global orafcemidver 11
+%global orafceminver 1
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/orafce/orafce
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, krb5-devel, bison, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
+BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -41,12 +35,8 @@ for production work.
 %patch0 -p0
 
 %build
-CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -77,6 +67,9 @@ CFLAGS="${CFLAGS:-%optflags}" ; export CFLAGS
 %endif
 
 %changelog
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> 3.11.1-1
+- Update to 3.11.1
+
 * Tue Feb 25 2020 Devrim Gündüz <devrim@gunduz.org> 3.9.0-1
 - Update to 3.9.0
 
