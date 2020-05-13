@@ -34,7 +34,7 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	2.8.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -48,7 +48,7 @@ BuildRequires:	python3-devel
 BuildRequires:	python2-devel
 %endif
 
-Requires:	postgresql-libs
+Requires:	libpq5 >= 10.0
 
 Conflicts:	python-%{sname}-zope < %{version}
 
@@ -198,6 +198,10 @@ done
 %endif
 
 %changelog
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-3
+- Depend on "libpq5", which is now provided by the latest
+  PostgreSQL 10+ minor update set.
+
 * Mon May 11 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-2
 - Let python2-psycopg2 provide python-psycopg2. Per
   https://redmine.postgresql.org/issues/5491
