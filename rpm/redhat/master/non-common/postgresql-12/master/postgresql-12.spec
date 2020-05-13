@@ -386,7 +386,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from EPEL and SCL:
+# Packages come from Appstream:
 Requires:	llvm-devel >= 9.0.1 clang-devel >= 9.0.1
 %endif
 %if 0%{?fedora}
