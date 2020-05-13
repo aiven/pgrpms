@@ -140,7 +140,7 @@ BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
-BuildRequires:	llvm-devel >= 9.0.1 clang-devel >= 9.0.1
+BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -386,7 +386,7 @@ Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
-Requires:	llvm-devel >= 9.0.1 clang-devel >= 9.0.1
+Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora}
 Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -489,10 +489,13 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython >= %{version}-%{release}
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-libs
 %endif
-%if 0%{?rhel} == 7 || 0%{?rhel} == 8 || 0%{?fedora} <= 31
+%if 0%{?rhel} == 7 || 0%{?rhel} == 8
+Requires:	python2-libs
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 31
 Requires:	python2-libs
 %endif
 %if 0%{?fedora} >= 32

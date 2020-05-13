@@ -394,10 +394,13 @@ Provides:	postgresql-plpython >= %{version}-%{release}
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
 %endif
-%if 0%{?rhel} <= 6
+%if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-libs
 %endif
-%if 0%{?rhel} == 7 || 0%{?rhel} == 8 || 0%{?fedora} <= 31
+%if 0%{?rhel} == 7 || 0%{?rhel} == 8
+Requires:	python2-libs
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 31
 Requires:	python2-libs
 %endif
 %if 0%{?fedora} >= 32
@@ -1420,7 +1423,7 @@ fi
 %endif
 
 %changelog
-* May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.22-1PGDG
+* Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.22-1PGDG
 - Update to 9.5.22, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-22.html
 
