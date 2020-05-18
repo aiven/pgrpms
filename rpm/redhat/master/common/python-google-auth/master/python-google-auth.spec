@@ -2,13 +2,7 @@
 
 %global library google-auth
 
-%if 0%{?rhel} == 7
-%global py3 python%{python3_pkgversion}
-%else
-%global py3 python3
-%endif
-
-Name:		python-%{library}
+Name:		python3-%{library}
 Version:	1.14.3
 Release:	1%{?dist}
 Epoch:		1
@@ -23,23 +17,10 @@ BuildArch:	noarch
 %description
 Google Auth Python Library
 
-%package -n %{py3}-%{library}
-Summary:    Google Auth Python Library
-%{?python_provide:%python_provide %{py3}-%{library}}
-
-BuildRequires:	%{py3}-devel
-BuildRequires:	%{py3}-setuptools
-BuildRequires:	git
-%if %{undefined __pythondist_requires}
-Requires:	%{py3}-pyasn1
-Requires:	%{py3}-pyasn1-modules
-Requires:	%{py3}-rsa
-Requires:	%{py3}-six
-Requires:	%{py3}-cachetools
-%endif
-
-%description -n %{py3}-%{library}
-Python client for the kubernetes API.
+BuildRequires:	python3-devel python3-setuptools
+Requires:	python3-pyasn1 python3-pyasn1-modules
+Requires:	python3-rsa python3-six
+Requires:	python3-cachetools
 
 %prep
 %autosetup -n google-auth-library-python-%{version}
@@ -55,7 +36,7 @@ sed -i 's/<3\.2/<5.0/g' setup.py
 
 %check
 
-%files -n %{py3}-%{library}
+%files
 %license LICENSE
 %{python3_sitelib}/google/auth
 %{python3_sitelib}/google/oauth2
