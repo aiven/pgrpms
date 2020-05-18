@@ -1,4 +1,5 @@
 # Disable internal dependency generator.
+# We will specify dependencies in the spec file.
 %{?python_disable_dependency_generator}
 
 %global debug_package %{nil}
@@ -16,11 +17,12 @@ Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
-Source0:	https://github.com/gabfl/%{name}/archive/1.6.tar.gz
+Source0:	https://github.com/gabfl/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
+Requires:	multicorn
 Requires:	python3-google-auth = 1.14.3
 Requires:	python3-google-oauthlib = 0.4.1
 Requires:	python3-google-cloud-bigquery = 1.24
