@@ -1,4 +1,8 @@
+# Disable internal dependency generator.
+%{?python_disable_dependency_generator}
+
 %global debug_package %{nil}
+
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -7,15 +11,19 @@
 
 Summary:	BigQuery Foreign Data Wrapper for PostgreSQL
 Name:		bigquery_fdw
-Version:	1.3.2
+Version:	1.6
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
-Source0:	https://github.com/gabfl/%{name}/archive/1.3.2.tar.gz
+Source0:	https://github.com/gabfl/%{name}/archive/1.6.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
+
+Requires:	python3-google-auth = 1.14.3
+Requires:	python3-google-oauthlib = 0.4.1
+Requires:	python3-google-cloud-bigquery = 1.24
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -51,5 +59,8 @@ python3 setup.py install --no-compile --root %{buildroot}
 %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
 
 %changelog
+* Mon May 18 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6-1
+- Update to 1.6
+
 * Mon May 4 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1
 - Initial packaging for PostgreSQL YUM repository
