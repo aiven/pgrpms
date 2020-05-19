@@ -136,10 +136,16 @@ perform_initdb(){
     fi
 
     # Initialize the database
-    initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth='ident'"
+    initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth-local=peer --auth-host=scram-sha-256 --pwfile /dev/zero"
     initdbcmd+=" $PGSETUP_INITDB_OPTIONS"
 
     $SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
+
+	# Exit if initdb fails, to prevent the log/ directory to be created.
+	# Otherwise a subsequent initdb will not even start.
+	if [ $? -ne 0 ]; then
+	   exit 1
+        fi
 
     # Create directory for postmaster log files
     mkdir "$PGDATA/log"
