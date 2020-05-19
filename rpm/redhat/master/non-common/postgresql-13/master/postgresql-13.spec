@@ -6,9 +6,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global	pgdg_build_timestamp %(date +"%Y%m%d")
-
-%global beta 0
+%global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -78,20 +76,17 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.0
-Release:	%{pgdg_build_timestamp}_devel_1PGDG%{?dist}
+Version:	13
+Release:	beta1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-#Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 %if %{systemd_enabled}
@@ -114,13 +109,13 @@ Source3:	%{sname}-%{pgmajorversion}.init
 %endif
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
-Patch3:		%{sname}-%{pgmajorversion}-logging.patch
+Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
-BuildRequires:	readline-devel zlib-devel >= 1.0.4
+BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 
 # This dependency is needed for Source 16:
 %if 0%{?fedora} || 0%{?rhel} > 7
@@ -128,7 +123,7 @@ BuildRequires:	perl-generators
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	/sbin/ldconfig
@@ -274,11 +269,6 @@ Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} >= %{version}-%{release}
-
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
 
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
@@ -586,7 +576,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}devel
+%setup -q -n %{sname}-%{pgpackageversion}beta1
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1569,6 +1559,9 @@ fi
 %endif
 
 %changelog
+* Tue May 19 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1-1
+- Update to 13beta1
+
 * Sat Dec 28 2019 Devrim Gündüz <devrim@gunduz.org> - 13.0-develPGDG
 - Initial cut for PostgreSQL 13
 
