@@ -8,15 +8,13 @@
 %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
-Summary:	Multicorn Python bindings for Postgres 9.2+ FDW
+Summary:	Multicorn Python bindings for Postgres 9.5+ FDW
 Name:		%{sname}%{pgmajorversion}
 Version:	1.4.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -25,13 +23,12 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python3-devel
 BuildRequires:	python3-devel
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+# Provide versionless multicorn. This will simplify using
+# bigquery_fdw package.
+Provides:	%{sname} = %{version}
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -44,11 +41,7 @@ in python.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 export PYTHON_OVERRIDE="python%{pyver}"
 
@@ -93,6 +86,10 @@ export PYTHON_OVERRIDE="python%{pyver}"
 
 
 %changelog
+* Tue May 19 2020 - Devrim Gündüz <devrim@gunduz.org> 1.4.0-2
+- Provide versionless multicorn. This will simplify using
+  bigquery_fdw package.
+
 * Sat Mar 21 2020 - Devrim Gündüz <devrim@gunduz.org> 1.4.0-1
 - Update to 1.4.0
 
