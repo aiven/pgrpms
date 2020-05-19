@@ -1,6 +1,15 @@
---- src/backend/utils/misc/postgresql.conf.sample.old	2020-04-06 21:17:02.000000000 +0100
-+++ src/backend/utils/misc/postgresql.conf.sample	2020-04-07 09:16:09.166031695 +0100
-@@ -420,25 +420,25 @@
+--- src/backend/utils/misc/postgresql.conf.sample.old	2020-05-18 21:09:19.000000000 +0100
++++ src/backend/utils/misc/postgresql.conf.sample	2020-05-19 23:12:31.571523005 +0100
+@@ -88,7 +88,7 @@
+ # - Authentication -
+ 
+ #authentication_timeout = 1min		# 1s-600s
+-#password_encryption = md5		# md5 or scram-sha-256
++password_encryption = scram-sha-256		# md5 or scram-sha-256
+ #db_user_namespace = off
+ 
+ # GSSAPI using Kerberos
+@@ -421,25 +421,25 @@
  
  # - Where to Log -
  
@@ -31,7 +40,7 @@
  					# same name as the new log file will be
  					# truncated rather than appended to.
  					# But such truncation only occurs on
-@@ -446,9 +446,9 @@
+@@ -447,9 +447,9 @@
  					# or size-driven rotation.  Default is
  					# off, meaning append to existing files
  					# in all cases.
@@ -43,7 +52,7 @@
  					# happen after that much log output.
  					# 0 disables.
  
-@@ -524,7 +524,7 @@
+@@ -525,7 +525,7 @@
  #log_duration = off
  #log_error_verbosity = default		# terse, default, or verbose messages
  #log_hostname = off
