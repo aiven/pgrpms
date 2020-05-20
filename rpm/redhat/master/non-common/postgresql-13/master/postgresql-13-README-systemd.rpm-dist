@@ -86,13 +86,13 @@ are under $PATH:
 
 - clusterdb
 - createdb
-- createlang
 - createuser
 - dropdb
-- droplang
 - dropuser
 - pg_dump
 - pg_dumpall
+- pg_basebackup
+- vacuumdb
 - pg_restore
 - psql
 - reindexdb
