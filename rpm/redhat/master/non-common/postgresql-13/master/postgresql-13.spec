@@ -1,4 +1,4 @@
-%global debug_package %{nil}
+%global pgmajorversion 13
 # These are macros to be used with find_lang and other stuff
 %global packageversion 130
 %global pgpackageversion 13
@@ -26,17 +26,12 @@
 %{!?pam:%global pam 1}
 %{!?plpython2:%global plpython2 1}
 
-%if 0%{?rhel} && 0%{?rhel} < 7
-# RHEL 6 does not have Python 3
-%{!?plpython3:%global plpython3 0}
-%else
 # All Fedora releases now use Python3
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
 # This is the list of contrib modules that will be compiled with PY3 as well:
 %global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -53,13 +48,6 @@
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?systemd_enabled:%global systemd_enabled 0}
-%{!?sdt:%global sdt 0}
-%{!?selinux:%global selinux 0}
-# LLVM version in RHEL 6 is not sufficient to build LLVM
-%{!?llvm:%global llvm 0}
-%else
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le s390 s390x armv7hl
 %{!?llvm:%global llvm 0}
@@ -69,9 +57,8 @@
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
-%endif
 
-%if 0%{?fedora} > 23
+%if 0%{?fedora} > 30
 %global _hardened_build 1
 %endif
 
@@ -286,14 +273,10 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
 Requires:	openssl-libs >= 1.0.2k
-%endif
 %endif
 
 %ifarch ppc64 ppc64le
@@ -484,9 +467,6 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython >= %{version}-%{release}
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	python-libs
-%endif
 %if 0%{?rhel} == 7 || 0%{?rhel} == 8
 Requires:	python2-libs
 %endif
@@ -611,14 +591,6 @@ CFLAGS="${CFLAGS:-%optflags}"
 %endif
 
 export CFLAGS
-
-%if %icu
-# Export ICU flags on RHEL 6:
-%if 0%{?rhel} && 0%{?rhel} <= 6
-	ICU_CFLAGS='-I%{_includedir}'; export ICU_CFLAGS
-	ICU_LIBS='-L%{_libdir} -licui18n -licuuc -licudata'; export ICU_LIBS
-%endif
-%endif
 
 # plpython requires separate configure/build runs to build against python 2
 # versus python 3. Our strategy is to do the python 3 run first, then make
@@ -1014,13 +986,6 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/man/
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7 %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
-
-# Quick hack for RHEL < 7 and not compiled with PL/Python3 support:
-%if 0%{?rhel} < 7 && ! 0%{?plpython3}
-%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/hstore_plpython3u*
-%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/jsonb_plpython3u*
-%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/ltree_plpython3u*
-%endif
 
 # initialize file lists
 %{__cp} /dev/null main.lst
