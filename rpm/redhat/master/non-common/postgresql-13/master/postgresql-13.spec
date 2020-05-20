@@ -75,11 +75,7 @@ Url:		https://www.postgresql.org/
 Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
-%if %{systemd_enabled}
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
-%else
-Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
-%endif
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
