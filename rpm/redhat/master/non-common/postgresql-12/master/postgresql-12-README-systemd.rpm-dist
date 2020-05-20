@@ -15,7 +15,7 @@ Contents:
  8.)	Logging set up
  9.)	Rebuilding from the source RPM
 10.)	Contrib files
-12.)	Further Information Resource
+11.)	Further Information Resource
 
 INTRODUCTION
 -----------------------------------------------------------------------------
@@ -44,7 +44,7 @@ QUICKSTART (note that this requires postgresql12-server installed)
 -----------------------------------------------------------------------------
 For a fresh installation, you will need to initialize the cluster first. Run:
 
-	/usr/pgsql-12/bin/postgresql12-setup initdb
+	/usr/pgsql-12/bin/postgresql-12-setup initdb
 
 as root, and it will prepare a new database cluster for you. Then you will 
 need to start PostgreSQL. Again as root, run:
@@ -116,13 +116,15 @@ dump and reload process to bring your data into the new version. That is:
 Shut down the old postmaster, upgrade to the new version RPMs, initdb,
 and run the dump file through psql to restore your data.
 
-In 9.1+, the RPMs also support in-place upgrade from the immediately 
-previous major release.  Currently, you can upgrade in-place
-from 9.2.x to 12.x.  Just run:
-$ /usr/pgsql-12/bin/postgresql12-setup upgrade
+RPMs also support in-place upgrade from the immediately previous major release.
+Currently, you can upgrade in-place from 11.x to 12.x.  Just run:
 
-Please note that 9.2 and 12 contrib RPMs needs	to be installed	for this 
-feature	to work.
+$ /usr/pgsql-12/bin/postgresql-12-setup upgrade
+
+Please note that 11 and 12 contrib RPMs need to be installed for this feature
+to work. You can also upgrade from other major versions either by editing the
+setup script, or passing PostgreSQL major version as the 3rd argument to the
+setup script.
 
 POSTGRESQL RPM PACKAGES AND RATIONALE.
 -----------------------------------------------------------------------------
@@ -214,15 +216,15 @@ Here are the steps:
 
 3.)     Initialize the cluster:
 
-	/usr/pgsql-12/bin/postgresql12-setup initdb postgresql-12-secondary
+	/usr/pgsql-12/bin/postgresql-12-setup initdb postgresql-12-secondary
 
 4.)     Edit postgresql.conf to change the port, address, tcpip settings, etc.
 
 5.)     Start the postmaster with 'systemctl start postgresql-12-secondary.service'
 
 When doing a major-version upgrade of a secondary postmaster, mention the
-service name in the postgresql12-setup command, for example 'postgresql12-setup
-upgrade secondary'.  This will let postgresql12-setup find the correct data
+service name in the postgresql-12-setup command, for example 'postgresql-12-setup
+upgrade secondary'.  This will let postgresql-12-setup find the correct data
 directory from the service file.
 
 REGRESSION TESTING
@@ -301,6 +303,7 @@ This release of the RPMset includes the ability to conditionally build
 sets of packages.  The parameters, their defaults, and the meanings are:
 
 beta		0	#build with cassert and do not strip the binaries
+llvm		1	#build with llvm support
 python		1	#build the postgresql-python package.
 tcl		1	#build the postgresql-tcl package.
 test		1	#build the postgresql-test package.
@@ -349,5 +352,5 @@ https://yum.postgresql.org
 
 Please help make this packaging better -- let us know if you find problems, or
 better ways of doing things. You can reach us by e-mail at
-pgsql-pkg-yum@postgresql.org
+pgsql-pkg-yum@lists.postgresql.org
 -------------------------------------------------------------------------------
