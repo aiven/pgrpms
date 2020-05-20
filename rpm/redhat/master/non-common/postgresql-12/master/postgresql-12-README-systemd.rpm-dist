@@ -86,16 +86,16 @@ are under $PATH:
 
 - clusterdb
 - createdb
-- createlang
 - createuser
 - dropdb
-- droplang
 - dropuser
+- pg_basebackup
 - pg_dump
 - pg_dumpall
 - pg_restore
 - psql
 - reindexdb
+- vacuumdb
 
 You may want to add /usr/pgsql-12/bin to your $PATH variable in 
 /etc/profile, if you want to use them easily. However, please note that 
