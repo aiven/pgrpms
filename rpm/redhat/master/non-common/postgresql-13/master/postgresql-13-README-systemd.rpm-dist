@@ -89,13 +89,13 @@ are under $PATH:
 - createuser
 - dropdb
 - dropuser
+- pg_basebackup
 - pg_dump
 - pg_dumpall
-- pg_basebackup
-- vacuumdb
 - pg_restore
 - psql
 - reindexdb
+- vacuumdb
 
 You may want to add /usr/pgsql-13/bin to your $PATH variable in 
 /etc/profile, if you want to use them easily. However, please note that 
