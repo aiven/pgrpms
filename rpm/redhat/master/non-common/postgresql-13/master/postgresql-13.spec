@@ -1041,8 +1041,8 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
-cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang > pg_main.lst
-cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_verifybackup-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang > pg_server.lst
+cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang > pg_main.lst
+cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_verifybackup-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang > pg_server.lst
 %endif
 
 %pre server
@@ -1199,19 +1199,12 @@ fi
 %{pgbaseinstdir}/bin/dropdb
 %{pgbaseinstdir}/bin/dropuser
 %{pgbaseinstdir}/bin/pgbench
-%{pgbaseinstdir}/bin/pg_archivecleanup
 %{pgbaseinstdir}/bin/pg_basebackup
 %{pgbaseinstdir}/bin/pg_config
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
 %{pgbaseinstdir}/bin/pg_isready
 %{pgbaseinstdir}/bin/pg_restore
-%{pgbaseinstdir}/bin/pg_rewind
-%{pgbaseinstdir}/bin/pg_test_fsync
-%{pgbaseinstdir}/bin/pg_test_timing
-%{pgbaseinstdir}/bin/pg_receivewal
-%{pgbaseinstdir}/bin/pg_upgrade
-%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -1222,19 +1215,12 @@ fi
 %{pgbaseinstdir}/share/man/man1/dropdb.*
 %{pgbaseinstdir}/share/man/man1/dropuser.*
 %{pgbaseinstdir}/share/man/man1/pgbench.1
-%{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_basebackup.*
 %{pgbaseinstdir}/share/man/man1/pg_config.*
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
-%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
-%{pgbaseinstdir}/share/man/man1/pg_rewind.1
-%{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
-%{pgbaseinstdir}/share/man/man1/pg_test_timing.1
-%{pgbaseinstdir}/share/man/man1/pg_upgrade.1
-%{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
 %{pgbaseinstdir}/share/man/man1/vacuumdb.*
@@ -1397,19 +1383,33 @@ fi
 %endif
 %attr (755,root,root) %dir /etc/sysconfig/pgsql
 %{pgbaseinstdir}/bin/initdb
+%{pgbaseinstdir}/bin/pg_archivecleanup
+%{pgbaseinstdir}/bin/pg_checksums
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
-%{pgbaseinstdir}/bin/pg_checksums
+%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_resetwal
+%{pgbaseinstdir}/bin/pg_rewind
+%{pgbaseinstdir}/bin/pg_test_fsync
+%{pgbaseinstdir}/bin/pg_test_timing
+%{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_verifybackup
+%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
+%{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
+%{pgbaseinstdir}/share/man/man1/pg_checksums.*
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
-%{pgbaseinstdir}/share/man/man1/pg_checksums.*
+%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
+%{pgbaseinstdir}/share/man/man1/pg_rewind.1
+%{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
+%{pgbaseinstdir}/share/man/man1/pg_test_timing.1
+%{pgbaseinstdir}/share/man/man1/pg_upgrade.1
 %{pgbaseinstdir}/share/man/man1/pg_verifybackup.*
+%{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
@@ -1525,6 +1525,8 @@ fi
 %changelog
 * Tue May 19 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1-1
 - Update to 13beta1
+- Move some binaries from client to server subpackage. This was broken
+  for a long time.
 
 * Sat Dec 28 2019 Devrim Gündüz <devrim@gunduz.org> - 13.0-develPGDG
 - Initial cut for PostgreSQL 13
