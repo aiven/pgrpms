@@ -1,32 +1,23 @@
-%global debug_package %{nil}
-
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	12.01.0000
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
 Source0:	http://download.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
 Source1:	acinclude.m4
 
-BuildRequires:	unixODBC-devel
+BuildRequires:	unixODBC-devel pgdg-srpm-macros
 BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	postgresql%{pgmajorversion}-libs
@@ -57,13 +48,9 @@ autoconf
 autoheader
 
 %build
-
 chmod +x configure
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -DENABLE_NLS -O3 -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 	./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
 %{__make}
@@ -75,14 +62,13 @@ chmod +x configure
 # Provide the old library name "psqlodbc.so" as a symlink,
 # and remove the rather useless .la file
 
-install -d -m 755 %{buildroot}%{pginstdir}/lib
+%{__install} -d -m 755 %{buildroot}%{pginstdir}/lib
 pushd %{buildroot}%{pginstdir}/lib
 	ln -s psqlodbcw.so psqlodbc.so
 	mv %{buildroot}%{_libdir}/psqlodbc*.so %{buildroot}%{pginstdir}/lib
 	rm %{buildroot}%{_libdir}/psqlodbcw.la
 	rm %{buildroot}%{_libdir}/psqlodbca.la
 popd
-strip %{buildroot}%{pginstdir}/lib/*.so
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -103,6 +89,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Thu May 21 2020 Devrim Gündüz <devrim@gunduz.org> - 12.01.0000-2PGDG
+- Add debuginfo packages, per Aqeel.
+
 * Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 12.01.0000-1PGDG
 - Update to 12.01.0000
 
