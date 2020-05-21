@@ -23,14 +23,11 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plpython2:%global plpython2 1}
 
 # All Fedora releases now use Python3
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -165,10 +162,6 @@ BuildRequires:	perl-ExtUtils-Embed
 %if 0%{?fedora} >= 22
 BuildRequires:	perl-ExtUtils-Embed
 %endif
-%endif
-
-%if %plpython2
-BuildRequires:	python2-devel
 %endif
 
 %if %plpython3
@@ -454,36 +447,6 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
-%if %plpython2
-%package plpython
-Summary:	The Python procedural language for PostgreSQL
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl <= %{version}-%{release}
-Provides:	postgresql-plpython >= %{version}-%{release}
-Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} == 7 || 0%{?rhel} == 8
-Requires:	python2-libs
-%endif
-%if 0%{?fedora} && 0%{?fedora} <= 31
-Requires:	python2-libs
-%endif
-%if 0%{?fedora} >= 32
-Requires:	python27
-%endif
-
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%description plpython
-The postgresql%{pgmajorversion}-plpython package contains the PL/Python procedural language,
-which is an extension to the PostgreSQL database server.
-Install this if you want to write database functions in Python.
-
-%endif
-
 %if %plpython3
 %package plpython3
 Summary:	The Python3 procedural language for PostgreSQL
@@ -587,11 +550,6 @@ CFLAGS="${CFLAGS:-%optflags}"
 
 export CFLAGS
 
-# plpython requires separate configure/build runs to build against python 2
-# versus python 3. Our strategy is to do the python 3 run first, then make
-# distclean and do it again for the "normal" build. Note that the installed
-# Makefile.global will reflect the python 2 build, which seems appropriate
-# since that's still considered the default plpython version.
 %if %plpython3
 
 export PYTHON=/usr/bin/python3
@@ -677,131 +635,24 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-# We need to build PL/Python and a few extensions:
-# Build PL/Python
+
+%endif
+
 cd src/backend
 MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
-cd src/pl/plpython
-%{__make} all
-cd ..
-# save built form in a directory that "make distclean" won't touch
-%{__cp} -a plpython plpython3
-cd ../..
-# Build some of the extensions with PY3 support
-for p3bl in %{python3_build_list} ; do
-	p3blpy3dir="$p3bl"3
-	pushd contrib/$p3bl
-	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
-	cd ..
-	# save built form in a directory that "make distclean" won't touch
-	%{__cp} -a $p3bl $p3blpy3dir
-	popd
-done
-# must also save this version of Makefile.global for later
-%{__cp} src/Makefile.global src/Makefile.global.python3
-
-%{__make} distclean
-
-%endif
-
-unset PYTHON
-# Explicitly run Python2 here -- in future releases,
-# Python3 will be the default.
-export PYTHON=/usr/bin/python2
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 8
-	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
-
-# Normal (not python3) build begins here
-./configure --enable-rpath \
-	--prefix=%{pgbaseinstdir} \
-	--includedir=%{pgbaseinstdir}/include \
-	--libdir=%{pgbaseinstdir}/lib \
-	--mandir=%{pgbaseinstdir}/share/man \
-	--datadir=%{pgbaseinstdir}/share \
-%if %beta
-	--enable-debug \
-	--enable-cassert \
-%endif
-%if %enabletaptests
-	--enable-tap-tests \
-%endif
-%if %icu
-	--with-icu \
-%endif
-%if %llvm
-	--with-llvm \
-%endif
-%if %plperl
-	--with-perl \
-%endif
-%if %plpython2
-	--with-python \
-%endif
-%if %pltcl
-	--with-tcl \
-	--with-tclconfig=%{_libdir} \
-%endif
-%if %ssl
-	--with-openssl \
-%endif
-%if %pam
-	--with-pam \
-%endif
-%if %kerberos
-	--with-gssapi \
-	--with-includes=%{kerbdir}/include \
-	--with-libraries=%{kerbdir}/%{_lib} \
-%endif
-%if %nls
-	--enable-nls \
-%endif
-%if %sdt
-	--enable-dtrace \
-%endif
-%if %disablepgfts
-	--disable-thread-safety \
-%endif
-%if %uuid
-	--with-uuid=e2fs \
-%endif
-%if %xml
-	--with-libxml \
-	--with-libxslt \
-%endif
-%if %ldap
-	--with-ldap \
-%endif
-%if %selinux
-	--with-selinux \
-%endif
-%if %{systemd_enabled}
-	--with-systemd \
-%endif
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
-%endif
-	--with-system-tzdata=%{_datadir}/zoneinfo \
-	--sysconfdir=/etc/sysconfig/pgsql \
-	--docdir=%{pgbaseinstdir}/doc \
-	--htmldir=%{pgbaseinstdir}/doc/html
-
-MAKELEVEL=0 %{__make} %{?_smp_mflags} all
-%{__make} %{?_smp_mflags} -C contrib all
-%if %uuid
-%{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
-%endif
 
 # Have to hack makefile to put correct path into tutorial scripts
 sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
 %{__make} %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
 %{__rm} -f src/tutorial/GNUmakefile
+
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
+MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+%{__make} %{?_smp_mflags} -C contrib all
+%if %uuid
+%{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
+%endif
 
 
 # run_testsuite WHERE
@@ -831,22 +682,7 @@ run_testsuite()
 	%{__make} clean -C "src/test/regress"
 	run_testsuite "src/pl"
 %if %plpython3
-	# must install Makefile.global that selects python3
-	%{__mv} src/Makefile.global src/Makefile.global.save
-	%{__cp} src/Makefile.global.python3 src/Makefile.global
-	touch -r src/Makefile.global.save src/Makefile.global
-	# because "make check" does "make install" on the whole tree,
-	# we must temporarily install plpython3 as src/pl/plpython,
-	# since that is the subdirectory src/pl/Makefile knows about
-	%{__mv} src/pl/plpython src/pl/plpython2
-	%{__mv} src/pl/plpython3 src/pl/plpython
-
 	run_testsuite "src/pl/plpython"
-
-	# and clean up our mess
-	%{__mv} src/pl/plpython src/pl/plpython3
-	%{__mv} src/pl/plpython2 src/pl/plpython
-	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 	run_testsuite "contrib"
 %endif
@@ -863,24 +699,11 @@ run_testsuite()
 %{__make} DESTDIR=%{buildroot} install
 
 %if %plpython3
-	%{__mv} src/Makefile.global src/Makefile.global.save
-	%{__cp} src/Makefile.global.python3 src/Makefile.global
-	touch -r src/Makefile.global.save src/Makefile.global
 	# Install PL/Python3
-	pushd src/pl/plpython3
+	pushd src/pl/plpython
 	%{__make} DESTDIR=%{buildroot} install
 	popd
 
-	for p3bl in %{python3_build_list} ; do
-		p3blpy3dir="$p3bl"3
-
-		# Install jsonb_plpython3
-		pushd contrib/$p3blpy3dir
-		%{__make} DESTDIR=%{buildroot} install
-		popd
-	done
-
-	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
@@ -973,6 +796,11 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
+# Quick hack for beta1
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+
 # Fix some more documentation
 # gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
@@ -1018,10 +846,6 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{pgmajorversion}
-%if %plpython2
-%find_lang plpython-%{pgmajorversion}
-cat plpython-%{pgmajorversion}.lang > pg_plpython.lst
-%endif
 %if %plpython3
 # plpython3 shares message files with plpython
 %find_lang plpython-%{pgmajorversion}
@@ -1488,19 +1312,6 @@ fi
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
-%if %plpython2
-%files plpython -f pg_plpython.lst
-%defattr(-,root,root)
-%{pgbaseinstdir}/lib/plpython2.so
-%{pgbaseinstdir}/share/extension/plpython2u*
-%{pgbaseinstdir}/share/extension/plpythonu*
-%{pgbaseinstdir}/lib/hstore_plpython2.so
-%{pgbaseinstdir}/lib/jsonb_plpython2.so
-%{pgbaseinstdir}/lib/ltree_plpython2.so
-%{pgbaseinstdir}/share/extension/*_plpythonu*
-%{pgbaseinstdir}/share/extension/*_plpython2u*
-%endif
-
 %if %plpython3
 %files plpython3 -f pg_plpython3.lst
 %{pgbaseinstdir}/share/extension/plpython3*
@@ -1523,6 +1334,7 @@ fi
 - Update to 13beta1
 - Move some binaries from client to server subpackage. This was broken
   for a long time.
+- Remove PL/Python2 support
 
 * Sat Dec 28 2019 Devrim Gündüz <devrim@gunduz.org> - 13.0-develPGDG
 - Initial cut for PostgreSQL 13
