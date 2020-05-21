@@ -18,16 +18,14 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 %global _varrundir %{_localstatedir}/run/%{name}
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		3.5.24
+Version:		3.5.25
 Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
@@ -40,7 +38,7 @@ Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
-BuildRequires:		libmemcached-devel openssl-devel
+BuildRequires:		libmemcached-devel openssl-devel pgdg-srpm-macros
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -60,12 +58,7 @@ Requires(postun):	initscripts
 Obsoletes:		postgresql-pgpool < 1.0.0
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -113,10 +106,7 @@ Postgresql extensions libraries and sql files for pgpool-II.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 # We need this flag on SLES so that pgpool can find libmemched.
 # Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.
@@ -323,6 +313,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu May 21 2020 Devrim Gündüz <devrim@gunduz.org> - 3.5.25-1
+- Update to 3.5.25
+
 * Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> - 3.5.24-1
 - Update to 3.5.24
 
