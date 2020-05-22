@@ -136,7 +136,7 @@ perform_initdb(){
     fi
 
     # Initialize the database
-    initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' --auth-local=peer --auth-host=scram-sha-256 --pwfile /dev/zero"
+    initdbcmd="$PGENGINE/initdb --pgdata='$PGDATA' -A scram-sha-256 --auth-local=peer --pwfile /dev/zero"
     initdbcmd+=" $PGSETUP_INITDB_OPTIONS"
 
     $SU -l postgres -c "$initdbcmd" >> "$PGLOG" 2>&1 < /dev/null
