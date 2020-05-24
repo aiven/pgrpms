@@ -63,7 +63,7 @@ BuildRequires:	libxml2-devel
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
 %if %{sfcgal}
-BuildRequires:	SFCGAL-devel
+BuildRequires:	SFCGAL-devel SFCGAL
 Requires:	SFCGAL
 %endif
 %if %{raster}
