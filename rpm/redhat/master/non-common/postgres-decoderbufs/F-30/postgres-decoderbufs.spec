@@ -1,1 +1,0 @@
-../master/postgres-decoderbufs.spec

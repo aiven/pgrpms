@@ -1,1 +1,0 @@
-../master/pgq.spec
