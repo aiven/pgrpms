@@ -9,9 +9,9 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.0
-Release:	rc1_2%{dist}
+Release:	1%{dist}
 License:	GPLv2
-Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}-rc1.tar.gz
+Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	gcc-c++
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -46,7 +46,7 @@ engine. There is no need for precalculation.
 value can come from multiple fields or tables.
 
 %prep
-%setup -q -n %{sname}-%{version}-rc1
+%setup -q -n %{sname}-%{version}
 
 %build
 %ifarch ppc64 ppc64le
@@ -89,6 +89,9 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0
+
 * Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-rc1.2
 - Fix RHEL 7 builds, per tip from Florent Jardin.
 
