@@ -210,6 +210,7 @@ find . -name tests -type d -print0|xargs -0 rm -r --
 cd runtime
 export PYTHON_CONFIG=/usr/bin/python3-config
 export PYTHONPATH=%{python3_sitelib}/%{name}-web/:$PYTHONPATH
+export PGADMIN_PYTHON_DIR=/usr
 
 %{QMAKE} -o Makefile pgAdmin4.pro
 %{__make}
