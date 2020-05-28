@@ -1,9 +1,11 @@
 # It's not recommended to modify this file in-place, because it will be
 # overwritten during package upgrades.  If you want to customize, the
-# best way is to create a file "/etc/systemd/system/postgresql-13.service",
-# containing
-#	.include /usr/lib/systemd/system/postgresql-13.service
-#	...make your changes here...
+# best way is to copy the file undere "/etc/systemd/system" directory
+# and make your changes here. You can also run "systemctl edit postgresql-13.service"
+# and make changes including sections, like:
+# [Service]
+# ...
+# 
 # For more info about custom unit files, see
 # https://docs.fedoraproject.org/en-US/quick-docs/understanding-and-administering-systemd/index.html
 
@@ -11,7 +13,7 @@
 # configuration as well.
 
 # Note: do not use a PGDATA pathname containing spaces, or you will
-# break postgresql-setup.
+# break postgresql-13-setup.
 [Unit]
 Description=PostgreSQL 13 database server
 Documentation=https://www.postgresql.org/docs/13/static/
