@@ -9,8 +9,8 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.21
-Release:	2%{?dist}
+Version:	4.22
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -22,9 +22,6 @@ Source4:	%{name}.desktop.in
 Source6:	%{name}.qt.conf.in
 Source7:	%{name}-web-setup.sh
 Source8:	%{name}.service.in
-%if 0%{?fedora} && 0%{?fedora} == 32
-Patch0:		pgadmin4-4.21-python38.patch
-%endif
 
 BuildRequires:	gcc-c++
 
@@ -204,9 +201,6 @@ GNOME Desktop components of pgAdmin4.
 
 %prep
 %setup -q -n %{name}-%{version}
-%if 0%{?fedora} && 0%{?fedora} == 32
-%patch0 -p0
-%endif
 
 %build
 # Remove tests and regression directories, per Dave:
@@ -345,6 +339,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu May 28 2020 - Devrim Gündüz <devrim@gunduz.org> 4.22-1
+- Update to 4.22
+
 * Fri May 1 2020 - Devrim Gündüz <devrim@gunduz.org> 4.21-2
 - Update dependencies for 4.21
 
