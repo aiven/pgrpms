@@ -1,0 +1,1 @@
+../master/check_postgres.spec

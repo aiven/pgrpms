@@ -1,0 +1,1 @@
+../master/plpgsql_check.spec

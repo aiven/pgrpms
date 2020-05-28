@@ -1,0 +1,1 @@
+../master/postgresql_autodoc.spec

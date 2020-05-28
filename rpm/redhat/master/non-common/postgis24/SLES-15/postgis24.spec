@@ -1,0 +1,1 @@
+../master/postgis24.spec

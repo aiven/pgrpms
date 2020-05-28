@@ -1,0 +1,1 @@
+../master/libgeotiff16.spec
