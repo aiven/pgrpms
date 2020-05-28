@@ -38,9 +38,13 @@
 %endif
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} <= 1315
 # Disable PL/Python 3 on SLES 12
 %{!?plpython3:%global plpython3 0}
+%endif
+%if 0%{?suse_version} >= 1500
+# Enable PL/Python 3 on SLES 15
+%{!?plpython3:%global plpython3 1}
 %endif
 %endif
 
@@ -150,7 +154,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm5-devel clang5-devel
+BuildRequires:	llvm10-devel clang10-devel
 %endif
 %endif
 
@@ -396,7 +400,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm5-devel clang5-devel
+Requires:	llvm10-devel clang10-devel
 %endif
 %endif
 %if %icu
@@ -440,9 +444,9 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	llvm5.0 >= 5.0
 %else
 %if 0%{?suse_version} >= 1500
-Requires:	llvm5
+Requires:	llvm10
 %else
-Requires:	llvm => 5.0
+Requires:	llvm10 => 10.0
 %endif
 %endif
 Provides:	postgresql-llvmjit >= %{version}-%{release}
