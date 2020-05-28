@@ -81,7 +81,7 @@ together.
 %endif
 
 %changelog
-* Thu Nay 28 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-1
+* Thu May 28 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-1
 - Update to 2.0.2
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
