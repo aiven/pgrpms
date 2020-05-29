@@ -24,7 +24,7 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
 %{!?plpython2:%global plpython2 0}
 %else
 %{!?plpython2:%global plpython2 1}
@@ -53,7 +53,7 @@
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
-%{!?test:%global test 0}
+%{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
