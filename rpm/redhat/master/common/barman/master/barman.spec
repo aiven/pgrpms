@@ -38,12 +38,6 @@ Requires:	python
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-  %global pybasever 2.7
-%endif
-%endif
-
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.10
