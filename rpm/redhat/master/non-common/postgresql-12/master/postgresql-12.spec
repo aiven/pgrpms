@@ -23,7 +23,12 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%{!?plpython2:%global plpython2 0}
+%else
 %{!?plpython2:%global plpython2 1}
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} < 7
 # RHEL 6 does not have Python 3
@@ -33,8 +38,6 @@
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
@@ -42,16 +45,15 @@
 # Disable PL/Python 3 on SLES 12
 %{!?plpython3:%global plpython3 0}
 %endif
-%if 0%{?suse_version} >= 1500
-# Enable PL/Python 3 on SLES 15
-%{!?plpython3:%global plpython3 1}
 %endif
-%endif
+
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
-%{!?test:%global test 1}
+%{!?test:%global test 0}
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
@@ -87,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -630,14 +632,18 @@ export CFLAGS
 %endif
 %endif
 
+
+# NOTE: PL/Python 3
 # plpython requires separate configure/build runs to build against python 2
 # versus python 3. Our strategy is to do the python 3 run first, then make
 # distclean and do it again for the "normal" build. Note that the installed
 # Makefile.global will reflect the python 2 build, which seems appropriate
 # since that's still considered the default plpython version.
+
 %if %plpython3
 
 export PYTHON=/usr/bin/python3
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
@@ -718,8 +724,8 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-# We need to build PL/Python and a few extensions:
-# Build PL/Python
+# We need to build PL/Python 3 and a few extensions:
+# Build PL/Python 3
 cd src/backend
 MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
@@ -740,11 +746,17 @@ for p3bl in %{python3_build_list} ; do
 	popd
 done
 # must also save this version of Makefile.global for later
+# on platforms where Python 2 is still available:
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
-%{__make} distclean
-
 %endif
+# NOTE: PL/Python3 (END)
+
+# NOTE: PL/Python 2
+%if %{?plpython2}
+
+# Clean up the tree.
+%{__make} distclean
 
 unset PYTHON
 # Explicitly run Python2 here -- in future releases,
@@ -833,6 +845,31 @@ export PYTHON=/usr/bin/python2
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
+# We need to build PL/Python 2 and a few extensions:
+# Build PL/Python 2
+cd src/backend
+MAKELEVEL=0 %{__make} submake-generated-headers
+cd ../..
+cd src/pl/plpython
+%{__make} all
+cd ..
+# save built form in a directory that "make distclean" won't touch
+%{__cp} -a plpython plpython2
+cd ../..
+# Build some of the extensions with PY2 support as well.
+for p2bl in %{python3_build_list} ; do
+	p2blpy2dir="$p2bl"2
+	pushd contrib/$p2bl
+	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+	# save built form in a directory that "make distclean" won't touch
+	cd ..
+	%{__cp} -a $p2bl $p2blpy2dir
+	popd
+done
+%endif
+# NOTE: PL/Python 2 (END)
+
+
 MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 %{__make} %{?_smp_mflags} -C contrib all
 %if %uuid
@@ -843,6 +880,7 @@ MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
 %{__make} %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
 %{__rm} -f src/tutorial/GNUmakefile
+
 
 
 # run_testsuite WHERE
@@ -874,7 +912,7 @@ run_testsuite()
 %if %plpython3
 	# must install Makefile.global that selects python3
 	%{__mv} src/Makefile.global src/Makefile.global.save
-	%{__cp} src/Makefile.global.python3 src/Makefile.global
+	%{__cp} src/Makefile.global.python2 src/Makefile.global
 	touch -r src/Makefile.global.save src/Makefile.global
 	# because "make check" does "make install" on the whole tree,
 	# we must temporarily install plpython3 as src/pl/plpython,
@@ -891,6 +929,7 @@ run_testsuite()
 %endif
 	run_testsuite "contrib"
 %endif
+
 
 %if %test
 	pushd src/test/regress
@@ -911,16 +950,13 @@ run_testsuite()
 	pushd src/pl/plpython3
 	%{__make} DESTDIR=%{buildroot} install
 	popd
-
 	for p3bl in %{python3_build_list} ; do
 		p3blpy3dir="$p3bl"3
-
 		# Install jsonb_plpython3
 		pushd contrib/$p3blpy3dir
 		%{__make} DESTDIR=%{buildroot} install
 		popd
 	done
-
 	%{__mv} -f src/Makefile.global.save src/Makefile.global
 %endif
 
@@ -999,13 +1035,13 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
@@ -1013,6 +1049,14 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
+
+%if ! %plpython2
+# Quick hack for beta1
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%endif
+
 
 # Fix some more documentation
 # gzip doc/internals.ps
@@ -1564,6 +1608,12 @@ fi
 %endif
 
 %changelog
+* Fri May 29 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-2PGDG
+- Fix spec file breakage when plpython2 macro is disabled.
+  Disable PL/Python2 builds on platforms that don't have PY2.
+  This is probably needed for at least Fedora 33, and also will be
+  useful for SLES 15 as well.
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-1PGDG
 - Update to 12.3, per changes described at
   https://www.postgresql.org/docs/release/12.3/
