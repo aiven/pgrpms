@@ -537,7 +537,11 @@ Provides:	postgresql-plpython3 >= %{version}-%{release}
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
 Requires:	python3-libs
 %else
+%if 0%{?suse_version} >= 1500
+Requires:	libpython3_6m1_0
+%else
 Requires:	python3-libs
+%endif
 %endif
 
 %ifarch ppc64 ppc64le
