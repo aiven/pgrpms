@@ -1,3 +1,4 @@
+%global pgmajorversion 12
 # These are macros to be used with find_lang and other stuff
 %global packageversion 120
 %global pgpackageversion 12
@@ -298,13 +299,18 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 %endif
 
