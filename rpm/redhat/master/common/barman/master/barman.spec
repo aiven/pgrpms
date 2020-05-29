@@ -22,10 +22,16 @@ BuildRequires:	python
 Requires:	python
 %endif
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 %{!?with_python3:%global with_python3 0}
 %global __ospython %{_bindir}/python2
 %global __python_ver python2
+%endif
+
+%if 0%{?suse_version} >= 1500
+%{!?with_python3:%global with_python3 1}
+%global __ospython %{_bindir}/python3
+%global __python_ver python3
 %endif
 
 %global pybasever %(%{__ospython} -c "import sys; print(sys.version[:3])")
