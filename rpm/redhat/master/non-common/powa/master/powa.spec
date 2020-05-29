@@ -35,7 +35,7 @@ Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorvers
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://dalibo.github.io/powa/
+URL:		https://powa.readthedocs.io/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
