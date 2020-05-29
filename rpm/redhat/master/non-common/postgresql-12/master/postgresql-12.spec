@@ -1,4 +1,3 @@
-%global pgmajorversion 12
 # These are macros to be used with find_lang and other stuff
 %global packageversion 120
 %global pgpackageversion 12
