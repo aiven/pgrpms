@@ -112,19 +112,14 @@ Patch13:	gdal30-configure-ogdi%{ogdimajorversion}.patch
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
-# No armadillo in EL5
 BuildRequires:	armadillo-devel
 BuildRequires:	bash-completion
 BuildRequires:	cfitsio-devel
-# No CharLS in EL5
-#BuildRequires: CharLS-devel
 BuildRequires:	chrpath
 BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
-# No freexl in EL5
 BuildRequires:	freexl-devel
-BuildRequires:	g2clib-static
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.1
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
@@ -132,7 +127,6 @@ BuildRequires:	jpackage-utils
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libpng-devel
-# No libkml in EL
 %if 0%{?fedora}
 BuildRequires:	libkml-devel
 %endif
@@ -198,11 +192,12 @@ BuildRequires:	java-11-openjdk-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	hdf hdf-devel hdf-devel-static
 BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
-BuildRequires:	libdap-devel
 BuildRequires:	libexpat-devel libjson-c-devel
 BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
 %else
+BuildRequires:	g2clib-static
+BuildRequires:	libdap-devel
 BuildRequires:	expat-devel
 BuildRequires:	hdf-devel hdf-static hdf5-devel
 BuildRequires:	jasper-devel
