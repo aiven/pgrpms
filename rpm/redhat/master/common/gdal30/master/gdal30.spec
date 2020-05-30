@@ -159,7 +159,11 @@ BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?with_poppler}
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libpoppler-devel
+%else
 BuildRequires:	poppler-devel
+%endif
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.0.1
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -182,6 +186,15 @@ BuildRequires:	tex(tocloft.sty)
 BuildRequires:	tex(xtab.sty)
 %endif
 BuildRequires:	unixODBC-devel
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} <= 1315
+BuildRequires:	java-1_8_0-openjdk-devel
+%else
+BuildRequires:	java-11-openjdk-devel
+%endif
+%endif
+
 %if 0%{?suse_version} >= 1315
 BuildRequires:	hdf hdf-devel hdf-devel-static
 BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
@@ -189,7 +202,6 @@ BuildRequires:	libdap-devel
 BuildRequires:	libexpat-devel libjson-c-devel
 BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
-BuildRequires:	java-1_8_0-openjdk-devel
 %else
 BuildRequires:	expat-devel
 BuildRequires:	hdf-devel hdf-static hdf5-devel
