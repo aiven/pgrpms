@@ -3,11 +3,12 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.27
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
+Source3:	pgbackrest.logrotate
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
@@ -57,6 +58,10 @@ popd
 %{__install} %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 %{__cp} -a src/%{name} %{buildroot}%{_bindir}/%{name}
 
+# Install logrotate file:
+%{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
+%{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -69,11 +74,15 @@ popd
 %endif
 %{_bindir}/%{name}
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %attr(-,postgres,postgres) /var/log/%{name}
 %attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Jun 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.27-2
+- Add a logrotate file
+
 * Wed May 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.27-1
 - Update to 2.27
 
