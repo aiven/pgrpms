@@ -6,7 +6,7 @@
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.22.0
+Version:	0.30.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
@@ -62,9 +62,11 @@ Versioning 2.0.0 Specification.
 
 
 %changelog
+* Mon Jun 1 2020 Devrim Gündüz <devrim@gunduz.org> - 0.30.0-1
+- Update to 0.30.0
+
 * Sat Apr 4 2020 Devrim Gündüz <devrim@gunduz.org> - 0.22.0-1
-- Update to *.22.0
-Initial packaging for PostgreSQL RPM Repository
+- Update to 0.22.0
 
 * Wed Mar 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0.21.0-1
 - Initial packaging for PostgreSQL RPM Repository
