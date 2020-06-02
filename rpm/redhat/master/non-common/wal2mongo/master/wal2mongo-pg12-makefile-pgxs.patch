@@ -1,0 +1,11 @@
+--- Makefile.old	2020-06-02 21:48:56.294704262 +0100
++++ Makefile	2020-06-02 22:03:02.495426819 +0100
+@@ -17,7 +17,7 @@
+ NO_INSTALLCHECK = 0
+ 
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-12/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
