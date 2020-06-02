@@ -19,7 +19,6 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?plpython2:%global plpython2 1}
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
@@ -51,7 +50,7 @@
 
 Summary:	The shared libraries required for some PGDG packages
 Name:		pgdg-libpq5
-Version:	%{pgmajorversion}.2
+Version:	%{pgmajorversion}.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -84,8 +83,8 @@ Requires:	libicu
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from EPEL and SCL:
-BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+# Packages come from Appstream:
+BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -94,7 +93,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm5-devel clang5-devel
+BuildRequires:	llvm10-devel clang10-devel
 %endif
 %endif
 
@@ -178,7 +177,7 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-Provides:	postgresql-libs >= 9.2
+Provides:	postgresql-libs >= 9.2, libpq5 >= 10.0
 
 %description
 The %{sname} package provides the essential shared libraries for any
@@ -223,6 +222,15 @@ export CFLAGS
 
 export PYTHON=/usr/bin/python3
 
+%if %llvm
+%if 0%{?rhel} && 0%{?rhel} == 7
+	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+%endif
+
 # These configure options must match main build
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
@@ -235,13 +243,6 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %icu
 	--with-icu \
-%endif
-%if %llvm
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config --with-llvm \
-%else
-	--with-llvm \
-%endif
 %endif
 %if %plperl
 	--with-perl \
@@ -334,5 +335,9 @@ cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 %%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{sname}-libs.conf
 
 %changelog
+* Tue Jun 2 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-1PGDG
+- Update to 12.3
+- Also provide libpq5
+
 * Fri Apr 17 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-1PGDG
 - Initial packaging for PostgreSQL RPM repository
