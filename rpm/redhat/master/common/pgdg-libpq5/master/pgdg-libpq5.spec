@@ -51,7 +51,7 @@
 
 Summary:	The shared libraries required for some PGDG packages
 Name:		pgdg-libpq5
-Version:	%{pgmajorversion}.2
+Version:	%{pgmajorversion}.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -178,7 +178,7 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-Provides:	postgresql-libs >= 9.2
+Provides:	postgresql-libs >= 9.2, libpq5 >= 10.0
 
 %description
 The %{sname} package provides the essential shared libraries for any
@@ -334,5 +334,9 @@ cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 %%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{sname}-libs.conf
 
 %changelog
+* Tue Jun 2 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-1PGDG
+- Update to 12.3
+- Also provide libpq5
+
 * Fri Apr 17 2020 Devrim Gündüz <devrim@gunduz.org> - 12.2-1PGDG
 - Initial packaging for PostgreSQL RPM repository
