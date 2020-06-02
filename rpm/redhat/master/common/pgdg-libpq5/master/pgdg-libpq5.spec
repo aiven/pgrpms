@@ -85,7 +85,6 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-Conflicts:	libpq
 Obsoletes:	libpq
 Provides:	postgresql-libs >= 9.2 libpq >= 10.0 libpq.so.5
 Provides:	libpq.so.5(RHPG_10)(64bit)
