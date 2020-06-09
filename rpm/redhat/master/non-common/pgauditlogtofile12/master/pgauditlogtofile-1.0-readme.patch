@@ -1,0 +1,10 @@
+--- README.md.old	2020-06-05 11:24:21.555224547 +0100
++++ README.md	2020-06-05 11:25:08.869315170 +0100
+@@ -13,6 +13,7 @@
+ 
+ ## Installation
+ - Build the extension
++- Add pgauditlogtofile to shared_preload_libraries, and restart PostgreSQL
+ - Inside PostgreSQL
+ 
+ ```
