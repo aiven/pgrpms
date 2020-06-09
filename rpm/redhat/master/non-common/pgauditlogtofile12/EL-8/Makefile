@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel8
-SPECFILE="pgauditlogtofile14.spec"
+SPECFILE="pgauditlogtofile12.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
