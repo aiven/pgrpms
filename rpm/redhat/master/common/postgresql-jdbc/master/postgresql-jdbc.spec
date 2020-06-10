@@ -2,12 +2,12 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.2.12
+Version:	42.2.14
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
-Source0:	https://github.com/pgjdbc/pgjdbc/archive/REL%{version}.tar.gz
+Source0:	https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.14/postgresql-42.2.14-src.tar.gz
 Source1:	%{name}.pom
 BuildArch:	noarch
 
@@ -52,14 +52,13 @@ This package contains the API Documentation for %{name}.
 %patch0 -p0
 %endif
 %endif
-%{__mv} -f %{tarballname}/* .
-%{__rm} -f %{tarballname}/.gitattributes
-%{__rm} -f %{tarballname}/.gitignore
-%{__rm} -f %{tarballname}/.travis.yml
+%{__rm} -f .gitattributes
+%{__rm} -f .gitignore
+%{__rm} -f .travis.yml
+%{__rm} -f src/test/java/org/postgresql/test/jdbc4/CopyUtfTest.java
 
 # remove any binary libs
 find -name "*.jar" -or -name "*.class" | xargs %{__rm} -f
-
 %build
 
 export CLASSPATH=
@@ -73,13 +72,13 @@ export CLASSPATH=
 %pom_remove_plugin :karaf-maven-plugin pgjdbc
 %endif
 
-mvn -DskipTests -P release-artifacts clean package
+mvn -DskipTests package
 
 %install
 %{__install} -d %{buildroot}%{_javadir}
 # Per jpp conventions, jars have version-numbered names and we add
 # versionless symlinks.
-%{__install} -m 644 pgjdbc/target/postgresql-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
+%{__install} -m 644 target/postgresql-%{version}.jar %{buildroot}%{_javadir}/%{name}.jar
 
 pushd %{buildroot}%{_javadir}
 # Also, for backwards compatibility with our old postgresql-jdbc packages,
@@ -95,8 +94,8 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 %{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
 
 %{__install} -d -m 755 %{buildroot}%{_javadocdir}
-%{__cp} -ra pgjdbc/target/apidocs %{buildroot}%{_javadocdir}/%{name}
-%{__install} -d pgjdbc/target/apidocs docs/%{name}
+%{__cp} -ra target/apidocs %{buildroot}%{_javadocdir}/%{name}
+%{__install} -d target/apidocs docs/%{name}
 
 %check
 %if 0%{?runselftest}
@@ -146,6 +145,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Wed Jun 10 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.14-1
+- Update to 42.2.14
+
 * Wed Apr 1 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.12-1
 - Update to 42.2.12
 
