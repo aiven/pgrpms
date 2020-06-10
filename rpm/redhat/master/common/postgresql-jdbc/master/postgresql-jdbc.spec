@@ -68,10 +68,6 @@ export CLASSPATH=
 # different platforms don't build in the same minute.  For now, rely on
 # upstream to have updated the translations files before packaging.
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%pom_remove_plugin :karaf-maven-plugin pgjdbc
-%endif
-
 mvn -DskipTests package
 
 %install
