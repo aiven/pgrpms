@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.7.0
+Version:	0.7.1
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -97,6 +97,9 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgagroal.so.%{version}
 
 %changelog
+* Wed Jun 10 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.1-1
+- Update to 0.7.1
+
 * Wed May 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-1
 - Update to 0.7.0
 
