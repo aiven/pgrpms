@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.3
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -758,14 +758,16 @@ done
 # on platforms where Python 2 is still available:
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
+%if %plpython2
+# Clean up the tree.
+%{__make} distclean
+%endif
+
 %endif
 # NOTE: PL/Python3 (END)
 
 # NOTE: PL/Python 2
 %if %{?plpython2}
-
-# Clean up the tree.
-%{__make} distclean
 
 unset PYTHON
 # Explicitly run Python2 here -- in future releases,
@@ -1617,6 +1619,10 @@ fi
 %endif
 
 %changelog
+* Wed Jun 10 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-3PGDG
+- Fix RHEL 6 builds, where PY3 is not available. Per report from
+  Aparna Patil.
+
 * Fri May 29 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-2PGDG
 - Fix spec file breakage when plpython2 macro is disabled.
   Disable PL/Python2 builds on platforms that don't have PY2.
