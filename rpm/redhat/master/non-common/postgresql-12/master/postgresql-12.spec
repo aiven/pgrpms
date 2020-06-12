@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.3
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -430,6 +430,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 
 Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1619,6 +1620,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-4PGDG
+- Obsolete libpq-devel that comes with the OS.
+
 * Wed Jun 10 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-3PGDG
 - Fix RHEL 6 builds, where PY3 is not available. Per report from
   Aparna Patil.
