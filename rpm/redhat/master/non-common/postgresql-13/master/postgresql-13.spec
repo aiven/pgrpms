@@ -65,7 +65,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta1_1PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -384,6 +384,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 
 Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1330,6 +1331,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12beta1-1
+- Obsolete libpq-devel that comes with the OS.
+
 * Tue May 19 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1-1
 - Update to 13beta1
 - Move some binaries from client to server subpackage. This was broken
