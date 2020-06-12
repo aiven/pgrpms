@@ -82,7 +82,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.8
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -418,6 +418,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 
 Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -1552,6 +1553,9 @@ fi
 %endif
 
 %changelog
+* Fri Jun 12 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-2PGDG
+- Obsolete libpq-devel that comes with the OS.
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-1PGDG
 - Update to 11.8, per changes described at
   https://www.postgresql.org/docs/release/11.8/
