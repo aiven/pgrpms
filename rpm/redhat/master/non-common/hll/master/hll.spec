@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.13
+Version:	2.14
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
@@ -75,6 +75,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Sun Jun 14 2020 - Devrim Gündüz <devrim@gunduz.org> 2.14-1
+- Update to 2.14
+
 * Wed Nov 6 2019 - Devrim Gündüz <devrim@gunduz.org> 2.13-1
 - Update to 2.13
 
