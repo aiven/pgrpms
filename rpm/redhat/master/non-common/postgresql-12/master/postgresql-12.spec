@@ -454,7 +454,7 @@ Requires:	llvm5.0 >= 5.0
 %if 0%{?suse_version} >= 1500
 Requires:	llvm10
 %else
-Requires:	llvm10 => 10.0
+Requires:	llvm
 %endif
 %endif
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -1622,6 +1622,7 @@ fi
 %changelog
 * Sun Jun 14 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-5PGDG
 - Oops, disable PY2 on Fedora 33.
+- Fix LLVM dependency
 
 * Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-4PGDG
 - Obsolete libpq-devel that comes with the OS.
