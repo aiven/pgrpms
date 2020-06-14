@@ -24,7 +24,7 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 
-%if 0%{?fedora} >= 32 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
 %{!?plpython2:%global plpython2 0}
 %else
 %{!?plpython2:%global plpython2 1}
@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.3
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1620,6 +1620,9 @@ fi
 %endif
 
 %changelog
+* Sun Jun 14 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-5PGDG
+- Oops, disable PY2 on Fedora 33.
+
 * Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-4PGDG
 - Obsolete libpq-devel that comes with the OS.
 
