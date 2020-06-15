@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.3
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1426,7 +1426,9 @@ fi
 %{pgbaseinstdir}/share/extension/fuzzystrmatch*
 %{pgbaseinstdir}/share/extension/hstore.control
 %{pgbaseinstdir}/share/extension/hstore--*.sql
+%if %plperl
 %{pgbaseinstdir}/share/extension/hstore_plperl*
+%endif
 %{pgbaseinstdir}/share/extension/insert_username*
 %{pgbaseinstdir}/share/extension/intagg*
 %{pgbaseinstdir}/share/extension/intarray*
@@ -1620,6 +1622,10 @@ fi
 %endif
 
 %changelog
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-6PGDG
+- Fix builds if plperl macro is disabled. Per report and patch from
+  Floris Van Nee.
+
 * Sun Jun 14 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-5PGDG
 - Oops, disable PY2 on Fedora 33.
 - Fix LLVM dependency

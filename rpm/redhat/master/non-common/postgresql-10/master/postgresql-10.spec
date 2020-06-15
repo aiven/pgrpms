@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.13
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1261,7 +1261,9 @@ fi
 %{pgbaseinstdir}/share/extension/fuzzystrmatch*
 %{pgbaseinstdir}/share/extension/hstore.control
 %{pgbaseinstdir}/share/extension/hstore--*.sql
+%if %plperl
 %{pgbaseinstdir}/share/extension/hstore_plperl*
+%endif
 %{pgbaseinstdir}/share/extension/insert_username*
 %{pgbaseinstdir}/share/extension/intagg*
 %{pgbaseinstdir}/share/extension/intarray*
@@ -1443,6 +1445,10 @@ fi
 %endif
 
 %changelog
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 10.13-2PGDG
+- Fix builds if plperl macro is disabled. Per report and patch from
+  Floris Van Nee.
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 10.13-1PGDG
 - Update to 10.13, per changes described at
   https://www.postgresql.org/docs/release/10.13/

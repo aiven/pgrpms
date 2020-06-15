@@ -82,7 +82,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.8
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1359,7 +1359,9 @@ fi
 %{pgbaseinstdir}/share/extension/fuzzystrmatch*
 %{pgbaseinstdir}/share/extension/hstore.control
 %{pgbaseinstdir}/share/extension/hstore--*.sql
+%if %plperl
 %{pgbaseinstdir}/share/extension/hstore_plperl*
+%endif
 %{pgbaseinstdir}/share/extension/insert_username*
 %{pgbaseinstdir}/share/extension/intagg*
 %{pgbaseinstdir}/share/extension/intarray*
@@ -1553,6 +1555,10 @@ fi
 %endif
 
 %changelog
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-3PGDG
+- Fix builds if plperl macro is disabled. Per report and patch from
+  Floris Van Nee.
+
 * Fri Jun 12 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-2PGDG
 - Obsolete libpq-devel that comes with the OS.
 

@@ -75,7 +75,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.18
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1238,7 +1238,9 @@ fi
 %{pginstdir}/share/extension/fuzzystrmatch*
 %{pginstdir}/share/extension/hstore.control
 %{pginstdir}/share/extension/hstore--*.sql
-%{pginstdir}/share/extension/hstore_plperl*
+%if %plperl
+%{pgbaseinstdir}/share/extension/hstore_plperl*
+%endif
 %{pginstdir}/share/extension/insert_username*
 %{pginstdir}/share/extension/intagg*
 %{pginstdir}/share/extension/intarray*
@@ -1425,6 +1427,10 @@ fi
 %endif
 
 %changelog
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.18-2PGDG
+- Fix builds if plperl macro is disabled. Per report and patch from
+  Floris Van Nee.
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.18-1PGDG
 - Update to 9.6.18, per changes described at:
   https://www.postgresql.org/docs/release/9.6.18/

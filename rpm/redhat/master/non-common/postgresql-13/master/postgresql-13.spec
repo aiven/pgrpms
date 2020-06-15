@@ -65,7 +65,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta1_2PGDG%{?dist}
+Release:	beta1_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1134,7 +1134,9 @@ fi
 %{pgbaseinstdir}/share/extension/fuzzystrmatch*
 %{pgbaseinstdir}/share/extension/hstore.control
 %{pgbaseinstdir}/share/extension/hstore--*.sql
+%if %plperl
 %{pgbaseinstdir}/share/extension/hstore_plperl*
+%endif
 %{pgbaseinstdir}/share/extension/insert_username*
 %{pgbaseinstdir}/share/extension/intagg*
 %{pgbaseinstdir}/share/extension/intarray*
@@ -1331,7 +1333,11 @@ fi
 %endif
 
 %changelog
-* Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 12beta1-1
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1_3
+- Fix builds if plperl macro is disabled. Per report and patch from
+  Floris Van Nee.
+
+* Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1_2
 - Obsolete libpq-devel that comes with the OS.
 
 * Tue May 19 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1-1
