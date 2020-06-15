@@ -77,7 +77,6 @@ This package provides test tools and scripts related to PG-Strom
 
 %files test
 %{pginstdir}/bin/dbgen-ssbm
-%{pginstdir}/bin/testapp_largeobject
 
 %changelog
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-1
