@@ -3,8 +3,8 @@
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 Name:		%{sname}-%{pgmajorversion}
-Version:	2.2
-Release:	2%{?dist}
+Version:	2.3
+Release:	1%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	GPL 2.0
 URL:		https://github.com/heterodb/pg-strom
@@ -12,9 +12,9 @@ Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cuda >= 9.2
+BuildRequires:	cuda >= 11
 Requires:	nvidia-kmod
-Requires:	cuda >= 9.2
+Requires:	cuda >= 11
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
@@ -80,6 +80,10 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/testapp_largeobject
 
 %changelog
+* Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-1
+- Update to 2.3
+- Use Cuda 11
+
 * Thu Dec 19 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2-2
 - Initial packaging for the PostgreSQL RPM repository,
   based on KaiGai's spec file
