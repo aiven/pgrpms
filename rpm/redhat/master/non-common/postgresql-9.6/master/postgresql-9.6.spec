@@ -1239,7 +1239,7 @@ fi
 %{pginstdir}/share/extension/hstore.control
 %{pginstdir}/share/extension/hstore--*.sql
 %if %plperl
-%{pgbaseinstdir}/share/extension/hstore_plperl*
+%{pginstdir}/share/extension/hstore_plperl*
 %endif
 %{pginstdir}/share/extension/insert_username*
 %{pginstdir}/share/extension/intagg*
