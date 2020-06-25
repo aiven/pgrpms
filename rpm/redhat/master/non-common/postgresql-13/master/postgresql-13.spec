@@ -65,11 +65,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta1_3PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta2/postgresql-%{version}beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -515,7 +515,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta1
+%setup -q -n %{sname}-%{pgpackageversion}beta2
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -797,7 +797,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
-# Quick hack for beta1
+# Quick hack:
 %{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
 %{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
 %{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
@@ -1333,6 +1333,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 25 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta2_1
+- Update to v13 beta2
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta1_3
 - Fix builds if plperl macro is disabled. Per report and patch from
   Floris Van Nee.
