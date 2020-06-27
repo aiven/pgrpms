@@ -1,0 +1,10 @@
+--- Makefile.old	2020-06-27 16:28:20.606853277 +0100
++++ Makefile	2020-06-27 16:28:28.578823533 +0100
+@@ -6,6 +6,6 @@
+ 
+ REGRESS = regression
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-11/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
