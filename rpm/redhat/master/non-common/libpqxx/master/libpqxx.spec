@@ -1,30 +1,22 @@
-%ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
-%endif
-
 Name:		libpqxx
 Epoch:		1
-Version:	6.4.5
-Release:	1%{?dist}.1
+Version:	7.1.2
+Release:	1%{?dist}
 Summary:	C++ client API for PostgreSQL
 
 License:	BSD
 URL:		https://github.com/jtv/%{name}
 Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
 
-Patch0:		%{name}-python3.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
 BuildRequires:	pkgconfig doxygen xmlto
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -43,20 +35,13 @@ Requires:	postgresql%{pgmajorversion}-devel
 
 %prep
 %setup -q
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
-%patch0 -p0
-%endif
 
 # fix spurious permissions
 %{__chmod} -x COPYING
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure --enable-shared --disable-static
@@ -92,6 +77,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
+* Wed Jul 1 2020 Devrim Gündüz <devrim@gunduz.org> - 1:7.1.2-1
+- Update to 7.1.2
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1:6.4.5-1.1
 - Rebuild for PostgreSQL 12
 
