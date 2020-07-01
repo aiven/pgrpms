@@ -114,6 +114,9 @@ BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	bash-completion
+%if 0%{?suse_version} >= 1500
+BuildRequires:	bash-completion-devel
+%endif
 BuildRequires:	cfitsio-devel
 BuildRequires:	chrpath
 BuildRequires:	curl-devel
