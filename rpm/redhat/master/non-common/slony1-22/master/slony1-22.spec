@@ -12,9 +12,7 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
@@ -22,14 +20,15 @@ Name:		%{sname}-%{pgmajorversion}
 Version:	2.2.8
 Release:	2%{?dist}
 License:	BSD
-URL:		http://www.slony.info/
-Source0:	http://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
+URL:		https://www.slony.info/
+Source0:	https://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
 Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
-BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server
+BuildRequires:	flex, pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
 Conflicts:	slony1
 
@@ -55,12 +54,7 @@ Requires(postun):	initscripts
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %if %docs
