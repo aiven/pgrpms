@@ -157,7 +157,6 @@ BuildRequires:	llvm6-devel clang6-devel
 BuildRequires:	llvm10-devel clang10-devel
 %endif
 %endif
-%endif
 
 %if %kerberos
 BuildRequires:	krb5-devel
@@ -308,6 +307,7 @@ Requires:	libopenssl1_0_0
 Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 %endif
 
