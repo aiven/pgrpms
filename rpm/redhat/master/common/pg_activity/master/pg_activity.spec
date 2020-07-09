@@ -1,19 +1,16 @@
-
-%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 BuildRequires:	python3-setuptools >= 0.6.10
-%endif
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	1.6.1
 Release:	1%{?dist}
 License:	GPLv3
-Url:		https://github.com/dalibo/pg_activity/
-Source0:	https://github.com/dalibo/pg_activity/archive/v%{version}.tar.gz
+Url:		https://github.com/dalibo/%{name}/
+Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 Requires:	python3 >= 3.6, python3-psycopg2 >= 2.8.3
 %if 0%{?rhel} == 7
