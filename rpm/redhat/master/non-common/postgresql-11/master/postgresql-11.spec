@@ -876,6 +876,97 @@ MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 %{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
 %endif
 
+
+# Have to hack makefile to put correct path into tutorial scripts
+sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
+%{__make} %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
+%{__rm} -f src/tutorial/GNUmakefile
+
+
+
+# run_testsuite WHERE
+# -------------------
+# Run 'make check' in WHERE path. When that command fails, return the logs
+# given by PostgreSQL build system and set 'test_failure=1'.
+
+run_testsuite()
+{
+	%{__make} -C "$1" MAX_CONNECTIONS=5 check && return 0
+
+	test_failure=1
+
+	(
+		set +x
+		echo "=== trying to find all regression.diffs files in build directory ==="
+		find -name 'regression.diffs' | \
+		while read line; do
+			echo "=== make failure: $line ==="
+			cat "$line"
+		done
+	)
+}
+
+%if %runselftest
+	run_testsuite "src/test/regress"
+	%{__make} clean -C "src/test/regress"
+	run_testsuite "src/pl"
+%if %plpython3
+	# must install Makefile.global that selects python3
+	%{__mv} src/Makefile.global src/Makefile.global.save
+	%{__cp} src/Makefile.global.python2 src/Makefile.global
+	touch -r src/Makefile.global.save src/Makefile.global
+	# because "make check" does "make install" on the whole tree,
+	# we must temporarily install plpython3 as src/pl/plpython,
+	# since that is the subdirectory src/pl/Makefile knows about
+	%{__mv} src/pl/plpython src/pl/plpython2
+	%{__mv} src/pl/plpython3 src/pl/plpython
+
+	run_testsuite "src/pl/plpython"
+
+	# and clean up our mess
+	%{__mv} src/pl/plpython src/pl/plpython3
+	%{__mv} src/pl/plpython2 src/pl/plpython
+	%{__mv} -f src/Makefile.global.save src/Makefile.global
+%endif
+	run_testsuite "contrib"
+%endif
+
+
+%if %test
+	pushd src/test/regress
+	%{__make} all
+	popd
+%endif
+
+%install
+%{__rm} -rf %{buildroot}
+
+%{__make} DESTDIR=%{buildroot} install
+
+%if %plpython3
+	%{__mv} src/Makefile.global src/Makefile.global.save
+	%{__cp} src/Makefile.global.python3 src/Makefile.global
+	touch -r src/Makefile.global.save src/Makefile.global
+	# Install PL/Python3
+	pushd src/pl/plpython3
+	%{__make} DESTDIR=%{buildroot} install
+	popd
+	for p3bl in %{python3_build_list} ; do
+		p3blpy3dir="$p3bl"3
+		# Install jsonb_plpython3
+		pushd contrib/$p3blpy3dir
+		%{__make} DESTDIR=%{buildroot} install
+		popd
+	done
+	%{__mv} -f src/Makefile.global.save src/Makefile.global
+%endif
+
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
+%{__make} -C contrib DESTDIR=%{buildroot} install
+%if %uuid
+%{__make} -C contrib/uuid-ossp DESTDIR=%{buildroot} install
+%endif
+
 # multilib header hack; note pg_config.h is installed in two places!
 # we only apply this to known Red Hat multilib arches, per bug #177564
 case `uname -i` in
