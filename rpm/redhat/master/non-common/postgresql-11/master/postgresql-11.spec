@@ -405,7 +405,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm5-devel clang5-devel gcc-c++
+Requires:	llvm10-devel clang10-devel
 %endif
 %endif
 %if %icu
@@ -438,7 +438,7 @@ Requires:	advance-toolchain-%{atstring}-runtime
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
-with a PostgreSQL database management server.  It also contains the ecpg
+with a PostgreSQL database management server. It also contains the ecpg
 Embedded C Postgres preprocessor. You need to install this package if you want
 to develop applications which will interact with a PostgreSQL server.
 
@@ -1036,7 +1036,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
