@@ -1051,6 +1051,12 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
+%if ! %plpython2
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%endif
+
 # Fix some more documentation
 # gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
