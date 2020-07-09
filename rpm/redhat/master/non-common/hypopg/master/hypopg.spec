@@ -6,8 +6,8 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.3
-Release:	2%{?dist}
+Version:	1.1.4
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -63,6 +63,9 @@ HypoPG is a PostgreSQL extension adding support for hypothetical indexes.
 %endif
 
 %changelog
+* Thu Jul 9 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.4-1
+- Update to 1.1.4
+
 * Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-2
 - Switch to using pgdg-srpm-macros dependency
 
