@@ -22,7 +22,12 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%{!?plpython2:%global plpython2 0}
+%else
 %{!?plpython2:%global plpython2 1}
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} < 7
 # RHEL 6 does not have Python 3
@@ -291,11 +296,15 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
+%else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
