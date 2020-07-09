@@ -149,7 +149,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm5-devel clang5-devel gcc-c++
+BuildRequires:	llvm10-devel clang10-devel
 %endif
 %endif
 
