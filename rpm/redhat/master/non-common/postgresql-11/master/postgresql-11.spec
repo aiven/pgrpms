@@ -157,6 +157,7 @@ BuildRequires:	llvm6-devel clang6-devel
 BuildRequires:	llvm10-devel clang10-devel
 %endif
 %endif
+%endif
 
 %if %kerberos
 BuildRequires:	krb5-devel
