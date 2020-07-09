@@ -631,12 +631,15 @@ export CFLAGS
 %endif
 %endif
 
+# NOTE: PL/Python 3
 # plpython requires separate configure/build runs to build against python 2
-# versus python 3.  Our strategy is to do the python 3 run first, then make
-# distclean and do it again for the "normal" build.  Note that the installed
+# versus python 3. Our strategy is to do the python 3 run first, then make
+# distclean and do it again for the "normal" build. Note that the installed
 # Makefile.global will reflect the python 2 build, which seems appropriate
 # since that's still considered the default plpython version.
+
 %if %plpython3
+
 export PYTHON=/usr/bin/python3
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -645,7 +648,6 @@ export PYTHON=/usr/bin/python3
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
-
 # These configure options must match main build
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
@@ -720,8 +722,8 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-# We need to build PL/Python and a few extensions:
-# Build PL/Python
+# We need to build PL/Python 3 and a few extensions:
+# Build PL/Python 3
 cd src/backend
 MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
@@ -742,24 +744,39 @@ for p3bl in %{python3_build_list} ; do
 	popd
 done
 # must also save this version of Makefile.global for later
+# on platforms where Python 2 is still available:
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
+%if %plpython2
+# Clean up the tree.
 %{__make} distclean
+%endif
 
 %endif
+# NOTE: PL/Python3 (END)
+
+# NOTE: PL/Python 2
+%if %{?plpython2}
 
 unset PYTHON
 # Explicitly run Python2 here -- in future releases,
 # Python3 will be the default.
 export PYTHON=/usr/bin/python2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+
 # Normal (not python3) build begins here
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
 	--includedir=%{pgbaseinstdir}/include \
+	--libdir=%{pgbaseinstdir}/lib \
 	--mandir=%{pgbaseinstdir}/share/man \
 	--datadir=%{pgbaseinstdir}/share \
-	--libdir=%{pgbaseinstdir}/lib \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
@@ -771,11 +788,7 @@ export PYTHON=/usr/bin/python2
 	--with-icu \
 %endif
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config --with-llvm \
-%else
 	--with-llvm \
-%endif
 %endif
 %if %plperl
 	--with-perl \
@@ -832,101 +845,35 @@ export PYTHON=/usr/bin/python2
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
+# We need to build PL/Python 2 and a few extensions:
+# Build PL/Python 2
+cd src/backend
+MAKELEVEL=0 %{__make} submake-generated-headers
+cd ../..
+cd src/pl/plpython
+%{__make} all
+cd ..
+# save built form in a directory that "make distclean" won't touch
+%{__cp} -a plpython plpython2
+cd ../..
+# Build some of the extensions with PY2 support as well.
+for p2bl in %{python3_build_list} ; do
+	p2blpy2dir="$p2bl"2
+	pushd contrib/$p2bl
+	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+	# save built form in a directory that "make distclean" won't touch
+	cd ..
+	%{__cp} -a $p2bl $p2blpy2dir
+	popd
+done
+%endif
+# NOTE: PL/Python 2 (END)
+
+
 MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 %{__make} %{?_smp_mflags} -C contrib all
 %if %uuid
 %{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
-%endif
-
-# Have to hack makefile to put correct path into tutorial scripts
-sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > src/tutorial/GNUmakefile
-%{__make} %{?_smp_mflags} -C src/tutorial NO_PGXS=1 all
-%{__rm} -f src/tutorial/GNUmakefile
-
-
-# run_testsuite WHERE
-# -------------------
-# Run 'make check' in WHERE path.  When that command fails, return the logs
-# given by PostgreSQL build system and set 'test_failure=1'.
-
-run_testsuite()
-{
-	%{__make} -C "$1" MAX_CONNECTIONS=5 check && return 0
-
-	test_failure=1
-
-	(
-		set +x
-		echo "=== trying to find all regression.diffs files in build directory ==="
-		find -name 'regression.diffs' | \
-		while read line; do
-			echo "=== make failure: $line ==="
-			cat "$line"
-		done
-	)
-}
-
-%if %runselftest
-	run_testsuite "src/test/regress"
-	%{__make} clean -C "src/test/regress"
-	run_testsuite "src/pl"
-%if %plpython3
-	# must install Makefile.global that selects python3
-	%{__mv} src/Makefile.global src/Makefile.global.save
-	%{__cp} src/Makefile.global.python3 src/Makefile.global
-	touch -r src/Makefile.global.save src/Makefile.global
-	# because "make check" does "make install" on the whole tree,
-	# we must temporarily install plpython3 as src/pl/plpython,
-	# since that is the subdirectory src/pl/Makefile knows about
-	%{__mv} src/pl/plpython src/pl/plpython2
-	%{__mv} src/pl/plpython3 src/pl/plpython
-
-	run_testsuite "src/pl/plpython"
-
-	# and clean up our mess
-	%{__mv} src/pl/plpython src/pl/plpython3
-	%{__mv} src/pl/plpython2 src/pl/plpython
-	%{__mv} -f src/Makefile.global.save src/Makefile.global
-%endif
-	run_testsuite "contrib"
-%endif
-
-%if %test
-	pushd src/test/regress
-	%{__make} all
-	popd
-%endif
-
-%install
-%{__rm} -rf %{buildroot}
-
-%{__make} DESTDIR=%{buildroot} install
-
-%if %plpython3
-	%{__mv} src/Makefile.global src/Makefile.global.save
-	%{__cp} src/Makefile.global.python3 src/Makefile.global
-	touch -r src/Makefile.global.save src/Makefile.global
-	# Install PL/Python3
-	pushd src/pl/plpython3
-	%{__make} DESTDIR=%{buildroot} install
-	popd
-
-	for p3bl in %{python3_build_list} ; do
-		p3blpy3dir="$p3bl"3
-
-		# Install jsonb_plpython3
-		pushd contrib/$p3blpy3dir
-		%{__make} DESTDIR=%{buildroot} install
-		popd
-	done
-
-	%{__mv} -f src/Makefile.global.save src/Makefile.global
-%endif
-
-%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
-%{__make} -C contrib DESTDIR=%{buildroot} install
-%if %uuid
-%{__make} -C contrib/uuid-ossp DESTDIR=%{buildroot} install
 %endif
 
 # multilib header hack; note pg_config.h is installed in two places!
