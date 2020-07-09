@@ -40,7 +40,7 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	4.3.0a
-Release:	9%{?dist}
+Release:	10%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -80,9 +80,9 @@ developing applications that use %{name}.
 autoconf
 
 %build
-CFLAGS="$CFLAGS -I%{projinstdir}/include -I%{geosinstdir}/include"; export CFLAGS
+CFLAGS="$CFLAGS -I%{projinstdir}/include -I%{geosinstdir}/include -I%{sqlite33dir}/include"; export CFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; export SHLIB_LINK
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{sqlite33dir}/lib"; export LDFLAGS
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
 	--libdir=%{libspatialiteinstdir}/lib \
@@ -125,6 +125,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Thu Jul 9 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-10
+- Fix intermittent build failure. Patch by Varsha Mehtre.
+
 * Mon May 4 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-9
 - Rebuild against Proj 7.0.1
 - Add missing Requires.
