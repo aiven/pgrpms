@@ -40,14 +40,13 @@ Requires:	python
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.10
-Release:	2%{?dist}
+Version:	2.11
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
-Patch0:		%{name}-no-connection-from-backupinfo.patch
 BuildArch:	noarch
 BuildRequires:	%{__python_ver}-setuptools
 Requires:	/usr/sbin/useradd rsync >= 3.0.4
@@ -83,7 +82,6 @@ Python libraries used by Barman.
 
 %prep
 %setup -n barman-%{version}%{?extra_version:%{extra_version}} -q
-%patch0 -p1
 
 %build
 %{__ospython} setup.py build
@@ -114,7 +112,7 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %files
 %defattr(-,root,root)
 %doc NEWS README.rst
-%{_bindir}/%{name}
+%{_bindir}/%{name}*
 %doc %{_mandir}/man1/%{name}.1.gz
 %doc %{_mandir}/man5/%{name}.5.gz
 %config(noreplace) %{_sysconfdir}/bash_completion.d/
@@ -143,6 +141,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Fri Jul 10 2020 Devrim Gündüz <devrim@gunduz.org> - 2.11-1
+- Update to 2.11
+
 * Tue Dec 10 2019 Devrim Gündüz <devrim@gunduz.org> - 2.10-2
 - Fix SLES 12 dependency.
 
