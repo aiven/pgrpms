@@ -19,12 +19,13 @@
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%global llvm	0
 %endif
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
 Version:		4.1.2
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -313,10 +314,12 @@ fi
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
+ %if %llvm
  %{pginstdir}/lib/bitcode/pgpool*.bc
  %{pginstdir}/lib/bitcode/pgpool_adm/*.bc
  %{pginstdir}/lib/bitcode/pgpool-regclass/*.bc
  %{pginstdir}/lib/bitcode/pgpool-recovery/*.bc
+ %endif
  %endif
 %endif
 %attr(755,postgres,postgres) %dir /var/run/%{name}
@@ -343,6 +346,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Fri Jul 10 2020 Devrim Gündüz <devrim@gunduz.org> 4.1.2-2
+- Fix ppc64le builds, per patch from Aparna Patil.
+
 * Thu May 21 2020 Devrim Gündüz <devrim@gunduz.org> 4.1.2-1
 - Update to 4.1.2
 
