@@ -2,6 +2,7 @@
 %global debug_package %{nil}
 %ifarch ppc64 ppc64le
 %global archtag	ppc64le
+%pgdg_set_ppc64le_compiler_at10
 %else
 %global	archtag	amd64
 %endif
@@ -29,6 +30,10 @@ Requires:	java-headless >= 1:1.8
 
 BuildRequires:	maven pgdg-srpm-macros
 BuildRequires:	openssl-devel krb5-devel
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 PL/Java is a free open-source extension for PostgreSQL™ that allows
