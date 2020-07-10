@@ -30,7 +30,7 @@ Requires:	java-headless >= 1:1.8
 
 BuildRequires:	pgdg-srpm-macros
 BuildRequires:	openssl-devel krb5-devel
-%if 0%{?rhel} == 7
+%if 0%{?rhel} == 7 && %ifnarch ppc64 ppc64le
 BuildRequires:	rh-maven33
 %else
 BuildRequires:	maven
