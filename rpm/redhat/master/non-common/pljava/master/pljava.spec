@@ -28,8 +28,13 @@ BuildRequires:	java-1.8.0-openjdk-devel
 Requires:	java-headless >= 1:1.8
 %endif
 
-BuildRequires:	maven pgdg-srpm-macros
+BuildRequires:	pgdg-srpm-macros
 BuildRequires:	openssl-devel krb5-devel
+%if 0%{?rhel} == 7
+BuildRequires:	rh-maven33
+%else
+BuildRequires:	maven
+%endif
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -51,6 +56,9 @@ export CLASSPATH=
 export PATH=%{atpath}/bin/:$PATH
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
+# The next line is useful only on RHEL 7, for the rh-maven33 package
+export PATH=/opt/rh/rh-maven33/root/usr/bin:$PATH
+# ommon for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
 
