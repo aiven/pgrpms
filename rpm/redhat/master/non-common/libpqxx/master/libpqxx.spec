@@ -1,23 +1,24 @@
-Name:		libpqxx
-Epoch:		1
-Version:	7.1.2
-Release:	1%{?dist}
-Summary:	C++ client API for PostgreSQL
+Name:           libpqxx
+Summary:        C++ client API for PostgreSQL
+Epoch:          1
+Version:        7.1.2
+Release:        1%{?dist}
 
-License:	BSD
-URL:		https://github.com/jtv/%{name}
-Source0:	https://github.com/jtv/%{name}/archive/%{version}.tar.gz
+%global         tag %{version}
+%forgemeta -i
 
-BuildRequires:	postgresql%{pgmajorversion}-devel gcc-c++ cmake
-BuildRequires:	pkgconfig doxygen xmlto
+License:        BSD
+URL:            http://pqxx.org/
+Source0:        https://github.com/jtv/libpqxx/archive/%{version}.tar.gz
 
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
+BuildRequires:  gcc-c++
+BuildRequires:  ninja-build
+BuildRequires:  cmake
+BuildRequires:  pkgconfig
+BuildRequires:  libpq5-devel
+BuildRequires:  doxygen
+BuildRequires:  graphviz
+BuildRequires:  xmlto
 
 %description
 C++ client API for PostgreSQL. The standard front-end (in the sense of
@@ -25,88 +26,64 @@ C++ client API for PostgreSQL. The standard front-end (in the sense of
 Supersedes older libpq++ interface.
 
 %package devel
-Summary:	Development tools for %{name}
-Requires:	%{name}%{?_isa} = %{epoch}:%{version}-%{release}
-Requires:	pkgconfig
-Requires:	postgresql%{pgmajorversion}-devel
-
+Summary:        Development files for %{name}
+Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
+Requires:       pkgconfig
 %description devel
 %{summary}.
 
-%prep
-%setup -q
+%package doc
+Summary: Developer documentation for %{name}
+BuildArch: noarch
+%description doc
+%{summary}.
 
-# fix spurious permissions
-%{__chmod} -x COPYING
+%prep
+%forgeautosetup
 
 %build
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-export PG_CONFIG=%{pginstdir}/bin/pg_config
-%configure --enable-shared --disable-static
-
-%{__make} %{?_smp_mflags}
+mkdir build
+pushd build
+%cmake -G Ninja         \
+  -DBUILD_DOC=ON        \
+  ..
+%ninja_build
+popd
 
 %install
-%{__rm} -rf %{buildroot}
-%{__make} install DESTDIR=%{buildroot}
-
-%{__rm} -f %{buildroot}%{_libdir}/lib*.la
-
-%check
-# not enabled, by default, takes awhile.
-%{?_with_check:make check}
-
-%clean
-%{__rm} -rf %{buildroot}
-
-%post -p /sbin/ldconfig
-
-%postun -p /sbin/ldconfig
+pushd build
+%ninja_install
+popd
 
 %files
-%defattr(-,root,root,-)
-%doc README.md
-%{_libdir}/%{name}*.so
+%doc AUTHORS NEWS README.md VERSION
+%license COPYING
+%{_libdir}/%{name}-7.1.so
 
 %files devel
-%defattr(-,root,root,-)
+%dir %{_libdir}/cmake/%{name}
 %doc README-UPGRADE
-%{_includedir}/pqxx/
+%{_includedir}/pqxx
+%{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
+%{_libdir}/cmake/%{name}/%{name}-config.cmake
+%{_libdir}/cmake/%{name}/%{name}-config-version.cmake
+%{_libdir}/cmake/%{name}/%{name}-targets.cmake
+%{_libdir}/cmake/%{name}/%{name}-targets-noconfig.cmake
+
+%files doc
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/accessing-results.md
+%{_docdir}/%{name}/datatypes.md
+%{_docdir}/%{name}/escaping.md
+%{_docdir}/%{name}/getting-started.md
+%{_docdir}/%{name}/mainpage.md
+%{_docdir}/%{name}/performance.md
+%{_docdir}/%{name}/prepared-statement.md
+%{_docdir}/%{name}/streams.md
+%{_docdir}/%{name}/thread-safety.md
+%{_docdir}/%{name}/html
 
 %changelog
-* Wed Jul 1 2020 Devrim Gündüz <devrim@gunduz.org> - 1:7.1.2-1
-- Update to 7.1.2
-
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1:6.4.5-1.1
-- Rebuild for PostgreSQL 12
-
-* Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 6.4.5-1
-- Update to 6.4.5
-- Add new patch for Python3 distros.
-
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1:5.0.1-2.1
-- Rebuild against PostgreSQL 11.0
-
-* Sun Oct 15 2017 Devrim Gündüz <devrim@gunduz.org> 5.0.1-2
-- Fix linker issues during configure. Patch taken from Fedora.
-
-* Wed Apr 26 2017 Devrim Gündüz <devrim@gunduz.org> 5.0.1-1
-- Update to 5.0.1
-- Update URLs
-- Add support for Power RPMs.
-- Fix rpmlint warnings.
-
-* Mon Sep 16 2013 Devrim Gündüz <devrim@gunduz.org> 4.0.1-1
-- Update to 4.0.1, per changes described at:
-  http://pqxx.org/development/libpqxx/browser/tags/4.0.1/NEWS
-
-* Fri Apr 6 2012 Devrim Gündüz <devrim@gunduz.org> 4.0-1
-- Update to 4.0
-
-* Fri Aug 12 2011 Devrim Gündüz <devrim@gunduz.org> 3.1-1
-- Update to 3.1
-- Sync with Fedora rawhide spec
-- Trim changelog
+* Sat Jul 11 2020 Matthew Krupcale <mkrupcale@matthewkrupcale.com> - 1:7.1.2-1
+- Update to 7.1.2 using Fedora rawhide spec file.
