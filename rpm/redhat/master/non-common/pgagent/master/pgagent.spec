@@ -7,9 +7,7 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Job scheduler for PostgreSQL
@@ -23,7 +21,7 @@ Source3:	%{sname}-%{pgmajorversion}.init
 Source4:	%{sname}-%{pgmajorversion}.logrotate
 Source5:	%{sname}-%{pgmajorversion}.conf
 URL:		http://www.pgadmin.org/
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:	cmake3
 %else
@@ -54,8 +52,7 @@ Requires(postun):	initscripts
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
