@@ -4,9 +4,6 @@ Epoch:          1
 Version:        7.1.2
 Release:        1%{?dist}
 
-%global         tag %{version}
-%forgemeta -i
-
 License:        BSD
 URL:            http://pqxx.org/
 Source0:        https://github.com/jtv/libpqxx/archive/%{version}.tar.gz
