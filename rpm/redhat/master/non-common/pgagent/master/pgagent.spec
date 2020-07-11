@@ -77,8 +77,11 @@ fi
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
+	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"; export CFLAGS
 	CC=%{atpath}/bin/gcc; export CC
+	LDFLAGS="-pthread"; export LDFLAGS
+	BOOST_INCLUDEDIR=%{atpath}/include; export BOOST_INCLUDEDIR
+	BOOST_LIBRARYDIR=%{atpath}/lib64; export BOOST_LIBRARYDIR
 %else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
