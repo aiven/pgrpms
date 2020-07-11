@@ -1,20 +1,11 @@
---- autogen.sh.old	2017-06-08 15:16:32.928380978 +0100
-+++ autogen.sh	2017-06-08 15:16:55.188667397 +0100
-@@ -67,7 +67,7 @@
+--- autogen.sh.old	2020-07-10 16:17:06.480418432 +0100
++++ autogen.sh	2020-07-10 16:17:37.330905560 +0100
+@@ -68,7 +68,7 @@
  {
  	cd json-c
  	sh ./autogen.sh
--	./configure
+-	./configure CFLAGS='-fPIC'
 +	./configure --build=power
- 	make install
- 	cd ..
- }
-@@ -78,7 +78,7 @@
- function install_mongoc_driver
- {
- 	cd mongo-c-driver
--	./configure --with-libbson=auto --enable-ssl
-+	./configure --with-libbson=auto --enable-ssl --build=power
  	make install
  	cd ..
  }

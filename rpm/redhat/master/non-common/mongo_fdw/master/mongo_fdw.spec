@@ -2,9 +2,7 @@
 %global relver 5_2_6
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
@@ -23,17 +21,12 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
 URL:		https://github.com/EnterpriseDB/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel wget
+BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 BuildRequires:	mongo-c-driver-devel snappy snappy-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
