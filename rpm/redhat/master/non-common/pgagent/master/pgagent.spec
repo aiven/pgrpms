@@ -74,7 +74,7 @@ fi
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"; export CFLAGS
+	CFLAGS="-O3 -mcpu=power8 -mtune=power8"; export CFLAGS
 	CC=%{atpath}/bin/gcc; export CC
 	LDFLAGS="-pthread"; export LDFLAGS
 	BOOST_INCLUDEDIR=%{atpath}/include; export BOOST_INCLUDEDIR
