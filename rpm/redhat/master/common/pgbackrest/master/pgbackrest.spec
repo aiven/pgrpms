@@ -2,14 +2,16 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.27
-Release:	2%{?dist}
+Version:	2.28
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
 Source3:	pgbackrest.logrotate
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
+BuildRequires:	libzstd-devel
+
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
 BuildRequires:	lz4-devel
@@ -23,7 +25,7 @@ Requires:	liblz4-1_7
 BuildRequires:	liblz4-devel
 %endif
 
-Requires:	postgresql-libs
+Requires:	postgresql-libs libzstd
 
 
 %description
@@ -80,6 +82,10 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Sun Jul 26 2020 Devrim Gündüz <devrim@gunduz.org> - 2.28-1
+- Update to 2.28
+- Add zstd library support
+
 * Mon Jun 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.27-2
 - Add a logrotate file
 
