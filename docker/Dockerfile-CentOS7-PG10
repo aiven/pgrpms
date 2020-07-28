@@ -13,7 +13,7 @@ RUN rpm --import https://yum.postgresql.org/RPM-GPG-KEY-PGDG-10
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 # of PostgreSQL, 10:
-RUN yum -q -y install https://download.postgresql.org/pub/repos/yum/testing/10/redhat/rhel-7-x86_64/pgdg-centos10-10-1.noarch.rpm
+RUN yum -q -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
 
 # Update the Fedora and PostgreSQL repository metadata
 RUN yum -q -y install deltarpm
