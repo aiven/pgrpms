@@ -6,7 +6,7 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	9.3.4
+Version:	9.3.5
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
@@ -93,6 +93,9 @@ make %{?_smp_mflags}
 %{pginstdir}/include/server/distributed/*.h
 
 %changelog
+* Tue Jul 28 2020 Devrim Gündüz <devrim@gunduz.org> 9.3.5-1
+- Update to 9.3.5
+
 * Fri Jul 24 2020 Devrim Gündüz <devrim@gunduz.org> 9.3.4-1
 - Update to 9.3.4
 
