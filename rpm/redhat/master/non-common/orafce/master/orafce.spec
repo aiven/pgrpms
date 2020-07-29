@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 11
-%global orafceminver 1
+%global orafcemidver 13
+%global orafceminver 4
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -67,6 +67,9 @@ for production work.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Devrim Gündüz <devrim@gunduz.org> 3.13.4-1
+- Update to 3.13.4
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> 3.11.1-1
 - Update to 3.11.1
 
