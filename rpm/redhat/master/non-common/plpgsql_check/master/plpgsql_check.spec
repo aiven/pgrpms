@@ -6,7 +6,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.9.2
+Version:	1.11.4
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -68,6 +68,9 @@ performance issues.
 %endif
 
 %changelog
+* Wed Jul 29 2020 Devrim Gündüz <devrim@gunduz.org> 1.11.4-1
+- Update to 1.11.4
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> 1.9.2-1
 - Update to 1.9.2
 
