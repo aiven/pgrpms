@@ -1,0 +1,22 @@
+--- Makefile.old	2017-06-08 14:30:53.914101123 +0100
++++ Makefile	2017-06-08 14:31:37.962708175 +0100
+@@ -39,7 +39,7 @@
+ # example: /usr/local/pgsql/bin/pg_config or /usr/lib/postgresql/9.1/bin/pg_config
+ #
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-13/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 
+--- Makefile.meta.old	2017-06-08 14:31:01.200036127 +0100
++++ Makefile.meta	2017-06-08 14:31:45.514640806 +0100
+@@ -35,7 +35,7 @@
+ # example: /usr/local/pgsql/bin/pg_config or /usr/lib/postgresql/9.1/bin/pg_config
+ #
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-13/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ 

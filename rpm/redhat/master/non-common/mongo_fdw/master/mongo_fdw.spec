@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_2_6
+%global relver 5_2_7
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -7,7 +7,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}%{pgmajorversion}
-Version:	5.2.6
+Version:	5.2.7
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
@@ -89,6 +89,9 @@ sh autogen.sh --with-master
 %endif
 
 %changelog
+* Mon Aug 3 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.7-1
+- Update to 5.2.7
+
 * Fri Sep 27 2019 Devrim Gündüz <devrim@gunduz.org> - 5.2.6-1
 - Update to 5.2.6
 
