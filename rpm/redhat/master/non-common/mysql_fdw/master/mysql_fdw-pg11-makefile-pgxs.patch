@@ -1,6 +1,6 @@
---- Makefile.old	2016-02-23 19:56:44.031581908 +0200
-+++ Makefile	2016-02-23 19:56:50.584515523 +0200
-@@ -42,7 +42,7 @@
+--- Makefile.old	2020-08-03 14:55:18.898938167 +0100
++++ Makefile	2020-08-03 14:55:38.717145191 +0100
+@@ -34,7 +34,7 @@
  PG_CPPFLAGS += -D _MYSQL_LIBNAME=\"lib$(MYSQL_LIB)$(DLSUFFIX)\"
  
  ifdef USE_PGXS

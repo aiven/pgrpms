@@ -1,7 +1,7 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
 %global mysqlfdwmidver 5
-%global mysqlfdwminver 3
+%global mysqlfdwminver 4
 
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
@@ -98,6 +98,9 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %endif
 
 %changelog
+* Mon Aug 3 2020 Devrim Gündüz <devrim@gunduz.org> - 2.5.4-1
+- Update to 2.5.4
+
 * Sat Sep 28 2019 Devrim Gündüz <devrim@gunduz.org> - 2.5.3-1
 - Update to 2.5.3
 
