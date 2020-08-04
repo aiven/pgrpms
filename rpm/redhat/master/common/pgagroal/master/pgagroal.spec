@@ -7,8 +7,8 @@ URL:		https://github.com/agroal/pgagroal
 Source0:	https://github.com/agroal/pgagroal/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake make python3-docutils
-BuildRequires:	libev libev-devel openssl openssl-devel chrpath
-Requires:	libev openssl
+BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
+Requires:      libev openssl systemd
 
 %description
 pgagroal is a high-performance connection pool for PostgreSQL.
@@ -28,6 +28,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__mkdir} -p %{buildroot}%{_libdir}
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/images
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
@@ -37,9 +38,13 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/README.md %{buildroot}%{_docdir}/%{name}/README.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/ARCHITECTURE.md %{buildroot}%{_docdir}/%{name}/ARCHITECTURE.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/FAILOVER.md %{buildroot}%{_docdir}/%{name}/FAILOVER.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/GETTING_STARTED.md %{buildroot}%{_docdir}/%{name}/GETTING_STARTED.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/PERFORMANCE.md %{buildroot}%{_docdir}/%{name}/PERFORMANCE.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/RPM.md %{buildroot}%{_docdir}/%{name}/RPM.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/SECURITY.md %{buildroot}%{_docdir}/%{name}/SECURITY.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal.service %{buildroot}%{_docdir}/%{name}/etc/pgagroal.service
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal.socket %{buildroot}%{_docdir}/%{name}/etc/pgagroal.socket
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-extended.png %{buildroot}%{_docdir}/%{name}/images/perf-extended.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-prepared.png %{buildroot}%{_docdir}/%{name}/images/perf-prepared.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-readonly.png %{buildroot}%{_docdir}/%{name}/images/perf-readonly.png
@@ -73,10 +78,14 @@ cd %{buildroot}%{_libdir}/
 %license %{_docdir}/%{name}/LICENSE
 %{_docdir}/%{name}/ARCHITECTURE.md
 %{_docdir}/%{name}/CONFIGURATION.md
+%{_docdir}/%{name}/FAILOVER.md
 %{_docdir}/%{name}/GETTING_STARTED.md
 %{_docdir}/%{name}/PERFORMANCE.md
 %{_docdir}/%{name}/README.md
 %{_docdir}/%{name}/RPM.md
+%{_docdir}/%{name}/SECURITY.md
+%{_docdir}/%{name}/etc/pgagroal.service
+%{_docdir}/%{name}/etc/pgagroal.socket
 %{_docdir}/%{name}/images/perf-extended.png
 %{_docdir}/%{name}/images/perf-prepared.png
 %{_docdir}/%{name}/images/perf-readonly.png
