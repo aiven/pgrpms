@@ -18,7 +18,7 @@ BuildRequires:	python3-kazoo >= 1.3.1 python3-etcd >= 0.4.3
 BuildRequires:	python3-consul >= 0.7.1 python3-click >= 4.1
 BuildRequires:	python3-prettytable >= 0.7 python3-dateutil
 BuildRequires:	python3-psutil >= 2.0.0 python3-cdiff
-
+BuildRequires:	python3-psycopg2
 %description
 Patroni is a template for you to create your own customized,
 high-availability solution using Python and - for maximum accessibility - a
