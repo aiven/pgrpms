@@ -1,0 +1,1 @@
+../master/python-consul.spec
