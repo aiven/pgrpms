@@ -17,8 +17,12 @@ Source0:	https://files.pythonhosted.org/packages/7f/06/c12ff73cb1059c453603ba537
 BuildArch:	noarch
 
 Requires:	less python3
-BuildRequires:	python3-six >= 1.4, python3-devel
-BuildRequires:	python3-requests >= 2.0 python3-setuptools
+%if 0%{?rhel} == 7
+BuildRequires:	python36-six >= 1.4
+%else
+BuildRequires:	python3-six >= 1.4
+%endif
+BuildRequires:	python3-devel python3-requests >= 2.0 python3-setuptools
 
 %description
 Python client for Consul (http://www.consul.io/)
