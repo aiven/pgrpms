@@ -47,10 +47,10 @@ caveats. Use wisely.
 %defattr(644,root,root,755)
 %license LICENSE
 %doc docs README.rst
-%{_bindir}/patroni
-%{_bindir}/patroni_aws
-%{_bindir}/patroni_wale_restore
-%{_bindir}/patronictl
+%attr (755,root,root) %{_bindir}/patroni
+%attr (755,root,root) %{_bindir}/patroni_aws
+%attr (755,root,root) %{_bindir}/patroni_wale_restore
+%attr (755,root,root) %{_bindir}/patronictl
 
 %{python3_sitelib}/%{name}*.egg-info
 %dir %{python3_sitelib}/%{name}/
