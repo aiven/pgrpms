@@ -35,7 +35,7 @@ and manipulating shared content, managing cluster members, and leader
 election.
 
 %prep
-%autosetup -p1
+%autosetup -p1 -n %{srcname}-%{version}
 
 %build
 %py3_build
