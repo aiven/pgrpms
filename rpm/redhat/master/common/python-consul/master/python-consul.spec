@@ -18,11 +18,11 @@ BuildArch:	noarch
 
 Requires:	less python3
 %if 0%{?rhel} == 7
-BuildRequires:	python36-six >= 1.4
+BuildRequires:	python36-six >= 1.4 python36-requests >= 2.0
 %else
-BuildRequires:	python3-six >= 1.4
+BuildRequires:	python3-six >= 1.4 python3-requests >= 2.0
 %endif
-BuildRequires:	python3-devel python3-requests >= 2.0 python3-setuptools
+BuildRequires:	python3-devel python3-setuptools
 
 %description
 Python client for Consul (http://www.consul.io/)
