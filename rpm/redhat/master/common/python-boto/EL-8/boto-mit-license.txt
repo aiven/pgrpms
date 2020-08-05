@@ -1,0 +1,1 @@
+../master/boto-mit-license.txt
