@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	1.6.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -15,11 +15,20 @@ URL:		https://github.com/zalando/%{name}
 
 BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
-Requires:	python3-cdiff python3-psutil >= 2.0.0 python3-click >= 4.1
+Requires:	python3-cdiff python3-psutil >= 2.0.0
 Requires:	python3-psycopg2 >= 2.5.4 python3-urllib3 >= 1.19.1
-Requires:	python3-pyyaml python3-six >= 1.7 python3-click >= 4.1
-Requires:	python3-prettytable >= 0.7 python3-dateutil
+Requires:	python3-pyyaml python3-dateutil
 Requires:	python3-psutil >= 2.0.0 python3-psycopg2 >= 2.5.4
+
+%if 0%{?rhel} == 7
+Requires:	python36-click >= 4.1 python36-six >= 1.7
+Requires:	python36-dateutil python36-prettytable >= 0.7
+Requires:	python36-PyYAML
+%else
+Requires:	python3-click >= 4.1 python3-six >= 1.7
+Requires:	python3-dateutil python3-prettytable >= 0.7
+Requires:	python3-pyyaml
+%endif
 
 %description
 Patroni is a template for you to create your own customized,
@@ -137,6 +146,9 @@ fi
 
 
 %changelog
+* Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.5-4
+- Fix RHEL 7 dependencies
+
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.5-3
 - Add unit file, per Hüseyin.
 - Install sample config files, per Hüseyin.
