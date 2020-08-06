@@ -17,7 +17,6 @@ BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0
 Requires:	python3-psycopg2 >= 2.5.4 python3-urllib3 >= 1.19.1
-Requires:	python3-pyyaml python3-dateutil
 Requires:	python3-psutil >= 2.0.0 python3-psycopg2 >= 2.5.4
 
 %if 0%{?rhel} == 7
