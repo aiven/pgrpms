@@ -114,6 +114,7 @@ fi
 %changelog
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.1-1
 - Update to 1.8.1
+- Disable telemetry.
 - Fix config file extension, per Hüseyin Sönmez
 - Make sure that consul will restart after a failure, per gripe
   from Hüseyin Sönmez.
