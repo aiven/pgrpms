@@ -92,6 +92,15 @@ Meta package to pull zookeeper related dependencies for patroni
 %dir %{python3_sitelib}/%{name}/
 %{python3_sitelib}/%{name}/*
 
+%files -n %{name}-aws
+
+%files -n %{name}-consul
+
+%files -n %{name}-etcd
+
+%files -n %{name}-zookeeper
+
+
 %changelog
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.5-2
 - Add missing requires, per Hüseyin Sönmez.
