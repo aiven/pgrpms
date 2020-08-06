@@ -12,7 +12,7 @@ License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/zalando/%{name}
 
-BuildRequires:	python3-setuptools
+BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0 python3-click >= 4.1
 Requires:	python3-psycopg2 >= 2.5.4 python3-urllib3 >= 1.19.1
