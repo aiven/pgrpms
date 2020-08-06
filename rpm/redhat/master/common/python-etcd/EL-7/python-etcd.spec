@@ -1,0 +1,1 @@
+../master/python-etcd.spec
