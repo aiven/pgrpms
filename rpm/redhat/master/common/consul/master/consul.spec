@@ -1,13 +1,8 @@
 %global		debug_package %{nil}
 %global		_missing_build_ids_terminate_build 0
-%if 0%{?_version:1}
-%global		_verstr	%{_version}
-%else
-%global		_verstr	1.7.2
-%endif
 
 Name:		consul
-Version:	%{_verstr}
+Version:	1.8.1
 Release:	1%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
@@ -56,7 +51,7 @@ any number of regions without complex configuration.
 %{__mkdir} -p %{buildroot}/%{_bindir}
 %{__cp} consul %{buildroot}/%{_bindir}
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{name}.d
-%{__cp} %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{name}.d/consul.json-dist
+%{__cp} %{SOURCE4} %{buildroot}/%{_sysconfdir}/%{name}.d/consul.json-dist.hcl
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/sysconfig
 %{__cp} %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 %{__mkdir} -p %{buildroot}/%{_sharedstatedir}/%{name}
@@ -99,12 +94,12 @@ fi
 %endif
 
 %clean
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
 %dir %attr(750, root, consul) %{_sysconfdir}/%{name}.d
-%attr(640, root, consul) %{_sysconfdir}/%{name}.d/consul.json-dist
+%attr(640, root, consul) %{_sysconfdir}/%{name}.d/consul.json-dist.hcl
 %dir %attr(750, consul, consul) %{_sharedstatedir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
@@ -117,6 +112,12 @@ rm -rf %{buildroot}
 %doc
 
 %changelog
+* Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.1-1
+- Update to 1.8.1
+- Fix config file extension, per Hüseyin Sönmez
+- Make sure that consul will restart after a failure, per gripe
+  from Hüseyin Sönmez.
+
 * Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.7.2-1
 - Update to 1.7.2
 
