@@ -8,12 +8,9 @@ Summary:	A python client library for etcd
 
 License:	MIT
 URL:		http://pypi.python.org/pypi/%{srcname}
-
 # Using the github URL because the tarball file at pypi excludes
 # the license file. But github tarball files are named awkwardly.
 Source0:	https://github.com/jplana/%{srcname}/archive/%{version}.tar.gz
-
-#VCS: git:https://github.com/jplana/python-etcd
 
 BuildArch:	noarch
 
@@ -21,12 +18,15 @@ BuildArch:	noarch
 # Also https://fedoraproject.org/wiki/Packaging:Guidelines#Noarch_with_Unported_Dependencies
 ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x
 
-BuildRequires:	python3-devel
-BuildRequires:	python3-dns
+%if 0%{?rhel} == 7
+BuildRequires:	python36-mock
+BuildRequires:	python36-nose
+BuildRequires:	python36-pyOpenSSL
+%else
 BuildRequires:	python3-mock
 BuildRequires:	python3-nose
-BuildRequires:	python3-urllib3
 BuildRequires:	python3-pyOpenSSL
+%endif
 
 %description
 Client library for interacting with an etcd service, providing Python
