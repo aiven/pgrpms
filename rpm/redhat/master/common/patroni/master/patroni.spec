@@ -7,21 +7,18 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	1.6.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/zalando/%{name}
 
-BuildRequires:	python3-setuptools python3-urllib3 >= 1.19.1 python3-boto
-BuildRequires:	python3-pyyaml python3-six >= 1.7
-BuildRequires:	python3-kazoo >= 1.3.1 python3-etcd >= 0.4.3
-BuildRequires:	python3-consul >= 0.7.1 python3-click >= 4.1
-BuildRequires:	python3-prettytable >= 0.7 python3-dateutil
-BuildRequires:	python3-psutil >= 2.0.0 python3-cdiff
-BuildRequires:	python3-psycopg2 >= 2.5.4
+BuildRequires:	python3-setuptools
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0 python3-click >= 4.1
-Requires:	python3-psycopg2 >= 2.5.4
+Requires:	python3-psycopg2 >= 2.5.4 python3-urllib3 >= 1.19.1
+Requires:	python3-pyyaml python3-six >= 1.7 python3-click >= 4.1
+Requires:	python3-prettytable >= 0.7 python3-dateutil
+Requires:	python3-psutil >= 2.0.0 python3-psycopg2 >= 2.5.4
 
 %description
 Patroni is a template for you to create your own customized,
@@ -102,6 +99,9 @@ Meta package to pull zookeeper related dependencies for patroni
 
 
 %changelog
+* Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.5-3
+- Fix BR and Requires, per Alexander.
+
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.5-2
 - Add missing requires, per Hüseyin Sönmez.
 - Create (meta) subpacakges for consul, etcd, aws and zookeeper,
