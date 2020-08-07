@@ -9,7 +9,7 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.22
+Version:	4.24
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -340,6 +340,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Fri Aug 7 2020 - Devrim Gündüz <devrim@gunduz.org> 4.24-1
+- Update to 4.24
+
 * Thu May 28 2020 - Devrim Gündüz <devrim@gunduz.org> 4.22-1
 - Update to 4.22
 
