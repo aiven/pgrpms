@@ -16,7 +16,7 @@
 
 Name:		pgbouncer
 Version:	1.14.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -39,12 +39,13 @@ Requires:	libevent-devel
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	libevent2-devel >= 2.0
 Requires:	libevent2 >= 2.0
+Requires:	python-psycopg2
 %else
 BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
+Requires:	python3-psycopg2
 %endif
 BuildRequires:	openssl-devel pam-devel
-Requires:	python3-psycopg2
 Requires:	initscripts
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
@@ -205,6 +206,9 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Fri Aug 7 2020 Devrim Gündüz <devrim@gunduz.org> - 1.14.0-2
+- Fix RHEL 6 dependency, per PG bug 16573.
+
 * Thu Jun 11 2020 Devrim Gündüz <devrim@gunduz.org> - 1.14.0-1
 - Update to 1.14.0
 
