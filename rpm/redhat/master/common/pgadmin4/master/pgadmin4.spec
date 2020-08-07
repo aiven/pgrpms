@@ -53,7 +53,7 @@ BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-gravatar
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
-BuildRequires:	python3-devel mesa-libGL-devel qt5-qmake-devel >= 5.9.7 python36-ldap3 >= 2.5.1
+BuildRequires:	python3-devel mesa-libGL-devel qt5-qtbase-devel >= 5.9.7 python36-ldap3 >= 2.5.1
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
