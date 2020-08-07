@@ -82,7 +82,12 @@ pgbouncer uses libevent for low-level socket handling.
 %prep
 %setup -q
 %patch0 -p0
+%if 0%{?rhel} && 0%{?rhel} <= 6
+:
+%else
 %patch1 -p0
+%endif
+
 
 %build
 sed -i.fedora \
