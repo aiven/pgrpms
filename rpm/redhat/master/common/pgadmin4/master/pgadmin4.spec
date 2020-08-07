@@ -53,12 +53,12 @@ BuildRequires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-gravatar
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
-BuildRequires:	python3-devel mesa-libGL-devel qt-devel >= 4.6 python36-ldap3 >= 2.5.1
+BuildRequires:	python3-devel mesa-libGL-devel qt5-devel >= 5.9.7 python36-ldap3 >= 2.5.1
 Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.2.18 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
 Requires:	python36-ldap3 >= 2.5.1
-%global QMAKE	/usr/bin/qmake-qt4
+%global QMAKE	/usr/bin/qmake-qt5
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
@@ -164,10 +164,10 @@ Documentation of pgadmin4.
 Summary:	Desktop components of pgAdmin4 for all window managers.
 Requires:	%{name}-web
 %if 0%{?fedora} && 0%{?fedora} >= 30
-Requires:	qt >= 5.1
+Requires:	qt5 >= 5.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	qt >= 4.6
+Requires:	qt5-qtbase >= 5.9.7
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 Requires:	qt5-qtbase >= 5.1 qt5-qtbase-gui >= 5.1
@@ -185,11 +185,11 @@ Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
 %if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	gnome-shell-extension-topicons-plus gnome-shell
-Requires:	qt >= 5.1
+Requires:	qt5 >= 5.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	gnome-shell-extension-top-icons gnome-classic-session gnome-shell
-Requires:	qt >= 4.6
+Requires:	qt5-qtbase >= 5.9.7
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 Requires:	gnome-shell-extension-appindicator gnome-shell
@@ -342,6 +342,7 @@ fi
 %changelog
 * Fri Aug 7 2020 - Devrim Gündüz <devrim@gunduz.org> 4.24-1
 - Update to 4.24
+- Update RHEL 7 dependencies for changes in 4.24
 
 * Thu May 28 2020 - Devrim Gündüz <devrim@gunduz.org> 4.22-1
 - Update to 4.22
