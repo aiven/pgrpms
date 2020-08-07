@@ -7,13 +7,13 @@
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
 Version:	1.5.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server, python-psycopg2
+Requires:	postgresql%{pgmajorversion}-server, python3-psycopg2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -62,6 +62,10 @@ to manage partitions.
 %endif
 
 %changelog
+* Fri Aug 7 2020 Devrim Gündüz <devrim@gunduz.org> 1.5.11-2
+- Add explicit dependency to the PY3 version of psycopg2, per
+  Sergejs Žuromskis.
+
 * Fri Apr 17 2020 Devrim Gündüz <devrim@gunduz.org> 1.5.11-1
 - Update to 1.5.11
 
