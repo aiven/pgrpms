@@ -2,8 +2,8 @@
 
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}%{pgmajorversion}
-Version:	2.2
-Release:	2%{?dist}
+Version:	2.3
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_2.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -57,6 +57,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Tue Aug 11 2020 Devrim Gündüz <devrim@gunduz.org> 2.3-1
+- Update to 2.3
+
 * Mon Apr 27 2020 - John Harvey <john.harvey@crunchydata.com> 2.2-2
 - Fix source pathing
 
