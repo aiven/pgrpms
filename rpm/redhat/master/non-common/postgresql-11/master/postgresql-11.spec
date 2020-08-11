@@ -37,8 +37,6 @@
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global	python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
@@ -47,6 +45,9 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 %endif
+
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
@@ -87,7 +88,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.8
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1609,6 +1610,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 11 2020 John K. Harvey <john.harvey@crunchydata.com> - 11.8-4PGDG
+- Globalize python3_build_list so EL-6 can compile plpython2 contribs
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 11.8-3PGDG
 - Fix builds if plperl macro is disabled. Per report and patch from
   Floris Van Nee.
