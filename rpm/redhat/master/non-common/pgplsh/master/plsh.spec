@@ -10,7 +10,7 @@ Version:	1.20200522
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
-Patch1:		%{sname}-pg%{pgmajorversion}-makefile.patch
+Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/petere/plsh
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
