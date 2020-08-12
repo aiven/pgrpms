@@ -1,0 +1,8 @@
+--- Makefile.old	2020-08-12 20:45:27.481575347 +0100
++++ Makefile	2020-08-12 20:45:54.423856588 +0100
+@@ -1,4 +1,4 @@
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-11/bin/pg_config
+ 
+ pg_version := $(word 2,$(shell $(PG_CONFIG) --version))
+ indexonlyscan_supported = $(filter-out 6.% 7.% 8.% 9.0% 9.1%,$(pg_version))
