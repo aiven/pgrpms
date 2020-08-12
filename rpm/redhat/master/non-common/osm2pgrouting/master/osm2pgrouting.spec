@@ -3,9 +3,7 @@
 %global sname	osm2pgrouting
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Import tool for OpenStreetMap data to pgRouting database
@@ -22,17 +20,12 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 2.8.8
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel, expat-devel
-BuildRequires:	boost-devel >= 1.53 postgis
+BuildRequires:	boost-devel >= 1.53 postgis pgdg-srpm-macros
 Requires:	postgis2_%{pgmajorversion} >= %{postgisminmajorversion}
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -43,10 +36,7 @@ Import tool for OpenStreetMap data to pgRouting database.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 #install -d build
 #cd build
