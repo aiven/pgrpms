@@ -1,9 +1,7 @@
 %global sname pgmemcache
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	A PostgreSQL API to interface with memcached
@@ -14,16 +12,12 @@ License:	BSD
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/Ohmu/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel, libmemcached-devel, cyrus-sasl-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel libmemcached-devel
+BuildRequires:	pgdg-srpm-macros cyrus-sasl-devel
 Requires:	postgresql%{pgmajorversion}-server libmemcached
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -36,10 +30,7 @@ an interface to memcached.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -76,10 +67,10 @@ an interface to memcached.
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-3.2
 - Rebuild for PostgreSQL 12
 
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-3.1
 - Rebuild against PostgreSQL 11.0
 
 * Wed Aug 22 2018 - Devrim Gündüz <devrim@gunduz.org> 2.3.0-3
