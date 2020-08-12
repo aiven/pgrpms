@@ -94,8 +94,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.22
-Release:	2PGDG%{?dist}
+Version:	9.5.23
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -1425,6 +1425,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.23-1PGDG
+- Update to 9.5.23, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-23.html
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.22-2PGDG
 - Fix builds if plperl macro is disabled. Per report and patch from
   Floris Van Nee.
