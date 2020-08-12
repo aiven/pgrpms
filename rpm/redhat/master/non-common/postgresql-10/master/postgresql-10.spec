@@ -71,15 +71,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.13
-Release:	2PGDG%{?dist}
+Version:	10.14
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -110,7 +108,7 @@ Patch3:		%{sname}-%{pgmajorversion}-logging.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
-BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
@@ -1445,6 +1443,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 10.14-1PGDG
+- Update to 10.14, per changes described at
+  https://www.postgresql.org/docs/release/10.14/
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 10.13-2PGDG
 - Fix builds if plperl macro is disabled. Per report and patch from
   Floris Van Nee.
