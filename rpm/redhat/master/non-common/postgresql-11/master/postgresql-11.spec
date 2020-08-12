@@ -87,8 +87,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.8
-Release:	4PGDG%{?dist}
+Version:	11.9
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1610,6 +1610,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 Devrim Gündüz <devrim@gunduz.org> - 11.9-1PGDG
+- Update to 11.9, per changes described at
+  https://www.postgresql.org/docs/release/11.9/
+
 * Tue Aug 11 2020 John K. Harvey <john.harvey@crunchydata.com> - 11.8-4PGDG
 - Globalize python3_build_list so EL-6 can compile plpython2 contribs
 
