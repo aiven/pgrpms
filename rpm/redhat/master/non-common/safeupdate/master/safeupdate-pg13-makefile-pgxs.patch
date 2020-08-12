@@ -4,7 +4,7 @@
  RELEASE = 1.3
  MODULES = safeupdate
 -PG_CONFIG = pg_config
-+PG_CONFIG = /usr/pgsql-11/bin/pg_config
++PG_CONFIG = /usr/pgsql-13/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)
  

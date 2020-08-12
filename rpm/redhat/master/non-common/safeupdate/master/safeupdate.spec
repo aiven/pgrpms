@@ -7,7 +7,7 @@
 Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and DELETE
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
@@ -62,5 +62,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
+- Update to 1.3
+
 * Fri Aug 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository
