@@ -65,11 +65,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta2_1PGDG%{?dist}
+Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}beta2/postgresql-%{version}beta2.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta3/postgresql-%{version}beta3.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -515,7 +515,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta2
+%setup -q -n %{sname}-%{pgpackageversion}beta3
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1333,6 +1333,9 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta3_1
+- Update to v13 beta3
+
 * Thu Jun 25 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta2_1
 - Update to v13 beta2
 
