@@ -1610,7 +1610,7 @@ fi
 %endif
 
 %changelog
-* Wed Aug 12 Devrim Gündüz <devrim@gunduz.org> - 11.9-1PGDG
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 11.9-1PGDG
 - Update to 11.9, per changes described at
   https://www.postgresql.org/docs/release/11.9/
 
