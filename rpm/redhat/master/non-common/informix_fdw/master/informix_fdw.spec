@@ -1,7 +1,7 @@
 %global sname	informix_fdw
 %global ifxfdwmajver 0
 %global ifxfdwmidver 5
-%global ifxfdwminver 0
+%global ifxfdwminver 2
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Informix
 Name:		%{sname}%{pgmajorversion}
@@ -45,6 +45,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.control
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.2-1
+- Update to 0.5.2
+
 * Tue Oct 23 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
 - Update to 0.5.0
 
