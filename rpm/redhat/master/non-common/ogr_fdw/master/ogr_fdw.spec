@@ -1,21 +1,19 @@
 %global sname ogr_fdw
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.9
+Version:	1.0.12
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Patch2:		ogr_fdw-makefile-gdal30.patch
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal30-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal30-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server gdal30-libs
 
 %ifarch ppc64 ppc64le
@@ -38,10 +36,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -82,6 +77,9 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.12-1
+- Update to 1.0.12
+
 * Mon Nov 4 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1
 - Update to 1.0.9
 
