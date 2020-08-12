@@ -88,8 +88,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.3
-Release:	6PGDG%{?dist}
+Version:	12.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1622,6 +1622,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-1PGDG
+- Update to 12.4, per changes described at
+  https://www.postgresql.org/docs/release/12.4/
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-6PGDG
 - Fix builds if plperl macro is disabled. Per report and patch from
   Floris Van Nee.
