@@ -104,7 +104,7 @@ sed -i.fedora \
 # available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
 %configure \
 	--datadir=%{_datadir} --disable-evdns \
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-cares \
 	--with-systemd \
 %endif
@@ -124,7 +124,7 @@ sed -i.fedora \
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
-%if 0%{?rhel} == 7
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
 %else
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
