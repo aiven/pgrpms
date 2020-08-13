@@ -11,7 +11,7 @@
 %if  0%{?rhel} && 0%{?rhel} <= 8 || 0%{?fedora} < 31
 %global with_python2 1
 %endif
-%if  0%{?rhel} && 0%{?rhel} >= 9 || 0%{?fedora} >= 31
+%if  0%{?rhel} && 0%{?rhel} >= 9 || 0%{?fedora} >= 31 || 0%{?suse_version} >= 1315
 %global with_python2 0
 %endif
 
