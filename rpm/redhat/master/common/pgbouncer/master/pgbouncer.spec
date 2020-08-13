@@ -41,13 +41,13 @@ Requires:	libevent-devel
 BuildRequires:	libevent2-devel >= 2.0
 Requires:	libevent2 >= 2.0
 Requires:	python-psycopg2
+Requires:	initscripts
 %else
 BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 Requires:	python3-psycopg2
 %endif
 BuildRequires:	openssl-devel pam-devel
-Requires:	initscripts
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	c-ares-devel >= 1.11
