@@ -1,29 +1,22 @@
+%global debug_package %{nil}
 %global sname	pgcenter
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	top-like PostgreSQL statistics viewer.
 Name:		pgcenter
-Version:	0.3.0
-Release:	1%{?dist}.1
+Version:	0.4.0
+Release:	2%{?dist}
 License:	BSD
-Source0:	https://github.com/lesovsky/%{name}/archive/%{version}.tar.gz
-Patch0:		%{name}-pg%{pgmajorversion}-makefile-pgxs.patch
+Source0:	https://github.com/lesovsky/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/lesovsky/%{name}
-Requires:	postgresql%{pgmajorversion}-libs
-BuildRequires:	postgresql%{pgmajorversion}, ncurses-devel
+Requires:	libpq5 >= 10.0
+BuildRequires:	libpq5-devel >= 10.0 ncurses-devel pgdg-srpm-macros
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -42,20 +35,18 @@ psql session for this purposes.
 
 %prep
 %setup -q
-%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
+export PATH=%{pginstdir}/bin/:$PATH
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
+export PATH=%{pginstdir}/bin/:$PATH
 USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
@@ -70,8 +61,14 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %license COPYRIGHT
 %endif
 %{_bindir}/%{name}
+%{_datadir}/%{sname}/init-stats-schema-plperlu.sql
+%{_datadir}/%{sname}/init-stats-views.sql
 
 %changelog
+* Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 0.4.0-1
+- Update to 0.4.0
+- Use libpq5 package as the dependency.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.0-1.1
 - Rebuild against PostgreSQL 11.0
 
