@@ -34,12 +34,11 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	2.8.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
 Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
-Patch0:		%{pname}-pg%{pgmajorversion}-setup.cfg.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -107,13 +106,13 @@ database adapter.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 
+export PATH=%{pginstdir}/bin:$PATH
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
 for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" $i; done
 
@@ -137,6 +136,7 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %endif
 
 %install
+export PATH=%{pginstdir}/bin:$PATH
 for python in %{python3_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
@@ -198,6 +198,10 @@ done
 %endif
 
 %changelog
+* Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-4
+- Use the path provided by the "common" makefile. This package
+  now goes to common directory.
+
 * Wed May 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-3
 - Depend on "libpq5", which is now provided by the latest
   PostgreSQL 10+ minor update set.
