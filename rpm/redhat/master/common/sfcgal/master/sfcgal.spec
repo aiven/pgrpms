@@ -4,7 +4,7 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-%if 0%{?fedora} || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 Version:	1.3.7
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
@@ -20,7 +20,7 @@ Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
 Patch1:		sfcgal-config.patch
 %endif
 URL:		http://sfcgal.org/
-%if 0%{?fedora} || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 # We provide these package in our repo
 BuildRequires:	CGAL-devel >= 4.14
 Requires:	CGAL => 4.14
