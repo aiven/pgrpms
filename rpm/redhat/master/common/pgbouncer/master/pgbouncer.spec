@@ -49,7 +49,7 @@ Requires:	python3-psycopg2
 %endif
 BuildRequires:	openssl-devel pam-devel
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 BuildRequires:	c-ares-devel >= 1.11
 Requires:	c-ares >= 1.11
 %endif
