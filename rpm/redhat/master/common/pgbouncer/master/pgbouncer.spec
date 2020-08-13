@@ -16,7 +16,7 @@
 
 Name:		pgbouncer
 Version:	1.14.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -25,6 +25,7 @@ Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
+Source5:	%{name}.service.rhel7
 Patch0:		%{name}-ini.patch
 Patch1:		%{name}-mkauth-py3.patch
 
@@ -99,9 +100,13 @@ sed -i.fedora \
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 
-%configure --datadir=%{_datadir} --disable-evdns \
+# Building with systemd flag tries to enable notify support which is not
+# available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
+%configure \
+	--datadir=%{_datadir} --disable-evdns \
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 	--with-cares \
+	--with-systemd \
 %endif
 	--with-pam
 
@@ -119,7 +124,11 @@ sed -i.fedora \
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
+%if 0%{?rhel} == 7
+%{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
+%else
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
+%endif
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -211,6 +220,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 1.14.0-3
+- Build with systemd support, per
+  https://bugzilla.redhat.com/show_bug.cgi?id=1858814
+
 * Fri Aug 7 2020 Devrim Gündüz <devrim@gunduz.org> - 1.14.0-2
 - Fix RHEL 6 dependency, per PG bug 16573.
 

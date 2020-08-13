@@ -12,7 +12,6 @@ After=network.target
 
 [Service]
 RemainAfterExit=yes
-Type=notify
 
 User=pgbouncer
 Group=pgbouncer
