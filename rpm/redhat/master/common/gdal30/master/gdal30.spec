@@ -149,7 +149,7 @@ BuildRequires:	mariadb-devel
 %if 0%{?fedora}
 BuildRequires:	mariadb-connector-c-devel
 %endif
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	libpq5-devel
 BuildRequires:	pcre-devel
 BuildRequires:	ogdi41-devel
 BuildRequires:	openjpeg2-devel
@@ -371,7 +371,6 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{pginstdir}/lib/pkgconfig
 
 # For future reference:
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
