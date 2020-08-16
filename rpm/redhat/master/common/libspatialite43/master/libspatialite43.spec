@@ -89,6 +89,9 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{sqlite33dir}/l
 	--disable-static \
 	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-lwgeom \
+%ifarch aarch64
+	--build=aarch64-unknown-linux-gnu \
+%endif
 	--enable-libxml2 \
 	%{?_geocallback}
 
