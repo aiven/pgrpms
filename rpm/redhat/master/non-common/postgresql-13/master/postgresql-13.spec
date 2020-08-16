@@ -44,15 +44,28 @@
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?systemd_enabled:%global systemd_enabled 0}
+%{!?sdt:%global sdt 0}
+%{!?selinux:%global selinux 0}
+# LLVM version in RHEL 6 is not sufficient to build LLVM
+%{!?llvm:%global llvm 0}
+%else
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le s390 s390x armv7hl
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
+%ifarch aarch64 && 0%{?rhel} == 7
+# Disabled llvmjit on aarch64, due to build issues.
+%{!?llvm:%global llvm 0}
+%else
 %{!?llvm:%global llvm 1}
+%endif
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
+%endif
 
 %if 0%{?fedora} > 30
 %global _hardened_build 1
