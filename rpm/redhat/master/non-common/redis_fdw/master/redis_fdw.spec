@@ -9,8 +9,8 @@
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Redis
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
-Release:	2%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
@@ -86,6 +86,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/p
 %endif
 
 %changelog
+* Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> 1.1-1
+- Update to 1.1, which supports PostgreSQL 13.
+
 * Wed May 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.0-2
 - Fix suffixes in RPMs.
 
