@@ -1,0 +1,1 @@
+../master/proj71.spec
