@@ -11,8 +11,8 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.3
-Release:	2%{?dist}
+Version:	1.0.4
+Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
 License:	PostgreSQL
@@ -46,6 +46,10 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
+- Update Proj to 7.1.0
+- Add AT 11 support
+
 * Mon May 11 2020 John K. Harvey <john.harvey@crunchydata.com> - 1.0.3-2
 - Small fix for plpython3 macro for EL-7
 
