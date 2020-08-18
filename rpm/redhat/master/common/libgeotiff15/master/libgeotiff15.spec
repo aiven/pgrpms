@@ -1,12 +1,12 @@
 %global	sname libgeotiff
 %global	libgeotiffversion 15
-%global	projversion 70
+%global	projversion 71
 %global	libgeotiffinstdir /usr/%{sname}%{libgeotiffversion}
 %global	projinstdir /usr/proj%{projversion}
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
@@ -136,6 +136,9 @@ EOF
 
 
 %changelog
+* Tue Aug 18 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-8
+- Rebuild against Proj 7.1.0
+
 * Mon May 4 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-7
 - Rebuild against Proj 7.0.1
 
