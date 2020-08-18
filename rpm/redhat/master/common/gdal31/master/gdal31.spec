@@ -2,21 +2,11 @@
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	27
 
-%global	geosmajorversion	38
-%global	libgeotiffmajorversion	15
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global	libspatialiteversion	43
 %else
 %global	libspatialiteversion	50
 %endif
-%global	ogdimajorversion	41
-%global	projmajorversion	71
-
-%global geosinstdir		/usr/geos%{geosmajorversion}
-%global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
-%global libspatialiteinstdir	/usr/libspatialite%{libgeotiffmajorversion}
-%global ogdiinstdir		/usr/ogdi%{ogdimajorversion}
-%global projinstdir		/usr/proj%{projmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global sqlitepname	sqlite33
@@ -28,6 +18,7 @@
 # Major digit of the proj so version
 %global proj_somaj 19
 
+%pgdg_set_gis_variables
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
 #TODO: msg needs to have PublicDecompWT.zip from EUMETSAT, which is not free;
@@ -112,7 +103,7 @@ Patch16:	gdal-3.1.2-sfgcal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
