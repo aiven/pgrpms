@@ -1,6 +1,6 @@
 %global sname gdal
 %global gdalinstdir /usr/%{name}
-%global	gdalsomajorversion	26
+%global	gdalsomajorversion	27
 
 %global	geosmajorversion	38
 %global	libgeotiffmajorversion	15
@@ -10,7 +10,7 @@
 %global	libspatialiteversion	50
 %endif
 %global	ogdimajorversion	41
-%global	projmajorversion	70
+%global	projmajorversion	71
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
@@ -50,9 +50,6 @@
 # He also suggest to use --with-static-proj4 to actually link to proj, instead of dlopen()ing it.
 
 
-# Tests can be of a different version
-%global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
-
 %if 0%{?bootstrap}
 %global build_refman 0
 %global mysql --without-mysql
@@ -91,17 +88,12 @@ Source1:	%{sname}-cleaner.sh
 Source2:	PROVENANCE.TXT-fedora
 Source3:	%{name}-pgdg-libs.conf
 
-# Fix bash-completion install dir
-Patch3:		%{name}-completion.patch
-
 %if 0%{?suse_version} >= 1315
 Patch8:		%{sname}-%{version}-java-sles.patch
 %else
 # Fedora uses Alternatives for Java
 Patch8:		%{sname}-%{version}-java.patch
 %endif
-
-Patch9:		%{sname}-%{version}-zlib.patch
 
 # https://github.com/OSGeo/gdal/pull/876
 Patch10:	%{sname}-%{version}-perl-build.patch
@@ -110,21 +102,19 @@ Patch10:	%{sname}-%{version}-perl-build.patch
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
 Patch13:	gdal31-configure-ogdi%{ogdimajorversion}.patch
 
+%if 0%{?fedora}
 # To be removed in next release:
 Patch14:	gdal-3.1.2-jasper-2.0.17-fix.patch
-
-# Patch doc/Makefile for sphinx:
-%if 0%{?rhel} <= 8
-Patch15:	gdal-3.1.2-sphinx-rhel.patch
 %endif
+
+Patch16:	gdal-3.1.2-sfgcal-linker.patch
+
+# To be removed in next update (hopefully:
+BuildRequires:	autoconf
 
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
-BuildRequires:	bash-completion
-%if 0%{?suse_version} >= 1500
-BuildRequires:	bash-completion-devel
-%endif
 BuildRequires:	cfitsio-devel
 BuildRequires:	chrpath
 BuildRequires:	curl-devel
@@ -297,18 +287,16 @@ This package contains HTML and PDF documentation for GDAL.
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
-#%patch3 -p0 -b .completion~
 %patch8 -p0 -b .java~
-#%patch9 -p0 -b .zlib~
 %patch10 -p0 -b .perl-build~
 %patch12 -p0
 %patch13 -p0
+%if 0%{?fedora}
 # To be removed in next release:
 %patch14 -p0
-
-%if 0%{?rhel} <= 8
-%patch15 -p0
 %endif
+
+%patch16 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE2 .
@@ -338,6 +326,9 @@ pushd $f
   chmod 644 *.cpp
 popd
 done
+
+# For patch16:
+autoconf
 
 # Replace hard-coded library- and include paths
 sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
@@ -467,19 +458,16 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 #  #include <fitsio.h>
 
 POPPLER_OPTS="POPPLER_0_20_OR_LATER=yes POPPLER_0_23_OR_LATER=yes POPPLER_BASE_STREAM_HAS_TWO_ARGS=yes"
-%if 0%{?fedora} > 26 || 0%{?rhel} > 7
+%if 0%{?fedora} > 30 || 0%{?rhel} > 7
 POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 %endif
 export SHLIB_LINK="$SHLIB_LINK"
-######{__make} %{?_smp_mflags} $POPPLER_OPTS
-%{__make} $POPPLER_OPTS
-
-%{__make} man
+%{__make} %{?_smp_mflags}  $POPPLER_OPTS
 
 # Build some utilities, as requested in BZ #1271906
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
 pushd ogr/ogrsf_frmts/s57/
-  %{__make} all
+  %{__make} %{?_smp_mflags} all
 popd
 echo "-------------------------------------------------------------------##############################################################3---------------------------------------------------------------"
 
@@ -495,7 +483,7 @@ export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
 # Starts here
-SHLIB_LINK="$SHLIB_LINK" make DESTDIR=%{buildroot}	\
+SHLIB_LINK="$SHLIB_LINK" make %{?_smp_mflags} DESTDIR=%{buildroot}	\
 	install	\
 	install-man
 
@@ -608,13 +596,16 @@ done
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE3} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
+# Install prebuilt man files
+%{__mkdir} -p %{buildroot}%{_mandir}/man1
+%{__cp} -rp man/* %{buildroot}%{_mandir}/man1
+
 %check
 
 %post libs -p /sbin/ldconfig
 %postun libs -p /sbin/ldconfig
 
 %files
-%{bashcompletiondir}/*
 %{gdalinstdir}/bin/gdallocationinfo
 %{gdalinstdir}/bin/gdal_contour
 %{gdalinstdir}/bin/gdal_rasterize
@@ -631,6 +622,9 @@ done
 %{gdalinstdir}/bin/gdalserver
 %{gdalinstdir}/bin/gdalsrsinfo
 %{gdalinstdir}/bin/gdaltransform
+%{gdalinstdir}/bin/gdal_viewshed
+%{gdalinstdir}/bin/gdalmdiminfo
+%{gdalinstdir}/bin/gdalmdimtranslate
 %{gdalinstdir}/bin/nearblack
 %{gdalinstdir}/bin/ogr*
 %{gdalinstdir}/bin/s57*
@@ -668,56 +662,9 @@ done
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
-
-#TODO: jvm
-#Should be managed by the Alternatives system and not via ldconfig
-#The MDB driver is said to require:
-#Download jackcess-1.2.2.jar, commons-lang-2.4.jar and
-#commons-logging-1.1.1.jar (other versions might work)
-#If you didn't specify --with-jvm-lib-add-rpath at
-#Or as before, using ldconfig
+%{_mandir}/man1
 
 %changelog
-* Tue May 5 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-4
-- Rebuild against Proj 7.0.1
-
-* Thu Mar 12 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-3
-- Rebuild against Proj 7.0.0 and GeOS 3.8.1
-
-* Tue Feb 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-2
-- Fix PostgreSQL driver. Per report and analysis from Mika Heiskanen in:
-  https://redmine.postgresql.org/issues/5187
-- Rebuild for Proj 6.3.1
-
-* Tue Feb 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
-- Update to 3.0.4
-- Update Proj dependency to 6.3.0
-
-* Thu Nov 21 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-3
-- Use our own sqlite33 package on RHEL 7 to fix performance issues.
-
-* Tue Nov 12 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-2
-- Rebuild for new poppler on RHEL 8.1
-
-* Tue Oct 29 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.2-1
-- Update to 3.0.2
-
-* Mon Oct 7 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-5
-- Rebuild for GeOS 3.8.0
-
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-4.1
-- Rebuild for PostgreSQL 12
-
-* Tue Sep 24 2019 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4
-- Rebuild for GeOS 3.7.2
-
-* Sat Sep 21 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-3
-- Use our own libspatialite package, to avoid Proj dependency that
-  comes from OS.
-
-* Tue Sep 17 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-2
-- Fix a conflict with GDAL23 package
-
-- Initial packaging for PostgreSQL RPM repository
-* Tue Sep 10 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
-- Initial packaging for PostgreSQL RPM repository
+* Tue May 5 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-1
+- Initial 3.1.x packaging for the PostgreSQL RPM repository.
+  Thanks to Even Rouault for helping to fix packaging issues.
