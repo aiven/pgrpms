@@ -4,11 +4,7 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global sname	postgis
 
-%pgdg_set_gis_versions
-
-%global	geosinstdir /usr/geos%{geosversion}
-%global	projinstdir /usr/proj%{projversion}
-%global gdalinstdir /usr/gdal%{gdalversion}
+%pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -48,15 +44,15 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion}
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	pgdg-srpm-macros pcre-devel gmp-devel
 Requires:	gmp
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
+BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -70,7 +66,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
+BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalminorversion}
   %endif
 %endif
 
@@ -82,8 +78,8 @@ BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
 BuildRequires:	protobuf-c-devel
 %endif
 
-Requires:	postgresql%{pgmajorversion} geos%{geosversion} >= %{geosfullversion}
-Requires:	postgresql%{pgmajorversion}-contrib proj%{projversion} >= %{projfullversion}
+Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
+Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -92,14 +88,14 @@ Requires:	hdf5
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalversion}-libs >= %{gdalminorversion}
+Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal%{gdalversion}-libs >= %{gdalminorversion}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives

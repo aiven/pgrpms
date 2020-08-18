@@ -5,17 +5,7 @@
 %global sname	postgis
 %global _smp_mflags    -j1
 
-%global geosversion	38
-%global gdalversion	30
-%global projversion	70
-
-%pgdg_set_gis_versions
-
-%global	geosinstdir	/usr/geos%{geosversion}
-%global	projinstdir	/usr/proj%{projversion}
-%global	gdalinstdir	/usr/gdal%{gdalversion}
-
-%global	gdalminorversion	3.0.4
+%pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -57,14 +47,14 @@ Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.1-el6pragma.p
 URL:		http://www.postgis.net/
 
 
-BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosversion}-devel >= %{geosfullversion}
+BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	pcre-devel pgdg-srpm-macros
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libjson-c-devel proj%{projversion}-devel >= %{projfullversion}
+BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
 %endif
 %else
-BuildRequires:	proj%{projversion}-devel >= %{projfullversion} flex json-c-devel
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion} flex json-c-devel
 %endif
 BuildRequires:	libxml2-devel
 %if %{shp2pgsqlgui}
@@ -78,7 +68,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal%{gdalversion}-devel >= %{gdalminorversion}
+BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
   %endif
 %endif
 
@@ -91,7 +81,7 @@ BuildRequires:	protobuf-c-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
-Requires:	geos%{geosversion} >= %{geosfullversion} proj%{projversion} >= %{projfullversion}
+Requires:	geos%{geosmajorversion} >= %{geosfullversion} proj%{projmajorversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
@@ -100,14 +90,14 @@ Requires:	hdf5
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalversion}-libs >= %{gdalminorversion}
+Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal%{gdalversion}-libs >= %{gdalminorversion}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
