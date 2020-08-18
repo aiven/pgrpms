@@ -1,8 +1,8 @@
 %global	sname libgeotiff
 %global	libgeotiffversion 15
-%global	projversion 71
 %global	libgeotiffinstdir /usr/%{sname}%{libgeotiffversion}
-%global	projinstdir /usr/proj%{projversion}
+
+%pgdg_set_gis_variables
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.5.1
@@ -12,9 +12,9 @@ License:	MIT
 URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
-BuildRequires:	libtiff-devel libjpeg-devel proj%{projversion}-devel
-BuildRequires:	zlib-devel
-Requires:	proj%{projversion}
+BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel
+BuildRequires:	zlib-devel pgdg-srpm-macros
+Requires:	proj%{projmajorversion}
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
