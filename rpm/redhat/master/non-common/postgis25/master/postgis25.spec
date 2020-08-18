@@ -370,7 +370,7 @@ fi
 %endif
 
 %changelog
-* Mon Aug 172020 Devrim Gündüz <devrim@gunduz.org> 2.5.5-1
+* Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.5-1
 - Update to 2.5.5
 
 * Tue May 5 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.4-2
