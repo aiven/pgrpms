@@ -65,9 +65,14 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %pgdg_set_gis_variables() %{expand: \
 %global geosmajorversion	38
 %global gdalmajorversion	30
+%global libgeotiffmajorversion	15
+%global ogdimajorversion	41
 %global projmajorversion	71
 %global gdalinstdir		/usr/gdal%{gdalmajorversion}
 %global geosinstdir		/usr/geos%{geosmajorversion}
+%global libgeotiffinstdir	/usr/libgeotiff%{libgeotiffmajorversion}
+%global libspatialiteinstdir	/usr/libspatialite%{libspatialitemajorversion}
+%global ogdiinstdir		/usr/ogdi%{ogdimajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
 %global geosfullversion		3.8.1
 %global projfullversion		7.1.0
