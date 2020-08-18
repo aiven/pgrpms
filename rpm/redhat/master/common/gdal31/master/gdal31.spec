@@ -113,6 +113,11 @@ Patch13:	gdal31-configure-ogdi%{ogdimajorversion}.patch
 # To be removed in next release:
 Patch14:	gdal-3.1.2-jasper-2.0.17-fix.patch
 
+# Patch doc/Makefile for sphinx:
+%if 0%{?rhel} <= 8
+Patch15:	gdal-3.1.2-sphinx-rhel.patch
+%endif
+
 BuildRequires:	gcc gcc-c++
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -300,6 +305,10 @@ This package contains HTML and PDF documentation for GDAL.
 %patch13 -p0
 # To be removed in next release:
 %patch14 -p0
+
+%if 0%{?rhel} <= 8
+%patch14 -p0
+%endif
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE2 .
