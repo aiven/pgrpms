@@ -4,11 +4,7 @@
 
 %global	libspatialiteversion	50
 
-%global geosmajorversion	38
-%global projmajorversion	71
-
-%global geosinstdir		/usr/geos%{geosmajorversion}
-%global projinstdir		/usr/proj%{projmajorversion}
+%pgdg_set_gis_variables
 
 # Warning to ELGIS:
 # 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
@@ -52,7 +48,7 @@ URL:		https://www.gaia-gis.it/fossil/libspatialite
 Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}-RC1.tar.gz
 
 BuildRequires:	gcc
-BuildRequires:	freexl-devel minizip-devel
+BuildRequires:	freexl-devel minizip-devel pgdg-srpm-maros
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel

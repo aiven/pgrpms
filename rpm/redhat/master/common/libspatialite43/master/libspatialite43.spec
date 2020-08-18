@@ -4,14 +4,10 @@
 
 %global	libspatialiteversion	43
 
-%global geosmajorversion	38
-%global projmajorversion	71
-
-%global geosinstdir		/usr/geos%{geosmajorversion}
-%global projinstdir		/usr/proj%{projmajorversion}
-
 %global sqlitepname		sqlite33
 %global sqlite33dir		/usr/sqlite330
+
+%pgdg_set_gis_variables
 
 # Warning to ELGIS:
 # 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
@@ -48,12 +44,10 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-%{version}.tar.gz
 Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
-BuildRequires:	freexl-devel
+BuildRequires:	freexl-devel pgdg-srpm-macros
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
-BuildRequires:	sqlite33-devel
-BuildRequires:	zlib-devel
-BuildRequires:	libxml2-devel
+BuildRequires:	sqlite33-devel zlib-devel libxml2-devel
 Requires:	geos%{geosmajorversion} >= 3.7.2
 Requires:	proj%{projmajorversion} >= 7.1.0
 
