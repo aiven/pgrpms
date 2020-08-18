@@ -5,7 +5,7 @@
 %global	libspatialiteversion	50
 
 %global geosmajorversion	38
-%global projmajorversion	70
+%global projmajorversion	71
 
 %global geosinstdir		/usr/geos%{geosmajorversion}
 %global projinstdir		/usr/proj%{projmajorversion}
@@ -45,27 +45,20 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	5.0.0
-Release:	beta0_7%{?dist}
+Release:	rc1%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
-Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}-beta0.tar.gz
-Patch0:		%{name}-proj_api.h-configure.patch
-Patch1:		%{name}-proj_api.h-c.patch
-BuildRequires:	gcc autoconf
-BuildRequires:	freexl-devel
+Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}-RC1.tar.gz
 
-Requires:	geos%{geosmajorversion}-devel >= 3.7.2
-Requires:	proj%{projmajorversion}-devel >= 7.0.1
-BuildRequires:	sqlite-devel
-BuildRequires:	zlib-devel
-
-%if (0%{?fedora} || 0%{?rhel} > 6)
-BuildRequires: libxml2-devel
-%endif
+BuildRequires:	gcc
+BuildRequires:	freexl-devel minizip-devel
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
+BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	sqlite-devel zlib-devel libxml2-devel
 
 Requires:	geos%{geosmajorversion} >= 3.7.2
-Requires:	proj%{projmajorversion} >= 7.0.1
+Requires:	proj%{projmajorversion} >= 7.1.0
 
 %description
 SpatiaLite is a a library extending the basic SQLite core in order to
@@ -83,10 +76,7 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{sname}-%{version}-beta0
-%patch0 -p0
-%patch1 -p0
-autoconf
+%setup -q -n %{sname}-%{version}-RC1
 
 %build
 CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
@@ -147,8 +137,12 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/%{sname}.so
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
-
 %changelog
+* Tue Aug 18 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0RC1-1
+- Update to 5.0.0-RC1
+- Rebuild against Proj 7.1.0
+- Remove patches, no longer needed.
+
 * Mon May 4 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0beta0-7
 - Rebuild against Proj 7.0.1
 - Add missing Requires.
