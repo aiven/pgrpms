@@ -160,7 +160,7 @@ BuildRequires:	libpoppler-devel
 BuildRequires:	poppler-devel
 %endif
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.0.1
+BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
