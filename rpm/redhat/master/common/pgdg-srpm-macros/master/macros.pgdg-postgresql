@@ -62,12 +62,15 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 # Macro for the dail snapshot packages
 %pgdg_build_timestamp %(date +"%Y%m%d")
 
-%pgdg_set_gis_versions() %{expand: \
-%global geosversion	38
-%global gdalversion	30
-%global projversion	71
-%global geosfullversion	3.8.1
-%global projfullversion	7.1.0
-%global gdalminorversion 3.1.2
+%pgdg_set_gis_variables() %{expand: \
+%global geosmajorversion	38
+%global gdalmajorversion	30
+%global projmajorversion	71
+%global gdalinstdir		/usr/gdal%{gdalmajorversion}
+%global geosinstdir		/usr/geos%{geosmajorversion}
+%global projinstdir		/usr/proj%{projmajorversion}
+%global geosfullversion		3.8.1
+%global projfullversion		7.1.0
+%global gdalfullversion		3.1.2
 \
 }
