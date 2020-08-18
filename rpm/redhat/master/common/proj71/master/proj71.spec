@@ -1,5 +1,4 @@
 %global sname proj
-%global projinstdir /usr/%{sname}71
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global sqlitepname	sqlite33
@@ -11,6 +10,8 @@
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
+
+%pgdg_set_gis_variables
 
 Name:		%{sname}71
 Version:	7.1.0
