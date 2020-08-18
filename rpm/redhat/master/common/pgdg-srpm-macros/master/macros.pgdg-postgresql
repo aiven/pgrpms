@@ -64,7 +64,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 
 %pgdg_set_gis_variables() %{expand: \
 %global geosmajorversion	38
-%global gdalmajorversion	30
+%global gdalmajorversion	31
 %global libgeotiffmajorversion	15
 %global ogdimajorversion	41
 %global projmajorversion	71
