@@ -44,7 +44,7 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-%{version}.tar.gz
 Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
-BuildRequires:	freexl-devel pgdg-srpm-macros
+BuildRequires:	freexl-devel pgdg-srpm-macros >= 1.0.4
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 BuildRequires:	sqlite33-devel zlib-devel libxml2-devel

@@ -48,7 +48,7 @@ URL:		https://www.gaia-gis.it/fossil/libspatialite
 Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}-RC1.tar.gz
 
 BuildRequires:	gcc
-BuildRequires:	freexl-devel minizip-devel pgdg-srpm-maros
+BuildRequires:	freexl-devel minizip-devel pgdg-srpm-maros >= 1.0.4
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel

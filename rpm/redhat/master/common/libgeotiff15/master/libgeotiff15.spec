@@ -13,7 +13,7 @@ URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel
-BuildRequires:	zlib-devel pgdg-srpm-macros
+BuildRequires:	zlib-devel pgdg-srpm-macros >= 1.0.4
 Requires:	proj%{projmajorversion}
 
 %description
