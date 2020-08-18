@@ -307,7 +307,7 @@ This package contains HTML and PDF documentation for GDAL.
 %patch14 -p0
 
 %if 0%{?rhel} <= 8
-%patch14 -p0
+%patch15 -p0
 %endif
 
 # Copy in PROVENANCE.TXT-fedora

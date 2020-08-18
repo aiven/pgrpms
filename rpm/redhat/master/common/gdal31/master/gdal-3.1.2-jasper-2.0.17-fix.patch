@@ -7,7 +7,7 @@
 +
 +// PRIjas_seqent macro is defined since Jasper 2.0.17
 +
-+#ifndef PRIjas_seqent
++#if 0
  static int JPEG2000_VSIL_read(jas_stream_obj_t *obj, char *buf, int cnt)
 +#else
 +static int JPEG2000_VSIL_read(jas_stream_obj_t *obj, char *buf, unsigned cnt)
@@ -17,7 +17,7 @@
      return static_cast<int>(VSIFReadL(buf, 1, cnt, fileobj->fp));
  }
  
-+#ifndef PRIjas_seqent
++#if 0
  static int JPEG2000_VSIL_write(jas_stream_obj_t *obj, char *buf, int cnt)
 +#else
 +static int JPEG2000_VSIL_write(jas_stream_obj_t *obj, char *buf, unsigned int cnt)
