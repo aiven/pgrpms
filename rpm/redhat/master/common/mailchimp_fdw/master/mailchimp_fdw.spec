@@ -40,9 +40,7 @@ This is a PostgreSQL FDW for Mailchimp
 %dir %{python_sitelib}/mailchimpfdw/
 %{python_sitelib}/mailchimpfdw-%{packagesoversion}-py%{pybasever}.egg-info
 %{python_sitelib}/mailchimpfdw/*.py*
-%if 0%{?fedora} && 0%{fedora} >= 31
 %{python_sitelib}/mailchimpfdw/__pycache__/*.pyc
-%endif
 
 %changelog
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-2.1
