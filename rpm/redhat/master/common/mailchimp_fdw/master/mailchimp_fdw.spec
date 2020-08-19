@@ -4,7 +4,7 @@
 %global packagesoversion 0.3.0
 
 %global __ospython %{_bindir}/python3
-%{expand: %%global pybasever %(python -c 'import sys;print(sys.version[0:3])')}
+%{expand: %%global pybasever %(%{__ospython} -c 'import sys;print(sys.version[0:3])')}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	PostgreSQL foreign data wrapper for Mailchimp
