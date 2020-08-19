@@ -1,24 +1,6 @@
---- CMakeLists.txt.old	2020-04-23 10:30:58.554250245 +0100
-+++ CMakeLists.txt	2020-04-23 10:31:40.658628274 +0100
-@@ -1,6 +1,8 @@
- cmake_minimum_required( VERSION 2.8 )
- project( SFCGAL )
- 
-+set(CMAKE_CXX_STANDARD 14)
-+
- set( CMAKE_DEBUG_POSTFIX "d" )
- 
- #----------------------------------------------------------------------------
-@@ -56,19 +58,20 @@
- 
- # 4.3 minimal
- # 4.13 recommended
--find_package( CGAL 4.3 COMPONENTS Core REQUIRED )
-+find_package( CGAL COMPONENTS Core REQUIRED )
- message( STATUS "CGAL ${CGAL_VERSION} found" )
-+add_definitions( "-DCGAL_USE_GMPXX=1" )
- 
- include_directories( ${CMAKE_BINARY_DIR}/include )
+--- CMakeLists.txt.old	2020-08-19 11:19:20.725500054 +0100
++++ CMakeLists.txt	2020-08-19 11:20:29.630190590 +0100
+@@ -64,12 +64,12 @@
  
  # For CGAL versions < 4.3, we add a local directory that contains some tweaked include files from unreleased versions
  # They will overwrite files from the CGAL installation

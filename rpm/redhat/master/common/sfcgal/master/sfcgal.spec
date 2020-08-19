@@ -5,12 +5,12 @@
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 %if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
-Version:	1.3.7
+Version:	1.3.8
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 %endif
-Release:	4%{?dist}
+Release:	1%{?dist}
 License:	GLPLv2
 Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -137,6 +137,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 /usr/lib/libSFCGAL.la
 
 %changelog
+* Wed Aug 19 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.8-1
+- Update to 1.3.8
+
 * Thu Apr 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.7-4
 - Add two patches for CGAL 5 builds
 
