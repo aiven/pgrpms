@@ -3,10 +3,10 @@
 %global sname mailchimp_fdw
 %global packagesoversion 0.3.0
 
-#Python major version.
+%global __ospython %{_bindir}/python3
 %{expand: %%global pybasever %(python -c 'import sys;print(sys.version[0:3])')}
-%{!?python_sitelib: %global python_sitelib %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
-%{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
+%{!?python_sitelib: %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print get_python_lib()")}
+%{!?python_sitearch: %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	PostgreSQL foreign data wrapper for Mailchimp
 Name:		%{sname}
@@ -23,11 +23,11 @@ This is a PostgreSQL FDW for Mailchimp
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__python} setup.py build
+%{__ospython} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__python} setup.py install -O1 --skip-build --root %{buildroot}
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
