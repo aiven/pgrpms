@@ -22,7 +22,7 @@
 %if 0%{?with_python3}
 %global	python_runtimes	python2 python2-debug python3 python3-debug
 %else
-%global python_runtimes	python2
+%global python_runtimes	python2 python2-debug
 %endif
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
