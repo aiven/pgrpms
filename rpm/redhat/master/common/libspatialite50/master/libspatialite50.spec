@@ -2,7 +2,7 @@
 %global sname libspatialite
 %global libspatialiteinstdir	/usr/%{name}
 
-%global	libspatialiteversion	50
+%global	libspatialitemajorversion	50
 
 %pgdg_set_gis_variables
 
@@ -39,7 +39,7 @@
   %global _no_checks 1
 %endif
 
-Name:		%{sname}%{libspatialiteversion}
+Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.0
 Release:	rc1%{?dist}
 Summary:	Enables SQLite to support spatial data
