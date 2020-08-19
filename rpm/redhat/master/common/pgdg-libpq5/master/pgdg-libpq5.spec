@@ -21,7 +21,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.3
+Version:	%{pgmajorversion}.4
 Release:	10PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -221,6 +221,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-10PGDG
+- Update to 12.4
+
 * Tue Jun 2 2020 Devrim Gündüz <devrim@gunduz.org> - 12.3-10PGDG
 - Rework on the spec file, using Fedora's spec file.
 - Update to 12.3
