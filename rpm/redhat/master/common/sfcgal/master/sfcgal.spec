@@ -131,10 +131,10 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
 %files devel
 %{_includedir}/%{name}/
+%{_libdir}/pkgconfig/sfcgal.pc
 
 %files libs
 %{_libdir}/libSFCGAL.so*
-/usr/lib/libSFCGAL.la
 
 %changelog
 * Wed Aug 19 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.8-1
