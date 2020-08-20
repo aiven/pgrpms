@@ -10,9 +10,10 @@
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global sqlitepname	sqlite33
-%global sqlite33dir	/usr/sqlite330
+%global sqlitelibdir	/usr/sqlite330/lib
 %else
 %global sqlitepname	sqlite
+%global sqlitelibdir	%{_libdir}
 %endif
 
 # Major digit of the proj so version
@@ -429,7 +430,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-proj=%{projinstdir}	\
 	%{spatialite}		\
 %if 0%{?rhel} && 0%{?rhel} == 7
-	--with-sqlite3=%{sqlite33dir}/lib	\
+	--with-sqlite3=%{sqlitelibdir}	\
 %else
 	--with-sqlite3		\
 %endif
@@ -468,7 +469,7 @@ echo "-------------------------------------------------------------------#######
 
 export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include  -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
 export CPPFLAGS="$CPPFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{geosinstdir}/lib64,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
