@@ -131,7 +131,9 @@ make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
 %files devel
 %{_includedir}/%{name}/
+%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %{_libdir}/pkgconfig/sfcgal.pc
+%endif
 
 %files libs
 %{_libdir}/libSFCGAL.so*
