@@ -3,9 +3,9 @@
 %global	gdalsomajorversion	27
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%global	libspatialiteversion	43
+%global	libspatialitemajorversion	43
 %else
-%global	libspatialiteversion	50
+%global	libspatialitemajorversion	50
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -125,7 +125,7 @@ BuildRequires:	libpng-devel
 BuildRequires:	libkml-devel
 %endif
 %if %{with_spatialite}
-BuildRequires:	libspatialite%{libspatialiteversion}-devel
+BuildRequires:	libspatialite%{libspatialitemajorversion}-devel
 %endif
 
 BuildRequires:	libtiff-devel
@@ -364,7 +364,7 @@ export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
 export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include  -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
 export CPPFLAGS="$CPPFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib"; export LDFLAGS
+LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{geosinstdir}/lib64,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
