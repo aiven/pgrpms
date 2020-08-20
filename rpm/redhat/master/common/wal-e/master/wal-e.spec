@@ -4,22 +4,22 @@
 # Note to RHEL 7 users: python-gevent exists in extras repo.
 # Install WAL-E with the following command:
 # yum --enablerepo extras install wal-e
-Requires:	python34, python-gevent
-BuildRequires:	python34-devel, python34-setuptools
-%global __python3	/usr/bin/python3.4
+Requires:	python-gevent
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 %else
-BuildRequires:	python3-devel, python3-setuptools
 Requires:	python3-gevent => 1.1.1
 %endif
+
+BuildRequires:	python3-devel, python3-setuptools
+%global __python3	/usr/bin/python3
 
 %{expand: %%global pyver %(echo `%__python3 -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global	python3_sitelib %(%__python3 -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	Continuous Archiving for Postgres
 Name:		wal-e
-Version:	1.1.0
-Release:	1%{?dist}.1
+Version:	1.1.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/%{name}/%{name}
@@ -48,6 +48,9 @@ WAL files and base backups.
 %{python3_sitelib}/wal_e-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
+- Update to 1.1.1
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1.1
 - Rebuild against PostgreSQL 11.0
 
