@@ -7,14 +7,14 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.12
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch2:		ogr_fdw-makefile-gdal30.patch
+Patch2:		ogr_fdw-makefile-gdal31.patch
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal30-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server gdal30-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal31-devel pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-server gdal31-libs
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -77,6 +77,9 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
+* Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.12-2
+- Rebuild against GDAL 3.1.2
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.12-1
 - Update to 1.0.12
 

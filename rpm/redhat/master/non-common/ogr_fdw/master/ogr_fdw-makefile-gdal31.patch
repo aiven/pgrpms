@@ -5,7 +5,7 @@
  EXTRA_CLEAN = sql/*.sql expected/*.out
  
 -GDAL_CONFIG = gdal-config
-+GDAL_CONFIG = /usr/gdal30/bin/gdal-config-64
++GDAL_CONFIG = /usr/gdal31/bin/gdal-config-64
  GDAL_CFLAGS = $(shell $(GDAL_CONFIG) --cflags)
  GDAL_LIBS = $(shell $(GDAL_CONFIG) --libs)
  
