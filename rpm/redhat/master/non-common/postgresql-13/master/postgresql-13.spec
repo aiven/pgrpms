@@ -70,7 +70,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta3_1PGDG%{?dist}
+Release:	beta3_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -803,9 +803,9 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %endif
 
 # Quick hack:
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*_plpythonu.control
 
 # Fix some more documentation
 # gzip doc/internals.ps
@@ -1338,6 +1338,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 20 2020 - John Harvey <john.harvey@crunchydata.com> 13beta3_2
+- Fix macro for consistency
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta3_1
 - Update to v13 beta3
 
