@@ -1,4 +1,3 @@
-#%undefine _debugsource_packages
 %global postgismajorversion 3.1
 %global postgissomajorversion 3
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
@@ -66,7 +65,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalminorversion}
+BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
   %endif
 %endif
 
@@ -88,14 +87,14 @@ Requires:	hdf5
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
+Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
