@@ -27,7 +27,7 @@ Provides:	python3-%{name} = %{version}-%{release}
 Provides:	python3-%{name}%{?_isa} = %{version}-%{release}
 %{?python_provide:%python_provide python2-%{name}}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel python3-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel python3-devel pgdg-srpm-macros
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
