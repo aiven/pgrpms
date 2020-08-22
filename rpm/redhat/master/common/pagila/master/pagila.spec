@@ -1,14 +1,13 @@
-%global sname pagila
-
 Summary:	A sample database for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
-Version:	2.0.1
-Release:	1%{?dist}.1
+Name:		pagila
+Version:	2.1.0
+Release:	1%{?dist}
 License:	BSD
-URL:		https://github.com/devrimgunduz/%{sname}
-Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
+URL:		https://github.com/devrimgunduz/%{name}
+Source0:	https://github.com/devrimgunduz/%{name}/archive/v%{version}.tar.gz
 
-Requires:	postgresql%{pgmajorversion}
+Requires:	postgresql-server >= 11.0
+
 BuildArch:	noarch
 
 %global		_pagiladir  %{_datadir}/%{name}
@@ -20,7 +19,7 @@ is intended to provide a standard schema that can be used for examples in
 books, tutorials, articles, samples, etc.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{name}-%{version}
 
 %build
 
@@ -39,6 +38,9 @@ books, tutorials, articles, samples, etc.
 %attr(644,root,root) %{_pagiladir}/*.sql
 
 %changelog
+* Sat Aug 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
+- Update to 2.1.0
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1.1
 - Rebuild against PostgreSQL 11.0
 
