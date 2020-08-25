@@ -80,15 +80,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.9
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -119,7 +117,7 @@ Patch3:		%{sname}-%{pgmajorversion}-logging.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
-BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
@@ -129,7 +127,7 @@ BuildRequires:	perl-generators
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	/sbin/ldconfig
@@ -142,7 +140,11 @@ Requires:	libicu
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
@@ -277,8 +279,7 @@ Requires(postun):	%{_sbindir}/update-alternatives
 Provides:	%{sname} >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -313,8 +314,7 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description libs
@@ -349,8 +349,7 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 Provides:	postgresql-server >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description server
@@ -378,8 +377,7 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description contrib
@@ -393,7 +391,11 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
@@ -432,8 +434,7 @@ Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description devel
@@ -446,21 +447,23 @@ to develop applications which will interact with a PostgreSQL server.
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
-Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	llvm5.0 >= 5.0
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 %else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm5
+Requires:	llvm10
 %else
 Requires:	llvm => 5.0
 %endif
-%endif
+
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description llvmjit
@@ -482,8 +485,7 @@ Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description plperl
@@ -644,7 +646,11 @@ export CFLAGS
 export PYTHON=/usr/bin/python3
 
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
+%else
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
@@ -765,7 +771,11 @@ unset PYTHON
 export PYTHON=/usr/bin/python2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
+%else
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
@@ -1610,6 +1620,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 25 2020 Devrim Gündüz <devrim@gunduz.org> - 11.9-2PGDG
+- Use correct dependencies to enable LLVM build on RHEL 7 and aarch64
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 11.9-1PGDG
 - Update to 11.9, per changes described at
   https://www.postgresql.org/docs/release/11.9/
