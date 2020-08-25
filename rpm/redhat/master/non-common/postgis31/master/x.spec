@@ -1,4 +1,3 @@
-%undefine _debugsource_packages
 %global postgismajorversion 3.1
 %global postgissomajorversion 3
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
@@ -298,6 +297,8 @@ fi
  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
   %if 0%{?rhel} && 0%{?rhel} <= 6
   %else
+%ifarch aarch64 && 0%{?rhel} == 7
+%else
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
@@ -310,6 +311,7 @@ fi
    %endif
   %endif
  %endif
+%endif
 %endif
 
 %files client
