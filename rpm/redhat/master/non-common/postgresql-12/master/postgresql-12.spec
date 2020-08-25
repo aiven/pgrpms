@@ -70,12 +70,7 @@
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%ifarch aarch64 && 0%{?rhel} == 7
-# Disabled llvmjit on aarch64, due to build issues.
-%{!?llvm:%global llvm 0}
-%else
 %{!?llvm:%global llvm 1}
-%endif
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
