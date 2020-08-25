@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -143,7 +143,11 @@ Requires:	libicu
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
@@ -394,7 +398,11 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %llvm
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
@@ -449,14 +457,19 @@ to develop applications which will interact with a PostgreSQL server.
 Summary:	Just-in-time compilation support for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	llvm5.0 >= 5.0
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 %else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
 %if 0%{?suse_version} >= 1500
 Requires:	llvm10
 %else
-Requires:	llvm
+Requires:	llvm => 5.0
 %endif
-%endif
+
+
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
@@ -655,7 +668,11 @@ export CFLAGS
 export PYTHON=/usr/bin/python3
 
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
+%else
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
@@ -776,7 +793,11 @@ unset PYTHON
 export PYTHON=/usr/bin/python2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
+%else
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
@@ -1622,6 +1643,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 25 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-2PGDG
+- Use correct dependencies to enable LLVM build on RHEL 7 and aarch64
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-1PGDG
 - Update to 12.4, per changes described at
   https://www.postgresql.org/docs/release/12.4/
