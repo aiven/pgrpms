@@ -417,9 +417,13 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
 %if 0%{?suse_version} >= 1500
 Requires:	llvm10
-%else
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
 %endif
 
