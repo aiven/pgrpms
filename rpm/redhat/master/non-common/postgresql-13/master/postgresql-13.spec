@@ -1350,7 +1350,7 @@ fi
 
 %changelog
 * Tue Aug 25 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta3_3
-- Attempt to fix LLVM build issue on RHEL 7 and aarch64
+- Use correct dependencies to enable LLVM build on RHEL 7 and aarch64
 
 * Thu Aug 20 2020 - John Harvey <john.harvey@crunchydata.com> 13beta3_2
 - Fix macro for consistency
