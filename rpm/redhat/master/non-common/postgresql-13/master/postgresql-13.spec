@@ -353,9 +353,9 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
 %ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+Requires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
 %else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
