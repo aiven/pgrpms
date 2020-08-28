@@ -1,13 +1,12 @@
-%global tarballname	pgjdbc-REL%{version}
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.2.14
+Version:	42.2.16
 Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
-Source0:	https://repo1.maven.org/maven2/org/postgresql/postgresql/42.2.14/postgresql-42.2.14-src.tar.gz
+Source0:	https://jdbc.postgresql.org/download/postgresql-%{version}-jdbc-src.tar.gz
 Source1:	%{name}.pom
 BuildArch:	noarch
 
@@ -46,7 +45,7 @@ Summary:	API docs for %{name}
 This package contains the API Documentation for %{name}.
 
 %prep
-%setup -c -q -n %{tarballname}
+%setup -q -n postgresql-%{version}-jdbc-src
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 %patch0 -p0
@@ -58,7 +57,7 @@ This package contains the API Documentation for %{name}.
 %{__rm} -f src/test/java/org/postgresql/test/jdbc4/CopyUtfTest.java
 
 # remove any binary libs
-find -name "*.jar" -or -name "*.class" | xargs %{__rm} -f
+find -name "*.jar" -or -name "*.class" | xargs %{__rm} -fr
 %build
 
 export CLASSPATH=
@@ -141,6 +140,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.16-1
+- Update to 42.2.16
+
 * Wed Jun 10 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.14-1
 - Update to 42.2.14
 
