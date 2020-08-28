@@ -1,18 +1,16 @@
 %global _build_id_links none
 
 %global debug_package %{nil}
-%global pgtclmajorversion 2.4
+%global pgtclmajorversion 2.7
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	%{pgtclmajorversion}.0
-Release:	2%{?dist}.2
+Version:	%{pgtclmajorversion}.4
+Release:	1%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -24,15 +22,10 @@ Source0:	https://github.com/flightaware/Pgtcl/archive/v%{version}.tar.gz
 Requires:	tcl(abi) >= 8.5
 
 BuildRequires:	postgresql%{pgmajorversion}-devel tcl-devel
-BuildRequires:	autoconf
+BuildRequires:	autoconf pgdg-srpm-macros
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %{!?tcl_version: %global tcl_version %(echo 'puts $tcl_version' | tclsh)}
@@ -50,14 +43,12 @@ autoconf
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
-./configure --prefix=%{pgtclprefix}-%{pgmajorversion} --libdir=%{pgtclprefix}-%{pgmajorversion}/lib --with-tcl=%{_libdir} \
-	--with-postgres-include=%{pginstdir}/include --with-postgres-lib=%{pginstdir}/lib \
-	--disable-rpath
+./configure --prefix=%{pgtclprefix}-%{pgmajorversion} \
+	--libdir=%{pgtclprefix}-%{pgmajorversion}/lib \
+	--with-tcl=%{_libdir} --with-postgres-include=%{pginstdir}/include \
+	--with-postgres-lib=%{pginstdir}/lib --disable-rpath
 
 %{__make} all
 
@@ -82,12 +73,15 @@ autoconf
 %dir %{pgtclprefix}-%{pgmajorversion}/
 %dir %{pgtclprefix}-%{pgmajorversion}/share/man/mann/
 %{pgtclprefix}-%{pgmajorversion}/lib/libpgtcl.so
-%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/libpgtcl%{pgtclmajorversion}.0.so
+%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/libpgtcl%{pgtclmajorversion}.2.so
 %{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/pkgIndex.tcl
 %{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/postgres-helpers.tcl
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 2.7.4-1
+- Update to 2.7.4
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2.2
 - Rebuild for PostgreSQL 12
 
