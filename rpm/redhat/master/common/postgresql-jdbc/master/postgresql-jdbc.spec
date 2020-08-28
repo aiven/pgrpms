@@ -2,7 +2,7 @@
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
 Version:	42.2.16
-Release:	1%{?dist}
+Release:	2%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -25,11 +25,16 @@ BuildRequires:	java-1.8.0-openjdk-devel
 # On RHEL 6, we depend on the apache-maven package that we provide via our
 # repo. Build servers should not have any other apache-maven package from other
 # repos, because they depend on java-1.7.0, which is not supported by pgjdbc.
-# Please note that we don't support RHEL 5 for this package. RHEL 7 already
-# includes apache-maven package in its own repo.
 BuildRequires:	apache-maven >= 3.0.0
-%else
+%endif
+
+%if 0%{?rhel} == 7
+# Default maven 3.0 does not build the driver, so use 3.3:
+BuildRequires:	rh-maven33-maven
+%endif
+
 # On the remaining distros, use the maven package supplied by OS.
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 BuildRequires:	maven
 %endif
 
@@ -67,7 +72,11 @@ export CLASSPATH=
 # different platforms don't build in the same minute.  For now, rely on
 # upstream to have updated the translations files before packaging.
 
+%if 0%{?rhel} == 7
+/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests package
+%else
 mvn -DskipTests package
+%endif
 
 %install
 %{__install} -d %{buildroot}%{_javadir}
@@ -140,6 +149,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.16-2
+- Clarify maven dependencies
+
 * Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.2.16-1
 - Update to 42.2.16
 
