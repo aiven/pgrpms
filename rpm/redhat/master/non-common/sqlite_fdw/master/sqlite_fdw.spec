@@ -10,7 +10,7 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.0
+Version:	1.2.1
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
@@ -72,6 +72,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-1
+- Update to 1.2.1
+
 * Tue Oct 1 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
 - Update to 1.2.0
 
