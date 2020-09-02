@@ -10,7 +10,7 @@
 %global alphaname %{nil}
 
 Name:		CGAL
-Version:	5.0.2
+Version:	5.0.3
 Release:	20%{alphatag}%{?dist}
 Summary:	Computational Geometry Algorithms Library
 
@@ -115,6 +115,9 @@ touch -r demo %{buildroot}%{_datadir}/CGAL/
 %exclude %{_mandir}/man1/cgal_create_cmake_script.1.gz
 
 %changelog
+* Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-20
+- Update to 5.0.3
+
 * Thu Apr 23 2020 Devrim Gündüz <devrim@gunduz.org> - 5.0.2-20
 - Initial build for PostgreSQL RPM Repository. Fedora 32+ removed
   CGAL main package, so this package only provides that one.
