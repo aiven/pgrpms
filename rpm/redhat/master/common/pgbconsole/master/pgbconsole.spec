@@ -66,7 +66,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{_bindir}/%{sname}
 
 %changelog
-* Wed Sep 2 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
+* Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
 - Use our own libpq5
 - Switch to pgdg-srpm-macros
 
