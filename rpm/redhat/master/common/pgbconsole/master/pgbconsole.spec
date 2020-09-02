@@ -11,7 +11,6 @@ Version:	0.1.1
 Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lesovsky/%{sname}
 BuildRequires:	postgresql%{pgmajorversion} ncurses-devel
 BuildRequires:	libpq5-devel >= 10.0 pgdg-srpm-macros
@@ -34,7 +33,6 @@ pooler. Features:
 
 %prep
 %setup -q -n %{sname}-%{version}
-#%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
