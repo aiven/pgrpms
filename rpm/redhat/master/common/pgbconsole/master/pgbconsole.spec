@@ -6,7 +6,7 @@
 %endif
 
 Summary:	top-like console for Pgbouncer - PostgreSQL connection pooler
-Name:		pgbconsole%{pgmajorversion}
+Name:		pgbconsole
 Version:	0.1.1
 Release:	2%{?dist}
 License:	BSD
