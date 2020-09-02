@@ -5,9 +5,7 @@
 %global sname cyanaudit
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	DML logging tool for PostgreSQL
@@ -26,7 +24,12 @@ BuildRequires:	protobuf-c libprotobuf-c-devel postgresql%{pgmajorversion}
 %else
 BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
 %endif
+BuildRequires:	pgdg-srpm-macros
 BuildArch:	noarch
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 Cyan Audit provides in-database logging of all DML activity on a
@@ -38,10 +41,7 @@ column-by-column basis.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 %{__make} USE_PGXS=1 %{?_smp_mflags}
