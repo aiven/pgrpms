@@ -1,30 +1,23 @@
 %global sname bgw_replstatus
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.0.1
-Release:	1%{?dist}.2
+Version:	1.0.3
+Release:	1%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
 Source0:	https://github.com/mhagander/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -49,10 +42,7 @@ checking the status.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} %{?_smp_mflags}
 
@@ -83,10 +73,13 @@ checking the status.
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1
+- Update to 1.0.3
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-3
 - Rebuild for PostgreSQL 12
 
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-2
 - Rebuild against PostgreSQL 11.0
 
 * Thu May 18 2017 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
