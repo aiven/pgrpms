@@ -9,9 +9,7 @@
 %global		__find_requires %{SOURCE1}
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 # Disable tests by default.
@@ -20,28 +18,36 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
 Source1:	%{sname}-filter-requires-libclntsh.sh
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server
 
 %if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	glibc-devel
 # Packages come from EPEL and SCL:
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 5.0.1
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
+BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-Requires:	libnsl
-BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+# Packages come from Appstream:
+BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 %endif
-
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	llvm6-devel clang6-devel
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm10-devel clang10-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
 #BuildRequires:	oracle-instantclient11.2-basic
@@ -49,12 +55,7 @@ Requires:	postgresql%{pgmajorversion}-server
 #Requires:	oracle-instantclient11.2-basic
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -68,10 +69,7 @@ required columns as well as comprehensive EXPLAIN support.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
@@ -105,6 +103,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> 2.2.0-2
+- Update LLVM dependencies
+- Switch to pgdg-srpm-macros
+
 * Fri Oct 11 2019 Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 
