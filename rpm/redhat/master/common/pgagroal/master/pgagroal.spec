@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.8.1
+Version:	0.8.2
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -107,6 +107,9 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgagroal.so.%{version}
 
 %changelog
+* Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> - 0.8.2-1
+- Update to 0.8.2
+
 * Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-1
 - Update to 0.8.1
 
