@@ -41,11 +41,11 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.0
-Release:	rc1%{?dist}
+Release:	1%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
-Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}-RC1.tar.gz
+Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.tar.gz
 
 BuildRequires:	gcc
 BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.4
@@ -72,7 +72,7 @@ developing applications that use %{name}.
 
 
 %prep
-%setup -q -n %{sname}-%{version}-RC1
+%setup -q -n %{sname}-%{version}
 
 %build
 CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
@@ -134,6 +134,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Wed Sep 2 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-1
+- Update to 5.0.0
+
 * Tue Aug 18 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0RC1-1
 - Update to 5.0.0-RC1
 - Rebuild against Proj 7.1.0
