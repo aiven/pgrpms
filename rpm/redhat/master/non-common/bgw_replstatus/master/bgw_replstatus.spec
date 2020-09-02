@@ -10,7 +10,7 @@ Release:	1%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
-Source0:	https://github.com/mhagander/%{sname}/archive/v%{version}.tar.gz
+Source0:	https://github.com/mhagander/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
