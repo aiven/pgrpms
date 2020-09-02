@@ -2,28 +2,23 @@
 %global sname	pgbconsole
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	top-like console for Pgbouncer - PostgreSQL connection pooler
 Name:		pgbconsole%{pgmajorversion}
 Version:	0.1.1
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lesovsky/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}, ncurses-devel
+BuildRequires:	postgresql%{pgmajorversion} ncurses-devel
+BuildRequires:	libpq5-devel >= 10.0 pgdg-srpm-macros
+Requires:	libpq5 >= 10.0
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -39,15 +34,11 @@ pooler. Features:
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
+#%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-	PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
@@ -75,6 +66,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{_bindir}/%{sname}
 
 %changelog
+* Wed Sep 2 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
+- Use our own libpq5
+- Switch to pgdg-srpm-macros
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-1.1
 - Rebuild against PostgreSQL 11.0
 
