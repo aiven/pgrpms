@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	2.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -16,7 +16,7 @@ URL:		https://github.com/zalando/%{name}
 BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0
-Requires:	python3-psycopg2 >= 2.5.4 python3-urllib3 >= 1.19.1
+Requires:	python3-psycopg2 >= 2.5.4
 Requires:	python3-psutil >= 2.0.0 python3-psycopg2 >= 2.5.4
 
 %if 0%{?rhel} == 7
@@ -54,9 +54,9 @@ Summary:	Related components to use patroni with etcd
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	python3-etcd >= 0.4.3
 %if 0%{?rhel} == 7
-Requires:	python36-dns python36-urllib3
+Requires:	python36-dns python36-urllib3 python36-certifi
 %else
-Requires:	python3-dns python3-urllib3
+Requires:	python3-dns python3-urllib3 python3-certifi
 %endif
 
 %description -n  %{name}-etcd
@@ -151,6 +151,9 @@ fi
 
 
 %changelog
+* Mon Sep 7 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-2
+- Fix another missing dependency (needed by urllib3)
+
 * Mon Sep 7 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.0
 - Fix missing dependencies, per Alexandre Pereira
