@@ -1,0 +1,12 @@
+--- Makefile.old	2018-10-15 09:58:23.305784686 +0300
++++ Makefile	2018-10-15 09:58:23.604649353 +0300
+@@ -2,8 +2,8 @@
+ EXTVERSION = $(shell grep default_version $(EXTENSION).control | \
+                sed -e "s/default_version[[:space:]]*=[[:space:]]*'\([^']*\)'/\1/")
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-13/bin/pg_config
+ PG94 = $(shell $(PG_CONFIG) --version | egrep " 8\.| 9\.0| 9\.1| 9\.2| 9\.3" > /dev/null && echo no || echo yes)
+ PG11 = $(shell $(PG_CONFIG) --version | egrep " 8\.| 9\.| 10\." > /dev/null && echo no || echo yes)
+ 
+ ifeq ($(PG94),yes)
