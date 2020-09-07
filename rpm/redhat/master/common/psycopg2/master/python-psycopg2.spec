@@ -33,8 +33,8 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	2.8.5
-Release:	4%{?dist}
+Version:	2.8.6
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		http://initd.org/psycopg/
@@ -198,6 +198,9 @@ done
 %endif
 
 %changelog
+* Mon Sep 7 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.6-1
+- Update to 2.8.6
+
 * Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.8.5-4
 - Use the path provided by the "common" makefile. This package
   now goes to common directory.
