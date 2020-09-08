@@ -43,30 +43,18 @@
 # He also suggest to use --with-static-proj4 to actually link to proj, instead of dlopen()ing it.
 
 
-%if 0%{?bootstrap}
-%global build_refman 0
-%global mysql --without-mysql
-%global with_poppler 0
-%global poppler --without-poppler
-%global with_spatialite 0
-%global spatialite --without-spatialite
-%else
 # Enable/disable generating refmans
 # texlive currently broken deps and FTBFS in rawhide
 %global build_refman 0
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
-%global with_mysql 1
 %global mysql --with-mysql
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
-%global with_poppler 1
 %global poppler --with-poppler
-%global with_spatialite 1
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
-%endif
 
 Name:		%{sname}31
-Version:	3.1.2
-Release:	1%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Version:	3.1.3
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -85,11 +73,11 @@ Source3:	%{name}-pgdg-libs.conf
 Patch8:		%{sname}-%{version}-java-sles.patch
 %else
 # Fedora uses Alternatives for Java
-Patch8:		%{sname}-%{version}-java.patch
+Patch8:		%{sname}-3.1.2-java.patch
 %endif
 
 # https://github.com/OSGeo/gdal/pull/876
-Patch10:	%{sname}-%{version}-perl-build.patch
+Patch10:	%{sname}-3.1.2-perl-build.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
@@ -124,9 +112,7 @@ BuildRequires:	libpng-devel
 %if 0%{?fedora}
 BuildRequires:	libkml-devel
 %endif
-%if %{with_spatialite}
 BuildRequires:	libspatialite%{libspatialitemajorversion}-devel
-%endif
 
 BuildRequires:	libtiff-devel
 # No libwebp in EL 5 and 6
@@ -146,12 +132,10 @@ BuildRequires:	ogdi41-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
-%if 0%{?with_poppler}
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libpoppler-devel
 %else
 BuildRequires:	poppler-devel
-%endif
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -239,11 +223,6 @@ GDAL/OGR is the most widely used geospatial data access library.
 
 %package devel
 Summary:	Development files for the GDAL file format library
-
-# Old rpm didn't figure out
-%if 0%{?rhel} < 6
-Requires: pkgconfig
-%endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-static < 1.9.0-1
@@ -658,6 +637,12 @@ done
 %{_mandir}/man1
 
 %changelog
-* Tue May 5 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-1
+* Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-1
+- Update to 3.1.3
+- Remove RHEL 6 references
+- Remove bootstrap conditional, we never use it.
+- Cleanup some unnecessary macros.
+
+* Mon Aug 17 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-1
 - Initial 3.1.x packaging for the PostgreSQL RPM repository.
   Thanks to Even Rouault for helping to fix packaging issues.

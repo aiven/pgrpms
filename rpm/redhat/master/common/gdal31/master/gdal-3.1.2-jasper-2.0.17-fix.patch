@@ -1,47 +1,20 @@
---- frmts/jpeg2000/jpeg2000_vsil_io.cpp.old	2020-08-17 11:03:21.250831730 +0100
-+++ frmts/jpeg2000/jpeg2000_vsil_io.cpp	2020-08-17 11:04:19.864446078 +0100
-@@ -94,13 +94,24 @@
- * File stream object.
- \******************************************************************************/
+--- frmts/jpeg2000/jpeg2000_vsil_io.cpp.old	2020-09-08 09:58:40.878188309 +0100
++++ frmts/jpeg2000/jpeg2000_vsil_io.cpp	2020-09-08 09:59:57.667080293 +0100
+@@ -96,7 +96,7 @@
  
-+
-+// PRIjas_seqent macro is defined since Jasper 2.0.17
-+
+ // PRIjas_seqent macro is defined since Jasper 2.0.17
+ 
+-#ifndef PRIjas_seqent
 +#if 0
  static int JPEG2000_VSIL_read(jas_stream_obj_t *obj, char *buf, int cnt)
-+#else
-+static int JPEG2000_VSIL_read(jas_stream_obj_t *obj, char *buf, unsigned cnt)
-+#endif
- {
-     jas_stream_VSIFL_t *fileobj = JAS_CAST(jas_stream_VSIFL_t *, obj);
+ #else
+ static int JPEG2000_VSIL_read(jas_stream_obj_t *obj, char *buf, unsigned cnt)
+@@ -106,7 +106,7 @@
      return static_cast<int>(VSIFReadL(buf, 1, cnt, fileobj->fp));
  }
  
+-#ifndef PRIjas_seqent
 +#if 0
  static int JPEG2000_VSIL_write(jas_stream_obj_t *obj, char *buf, int cnt)
-+#else
-+static int JPEG2000_VSIL_write(jas_stream_obj_t *obj, char *buf, unsigned int cnt)
-+#endif
- {
-     jas_stream_VSIFL_t *fileobj = JAS_CAST(jas_stream_VSIFL_t *, obj);
-     return static_cast<int>(VSIFWriteL(buf, 1, cnt, fileobj->fp));
---- frmts/jpeg2000/jpeg2000dataset.cpp.old	2020-08-18 01:45:12.280532211 +0100
-+++ frmts/jpeg2000/jpeg2000dataset.cpp	2020-08-18 01:46:04.855058278 +0100
-@@ -484,7 +484,7 @@
-     /* the JP2 boxes match the ones of the code stream */
-     if (nBands != 0)
-     {
--        if (nBands != jas_image_numcmpts( psImage ))
-+	if (nBands != static_cast<int>(jas_image_numcmpts( psImage )))
-         {
-             CPLError(CE_Failure, CPLE_AppDefined,
-                      "The number of components indicated in the IHDR box (%d) mismatch "
-@@ -595,7 +595,7 @@
- 
- {
-     int         iFormat;
--    char        *pszFormatName = nullptr;
-+    const char *pszFormatName = nullptr;
- 
-     if (!Identify(poOpenInfo))
-         return nullptr;
+ #else
+ static int JPEG2000_VSIL_write(jas_stream_obj_t *obj, char *buf, unsigned int cnt)
