@@ -36,11 +36,13 @@
 
 Name:		%{sname}%{libspatialiteversion}
 Version:	4.3.0a
-Release:	11%{?dist}
+Release:	12%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
 Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-%{version}.tar.gz
+Source1:	%{name}-pgdg-libs.conf
+
 Patch0:		%{name}-proj_api.h-configure.patch
 Patch1:		%{name}-proj_api.h-c.patch
 BuildRequires:	gcc autoconf
@@ -96,6 +98,10 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{sqlite33dir}/l
 
 %{__make} install DESTDIR=%{buildroot}
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 # Delete undesired libtool archives
 find %{buildroot} -type f -name "*.la" -delete
 
@@ -112,6 +118,7 @@ find %{buildroot} -type f -name "*.la" -delete
 # The symlink must be present to allow loading the extension
 # https://groups.google.com/forum/#!topic/spatialite-users/zkGP-gPByXk
 %{libspatialiteinstdir}/lib/mod_spatialite.so
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %doc examples/*.c
@@ -122,6 +129,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-12
+- Add linker config file
+
 * Tue Aug 18 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-11
 - Rebuild against Proj 7.1.0
 
