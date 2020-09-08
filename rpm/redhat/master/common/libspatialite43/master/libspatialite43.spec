@@ -88,6 +88,9 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{sqlite33dir}/l
 %ifarch aarch64
 	--build=aarch64-unknown-linux-gnu \
 %endif
+%ifarch ppc64 ppc64le
+	--build=ppc64le-unknown-linux-gnu \
+%endif
 	--enable-libxml2 \
 	%{?_geocallback}
 
