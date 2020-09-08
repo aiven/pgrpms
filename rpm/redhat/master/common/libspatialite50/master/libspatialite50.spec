@@ -41,11 +41,12 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
 Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.tar.gz
+Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc
 BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.4
@@ -102,6 +103,10 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 
 %{__make} install DESTDIR=%{buildroot}
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 # Delete undesired libtool archives
 find %{buildroot} -type f -name "*.la" -delete
 
@@ -118,6 +123,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %clean
 %{__rm} -rf %{buildroot}
 
+%post -p /sbin/ldconfig
+%postun -p /sbin/ldconfig
+
 %files
 %doc COPYING AUTHORS
 %{libspatialiteinstdir}/lib/%{sname}.so.7*
@@ -125,6 +133,7 @@ find %{buildroot} -type f -name "*.la" -delete
 # The symlink must be present to allow loading the extension
 # https://groups.google.com/forum/#!topic/spatialite-users/zkGP-gPByXk
 %{libspatialiteinstdir}/lib/mod_spatialite.so
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %doc examples/*.c
@@ -134,6 +143,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-2
+- Add linker config file
+
 * Wed Sep 2 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-1
 - Update to 5.0.0
 
