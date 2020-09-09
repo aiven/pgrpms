@@ -12,7 +12,7 @@ Version:	1.3.1
 %endif
 Release:	1%{?dist}
 License:	GLPLv2
-Source:		https://github.com/Oslandia/%{name}/archive/v%{version}.tar.gz
+Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
 # per  https://github.com/Oslandia/SFCGAL/pull/219
 %if 0%{?fedora} >= 32
@@ -75,7 +75,7 @@ Requires: %{name}-libs%{?_isa} = %{version}-%{release}
 Development headers and libraries for SFCGAL.
 
 %prep
-%setup -q
+%setup -q -n SFCGAL-v%{version}
 %if 0%{?fedora} >= 32
 %patch0 -p0
 %patch1 -p0
