@@ -1,0 +1,19 @@
+--- Makefile.old	2020-09-11 09:26:47.453242464 +0100
++++ Makefile	2020-09-11 09:27:02.030387398 +0100
+@@ -11,7 +11,7 @@
+ SQL_IN = $(MODULES).sql.in
+ EXTRA_CLEAN = sql/$(MODULES).sql expected/$(MODULES).out
+ 
+-USE_EXTENSION = $(shell pg_config --version | grep -qE " 8\.|9\.0" && echo no || echo yes)
++USE_EXTENSION = $(shell /usr/pgsql-10/bin/pg_config --version | grep -qE " 8\.|9\.0" && echo no || echo yes)
+ 
+ ifeq ($(USE_EXTENSION),yes)
+ all: $(EXTSQL)
+@@ -22,6 +22,6 @@
+ EXTRA_CLEAN += $(EXTSQL)
+ endif
+ 
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-10/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
