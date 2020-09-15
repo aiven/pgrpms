@@ -5,7 +5,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -65,11 +65,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13
-Release:	beta3_3PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}beta3/postgresql-%{version}beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}rc1/postgresql-%{version}rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -531,7 +531,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{pgpackageversion}rc1
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
@@ -1353,6 +1353,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 15 2020 Devrim Gündüz <devrim@gunduz.org> - 13rc1-1
+- Update to v13 rc1
+
 * Tue Aug 25 2020 Devrim Gündüz <devrim@gunduz.org> - 13beta3_3
 - Use correct dependencies to enable LLVM build on RHEL 7 and aarch64
 
