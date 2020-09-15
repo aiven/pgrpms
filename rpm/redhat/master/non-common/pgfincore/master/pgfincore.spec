@@ -1,30 +1,22 @@
 %global sname pgfincore
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2.1
+Version:	1.2.2
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch1:		%{sname}-1.2.1-fixbuild.patch
 URL:		https://github.com/klando/pgfincore
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -33,14 +25,10 @@ PgFincore is a set of functions to manage blocks in memory.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -81,6 +69,10 @@ PgFincore is a set of functions to manage blocks in memory.
 %endif
 
 %changelog
+* Tue Sep 15 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
+- Update to 1.2.2
+- Remove patch1, now in upstream
+
 * Fri Oct 4 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-1
 - Update to 1.2.1
 - Add a patch (from git master) to fix build issues.
