@@ -9,7 +9,7 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.24
+Version:	4.26
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -253,9 +253,9 @@ popd
 %{__sed} -e 's@PYTHONDIR@%{__ospython}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE4} > "%{buildroot}%{_datadir}/applications/%{name}.desktop"
 
 # Install QT conf file.
-# Directories are different on RHEL 7 and Fedora 24+.
+# Directories are different on RHEL 7 and Fedora
 %if 0%{?fedora} >= 30 || 0%{?rhel} == 8
-# Fedora 24+
+# Fedora
 %{__install} -d "%{buildroot}%{_sysconfdir}/xdg/pgadmin/"
 %{__sed} -e 's@PYTHONSITELIB64@%{PYTHON_SITELIB64}@g' -e 's@PYTHONSITELIB@%{PYTHON_SITELIB}@g'<%{SOURCE6} > "%{buildroot}%{_sysconfdir}/xdg/pgadmin/%{name}.conf"
 %else
@@ -340,6 +340,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Sep 16 2020 - Devrim Gündüz <devrim@gunduz.org> 4.26-1
+- Update to 4.26
+
 * Fri Aug 7 2020 - Devrim Gündüz <devrim@gunduz.org> 4.24-1
 - Update to 4.24
 - Update RHEL 7 dependencies for changes in 4.24
