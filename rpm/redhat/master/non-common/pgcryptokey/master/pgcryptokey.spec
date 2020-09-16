@@ -6,7 +6,7 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}%{pgmajorversion}
-Version:	0.84
+Version:	0.85
 Release:	1%{?dist}
 License:	BSD
 Source0:	http://momjian.us/download/%{sname}/%{sname}-%{version}.tar.gz
@@ -64,6 +64,9 @@ data key requires the proper access password.
 %endif
 
 %changelog
+* Wed Sep 16 2020 Devrim Gündüz <devrim@gunduz.org> - 0.85-1
+- Update to 0.85
+
 * Tue Sep 15 2020 Devrim Gündüz <devrim@gunduz.org> - 0.84-1
 - Update to 0.84
 
