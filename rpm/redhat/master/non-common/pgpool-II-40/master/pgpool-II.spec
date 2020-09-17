@@ -1,3 +1,4 @@
+%global pgmajorversion 12
 %global pgpoolinstdir /usr/pgpool-%{pgpackageversion}
 %global sname pgpool-II
 
@@ -23,7 +24,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgmajorversion}
-Version:		4.0.10
+Version:		4.0.11
 Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
@@ -177,7 +178,7 @@ EOF
 %pre
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-        -c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 
 %post
 # Create alternatives entries for common binaries and man files
@@ -343,6 +344,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.11-1
+- Update to 4.0.11
+
 * Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.10-1
 - Update to 4.0.10
 
@@ -353,7 +357,7 @@ fi
 - Update to 4.0.8
 
 * Fri Dec 20 2019 - John Harvey <john.harvey@crunchydata.com> 4.0.7-2
-- Make sure that directory /var/run/%{name} is created with the RPM.
+- Make sure that directory /var/run/pgpool-II is created with the RPM.
   This will ensure that pgpool.conf.sample will work with its defaults.
 
 * Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.7-1
