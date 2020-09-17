@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-nonfree-repo
 Version:	42.0
-Release:	6
+Release:	7
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS NonFree
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -31,7 +31,7 @@ non-free repository, and also the GPG key for PGDG RPMs.
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-%{__install} -pm 644 %{SOURCE2}  \
+%{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %files
@@ -41,6 +41,9 @@ non-free repository, and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-7
+- Add v13 stable repo.
+
 * Fri Nov 15 2019 Devrim Gündüz <devrim@gunduz.org> - 42.0-6
 - Initial configuration for non-free repo
 - Do not replace repo config file after each update. Per #4905
