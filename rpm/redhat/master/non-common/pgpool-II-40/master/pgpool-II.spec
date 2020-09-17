@@ -1,4 +1,3 @@
-%global pgmajorversion 12
 %global pgpoolinstdir /usr/pgpool-%{pgpackageversion}
 %global sname pgpool-II
 
