@@ -13,6 +13,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 # PGDG Fedora stable repositories
 
+[pgdg13]
+name=PostgreSQL 13 for Fedora $releasever - $basearch
+baseurl=https://download.postgresql.org/pub/repos/yum/13/fedora/fedora-$releasever-$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
 [pgdg12]
 name=PostgreSQL 12 for Fedora $releasever - $basearch
 baseurl=https://download.postgresql.org/pub/repos/yum/12/fedora/fedora-$releasever-$basearch
