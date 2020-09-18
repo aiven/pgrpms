@@ -7,7 +7,7 @@
 
 %global pgdg_build_timestamp %(date +"%Y%m%d")
 
-%global beta 0
+%global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
