@@ -1118,6 +1118,7 @@ fi
 %{pgbaseinstdir}/lib/pg_freespacemap.so
 %{pgbaseinstdir}/lib/pg_prewarm.so
 %{pgbaseinstdir}/lib/pg_stat_statements.so
+%{pgbaseinstdir}/lib/pg_surgery.so
 %{pgbaseinstdir}/lib/pg_trgm.so
 %{pgbaseinstdir}/lib/pg_visibility.so
 %{pgbaseinstdir}/lib/postgres_fdw.so
@@ -1174,6 +1175,7 @@ fi
 %{pgbaseinstdir}/share/extension/pg_freespacemap*
 %{pgbaseinstdir}/share/extension/pg_prewarm*
 %{pgbaseinstdir}/share/extension/pg_stat_statements*
+%{pgbaseinstdir}/share/extension/pg_surgery*
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pgcrypto*
