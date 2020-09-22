@@ -1,6 +1,5 @@
 %global debug_package %{nil}
-%global pgmajorversion 12
-%global	pgprevversion 11
+%global pgmajorversion 13
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -21,7 +20,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.4
+Version:	%{pgmajorversion}.0
 Release:	10PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -221,6 +220,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Tue Sep 22 2020 Devrim Gündüz <devrim@gunduz.org> - 13.0-10PGDG
+- Update to 13.0
+
 * Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-10PGDG
 - Update to 12.4
 
