@@ -93,7 +93,6 @@ done
 %{python3_sitelib}/%{sname}/*.py
 %{python3_sitelib}/%{sname}-%{version}-py%{py3ver}.egg-info
 %if 0%{?suse_version} >= 1315
-::
 %else
 %{python3_sitelib}/%{sname}/__pycache__/*
 %endif
