@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.8.2
+Version:	0.9.0
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -82,6 +82,7 @@ cd %{buildroot}%{_libdir}/
 %{_docdir}/%{name}/FAILOVER.md
 %{_docdir}/%{name}/GETTING_STARTED.md
 %{_docdir}/%{name}/PERFORMANCE.md
+%{_docdir}/%{name}/PIPELINE.md
 %{_docdir}/%{name}/README.md
 %{_docdir}/%{name}/RPM.md
 %{_docdir}/%{name}/SECURITY.md
@@ -107,6 +108,9 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgagroal.so.%{version}
 
 %changelog
+* Tue Sep 22 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-1
+- Update to 0.9.0
+
 * Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> - 0.8.2-1
 - Update to 0.8.2
 
