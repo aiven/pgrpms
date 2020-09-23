@@ -89,5 +89,5 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Wed sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
 - Initial packaging of pgRouting 3.1
