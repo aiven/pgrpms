@@ -21,17 +21,36 @@ Requires:	postgresql%{pgmajorversion}-server hiredis
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	glibc-devel
-# Packages come from EPEL and SCL:
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 5.0.1
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 Requires:	libnsl
-BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
 %endif
+
+# Packages come from EPEL and SCL:
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
+BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+%endif
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} >= 8
+# Packages come from Appstream:
+BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
+%endif
+
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 %endif
 
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	llvm6-devel clang6-devel
+%endif
+
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm10-devel clang10-devel
+%endif
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
