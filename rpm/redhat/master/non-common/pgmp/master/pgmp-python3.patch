@@ -1,0 +1,32 @@
+--- bench/plot_result.py.old	2020-09-23 19:11:45.485307708 +0100
++++ bench/plot_result.py	2020-09-23 19:12:09.129548930 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ """Plot a result from benchmark.py
+ 
+ Copyright (C) 2011-2020 - Daniele Varrazzo
+--- bench/benchmark.py.old	2020-09-23 19:11:41.625268327 +0100
++++ bench/benchmark.py	2020-09-23 19:12:07.616533494 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ """Script to perform comparisons between pmpz and other data types.
+ 
+ Copyright (C) 2011-2020 - Daniele Varrazzo
+--- tools/sql2extension.py.old	2020-09-23 19:11:50.989363862 +0100
++++ tools/sql2extension.py	2020-09-23 19:12:01.520471302 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ """Generate "ALTER EXTENSION" statements to package a list of SQL definitions.
+ 
+ The script doesn't try to be a robust parser: it relies on the input file
+--- tools/unmix.py.old	2020-09-23 19:11:54.360398254 +0100
++++ tools/unmix.py	2020-09-23 19:12:00.374459610 +0100
+@@ -1,4 +1,4 @@
+-#!/usr/bin/env python
++#!/usr/bin/env python3
+ """Convert a file containing a mix of python code and content into content.
+ 
+ Write the input file to stdout. Python code included between blocks
