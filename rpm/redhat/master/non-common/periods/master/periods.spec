@@ -7,16 +7,12 @@
 Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
-Release:	2%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-# Remove this patch in next release:
-%if 0%{?rhel} && 0%{?rhel} == 7
-Patch1:		%{sname}-%{version}-rhel7-build.patch
-%endif
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -35,10 +31,6 @@ to simulate the behavior once the feature is finally integrated.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-# Remove this patch in next release:
-%if 0%{?rhel} && 0%{?rhel} == 7
-%patch1  -p0
-%endif
 
 %build
 %ifarch ppc64 ppc64le
@@ -73,6 +65,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
+- Update to 1.2
+
 * Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
 - Add a patch to fix RHEL 7 builds, per Vik.
 
