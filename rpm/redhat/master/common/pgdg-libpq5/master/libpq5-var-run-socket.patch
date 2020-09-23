@@ -12,9 +12,9 @@ server package update, without requiring any existing postgresql.conf
 to be updated.  (Of course, a user who dislikes this behavior can still
 override it via postgresql.conf.)
 
---- src/backend/utils/misc/guc.c.old	2018-03-11 21:29:26.190708175 +0000
-+++ src/backend/utils/misc/guc.c	2018-03-11 21:29:55.083851034 +0000
-@@ -3465,7 +3465,7 @@
+--- src/backend/utils/misc/guc.c.old	2020-04-07 00:53:48.599369279 +0100
++++ src/backend/utils/misc/guc.c	2020-04-07 00:54:25.604609110 +0100
+@@ -4154,7 +4154,7 @@
  		},
  		&Unix_socket_directories,
  #ifdef HAVE_UNIX_SOCKETS
@@ -23,9 +23,9 @@ override it via postgresql.conf.)
  #else
  		"",
  #endif
---- src/bin/initdb/initdb.c.old	2018-03-11 21:30:10.752928508 +0000
-+++ src/bin/initdb/initdb.c	2018-03-11 21:30:30.605026665 +0000
-@@ -1051,7 +1051,7 @@
+--- src/bin/initdb/initdb.c.old	2020-04-07 00:54:38.785694537 +0100
++++ src/bin/initdb/initdb.c	2020-04-07 00:55:02.127845817 +0100
+@@ -1091,7 +1091,7 @@
  
  #ifdef HAVE_UNIX_SOCKETS
  	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = '%s'",
@@ -34,14 +34,14 @@ override it via postgresql.conf.)
  #else
  	snprintf(repltok, sizeof(repltok), "#unix_socket_directories = ''");
  #endif
---- src/include/pg_config_manual.h.old	2018-03-11 21:30:50.401124544 +0000
-+++ src/include/pg_config_manual.h	2018-03-11 21:31:08.775215393 +0000
-@@ -177,7 +177,7 @@
-  * here's where to twiddle it.  You can also override this at runtime
-  * with the postmaster's -k switch.
+--- src/include/pg_config_manual.h.old	2020-04-07 00:55:36.609069290 +0100
++++ src/include/pg_config_manual.h	2020-04-07 00:56:03.018240448 +0100
+@@ -201,7 +201,7 @@
+  * support them yet.
   */
+ #ifndef WIN32
 -#define DEFAULT_PGSOCKET_DIR  "/tmp"
 +#define DEFAULT_PGSOCKET_DIR  "/var/run/postgresql"
- 
- /*
-  * This is the default event source for Windows event log.
+ #else
+ #define DEFAULT_PGSOCKET_DIR ""
+ #endif
