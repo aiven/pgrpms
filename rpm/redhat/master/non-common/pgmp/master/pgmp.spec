@@ -7,10 +7,12 @@
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
 Name:		%{sname}%{pgmajorversion}
 Version:	1.0.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+# Make sure that we use Python 3.
+Patch1:		%{pgmp}-python3.patch
 URL:		https://dvarrazzo.github.io/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel gmp-devel pgdg-srpm-macros
 Requires:	gmp
@@ -26,6 +28,7 @@ integer and rational data types offered by the GMP library.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -65,6 +68,9 @@ integer and rational data types offered by the GMP library.
 %endif
 
 %changelog
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-2
+- Make sure that we use Python 3.
+
 * Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
 - Update to 1.0.4
 
