@@ -2,27 +2,30 @@
 %global sname pgq
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Generic Queue for PostgreSQL
 Name:		%{sname}-%{pgmajorversion}
-Version:	3.3.1
+Version:	3.4.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/pgq/pgq/archive/v%{version}.tar.gz
 Patch0:		%{sname}-python3.patch
 URL:		https://github.com/pgq/pgq/
-BuildRequires:	postgresql%{pgmajorversion}-devel gcc
+BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
+%ifarch aarch64
+BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+%else
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
+%endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from EPEL and SCL:
-BuildRequires:	llvm-devel >= 6.0.0 clang-devel >= 6.0.0
+# Packages come from Appstream:
+BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora}
 BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
@@ -31,20 +34,15 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm5-devel clang5-devel
+BuildRequires:	llvm10-devel clang10-devel
 %endif
 
 BuildRequires:	python3-devel
 
-Requires:	python3-psycopg2, postgresql%{pgmajorversion} python3
+Requires:	python3-psycopg2 postgresql%{pgmajorversion} python3
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -57,10 +55,7 @@ queue with simple API based on SQL functions.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config
@@ -98,5 +93,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1
+- Update to 3.4.1
+- Fix LLVM and clang dependencies for aarch64
+
 * Tue Feb 18 2020 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1
 - Initial packaging for the PostgreSQL RPM Repo
