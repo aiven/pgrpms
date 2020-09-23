@@ -89,7 +89,7 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Wed Sep 32 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-1
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-1
 - Update to 3.0.2
 
 * Mon Mar 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
