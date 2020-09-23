@@ -81,15 +81,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.4
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -120,7 +118,7 @@ Patch3:		%{sname}-%{pgmajorversion}-logging.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
-BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
@@ -282,8 +280,7 @@ Requires(postun):	%{_sbindir}/update-alternatives
 Provides:	%{sname} >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -318,8 +315,7 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description libs
@@ -354,8 +350,7 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 Provides:	postgresql-server >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description server
@@ -383,8 +378,7 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description contrib
@@ -441,8 +435,7 @@ Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description devel
@@ -477,8 +470,7 @@ Requires:	llvm => 5.0
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description llvmjit
@@ -500,8 +492,7 @@ Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description plperl
@@ -533,8 +524,7 @@ Requires:	python27
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description plpython
@@ -563,8 +553,7 @@ Requires:	python3-libs
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description plpython3
@@ -584,8 +573,7 @@ Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description pltcl
@@ -602,8 +590,7 @@ Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description test
@@ -1026,6 +1013,9 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
+# Create a symlink of the setup script under $PATH
+%{__mkdir} -p %{buildroot}%{_bindir}
+%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgmajorversion}-setup
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -1512,6 +1502,7 @@ fi
 %defattr(-,root,root)
 %if %{systemd_enabled}
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
+%{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
@@ -1647,6 +1638,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-3PGDG
+- Add setup script under $PATH
+
 * Tue Aug 25 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-2PGDG
 - Use correct dependencies to enable LLVM build on RHEL 7 and aarch64
 
