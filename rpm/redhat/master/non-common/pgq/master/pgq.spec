@@ -15,6 +15,7 @@ Patch0:		%{sname}-python3.patch
 URL:		https://github.com/pgq/pgq/
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
 
+%ifnarch ppc64 ppc64le s390 s390x armv7hl
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
 %ifarch aarch64
@@ -36,6 +37,7 @@ BuildRequires:	llvm6-devel clang6-devel
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm10-devel clang10-devel
 %endif
+%endif
 
 BuildRequires:	python3-devel
 
@@ -51,7 +53,7 @@ queue with simple API based on SQL functions.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
+#%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
