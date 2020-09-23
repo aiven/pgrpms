@@ -12,7 +12,7 @@ License:	LGPL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 # Make sure that we use Python 3.
-Patch1:		%{pgmp}-python3.patch
+Patch1:		%{sname}-python3.patch
 URL:		https://dvarrazzo.github.io/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel gmp-devel pgdg-srpm-macros
 Requires:	gmp
