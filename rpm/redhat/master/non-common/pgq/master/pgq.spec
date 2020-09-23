@@ -11,7 +11,6 @@ Version:	3.4.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/pgq/pgq/archive/v%{version}.tar.gz
-Patch0:		%{sname}-python3.patch
 URL:		https://github.com/pgq/pgq/
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
 
@@ -53,7 +52,6 @@ queue with simple API based on SQL functions.
 
 %prep
 %setup -q -n %{sname}-%{version}
-#%patch0 -p0
 
 %build
 %ifarch ppc64 ppc64le
