@@ -1,21 +1,19 @@
 %global sname	timescaledb
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.7.2
+Version:	1.7.4
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
 Patch1:		%{sname}-cmake3-rhel7.patch
 URL:		https://github.com/timescale/timescaledb
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
 %else
@@ -23,8 +21,7 @@ BuildRequires:	cmake >= 3.4
 %endif
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	postgresql%{pgmajorversion}-server
@@ -76,6 +73,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-1
+- Update to 1.7.4
+
 * Wed Jul 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1.7.2-1
 - Update to 1.7.2
 
