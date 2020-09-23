@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 140
 %global pgpackageversion 14
@@ -71,7 +72,6 @@ Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-#Source0:	https://download.postgresql.org/pub/source/v%{version}rc1/postgresql-%{version}rc1.tar.bz2
 Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
@@ -268,10 +268,19 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl
+%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
+%else
 Requires:	openssl-libs >= 1.0.2k
+%endif
+%endif
 %endif
 
 %ifarch ppc64 ppc64le
