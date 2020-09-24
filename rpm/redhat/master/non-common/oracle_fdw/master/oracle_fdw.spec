@@ -1,6 +1,6 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
-%global ofdwmidver 2
+%global ofdwmidver 3
 %global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
@@ -50,9 +50,9 @@ BuildRequires:	llvm10-devel clang10-devel
 %endif
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-#BuildRequires:	oracle-instantclient11.2-basic
-#BuildRequires:	oracle-instantclient11.2-devel
-#Requires:	oracle-instantclient11.2-basic
+BuildRequires:	oracle-instantclient19.8-basic
+BuildRequires:	oracle-instantclient19.8-devel
+Requires:	oracle-instantclient19.8-basic
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -103,6 +103,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
+- Update to 2.3.0
+
 * Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> 2.2.0-2
 - Update LLVM dependencies
 - Switch to pgdg-srpm-macros
