@@ -1,9 +1,7 @@
 %global sname plproxy
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
@@ -15,15 +13,11 @@ URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel flex >= 2.5.4
+BuildRequires:	postgresql%{pgmajorversion}-devel flex >= 2.5.4 pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -35,10 +29,7 @@ PL/Proxy is database partitioning system implemented as PL language.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
@@ -80,7 +71,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> 2.9-1.1
 - Rebuild for PostgreSQL 12
 
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
