@@ -7,8 +7,8 @@
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.1
-Release:	1%{?dist}.1
+Version:	1.2
+Release:	1%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
 URL:		https://git.postgresql.org/gitweb/?p=%{sname}.git;a=summary
@@ -84,6 +84,9 @@ install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{s
 
 
 %changelog
+* Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
+- Update to 1.2
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 

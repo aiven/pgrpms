@@ -1,0 +1,11 @@
+--- Makefile.old	2017-06-05 13:22:34.007642030 +0100
++++ Makefile	2017-06-05 13:22:47.855518117 +0100
+@@ -23,7 +23,7 @@
+ # PGXS build needs PostgreSQL 9.2 or later. Earlier versions didn't install
+ # plpgsql.h, so you needed the full source tree to access it.
+ ifdef USE_PGXS
+-PG_CONFIG = pg_config
++PG_CONFIG = /usr/pgsql-13/bin/pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
+ else
