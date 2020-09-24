@@ -1,0 +1,11 @@
+--- Makefile.old	2019-11-23 13:49:17.570326122 +0100
++++ Makefile	2019-11-23 13:49:41.215549340 +0100
+@@ -16,7 +16,7 @@
+ #MODULES      = $(patsubst %.c,%,$(wildcard src/*.c))
+ PG_CPPFLAGS  = -g -fPIC -I$(DB2_HOME)/include
+ SHLIB_LINK   = -fPIC -L$(DB2_HOME)/lib64 -L$(DB2_HOME)/bin  -ldb2ci
+-PG_CONFIG    = pg_config
++PG_CONFIG    = /usr/pgsql-13/bin/pg_config
+ 
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
+ include $(PGXS)
