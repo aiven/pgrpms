@@ -1,7 +1,7 @@
 Name:           libpqxx
 Summary:        C++ client API for PostgreSQL
 Epoch:          1
-Version:        7.1.2
+Version:        7.2.0
 Release:        1%{?dist}
 
 License:        BSD
@@ -55,7 +55,7 @@ popd
 %files
 %doc AUTHORS NEWS README.md VERSION
 %license COPYING
-%{_libdir}/%{name}-7.1.so
+%{_libdir}/%{name}-7.2.so
 
 %files devel
 %dir %{_libdir}/cmake/%{name}
@@ -82,5 +82,8 @@ popd
 %{_docdir}/%{name}/html
 
 %changelog
-* Sat Jul 11 2020 Matthew Krupcale <mkrupcale@matthewkrupcale.com> - 1:7.1.2-1
+* Fri Sep 25 2020 Devrim Gündüz <devrim@gunduz.org> - 1:7.2.0-1
+- Update to 7.2.0
+
+* Sat Jul 11 2020 Devrim Gündüz <devrim@gunduz.org> - 1:7.1.2-1
 - Update to 7.1.2 using Fedora rawhide spec file.
