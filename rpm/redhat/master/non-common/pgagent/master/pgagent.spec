@@ -17,7 +17,9 @@ Release:	4%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
+%if %{systemd_enabled}
 Source3:	%{sname}-%{pgmajorversion}.init
+%endif
 Source4:	%{sname}-%{pgmajorversion}.logrotate
 Source5:	%{sname}-%{pgmajorversion}.conf
 URL:		http://www.pgadmin.org/
