@@ -6,8 +6,8 @@
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}%{pgmajorversion}
-Version:	2.9
-Release:	1%{?dist}.1
+Version:	2.10.0
+Release:	1%{?dist}
 License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
@@ -49,14 +49,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %doc README.md AUTHORS COPYRIGHT
 %endif
 %{pginstdir}/lib/plproxy.so
-%{pginstdir}/share/extension/plproxy--2.3.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--2.4.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--2.5.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--2.6.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--2.7.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--2.8.0--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--%{version}.0.sql
-%{pginstdir}/share/extension/plproxy--unpackaged--%{version}.0.sql
+%{pginstdir}/share/extension/plproxy-*sql
 %{pginstdir}/share/extension/plproxy.control
 
 %ifarch ppc64 ppc64le
@@ -71,6 +64,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.10.0-1
+- Update to 2.10
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> 2.9-1.1
 - Rebuild for PostgreSQL 12
 
