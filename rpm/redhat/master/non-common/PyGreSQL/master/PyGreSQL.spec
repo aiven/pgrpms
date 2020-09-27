@@ -63,8 +63,12 @@ find -type f -exec chmod 644 {} +
 %doc docs/*.rst
 %{python3_sitearch}/*.so
 %{python3_sitearch}/*.py
-%{python3_sitearch}/__pycache__/*.py{c,o}
 %{python3_sitearch}/*.egg-info
+%if 0%{?rhel} <= 7
+%{python3_sitearch}/__pycache__/*.pyc
+%else
+%{python3_sitearch}/__pycache__/*.py{c,o}
+%endif
 
 %changelog
 * Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.1-1
