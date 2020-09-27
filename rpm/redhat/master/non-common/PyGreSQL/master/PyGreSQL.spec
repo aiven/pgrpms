@@ -8,11 +8,11 @@
 %endif
 
 Name:		PyGreSQL
-Version:	5.2
+Version:	5.2.1
 Release:	1%{?dist}
 Summary:	A Python client library for PostgreSQL
 
-URL:		http://www.pygresql.org/
+URL:		http://www.PyGreSQL.org/
 # Author states his intention is to dual license under PostgreSQL or Python
 # licenses --- this is not too clear from the current tarball documentation,
 # but hopefully will be clearer in future releases.
@@ -20,8 +20,8 @@ URL:		http://www.pygresql.org/
 # recognizes it as an independent license, so we do as well.
 License:	PostgreSQL or Python
 
-Source0:	https://files.pythonhosted.org/packages/fb/a8/5a4c4d455e09dd91a2f1ee07c199041bf6c8f7081d4f673a7583be001945/%{name}-%{version}.tar.gz
-Patch0:		PyGreSQL-pg%{pgmajorversion}-setup.py-rpm.patch
+Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Patch0:		%{name}-pg%{pgmajorversion}-setup.py-rpm.patch
 
 Provides:	python3-%{name} = %{version}-%{release}
 Provides:	python3-%{name}%{?_isa} = %{version}-%{release}
@@ -67,6 +67,9 @@ find -type f -exec chmod 644 {} +
 %{python3_sitearch}/*.egg-info
 
 %changelog
+* Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.1-1
+- Update to 5.2.1
+
 * Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2-1
 - Update to 5.2
 - Use only PY3
