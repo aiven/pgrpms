@@ -6,7 +6,7 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.1
+Version:	2.0.2
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
@@ -73,6 +73,9 @@ Server and Sybase databases.
 %endif
 
 %changelog
+* Sun Sep 27 2020 - Devrim Gündüz <devrim@gunduz.org> 2.0.2-1
+- Update to 2.0.2
+
 * Wed Dec 4 2019 - Devrim Gündüz <devrim@gunduz.org> 2.0.1-1
 - Update to 2.0.1
 
