@@ -31,7 +31,7 @@ and also the GPG key for PGDG RPMs.
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-%{__install} -pm 644 %{SOURCE2}  \
+%{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %files
@@ -45,7 +45,7 @@ and also the GPG key for PGDG RPMs.
 - Add v14 testing repo.
 - Remove 9.4 repo
 
-* Thu Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-13
+* Sun Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-13
 - Add v13 stable repo.
 
 * Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-12
