@@ -60,21 +60,23 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg10-updates-testing-nonfree]
-name=PostgreSQL 10 for RHEL/CentOS $releasever - $basearch - NonFree - Updates testing
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/testing/10/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg96-updates-testing-nonfree]
-name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - NonFree - Updates testing
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/testing/9.6/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 # Source RPMs (SRPM), and their testing repositories:
+
+[pgdg13-source-nonfree]
+name=PostgreSQL 13 for RHEL/CentOS $releasever - $basearch - NonFree - Source
+failovermethod=priority
+baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/13/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+
+[pgdg13-source-updates-testing-nonfree]
+name=PostgreSQL 13 for RHEL/CentOS $releasever - $basearch - NonFree - Source update testing
+failovermethod=priority
+baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/testing/13/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 [pgdg12-source-nonfree]
 name=PostgreSQL 12 for RHEL/CentOS $releasever - $basearch - NonFree - Source
@@ -116,26 +118,10 @@ enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
-[pgdg10-source-updates-testing-nonfree]
-name=PostgreSQL 10 for RHEL/CentOS $releasever - $basearch - NonFree - Source update testing
-failovermethod=priority
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/testing/10/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
 [pgdg96-source-nonfree]
 name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - NonFree - Source
 failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/9.6/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-
-[pgdg96-source-updates-testing-nonfree]
-name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - NonFree - Source update testing
-failovermethod=priority
-baseurl=https://download.postgresql.org/pub/repos/yum/non-free/srpms/testing/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
