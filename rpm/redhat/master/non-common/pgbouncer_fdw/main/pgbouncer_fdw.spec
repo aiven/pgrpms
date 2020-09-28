@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname pgbouncer_fdw
 
 %ifarch ppc64 ppc64le
