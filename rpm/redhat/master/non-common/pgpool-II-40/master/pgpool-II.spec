@@ -30,7 +30,9 @@ URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:		%{sname}-pg%{pgmajorversion}.service
 Source2:		%{sname}.sysconfig
+%if ! %{systemd_enabled}
 Source3:		%{sname}-pg%{pgmajorversion}.init
+%endif
 Source9:		%{sname}-pg%{pgmajorversion}-libs.conf
 Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
