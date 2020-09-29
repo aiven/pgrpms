@@ -27,6 +27,8 @@ Summary:	Development Libraries for the GeoTIFF file format library
 Requires:	pkgconfig libtiff-devel
 Requires:	%{name} = %{version}-%{release}
 
+Obsoletes:	libgeotiff15-devel >= 1.5.0
+
 %description devel
 The GeoTIFF library provides support for development of geotiff image format.
 
