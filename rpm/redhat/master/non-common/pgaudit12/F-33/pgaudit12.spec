@@ -1,0 +1,1 @@
+../master/pgaudit12.spec

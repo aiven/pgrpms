@@ -1,0 +1,1 @@
+../master/osm2pgrouting.spec

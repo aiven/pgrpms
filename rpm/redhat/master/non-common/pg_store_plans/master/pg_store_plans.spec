@@ -7,10 +7,10 @@
 
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}%{pgmajorversion}
-Version:	1.3
-Release:	1%{?dist}.1
+Version:	1.4
+Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/ossc-db/%{sname}/archive/1.3.tar.gz
+Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
 Source1:	README-%{sname}.txt
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/ossc-db/%{sname}/

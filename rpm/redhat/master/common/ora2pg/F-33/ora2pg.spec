@@ -1,0 +1,1 @@
+../master/ora2pg.spec
