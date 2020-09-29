@@ -637,7 +637,7 @@ done
 %{_mandir}/man1
 
 %changelog
-* Tue Sep 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-2
+* Tue Sep 29 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-2
 - Rebuild against libgeotiff 1.6
 
 * Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-1
