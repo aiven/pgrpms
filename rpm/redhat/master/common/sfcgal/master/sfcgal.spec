@@ -68,8 +68,8 @@ Requires:	advance-toolchain-%{atstring}-runtime
 The sfcgal-libs package provides the essential shared libraries for SFCGAL.
 
 %package devel
-Summary: The development files for SFCGAL
-Requires: %{name}-libs%{?_isa} = %{version}-%{release}
+Summary:	The development files for SFCGAL
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 Development headers and libraries for SFCGAL.
