@@ -54,7 +54,7 @@
 
 Name:		%{sname}31
 Version:	3.1.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -93,7 +93,7 @@ Patch16:	gdal-3.1.2-sfgcal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.4
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.5
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
@@ -637,6 +637,9 @@ done
 %{_mandir}/man1
 
 %changelog
+* Tue Sep 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-2
+- Rebuild against libgeotiff 1.6
+
 * Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-1
 - Update to 3.1.3
 - Remove RHEL 6 references
