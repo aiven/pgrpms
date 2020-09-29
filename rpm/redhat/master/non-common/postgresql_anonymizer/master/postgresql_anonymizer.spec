@@ -6,7 +6,7 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}%{pgmajorversion}
-Version:	0.6.0
+Version:	0.7.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
@@ -67,6 +67,9 @@ PostgreSQL database.
 %endif
 
 %changelog
+* Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> 0.7.1-1
+- Update to 0.7.1
+
 * Tue Mar 10 2020 Devrim Gündüz <devrim@gunduz.org> 0.6.0-1
 - Update to 0.6.0
 
