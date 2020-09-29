@@ -10,7 +10,7 @@ Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar
 Source1:	pgbackrest-conf.patch
 Source3:	pgbackrest.logrotate
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
-BuildRequires:	libzstd-devel
+BuildRequires:	libzstd-devel libxml2-devel bzip2-devel
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
