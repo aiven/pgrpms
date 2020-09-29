@@ -1,10 +1,10 @@
 Name:		pgagroal
 Version:	0.9.0
-Release:	1%{dist}
+Release:	2%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
-URL:		https://github.com/agroal/pgagroal
-Source0:	https://github.com/agroal/pgagroal/archive/%{version}.tar.gz
+URL:		https://github.com/agroal/%{name}
+Source0:	https://github.com/agroal/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel
@@ -25,7 +25,6 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__make}
 
 %install
-
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__mkdir} -p %{buildroot}%{_libdir}
@@ -33,7 +32,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/images
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/pgagroal
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/LICENSE %{buildroot}%{_docdir}/%{name}/LICENSE
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/README.md %{buildroot}%{_docdir}/%{name}/README.md
@@ -45,70 +44,94 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/PIPELINES.md %{buildroot}%{_docdir}/%{name}/PIPELINES.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/RPM.md %{buildroot}%{_docdir}/%{name}/RPM.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/SECURITY.md %{buildroot}%{_docdir}/%{name}/SECURITY.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal.service %{buildroot}%{_docdir}/%{name}/etc/pgagroal.service
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal.socket %{buildroot}%{_docdir}/%{name}/etc/pgagroal.socket
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-extended.png %{buildroot}%{_docdir}/%{name}/images/perf-extended.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-prepared.png %{buildroot}%{_docdir}/%{name}/images/perf-prepared.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-readonly.png %{buildroot}%{_docdir}/%{name}/images/perf-readonly.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-simple.png %{buildroot}%{_docdir}/%{name}/images/perf-simple.png
 
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal.conf %{buildroot}%{_sysconfdir}/pgagroal/pgagroal.conf
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgagroal_hba.conf %{buildroot}%{_sysconfdir}/pgagroal/pgagroal_hba.conf
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}_hba.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}_hba.conf
 
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal.1 %{buildroot}%{_mandir}/man1/pgagroal.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal-admin.1 %{buildroot}%{_mandir}/man1/pgagroal-admin.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal-cli.1 %{buildroot}%{_mandir}/man1/pgagroal-cli.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal.conf.5 %{buildroot}%{_mandir}/man5/pgagroal.conf.5
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal_databases.conf.5 %{buildroot}%{_mandir}/man5/pgagroal_databases.conf.5
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal_hba.conf.5 %{buildroot}%{_mandir}/man5/pgagroal_hba.conf.5
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-admin.1 %{buildroot}%{_mandir}/man1/%{name}-admin.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-cli.1 %{buildroot}%{_mandir}/man1/%{name}-cli.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.conf.5 %{buildroot}%{_mandir}/man5/%{name}.conf.5
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}_databases.conf.5 %{buildroot}%{_mandir}/man5/%{name}_databases.conf.5
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}_hba.conf.5 %{buildroot}%{_mandir}/man5/%{name}_hba.conf.5
 
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgagroal %{buildroot}%{_bindir}/pgagroal
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgagroal-cli %{buildroot}%{_bindir}/pgagroal-cli
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgagroal-admin %{buildroot}%{_bindir}/pgagroal-admin
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name} %{buildroot}%{_bindir}/%{name}
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-cli %{buildroot}%{_bindir}/%{name}-cli
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-admin %{buildroot}%{_bindir}/%{name}-admin
 
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/libpgagroal.so.%{version} %{buildroot}%{_libdir}/libpgagroal.so.%{version}
 
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgagroal
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgagroal-cli
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgagroal-admin
+
+# Install unit file
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.service %{buildroot}%{_unitdir}/
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.socket %{buildroot}%{_unitdir}/
+# ... and make a tmpfiles script to recreate it at reboot.
+%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_rundir}/%{sname} 0755 root root -
+EOF
+
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-cli
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-admin
 
 cd %{buildroot}%{_libdir}/
 %{__ln_s} -f libpgagroal.so.%{version} libpgagroal.so.0
 %{__ln_s} -f libpgagroal.so.0 libpgagroal.so
 
+%post
+if [ $1 -eq 1 ] ; then
+%systemd_post %{name}.service
+fi
+
+%preun
+if [ $1 -eq 0 ] ; then
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+fi
+
+%postun
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+fi
+
 %files
 %license %{_docdir}/%{name}/LICENSE
-%{_docdir}/%{name}/ARCHITECTURE.md
-%{_docdir}/%{name}/CONFIGURATION.md
-%{_docdir}/%{name}/FAILOVER.md
-%{_docdir}/%{name}/GETTING_STARTED.md
-%{_docdir}/%{name}/PERFORMANCE.md
-%{_docdir}/%{name}/PIPELINES.md
-%{_docdir}/%{name}/README.md
-%{_docdir}/%{name}/RPM.md
+%{_docdir}/%{name}/*.md
 %{_docdir}/%{name}/SECURITY.md
-%{_docdir}/%{name}/etc/pgagroal.service
-%{_docdir}/%{name}/etc/pgagroal.socket
-%{_docdir}/%{name}/images/perf-extended.png
-%{_docdir}/%{name}/images/perf-prepared.png
-%{_docdir}/%{name}/images/perf-readonly.png
-%{_docdir}/%{name}/images/perf-simple.png
-%{_mandir}/man1/pgagroal.1*
-%{_mandir}/man1/pgagroal-admin.1*
-%{_mandir}/man1/pgagroal-cli.1*
-%{_mandir}/man5/pgagroal.conf.5*
-%{_mandir}/man5/pgagroal_databases.conf.5*
-%{_mandir}/man5/pgagroal_hba.conf.5*
-%config %{_sysconfdir}/pgagroal/pgagroal.conf
-%config %{_sysconfdir}/pgagroal/pgagroal_hba.conf
-%{_bindir}/pgagroal
-%{_bindir}/pgagroal-cli
-%{_bindir}/pgagroal-admin
+%{_docdir}/%{name}/images/*.png
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/%{name}-admin.1*
+%{_mandir}/man1/%{name}-cli.1*
+%{_mandir}/man5/%{name}.conf.5*
+%{_mandir}/man5/%{name}_databases.conf.5*
+%{_mandir}/man5/%{name}_hba.conf.5*
+%config %{_sysconfdir}/%{name}/%{name}.conf
+%config %{_sysconfdir}/%{name}/%{name}_hba.conf
+%{_bindir}/%{name}
+%{_bindir}/%{name}-cli
+%{_bindir}/%{name}-admin
 %{_libdir}/libpgagroal.so
 %{_libdir}/libpgagroal.so.0
 %{_libdir}/libpgagroal.so.%{version}
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{name}.service
+%{_unitdir}/%{name}.socket
 
 %changelog
+* Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-2
+- Install systemd related files under their actual directory and
+  and improve systemd support.
+- Use macros more.
+
 * Tue Sep 22 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-1
 - Update to 0.9.0
 
