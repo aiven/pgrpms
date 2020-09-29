@@ -35,7 +35,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha2_1%{?dist}
+Release:	alpha2_2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2.pdf
@@ -45,7 +45,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	pgdg-srpm-macros >= 1.0.4 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.5 pcre-devel gmp-devel
 Requires:	gmp
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -341,6 +341,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 29 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_2
+- Rebuild against GDAL and libgeotiff 1.6
+
 * Tue Jul 28 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_1
 - Update to 3.1 alpha2
 
