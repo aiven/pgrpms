@@ -12,7 +12,7 @@ URL:		http://trac.osgeo.org/geotiff/
 Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros
+BuildRequires:	pgdg-srpm-macros >= 1.0.5
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
