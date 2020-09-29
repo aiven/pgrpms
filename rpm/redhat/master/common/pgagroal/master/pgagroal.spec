@@ -128,7 +128,7 @@ fi
 
 %changelog
 * Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-2
-- Install systemd related files under their actual directory and
+- Install systemd related files under their actual directory,
   and improve systemd support.
 - Use macros more.
 
