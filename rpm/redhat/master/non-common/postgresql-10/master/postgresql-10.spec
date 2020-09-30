@@ -23,7 +23,12 @@
 %{!?ldap:%global ldap 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
+
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%{!?plpython2:%global plpython2 0}
+%else
 %{!?plpython2:%global plpython2 1}
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} < 7
 # RHEL 6 does not have Python 3
@@ -33,8 +38,6 @@
 # Support Python3 on RHEL 7.7+ natively
 # RHEL 8 uses Python3
 %{!?plpython3:%global plpython3 1}
-# This is the list of contrib modules that will be compiled with PY3 as well:
-%global	python3_build_list hstore_plpython ltree_plpython
 %endif
 
 %if 0%{?suse_version}
@@ -43,6 +46,9 @@
 %{!?plpython3:%global plpython3 0}
 %endif
 %endif
+
+# This is the list of contrib modules that will be compiled with PY3 as well:
+%global python3_build_list hstore_plpython ltree_plpython
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
@@ -77,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.14
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -263,13 +269,18 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 %package libs
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
+
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	openssl
 %else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-Requires:      libopenssl1_0_0
+Requires:	libopenssl1_0_0
+%else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
+%endif
 %endif
 %endif
 
@@ -371,6 +382,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 
 Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
@@ -626,13 +638,13 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-# We need to build PL/Python and a few extensions:
-# Build PL/Python
+# We need to build PL/Python 3 and a few extensions:
+# Build PL/Python 3
 cd src/backend
-%{__make} submake-errcodes
+MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
 cd src/pl/plpython
-%{__make} %{?_smp_mflags} all
+%{__make} all
 cd ..
 # save built form in a directory that "make distclean" won't touch
 %{__cp} -a plpython plpython3
@@ -641,20 +653,26 @@ cd ../..
 for p3bl in %{python3_build_list} ; do
 	p3blpy3dir="$p3bl"3
 	pushd contrib/$p3bl
-	%{__make} %{?_smp_mflags} all
+	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 	cd ..
 	# save built form in a directory that "make distclean" won't touch
 	%{__cp} -a $p3bl $p3blpy3dir
 	popd
 done
-
-
 # must also save this version of Makefile.global for later
+# on platforms where Python 2 is still available:
 %{__cp} src/Makefile.global src/Makefile.global.python3
 
+%if %plpython2
+# Clean up the tree.
 %{__make} distclean
+%endif
 
 %endif
+# NOTE: PL/Python3 (END)
+
+# NOTE: PL/Python 2
+%if %{?plpython2}
 
 unset PYTHON
 # Explicitly run Python2 here -- in future releases,
@@ -733,7 +751,32 @@ export PYTHON=/usr/bin/python2
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
-%{__make} %{?_smp_mflags} all
+# We need to build PL/Python 2 and a few extensions:
+# Build PL/Python 2
+cd src/backend
+MAKELEVEL=0 %{__make} submake-generated-headers
+cd ../..
+cd src/pl/plpython
+%{__make} all
+cd ..
+# save built form in a directory that "make distclean" won't touch
+%{__cp} -a plpython plpython2
+cd ../..
+# Build some of the extensions with PY2 support as well.
+for p2bl in %{python3_build_list} ; do
+	p2blpy2dir="$p2bl"2
+	pushd contrib/$p2bl
+	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+	# save built form in a directory that "make distclean" won't touch
+	cd ..
+	%{__cp} -a $p2bl $p2blpy2dir
+	popd
+done
+%endif
+# NOTE: PL/Python 2 (END)
+
+
+MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 %{__make} %{?_smp_mflags} -C contrib all
 %if %uuid
 %{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
@@ -915,6 +958,12 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
+%if ! %plpython2
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%endif
+
 # Fix some more documentation
 # gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
@@ -937,7 +986,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__cp} /dev/null devel.lst
 %{__cp} /dev/null plperl.lst
 %{__cp} /dev/null pltcl.lst
-%{__cp} /dev/null plpython.lst
+%{__cp} /dev/null pg_plpython.lst
 %{__cp} /dev/null pg_plpython3.lst
 
 %if %nls
@@ -970,7 +1019,7 @@ cat plpython-%{pgmajorversion}.lang > pg_plpython.lst
 %if %plpython3
 # plpython3 shares message files with plpython
 %find_lang plpython-%{pgmajorversion}
-cat plpython-%{pgmajorversion}.lang >> pg_plpython3.lst
+cat plpython-%{pgmajorversion}.lang > pg_plpython3.lst
 %endif
 
 %if %pltcl
@@ -1447,6 +1496,9 @@ fi
 %endif
 
 %changelog
+* Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 10.14-3PGDG
+- Updates for Fedora 33 support.
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 10.14-2PGDG
 - Add setup script under $PATH
 
