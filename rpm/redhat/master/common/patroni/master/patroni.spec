@@ -6,8 +6,8 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	2.0.0
-Release:	2%{?dist}
+Version:	2.0.1
+Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -151,6 +151,9 @@ fi
 
 
 %changelog
+* Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
+- Update to 2.0.1
+
 * Mon Sep 7 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-2
 - Fix another missing dependency (needed by urllib3)
 
