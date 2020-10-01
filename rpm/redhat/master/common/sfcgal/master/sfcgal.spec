@@ -96,14 +96,21 @@ cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %cmake \
 %endif
 	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
+
 if [ -d "x86_64-redhat-linux-gnu" ]
 then
 pushd x86_64-redhat-linux-gnu
 fi
-make %{?_smp_mflags}
+
+%{__make} %{?_smp_mflags}
 
 %install
-make %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
+if [ -d "x86_64-redhat-linux-gnu" ]
+then
+pushd x86_64-redhat-linux-gnu
+fi
+
+%{__make} %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
 
 %post
 %ifarch ppc64 ppc64le
