@@ -13,7 +13,7 @@ commonbfsrpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" --sign \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12"  --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13"  --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 commonbuild: commonbfsrpm
@@ -23,7 +23,7 @@ commonbuild: commonbfsrpm
 	--define "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 commonrpm: prep
@@ -33,14 +33,14 @@ commonrpm: prep
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 commonnoprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" --sign \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
@@ -49,7 +49,7 @@ commonnoprepbuild:
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 commonnopreprpm:
@@ -59,13 +59,13 @@ commonnopreprpm:
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 commonnoprepsrpm:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
-	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
+	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
