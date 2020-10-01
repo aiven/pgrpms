@@ -13,7 +13,7 @@ Version:	1.3.9
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 %endif
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -23,14 +23,10 @@ Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
 Patch1:		sfcgal-config.patch
 %endif
 URL:		http://sfcgal.org/
-%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} <= 31 || 0%{?rhel} <= 8 || 0%{?suse_version} >= 1315
 # We provide these package in our repo
-BuildRequires:	CGAL-devel >= 4.14
-Requires:	CGAL => 4.14
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	CGAL-devel
-Requires:	CGAL
+BuildRequires:	CGAL-devel >= 4.7
+Requires:	CGAL => 4.7
 %endif
 BuildRequires:	cmake pgdg-srpm-macros
 %if 0%{?suse_version}
@@ -155,6 +151,9 @@ fi
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Fri Oct 2 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-2
+- We don't need CGAL dependency for CGAL >= 5.0 (Fedora 32 and above)
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-1
 - Update to 1.3.9 for Fedora 33 (CGAL 5.1)
 
