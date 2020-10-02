@@ -2,7 +2,7 @@
 %global		_missing_build_ids_terminate_build 0
 
 Name:		consul
-Version:	1.8.1
+Version:	1.8.4
 Release:	1%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
@@ -112,6 +112,9 @@ fi
 %doc
 
 %changelog
+* Fri Oct 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.4-1
+- Update to 1.8.4
+
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.1-1
 - Update to 1.8.1
 - Disable telemetry.
