@@ -112,7 +112,7 @@ fi
 %doc
 
 %changelog
-* Fri Oct 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.4-1
+* Fri Oct 2 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.4-1
 - Update to 1.8.4
 
 * Thu Aug 6 2020 Devrim Gündüz <devrim@gunduz.org> 1.8.1-1
