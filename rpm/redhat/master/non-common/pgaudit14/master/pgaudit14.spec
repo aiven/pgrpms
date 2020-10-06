@@ -6,8 +6,8 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}14_%{pgmajorversion}
-Version:	1.4.0
-Release:	2%{?dist}
+Version:	1.4.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -73,6 +73,9 @@ trail or audit log. The term audit log is used in this documentation.
 %endif
 
 %changelog
+* Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.1 1
+- Update to 1.4.1
+
 * Sun May 10 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-2
 - Fix pgdg-srpm-macros dependency. Per John.
 
