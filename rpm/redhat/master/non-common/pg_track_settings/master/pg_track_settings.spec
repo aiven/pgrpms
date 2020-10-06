@@ -7,8 +7,8 @@
 
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}%{pgmajorversion}
-Version:	2.0.0
-Release:	2%{?dist}
+Version:	2.0.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -68,6 +68,9 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
+- Update to 2.0.1
+
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-2
 - Switch to pgdg-srpm-macros
 
