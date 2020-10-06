@@ -6,8 +6,8 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}12_%{pgmajorversion}
-Version:	1.2.1
-Release:	2%{?dist}
+Version:	1.2.2
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -63,6 +63,9 @@ trail or audit log. The term audit log is used in this documentation.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
+- Update to 1.2.2
+
 * Sun May 10 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-2
 - Fix pgdg-srpm-macros dependency. Per John.
 
