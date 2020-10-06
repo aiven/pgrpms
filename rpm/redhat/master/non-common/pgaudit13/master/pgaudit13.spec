@@ -59,8 +59,7 @@ trail or audit log. The term audit log is used in this documentation.
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/pgaudit--1.3.1.sql
-%{pginstdir}/share/extension/pgaudit--1.3--1.3.1.sql
+%{pginstdir}/share/extension/pgaudit*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
