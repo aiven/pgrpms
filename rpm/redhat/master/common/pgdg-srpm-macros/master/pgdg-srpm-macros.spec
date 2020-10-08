@@ -11,7 +11,7 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.5
+Version:	1.0.6
 Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -46,6 +46,9 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Thu Oct 8 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-1
+- Add IBM Advance Toolchain 12, 13 and 14 support
+
 * Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.5-1
 - Update libgeotiff to 1.6
 - Update GDAL to 3.1.3
