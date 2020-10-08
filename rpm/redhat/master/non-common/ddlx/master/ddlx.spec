@@ -7,7 +7,7 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.16
+Version:	0.17
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
@@ -58,6 +58,9 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Thu Oct 8 2020 Devrim Gündüz <devrim@gunduz.org> - 0.17-1
+- Update to 0.17
+
 * Sun May 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.16-1
 - Update to 0.16
 
