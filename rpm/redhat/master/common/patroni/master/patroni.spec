@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	2.0.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -45,7 +45,7 @@ caveats. Use wisely.
 %package -n %{name}-consul
 Summary:	Related components to use patroni with Consul
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	python3-consul >= 0.7.1 consul
+Requires:	python3-consul >= 0.7.1 consul python3-requests
 
 %description -n  %{name}-consul
 Meta package to pull consul related dependencies for patroni
@@ -152,6 +152,9 @@ fi
 
 
 %changelog
+* Mon Oct 12 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-4
+- Add python3-requests dependency, per Julian Markwort
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-3
 - Make sure that we require ydiff >= 1.2.
 
