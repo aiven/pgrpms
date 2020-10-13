@@ -1,6 +1,6 @@
 Name:		pgagroal
-Version:	0.9.0
-Release:	2%{dist}
+Version:	0.9.1
+Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
 URL:		https://github.com/agroal/%{name}
@@ -127,6 +127,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Tue Oct 14 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-1
+- Update to 0.9.1
+
 * Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-2
 - Install systemd related files under their actual directory,
   and improve systemd support.
