@@ -4,10 +4,16 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-%if 0%{?fedora} <= 32 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
 Version:	1.3.8
 %endif
-%if 0%{?fedora} >= 33
+%if 0%{?rhel} && 0%{?rhel} >= 8
+Version:	1.3.8
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 32
+Version:	1.3.8
+%endif
+%if 0%{?fedora} && 0%{?fedora} >= 33
 Version:	1.3.9
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
