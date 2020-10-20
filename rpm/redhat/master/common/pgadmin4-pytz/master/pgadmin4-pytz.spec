@@ -9,8 +9,8 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 %endif
 Name:		pgadmin4-%{sname}
-Version:	2018.9
-Release:	3%{?dist}
+Version:	2020.1
+Release:	1%{?dist}
 Summary:	World Timezone Definitions for Python
 
 License:	MIT
@@ -56,6 +56,9 @@ chmod +x %{buildroot}%{python3_sitelib}/%{sname}/*.py
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
+* Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 2020.1-1
+- Update to 2020.1
+
 * Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 2018.9-3
 - Fix builds on RHEL 8, per patch from Talha Bin Rizwan.
 
