@@ -3,7 +3,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.30
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -26,6 +26,7 @@ BuildRequires:	liblz4-devel
 %endif
 
 Requires:	postgresql-libs libzstd
+Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
 
 %description
@@ -64,6 +65,11 @@ popd
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+%pre
+groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
+useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
+	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -82,6 +88,9 @@ popd
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Oct20 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-2
+- Create postgres user, if it does not exist. Per report by Magnus.
+
 * Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-1
 - Update to 2.30
 
