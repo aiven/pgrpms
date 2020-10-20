@@ -1,0 +1,17 @@
+<comps>        
+  <group>
+   <id>postgresqldbserver13</id>
+   <default>false</default>
+   <uservisible>true</uservisible>
+   <display_order>1024</display_order>
+   <name>PostgreSQL Database Server 13 PGDG</name>
+   <description></description>
+    <packagelist>
+      <packagereq type="mandatory">postgresql13</packagereq>
+      <packagereq type="mandatory">postgresql13-contrib</packagereq>
+      <packagereq type="mandatory">postgresql13-libs</packagereq>
+      <packagereq type="mandatory">postgresql13-server</packagereq>
+    </packagelist>
+  </group>
+</comps>
+
