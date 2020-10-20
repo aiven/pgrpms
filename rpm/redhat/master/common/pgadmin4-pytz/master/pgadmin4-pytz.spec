@@ -51,7 +51,7 @@ chmod +x %{buildroot}%{python3_sitelib}/%{sname}/*.py
 
 %files
 %license LICENSE.txt
-%doc README.txt
+%doc README.rst
 %{pgadmin4py3instdir}/*%{sname}*.egg-info
 %{pgadmin4py3instdir}/%{sname}
 
