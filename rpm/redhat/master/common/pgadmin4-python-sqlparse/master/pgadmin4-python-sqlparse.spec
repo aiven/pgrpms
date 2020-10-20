@@ -11,8 +11,8 @@
 %endif
 
 Name:		pgadmin4-python3-%{sname}
-Version:	0.2.4
-Release:	2%{?dist}
+Version:	0.3.0
+Release:	1%{?dist}
 Summary:	Non-validating SQL parser for Python
 
 License:	BSD
@@ -56,6 +56,9 @@ It is a python module, together with a command-line tool.
 %{pgadmin4py3instdir}/%{sname}
 
 %changelog
+* Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 0.3.0-1
+- Update to 0.3.0
+
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-2
 - Switch to Python3 on RHEL 7.
 
