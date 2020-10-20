@@ -9,7 +9,7 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.26
+Version:	4.27
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -98,7 +98,7 @@ Requires:	httpd
 BuildArch:	noarch
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
-Requires:	%{name}-pytz >= 2018.9 %{name}-python3-psutil >= 5.7.0
+Requires:	%{name}-pytz >= 2020.1 %{name}-python3-psutil >= 5.7.0
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-passlib >= 1.7.2
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-werkzeug >= 0.15.4
@@ -106,7 +106,7 @@ Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
 Requires:	python3-flask-wtf >= 0.14.2 python3-sqlalchemy >= 1.2.18
 Requires:	python3-wtforms >= 2.2.1 python3-speaklater >= 1.3
 Requires:	python3-simplejson >= 3.16.0 python3-dateutil >= 2.8.0
-Requires:	python3-sqlparse >= 0.2.4 python3-flask-gravatar >= 0.5.0
+Requires:	python3-sqlparse >= 0.3.0 python3-flask-gravatar >= 0.5.0
 Requires:	python3-flask-mail >= 0.9.1 pgadmin4-python3-flask-security-too >= 3.3.3
 Requires:	python3-flask-login >= 0.4.1 python3-flask-paranoid >= 0.2
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-blinker >= 1.4
@@ -120,7 +120,7 @@ Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-sqlalchemy >= 1.2.
 Requires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-blinker >= 1.4
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-psutil >= 5.7.0
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-backports.csv >= 1.0.5
-Requires:	%{name}-pytz >= 2018.9 %{name}-python3-sqlparse >= 0.2.4
+Requires:	%{name}-pytz >= 2020.1 %{name}-python3-sqlparse >= 0.3.0
 Requires:	%{name}-python3-flask-gravatar >= 0.5.0 %{name}-python3-flask-paranoid >= 0.2
 Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security-too >= 3.3.3
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-principal >= 0.4.0
@@ -136,10 +136,10 @@ Requires:	%{name}-python3-flask >= 1.0.2
 Requires:	%{name}-python3-flask-wtf >= 0.14.2 %{name}-python3-sqlalchemy >= 1.2.18
 Requires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-passlib >= 1.7.2
 Requires:	%{name}-python3-simplejson >= 3.16.0 %{name}-python3-dateutil >= 2.8.0
-Requires:	%{name}-python3-sqlparse >= 0.2.4 %{name}-python3-flask-gravatar >= 0.5.0
+Requires:	%{name}-python3-sqlparse >= 0.3.0 %{name}-python3-flask-gravatar >= 0.5.0
 Requires:	%{name}-python3-Flask-Mail >= 0.9.1 %{name}-python3-flask-security-too >= 3.3.3
 Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-paranoid >= 0.2
-Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2018.9
+Requires:	%{name}-python3-flask-principal >= 0.4.0 %{name}-pytz >= 2020.1
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-six >= 1.12.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-psutil >= 5.7.0 %{name}-python3-flask-sqlalchemy >= 2.3.2
@@ -340,6 +340,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Oct 20 2020 - Devrim Gündüz <devrim@gunduz.org> 4.27-1
+- Update to 4.27
+
 * Wed Sep 16 2020 - Devrim Gündüz <devrim@gunduz.org> 4.26-1
 - Update to 4.26
 
