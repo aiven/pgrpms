@@ -88,7 +88,7 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Tue Oct20 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-2
+* Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-2
 - Create postgres user, if it does not exist. Per report by Magnus.
 
 * Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-1
