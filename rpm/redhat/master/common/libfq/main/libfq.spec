@@ -11,7 +11,7 @@ URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
 Group:		Development/Libraries/C and C++
 BuildRequires:	firebird-devel
-Requires:	firebird-libfbclient
+Requires:	libfbclient2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
