@@ -1,38 +1,31 @@
 %global sname pldebugger
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Name:		%{sname}%{pgmajorversion}
-Version:	1.2
+Version:	1.3
 Release:	1%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
-URL:		https://git.postgresql.org/gitweb/?p=%{sname}.git;a=summary
-Source0:	%{sname}-%{version}.tar.bz2
+URL:		https://github.com/EnterpriseDB/%{sname}
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Source1:	%{sname}.LICENSE
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
 This module is a set of shared libraries which implement an API for
-debugging PL/pgSQL functions on PostgreSQL 8.4 and above. The pgAdmin
+debugging PL/pgSQL functions on PostgreSQL 9.4 and above. The pgAdmin
 project (http://www.pgadmin.org/) provides a client user interface as
-part of pgAdmin III v1.10.0 and above, and pgAdmin 4.
+part of pgAdmin 4.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -42,10 +35,7 @@ part of pgAdmin III v1.10.0 and above, and pgAdmin 4.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
@@ -54,8 +44,8 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/share/extension
-install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{sname}
+%{__install} -d %{buildroot}%{pginstdir}/share/extension
+%{__install} -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{sname}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -84,6 +74,10 @@ install -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{s
 
 
 %changelog
+* Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
+- Update to 1.3
+- Switch to the new URL
+
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
 - Update to 1.2
 
