@@ -12,7 +12,8 @@ Source:		https://github.com/ibarwick/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
 Group:		Productivity/Databases/Tools
-BuildRequires:	postgresql%{pgmajorversion}-devel firebird-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel firebird-devel
+BuildRequires:	libfq pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %if 0%{?rhel} && 0%{?rhel} == 7
