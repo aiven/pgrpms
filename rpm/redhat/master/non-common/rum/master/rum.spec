@@ -1,4 +1,3 @@
-%global pgmajorversion 11
 %global sname	rum
 
 %ifarch ppc64 ppc64le
@@ -7,8 +6,8 @@
 
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.1
-Release:	2%{?dist}
+Version:	1.3.7
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -75,6 +74,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> 1.3.7-1
+- Update to 1.3.7
+
 * Wed Apr 1 2020 Devrim Gündüz <devrim@gunduz.org> 1.3.1-2
 - Add missing BR and Requires
 - Switch to pgdg-srpm-macros
