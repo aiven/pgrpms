@@ -15,7 +15,7 @@ License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macrosx
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 Requires:	postgresql%{pgmajorversion}-server
 
