@@ -10,8 +10,13 @@ Source:		https://github.com/ibarwick/%{name}/archive/0.4.2.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
 Group:		Development/Libraries/C and C++
-BuildRequires:	firebird-devel
+BuildRequires:	firebird-devel libfbclient2
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+Requires:	firebird-libfbclient
+%else
 Requires:	libfbclient2
+%endif
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
