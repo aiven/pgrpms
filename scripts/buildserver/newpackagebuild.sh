@@ -19,16 +19,26 @@ declare -a pgStableBuilds=("13 12 11 10 9.6 9.5" )
 # Supported "testing" versions
 declare -a pgTestVersions=("13 12 11" )
 
-packagename=$1
-buildVersion=$2
+#Color schemes
+red=`tput setaf 1`
+green=`tput setaf 2`
+blue=`tput setaf 4`
+reset=`tput sgr0`
 
-if [ "$packagename" == "" ]
-then
-	echo "Please specify a package name as a parameter"
-	echo "i.e. buildpackage.sh postgresql"
-	echo
+# if less than two arguments supplied, throw error:
+	if [  $# -le 1 ]
+	then
+		echo
+		echo "${red}ERROR:${reset} This script must be run with at least two parameters:"
+		echo "       package name, package version"
+		echo "       and optional: PostgreSQL version to build against"
+		echo
 	exit 1
-fi
+	fi
+
+packagename=$1
+packageVersion=$2
+buildVersion=$3
 
 
 # Common function to sign the package.
@@ -36,14 +46,14 @@ sign_package(){
 	# Remove all files with .sig suffix. They are leftovers  which appear
 	# when signing process is not completed. Signing will be broken when
 	# they exist.
-	find ~/rpm* -iname "$packagename*.rpm" -type -f -print0 | xargs -0 /bin/rm -v -rf "{}"
+	find ~/rpm* -iname "*.sig" -type -f -print0 | xargs -0 /bin/rm -v -rf "{}"
 
 	# Find the packages, and sign them. In the future, a better approach would be getting
 	# the version number from the spec file, so that we don't go over the older packages that
 	# are already signed. This is not a problem for now, we just lose time. Older packages
 	# won't be signed again anyway.
 	# For the impatient: piping find to xargs won't work, so I did not use it.
-	for signpackagelist in `find ~/rpm* -iname "$packagename*.rpm"`; do rpm --addsign $signpackagelist; done
+	for signpackagelist in `find ~/rpm* -iname "$packagename*$packageVersion*.rpm"`; do rpm --addsign $signpackagelist; done
 }
 
 
@@ -52,7 +62,7 @@ sign_package(){
 # If the package is in common, then build it, sign it and exit safely:
 if [ -x ~/git/pgrpms/rpm/redhat/master/common/$packagename/$os ]
 then
-echo "Ok, this is a common package, and I am building $packagename for $os for common repo"
+echo "${green} Ok, this is a common package, and I am building $packagename for $os for common repo.${reset}"
 sleep 1
        	cd ~/git/pgrpms/rpm/redhat/master/common/$packagename/$os
         time make commonbuild
@@ -79,7 +89,9 @@ sleep 1
 			if [ -x ~/git/pgrpms/rpm/redhat/$packagepgbuildversion/$packagename/$os ]
 	       		then
 				cd ~/git/pgrpms/rpm/redhat/$packagepgbuildversion/$packagename/$os
+				# Build targets in the Makefiles don't have dot in them, so:
 				pgshortversion=`echo $packagepgbuildversion | tr -d . `
+
 				time make build${pgshortversion}
 
 				# DISABLED: This code is there for historical reasons. We already changed the way how testing repo works:
@@ -99,7 +111,9 @@ sleep 1
 		if [ -x ~/git/pgrpms/rpm/redhat/$buildVersion/$packagename/$os ]
 	      		then
 			cd ~/git/pgrpms/rpm/redhat/$buildVersion/$packagename/$os
+			# Build targets in the Makefiles don't have dot in them, so:
 			pgshortversion=`echo $buildVersion | tr -d . `
+
 			time make build${pgshortversion}
 			sign_package
 
