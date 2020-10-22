@@ -3,7 +3,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.30
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -65,7 +65,10 @@ popd
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-%pre
+# PGDATA needs removal of group and world permissions due to pg_pwd hole.
+%{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/data
+
+%post
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
@@ -88,6 +91,9 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Oct 22 Devrim Gündüz <devrim@gunduz.org> - 2.30-3
+- Also create postgres' home directory, per Stefan Fercot
+
 * Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-2
 - Create postgres user, if it does not exist. Per report by Magnus.
 
