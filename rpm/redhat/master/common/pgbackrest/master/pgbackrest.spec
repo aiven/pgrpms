@@ -91,7 +91,7 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Thu Oct 22 Devrim Gündüz <devrim@gunduz.org> - 2.30-3
+* Thu Oct 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-3
 - Also create postgres' home directory, per Stefan Fercot
 
 * Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-2
