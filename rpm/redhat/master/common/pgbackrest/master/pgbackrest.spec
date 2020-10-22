@@ -65,13 +65,13 @@ popd
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-# PGDATA needs removal of group and world permissions due to pg_pwd hole.
-%{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/data
-
 %post
+# PGDATA needs removal of group and world permissions due to pg_pwd hole.
+%{__install} -d -m 700 /var/lib/pgsql/
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+%{__chown} postgres: /var/lib/pgsql
 
 %clean
 %{__rm} -rf %{buildroot}
