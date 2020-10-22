@@ -23,20 +23,20 @@ build14testing: bfsrpm14testing
 	--define "_buildrootdir $(HOME)/rpm14testing/BUILDROOT" \
 	--define "_builddir $(HOME)/rpm14testing/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm14testing/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm14testing/RPMS/" \
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 srpm14testing: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm14testing/BUILDROOT" \
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14"  --define "pgpackageversion 14" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm14testing: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm14testing/BUILDROOT" \
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14"  --define "pgpackageversion 14" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -70,7 +70,7 @@ nosignbuild14testimg: bfnosignsrpm14testing
 
 noprepbuild14testing:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm14testing/BUILDROOT" \
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -80,7 +80,7 @@ noprepbuild14testing:
 	--define  "_builddir $(HOME)/rpm14testing/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm14testing/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm14testing/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm14testing/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm14testing/RPMS/" \
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 

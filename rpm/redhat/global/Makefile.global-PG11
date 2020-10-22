@@ -30,20 +30,20 @@ build11: bfsrpm11
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
 	--define "_builddir $(HOME)/rpm11/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm11/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm11/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm11/RPMS/" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 srpm11: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm11: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -77,7 +77,7 @@ nosignbuild11: bfnosignsrpm11
 
 noprepbuild11:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -87,7 +87,7 @@ noprepbuild11:
 	--define  "_builddir $(HOME)/rpm11/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm11/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm11/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm11/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm11/RPMS/" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 

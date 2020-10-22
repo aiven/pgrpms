@@ -11,7 +11,7 @@
 
 commonbfsrpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13"  --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -22,7 +22,7 @@ commonbuild: commonbfsrpm
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
-	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
@@ -38,7 +38,7 @@ commonrpm: prep
 
 commonnoprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -48,7 +48,7 @@ commonnoprepbuild:
 	--define  "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
-	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 

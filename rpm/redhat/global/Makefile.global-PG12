@@ -30,20 +30,20 @@ build12: bfsrpm12
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \
 	--define "_builddir $(HOME)/rpm12/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm12/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm12/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm12/RPMS/" \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 srpm12: prep12
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12"  --define "pgpackageversion 12" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm12: prep12
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm12/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm12/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12"  --define "pgpackageversion 12" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -77,7 +77,7 @@ nosignbuild12: bfnosignsrpm12
 
 noprepbuild12:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm12/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm12/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -87,7 +87,7 @@ noprepbuild12:
 	--define  "_builddir $(HOME)/rpm12/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm12/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm12/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm12/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm12/RPMS/" \
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 

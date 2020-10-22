@@ -30,20 +30,20 @@ build95: bfsrpm95
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_builddir $(HOME)/rpm95/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm95/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm95/RPMS/" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 srpm95: prep95
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5"  --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm95: prep95
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5"  --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -77,7 +77,7 @@ nosignbuild95: bfnosignsrpm95
 
 noprepbuild95:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -87,7 +87,7 @@ noprepbuild95:
 	--define  "_builddir $(HOME)/rpm95/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm95/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm95/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm95/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm95/RPMS/" \
 	--define "pgmajorversion 95" --define "pginstdir /usr/pgsql-9.5" --define "pgpackageversion 9.5" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 

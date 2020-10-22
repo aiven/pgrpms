@@ -23,20 +23,20 @@ build11testing: bfsrpm11testing
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "_builddir $(HOME)/rpm11testing/BUILD" \
 	--define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm11testing/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm11testing/RPMS/" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
 srpm11testing: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir ." --sign \
+	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
 bfsrpm11testing: prep11
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11"  --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -70,7 +70,7 @@ nosignbuild11testimg: bfnosignsrpm11testing
 
 noprepbuild11testing:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" --sign \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
@@ -80,7 +80,7 @@ noprepbuild11testing:
 	--define  "_builddir $(HOME)/rpm11testing/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm11testing/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm11testing/SRPMS" \
-	--define "_rpmdir $(HOME)/rpm11testing/RPMS/" --sign \
+	--define "_rpmdir $(HOME)/rpm11testing/RPMS/" \
 	--define "pgmajorversion 11" --define "pginstdir /usr/pgsql-11" --define "pgpackageversion 11" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
