@@ -12,8 +12,11 @@ Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
 Source0:	https://repmgr.org/download/%{sname}-%{version}.tar.gz
+%if %{systemd_enabled}
 Source1:	repmgr-pg%{pgmajorversion}.service
+%else
 Source2:	repmgr-pg%{pgmajorversion}.init
+%endif
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
 Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 Patch1:		repmgr-pg%{pgmajorversion}-config-file-location.patch
