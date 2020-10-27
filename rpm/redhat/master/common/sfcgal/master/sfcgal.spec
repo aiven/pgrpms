@@ -9,15 +9,21 @@ Version:	1.3.8
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 Version:	1.3.8
+Requires:	CGAL => 4.7
+BuildRequires:	CGAL-devel >= 4.7
 %endif
 %if 0%{?fedora} && 0%{?fedora} <= 32
 Version:	1.3.8
+Requires:	CGAL => 4.7
+BuildRequires:	CGAL-devel >= 4.7
 %endif
 %if 0%{?fedora} && 0%{?fedora} >= 33
 Version:	1.3.9
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
+Requires:	CGAL => 4.7
+BuildRequires:	CGAL-devel >= 4.7
 %endif
 Release:	2%{?dist}
 License:	GLPLv2
@@ -29,11 +35,7 @@ Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
 Patch1:		sfcgal-config.patch
 %endif
 URL:		http://sfcgal.org/
-%if 0%{?fedora} <= 31 || 0%{?rhel} <= 8 || 0%{?suse_version} >= 1315
-# We provide these package in our repo
-BuildRequires:	CGAL-devel >= 4.7
-Requires:	CGAL => 4.7
-%endif
+
 BuildRequires:	cmake pgdg-srpm-macros
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
