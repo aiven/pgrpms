@@ -6,15 +6,17 @@
 %endif
 
 Summary:	PostgreSQL extension to keep track of settings modification
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/rjuju/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.0.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -68,6 +70,10 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
 - Update to 2.0.1
 

@@ -5,9 +5,13 @@
 %global systemd_enabled 1
 %endif
 
-Name:		%{sname}%{pgmajorversion}
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+
+Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -43,10 +47,16 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 
-BuildRequires:	postgresql%{pgmajorversion}, postgresql%{pgmajorversion}-devel
-BuildRequires:	libxslt-devel, pam-devel, openssl-devel, readline-devel
-BuildRequires:	libmemcached-devel libicu-devel
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	libxslt-devel pam-devel openssl-devel readline-devel
+BuildRequires:	libmemcached-devel libicu-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 5.2.0-1
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 repmgr is an open-source tool suite to manage replication and failover in a
@@ -82,6 +92,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
 
 %build
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
@@ -182,6 +195,10 @@ fi
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Oct 22 2020 - Devrim Gündüz <devrim@gunduz.org> 5.2.0-1
 - Update to 5.2.0
 

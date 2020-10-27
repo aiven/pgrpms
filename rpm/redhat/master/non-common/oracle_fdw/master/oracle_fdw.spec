@@ -16,7 +16,7 @@
 %{!?runselftest:%global runselftest 0}
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
 Release:	2%{?dist}
 License:	PostgreSQL
@@ -26,6 +26,8 @@ Source1:	%{sname}-filter-requires-libclntsh.sh
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.3.0-1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:
@@ -93,6 +95,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.0-1
 - Update to 2.3.0
 

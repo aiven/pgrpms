@@ -1,30 +1,25 @@
 %global sname pg_jobmon
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Job logging and monitoring extension for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/pg_jobmon/%{version}/pg_jobmon-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/omniti-labs/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 BuildArch:	noarch
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.4.0-1
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -36,10 +31,7 @@ pg_jobmon is a job logging and monitoring extension for PostgreSQL.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -61,6 +53,10 @@ install -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.4.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Fri Oct 25 2019 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0
 

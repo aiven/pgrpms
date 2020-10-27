@@ -5,15 +5,17 @@
 %endif
 
 Summary:	Anonymization & Data Masking for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_2%{pgmajorversion}
 Version:	0.7.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://gitlab.com/daamien/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 0.7.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -67,6 +69,10 @@ PostgreSQL database.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> 0.7.1-1
 - Update to 0.7.1
 

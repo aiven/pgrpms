@@ -5,15 +5,17 @@
 %endif
 
 Summary:	Procedural language interface between PostgreSQL and R
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	8.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_1.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 0.4.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -65,6 +67,10 @@ statistical computing and graphics".
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Sep 14 2020 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-1
 - Update to 8.4.1
 

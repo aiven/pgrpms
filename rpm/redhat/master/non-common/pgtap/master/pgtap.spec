@@ -5,17 +5,19 @@
 %endif
 
 Summary:	Unit testing for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 # Use this source for pg_prove and pg_tapgen
 Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	perl-Test-Pod perl-Test-Pod-Coverage perl-Module-Build
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.1.0-1
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	perl-Module-Build
@@ -76,6 +78,10 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Sat Nov 30 2019 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 

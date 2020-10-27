@@ -1,16 +1,25 @@
 %global sname wal2mongo
 
-Summary:	PostgreSQL logical decoding output plugin for MongoDB
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
 
-Name:		%{sname}%{pgmajorversion}
+Summary:	PostgreSQL logical decoding output plugin for MongoDB
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/HighgoSoftware/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/HighgoSoftware/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.6-1
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 wal2mongo is a PostgreSQL logical decoding output plugin designed to make the
@@ -22,6 +31,9 @@ to a JSON-like format accepted by mongo.
 %patch0 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
@@ -48,5 +60,9 @@ USE_PGXS=1 %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Tue Jun 2 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.6-1
 - Initial RPM packaging for yum.postgresql.org

@@ -5,9 +5,9 @@
 %endif
 
 Summary:	A PostgreSQL API to interface with memcached
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.0
-Release:	3%{?dist}.2
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -15,6 +15,8 @@ URL:		https://github.com/Ohmu/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libmemcached-devel
 BuildRequires:	pgdg-srpm-macros cyrus-sasl-devel
 Requires:	postgresql%{pgmajorversion}-server libmemcached
+
+Obsoletes:	%{sname}-%{pgmajorversion} <= 2.3.0-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -67,6 +69,10 @@ an interface to memcached.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-4
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-3.2
 - Rebuild for PostgreSQL 12
 

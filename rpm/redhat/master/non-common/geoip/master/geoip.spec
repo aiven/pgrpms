@@ -5,15 +5,17 @@
 %endif
 
 Summary:	Geolocation using GeoIP for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.4
-Release:	1%{?dist}.2
+Release:	2%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/geoip/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildArch:	noarch
+
+Obsoletes:	%{sname}_%{pgmajorversion} <= 0.2.4-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -53,6 +55,10 @@ from MaxMind (available at www.maxmind.com).
 %{pginstdir}/share/extension/uninstall_%{sname}.sql
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.2.4-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 0.2.4-1.2
 - Rebuild for PostgreSQL 12
 

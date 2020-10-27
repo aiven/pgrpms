@@ -1,27 +1,24 @@
 %global sname tds_fdw
+
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.8
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tds-fdw/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel, freetds-devel
-Requires:	postgresql%{pgmajorversion}-server, freetds
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+BuildRequires:	postgresql%{pgmajorversion}-devel freetds-devel pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-server freetds
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.8-1
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -35,10 +32,7 @@ Server and Sybase databases.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
@@ -69,6 +63,10 @@ install -m 644 Variables.md %{buildroot}%{pginstdir}/doc/extension/Variables-%{s
 %{pginstdir}/lib/%{sname}.so
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1.1
 - Rebuild against PostgreSQL 11.0
 

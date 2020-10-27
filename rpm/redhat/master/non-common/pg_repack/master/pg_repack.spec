@@ -7,9 +7,9 @@
 %endif
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		pg_repack-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -18,6 +18,8 @@ URL:		https://pgxn.org/dist/pg_repack/
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.4.6-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -65,6 +67,10 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.6-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Fri Oct 4 2019 Devrim Gündüz <devrim@gunduz.org> - 1.4.6-1
 - Update to 1.4.6
 

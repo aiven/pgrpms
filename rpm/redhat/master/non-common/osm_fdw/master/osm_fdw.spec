@@ -6,9 +6,9 @@
 %endif
 
 Summary:	PostgreSQL foreign data wrapper OSM PBF
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -16,6 +16,8 @@ Patch1:		%{sname}-missinginclude.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server, protobuf-c
+
+Obsoletes:	%{sname}_%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -75,6 +77,10 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 4.0.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Sat Oct 12 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1
 - Update to 4.0.0
 

@@ -5,9 +5,9 @@
 %endif
 
 Summary:	PostgreSQL foreign data wrapper for OGR
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.12
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -16,13 +16,10 @@ URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal31-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server gdal31-libs
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.12-2
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -77,6 +74,10 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.12-3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.12-2
 - Rebuild against GDAL 3.1.2
 

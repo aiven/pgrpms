@@ -28,15 +28,13 @@
 %endif
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -45,7 +43,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	geos36-devel >= 3.6.2 pcre-devel
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -67,7 +65,7 @@ BuildRequires:	gdal-devel >= 1.9.0
 %endif
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
@@ -87,8 +85,7 @@ Requires:	json-c gdal-libs >= 1.9.0
 Requires(post):	%{_sbindir}/update-alternatives
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
@@ -108,8 +105,7 @@ Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
@@ -125,8 +121,8 @@ Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description devel
@@ -139,8 +135,8 @@ Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description docs
@@ -154,8 +150,7 @@ Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description utils
@@ -171,14 +166,9 @@ The postgis-utils package provides the utilities for PostGIS.
 %patch0 -p0
 
 %build
-
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
-
 LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
@@ -308,6 +298,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-1.1
 - Rebuild against PostgreSQL 11.0
 

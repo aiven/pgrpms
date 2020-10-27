@@ -6,13 +6,15 @@
 %endif
 
 Summary:	Generic Queue for PostgreSQL
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/pgq/pgq/archive/v%{version}.tar.gz
 URL:		https://github.com/pgq/pgq/
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
+
+Obsoletes:	%{sname}-%{pgmajorversion} <= 3.4.1-1
 
 %ifnarch ppc64 ppc64le s390 s390x armv7hl
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -93,6 +95,10 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1
 - Fix LLVM and clang dependencies for aarch64

@@ -6,14 +6,16 @@
 %endif
 
 Summary:	PostgreSQL log file re-player
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.0
-Release:	1%{?dist}.2
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/laurenz/pgreplay/archive/%{vname}.tar.gz
 URL:		https://github.com/laurenz/pgreplay
 Requires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.3.0-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -67,6 +69,10 @@ affect you.
 %{_mandir}/man1/%{sname}*
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1.2
 - Rebuild for PostgreSQL 12
 

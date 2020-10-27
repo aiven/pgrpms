@@ -16,9 +16,9 @@
 %endif
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.8
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
 Source0:	https://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
@@ -27,13 +27,13 @@ Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
-BuildRequires:	postgresql%{pgmajorversion}-devel, postgresql%{pgmajorversion}-server
-BuildRequires:	flex, pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server, perl-DBD-Pg
+BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}-server
+BuildRequires:	flex pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-server perl-DBD-Pg
 Conflicts:	slony1
 
 %if %{systemd_enabled}
-BuildRequires:		systemd, systemd-devel
+BuildRequires:		systemd systemd-devel
 Requires:		systemd
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -52,6 +52,8 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
+
+Obsoletes:	%{sname}-%{pgmajorversion} <= 2.2.8-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -244,6 +246,10 @@ fi
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Sun Nov 3 2019 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-2
 - Fix RHEL 6 packaging. Patch from Sandeep Thakkar.
 

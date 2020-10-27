@@ -1,31 +1,26 @@
 %global sname pgsphere
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	R-Tree implementation using GiST for spherical objects
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.1
-Release:	4%{?dist}.1
+Release:	5%{?dist}
 License:	BSD
 Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname}/%{version}/%{sname}-%{version}.tar.gz
 Source1:	%{sname}.control
 Patch1:		%{sname}-int4.patch
 Patch2:		%{sname}-makefile-extension.patch
 URL:		http://pgfoundry.org/projects/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Obsoletes:	%{sname}%{pgmajorversion <= 1.1.1-4
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -65,6 +60,10 @@ DESTDIR=%{buildroot} PG_CONFIG=%{pginstdir}/bin/pg_config USE_PGXS=1 make instal
 %{pginstdir}/lib/pg_sphere.so
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-5
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-4.1
 - Rebuild against PostgreSQL 11.0
 

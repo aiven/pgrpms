@@ -1,5 +1,7 @@
 %global sname		pljava
+
 %global debug_package %{nil}
+
 %ifarch ppc64 ppc64le
 %global archtag	ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -8,9 +10,9 @@
 %endif
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
@@ -38,6 +40,8 @@ BuildRequires:	rh-maven33
 %else
 BuildRequires:	maven
 %endif
+
+Obsoletes:	%{sname}-%{pgmajorversion} <= 1.5.6-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -100,6 +104,10 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.6-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Tue Oct 6 2020 - Devrim Gündüz <devrim@gunduz.org> - 1.5.6-1
 - Update to 1.5.6
 

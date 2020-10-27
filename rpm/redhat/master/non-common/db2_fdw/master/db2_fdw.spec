@@ -3,9 +3,9 @@
 %global db2_home "/opt/ibm/db2/V11.5/"
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -13,6 +13,8 @@ URL:		https://github.com/wolfgangbrandl/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRequires:	libstdc++(x86-32) pam(x86-32)
+
+Obsoletes:	%{sname}%{pgmajorversion}<= 4.0.0-1
 
 %description
 db2_fdw is a PostgreSQL extension that provides a Foreign Data Wrapper for
@@ -55,6 +57,10 @@ export DB2_HOME="%{db2_home}"
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 4.0.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 24 2020 - Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
 - Update to 4.0.0
 

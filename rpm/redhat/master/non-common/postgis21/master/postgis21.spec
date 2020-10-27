@@ -18,15 +18,13 @@
 %{!?sfcgal:%global    sfcgal 0}
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
-Release:	3%{?dist}.1
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source1:	http://download.osgeo.org/%{sname}/source/%{sname}-%{postgisprevversion}.tar.gz
@@ -38,7 +36,8 @@ Patch1:		postgis21-2.0.7-pg95.patch
 
 URL:		http://www.postgis.net/
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, geos36-devel >= 3.6.2, pcre-devel
+BuildRequires:	pgdg-srpm-macros postgresql%{pgmajorversion}-devel
+BuildRequires:	geos36-devel >= 3.6.2 pcre-devel
 BuildRequires:	proj49-devel, flex, json-c-devel, libxml2-devel
 %if %{shp2pgsqlgui}
 BuildRequires:	gtk2-devel > 2.8.0
@@ -290,6 +289,10 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-4
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 2.1.9-3.1
 - Rebuild against PostgreSQL 11.0
 

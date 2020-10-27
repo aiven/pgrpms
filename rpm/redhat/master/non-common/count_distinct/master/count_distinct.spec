@@ -5,15 +5,17 @@
 %endif
 
 Summary:	A hash-table based alternative to COUNT(DISTINCT ...) aggregate in PostgreSQL.
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tvondra/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 3.0.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -65,5 +67,9 @@ amounts of data often ends in sorting and poor performance.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.0.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Sun Nov 3 2019 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
 - Initial packaging for PostgreSQL RPM Repository

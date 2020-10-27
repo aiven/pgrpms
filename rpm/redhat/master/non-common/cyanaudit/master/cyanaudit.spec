@@ -9,9 +9,9 @@
 %endif
 
 Summary:	DML logging tool for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.2
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -26,6 +26,8 @@ BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
 %endif
 BuildRequires:	pgdg-srpm-macros
 BuildArch:	noarch
+
+Obsoletes:	%{sname}_%{pgmajorversion} <= 1.0.2-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -68,6 +70,10 @@ column-by-column basis.
 %{pginstdir}/doc/extension/*%{sname}*.md
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.2-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-1.1
 - Rebuild against PostgreSQL 11.0
 

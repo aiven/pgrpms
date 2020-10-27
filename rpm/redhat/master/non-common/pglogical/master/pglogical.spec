@@ -1,5 +1,5 @@
 %global sname pglogical
-%global tag 2_3_1
+%global tag 2_3_3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -7,13 +7,15 @@
 
 Summary:	Logical Replication extension for PostgreSQ
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.1
+Version:	2.3.3
 Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}_%{pgmajorversion} <= 2.3.1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -77,5 +79,10 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.3-1
+- Update to 2.3.3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Sun May 3 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository,

@@ -1,8 +1,7 @@
 %global sname skytools
+
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_min_requires
 %endif
 
 # Python major version.
@@ -10,22 +9,20 @@
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
 
 Summary:	PostgreSQL database management tools from Skype
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	3.2.6
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/markokr/%{sname}/archive/%{version}.tar.gz
 Source1:	https://github.com/markokr/libusual/archive/2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b.zip
 URL:		https://github.com/markokr/skytools
 BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel, xmlto, asciidoc
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+
+Obsoletes:	%{sname}-%{pgmajorversion} <= 3.2.6-1
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -45,10 +42,7 @@ This package has PostgreSQL modules of skytools.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 rmdir lib
 %{__mv} libusual-2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b lib
@@ -186,7 +180,11 @@ sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:'
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-1.1
 - Rebuild against PostgreSQL 11.0
 
 * Wed Sep 28 2016 Victor Yegorov <vyegorov@gmail.com> - 3.2.6-1

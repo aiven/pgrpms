@@ -5,9 +5,9 @@
 %endif
 
 Summary:	PostgreSQL extension to partition tables following a foreign key
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.7.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -15,6 +15,8 @@ URL:		http://pgxn.org/dist/pg_fkpart/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.7.0-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -52,6 +54,10 @@ USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.7.0-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Fri Jul 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1
 - Update to 1.7.0
 

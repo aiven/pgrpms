@@ -4,7 +4,7 @@
 %global ifxfdwminver 3
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Informix
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	%{ifxfdwmajver}.%{ifxfdwmidver}.%{ifxfdwminver}
 Release:	1%{?dist}
 License:	PostgreSQL
@@ -15,6 +15,8 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
 #BuildRequires:	some-informix-dependency maybe?
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 0.5.3-1
 
 %description
 The PostgreSQL Informix Foreign Datawrapper (FDW) module is a driver
@@ -45,6 +47,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/share/extension/*.control
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.5.3-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-1
 - Update to 0.5.3
 

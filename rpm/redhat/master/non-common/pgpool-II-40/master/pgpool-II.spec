@@ -22,9 +22,9 @@
 %endif
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
-Name:			%{sname}-%{pgmajorversion}
+Name:			%{sname}_%{pgmajorversion}
 Version:		4.0.11
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -58,7 +58,9 @@ Requires(preun):	chkconfig
 Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
+
 Obsoletes:		postgresql-pgpool < 1.0.0
+Obsoletes:		%{sname}-%{pgmajorversion} <= 4.0.11-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -345,6 +347,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.11-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.11-1
 - Update to 4.0.11
 

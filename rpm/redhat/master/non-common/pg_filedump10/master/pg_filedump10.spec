@@ -2,29 +2,23 @@
 %global sversion REL_10_1
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	PostgreSQL File Dump Utility
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	10_1
-Release:	1%{?dist}
-URL:		https://github.com/ChristophBerg/%{sname}
+Release:	2%{?dist}
+URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
-BuildRequires:	postgresql%{pgmajorversion}-devel
-
-Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{sversion}.tar.gz
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+Source0:	https://github.com/df7cb/%{sname}/archive/%{sversion}.tar.gz
 Patch1:		pg_filedump-pg%{pgmajorversion}-makefile-pgxs.patch
 
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Obsoletes:	%{sname}%{pgmajorversion} <= 10_1-1
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -36,10 +30,7 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 export CFLAGS="$RPM_OPT_FLAGS"
 
@@ -60,5 +51,9 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 10.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Fri Sep 6 2019 Devrim Gündüz <devrim@gunduz.org> - 10.1-1
 - Initial packaging for PostgreSQL RPM Repository

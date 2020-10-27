@@ -4,10 +4,10 @@
 %pgdg_set_ppc64le_compiler_at10
 %endif
 
-Name:           %{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
 Version:	2.4.1
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -16,6 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 Provides:	postgresql-ip4r
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.4.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -63,6 +64,10 @@ be used as a more flexible, indexable version of the cidr type.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.4.1-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 

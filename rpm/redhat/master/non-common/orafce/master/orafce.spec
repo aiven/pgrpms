@@ -8,9 +8,9 @@
 %endif
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -19,6 +19,8 @@ URL:		https://github.com/orafce/orafce
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
 BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
 Requires:	postgresql%{pgmajorversion}
+
+Obsoletes:	%{sname}%{pgmajorversion} 3.13.4-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -67,6 +69,10 @@ for production work.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.13.4-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Wed Jul 29 2020 Devrim Gündüz <devrim@gunduz.org> 3.13.4-1
 - Update to 3.13.4
 

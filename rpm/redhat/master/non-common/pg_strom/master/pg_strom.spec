@@ -2,9 +2,9 @@
 %global __cuda_path	/usr/local/cuda
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
-Name:		%{sname}-%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	GPL 2.0
 URL:		https://github.com/heterodb/pg-strom
@@ -22,6 +22,7 @@ Requires(post):		glibc
 Requires(postun):	glibc
 
 Obsoletes:	nvme_strom < 2.0
+Obsoletes:	%{sname}-%{pgmajorversion} <= 2.3-1
 
 %description
 PG-Strom is an extension for PostgreSQL, to accelerate analytic queries
@@ -79,6 +80,10 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/dbgen-ssbm
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Jun 15 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-1
 - Update to 2.3
 - Use Cuda 11

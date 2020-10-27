@@ -1,21 +1,23 @@
-%global debug_package %{nil}
+ %global debug_package %{nil}
 
 %global sname pg_bulkload
 # Please note underscores -- this reflects the tarball name:
 %global pgbulkloadpackagever 3_1_16
 
 Summary:	High speed data loading utility for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.16
 Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 License:	BSD
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel, pam-devel
-BuildRequires:	libsepol-devel, readline-devel, krb5-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
+BuildRequires:	libsepol-devel readline-devel krb5-devel
 Requires:	postgresql%{pgmajorversion}-server %{sname}%{pgmajorversion}-client
+
 Obsoletes:	%{sname} <= %{version}-1
+Obsoletes:	%{sname}%{pgmajorversion} <= 3.1.16-1
 
 %description
 pg_bulkload provides high-speed data loading capability to PostgreSQL users.
@@ -73,6 +75,10 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.1.16-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Jan 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.16-1
 - Update to 3.1.16
 

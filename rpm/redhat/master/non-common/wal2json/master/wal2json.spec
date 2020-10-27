@@ -1,9 +1,9 @@
 %global sname wal2json
 
 Summary:	JSON output plugin for changeset extraction
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	2.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_3.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -13,6 +13,8 @@ URL:		https://github.com/eulerto/wal2json
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.3-2
 
 %description
 wal2json is an output plugin for logical decoding. It means that the
@@ -57,6 +59,10 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Tue Aug 11 2020 - John Harvey <john.harvey@crunchydata.com> 2.3-2
 - Fix source pathing
 

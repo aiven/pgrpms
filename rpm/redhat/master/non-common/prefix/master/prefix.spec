@@ -1,9 +1,13 @@
 %global sname prefix
 
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+
 Summary:	Prefix Range module for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.9
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
@@ -11,8 +15,14 @@ URL:		https://github.com/dimitri/prefix
 # This is for older spec files (RHEL <= 6)
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %endif
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.2.9-1
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %description
 The prefix project implements text prefix matches operator (prefix @>
@@ -24,6 +34,9 @@ searches.
 %patch0 -p0
 
 %build
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
 %{__make} %{?_smp_mflags}
 
 %install
@@ -50,7 +63,11 @@ searches.
 %endif
 
 %changelog
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.9-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
+* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 1.2.9-1.1
 - Rebuild for PostgreSQL 12
 
 * Thu Sep 26 2019 - Devrim Gündüz <devrim@gunduz.org> 1.2.9-1

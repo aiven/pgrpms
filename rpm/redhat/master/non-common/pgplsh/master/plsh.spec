@@ -5,15 +5,17 @@
 %endif
 
 Summary:	Sh shell procedural language handler for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.20200522
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/petere/plsh
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.20200522-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -70,6 +72,10 @@ allows you to write stored procedures in a shell of your choice.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200522-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200522-1
 - Update to 1.20200522
 

@@ -1,33 +1,29 @@
 %global sname pg_top
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	'top' for PostgreSQL process
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	3.7.0
-Release:	5%{?dist}.2
+Release:	6%{?dist}
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel, libtermcap-devel, systemtap-sdt-devel
-BuildRequires:	autoconf
+BuildRequires:	postgresql%{pgmajorversion}-devel libtermcap-devel systemtap-sdt-devel
+BuildRequires:	autoconf pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
 
 Obsoletes:	ptop => 3.5.0
+Obsoletes:	%{sname}_%{pgmajorversion} <= 3.7.0-5
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
+
 
 %description
 pg_top is 'top' for PostgreSQL processes. See running queries,
@@ -38,10 +34,7 @@ query plans, issued locks, and table and index statistics.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 sh autogen.sh
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
@@ -83,6 +76,10 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-6
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-5.2
 - Rebuild for PostgreSQL 12
 

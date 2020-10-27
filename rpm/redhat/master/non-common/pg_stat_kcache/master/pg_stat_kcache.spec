@@ -9,15 +9,17 @@
 %endif
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/powa-team/%{sname}
 Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.1.3-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -70,6 +72,10 @@ the queryid field.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.3-2
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Jul 9 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.3-1
 - Update to 2.1.3
 

@@ -1,17 +1,15 @@
 %global sname plruby
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 %{!?ruby_vendorarchdir: %global ruby_vendorarchdir %(ruby -rrbconfig -e 'puts Config::CONFIG["vendorarchdir"] ' 2>/dev/null)}
 
 Summary:	PostgreSQL Ruby Procedural Language
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.7
-Release:	2%{?dist}.1
+Release:	3%{?dist}
 Source0:	https://github.com/devrimgunduz/postgresql-%{sname}/archive/%{version}.tar.gz
 Source1:	plruby.control
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -20,15 +18,14 @@ Patch0:		%{sname}-rhel6-include.patch
 %endif
 License:	Ruby or GPL+
 Url:		https://github.com/devrimgunduz/postgresql-plruby
-BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql%{pgmajorversion}
-Requires:	postgresql%{pgmajorversion}-libs, ruby(release)
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql%{pgmajorversion} pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion} pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-libs ruby(release)
+
+Obsoletes:	%{sname}%{pgmajorversion} <= 0.5.7-2
 
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -51,11 +48,7 @@ Documentation for plruby.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-        PATH=%{atpath}/bin/:%{atpath}/sbin:$PATH ; export PATH
+	%pgdg_set_ppc64le_compiler_flags
 %endif
 ## Using safe-level=3, since Ruby 2.1+ and later does not support safe level
 ## bigger than 3.
@@ -93,6 +86,10 @@ ruby extconf.rb --vendor --with-pg-config=%{pginstdir}/bin/pg_config --with-safe
 %doc docs/plruby.rb plruby.html
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0.5.7-3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.5.7-2.1
 - Rebuild against PostgreSQL 11.0
 

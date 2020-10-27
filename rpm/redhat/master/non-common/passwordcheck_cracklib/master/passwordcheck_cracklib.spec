@@ -1,13 +1,12 @@
 %global sname	passwordcheck_cracklib
+
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.2
-Release:	2%{?dist}.2
+Release:	3%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
@@ -15,15 +14,9 @@ Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Requires:	postgresql%{pgmajorversion}
 
-BuildRequires:	cracklib-devel, postgresql%{pgmajorversion}-devel
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.2-2
 
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
+BuildRequires:	cracklib-devel postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 %description
 This is the regular PostgreSQL passwordcheck extension, built with cracklib.
@@ -57,6 +50,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.2-3
+- Use underscore before PostgreSQL version number for consistency, per:
+  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 

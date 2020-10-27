@@ -3,31 +3,24 @@
 %global sname	pgrouting
 
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
 %endif
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.2
-Release:	1%{dist}.1
+Release:	2%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		http://pgrouting.org/
 BuildRequires:	gcc-c++, cmake => 2.8.8
-BuildRequires:	postgresql%{pgmajorversion}-devel, proj-devel, geos-devel
-BuildRequires:	boost-devel >= 1.53, CGAL-devel => 4.4, gmp-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel proj-devel geos-devel
+BuildRequires:	boost-devel >= 1.53 CGAL-devel => 4.4 gmp-devel pgdg-srpm-macros
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
 
 %description
@@ -49,12 +42,9 @@ value can come from multiple fields or tables.
 
 %build
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+%pgdg_set_ppc64le_compiler_at10
 %endif
-install -d build
+%{__install} -d build
 cd build
 %cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
