@@ -641,10 +641,10 @@ export PYTHON=/usr/bin/python3
 # We need to build PL/Python 3 and a few extensions:
 # Build PL/Python 3
 cd src/backend
-MAKELEVEL=0 %{__make} submake-generated-headers
+%{__make} submake-errcodes
 cd ../..
 cd src/pl/plpython
-%{__make} all
+%{__make} %{?_smp_mflags} all
 cd ..
 # save built form in a directory that "make distclean" won't touch
 %{__cp} -a plpython plpython3
@@ -653,7 +653,7 @@ cd ../..
 for p3bl in %{python3_build_list} ; do
 	p3blpy3dir="$p3bl"3
 	pushd contrib/$p3bl
-	MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+	%{__make} %{?_smp_mflags} all
 	cd ..
 	# save built form in a directory that "make distclean" won't touch
 	%{__cp} -a $p3bl $p3blpy3dir
