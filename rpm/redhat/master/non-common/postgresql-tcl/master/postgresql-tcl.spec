@@ -73,7 +73,7 @@ autoconf
 %dir %{pgtclprefix}-%{pgmajorversion}/
 %dir %{pgtclprefix}-%{pgmajorversion}/share/man/mann/
 %{pgtclprefix}-%{pgmajorversion}/lib/libpgtcl.so
-%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/libpgtcl%{pgtclmajorversion}.2.so
+%{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/libpgtcl%{version}.so
 %{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/pkgIndex.tcl
 %{pgtclprefix}-%{pgmajorversion}/lib/pgtcl%{pgtclmajorversion}/postgres-helpers.tcl
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
