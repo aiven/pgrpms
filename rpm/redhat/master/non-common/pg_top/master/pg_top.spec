@@ -11,7 +11,8 @@ Release:	6%{?dist}
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel libtermcap-devel systemtap-sdt-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel ncurses-devel
+BuildRequires:	systemtap-sdt-devel
 BuildRequires:	autoconf pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
