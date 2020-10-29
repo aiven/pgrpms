@@ -13,7 +13,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.0.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -27,7 +27,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:	cmake3
 %else
-BuildRequires:	cmake => 2.8.8
+BuildRequires:	cmake => 3.0.0
 %endif
 
 BuildRequires:	boost-devel >= 1.41
@@ -87,11 +87,7 @@ fi
 	export CFLAGS
 	export CXXFLAGS
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
-cmake3 .. \
-%else
-%cmake .. \
-%endif
+%cmake3  \
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config \
 	-D STATIC_BUILD:BOOL=OFF .
@@ -185,6 +181,11 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-5
+- Use cmake3 macro to build packages. That will solve the FTBFS
+  issue on Fedora 33, per:
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+
 * Mon Mar 23 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-4
 - Make sure that pgAgent restarts itself after a failure.
 
