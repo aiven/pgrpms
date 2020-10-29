@@ -1,3 +1,4 @@
+%global _vpath_builddir .
 %global sname	pgagent
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -87,14 +88,14 @@ fi
 	export CFLAGS
 	export CXXFLAGS
 %endif
-cmake3  \
+%cmake3  \
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
 	-D STATIC_BUILD:BOOL=OFF .
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} install
+%{__make} -C "%{_vpath_builddir}" DESTDIR=%{buildroot} install
 
 # Rename pgagent binary, so that we can have parallel installations:
 %{__mv} -f %{buildroot}%{_bindir}/%{sname} %{buildroot}%{_bindir}/%{name}
@@ -182,9 +183,10 @@ fi
 
 %changelog
 * Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-5
-- Use cmake3 everywhere, without the macro to build packages.
-  That will solve the FTBFS issue on Fedora 33, per:
+- Use cmake3 macro to build packages, and define vpath_builddir macro
+  manually. This will solve the FTBFS issue on Fedora 33, per:
   https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+  Also works on the other distros.
 
 * Mon Mar 23 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-4
 - Make sure that pgAgent restarts itself after a failure.
