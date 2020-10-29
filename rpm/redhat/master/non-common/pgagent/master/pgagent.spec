@@ -89,7 +89,7 @@ fi
 %endif
 cmake3  \
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
-	-D PG_CONFIG_PATH:FILEPATH=/%{pginstdir}/bin/pg_config \
+	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
 	-D STATIC_BUILD:BOOL=OFF .
 
 %install
