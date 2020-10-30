@@ -1,3 +1,5 @@
+%global _vpath_builddir .
+
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -25,7 +27,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -83,38 +85,36 @@ Development headers and libraries for SFCGAL.
 
 %prep
 %setup -q -n SFCGAL-v%{version}
+
 %if 0%{?fedora} >= 32
 %patch0 -p0
 %patch1 -p0
 %endif
+
 %build
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 
+%{__install} -d build
+pushd build
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %endif
 %else
-%cmake \
+%cmake3 .. \
 %endif
 	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
-if [ -d "x86_64-redhat-linux-gnu" ]
-then
-pushd x86_64-redhat-linux-gnu
-fi
-
-%{__make} %{?_smp_mflags}
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
-if [ -d "x86_64-redhat-linux-gnu" ]
-then
-pushd x86_64-redhat-linux-gnu
-fi
-
-%{__make} %{?_smp_mflags} install/fast DESTDIR=%{buildroot}
+pushd build
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
+	DESTDIR=%{buildroot}
+popd
 
 %post
 %ifarch ppc64 ppc64le
@@ -159,6 +159,12 @@ fi
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-3
+- Use cmake3 macro to build packages, and define vpath_builddir macro
+  manually. This will solve the FTBFS issue on Fedora 33, per:
+  https://fedoraproject.org/wiki/Changes/CMake_to_do_out-of-source_builds
+  Also works on the other distros.
+
 * Fri Oct 2 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-2
 - We don't need CGAL dependency for CGAL >= 5.0 (Fedora 32 and above)
 
