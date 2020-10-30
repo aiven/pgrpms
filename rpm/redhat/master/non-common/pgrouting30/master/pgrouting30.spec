@@ -1,3 +1,4 @@
+%global _vpath_builddir .
 %global pgroutingmajorversion 3.0
 %global sname	pgrouting
 
@@ -8,7 +9,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.2
-Release:	2%{dist}
+Release:	3%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
@@ -18,7 +19,7 @@ BuildRequires:	cmake3
 # EPEL:
 BuildRequires:	boost169-devel
 %else
-BuildRequires:	cmake => 2.8.8
+BuildRequires:	cmake => 3.0.0
 BuildRequires:	boost-devel >= 1.53
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -53,12 +54,10 @@ value can come from multiple fields or tables.
 %endif
 
 %{__install} -d build
-cd build
-%if 0%{?rhel} && 0%{?rhel} == 7
+pushd build
 cmake3 .. \
+%if 0%{?rhel} && 0%{?rhel} == 7
 	-DBOOST_ROOT=%{_includedir}/boost169 \
-%else
-%cmake .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPOSTGRESQL_BIN=%{pginstdir}/bin \
@@ -67,13 +66,17 @@ cmake3 .. \
 	-DLIB_SUFFIX=64
 %endif
 
-%{__make} %{?_smp_mflags}
+popd
+
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} build
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} -C build install \
+pushd build
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install \
 	DESTDIR=%{buildroot}
+popd
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -88,6 +91,9 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-3
+- Build fixes for Fedora 33
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-2
 - Require PostGIS >= 2.3, per Vicky.
 
