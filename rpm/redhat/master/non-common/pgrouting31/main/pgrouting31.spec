@@ -56,7 +56,7 @@ value can come from multiple fields or tables.
 
 %{__install} -d build
 pushd build
-cmake3 .. \
+%cmake3 .. \
 %if 0%{?rhel} && 0%{?rhel} == 7
 	-DBOOST_ROOT=%{_includedir}/boost169 \
 %endif
