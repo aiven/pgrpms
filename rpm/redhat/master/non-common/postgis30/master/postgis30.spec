@@ -46,7 +46,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	pgdg-srpm-macros >= 1.0.5 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.7 pcre-devel gmp-devel
 Requires:	gmp
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
