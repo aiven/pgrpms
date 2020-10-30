@@ -45,6 +45,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
+BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros >= 1.0.7 pcre-devel gmp-devel
 Requires:	gmp
 %if 0%{?suse_version}
@@ -80,6 +81,7 @@ BuildRequires:	protobuf-c-devel
 
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
+Requires:	libgeotiff%{libgeotiffmajorversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
 Requires:	hdf5 < 1.8.7
 %else
