@@ -97,7 +97,6 @@ Development headers and libraries for SFCGAL.
 %endif
 
 %{__install} -d build
-pushd build
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -111,10 +110,8 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
-pushd build
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
 	DESTDIR=%{buildroot}
-popd
 
 %post
 %ifarch ppc64 ppc64le
