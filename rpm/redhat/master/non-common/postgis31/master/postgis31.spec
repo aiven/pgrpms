@@ -216,11 +216,11 @@ SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
 
 # Create alternatives entries for common binaries
 %post client
-%{_sbindir}/update-alternatives --install /usr/bin/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install /usr/bin/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pgsql2shp postgis-pgsql2shp %{pginstdir}/bin/pgsql2shp %{pgmajorversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/shp2pgsql postgis-shp2pgsql %{pginstdir}/bin/shp2pgsql %{pgmajorversion}0
 
 # Drop alternatives entries for common binaries and man files
-%postun
+%postun client
 if [ "$1" -eq 0 ]
   then
 	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
