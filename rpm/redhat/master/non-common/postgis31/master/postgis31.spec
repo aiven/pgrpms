@@ -7,17 +7,10 @@
 %pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
-%else
-%{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
-%endif
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
-%else
-%{!?raster:%global     raster 0}
-%endif
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global     sfcgal 1}
@@ -64,11 +57,7 @@ BuildRequires:	SFCGAL-devel SFCGAL
 Requires:	SFCGAL
 %endif
 %if %{raster}
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	gdal-devel >= 1.9.2-9
-  %else
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
-  %endif
 %endif
 
 %ifarch ppc64 ppc64le
@@ -82,11 +71,7 @@ BuildRequires:	protobuf-c-devel
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
 Requires:	libgeotiff%{libgeotiffmajorversion}
-%if 0%{?rhel} && 0%{?rhel} < 6
-Requires:	hdf5 < 1.8.7
-%else
 Requires:	hdf5
-%endif
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
@@ -94,11 +79,7 @@ Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	gdal-libs >= 1.9.2-9
-%else
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
-%endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
@@ -253,11 +234,7 @@ fi
 %files
 %defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.TXT
-%else
 %license LICENSE.TXT
-%endif
 %{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
