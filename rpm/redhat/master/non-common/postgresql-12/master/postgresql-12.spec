@@ -87,7 +87,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.4
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1638,6 +1638,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 4 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-4PGDG
+- Rebuild against new CLANG and LLVM on RHEL 8.3
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-3PGDG
 - Add setup script under $PATH
 
