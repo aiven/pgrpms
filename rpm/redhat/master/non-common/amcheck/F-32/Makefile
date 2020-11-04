@@ -14,4 +14,4 @@ DIST=.f32
 SPECFILE="amcheck.spec"
 
 # Now, include global Makefile
-include ../../../global/Makefile.global
+include ../../../../global/Makefile.global
