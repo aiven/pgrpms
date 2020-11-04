@@ -52,7 +52,7 @@
 %global poppler --with-poppler
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
-Name:		%{sname}31
+Name:		%{sname}32
 Version:	3.2.0
 Release:	1%{?dist}
 Summary:	GIS file format library
@@ -81,7 +81,7 @@ Patch10:	%{sname}-3.1.2-perl-build.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
-Patch13:	gdal31-configure-ogdi%{ogdimajorversion}.patch
+Patch13:	gdal32-configure-ogdi%{ogdimajorversion}.patch
 
 Patch16:	gdal-3.1.2-sfgcal-linker.patch
 
