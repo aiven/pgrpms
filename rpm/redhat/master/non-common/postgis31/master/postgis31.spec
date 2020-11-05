@@ -4,6 +4,12 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global sname	postgis
 
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%global libspatialitemajorversion	43
+%else
+%global libspatialitemajorversion	50
+%endif
+
 %pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
