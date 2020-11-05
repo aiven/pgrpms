@@ -11,7 +11,7 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.7
+Version:	1.0.8
 Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -46,6 +46,10 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
+- Remove libspatialitemajorversion macro definition. Apparently
+  conditional does not work in the macro file.
+
 * Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
 - Add missing libspatialitemajorversion macro.
 
