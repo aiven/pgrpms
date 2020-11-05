@@ -46,9 +46,10 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
-* Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
+* Thu Nov 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1
 - Remove libspatialitemajorversion macro definition. Apparently
   conditional does not work in the macro file.
+- Update Proj to 7.2.0, GDAL to 3.2.0
 
 * Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
 - Add missing libspatialitemajorversion macro.
