@@ -1,6 +1,6 @@
 %global sname gdal
 %global gdalinstdir /usr/%{name}
-%global	gdalsomajorversion	27
+%global	gdalsomajorversion	28
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global	libspatialitemajorversion	43
@@ -571,6 +571,7 @@ done
 %files
 %{gdalinstdir}/bin/gdallocationinfo
 %{gdalinstdir}/bin/gdal_contour
+%{gdalinstdir}/bin/gdal_create
 %{gdalinstdir}/bin/gdal_rasterize
 %{gdalinstdir}/bin/gdal_translate
 %{gdalinstdir}/bin/gdaladdo
@@ -582,7 +583,6 @@ done
 %{gdalinstdir}/bin/gdal_grid
 %{gdalinstdir}/bin/gdalenhance
 %{gdalinstdir}/bin/gdalmanage
-%{gdalinstdir}/bin/gdalserver
 %{gdalinstdir}/bin/gdalsrsinfo
 %{gdalinstdir}/bin/gdaltransform
 %{gdalinstdir}/bin/gdal_viewshed
