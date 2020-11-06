@@ -1,6 +1,6 @@
 #################################
 # Makefile for PostgreSQL 13	#
-# testing packaging	 	#
+# packaging	  	 	#
 # https://yum.postgresql.org	#
 #			   	#
 # Devrim Gunduz		   	#
@@ -15,9 +15,16 @@
 #################################
 
 
-## PostgreSQL 13 Testing
+## PostgreSQL 13
 
-build13testing: bfsrpm13testing
+prep13testing:
+	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
+	# Update spec file, patches, etc, before running spectool:
+	git pull
+	# Use spectool to download source files, especially tarballs.
+	spectool -g -S --define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" $(SPECFILE)
+
+build13testing: bfsrpm13
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm13testing/BUILDROOT" \
@@ -27,28 +34,28 @@ build13testing: bfsrpm13testing
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-srpm13testing: prep
+srpm13testing: prep13
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm13testing/BUILDROOT" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13"  --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfsrpm13testing: prep
+bfsrpm13testing: prep13
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm13testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm13testing/BUILDROOT" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13"  --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-bfnosignsrpm13testing: prep
+bfnosignsrpm13testing: prep13
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm13testing/BUILDROOT" \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm13testing/SRPMS" \
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13"  --define "pgpackageversion 13" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
-rpm13testing: prep
+rpm13testing: prep13
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(PWD)" \
@@ -58,7 +65,7 @@ rpm13testing: prep
 	--define "pgmajorversion 13" --define "pginstdir /usr/pgsql-13" --define "pgpackageversion 13" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild13testimg: bfnosignsrpm13testing
+nosignbuild13testing: bfnosignsrpm13
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm13testing/BUILD" \
