@@ -34,7 +34,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha2_3%{?dist}
+Release:	alpha2_4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2.pdf
@@ -329,6 +329,9 @@ fi
 %endif
 
 %changelog
+* Fri Oct 30 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_4
+- Rebuild against new GDAL and new PROJ.
+
 * Fri Oct 30 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_3
 - Fix various rpath issues, per Sandeep Thakkar.
 
