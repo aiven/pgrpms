@@ -1,6 +1,6 @@
 #################################
 # Makefile for PostgreSQL 12	#
-# testing packaging	 	#
+# packaging	  	 	#
 # https://yum.postgresql.org	#
 #			   	#
 # Devrim Gunduz		   	#
@@ -15,9 +15,16 @@
 #################################
 
 
-## PostgreSQL 12 Testing
+## PostgreSQL 12
 
-build12testing: bfsrpm12testing
+prep12testing:
+	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
+	# Update spec file, patches, etc, before running spectool:
+	git pull
+	# Use spectool to download source files, especially tarballs.
+	spectool -g -S --define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" $(SPECFILE)
+
+build12testing: bfsrpm12
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm12testing/BUILDROOT" \
@@ -58,7 +65,7 @@ rpm12testing: prep12
 	--define "pgmajorversion 12" --define "pginstdir /usr/pgsql-12" --define "pgpackageversion 12" \
 	--define "dist $(DIST)" -bb $(SPECFILE)
 
-nosignbuild12testimg: bfnosignsrpm12testing
+nosignbuild12testing: bfnosignsrpm12
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define  "_builddir $(HOME)/rpm12testing/BUILD" \
