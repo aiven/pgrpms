@@ -82,8 +82,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.14
-Release:	3PGDG%{?dist}
+Version:	10.15
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1496,6 +1496,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 10.15-1PGDG
+- Update to 10.15, per changes described at
+  https://www.postgresql.org/docs/release/10.15/
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 10.14-3PGDG
 - Updates for Fedora 33 support.
 
