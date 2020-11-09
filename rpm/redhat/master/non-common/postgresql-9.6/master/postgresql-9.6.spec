@@ -80,8 +80,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.19
-Release:	3PGDG%{?dist}
+Version:	9.6.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1475,6 +1475,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.20-1PGDG
+- Update to 9.6.20, per changes described at:
+  https://www.postgresql.org/docs/release/9.6.20/
+
 * Wed Oct 28 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.19-3PGDG
 - Updates for Fedora 33 support.
 
