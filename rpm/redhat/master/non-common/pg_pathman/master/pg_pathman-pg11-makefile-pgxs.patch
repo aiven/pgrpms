@@ -1,7 +1,7 @@
---- Makefile.old	2018-10-16 01:32:22.702848528 +0200
-+++ Makefile	2018-10-16 01:32:31.801892746 +0200
-@@ -68,7 +68,7 @@
- EXTRA_CLEAN = pg_pathman--$(EXTVERSION).sql ./isolation_output
+--- Makefile.old	2020-11-09 21:14:01.298116529 +0000
++++ Makefile	2020-11-09 21:14:13.269217732 +0000
+@@ -71,7 +71,7 @@
+ EXTRA_CLEAN = ./isolation_output $(patsubst %,tests/cmocka/%, $(CMOCKA_EXTRA_CLEAN))
  
  ifdef USE_PGXS
 -PG_CONFIG=pg_config

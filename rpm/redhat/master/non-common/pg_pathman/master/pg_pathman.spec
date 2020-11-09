@@ -6,8 +6,8 @@
 
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.11
-Release:	3%{?dist}
+Version:	1.5.12
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -64,6 +64,9 @@ to manage partitions.
 %endif
 
 %changelog
+* Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> 1.5.12-1
+- Update to 1.5.12
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.5.11-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
