@@ -2,16 +2,16 @@
 
 Summary:	Web-based PostgreSQL administration
 Name:		phpPgAdmin
-Version:	7.12.1
+Version:	7.13.0
 Release:	1%{?dist}
 License:	GPLv2+ and (LGPLv2+ or BSD) and ASL 2.0 and MIT
 URL:		https://github.com/%{sname}/%{sname}
 
-Source0:	https://github.com/%{sname}/%{sname}/releases/download/REL_7-12-1/%{name}-%{version}.tar.bz2
+Source0:	https://github.com/%{sname}/%{sname}/releases/download/REL_7-13-0/%{name}-%{version}.tar.bz2
 Source1:	%{name}.conf
 
-Requires:	php >= 7.1, gawk
-Requires:	php-pgsql >= 7.1, httpd
+Requires:	php >= 7.2, gawk
+Requires:	php-pgsql >= 7.2, httpd
 Requires(post):	systemd
 Requires(postun):	systemd
 BuildArch:	noarch
@@ -78,6 +78,9 @@ functions (stored procedures). It also has Slony-I support.
 %attr(755,root,root) %{_phppgadmindir}/lang/synch
 
 %changelog
+* Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 7.13.0-1
+- Update to 7.13.0
+
 * Wed Feb 5 2020 Devrim Gündüz <devrim@gunduz.org> - 7.12.1-1
 - Update to 7.12.1
 
