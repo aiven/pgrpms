@@ -86,8 +86,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.4
-Release:	4PGDG%{?dist}
+Version:	12.5
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1638,6 +1638,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 12.5-1PGDG
+- Update to 12.5, per changes described at
+  https://www.postgresql.org/docs/release/12.5/
+
 * Wed Nov 4 2020 Devrim Gündüz <devrim@gunduz.org> - 12.4-4PGDG
 - Rebuild against new CLANG and LLVM on RHEL 8.3
 
