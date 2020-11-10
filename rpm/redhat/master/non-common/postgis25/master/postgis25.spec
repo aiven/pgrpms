@@ -5,6 +5,12 @@
 %global sname	postgis
 %global _smp_mflags    -j1
 
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%global	libspatialitemajorversion	43
+%else
+%global	libspatialitemajorversion	50
+%endif
+
 %pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
@@ -36,7 +42,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -370,6 +376,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 10 2020 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-2
+- Rebuild against new GDAL 3.2.0 and PROJ 7.2.0
+
 * Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> 2.5.5-1
 - Update to 2.5.5
 
