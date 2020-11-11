@@ -44,15 +44,40 @@
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?systemd_enabled:%global systemd_enabled 0}
+%{!?sdt:%global sdt 0}
+%{!?selinux:%global selinux 0}
+%else
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# LLVM version in RHEL 6 is not sufficient to build LLVM
+%{!?llvm:%global llvm 0}
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+%{!?llvm:%global llvm 0}
+%else
+%{!?llvm:%global llvm 1}
+%endif
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} == 8
+%{!?llvm:%global llvm 0}
+%endif
+
+%if 0%{?fedora} >= 30
+%{!?llvm:%global llvm 1}
+%endif
 
 %if 0%{?fedora} > 30
 %global _hardened_build 1
@@ -1368,6 +1393,7 @@ fi
 %changelog
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-1PGDG
 - Update to 13.1
+- Disable LLVM builds on RHEL 8, until CentOS 8 catches up RHEL 8.
 
 * Wed Nov 4 2020 Devrim Gündüz <devrim@gunduz.org> - 13.0-2PGDG
 - Rebuild against new CLANG and LLVM on RHEL 8.3

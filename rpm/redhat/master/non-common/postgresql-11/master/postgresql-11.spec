@@ -1,3 +1,4 @@
+%global pgmajorversion 11
 # These are macros to be used with find_lang and other stuff
 %global packageversion 110
 %global prevmajorversion 10
@@ -61,18 +62,35 @@
 %{!?systemd_enabled:%global systemd_enabled 0}
 %{!?sdt:%global sdt 0}
 %{!?selinux:%global selinux 0}
-# LLVM version in RHEL 6 is not sufficient to build LLVM
-%{!?llvm:%global llvm 0}
 %else
 %{!?systemd_enabled:%global systemd_enabled 1}
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+# LLVM version in RHEL 6 is not sufficient to build LLVM
+%{!?llvm:%global llvm 0}
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+%{!?llvm:%global llvm 0}
+%else
+%{!?llvm:%global llvm 1}
+%endif
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} == 8
+%{!?llvm:%global llvm 0}
+%endif
+
+%if 0%{?fedora} >= 30
+%{!?llvm:%global llvm 1}
 %endif
 
 %if 0%{?fedora} > 23
@@ -1631,6 +1649,7 @@ fi
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 11.10-1PGDG
 - Update to 11.10, per changes described at
   https://www.postgresql.org/docs/release/11.10/
+- Disable LLVM builds on RHEL 8, until CentOS 8 catches up RHEL 8.
 
 * Wed Nov 4 2020 Devrim Gündüz <devrim@gunduz.org> - 11.9-4PGDG
 - Rebuild against new CLANG and LLVM on RHEL 8.3
