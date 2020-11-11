@@ -1,0 +1,25 @@
+#!/usr/bin/expect -f
+
+# - This script gets around the passphrase prompt for gpg signing
+# - Ensure that the GPG_PASSPHRASE environment variable is set.
+
+spawn rpm --addsign {*}$argv
+
+if {[file exists /etc/centos-release]} {
+	set version [exec cat /etc/os-release]
+
+	if {[string match *CentOS-8* $version]} {
+		expect -exact "Please enter the passphrase to unlock the OpenPGP secret key:"
+		send -- "<PASSWORD>\t\r"
+	} else {
+		expect -exact "Enter pass phrase: "
+		send -- "<PASSWORD>\n"
+	}
+
+} else {
+	expect -exact "Enter pass phrase: "
+	send -- "<PASSWORD>\n"
+}
+
+expect eof
+
