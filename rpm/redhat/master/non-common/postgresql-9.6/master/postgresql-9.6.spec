@@ -889,6 +889,12 @@ install -m 700 %{SOURCE9} %{buildroot}%{pginstdir}/share/%{sname}-%{pgpackagever
 	chmod 0644 %{buildroot}%{pginstdir}/lib/test/regress/Makefile
 %endif
 
+%if ! %plpython2
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%endif
+
 # Fix some more documentation
 # gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
