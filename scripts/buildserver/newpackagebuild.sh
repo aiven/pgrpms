@@ -52,8 +52,8 @@ sign_package(){
 	# the version number from the spec file, so that we don't go over the older packages that
 	# are already signed. This is not a problem for now, we just lose time. Older packages
 	# won't be signed again anyway.
-	# For the impatient: piping find to xargs won't work, so I did not use it.
-	for signpackagelist in `find ~/rpm* -iname "$packagename*$packageVersion*.rpm"`; do rpm --addsign $signpackagelist; done
+	# Using an expect script to automate signing process.
+	for signpackagelist in `find ~/rpm* -iname "$packagename*$packageVersion*.rpm"`; do /usr/bin/expect ~/bin/signrpms.expect $signpackagelist; done
 }
 
 
