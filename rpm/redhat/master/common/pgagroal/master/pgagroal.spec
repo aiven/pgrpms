@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.9.1
+Version:	0.9.2
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -127,6 +127,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Thu Nov 12 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.2-1
+- Update to 0.9.2
+
 * Tue Oct 14 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-1
 - Update to 0.9.1
 
