@@ -1,6 +1,6 @@
 Name:           pitrery
-Version:        3.1
-Release:        2%{?dist}
+Version:        3.2
+Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
 URL:            https://github.com/dalibo/%{name}
@@ -48,6 +48,9 @@ restores for PostgreSQL.
 %doc %{_mandir}/man1/restore_wal.1.gz
 
 %changelog
+* Thu Nov 12 2020 Devrim Gündüz <devrim@gunduz.org> - 3.2-1
+- Update to 3.2
+
 * Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1-2
 - This package also requires tar, per report from Denis Laxalde.
 
