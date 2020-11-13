@@ -35,7 +35,7 @@ and also the GPG key for PGDG RPMs.
 
 %if 0%{?rhel} && 0%{?rhel} == 8
 %{__install} -pm 644 %{SOURCE3} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
 %else
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
