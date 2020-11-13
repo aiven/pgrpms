@@ -1,11 +1,12 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	14
+Release:	15
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-redhat-all.repo
+Source3:	pgdg-redhat-all-rhel8.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 Obsoletes:	pgdg-centos12 pgdg-redhat12 pgdg-sl12
@@ -31,8 +32,15 @@ and also the GPG key for PGDG RPMs.
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+
+%if 0%{?rhel} && 0%{?rhel} == 8
+%{__install} -pm 644 %{SOURCE3} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/
+%else
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
+%else
+%endif
 
 %files
 %defattr(-,root,root,-)
@@ -41,6 +49,12 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Fri Nov 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-15
+- Add a (hopefully temporary) repo to RHEL 8, which supplies
+  latest-ish LLVM and CLANG, so that we can respond breakages
+  between RHEL 8.n and CentOS 8.n-1, which breaks our llvmjit
+  package.
+
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-14
 - Add v14 testing repo.
 - Remove 9.4 repo
