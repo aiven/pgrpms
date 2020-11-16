@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=pgmodeler
+GenericName=PostgreSQL ER Database Modeler
+Comment=Program with nice Qt interface for visual modeling PostgreSQL database in terms of entity relationship model
+Exec=pgmodeler
+Icon=pgmodeler_logo
+Terminal=false
+Type=Application
+Categories=KDE;Qt;Database;Development;
+MimeType=application/dbm;

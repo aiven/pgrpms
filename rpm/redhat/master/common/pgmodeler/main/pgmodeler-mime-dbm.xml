@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+	<mime-type type="application/dbm">
+		<comment>pgModeler Database Model</comment>
+		<icon name="/usr/share/pgmodeler/conf/pgmodeler_dbm.png"/>
+		<glob-deleteall/>
+		<glob pattern="*.dbm"/>
+	</mime-type>
+</mime-info>
