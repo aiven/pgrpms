@@ -1,4 +1,4 @@
-#################################
+###############################
 # RPM-specific Makefile		#
 # https://yum.postgresql.org	#
 #				#
@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.rhel7
 SPECFILE="pg_statement_rollback.spec"
 
 # Now, include global Makefile
