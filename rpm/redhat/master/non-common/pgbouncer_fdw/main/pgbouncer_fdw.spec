@@ -7,8 +7,8 @@
 
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.2
-Release:	2%{?dist}
+Version:	0.3
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -57,6 +57,9 @@ direct access to pgbouncer statistics.
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Tue Nov 17 2020 Devrim Gündüz <devrim@gunduz.org> 0.3-1
+- Update to 0.3
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.2-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
