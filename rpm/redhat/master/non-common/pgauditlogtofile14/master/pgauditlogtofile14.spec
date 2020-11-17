@@ -6,12 +6,11 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
-Release:	2%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch1:		%{sname}-1.0-readme.patch
 URL:		https://github.com/fmbiete/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -40,7 +39,6 @@ trail or audit log. The term audit log is used in this documentation.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
-%patch1 -p0
 
 %build
 %ifarch ppc64 ppc64le
@@ -77,6 +75,9 @@ trail or audit log. The term audit log is used in this documentation.
 %endif
 
 %changelog
+* Tue Nov 17 2020 Devrim Gündüz <devrim@gunduz.org> 1.1-1
+- Update to 1.1
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
