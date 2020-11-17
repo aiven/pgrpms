@@ -17,7 +17,7 @@ URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server, protobuf-c
 
-Obsoletes:	%{sname}_%{pgmajorversion}
+Obsoletes:	%{sname}_%{pgmajorversion} < 4.0.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

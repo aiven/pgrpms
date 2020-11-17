@@ -15,7 +15,7 @@ URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server python3-psycopg2
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.5.11-2
+Obsoletes:	%{sname}%{pgmajorversion} < 1.5.11-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

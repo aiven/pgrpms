@@ -14,7 +14,7 @@ URL:		https://github.com/eulerto/wal2json
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 2.3-2
+Obsoletes:	%{sname}%{pgmajorversion} < 2.3-3
 
 %description
 wal2json is an output plugin for logical decoding. It means that the

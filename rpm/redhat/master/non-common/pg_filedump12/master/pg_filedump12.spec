@@ -15,7 +15,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Source0:	https://github.com/df7cb/pg_filedump/archive/%{sversion}.tar.gz
 Patch1:		pg_filedump-pg%{pgmajorversion}-makefile-pgxs.patch
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 12.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 12.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

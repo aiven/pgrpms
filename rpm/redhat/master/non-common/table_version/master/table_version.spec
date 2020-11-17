@@ -16,7 +16,7 @@ URL:		https://github.com/linz/postgresql-tableversion/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.8.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.8.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

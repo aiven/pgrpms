@@ -16,7 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	perl(Getopt::Long) perl(Time::HiRes) perl-Pod-Usage
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 2.2.5-2
+Obsoletes:	%{sname}%{pgmajorversion} < 2.2.5-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

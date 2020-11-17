@@ -15,7 +15,7 @@ URL:		http://pgxn.org/dist/geoip/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildArch:	noarch
 
-Obsoletes:	%{sname}_%{pgmajorversion} <= 0.2.4-1
+Obsoletes:	%{sname}_%{pgmajorversion} < 0.2.4-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

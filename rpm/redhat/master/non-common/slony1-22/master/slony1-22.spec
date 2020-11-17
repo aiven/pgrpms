@@ -53,7 +53,7 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 
-Obsoletes:	%{sname}-%{pgmajorversion} <= 2.2.8-2
+Obsoletes:	%{sname}-%{pgmajorversion} < 2.2.8-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

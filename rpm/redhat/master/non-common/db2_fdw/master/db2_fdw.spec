@@ -14,7 +14,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 BuildRequires:	libstdc++(x86-32) pam(x86-32)
 
-Obsoletes:	%{sname}%{pgmajorversion}<= 4.0.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 4.0.0-2
 
 %description
 db2_fdw is a PostgreSQL extension that provides a Foreign Data Wrapper for

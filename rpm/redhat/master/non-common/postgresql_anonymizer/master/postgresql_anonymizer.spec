@@ -15,7 +15,7 @@ URL:		https://gitlab.com/daamien/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 0.7.1-1
+Obsoletes:	%{sname}%{pgmajorversion} < 0.7.1-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

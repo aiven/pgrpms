@@ -22,7 +22,7 @@ Requires(post):		glibc
 Requires(postun):	glibc
 
 Obsoletes:	nvme_strom < 2.0
-Obsoletes:	%{sname}-%{pgmajorversion} <= 2.3-1
+Obsoletes:	%{sname}-%{pgmajorversion} < 2.3-2
 
 %description
 PG-Strom is an extension for PostgreSQL, to accelerate analytic queries

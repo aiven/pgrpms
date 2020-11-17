@@ -16,7 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 BuildArch:	noarch
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.4.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.4.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

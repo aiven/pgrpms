@@ -22,7 +22,7 @@ URL:		http://pgxn.org/dist/multicorn/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.4.0-2
+Obsoletes:	%{sname}%{pgmajorversion} < 1.4.0-3
 
 # Provide versionless multicorn. This will simplify using
 # bigquery_fdw package.

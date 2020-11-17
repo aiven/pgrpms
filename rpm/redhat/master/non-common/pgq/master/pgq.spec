@@ -14,7 +14,7 @@ Source0:	https://github.com/pgq/pgq/archive/v%{version}.tar.gz
 URL:		https://github.com/pgq/pgq/
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
 
-Obsoletes:	%{sname}-%{pgmajorversion} <= 3.4.1-1
+Obsoletes:	%{sname}-%{pgmajorversion} < 3.4.1-2
 
 %ifnarch ppc64 ppc64le s390 s390x armv7hl
 %if 0%{?rhel} && 0%{?rhel} == 7

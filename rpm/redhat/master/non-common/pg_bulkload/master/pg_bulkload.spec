@@ -7,7 +7,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.16
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -17,7 +17,7 @@ BuildRequires:	libsepol-devel readline-devel krb5-devel
 Requires:	postgresql%{pgmajorversion}-server %{sname}%{pgmajorversion}-client
 
 Obsoletes:	%{sname} <= %{version}-1
-Obsoletes:	%{sname}%{pgmajorversion} <= 3.1.16-1
+Obsoletes:	%{sname}%{pgmajorversion} < 3.1.16-2
 
 %description
 pg_bulkload provides high-speed data loading capability to PostgreSQL users.

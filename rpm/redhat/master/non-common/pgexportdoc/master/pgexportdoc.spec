@@ -15,7 +15,7 @@ URL:		https://github.com/okbob/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion} pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 0.1.3-1
+Obsoletes:	%{sname}%{pgmajorversion} < 0.1.3-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

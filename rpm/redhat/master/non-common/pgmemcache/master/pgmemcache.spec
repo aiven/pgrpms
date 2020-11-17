@@ -16,7 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel libmemcached-devel
 BuildRequires:	pgdg-srpm-macros cyrus-sasl-devel
 Requires:	postgresql%{pgmajorversion}-server libmemcached
 
-Obsoletes:	%{sname}-%{pgmajorversion} <= 2.3.0-3
+Obsoletes:	%{sname}-%{pgmajorversion} < 2.3.0-4
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

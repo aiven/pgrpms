@@ -15,7 +15,7 @@ URL:		https://github.com/tds-fdw/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel freetds-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server freetds
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.8-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.0.8-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

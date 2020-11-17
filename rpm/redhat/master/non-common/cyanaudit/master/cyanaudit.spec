@@ -27,7 +27,7 @@ BuildRequires:	protobuf-c-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
 BuildArch:	noarch
 
-Obsoletes:	%{sname}_%{pgmajorversion} <= 1.0.2-1
+Obsoletes:	%{sname}_%{pgmajorversion} < 1.0.2-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

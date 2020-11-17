@@ -15,7 +15,7 @@ Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}_%{pgmajorversion} <= 2.3.1
+Obsoletes:	%{sname}_%{pgmajorversion} < 2.3.3-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

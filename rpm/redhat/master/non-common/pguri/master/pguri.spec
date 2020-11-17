@@ -15,7 +15,7 @@ URL:		https://github.com/petere/pguri
 BuildRequires:	postgresql%{pgmajorversion}-devel, uriparser-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server, uriparser
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.20151224-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.20151224-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

@@ -41,7 +41,7 @@ BuildRequires:	rh-maven33
 BuildRequires:	maven
 %endif
 
-Obsoletes:	%{sname}-%{pgmajorversion} <= 1.5.6-1
+Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

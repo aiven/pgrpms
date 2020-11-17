@@ -14,7 +14,7 @@ Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Requires:	postgresql%{pgmajorversion}
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.2-2
+Obsoletes:	%{sname}%{pgmajorversion} < 1.0.2-3
 
 BuildRequires:	cracklib-devel postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 

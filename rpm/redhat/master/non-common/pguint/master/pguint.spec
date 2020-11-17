@@ -15,7 +15,7 @@ URL:		https://github.com/petere/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.20200704-1
+Obsoletes:	%{sname}%{pgmajorversion} <2 1.20200704-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

@@ -20,7 +20,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
 BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
 Requires:	postgresql%{pgmajorversion}
 
-Obsoletes:	%{sname}%{pgmajorversion} 3.13.4-1
+Obsoletes:	%{sname}%{pgmajorversion} < 3.13.4-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

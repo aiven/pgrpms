@@ -15,7 +15,7 @@ URL:		https://github.com/petergeoghegan/amcheck
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}_next%{pgmajorversion} <= 1.5-1
+Obsoletes:	%{sname}_next%{pgmajorversion} < 1.5-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

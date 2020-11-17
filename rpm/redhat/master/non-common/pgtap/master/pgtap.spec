@@ -17,7 +17,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	perl-Test-Pod perl-Test-Pod-Coverage perl-Module-Build
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.1.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.1.0-2
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	perl-Module-Build

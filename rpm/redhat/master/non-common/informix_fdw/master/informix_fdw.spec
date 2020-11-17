@@ -6,7 +6,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Informix
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{ifxfdwmajver}.%{ifxfdwmidver}.%{ifxfdwminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
 Source0:	https://github.com/credativ/%{sname}/archive/REL%{ifxfdwmajver}_%{ifxfdwmidver}_%{ifxfdwminver}.tar.gz
@@ -16,7 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-server
 #BuildRequires:	some-informix-dependency maybe?
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 0.5.3-1
+Obsoletes:	%{sname}%{pgmajorversion} < 0.5.3-2
 
 %description
 The PostgreSQL Informix Foreign Datawrapper (FDW) module is a driver

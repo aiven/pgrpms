@@ -25,7 +25,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 BuildRequires:	mongo-c-driver-devel snappy snappy-devel
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 5.2.7-1
+Obsoletes:	%{sname}%{pgmajorversion} < 5.2.7-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

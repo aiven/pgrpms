@@ -27,7 +27,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 2.3.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 # Packages come from EPEL and SCL:

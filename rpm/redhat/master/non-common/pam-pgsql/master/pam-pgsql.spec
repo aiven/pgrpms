@@ -21,7 +21,7 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Patch1:		%{sname}-getservice.patch
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 0.7.3.2-1
+Obsoletes:	%{sname}%{pgmajorversion} < 0.7.3.2-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

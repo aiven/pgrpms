@@ -22,7 +22,7 @@ BuildRequires:	ruby >= 1.8 ruby-devel >= 1.8 postgresql%{pgmajorversion} pgdg-sr
 BuildRequires:	postgresql%{pgmajorversion} pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-libs ruby(release)
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 0.5.7-2
+Obsoletes:	%{sname}%{pgmajorversion} < 0.5.7-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

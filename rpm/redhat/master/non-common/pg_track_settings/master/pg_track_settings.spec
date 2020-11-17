@@ -16,7 +16,7 @@ URL:		https://github.com/rjuju/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 2.0.1-1
+Obsoletes:	%{sname}%{pgmajorversion} < 2.0.1-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

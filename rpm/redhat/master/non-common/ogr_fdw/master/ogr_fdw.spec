@@ -16,7 +16,7 @@ URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal31-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server gdal31-libs
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.12-2
+Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

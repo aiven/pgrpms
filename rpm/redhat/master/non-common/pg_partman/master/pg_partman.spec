@@ -29,7 +29,7 @@ Requires:	python-psycopg2
 Requires:	python3-psycopg2
 %endif
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 4.4.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 4.4.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

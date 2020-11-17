@@ -17,7 +17,7 @@ URL:		http://pgfoundry.org/projects/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion <= 1.1.1-4
+Obsoletes:	%{sname}%{pgmajorversion} < 1.1.1-5
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

@@ -17,7 +17,7 @@ URL:		https://dvarrazzo.github.io/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel gmp-devel pgdg-srpm-macros
 Requires:	gmp
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.4-2
+Obsoletes:	%{sname}%{pgmajorversion} < 1.0.4-3
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

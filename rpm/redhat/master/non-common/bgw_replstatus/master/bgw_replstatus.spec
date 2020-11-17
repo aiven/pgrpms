@@ -16,7 +16,7 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.0.3-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.0.3-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

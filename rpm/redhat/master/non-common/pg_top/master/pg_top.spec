@@ -19,7 +19,7 @@ Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 Obsoletes:	ptop => 3.5.0
-Obsoletes:	%{sname}_%{pgmajorversion} <= 3.7.0-5
+Obsoletes:	%{sname}_%{pgmajorversion} < 3.7.0-6
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

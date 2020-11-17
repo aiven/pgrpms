@@ -67,7 +67,7 @@ Requires(postun):	initscripts
 %endif
 
 Obsoletes:		postgresql-pgpool < 1.0.0
-Obsoletes:		%{sname}-%{pgmajorversion} <= 4.1.4-1
+Obsoletes:		%{sname}-%{pgmajorversion} < 4.1.4-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

@@ -19,7 +19,7 @@ URL:		https://github.com/markokr/skytools
 BuildRequires:	postgresql%{pgmajorversion}-devel, python-devel, xmlto, asciidoc
 Requires:	python-psycopg2, postgresql%{pgmajorversion}
 
-Obsoletes:	%{sname}-%{pgmajorversion} <= 3.2.6-1
+Obsoletes:	%{sname}-%{pgmajorversion} < 3.2.6-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires

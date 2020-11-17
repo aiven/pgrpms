@@ -11,7 +11,7 @@ URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 1.2.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 1.2.0-2
 
 %description
 pg_catcheck is a simple tool for diagnosing system catalog corruption.
