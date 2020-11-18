@@ -40,7 +40,7 @@ BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.3.2 python3-
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-babel python3-flask-babelex python3
 Requires:	python3-alembic python3-mako python3-ldap3 >= 2.5.1
-%global QMAKE	/usr/bin/qmakeqt5
+%global QMAKE	/usr/bin/qmake-qt5
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
