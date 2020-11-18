@@ -9,7 +9,7 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.27
+Version:	4.28
 Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
@@ -110,7 +110,7 @@ Requires:	python3-sqlparse >= 0.3.0 python3-flask-gravatar >= 0.5.0
 Requires:	python3-flask-mail >= 0.9.1 pgadmin4-python3-flask-security-too >= 3.3.3
 Requires:	python3-flask-login >= 0.4.1 python3-flask-paranoid >= 0.2
 Requires:	python3-flask-sqlalchemy >= 2.3.2 python3-blinker >= 1.4
-Requires:	python3-psycopg2 >= 2.8 python3-mod_wsgi
+Requires:	python3-psycopg2 >= 2.8 python3-mod_wsgi python3-email-validator
 Requires:	policycoreutils-python-utils policycoreutils
 %endif
 
@@ -127,7 +127,7 @@ Requires:	%{name}-python3-flask-login >= 0.4.1 %{name}-python3-flask-principal >
 Requires:	%{name}-python3-dateutil >= 2.8.0 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-passlib >= 1.7.2 %{name}-python3-flask-migrate >= 2.4.0
 Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-speaklater >= 1.3
-Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-mod_wsgi
+Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-mod_wsgi %{name}-python3-email-validator
 Requires:	python3 >= 3.6 policycoreutils-python policycoreutils python3-psycopg2 >= 2.8
 %endif
 
@@ -145,7 +145,7 @@ Requires:	%{name}-python3-sshtunnel >= 0.1.4 %{name}-python3-flask-compress >= 1
 Requires:	%{name}-python3-psutil >= 5.7.0 %{name}-python3-flask-sqlalchemy >= 2.3.2
 Requires:	%{name}-python3-werkzeug >= 0.15.4 %{name}-python3-speaklater >= 1.3
 Requires:	python3-blinker >= 1.4 python3-psycopg2 >= 2.8 python3-mod_wsgi
-Requires:	python3-cryptography python3-bcrypt python3-pynacl
+Requires:	python3-cryptography python3-bcrypt python3-pynacl python3-email-validator
 Requires:	policycoreutils-python-utils policycoreutils
 %endif
 
@@ -340,6 +340,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Wed Nov 18 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-1
+- Update to 4.28
+
 * Tue Oct 20 2020 - Devrim Gündüz <devrim@gunduz.org> 4.27-1
 - Update to 4.27
 
