@@ -1,0 +1,1 @@
+../main/python-email-validator.spec
