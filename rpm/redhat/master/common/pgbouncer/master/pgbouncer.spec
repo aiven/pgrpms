@@ -15,8 +15,8 @@
 %endif
 
 Name:		pgbouncer
-Version:	1.14.0
-Release:	3%{?dist}
+Version:	1.15.0
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -226,6 +226,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 1.15.0-1
+- Update to 1.15.0, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-115x
+
 * Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 1.14.0-3
 - Build with systemd support, per
   https://bugzilla.redhat.com/show_bug.cgi?id=1858814
