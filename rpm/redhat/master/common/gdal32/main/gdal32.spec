@@ -54,7 +54,7 @@
 
 Name:		%{sname}32
 Version:	3.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -181,19 +181,21 @@ BuildRequires:	librx-devel
 BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
-# Run time dependency for gpsbabel driver
-Requires:	gpsbabel
 %endif
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
 
+BuildRequires:	python3-devel
+BuildRequires:	python3-numpy
+BuildRequires:	python3-setuptools
+
 # proj DL-opened in ogrct.cpp, see also fix in %%prep
-%if 0%{?__isa_bits} == 64
-Requires:	libproj.so.%{proj_somaj}()(64bit)
-%else
-Requires:	libproj.so.%{proj_somaj}
-%endif
+Requires:	proj%{projmajorversion} >= %{projfullversion}
+Conflicts:	proj
+
+Requires:	geos%{geosmajorversion} ogdi41%{ogdimajorversion}
+Requires:	netcdf gpsbabel
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -240,6 +242,29 @@ BuildArch:	noarch
 
 %description doc
 This package contains HTML and PDF documentation for GDAL.
+
+%package python3
+%{?python_provide:%python_provide python3-gdal}
+Summary:	Python modules for the GDAL file format library
+Requires:	python3-numpy
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Obsoletes:	gdal-python3 < 2.3.1
+Provides:	gdal-python3 = %version-%release
+
+%description python3
+The GDAL Python 3 modules provide support to handle multiple GIS file formats.
+
+%package python-tools
+Summary:	Python tools for the GDAL file format library
+Requires:	python3-%{name}
+
+%description python-tools
+The GDAL Python package provides number of tools for programming and
+manipulating GDAL file format library
+
+# We don't want to provide private Python extension libs
+%global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\.so$
+%global __provides_exclude_from ^%{python3_sitearch}/.*\.so$
 
 %prep
 %setup -q -n %{sname}-%{version}-fedora
@@ -432,6 +457,11 @@ pushd ogr/ogrsf_frmts/s57/
   %{__make} %{?_smp_mflags} all
 popd
 
+# Make Python modules
+pushd swig/python
+  %py3_build
+popd
+
 %install
 %{__rm} -rf %{buildroot}
 
@@ -561,6 +591,11 @@ done
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__cp} -rp man/* %{buildroot}%{_mandir}/man1
 
+pushd swig/python
+  %py3_install
+popd
+
+
 %check
 
 %post libs -p /sbin/ldconfig
@@ -625,6 +660,20 @@ done
 %files doc
 %{_mandir}/man1
 
+%files python3
+%doc swig/python/README.rst
+%doc swig/python/samples
+%{python3_sitearch}/osgeo
+%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+
+%files python-tools
+%_bindir/*.py
+
 %changelog
 * Wed Nov 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
+- Add Python subpackages, per #5961
+- Add a few more Requires.
+
+* Wed Nov 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
 - Initial 3.2.0 packaging for the PostgreSQL RPM repository.
+
