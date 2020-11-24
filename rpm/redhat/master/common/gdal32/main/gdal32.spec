@@ -196,6 +196,8 @@ Conflicts:	proj
 
 Requires:	geos%{geosmajorversion} ogdi41%{ogdimajorversion}
 Requires:	netcdf gpsbabel
+Requires:	libgeotiff%{libgeotiffmajorversion}-devel
+Requires:	libspatialite%{libspatialitemajorversion}-devel
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
