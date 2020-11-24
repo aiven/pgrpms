@@ -25,8 +25,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}_%{pgmajorversion}
-Version:		3.7.16
-Release:		2%{?dist}
+Version:		3.7.17
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -328,6 +328,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Tue Nov 24 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.17-1
+- Update to 3.7.17
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.16-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
