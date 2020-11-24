@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	0.9.2
+Version:	1.0.0
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -35,6 +35,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/LICENSE %{buildroot}%{_docdir}/%{name}/LICENSE
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/CODE_OF_CONDUCT.md %{buildroot}%{_docdir}/%{name}/CODE_OF_CONDUCT.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/README.md %{buildroot}%{_docdir}/%{name}/README.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/ARCHITECTURE.md %{buildroot}%{_docdir}/%{name}/ARCHITECTURE.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
@@ -81,8 +82,8 @@ chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-cli
 chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-admin
 
 cd %{buildroot}%{_libdir}/
-%{__ln_s} -f libpgagroal.so.%{version} libpgagroal.so.0
-%{__ln_s} -f libpgagroal.so.0 libpgagroal.so
+%{__ln_s} -f libpgagroal.so.%{version} libpgagroal.so.1
+%{__ln_s} -f libpgagroal.so.1 libpgagroal.so
 
 %post
 if [ $1 -eq 1 ] ; then
@@ -106,7 +107,6 @@ fi
 %files
 %license %{_docdir}/%{name}/LICENSE
 %{_docdir}/%{name}/*.md
-%{_docdir}/%{name}/SECURITY.md
 %{_docdir}/%{name}/images/*.png
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
@@ -120,17 +120,20 @@ fi
 %{_bindir}/%{name}-cli
 %{_bindir}/%{name}-admin
 %{_libdir}/libpgagroal.so
-%{_libdir}/libpgagroal.so.0
+%{_libdir}/libpgagroal.so.1
 %{_libdir}/libpgagroal.so.%{version}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Tue Nov 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
+- Update to 1.0.0
+
 * Thu Nov 12 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.2-1
 - Update to 0.9.2
 
-* Tue Oct 14 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-1
+* Wed Oct 14 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.1-1
 - Update to 0.9.1
 
 * Tue Sep 29 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-2
