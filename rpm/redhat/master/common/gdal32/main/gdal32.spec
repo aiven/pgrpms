@@ -257,7 +257,7 @@ The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 %package python-tools
 Summary:	Python tools for the GDAL file format library
-Requires:	python3-%{name}
+Requires:	%{name}-python3
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
