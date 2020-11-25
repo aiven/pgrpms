@@ -11,7 +11,7 @@
 
 
 # OS version. Possible values are:
-# EL-6 EL-7 EL-8 F-31 F-32 F-33 SLES-12 SLES-15, etc.
+# EL-6 EL-7 EL-8 F-32 F-33 SLES-12 SLES-15, etc.
 os=F-33
 
 # Supported stable PostgreSQL versions:
@@ -31,14 +31,20 @@ reset=`tput sgr0`
 		echo
 		echo "${red}ERROR:${reset} This script must be run with at least two parameters:"
 		echo "       package name, package version"
-		echo "       and optional: PostgreSQL version to build against"
+		echo "       and optional: The actual package name to sign, and also the PostgreSQL version to build against"
 		echo
 	exit 1
 	fi
 
+# The name of the package in the git tree (pgpool-II-41, postgresql-14, etc)
 packagename=$1
+#  Package version (Version: field in the spec file)
 packageVersion=$2
-buildVersion=$3
+# Actual package name to sign (pgpool-II, postgis, etc).
+signPackageName=$3
+# The PostgreSQL version the package will be built. Leave empty for all
+# PG versions.
+buildVersion=$4
 
 
 # Common function to sign the package.
@@ -53,7 +59,7 @@ sign_package(){
 	# are already signed. This is not a problem for now, we just lose time. Older packages
 	# won't be signed again anyway.
 	# Using an expect script to automate signing process.
-	for signpackagelist in `find ~/rpm* -iname "$packagename*$packageVersion*.rpm"`; do /usr/bin/expect ~/bin/signrpms.expect $signpackagelist; done
+	for signpackagelist in `find ~/rpm* -iname "$signPackageName*$packageVersion*.rpm"`; do /usr/bin/expect ~/bin/signrpms.expect $signpackagelist; done
 }
 
 
