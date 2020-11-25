@@ -129,7 +129,7 @@ Requires:	%{name}-python3-passlib >= 1.7.2 %{name}-python3-flask-migrate >= 2.4.
 Requires:	%{name}-python3-sshtunnel >= 0.1.5 %{name}-python3-speaklater >= 1.3
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-mod_wsgi %{name}-python3-email-validator
 Requires:	python3 >= 3.6 policycoreutils-python policycoreutils python3-psycopg2 >= 2.8
-Requires:	python3-bcrypt
+Requires:	python36-bcrypt
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
