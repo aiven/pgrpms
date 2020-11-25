@@ -671,7 +671,7 @@ popd
 %_bindir/*.py
 
 %changelog
-* Wed Nov 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
+* Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-2
 - Add Python subpackages, per #5961
 - Add a few more Requires.
 
