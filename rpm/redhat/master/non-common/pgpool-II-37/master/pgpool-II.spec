@@ -26,7 +26,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}_%{pgmajorversion}
 Version:		3.7.17
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -86,6 +86,7 @@ DB nodes to be connected, which was not possible in pgpool-I.
 %package devel
 Summary:	The development files for pgpool-II
 Requires:	%{name} = %{version}-%{release}
+Obsoletes:	%{sname}-%{pgmajorversion}-devel < 3.7.16-2
 
 %description devel
 Development headers and libraries for pgpool-II.
@@ -95,6 +96,7 @@ Summary:	Postgresql extensions for pgpool-II
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server
+Obsoletes:	%{sname}-%{pgmajorversion}-extensions < 3.7.16-2
 
 %description extensions
 Postgresql extensions libraries and sql files for pgpool-II.
@@ -328,6 +330,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Wed Nov 25 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.17-2
+- Also obsolete subpackages.
+
 * Tue Nov 24 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.17-1
 - Update to 3.7.17
 
