@@ -34,10 +34,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha2_4%{?dist}
+Release:	alpha3_1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha3.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha3.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -169,7 +169,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}alpha2
+%setup -q -n %{sname}-%{version}alpha3
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -252,12 +252,12 @@ fi
 %{pginstdir}/lib/%{sname}-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %if %{sfcgal}
+%{pginstdir}/lib/%{sname}_sfcgal-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_sfcgal*.sql
 %{pginstdir}/share/extension/%{sname}_sfcgal.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_upgrade.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_sfcgal.sql
-
 %endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}_topology-%{postgissomajorversion}.so
@@ -289,6 +289,8 @@ fi
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}.index.bc
+   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}/lwgeom_sfcgal*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
@@ -311,7 +313,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}alpha2.pdf
+%doc %{sname}-%{version}alpha3.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -329,6 +331,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_4
+- Update to 3.1.0-alpha3
+
 * Fri Oct 30 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_4
 - Rebuild against new GDAL and new PROJ.
 
