@@ -11,8 +11,8 @@
 %endif
 
 Name:		pgadmin4-python3-%{sname}
-Version:	0.9.3
-Release:	2%{?dist}
+Version:	0.9.4
+Release:	1%{?dist}
 Summary:	Adds i18n/l10n support to Flask applications
 License:	BSD
 URL:		https://github.com/mrjoes/%{sname}
@@ -71,6 +71,9 @@ This is fork of official Flask-Babel extension with following features:
 %{pgadmin4py3instdir}/flask_babelex/*
 
 %changelog
+* Wed Nov 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.4-1
+- Update to 0.9.4
+
 * Wed Mar 4 2020 Devrim Gündüz <devrim@gunduz.org> - 0.9.3-2
 - Switch to PY3 on RHEL 7
 
