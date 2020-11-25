@@ -10,13 +10,13 @@
 %global pgadmin4py3instdir %{python3_sitelib}/pgadmin4-web/
 
 Name:		pgadmin4-python3-%{sname}
-Version:	0.1.4
-Release:	2%{?dist}
+Version:	0.3.1
+Release:	1%{?dist}
 Summary:	SSH tunnels to remote server.
 
 License:	MIT
 URL:		https://github.com/pahaz/%{sname}
-Source0:	https://files.pythonhosted.org/packages/bf/8d/385c7e7c90e17934b3102ad2902e224c27a7173a6a57ef4805dcef8043b1/sshtunnel-%{version}.tar.gz
+Source0:	https://files.pythonhosted.org/packages/83/98/6a7c3d53e95bcea39e238711579cbe186ddfb23fdc045d83538bebe17c1e/sshtunnel-%{version}.tar.gz
 
 BuildArch:	noarch
 
@@ -68,6 +68,9 @@ popd
 %{pgadmin4py3instdir}/%{sname}.cpython*
 
 %changelog
+* Wed Nov 25 2020 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1
+- Update to 0.3.1
+
 * Tue Mar 3 2020 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-2
 - Switch to PY3 on RHEL 7
 
