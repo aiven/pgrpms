@@ -123,7 +123,7 @@ BuildRequires:	mariadb-connector-c-devel
 %endif
 BuildRequires:	libpq5-devel
 BuildRequires:	pcre-devel
-BuildRequires:	ogdi41-devel
+BuildRequires:	ogdi%{ogdimajorversion}-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
@@ -190,15 +190,6 @@ BuildRequires:	python3-devel
 BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
-# proj DL-opened in ogrct.cpp, see also fix in %%prep
-Requires:	proj%{projmajorversion} >= %{projfullversion}
-Conflicts:	proj
-
-Requires:	geos%{geosmajorversion} ogdi41%{ogdimajorversion}
-Requires:	netcdf gpsbabel
-Requires:	libgeotiff%{libgeotiffmajorversion}-devel
-Requires:	libspatialite%{libspatialitemajorversion}-devel
-
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 # We have multilib triage
@@ -234,6 +225,14 @@ This package contains development files for GDAL.
 Summary:	GDAL file format library
 # https://trac.osgeo.org/gdal/ticket/3978#comment:5
 Obsoletes:	%{name}-ruby < 1.11.0-1
+
+# proj DL-opened in ogrct.cpp, see also fix in %%prep
+Requires:	proj%{projmajorversion} >= %{projfullversion}
+
+Requires:	geos%{geosmajorversion} ogdi%{ogdimajorversion}
+Requires:	netcdf gpsbabel
+Requires:	libgeotiff%{libgeotiffmajorversion}-devel
+Requires:	libspatialite%{libspatialitemajorversion}-devel
 
 %description libs
 This package contains the GDAL file format library.
