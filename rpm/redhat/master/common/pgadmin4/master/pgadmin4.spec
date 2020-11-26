@@ -163,7 +163,7 @@ Documentation of pgadmin4.
 # desktop (non-gnome)
 %package	-n %{name}-desktop-common
 Summary:	Desktop components of pgAdmin4 for all window managers.
-Requires:	%{name}-web
+Requires:	%{name}-web pgadmin4
 %if 0%{?fedora} && 0%{?fedora} >= 30
 Requires:	qt5-qtbase >= 5.1
 %endif
@@ -180,7 +180,7 @@ Desktop components of pgAdmin4 all window managers.
 # desktop-gnome
 %package	-n %{name}-desktop-gnome
 Summary:	GNOME Desktop components of pgAdmin4
-Requires:	%{name}-web
+Requires:	%{name}-web pgadmin4
 BuildArch:	noarch
 Conflicts:	%{name}-desktop
 Requires:	%{name}-desktop-common
@@ -342,7 +342,8 @@ fi
 
 %changelog
 * Thu Nov 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-3
-- Rebuild to test Fedora 33 dependency issues.
+- Make sure that desktop packages require main package for
+  complete set of dependency. Per #6015 .
 
 * Thu Nov 19 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-2
 - Update dependency versions.
