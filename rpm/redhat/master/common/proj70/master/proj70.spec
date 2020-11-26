@@ -14,7 +14,7 @@
 
 Name:		%{sname}70
 Version:	7.0.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -32,9 +32,6 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
-Obsoletes:	proj63 <= 6.3.1 proj62 <= 6.2.1
-Provides:	proj63 <= 6.3.1 proj62 <= 6.2.1
-
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
@@ -46,9 +43,6 @@ Requires:	%{name} = %{version}-%{release}
 %pgdg_set_ppc64le_min_requires
 %endif
 
-Obsoletes:	proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
-Provides:	proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
-
 
 %package static
 Summary:	Development files for PROJ
@@ -56,9 +50,6 @@ Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
-
-Obsoletes:	proj63-static <= 6.3.1 proj62-static <= 6.2.1
-Provides:	proj63-static <= 6.3.1 proj62-static <= 6.2.1
 
 %description
 Proj and invproj perform respective forward and inverse transformation of
@@ -159,6 +150,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Thu Nov 26 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.0.1-3
+- Stop obsoleting older versions of PROJ. We already fixed issues with other
+  packages.
+
 * Sun May 10 2020 John K. Harvey <john.harvey@crunchydata.com> - 0:7.0.1-2
 - Add CPPFLAGS for sqlite33dir on EL-7 so that sqlite3.h is picked up
   during compilation.

@@ -15,7 +15,7 @@
 
 Name:		%{sname}72
 Version:	7.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -33,9 +33,6 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
-Obsoletes:	proj71 <= 7.1.1 proj70 <= 7.0.2 proj63 <= 6.3.1 proj62 <= 6.2.1
-Provides:	proj71 <= 7.1.1 proj70 <= 7.0.2 proj63 <= 6.3.1 proj62 <= 6.2.1
-
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
@@ -47,19 +44,12 @@ Requires:	%{name} = %{version}-%{release}
 %pgdg_set_ppc64le_min_requires
 %endif
 
-Obsoletes:	proj71-devel <= 7.1.1 proj70-devel <= 7.0.2 proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
-Provides:	proj71-devel <= 7.1.1 proj70-devel <= 7.0.2 proj63-devel <= 6.3.1 proj62-devel <= 6.2.1
-
-
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
-
-Obsoletes:	proj70-static <= 7.0.2 proj63-static <= 6.3.1 proj62-static <= 6.2.1
-Provides:	proj70-static <= 7.0.2 proj63-static <= 6.3.1 proj62-static <= 6.2.1
 
 %description
 Proj and invproj perform respective forward and inverse transformation of
@@ -160,6 +150,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{projinstdir}/lib/libproj.la
 
 %changelog
+* Thu Nov 26 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.0-2
+- Stop obsoleting older versions of PROJ. We already fixed issues with other
+  packages.
+
 * Thu Nov 5 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.0-1
 - Initial 7.2 packaging for PostgreSQL RPM Repository, using the
   7.1 spec file.
