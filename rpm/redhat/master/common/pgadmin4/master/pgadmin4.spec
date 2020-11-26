@@ -10,7 +10,7 @@
 
 Name:		pgadmin4
 Version:	4.28
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -341,6 +341,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Nov 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-3
+- Rebuild to test Fedora 33 dependency issues.
+
 * Thu Nov 19 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-2
 - Update dependency versions.
 
