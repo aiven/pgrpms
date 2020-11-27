@@ -15,7 +15,7 @@
 
 Name:		%{sname}72
 Version:	7.2.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -25,7 +25,7 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel
-BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.8
+BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.9
 
 %if 0%{?fedora} > 30 || 0%{?rhel} == 8
 Requires:	%{sqlitepname}-libs >= 3.7
@@ -69,8 +69,8 @@ This package contains libproj static library.
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
-LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
+LDFLAGS="-Wl,-rpath,%{proj72instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj72instdir}/lib" ; export SHLIB_LINK
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
@@ -82,7 +82,7 @@ CPPFLAGS="-I%{sqlite33dir}/include/ ${CFLAGS}" ; export CPPFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %endif
 
-./configure --prefix=%{projinstdir} --with-curl
+./configure --prefix=%{proj72instdir} --with-curl
 
 %{__make} %{?_smp_mflags}
 
@@ -98,9 +98,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 
 %{__rm} -rf %{buildroot}
 %make_install
-%{__install} -d %{buildroot}%{projinstdir}/share/%{sname}
-%{__install} -d %{buildroot}%{projinstdir}/share/doc/
-%{__install} -p -m 0644 NEWS AUTHORS COPYING README ChangeLog %{buildroot}%{projinstdir}/share/doc/
+%{__install} -d %{buildroot}%{proj72instdir}/share/%{sname}
+%{__install} -d %{buildroot}%{proj72instdir}/share/doc/
+%{__install} -p -m 0644 NEWS AUTHORS COPYING README ChangeLog %{buildroot}%{proj72instdir}/share/doc/
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -125,31 +125,35 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 
 %files
 %defattr(-,root,root,-)
-%doc %{projinstdir}/share/doc/*
-%{projinstdir}/bin/*
-%{projinstdir}/share/man/man1/*.1
-%{projinstdir}/share/proj/*
-%{projinstdir}/lib/libproj.so.19*
+%doc %{proj72instdir}/share/doc/*
+%{proj72instdir}/bin/*
+%{proj72instdir}/share/man/man1/*.1
+%{proj72instdir}/share/proj/*
+%{proj72instdir}/lib/libproj.so.19*
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %defattr(-,root,root,-)
-%{projinstdir}/share/man/man1/*.1
-%{projinstdir}/include/*.h
-%{projinstdir}/include/proj/*
-%{projinstdir}/lib/*.so
-%{projinstdir}/lib/*.a
-%attr(0755,root,root) %{projinstdir}/lib/pkgconfig/%{sname}.pc
-%exclude %{projinstdir}/lib/libproj.a
-%exclude %{projinstdir}/lib/libproj.la
-%{projinstdir}/include/proj/util.hpp
+%{proj72instdir}/share/man/man1/*.1
+%{proj72instdir}/include/*.h
+%{proj72instdir}/include/proj/*
+%{proj72instdir}/lib/*.so
+%{proj72instdir}/lib/*.a
+%attr(0755,root,root) %{proj72instdir}/lib/pkgconfig/%{sname}.pc
+%exclude %{proj72instdir}/lib/libproj.a
+%exclude %{proj72instdir}/lib/libproj.la
+%{proj72instdir}/include/proj/util.hpp
 
 %files static
 %defattr(-,root,root,-)
-%{projinstdir}/lib/libproj.a
-%{projinstdir}/lib/libproj.la
+%{proj72instdir}/lib/libproj.a
+%{proj72instdir}/lib/libproj.la
 
 %changelog
+* Fri Nov 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.0-3
+- Make sure that each PROJ package will install into their own directory,
+  not under the latest one.
+
 * Thu Nov 26 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.0-2
 - Stop obsoleting older versions of PROJ. We already fixed issues with other
   packages.
