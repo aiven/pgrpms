@@ -41,7 +41,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -49,13 +49,13 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc
-BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.4
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.7.2
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.9
+BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
 
-Requires:	geos%{geosmajorversion} >= 3.7.2
-Requires:	proj%{projmajorversion} >= 7.1.0
+Requires:	geos%{geosmajorversion} >= %{geosfullversion}
+Requires:	proj%{projmajorversion} >= %{projfullversion}
 
 %description
 SpatiaLite is a a library extending the basic SQLite core in order to
@@ -143,6 +143,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Fri Nov 27 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-3
+- Rebuild against PROJ 7.2.0 and GeOS 3.8.0
+
 * Tue Sep 8 2020 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-2
 - Add linker config file
 
