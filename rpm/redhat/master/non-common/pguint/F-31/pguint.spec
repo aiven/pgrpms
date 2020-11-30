@@ -1,1 +1,0 @@
-../master/pguint.spec

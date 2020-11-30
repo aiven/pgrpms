@@ -1,1 +1,0 @@
-../master/pg_filedump10.spec

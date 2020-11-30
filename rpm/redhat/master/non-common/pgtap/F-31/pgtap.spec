@@ -1,1 +1,0 @@
-../master/pgtap.spec
