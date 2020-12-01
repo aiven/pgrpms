@@ -1,10 +1,10 @@
 %global sname check_pgactivity
 
-%global		_tag REL2_4
+%global		_tag REL2_5
 
 Name:		nagios-plugins-pgactivity
-Version:	2.4
-Release:	2%{dist}
+Version:	2.5
+Release:	1%{dist}
 Summary:	PostgreSQL monitoring plugin for Nagios
 License:	PostgreSQL
 Url:		http://opm.io
@@ -37,6 +37,9 @@ install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 %endif
 
 %changelog
+* Tue Dec 1 2020 Devrim Gündüz <devrim@gunduz.org> 2.5-1
+- Update to 2.5
+
 * Mon Apr 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.4-2
 - Remove PostgreSQL dependency, per #5418
 - Actually use 2.4 tarball.
