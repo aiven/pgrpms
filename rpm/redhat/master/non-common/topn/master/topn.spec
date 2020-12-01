@@ -6,7 +6,7 @@
 
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.0
+Version:	2.3.1
 Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
@@ -72,6 +72,9 @@ HLL extension, you can think of TopN as its cousin.
 %endif
 
 %changelog
+* Tue Dec 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
+- Update to 2.3.1
+
 * Wed Nov 6 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1
 - Update to 2.3.0
 
