@@ -37,7 +37,7 @@ BuildRequires:	python3-flask-wtf >= 0.14.3 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.3.13 qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.4.1 python3-ldap3 >= 2.5.1
-Requires:	%{name}-python3-flask-compress >= 1.4.0 %{sname}-python3-flask-babelex >= 0.9.4
+Requires:	%{name}-python3-flask-compress >= 1.4.0 %{name}-python3-flask-babelex >= 0.9.4
 Requires:	python3-babel python3
 Requires:	python3-alembic python3-mako python3-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt5
