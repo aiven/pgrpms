@@ -10,7 +10,7 @@
 
 Name:		pgadmin4
 Version:	4.28
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -37,8 +37,8 @@ BuildRequires:	python3-flask-wtf >= 0.14.3 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.3.13 qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.4.1 python3-ldap3 >= 2.5.1
-Requires:	%{name}-python3-flask-compress >= 1.4.0
-Requires:	python3-babel python3-flask-babelex python3
+Requires:	%{name}-python3-flask-compress >= 1.4.0 %{sname}-python3-flask-babelex >= 0.9.4
+Requires:	python3-babel python3
 Requires:	python3-alembic python3-mako python3-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt5
 %endif
@@ -54,7 +54,7 @@ BuildRequires:	%{name}-python3-flask-paranoid >= 0.2
 BuildRequires:	%{name}-python3-passlib >= 1.7.2
 BuildRequires:	%{name}-python3-wtforms >= 2.2.1 %{name}-python3-flask-compress >= 1.4.0
 BuildRequires:	python3-devel mesa-libGL-devel qt5-qtbase-devel >= 5.9.7 python36-ldap3 >= 2.5.1
-Requires:	%{name}-python3-flask-babelex %{name}-python3-flask-compress >= 1.4.0
+Requires:	%{name}-python3-flask-babelex >= 0.9.4 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-sqlalchemy >= 1.3.13 %{name}-python3-babel
 Requires:	%{name}-python3-mako %{name}-python3-alembic
 Requires:	python36-ldap3 >= 2.5.1
@@ -69,7 +69,7 @@ BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3 %{name}-python3-flask
 BuildRequires:	%{name}-python3-flask-wtf >= 0.14.3 %{name}-python3-flask >= 1.0.2
 BuildRequires:	%{name}-python3-flask-paranoid >= 0.2 %{name}-python3-flask-login >= 0.4.1
 BuildRequires:	qt5-qtbase-devel >= 5.1 python3-devel python3-blinker >= 1.4 python3-ldap3 >= 2.5.1
-Requires:	%{name}-python3-alembic %{name}-python3-flask-babelex
+Requires:	%{name}-python3-alembic %{name}-python3-flask-babelex >= 0.9.4
 Requires:	%{name}-python3-flask-compress >= 1.4.0
 Requires:	python3-mako python3 python3-babel python3-ldap3 >= 2.5.1
 %global QMAKE	/usr/bin/qmake-qt5
@@ -341,6 +341,12 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Thu Nov 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-4
+- Fedora 32 has flask-babelex version 0.9.3, which is not enough
+  for pgAdmin4. Instead of splitting Fedora dependencies, use
+  the easy path and depend on our flask-babelex package on
+  all Fedoras as well.
+
 * Thu Nov 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-3
 - Make sure that desktop packages require main package for
   complete set of dependency. Per #6015 .
