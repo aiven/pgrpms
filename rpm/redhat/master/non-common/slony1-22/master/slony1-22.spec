@@ -17,11 +17,11 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.8
-Release:	3%{?dist}
+Version:	2.2.9
+Release:	1%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
-Source0:	https://www.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
+Source0:	%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
 Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
@@ -246,6 +246,9 @@ fi
 %endif
 
 %changelog
+* Wed Dec 2 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.9-1
+- Update to 2.2.9
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
