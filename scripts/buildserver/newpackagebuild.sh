@@ -26,7 +26,7 @@ blue=`tput setaf 4`
 reset=`tput sgr0`
 
 # if less than two arguments supplied, throw error:
-	if [  $# -le 1 ]
+	if [  $# -le 2 ]
 	then
 		echo
 		echo "${red}ERROR:${reset} This script must be run with at least two parameters:"
