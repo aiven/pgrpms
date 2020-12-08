@@ -1,4 +1,5 @@
 %global sname repmgr
+%global unitname	%{sname}%{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
 %else
@@ -52,7 +53,8 @@ BuildRequires:	libxslt-devel pam-devel openssl-devel readline-devel
 BuildRequires:	libmemcached-devel libicu-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <= 5.2.0-1
+Obsoletes:	%{sname}%{pgmajorversion} < 5.2.1-1
+Obsoletes:	%{sname}_%{pgmajorversion} < 5.2.1-1
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -77,6 +79,8 @@ future PostgreSQL versions.
 %package devel
 Summary:	Development header files of repmgr
 Requires:	%{name}%{?_isa} = %{version}-%{release}
+Obsoletes:	%{sname}%{pgmajorversion}-devel < 5.2.1-1
+Obsoletes:	%{sname}_%{pgmajorversion}-devel < 5.2.1-1
 
 %description devel
 The repmgr-devel package contains the header files needed to compile C or C++
@@ -113,7 +117,7 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
+%{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{unitname}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -174,7 +178,7 @@ fi
 %if %{systemd_enabled}
 %ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
-%attr (644, root, root) %{_unitdir}/%{name}.service
+%attr (644, root, root) %{_unitdir}/%{unitname}.service
 %else
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
@@ -197,6 +201,8 @@ fi
 %changelog
 * Tue Dec 8 2020 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-1
 - Update to 5.2.1
+- Fix unit file breakage caused by
+  ba535ce9740f23ead60b001a43898bf3b4ffef8e .
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
