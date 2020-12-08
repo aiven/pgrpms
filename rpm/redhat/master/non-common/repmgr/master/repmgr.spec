@@ -10,8 +10,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.0
-Release:	2%{?dist}
+Version:	5.2.1
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -195,6 +195,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 8 2020 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-1
+- Update to 5.2.1
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
