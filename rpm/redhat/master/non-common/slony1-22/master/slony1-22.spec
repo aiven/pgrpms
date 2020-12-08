@@ -17,7 +17,7 @@
 
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.9
+Version:	2.2.10
 Release:	1%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
@@ -246,6 +246,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.10-1
+- Update to 2.2.10
+
 * Wed Dec 2 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.9-1
 - Update to 2.2.9
 
