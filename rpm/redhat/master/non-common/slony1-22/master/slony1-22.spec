@@ -23,10 +23,13 @@ License:	BSD
 URL:		https://www.slony.info/
 Source0:	%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
+%if ! %{systemd_enabled}
 Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
 Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
+%else
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
+%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}-server
 BuildRequires:	flex pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server perl-DBD-Pg
