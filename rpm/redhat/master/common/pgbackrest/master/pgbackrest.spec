@@ -1,7 +1,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.30
-Release:	4%{?dist}
+Version:	2.31
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -89,6 +89,9 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 2.31-1
+- Update to 2.31
+
 * Thu Oct 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.30-4
 - User creation, etc. must be in pre part, which I broke in recent
   commits.
