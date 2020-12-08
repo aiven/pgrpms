@@ -65,7 +65,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1057,7 +1057,9 @@ fi
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
 %{pgbaseinstdir}/bin/pg_isready
+%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_restore
+%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -1243,14 +1245,12 @@ fi
 %{pgbaseinstdir}/bin/pg_checksums
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
-%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_resetwal
 %{pgbaseinstdir}/bin/pg_rewind
 %{pgbaseinstdir}/bin/pg_test_fsync
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_verifybackup
-%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
@@ -1366,6 +1366,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-2PGDG
+- Move pg_receivewal and pg_waldump to client package. Fixes #6060.
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-1PGDG
 - Update to 13.1
 
