@@ -6,7 +6,7 @@
 
 Summary:	MySQL to PostgreSQL replica system
 Name:		pg_chameleon
-Version:	2.0.15
+Version:	2.0.16
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
@@ -54,6 +54,9 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{python3_sitelib}/%{name}/sql/upgrade/*.sql
 
 %changelog
+* Wed Dec 9 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.16-1
+- Update to 2.0.16
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.15-1
 - Update to 2.0.15
 
