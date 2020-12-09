@@ -10,12 +10,12 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.9.0
-Release:	beta1_1%{?dist}
+Release:	beta2_1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
-Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}beta1.tar.bz2
+Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}beta2.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
 BuildRequires:	doxygen libtool
@@ -52,7 +52,7 @@ This package contains the development files to build applications that
 use GEOS
 
 %prep
-%setup -q -n %{sname}-%{version}beta1
+%setup -q -n %{sname}-%{version}beta2
 %patch0 -p0
 
 %build
@@ -120,5 +120,8 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Wed Dec 9 2020 Devrim Gündüz <devrim@gunduz.org> - 3.9.0beta2
+- Update to beta2
+
 * Sun Nov 29 2020 Devrim Gündüz <devrim@gunduz.org> - 3.9.0beta1
 - Initial packaging of 3.9.X for PostgreSQL RPM Repository,
