@@ -1,6 +1,5 @@
 %global debug_package %{nil}
 %global sname	rollbar
-%global realver	1.4.0
 %global __ospython %{_bindir}/python3
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
