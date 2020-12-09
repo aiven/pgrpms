@@ -1059,7 +1059,9 @@ fi
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
 %{pgbaseinstdir}/bin/pg_isready
+%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_restore
+%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -1249,14 +1251,12 @@ fi
 %{pgbaseinstdir}/bin/pg_checksums
 %{pgbaseinstdir}/bin/pg_controldata
 %{pgbaseinstdir}/bin/pg_ctl
-%{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_resetwal
 %{pgbaseinstdir}/bin/pg_rewind
 %{pgbaseinstdir}/bin/pg_test_fsync
 %{pgbaseinstdir}/bin/pg_test_timing
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_verifybackup
-%{pgbaseinstdir}/bin/pg_waldump
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
