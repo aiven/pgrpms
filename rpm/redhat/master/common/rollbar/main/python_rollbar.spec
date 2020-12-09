@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname	rollbar
 %global __ospython %{_bindir}/python3
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
@@ -11,6 +10,7 @@ Release:	1%{?dist}
 URL:		https://github.com/%{sname}/py%{sname}
 Source0:	https://github.com/%{sname}/py%{sname}/archive/v%{version}.tar.gz
 License:	Python-2.0
+BuildArch:	noarch
 
 BuildRequires:	python3-setuptools
 
