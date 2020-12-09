@@ -1,5 +1,6 @@
 %global pgpoolinstdir /usr/pgpool-%{pgpackageversion}
 %global sname pgpool-II
+%global unitname	%{sname}-%{pgmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
@@ -27,7 +28,7 @@
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}_%{pgmajorversion}
 Version:		4.1.5
-Release:		2%{?dist}
+Release:		3%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -161,7 +162,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{unitname}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -314,7 +315,7 @@ fi
 %if %{systemd_enabled}
 %ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
-%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%{_unitdir}/%{unitname}.service
 %else
 %{_sysconfdir}/init.d/%{name}
 %endif
@@ -354,6 +355,10 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Wed Dec 9 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.5-3
+- Invent new %%unitname macro to fix unit file breakage
+  caused by ba535ce9740f23ead60b001a43898bf3b4ffef8e .
+
 * Wed Nov 25 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.5-2
 - Also obsolete subpackages.
 
