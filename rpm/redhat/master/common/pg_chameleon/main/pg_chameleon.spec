@@ -15,6 +15,7 @@ BuildArch:	noarch
 
 Requires:	python3-PyMySQL python3-psycopg2 python3-rollbar
 Requires:	python3-pyyaml python3-tabulate python3-daemonize
+Requires:	python3-mysql-replication
 
 BuildRequires:	python3-sphinx
 
