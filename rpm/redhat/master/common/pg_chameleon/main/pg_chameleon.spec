@@ -13,9 +13,8 @@ Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/the4thdoctor/%{name}
 BuildArch:	noarch
 
-Requires:	python3-PyMySQL python3-argparse python3-psycopg2
+Requires:	python3-PyMySQL python3-psycopg2 python3-rollbar
 Requires:	python3-pyyaml python3-tabulate python3-daemonize
-Requires:	python3-rollbar
 
 BuildRequires:	python3-sphinx
 
