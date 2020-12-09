@@ -91,7 +91,7 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 	%{atpath}/sbin/ldconfig
 %else
 	/sbin/ldconfig
-11%endif
+%endif
 
 %postun
 %ifarch ppc64 ppc64le
