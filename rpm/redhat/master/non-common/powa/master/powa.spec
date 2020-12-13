@@ -39,7 +39,7 @@ URL:		https://powa.readthedocs.io/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
-Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
+Requires:	pg_qualstats_%{pgmajorversion}, pg_stat_kcache_%{pgmajorversion}
 Requires:	hypopg_%{pgmajorversion}
 
 %if %{systemd_enabled}
