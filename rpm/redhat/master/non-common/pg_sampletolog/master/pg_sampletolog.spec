@@ -1,4 +1,4 @@
-%global sname pg_sampletolog
+j%global sname pg_sampletolog
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -7,7 +7,7 @@
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -15,7 +15,7 @@ URL:		https://github.com/anayrat/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} < 2.0.0-2
+Obsoletes:	%{sname}%{pgmajorversion} <= 2.0.0-2
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
@@ -79,6 +79,9 @@ pg_sampletolog allows to:
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Dec 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-3
+- Fix upgrade path breakage.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
