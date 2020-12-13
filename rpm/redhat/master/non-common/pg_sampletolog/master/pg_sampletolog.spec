@@ -1,4 +1,4 @@
-j%global sname pg_sampletolog
+%global sname pg_sampletolog
 
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
