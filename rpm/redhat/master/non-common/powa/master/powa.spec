@@ -6,12 +6,12 @@
 
 %global sname powa
 %global swebname powa-web
-# Powa version
+# Powa archivist version
 %global powamajorversion 4
-%global powamidversion 0
+%global powamidversion 1
 %global powaminorversion 1
 # powa-web version
-%global powawebversion 4.0.0
+%global powawebversion 4.1.0
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -29,14 +29,14 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://powa.readthedocs.io/
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-contrib
 # Actually these are optional, but let's add them for a better PoWA instance.
 Requires:	pg_qualstats%{pgmajorversion}, pg_stat_kcache%{pgmajorversion}
@@ -150,6 +150,9 @@ popd
 %endif
 
 %changelog
+* Sat Dec 12 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1
+- Update to 4.1.0
+
 * Fri May 29 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-2
 - Fix dependency issue on RHEL 7. Per
   https://github.com/powa-team/powa/issues/129
