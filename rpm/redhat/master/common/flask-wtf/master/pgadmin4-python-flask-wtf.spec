@@ -66,6 +66,9 @@ includes optional CSRF handling for greater security.
 %{pgadmin4py3instdir}/flask_wtf
 
 %changelog
+* Mon Dec 14 2020 Devrim Gündüz <devrim@gunduz.org> - 0.14.3-2
+- Make sure that release number matches changelog version.
+
 * Fri Feb 28 2020 Devrim Gündüz <devrim@gunduz.org> - 0.14.3-1
 - Update to 0.14.3
 - Switch to PY3 on RHEL 7, too.
