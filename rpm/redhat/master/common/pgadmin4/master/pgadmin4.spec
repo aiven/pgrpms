@@ -9,8 +9,8 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.28
-Release:	4%{?dist}
+Version:	4.29
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -341,6 +341,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Mon Dec 14 2020 - Devrim Gündüz <devrim@gunduz.org> 4.29-1
+- Update to 4.29
+
 * Thu Nov 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.28-4
 - Fedora 32 has flask-babelex version 0.9.3, which is not enough
   for pgAdmin4. Instead of splitting Fedora dependencies, use
