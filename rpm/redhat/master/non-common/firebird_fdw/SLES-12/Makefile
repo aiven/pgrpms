@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=".sles12"
 SPECFILE="firebird_fdw.spec"
 
 # Now, include global Makefile
