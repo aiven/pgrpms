@@ -29,11 +29,10 @@ Requires:	%{name}-web
 
 %if 0%{?fedora} && 0%{?fedora} >= 30
 BuildRequires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-passlib >= 1.7.2
-BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3
-BuildRequires:	python3-flask-principal >= 0.4.0
+BuildRequires:	%{name}-python3-flask-security-too >= 3.3.3 %{name}-python3-flask-wtf >= 0.14.3
+BuildRequires:	python3-flask-principal >= 0.4.0 python3-flask >= 1.0.2
 BuildRequires:	python3-dateutil >= 2.8.0 python3-simplejson >= 3.16.0
 BuildRequires:	python3-flask-mail >= 0.9.1 python3-flask-gravatar >= 0.5.0
-BuildRequires:	python3-flask-wtf >= 0.14.3 python3-flask >= 1.0.2
 BuildRequires:	python3-flask-paranoid >= 0.2.0 python3-flask-login >= 0.4.1
 BuildRequires:	python3-sqlalchemy >= 1.3.13 qt5-qtbase-devel >= 5.1 python3-devel
 BuildRequires:	python3-blinker >= 1.4 python3-flask-sqlalchemy >= 2.4.1 python3-ldap3 >= 2.5.1
@@ -102,8 +101,9 @@ Requires:	%{name}-pytz >= 2020.1 %{name}-python3-psutil >= 5.7.0
 Requires:	%{name}-python3-flask-migrate >= 2.4.0 %{name}-python3-passlib >= 1.7.2
 Requires:	%{name}-python3-sshtunnel >= 0.1.5 %{name}-python3-flask-compress >= 1.4.0
 Requires:	%{name}-python3-six >= 1.12.0 %{name}-python3-werkzeug >= 0.15.4
+Requires:	%{name}-python3-flask-wtf >= 0.14.3
+Requires:	python3-sqlalchemy >= 1.3.13
 Requires:	python3-flask >= 1.0.2 python3-flask-principal >= 0.4.0
-Requires:	python3-flask-wtf >= 0.14.3 python3-sqlalchemy >= 1.3.13
 Requires:	python3-wtforms >= 2.2.1 python3-speaklater >= 1.3
 Requires:	python3-simplejson >= 3.16.0 python3-dateutil >= 2.8.0
 Requires:	python3-sqlparse >= 0.3.0 python3-flask-gravatar >= 0.5.0
