@@ -63,8 +63,8 @@ export PYTHONUSERBASE=%{buildroot}
 
 # Move everything under pgadmin4 web/ directory.
 %{__mkdir} -p %{buildroot}/%{pgadmin4py3instdir}/
-%{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/%{sname} %{buildroot}/%{pgadmin4py3instdir}/
-%{__mv} %{buildroot}//lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-x86_64.egg/ %{buildroot}/%{pgadmin4py3instdir}/
+%{__mv} %{buildroot}/lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-%_arch.egg/%{sname} %{buildroot}/%{pgadmin4py3instdir}/
+%{__mv} %{buildroot}/lib/python%{pyver}/site-packages/%{sname}-%{version}-py%{pyver}-linux-%_arch.egg/ %{buildroot}/%{pgadmin4py3instdir}/
 
 %files
 %doc CREDITS HISTORY.rst README.rst
