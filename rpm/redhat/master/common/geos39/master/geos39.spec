@@ -10,12 +10,12 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.9.0
-Release:	beta2_1%{?dist}
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
 URL:		http://trac.osgeo.org/geos/
-Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}beta2.tar.bz2
+Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
 BuildRequires:	doxygen libtool
@@ -52,7 +52,7 @@ This package contains the development files to build applications that
 use GEOS
 
 %prep
-%setup -q -n %{sname}-%{version}beta2
+%setup -q -n %{sname}-%{version}
 %patch0 -p0
 
 %build
@@ -82,6 +82,9 @@ cd doc
 # Create linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
+
+%check
+%{__make} DESTDIR=%{buildroot} check
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -120,6 +123,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Tue Dec 15 2020 Devrim Gündüz <devrim@gunduz.org> - 3.9.0
+- 3.9.0
+
 * Wed Dec 9 2020 Devrim Gündüz <devrim@gunduz.org> - 3.9.0beta2
 - Update to beta2
 
