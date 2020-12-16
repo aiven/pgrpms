@@ -111,7 +111,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %postun
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 	%{atpath}/sbin/ldconfig
+%endif
 %else
 	/sbin/ldconfig
 %endif
