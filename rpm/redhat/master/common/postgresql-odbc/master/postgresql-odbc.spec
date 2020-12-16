@@ -1,5 +1,7 @@
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		postgresql%{pgmajorversion}-odbc
@@ -16,8 +18,10 @@ BuildRequires:	unixODBC-devel pgdg-srpm-macros
 BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 Requires:	postgresql%{pgmajorversion}-libs
@@ -49,8 +53,10 @@ autoheader
 
 %build
 chmod +x configure
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 	./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
 %{__make}

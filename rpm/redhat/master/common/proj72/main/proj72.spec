@@ -7,8 +7,10 @@
 %global sqlitepname	sqlite
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %pgdg_set_gis_variables
@@ -33,22 +35,28 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %package devel
 Summary:	Development files for PROJ
 Requires:	%{name} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -66,9 +74,12 @@ This package contains libproj static library.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 LDFLAGS="-Wl,-rpath,%{proj72instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj72instdir}/lib" ; export SHLIB_LINK
 
@@ -111,14 +122,18 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 
 %post
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif
 
 %postun
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif

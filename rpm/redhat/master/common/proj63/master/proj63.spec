@@ -8,10 +8,10 @@
 %global sqlitepname	sqlite
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}63
@@ -34,29 +34,28 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
+%pgdg_set_ppc64le_min_requires
 %endif
-
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %package devel
 Summary:	Development files for PROJ
 Requires:	%{name} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -74,11 +73,10 @@ This package contains libproj static library.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
+	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
@@ -121,14 +119,18 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 
 %post
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif
 
 %postun
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif

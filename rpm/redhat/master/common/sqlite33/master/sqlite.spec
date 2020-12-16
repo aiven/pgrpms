@@ -5,8 +5,10 @@
 %define	docver	3300100
 %define	rpmver	3.30.1
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Library that implements an embeddable SQL database engine
@@ -40,8 +42,10 @@ BuildRequires:	autoconf pgdg-srpm-macros
 
 Requires:		%{name}-libs = %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 # Ensure updates from pre-split work on multi-lib systems
@@ -122,8 +126,10 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 		-DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
 		-Wall -fno-strict-aliasing"
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 ./configure --disable-tcl \
@@ -153,7 +159,9 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 
 %post libs
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif

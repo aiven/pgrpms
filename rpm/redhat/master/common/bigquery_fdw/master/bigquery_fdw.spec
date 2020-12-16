@@ -4,8 +4,10 @@
 
 %global debug_package %{nil}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
@@ -27,8 +29,10 @@ Requires:	python3-google-auth = 1.14.3
 Requires:	python3-google-oauthlib = 0.4.1
 Requires:	python3-google-cloud-bigquery = 1.24
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -36,8 +40,10 @@ Requires:	python3-google-cloud-bigquery = 1.24
 %setup -q -n %{name}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
 for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" $i; done

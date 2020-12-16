@@ -10,7 +10,7 @@
 
 Name:		pgadmin4
 Version:	4.29
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -287,7 +287,7 @@ if [ $1 -eq 1 ] ; then
 fi
 
 %post -n %{name}-desktop-common
-if [ $1 > 1 ] ; then
+if [ $1 -ge 1 ] ; then
  %{__ln_s} %{pgadmin4instdir}/runtime/pgAdmin4 %{_bindir}/pgadmin4 >/dev/null 2>&1 || :
 fi
 

@@ -1,9 +1,12 @@
 %global sname psycopg2
 %global pname python-%{sname}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
+%endif
+
 %{!?with_docs:%global with_docs 0}
 
 %global with_python3 1
@@ -51,8 +54,10 @@ Requires:	libpq5 >= 10.0
 
 Conflicts:	python-%{sname}-zope < %{version}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -108,8 +113,10 @@ database adapter.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 export PATH=%{pginstdir}/bin:$PATH

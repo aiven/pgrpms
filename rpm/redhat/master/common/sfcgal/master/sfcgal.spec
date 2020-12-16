@@ -1,7 +1,9 @@
 %global _vpath_builddir .
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	C++ wrapper library around CGAL for PostGIS
@@ -50,8 +52,10 @@ BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -68,9 +72,11 @@ can be either 2D or 3D.
 
 %package libs
 Summary:	The shared libraries required for SFCGAL
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description libs
@@ -92,8 +98,10 @@ Development headers and libraries for SFCGAL.
 %endif
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 %{__install} -d build
@@ -115,25 +123,36 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 
 %post
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif
+
 %post libs
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif
+
 %postun
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif
+
 %postun libs
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 %{atpath}/sbin/ldconfig
+%endif
 %else
 /sbin/ldconfig
 %endif

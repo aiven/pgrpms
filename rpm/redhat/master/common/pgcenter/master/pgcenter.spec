@@ -1,8 +1,10 @@
 %global debug_package %{nil}
 %global sname	pgcenter
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	top-like PostgreSQL statistics viewer.
@@ -15,8 +17,10 @@ URL:		https://github.com/lesovsky/%{name}
 Requires:	libpq5 >= 10.0
 BuildRequires:	libpq5-devel >= 10.0 ncurses-devel pgdg-srpm-macros
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -37,9 +41,12 @@ psql session for this purposes.
 %setup -q
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 export PATH=%{pginstdir}/bin/:$PATH
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 

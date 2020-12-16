@@ -1,8 +1,10 @@
 %global debug_package %{nil}
 %global sname ldap2pg
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %global __ospython3 %{_bindir}/python3
@@ -23,8 +25,10 @@ BuildRequires:	python3-devel pgdg-srpm-macros
 
 Obsoletes:	python-ldap2pg < 5.1
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 Requires:	libpq5 >= 10.0
@@ -61,9 +65,12 @@ Documentation and example files for the ldap2pg package.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 for python in %{python_runtimes} ; do
   $python setup.py build
 done

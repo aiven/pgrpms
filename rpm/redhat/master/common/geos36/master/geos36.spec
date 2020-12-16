@@ -8,10 +8,10 @@
 %global		_geoslibdir lib64
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
+%pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}36
@@ -28,13 +28,10 @@ BuildRequires:	doxygen libtool
 BuildRequires:	python-devel
 BuildRequires:	gcc-c++
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 %global __ospython %{_bindir}/python2
@@ -68,10 +65,12 @@ use GEOS
 Summary:	Python modules for GEOS
 Requires:	%{name} = %{version}-%{release}
 BuildRequires:	swig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
+%pgdg_set_ppc64le_min_requires
 %endif
+%endif
+
 
 %description python
 Python module to build applications using GEOS and python
@@ -81,11 +80,13 @@ Python module to build applications using GEOS and python
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+%endif
 %endif
 
 # fix python path on 64bit
@@ -97,10 +98,12 @@ for makefile in `find . -type f -name 'Makefile.in'`; do
 sed -i 's|@LIBTOOL@|%{_bindir}/libtool|g' $makefile
 done
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
         export CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
         export CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=${PPC_MCPU} -mtune=${PPC_MTUNE} -I/opt/%(echo ${PPC_AT})/include"
         export LDFLAGS="-L/opt/%(echo ${PPC_AT})/%{_lib}"
+%endif
 %endif
 
 PYTHON=/usr/bin/python2 ./configure --prefix=%{geosinstdir} --libdir=/usr/geos36/%{_geoslibdir} --disable-static --disable-dependency-tracking --enable-python
@@ -131,7 +134,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %post
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 	%{atpath}/sbin/ldconfig
+%endif
 %else
 	/sbin/ldconfig
 %endif

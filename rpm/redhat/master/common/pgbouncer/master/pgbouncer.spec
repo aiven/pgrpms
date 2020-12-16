@@ -10,8 +10,10 @@
 %endif
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		pgbouncer
@@ -78,8 +80,10 @@ Requires(postun):	initscripts
 %endif
 Requires:	/usr/sbin/useradd
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -102,8 +106,10 @@ sed -i.fedora \
  -e '/BININSTALL/s|-s||' \
  configure
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 # Building with systemd flag tries to enable notify support which is not

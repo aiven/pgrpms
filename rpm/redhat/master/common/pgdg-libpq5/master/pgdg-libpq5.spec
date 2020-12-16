@@ -14,8 +14,10 @@
 %{!?selinux:%global selinux 1}
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL Client Library
@@ -109,8 +111,10 @@ The libpq5 package provides the essential shared library for any PostgreSQL
 client program or interface.  You will need to install this package to build any
 package or any clients that need to connect to a PostgreSQL server.
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 
@@ -122,10 +126,12 @@ package or any clients that need to connect to a PostgreSQL server.
 %build
 CFLAGS="${CFLAGS:-%optflags}"
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+%endif
 %else
 	# Strip out -ffast-math from CFLAGS....
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`

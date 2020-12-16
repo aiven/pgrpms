@@ -9,8 +9,10 @@
 %global		_geoslibdir lib64
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}%{_geosversion}
@@ -29,8 +31,10 @@ Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos%{_geosversion}-python >= %{version}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -61,8 +65,10 @@ use GEOS
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 # disable internal libtool to avoid hardcoded r-path
@@ -96,7 +102,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %post
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 	%{atpath}/sbin/ldconfig
+%endif
 %else
 	/sbin/ldconfig
 %endif
