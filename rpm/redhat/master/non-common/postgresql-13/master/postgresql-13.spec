@@ -45,13 +45,23 @@
 %{!?xml:%global xml 1}
 
 %{!?systemd_enabled:%global systemd_enabled 1}
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
+
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+%if 0%{?rhel} && 0%{?rhel} == 7
+%{!?llvm:%global llvm 0}
+%else
+%{!?llvm:%global llvm 1}
+%endif
+%else
+%{!?llvm:%global llvm 1}
+%endif
+
 %{!?selinux:%global selinux 1}
 
 %if 0%{?fedora} > 30
@@ -1394,6 +1404,7 @@ fi
 %changelog
 * Wed Dec 16 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-3PGDG
 - Drop Advance Toolchain on RHEL 8 - ppc64le.
+- Enable LLVM support on RHEL 8 - ppc64le
 
 * Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-2PGDG
 - Move pg_receivewal and pg_waldump to client package. Fixes #6060.
