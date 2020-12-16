@@ -1,7 +1,9 @@
 %global sname pg_top
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	'top' for PostgreSQL process
@@ -21,8 +23,10 @@ Requires(postun):	%{_sbindir}/update-alternatives
 Obsoletes:	ptop => 3.5.0
 Obsoletes:	%{sname}_%{pgmajorversion} < 3.7.0-6
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 
@@ -34,9 +38,12 @@ query plans, issued locks, and table and index statistics.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 sh autogen.sh
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
 %ifarch ppc64 ppc64le

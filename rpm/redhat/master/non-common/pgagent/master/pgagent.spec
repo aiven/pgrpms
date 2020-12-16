@@ -7,8 +7,10 @@
 %global systemd_enabled 1
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Job scheduler for PostgreSQL
@@ -54,8 +56,10 @@ Requires(preun):	initscripts
 Requires(postun):	initscripts
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -77,17 +81,20 @@ fi
 
 %build
 %ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 	CFLAGS="-O3 -mcpu=power8 -mtune=power8"; export CFLAGS
 	CC=%{atpath}/bin/gcc; export CC
 	LDFLAGS="-pthread"; export LDFLAGS
 	BOOST_INCLUDEDIR=%{atpath}/include; export BOOST_INCLUDEDIR
 	BOOST_LIBRARYDIR=%{atpath}/lib64; export BOOST_LIBRARYDIR
+%endif
 %else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
 	export CFLAGS
 	export CXXFLAGS
 %endif
+
 %cmake3  \
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \

@@ -2,8 +2,10 @@
 %global pgroutingmajorversion 2.4
 %global sname	pgrouting
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Routing functionality for PostGIS
@@ -19,8 +21,10 @@ BuildRequires:	boost-devel >= 1.53 CGAL-devel => 4.4 gmp-devel pgdg-srpm-macros
 Requires:	postgis2_%{pgmajorversion} >= %{postgismajorversion}
 Requires:	postgresql%{pgmajorversion}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -41,9 +45,12 @@ value can come from multiple fields or tables.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
+%endif
+
 %{__install} -d build
 cd build
 %cmake .. \

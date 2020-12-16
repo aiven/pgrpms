@@ -1,7 +1,9 @@
 %global sname plruby
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %{!?ruby_vendorarchdir: %global ruby_vendorarchdir %(ruby -rrbconfig -e 'puts Config::CONFIG["vendorarchdir"] ' 2>/dev/null)}
@@ -24,8 +26,10 @@ Requires:	postgresql%{pgmajorversion}-libs ruby(release)
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.5.7-3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -47,9 +51,12 @@ Documentation for plruby.
 %endif
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 ## Using safe-level=3, since Ruby 2.1+ and later does not support safe level
 ## bigger than 3.
 ## https://bugs.ruby-lang.org/issues/8468

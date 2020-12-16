@@ -1,7 +1,9 @@
 %global sname ip4r
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
@@ -18,8 +20,10 @@ Requires:	postgresql%{pgmajorversion}-server
 Provides:	postgresql-ip4r
 Obsoletes:	%{sname}%{pgmajorversion} < 2.4.1-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -32,8 +36,10 @@ be used as a more flexible, indexable version of the cidr type.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 %{__make} USE_PGXS=1 %{?_smp_mflags}

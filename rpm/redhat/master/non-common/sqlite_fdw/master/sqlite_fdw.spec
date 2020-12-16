@@ -1,7 +1,9 @@
 %global sname	sqlite_fdw
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 # Disable tests by default.
@@ -28,8 +30,10 @@ Requires:	sqlite
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.3.0-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -40,9 +44,12 @@ This PostgreSQL extension is a Foreign Data Wrapper for SQLite.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install

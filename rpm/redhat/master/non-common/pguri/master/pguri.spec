@@ -1,7 +1,9 @@
 %global sname pguri
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	uri type for PostgreSQL
@@ -17,8 +19,10 @@ Requires:	postgresql%{pgmajorversion}-server, uriparser
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.20151224-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -41,9 +45,12 @@ arbitrary junk.
 %patch1 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} %{?_smp_mflags}
 
 %install

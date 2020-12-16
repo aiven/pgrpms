@@ -17,8 +17,10 @@
 %global __update_alternatives %{_sbindir}/update-alternatives
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %global _varrundir %{_localstatedir}/run/%{name}
@@ -59,8 +61,10 @@ Requires(postun):	initscripts
 Obsoletes:		postgresql-pgpool < 1.0.0
 Obsoletes:		%{sname}-%{pgmajorversion} < 3.5.27-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -95,9 +99,11 @@ Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server
 Obsoletes:	%{sname}-%{pgmajorversion}-extensions < 3.5.27-2
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description extensions
@@ -109,9 +115,12 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %patch2 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 # We need this flag on SLES so that pgpool can find libmemched.
 # Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.
 %if 0%{?suse_version}

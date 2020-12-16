@@ -1,8 +1,10 @@
 %global sname pgquarrel
 %global sversion 0_7_0
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Compares PostgreSQL database schemas (DDL)
@@ -16,8 +18,10 @@ URL:		https://github.com/eulerto/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake pgdg-srpm-macros
 Requires:	postgresql-libs
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -39,8 +43,10 @@ database.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \

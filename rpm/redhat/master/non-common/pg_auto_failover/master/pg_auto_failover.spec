@@ -1,8 +1,10 @@
 %global debug_package %{nil}
 %global sname pg_auto_failover
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Postgres extension and service for automated failover and high-availability
@@ -15,8 +17,10 @@ URL:		https://github.com/citusdata/%{sname}/
 Requires:	postgresql%{pgmajorversion}-server
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -34,8 +38,10 @@ commands to configure synchronous streaming replication.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}

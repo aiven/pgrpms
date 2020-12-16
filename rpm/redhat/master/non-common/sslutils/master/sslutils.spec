@@ -1,7 +1,9 @@
 %global sname sslutils
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	SSL Utils for PostgreSQL
@@ -15,8 +17,10 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -27,8 +31,10 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 USE_PGXS=1 %{__make} %{?_smp_mflags}
@@ -56,14 +62,18 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 %post
 /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
+%endif
 %endif
 
 %postun
 /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
+%endif
 %endif
 
 %files

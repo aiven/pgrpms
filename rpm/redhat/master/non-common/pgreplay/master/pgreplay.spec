@@ -1,8 +1,10 @@
 %global sname pgreplay
 %global vname PGREPLAY_1_3_0
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL log file re-player
@@ -17,8 +19,10 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.3.0-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -44,8 +48,10 @@ affect you.
 %setup -q -n %{sname}-%{vname}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 %configure --with-postgres=%{pginstdir}/bin

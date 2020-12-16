@@ -18,8 +18,13 @@
 %global __update_alternatives %{_sbindir}/update-alternatives
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
+%endif
+
+%ifarch ppc64 ppc64le
 %global llvm	0
 %else
 %global llvm	1
@@ -70,8 +75,10 @@ Requires(postun):	initscripts
 Obsoletes:		postgresql-pgpool < 1.0.0
 Obsoletes:		%{sname}-%{pgmajorversion} < 4.1.4-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -116,8 +123,10 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %patch2 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 # We need this flag on SLES so that pgpool can find libmemched.
@@ -239,8 +248,10 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %{atpath}/sbin/ldconfig
+%endif
 %endif
 
 %if %{systemd_enabled}

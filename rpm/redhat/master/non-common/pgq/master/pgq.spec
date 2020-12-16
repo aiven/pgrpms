@@ -1,8 +1,10 @@
 %global debug_package %{nil}
 %global sname pgq
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Generic Queue for PostgreSQL
@@ -44,8 +46,10 @@ BuildRequires:	python3-devel
 
 Requires:	python3-psycopg2 postgresql%{pgmajorversion} python3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -56,8 +60,10 @@ queue with simple API based on SQL functions.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config

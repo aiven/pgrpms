@@ -1,12 +1,14 @@
 %global sname hll
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.15
+Version:	2.15.1
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
@@ -16,8 +18,10 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -31,8 +35,10 @@ distinct values with only a few percent error.
 %setup -q -n postgresql-%{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}
@@ -65,6 +71,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Wed Dec 16 2020 - Devrim Gündüz <devrim@gunduz.org> 2.15.1-1
+- Update to 2.15.1
+
 * Mon Nov 30 2020 - Devrim Gündüz <devrim@gunduz.org> 2.15-1
 - Update to 2.15
 

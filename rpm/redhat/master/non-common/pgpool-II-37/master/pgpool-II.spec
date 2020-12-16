@@ -17,8 +17,10 @@
 %global __update_alternatives %{_sbindir}/update-alternatives
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %global _varrundir %{_localstatedir}/run/%{name}
@@ -61,8 +63,10 @@ Requires(postun):	initscripts
 Obsoletes:		postgresql-pgpool < 1.0.0
 Obsoletes:		%{sname}-%{pgmajorversion} < 3.7.16-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -107,9 +111,12 @@ Postgresql extensions libraries and sql files for pgpool-II.
 %patch2 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 # We need this flag on SLES so that pgpool can find libmemched.
 # Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.
 %if 0%{?suse_version}
@@ -218,8 +225,10 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %{atpath}/sbin/ldconfig
+%endif
 %endif
 
 %if %{systemd_enabled}

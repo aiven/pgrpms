@@ -1,7 +1,9 @@
 %global sname pg_partman
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %if 0%{?fedora} > 27 || 0%{?rhel} >= 7
@@ -31,8 +33,10 @@ Requires:	python3-psycopg2
 
 Obsoletes:	%{sname}%{pgmajorversion} < 4.4.0-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -43,9 +47,12 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 # Change Python path in the scripts:
 %if 0%{?with_python3}
 find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/g" {} \;

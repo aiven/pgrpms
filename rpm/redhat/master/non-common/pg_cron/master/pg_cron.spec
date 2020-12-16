@@ -1,7 +1,9 @@
 %global sname pg_cron
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Run periodic jobs in PostgreSQL
@@ -17,8 +19,10 @@ Requires:	postgresql%{pgmajorversion}-server openssl-libs
 Requires(post):	%{_sbindir}/update-alternatives openldap
 Requires(postun):	%{_sbindir}/update-alternatives
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -32,8 +36,10 @@ schedule PostgreSQL commands directly from the database.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %{__make} %{?_smp_mflags}

@@ -3,8 +3,10 @@
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		PyGreSQL
@@ -29,8 +31,10 @@ Provides:	python3-%{name}%{?_isa} = %{version}-%{release}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel python3-devel pgdg-srpm-macros
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -46,8 +50,10 @@ Python code for accessing a PostgreSQL database.
 find -type f -exec chmod 644 {} +
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 %{__ospython3} setup.py build

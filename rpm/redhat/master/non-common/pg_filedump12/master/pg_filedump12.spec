@@ -1,8 +1,10 @@
 %global sname pg_filedump
 %global sversion REL_12_0
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL File Dump Utility
@@ -17,8 +19,10 @@ Patch1:		pg_filedump-pg%{pgmajorversion}-makefile-pgxs.patch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 12.0-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -29,9 +33,12 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 %patch1 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 export CFLAGS="$RPM_OPT_FLAGS"
 
 USE_PGXS=1 make %{?_smp_mflags}

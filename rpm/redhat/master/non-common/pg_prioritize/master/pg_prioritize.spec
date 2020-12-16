@@ -1,8 +1,10 @@
 %global sname prioritize
 %global pname pg_%{sname}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Get and set the nice priorities of PostgreSQL backends
@@ -16,8 +18,10 @@ URL:		https://github.com/schmiddy/%{pname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -33,9 +37,12 @@ which you may be familiar with from the nice or renice programs.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

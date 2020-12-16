@@ -3,8 +3,10 @@
 %global mysqlfdwmidver 5
 %global mysqlfdwminver 5
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
@@ -27,8 +29,10 @@ BuildRequires:	mariadb-devel
 Requires:	mariadb-devel
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -40,8 +44,10 @@ the MySQL.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 export LDFLAGS="-L%{_libdir}/mysql"
@@ -62,13 +68,17 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
 %endif
+%endif
 
 %postun -p /sbin/ldconfig
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%{atpath}/sbin/ldconfig
+%endif
 %endif
 
 %files

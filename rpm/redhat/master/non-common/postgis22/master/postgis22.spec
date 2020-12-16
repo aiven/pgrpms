@@ -27,8 +27,10 @@
 %{!?sfcgal:%global	sfcgal 0}
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
@@ -64,8 +66,10 @@ Requires:	SFCGAL
 BuildRequires:	gdal-devel >= 1.9.0
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
@@ -84,8 +88,10 @@ Requires:	json-c gdal-libs >= 1.9.0
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
@@ -104,8 +110,10 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
@@ -120,6 +128,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
@@ -134,6 +143,7 @@ with PostGIS.
 Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
@@ -149,8 +159,10 @@ Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description utils
@@ -166,8 +178,10 @@ The postgis-utils package provides the utilities for PostGIS.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 

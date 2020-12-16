@@ -1,7 +1,9 @@
 %global sname	pgexportdoc
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	command line utility for exporting XML, JSON, BYTEA document from PostgreSQL
@@ -17,8 +19,10 @@ Requires:	postgresql%{pgmajorversion}
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.1.3-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -30,9 +34,12 @@ XML, any text or binary documents from PostgreSQL.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install

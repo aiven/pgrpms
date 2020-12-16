@@ -1,7 +1,9 @@
 %global sname hdfs_fdw
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
@@ -20,8 +22,10 @@ BuildRequires:	javapackages-tools
 
 Requires:	postgresql%{pgmajorversion}-server
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -33,8 +37,10 @@ the hdfs.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 export JDK_INCLUDE="/etc/alternatives/java_sdk_openjdk/include"

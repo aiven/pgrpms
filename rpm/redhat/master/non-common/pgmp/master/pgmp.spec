@@ -1,7 +1,9 @@
 %global sname pgmp
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
@@ -19,8 +21,10 @@ Requires:	gmp
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.4-3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -33,9 +37,12 @@ integer and rational data types offered by the GMP library.
 %patch1 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

@@ -1,8 +1,10 @@
 %global sname pglogical
 %global tag 2_3_3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Logical Replication extension for PostgreSQ
@@ -17,8 +19,10 @@ Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}_%{pgmajorversion} < 2.3.3-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -34,8 +38,10 @@ PostgreSQL, using a publish/subscribe model.
 %setup -q -n %{sname}-REL%{tag}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 
 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}

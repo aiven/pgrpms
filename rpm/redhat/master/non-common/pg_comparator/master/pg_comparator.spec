@@ -1,7 +1,9 @@
 %global sname pg_comparator
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
@@ -18,8 +20,10 @@ Requires:	perl(Getopt::Long) perl(Time::HiRes) perl-Pod-Usage
 
 Obsoletes:	%{sname}%{pgmajorversion} < 2.2.5-3
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -32,9 +36,12 @@ time-efficient approach.
 %patch0 -p1
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

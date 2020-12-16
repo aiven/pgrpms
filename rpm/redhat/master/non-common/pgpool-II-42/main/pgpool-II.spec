@@ -1,11 +1,6 @@
-%global pgpoolinstdir /usr/pgpool-%{pgpackageversion}
+%global pgpoolmajorversion 42
+%global pgpoolinstdir /usr/pgpool-%{pgpoolmajorversion}-%{pgpackageversion}
 %global sname pgpool-II
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
 
 # Use this macro for update-alternatives, because implementations are different
 # between RHEL and SLES:
@@ -23,18 +18,21 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le
+%global llvm	0
+%else
+%global llvm	1
+%endif
+
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
-Name:			%{sname}_%{pgmajorversion}
-Version:		4.0.12
-Release:		2%{?dist}
+Name:			%{sname}-%{pgpoolmajorversion}_%{pgmajorversion}
+Version:		4.2.0
+Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:		%{sname}-pg%{pgmajorversion}.service
 Source2:		%{sname}.sysconfig
-%if ! %{systemd_enabled}
-Source3:		%{sname}-pg%{pgmajorversion}.init
-%endif
 Source9:		%{sname}-pg%{pgmajorversion}-libs.conf
 Patch1:			%{sname}-pg%{pgmajorversion}-conf.sample.patch
 Patch2:			%{sname}-pg%{pgmajorversion}-makefiles-pgxs.patch
@@ -45,24 +43,17 @@ BuildRequires:		libmemcached-devel openssl-devel pgdg-srpm-macros
 Requires:		libmemcached
 Requires(pre):		/usr/sbin/useradd /usr/sbin/groupadd
 
-%if %{systemd_enabled}
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%else
 Requires(post):		systemd-sysv
+%endif
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
-%endif
-
-Obsoletes:		postgresql-pgpool < 1.0.0
-Obsoletes:		%{sname}-%{pgmajorversion} < 4.0.11-2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -91,7 +82,6 @@ DB nodes to be connected, which was not possible in pgpool-I.
 %package devel
 Summary:	The development files for pgpool-II
 Requires:	%{name} = %{version}-%{release}
-Obsoletes:	%{sname}-%{pgmajorversion}-devel < 4.0.11-2
 
 %description devel
 Development headers and libraries for pgpool-II.
@@ -101,7 +91,6 @@ Summary:	Postgresql extensions for pgpool-II
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server
-Obsoletes:	%{sname}-%{pgmajorversion}-extensions < 4.0.11-2
 
 %description extensions
 Postgresql extensions libraries and sql files for pgpool-II.
@@ -158,20 +147,14 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} -C src/sql/pgpool-regclass
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-recovery
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
-%if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
+%{__install} -m 755 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_rundir}/%{name} 0755 postgres postgres -
 EOF
-
-%else
-%{__install} -d %{buildroot}%{_sysconfdir}/init.d
-%{__install} -m 755 %{SOURCE3} %{buildroot}%{_sysconfdir}/init.d/%{name}
-%endif
 
 # Create the directory for the pid files (defined in pgpool.conf.sample)
 %{__install} -d -m 755 %{buildroot}/var/run/%{name}
@@ -210,25 +193,14 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %{__update_alternatives} --install /etc/ld.so.conf.d/pgpool-libs.conf pgpool-ld-conf %{pgpoolinstdir}/share/pgpool-II-pg%{pgmajorversion}-libs.conf %{pgmajorversion}0
 
 /sbin/ldconfig
-%if %{systemd_enabled}
-%systemd_post %{sname}-%{pgmajorversion}.service
-%else
-# This adds the proper /etc/rc*.d links for the script
-/sbin/chkconfig --add %{name}
-%endif
+%systemd_post %{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service
+
 # Create log directory
 %{__mkdir} -p /var/log/%{name}
 %{__chown} postgres: /var/log/%{name}
 
 %preun
-%if %{systemd_enabled}
-%systemd_preun %{sname}-%{pgmajorversion}.service
-%else
-if [ $1 -eq 0 ] ; then
-	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
-	/sbin/chkconfig --del %{sname}-%{pgmajorversion}
-fi
-%endif
+%systemd_preun %{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service
 
 %postun
 if [ "$1" -eq 0 ]
@@ -243,13 +215,8 @@ fi
 %endif
 %endif
 
-%if %{systemd_enabled}
-%systemd_postun_with_restart %{sname}-%{pgmajorversion}.service
-%else
-if [ $1 -ge 1 ] ; then
-    /sbin/service pgpool-II-%{pgmajorversion} condrestart >/dev/null 2>&1 || :
-fi
-%endif
+%systemd_postun_with_restart %{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service
+
 # Drop alternatives entries for common binaries and man files
 if [ "$1" -eq 0 ]
   then
@@ -269,7 +236,6 @@ if [ "$1" -eq 0 ]
 	%{__update_alternatives} --remove pgpool-pg_md5 %{pgpoolinstdir}/bin/pg_md5
 fi
 
-%if %{systemd_enabled}
 %triggerun -- %{sname}-%{pgmajorversion} < 3.1-1
 # Save the current service runlevel info
 # User must manually run systemd-sysv-convert --apply pgpool
@@ -278,22 +244,18 @@ fi
 
 # Run these because the SysV package being removed won't do them
 /sbin/chkconfig --del %{sname}-%{pgmajorversion} >/dev/null 2>&1 || :
-/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
-%endif
+/bin/systemctl try-restart %{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 
 %files
 %doc README TODO INSTALL AUTHORS ChangeLog NEWS
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYING
-%else
 %license COPYING
-%endif
 %dir %{pgpoolinstdir}
 %{pgpoolinstdir}/bin/pgpool
 %{pgpoolinstdir}/bin/pg_enc
 %{pgpoolinstdir}/bin/pgproto
 %{pgpoolinstdir}/bin/pcp_attach_node
 %{pgpoolinstdir}/bin/pcp_detach_node
+%{pgpoolinstdir}/bin/pcp_health_check_stats
 %{pgpoolinstdir}/bin/pcp_node_count
 %{pgpoolinstdir}/bin/pcp_node_info
 %{pgpoolinstdir}/bin/pcp_pool_status
@@ -301,32 +263,32 @@ fi
 %{pgpoolinstdir}/bin/pcp_proc_info
 %{pgpoolinstdir}/bin/pcp_promote_node
 %{pgpoolinstdir}/bin/pcp_recovery_node
+%{pgpoolinstdir}/bin/pcp_reload_config
 %{pgpoolinstdir}/bin/pcp_stop_pgpool
 %{pgpoolinstdir}/bin/pcp_watchdog_info
 %{pgpoolinstdir}/bin/pg_md5
 %{pgpoolinstdir}/bin/pgpool_setup
 %{pgpoolinstdir}/bin/watchdog_setup
+%{pgpoolinstdir}/bin/wd_cli
 %{pgpoolinstdir}/share/pgpool-II/insert_lock.sql
 %{pgpoolinstdir}/share/pgpool-II/pgpool.pam
 %{_sysconfdir}/%{name}/*.sample*
-%{pgpoolinstdir}/lib/libpcp.so.*
+%{pgpoolinstdir}/lib/libpcp.so*
 %config(noreplace) %attr (644,root,root) %{pgpoolinstdir}/share/pgpool-II-pg%{pgmajorversion}-libs.conf
 
-%if %{systemd_enabled}
 %ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
-%{_unitdir}/%{sname}-%{pgmajorversion}.service
-%else
-%{_sysconfdir}/init.d/%{name}
-%endif
+%{_unitdir}/%{sname}-%{pgpoolmajorversion}_%{pgmajorversion}.service
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %if 0%{?rhel} && 0%{?rhel} <= 6
  %else
+ %if %llvm
  %{pginstdir}/lib/bitcode/pgpool*.bc
  %{pginstdir}/lib/bitcode/pgpool_adm/*.bc
  %{pginstdir}/lib/bitcode/pgpool-regclass/*.bc
  %{pginstdir}/lib/bitcode/pgpool-recovery/*.bc
+ %endif
  %endif
 %endif
 %attr(755,postgres,postgres) %dir /var/run/%{name}
@@ -336,118 +298,23 @@ fi
 %{pgpoolinstdir}/include/pcp.h
 %{pgpoolinstdir}/include/pool_process_reporting.h
 %{pgpoolinstdir}/include/pool_type.h
-%{pgpoolinstdir}/lib/libpcp.so
 
 %files extensions
 %{pginstdir}/lib/pgpool_adm.so
 %{pginstdir}/lib/pgpool-recovery.so
-%{pginstdir}/share/extension/pgpool_adm--1.0.sql
-%{pginstdir}/share/extension/pgpool_adm--1.0--1.1.sql
-%{pginstdir}/share/extension/pgpool_adm--1.1.sql
+%{pginstdir}/share/extension/pgpool_adm*.sql
 %{pginstdir}/share/extension/pgpool_adm.control
 %{pginstdir}/share/extension/pgpool-regclass.sql
 %{pginstdir}/share/extension/pgpool_regclass--1.0.sql
 %{pginstdir}/share/extension/pgpool_regclass.control
 %{pginstdir}/share/extension/pgpool-recovery.sql
-%{pginstdir}/share/extension/pgpool_recovery--1.1.sql
+%{pginstdir}/share/extension/pgpool_recovery*.sql
 %{pginstdir}/share/extension/pgpool_recovery.control
-%{pginstdir}/share/extension/pgpool_recovery--1.1--1.2.sql
-%{pginstdir}/share/extension/pgpool_recovery--1.2.sql
 # From PostgreSQL 9.4 pgpool-regclass.so is not needed anymore
 # because 9.4 or later has to_regclass.
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
-* Wed Nov 25 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.12-2
-- Also obsolete subpackages.
-
-* Tue Nov 24 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.12-1
-- Update to 4.0.12
-
-* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.11-2
-- Use underscore before PostgreSQL version number for consistency, per:
-  https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
-
-* Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.11-1
-- Update to 4.0.11
-
-* Thu Aug 20 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.10-1
-- Update to 4.0.10
-
-* Thu May 21 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.9-1
-- Update to 4.0.9
-
-* Wed Feb 26 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.8-1
-- Update to 4.0.8
-
-* Fri Dec 20 2019 - John Harvey <john.harvey@crunchydata.com> 4.0.7-2
-- Make sure that directory /var/run/pgpool-II is created with the RPM.
-  This will ensure that pgpool.conf.sample will work with its defaults.
-
-* Fri Nov 1 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.7-1
-- Update to 4.0.7
-- Fix F-31 packaging by removing unused macro in the spec file.
-
-* Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org> - 4.0.6-1.1
-- Rebuild for PostgreSQL 12
-
-* Thu Aug 15 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.6-1
-- Update to 4.0.6
-
-* Thu May 16 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.5-1
-- Update to 4.0.5
-
-* Thu Mar 7 2019 John K. Harvey <john.harvey@crunchydata.com> - 4.0.3-3
-- Fix typo in -extensions package
-
-* Tue Mar 5 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.3-2
-- Fix pcp_watchdog_info alternatives link, per Matthias Steppuhn.
-
-* Thu Feb 21 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.3-1
-- Update to 4.0.3
-
-* Mon Jan 21 2019 Devrim Gündüz <devrim@gunduz.org> 4.0.2-4
-- Add Reload target to unit file
-
-* Sun Dec 23 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-3
-- Fix tmpfiles.d file
-
-* Fri Dec 21 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-2
-- Run pgpool with postgres user
-- Create pgPool log directory
-- Fix tmpfiles path
-- Add -D to sysconfig file.
-
-* Fri Nov 30 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.2-1
-- Update to 4.0.2
-
-* Wed Oct 31 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.1-1
-- Update to 4.0.1
-
-* Fri Oct 19 2018 Devrim Gündüz <devrim@gunduz.org> 4.0.0-1
-- Update to 4.0.0
-
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> 3.7.5-2
-- Rebuild against PostgreSQL 11.0
-
-* Wed Aug 1 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.5-1
-- Update to 3.7.5
-
-* Tue Jul 17 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.4-2
-- Add PostgreSQL 11 support.
-
-* Thu Jun 14 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.4-1
-- Update to 3.7.4
-
-* Tue Apr 17 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.3-1
-- Update to 3.7.3
-
-* Sat Feb 17 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.2-1
-- Update to 3.7.2
-
-* Wed Jan 10 2018 Devrim Gündüz <devrim@gunduz.org> - 3.7.1-1
-- Update to 3.7.1
-
-* Sun Nov 26 2017 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1
-- Initial packaging for 3.7.0
+* Thu Nov 26 2020 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
+- Initial packaging for 4.2
 

@@ -1,7 +1,9 @@
 %global sname mysqlcompat
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	MySQL compatibility functions for PostgreSQL
@@ -18,8 +20,10 @@ BuildArch:	noarch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.0.7-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -38,8 +42,10 @@ rely heavily on certain MySQL functions.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+%endif
 %endif
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 

@@ -2,9 +2,14 @@
 
 %global debug_package %{nil}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+%endif
+
 %ifarch ppc64 ppc64le
 %global archtag	ppc64le
-%pgdg_set_ppc64le_compiler_at10
 %else
 %global	archtag	amd64
 %endif
@@ -43,8 +48,10 @@ BuildRequires:	maven
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -59,8 +66,11 @@ language and executed in the backend.
 %build
 export CLASSPATH=
 
-%ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
 export PATH=%{atpath}/bin/:$PATH
+%endif
+
+%ifarch ppc64 ppc64le
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
 # The next line is useful only on RHEL 7, for the rh-maven33 package

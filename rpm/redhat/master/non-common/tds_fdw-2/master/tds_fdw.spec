@@ -1,7 +1,9 @@
 %global sname tds_fdw
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
@@ -17,8 +19,10 @@ Requires:	postgresql%{pgmajorversion}-server freetds
 
 Obsoletes:	%{sname}%{pgmajorversion} < 2.0.2-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -31,9 +35,12 @@ Server and Sybase databases.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

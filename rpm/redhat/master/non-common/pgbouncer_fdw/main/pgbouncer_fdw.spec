@@ -1,8 +1,10 @@
 %global debug_package %{nil}
 %global sname pgbouncer_fdw
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	pgbouncer Foreign Data Wrapper
@@ -19,8 +21,10 @@ Requires:	pgbouncer >= 1.10
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.2-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -35,9 +39,12 @@ direct access to pgbouncer statistics.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

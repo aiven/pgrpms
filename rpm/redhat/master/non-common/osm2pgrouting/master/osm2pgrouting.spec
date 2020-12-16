@@ -2,8 +2,10 @@
 %global osmpgroutingmajorversion 2.3
 %global sname	osm2pgrouting
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Import tool for OpenStreetMap data to pgRouting database
@@ -24,8 +26,10 @@ BuildRequires:	boost-devel >= 1.53 postgis pgdg-srpm-macros
 Requires:	postgis2_%{pgmajorversion} >= %{postgisminmajorversion}
 Requires:	postgresql%{pgmajorversion}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -35,9 +39,12 @@ Import tool for OpenStreetMap data to pgRouting database.
 %setup -q -n %{sname}-%{version}
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 #install -d build
 #cd build
 %if 0%{?rhel} && 0%{?rhel} == 7

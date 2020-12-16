@@ -15,8 +15,10 @@
 
 %global	powawebdir  %{_datadir}/%{name}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
@@ -50,8 +52,10 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -78,9 +82,12 @@ This is the user interface of POWA.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 %{__make} %{?_smp_mflags}
 
 # Build powa-web

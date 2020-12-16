@@ -6,8 +6,10 @@
 %global systemd_enabled 1
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
@@ -56,8 +58,10 @@ Requires:	postgresql%{pgmajorversion}-server
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.1-1
 Obsoletes:	%{sname}_%{pgmajorversion} < 5.2.1-1
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -96,9 +100,12 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install

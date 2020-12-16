@@ -2,8 +2,10 @@
 
 %global sname	pg_repack
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
@@ -21,8 +23,10 @@ Requires:	postgresql%{pgmajorversion}
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.4.6-2
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
+%endif
 %endif
 
 %description
@@ -35,9 +39,12 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 %patch0 -p0
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
 %endif
+%endif
+
 USE_PGXS=1 make %{?_smp_mflags}
 
 %install

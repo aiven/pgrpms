@@ -1,7 +1,9 @@
 %global sname	passwordcheck_cracklib
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
