@@ -84,7 +84,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %pgdg_build_timestamp %(date +"%Y%m%d")
 
 %pgdg_set_gis_variables() %{expand: \
-%global geosmajorversion	38
+%global geosmajorversion	39
 %global gdalmajorversion	32
 %global libgeotiffmajorversion	16
 %global ogdimajorversion	41
@@ -101,7 +101,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj72instdir		/usr/proj%{proj72majorversion}
 %global proj71instdir		/usr/proj%{proj71majorversion}
 %global proj70instdir		/usr/proj%{proj70majorversion}
-%global geosfullversion		3.8.1
+%global geosfullversion		3.9.0
 %global projfullversion		7.2.0
 %global gdalfullversion		3.2.0
 \
