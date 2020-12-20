@@ -10,8 +10,8 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
-Release:	3%{dist}
+Version:	%{pgroutingmajorversion}.2
+Release:	1%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
@@ -97,6 +97,9 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Sun Dec 20 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.2-1
+- Update to 3.1.2
+
 * Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-3
 - Build fixes for Fedora 33
 
