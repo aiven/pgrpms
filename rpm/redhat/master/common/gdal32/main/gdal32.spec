@@ -54,7 +54,7 @@
 
 Name:		%{sname}32
 Version:	3.2.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -88,7 +88,7 @@ Patch16:	gdal-3.1.2-sfgcal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.5
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.10
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
@@ -97,7 +97,7 @@ BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.8.1
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
@@ -671,6 +671,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Dec 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-3
+- Rebuild against GeOS 3.9.0
+
 * Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-2
 - Add Python subpackages, per #5961
 - Add a few more Requires.
