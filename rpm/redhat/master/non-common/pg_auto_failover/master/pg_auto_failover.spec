@@ -9,12 +9,12 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
+Version:	1.4.1
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
-Requires:	postgresql%{pgmajorversion}-server
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -75,6 +75,11 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Sun Dec 20 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
+- Update to 1.4.1
+- Require -contrib subpackage, per:
+  https://github.com/citusdata/pg_auto_failover/issues/558
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0
 
