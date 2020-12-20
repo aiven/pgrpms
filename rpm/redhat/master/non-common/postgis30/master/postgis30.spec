@@ -44,7 +44,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -217,7 +217,7 @@ SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 %endif
 %endif
 
-LDFLAGS="$LDFLAGS -L/usr/lib64/ -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -L/usr/lib64/ -ltiff"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 
@@ -376,6 +376,10 @@ fi
 %endif
 
 %changelog
+* Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-1
+- Final fix for the rpath issues, where OS supplied GEOS and Proj
+  packages are installed alongside ours.
+
 * Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-1
 - Update to 3.0.3
 
