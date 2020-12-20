@@ -36,10 +36,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha3_1%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha3.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha3.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -179,7 +179,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}alpha3
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -197,7 +197,7 @@ SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64";  export SFCGAL_LDFLAGS
 %endif
 %endif
 
-LDFLAGS="$LDFLAGS -L/usr/lib64/ -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 
@@ -325,7 +325,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}alpha3.pdf
+%doc %{sname}-%{version}.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -343,6 +343,11 @@ fi
 %endif
 
 %changelog
+* Sun Dec 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-1
+- Update to 3.1.0
+- Final fix for the rpath issues, where OS supplied GEOS and Proj
+  packages are installed alongside ours.
+
 * Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_4
 - Update to 3.1.0-alpha3
 
