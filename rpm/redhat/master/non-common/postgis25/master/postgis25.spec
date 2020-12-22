@@ -44,7 +44,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.5
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -56,7 +56,7 @@ URL:		http://www.postgis.net/
 
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	pcre-devel pgdg-srpm-macros >= 1.0.8
+BuildRequires:	pcre-devel pgdg-srpm-macros >= 1.0.10
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
@@ -392,6 +392,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-3
+- Rebuild against GeOS 3.9.0
+
 * Tue Nov 10 2020 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-2
 - Rebuild against new GDAL 3.2.0 and PROJ 7.2.0
 
