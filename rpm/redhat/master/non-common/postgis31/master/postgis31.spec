@@ -75,7 +75,7 @@ BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
 %if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
-BuildRequires:	protobuf-c-devel
+BuildRequires:	protobuf-c-devel >= 1.1.0
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
@@ -94,7 +94,7 @@ Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires(post):	%{_sbindir}/update-alternatives
 
 %if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
-Requires:	protobuf-c
+Requires:	protobuf-c >= 1.1.0
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
