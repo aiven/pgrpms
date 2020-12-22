@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.7.4
+Version:	2.0.0
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -43,7 +43,10 @@ support.
 
 # Build only the portions that have Apache Licence, and disable telemetry:
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
-	-DPROJECT_INSTALL_METHOD=pgdg -DREGRESS_CHECKS=OFF
+	-DPROJECT_INSTALL_METHOD=pgdg -DREGRESS_CHECKS=OFF \
+	-DWARNINGS_AS_ERRORS=OFF
+# The flag above is a temporary solution for 2.0.0.
+# https://github.com/timescale/timescaledb/issues/2770
 
 %build
 %ifarch ppc64 ppc64le
@@ -79,6 +82,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
+- Update to 2.0.0
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-1
 - Update to 1.7.4
 
