@@ -74,7 +74,7 @@ BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 %endif
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel
 %endif
 
@@ -93,7 +93,7 @@ Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
 Requires:	protobuf-c
 %endif
 
@@ -210,6 +210,11 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 %endif
 %if %{shp2pgsqlgui}
 	--with-gui \
+%endif
+%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+	--with-protobuf \
+%else
+	--without-protobuf \
 %endif
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
@@ -347,6 +352,7 @@ fi
 - Update to 3.1.0
 - Final fix for the rpath issues, where OS supplied GEOS and Proj
   packages are installed alongside ours.
+- Disable MVT and Geobuf support on RHEL 7 (min 1.1.0 is required)
 
 * Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-alpha2_4
 - Update to 3.1.0-alpha3
