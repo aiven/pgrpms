@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname	timescaledb
 
 %if 0%{?rhel} && 0%{?rhel} == 7
