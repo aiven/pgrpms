@@ -5,13 +5,13 @@
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Name:		powa-collector
-Version:	1.0.0
+Version:	1.1.0
 Release:	1%{?dist}
 Summary:	POWA data collector daemon
 
 License:	BSD
 URL:		https://github.com/powa-team/%{name}
-Source0:	https://github.com/powa-team/%{name}/archive/1.0.0.tar.gz
+Source0:	https://github.com/powa-team/%{name}/archive/%{version}.tar.gz
 Source1:	%{name}.service
 
 BuildRequires:	python3-devel python3-setuptools
@@ -68,5 +68,8 @@ database (in the powa_servers table).
 %{python3_sitelib}/%{sname}/__pycache__/*.py*
 
 %changelog
+* Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+- Update to 1.1.0
+
 * Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for PostgreSQL RPM repository.
