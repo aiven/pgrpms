@@ -9,7 +9,7 @@
 # Powa archivist version
 %global powamajorversion 4
 %global powamidversion 1
-%global powaminorversion 1
+%global powaminorversion 2
 # powa-web version
 %global powawebversion 4.1.0
 
@@ -157,6 +157,9 @@ popd
 %endif
 
 %changelog
+* Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-1
+- Update to 4.1.2
+
 * Sat Dec 12 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1
 - Update to 4.1.0
 
