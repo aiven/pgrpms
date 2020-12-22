@@ -44,7 +44,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -55,7 +55,7 @@ URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.7 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.10 pcre-devel gmp-devel
 Requires:	gmp
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -376,7 +376,10 @@ fi
 %endif
 
 %changelog
-* Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-1
+* Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-3
+- Rebuild against GeOS 3.9.0
+
+* Wed Nov 25 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-2
 - Final fix for the rpath issues, where OS supplied GEOS and Proj
   packages are installed alongside ours.
 
