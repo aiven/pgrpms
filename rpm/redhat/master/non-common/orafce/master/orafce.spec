@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 13
-%global orafceminver 4
+%global orafcemidver 14
+%global orafceminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -12,7 +12,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -76,6 +76,10 @@ for production work.
 %endif
 
 %changelog
+
+* Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> 3.14.0-1
+- Update to 3.14.0
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.13.4-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
