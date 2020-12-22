@@ -42,7 +42,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -52,7 +52,7 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	pcre-devel pgdg-srpm-macros >= 1.0.8
+BuildRequires:	pcre-devel pgdg-srpm-macros >= 1.0.10
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -73,7 +73,7 @@ Requires:	SFCGAL
   %if 0%{?rhel} && 0%{?rhel} <= 6
 BuildRequires:	gdal-devel >= 1.9.2-9
   %else
-BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalminorversion}
+BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
   %endif
 %endif
 
@@ -97,14 +97,14 @@ Requires:	hdf5
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
+Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	gdal-libs >= 1.9.2-9
 %else
-Requires:	gdal%{gdalmajorversion}-libs >= %{gdalminorversion}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
@@ -396,6 +396,9 @@ fi
 %endif
 
 %changelog
+* Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 2.4.9-3
+- Rebuild against GeOS 3.9.0
+
 * Tue Nov 10 2020 Devrim Gunduz <devrim@gunduz.org> - 2.4.9-2
 - Rebuild against new GDAL and new PROJ.
 
