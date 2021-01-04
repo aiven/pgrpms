@@ -53,8 +53,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}32
-Version:	3.2.0
-Release:	3%{?dist}
+Version:	3.2.1
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -671,6 +671,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Jan 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
+- Update to 3.2.1
+
 * Sun Dec 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-3
 - Rebuild against GeOS 3.9.0
 
