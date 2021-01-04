@@ -16,8 +16,8 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}72
-Version:	7.2.0
-Release:	3%{?dist}
+Version:	7.2.1
+Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -165,6 +165,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{proj72instdir}/lib/libproj.la
 
 %changelog
+* Mon Jan 4 2021 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.1-1
+- Update to 7.2.1
+
 * Fri Nov 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.2.0-3
 - Make sure that each PROJ package will install into their own directory,
   not under the latest one.
