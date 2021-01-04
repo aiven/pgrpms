@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
-Version:	13.0
+Version:	13.1
 Release:	1%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
@@ -56,5 +56,8 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Jan 4 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-1
+- Update to 13.1
+
 * Wed Oct 28 2020 Devrim Gündüz <devrim@gunduz.org> - 13.0-1
 - Initial packaging for PostgreSQL RPM Repository
