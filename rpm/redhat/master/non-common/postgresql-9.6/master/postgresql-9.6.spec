@@ -81,7 +81,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.20
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -872,7 +872,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
 install -m 755 postgresql%{pgmajorversion}-setup %{buildroot}%{pginstdir}/bin/postgresql%{pgmajorversion}-setup
 # Create a symlink of the setup script under $PATH
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgmajorversion}-setup
+%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgpackageversion}-setup
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
@@ -1355,7 +1355,7 @@ fi
 %defattr(-,root,root)
 %if %{systemd_enabled}
 %{pginstdir}/bin/postgresql%{pgmajorversion}-setup
-%{_bindir}/%{sname}-%{pgmajorversion}-setup
+%{_bindir}/%{sname}-%{pgpackageversion}-setup
 %{pginstdir}/bin/postgresql%{pgmajorversion}-check-db-dir
 %{_tmpfilesdir}/postgresql-%{pgpackageversion}.conf
 %{_unitdir}/postgresql-%{pgpackageversion}.service
@@ -1482,6 +1482,10 @@ fi
 %endif
 
 %changelog
+* Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.20-2PGDG
+- Fix path of setup script symlink, per report from Kasahara Tatsuhito:
+  https://redmine.postgresql.org/issues/6125
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.20-1PGDG
 - Update to 9.6.20, per changes described at:
   https://www.postgresql.org/docs/release/9.6.20/
