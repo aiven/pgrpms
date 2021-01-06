@@ -671,7 +671,7 @@ popd
 %_bindir/*.py
 
 %changelog
-* Mon Jan 4 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
+* Mon Jan 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
 - Update to 3.2.1
 
 * Sun Dec 20 2020 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-3
