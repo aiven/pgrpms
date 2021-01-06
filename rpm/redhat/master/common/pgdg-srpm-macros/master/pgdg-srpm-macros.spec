@@ -46,7 +46,7 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
-* Wed Jan 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.11-1
+* Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.11-1
 - Update GDAL to 3.2.1 and PROJ to 7.2.1
 
 * Sun Dec 20 2020 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.10-1
