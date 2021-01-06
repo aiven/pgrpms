@@ -1,12 +1,21 @@
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_compiler_at10
+%endif
+%endif
+
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.31
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	pgbackrest-conf.patch
 Source3:	pgbackrest.logrotate
+%if 0%{?rhel} && 0%{?rhel} == 7
+Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
+%endif
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel bzip2-devel
 
@@ -26,6 +35,11 @@ BuildRequires:	liblz4-devel
 Requires:	postgresql-libs libzstd
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
+%endif
 
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
@@ -40,12 +54,20 @@ are required to perform a backup which increases security.
 
 %prep
 %setup -q -n %{name}-release-%{version}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%patch0 -p1
+%endif
 
 %build
 pushd src
 export CPPFLAGS='-I %{pginstdir}/include'
 export PATH=%{pginstdir}/bin/:$PATH
 export LDFLAGS='-L%{pginstdir}/lib'
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
+	%pgdg_set_ppc64le_compiler_flags
+%endif
+%endif
 %configure
 %{__make}
 popd
@@ -89,6 +111,11 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 2.31-2
+- Add RHEL 7 - ppc64le support. While adding it, fix
+  build issue on this platform, per report from Gunnar "Nick" Bluth.
+  Patch from Debian folks.
+
 * Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 2.31-1
 - Update to 2.31
 
