@@ -129,6 +129,7 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4
 BuildRequires:	perl-generators
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
