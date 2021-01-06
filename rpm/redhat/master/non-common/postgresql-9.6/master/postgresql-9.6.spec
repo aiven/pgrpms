@@ -872,7 +872,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
 install -m 755 postgresql%{pgmajorversion}-setup %{buildroot}%{pginstdir}/bin/postgresql%{pgmajorversion}-setup
 # Create a symlink of the setup script under $PATH
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} %{pginstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgpackageversion}-setup
+%{__ln_s} %{pginstdir}/bin/postgresql%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgpackageversion}-setup
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{version}|' \
