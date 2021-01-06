@@ -133,6 +133,7 @@ BuildRequires:	perl-generators
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
+%endif
 
 Requires:	/sbin/ldconfig
 
