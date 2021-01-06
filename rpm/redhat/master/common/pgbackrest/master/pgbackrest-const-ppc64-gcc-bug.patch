@@ -1,0 +1,72 @@
+--- a/src/common/type/buffer.h
++++ b/src/common/type/buffer.h
+@@ -95,7 +95,7 @@
+ 
+ // Used to declare buffer constants that will be externed using BUFFER_DECLARE().  Must be used in a .c file.
+ #define BUFFER_STRDEF_EXTERN(name, string)                                                                                         \
+-    const Buffer *const name = BUFSTRDEF(string)
++    const Buffer *name = BUFSTRDEF(string)
+ 
+ // Used to declare buffer constants that will be local to the .c file.  Must be used in a .c file.
+ #define BUFFER_STRDEF_STATIC(name, string)                                                                                         \
+@@ -103,7 +103,7 @@
+ 
+ // Used to extern buffer constants declared with BUFFER_STRDEF_EXTERN(.  Must be used in a .h file.
+ #define BUFFER_DECLARE(name)                                                                                                       \
+-    extern const Buffer *const name
++    extern const Buffer *name
+ 
+ /***********************************************************************************************************************************
+ Constant buffers that are generally useful
+--- a/src/common/type/string.h
++++ b/src/common/type/string.h
+@@ -105,15 +105,15 @@
+ 
+ // Used to declare String constants that will be externed using STRING_DECLARE().  Must be used in a .c file.
+ #define STRING_EXTERN(name, buffer)                                                                                                \
+-    const String *const name = STRDEF(buffer)
++    const String *name = STRDEF(buffer)
+ 
+ // Used to declare String constants that will be local to the .c file.  Must be used in a .c file.
+ #define STRING_STATIC(name, buffer)                                                                                                \
+-    static const String *const name = STRDEF(buffer)
++    static const String *name = STRDEF(buffer)
+ 
+ // Used to extern String constants declared with STRING_EXTERN().  Must be used in a .h file.
+ #define STRING_DECLARE(name)                                                                                                       \
+-    extern const String *const name
++    extern const String *name
+ 
+ /***********************************************************************************************************************************
+ Constant strings that are generally useful
+--- a/src/common/type/variant.c
++++ b/src/common/type/variant.c
+@@ -21,7 +21,7 @@
+ ***********************************************************************************************************************************/
+ // Used to declare Bool Variant constants that will be externed using VARIANT_DECLARE().  Must be used in a .c file.
+ #define VARIANT_BOOL_EXTERN(name, dataParam)                                                                                       \
+-    const Variant *const name = ((const Variant *)&(const VariantBoolConst){.type = varTypeBool, .data = dataParam})
++    const Variant *name = ((const Variant *)&(const VariantBoolConst){.type = varTypeBool, .data = dataParam})
+ 
+ VARIANT_BOOL_EXTERN(BOOL_FALSE_VAR,                                 false);
+ VARIANT_BOOL_EXTERN(BOOL_TRUE_VAR,                                  true);
+--- a/src/common/type/variant.h
++++ b/src/common/type/variant.h
+@@ -201,7 +201,7 @@
+ 
+ // Used to declare String Variant constants that will be externed using VARIANT_DECLARE().  Must be used in a .c file.
+ #define VARIANT_STRDEF_EXTERN(name, dataParam)                                                                                     \
+-    const Variant *const name = VARSTRDEF(dataParam)
++    const Variant *name = VARSTRDEF(dataParam)
+ 
+ // Used to declare String Variant constants that will be local to the .c file.  Must be used in a .c file.
+ #define VARIANT_STRDEF_STATIC(name, dataParam)                                                                                     \
+@@ -217,7 +217,7 @@
+ 
+ // Used to extern String Variant constants declared with VARIANT_STRDEF_EXTERN/STATIC().  Must be used in a .h file.
+ #define VARIANT_DECLARE(name)                                                                                                      \
+-    extern const Variant *const name
++    extern const Variant *name
+ 
+ /***********************************************************************************************************************************
+ Constant variants that are generally useful
