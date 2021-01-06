@@ -58,23 +58,25 @@
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?systemd_enabled:%global systemd_enabled 0}
-%{!?sdt:%global sdt 0}
-%{!?selinux:%global selinux 0}
-# LLVM version in RHEL 6 is not sufficient to build LLVM
-%{!?llvm:%global llvm 0}
-%else
 %{!?systemd_enabled:%global systemd_enabled 1}
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
-%{!?selinux:%global selinux 1}
+
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+%if 0%{?rhel} && 0%{?rhel} == 7
+%{!?llvm:%global llvm 0}
+%else
+%{!?llvm:%global llvm 1}
 %endif
+%else
+%{!?llvm:%global llvm 1}
+%endif
+
+%{!?selinux:%global selinux 1}
 
 %if 0%{?fedora} > 23
 %global _hardened_build 1
@@ -1672,6 +1674,7 @@ fi
 %changelog
 * Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 13.5-2PGDG
 - Drop Advance Toolchain on RHEL 8 - ppc64le.
+- Enable LLVM support on RHEL 8 - ppc64le
 
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 12.5-1PGDG
 - Update to 12.5, per changes described at
