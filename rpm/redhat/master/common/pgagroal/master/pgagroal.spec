@@ -127,7 +127,7 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
-* Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+* Wed Jan 06 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-1
