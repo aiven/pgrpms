@@ -58,7 +58,11 @@
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?systemd_enabled:%global systemd_enabled 0}
+%else
 %{!?systemd_enabled:%global systemd_enabled 1}
+%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
 %{!?sdt:%global sdt 0}
