@@ -14,7 +14,9 @@ Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar
 Source1:	pgbackrest-conf.patch
 Source3:	pgbackrest.logrotate
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
 Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
+%endif
 %endif
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel bzip2-devel
@@ -55,7 +57,9 @@ are required to perform a backup which increases security.
 %prep
 %setup -q -n %{name}-release-%{version}
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
 %patch0 -p1
+%endif
 %endif
 
 %build
@@ -66,6 +70,7 @@ export LDFLAGS='-L%{pginstdir}/lib'
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	%pgdg_set_ppc64le_compiler_flags
+	export PATH="%{atpath}/bin:$PATH"
 %endif
 %endif
 %configure
