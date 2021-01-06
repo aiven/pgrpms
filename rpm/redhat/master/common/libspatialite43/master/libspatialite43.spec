@@ -2,7 +2,7 @@
 %global sname libspatialite
 %global libspatialiteinstdir	/usr/%{name}
 
-%global	libspatialiteversion	43
+%global	libspatialitemajorversion	43
 
 %global sqlitepname		sqlite33
 %global sqlite33dir		/usr/sqlite330
@@ -34,9 +34,9 @@
   %global _no_checks 1
 %endif
 
-Name:		%{sname}%{libspatialiteversion}
+Name:		%{sname}%{libspatialitemajorversion}
 Version:	4.3.0a
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -132,6 +132,10 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Wed Jan 6 2021 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-15
+- Fix installation path of -devel package, per
+  https://redmine.postgresql.org/issues/6126
+
 * Sun Dec 20 2020 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-14
 - Rebuild against GeOS 3.9.0
 
