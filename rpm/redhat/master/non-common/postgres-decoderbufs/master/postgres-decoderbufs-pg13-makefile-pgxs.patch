@@ -5,6 +5,6 @@
  OBJS = src/decoderbufs.o src/proto/pg_logicaldec.pb-c.o
  
 -PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-11/bin/pg_config
++PG_CONFIG ?= /usr/pgsql-13/bin/pg_config
  PGXS := $(shell $(PG_CONFIG) --pgxs)
  include $(PGXS)

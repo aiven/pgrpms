@@ -1,31 +1,27 @@
-%global full_version %{version}.Final
 %global sname postgres-decoderbufs
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.5
-Release:	1%{?dist}.1
+Version:	1.3.1
+Release:	1%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
 License:	MIT
-URL:		https://github.com/debezium/postgres-decoderbufs
+URL:		https://github.com/debezium/%{sname}
 
-Source0:	https://github.com/debezium/%{sname}/archive/v%{full_version}.tar.gz
+Source0:	https://github.com/debezium/%{sname}/archive/v.%{version}.Final.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 
-BuildRequires:	gcc
+BuildRequires:	gcc llvm clang
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	postgis-devel >= 2
 BuildRequires:	protobuf-c-devel
 
 Requires:	protobuf-c
-
-Recommends:	postgis
 
 %description
 A PostgreSQL logical decoder output plugin to deliver data as Protocol Buffers messages.
 
 %prep
-%setup -qn postgres-decoderbufs-%{full_version}
+%setup -qn %{sname}-v.%{version}.Final
 %patch0 -p0
 
 %build
@@ -52,6 +48,10 @@ A PostgreSQL logical decoder output plugin to deliver data as Protocol Buffers m
 %endif
 
 %changelog
+* Thu Jan 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+- Drop PostGIS BR
+
 * Thu Sep 26 2019 Devrim Gündüz <devrim@gunduz.org>
 - Rebuild for PostgreSQL 12
 
