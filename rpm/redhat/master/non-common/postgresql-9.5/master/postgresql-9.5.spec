@@ -40,10 +40,12 @@
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 # Define the AT version and path.
 %global atstring	at10.0
 %global atpath		/opt/%{atstring}
+%endif
 %endif
 
 %{!?disablepgfts:%global disablepgfts 0}
@@ -95,7 +97,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.24
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -233,13 +235,17 @@ Requires(postun):	initscripts
 %endif
 
 # This is for /sbin/service
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
 %endif
+%endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 %endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
@@ -271,9 +277,11 @@ Requires:	openssl
 Requires:	openssl-libs >= 1.0.2k
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description libs
@@ -306,9 +314,11 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description server
@@ -334,9 +344,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description contrib
@@ -348,9 +360,11 @@ Summary:	PostgreSQL development header files and libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-devel >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description devel
@@ -371,9 +385,11 @@ BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{packageversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plperl
@@ -390,9 +406,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 6
 Requires:	python-libs
@@ -421,9 +439,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plpython3
@@ -441,9 +461,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description pltcl
@@ -458,9 +480,11 @@ Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description test
@@ -484,13 +508,14 @@ benchmarks.
 %{__cp} -p %{SOURCE12} .
 
 %build
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
 %endif
-
+%endif
 # fail quickly and obviously if user tries to build as root
 %if %runselftest
 	if [ x"`id -u`" = x0 ]; then
@@ -1425,6 +1450,9 @@ fi
 %endif
 
 %changelog
+* Thu Jan 7 2021 Devrim Gündüz <devrim@gunduz.org> - 9.5.24-2PGDG
+- Drop Advance Toolchain on RHEL 8 - ppc64le.
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 9.5.24-1PGDG
 - Update to 9.5.24, per changes described at:
   https://www.postgresql.org/docs/devel/static/release-9-5-24.html
