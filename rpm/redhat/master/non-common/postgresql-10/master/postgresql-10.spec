@@ -76,14 +76,16 @@
 %global _hardened_build 1
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.15
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -123,8 +125,10 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4
 BuildRequires:	perl-generators
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 BuildRequires:	advance-toolchain-%{atstring}-devel
+%endif
 %endif
 
 Requires:	/sbin/ldconfig
@@ -248,9 +252,11 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description
@@ -284,9 +290,11 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description libs
@@ -320,9 +328,11 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Provides:	postgresql-server >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description server
@@ -349,9 +359,11 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description contrib
@@ -384,9 +396,11 @@ BuildRequires:	perl-IPC-Run
 Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description devel
@@ -440,9 +454,11 @@ Requires:	python2-libs
 Requires:	python27
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plpython
@@ -461,9 +477,11 @@ Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
 Requires:	python3-libs
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plpython3
@@ -482,9 +500,11 @@ Requires:	tcl
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description pltcl
@@ -500,9 +520,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description test
@@ -536,10 +558,12 @@ benchmarks.
 
 CFLAGS="${CFLAGS:-%optflags}"
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+%endif
 %else
 	# Strip out -ffast-math from CFLAGS....
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
@@ -630,9 +654,11 @@ export PYTHON=/usr/bin/python3
 %if %{systemd_enabled}
 	--with-systemd \
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	--with-includes=%{atpath}/include \
 	--with-libraries=%{atpath}/lib64 \
+%endif
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -742,9 +768,11 @@ export PYTHON=/usr/bin/python2
 %if %{systemd_enabled}
 	--with-systemd \
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	--with-includes=%{atpath}/include \
 	--with-libraries=%{atpath}/lib64 \
+%endif
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -1496,6 +1524,9 @@ fi
 %endif
 
 %changelog
+* Thu Jan 7 2021 Devrim Gündüz <devrim@gunduz.org> - 10.15-2PGDG
+- Drop Advance Toolchain on RHEL 8 - ppc64le.
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 10.15-1PGDG
 - Update to 10.15, per changes described at
   https://www.postgresql.org/docs/release/10.15/
