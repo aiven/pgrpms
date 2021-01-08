@@ -1,5 +1,7 @@
 %global sname bgw_replstatus
 
+%pgdg_set_llvm_variables
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -8,14 +10,14 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
 Source0:	https://github.com/mhagander/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.12
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.3-2
@@ -69,18 +71,16 @@ checking the status.
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if 0%{?isllvm}
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
+%else
 %endif
 
 %changelog
+* Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.3-3
+- Use pgdg_set_llvm_variables macro for LLVM related files.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.3-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
