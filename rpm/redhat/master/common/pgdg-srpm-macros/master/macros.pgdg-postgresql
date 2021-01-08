@@ -106,3 +106,28 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global gdalfullversion		3.2.1
 \
 }
+
+%pgdg_set_llvm_variables() %{expand: \
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch ppc64 ppc64le
+%global isllvm	0
+%else
+%global isllvm	1
+%endif
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 6
+%global isllvm	0
+%endif
+%if 0%{?fedora} && 0%{?fedora} > 30
+%global isllvm	1
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 8
+%global isllvm	1
+%endif
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+%global isllvm	1
+%endif
+%endif
+\
+}
