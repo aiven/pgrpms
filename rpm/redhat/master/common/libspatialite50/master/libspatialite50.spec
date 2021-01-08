@@ -121,13 +121,14 @@ find %{buildroot} -type f -name "*.la" -delete
 #%%{__make} check V=1
 %endif
 
-%ldconfig_scriptlets
-
 %clean
 %{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
+
+%post devel -p /sbin/ldconfig
+%postun devel -p /sbin/ldconfig
 
 %files
 %doc COPYING AUTHORS
