@@ -72,8 +72,10 @@ checking the status.
 %endif
 %{pginstdir}/lib/%{sname}.so
 %if 0%{?isllvm}
+ %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+ %endif
 %else
 %endif
 
