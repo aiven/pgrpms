@@ -174,14 +174,14 @@ export PYTHON=/usr/bin/python3
 	src/bin/pg_config
 
 for subdir in %build_subdirs; do
-MAKELEVEL=0 %make_build -C "$subdir"
+MAKELEVEL=0 %{__make} %{?_smp_mflags} -C "$subdir"
 done
 
 %install
 %{__rm} -rf %{buildroot}
 
 for subdir in %build_subdirs; do
-MAKELEVEL=0	%make_install -C "$subdir"
+MAKELEVEL=0 %{__make} %{?_smp_mflags} install -C "$subdir"
 done
 
 # remove files not to be packaged
