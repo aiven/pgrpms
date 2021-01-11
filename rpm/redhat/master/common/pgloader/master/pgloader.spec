@@ -5,7 +5,7 @@ Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
 Version:	3.6.2
 Release:	1%{?dist}
-License:	BSD
+License:	PostgreSQL
 URL:		http://pgloader.io
 Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
 
