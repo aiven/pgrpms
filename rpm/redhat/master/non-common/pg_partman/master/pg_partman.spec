@@ -16,8 +16,8 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.4.0
-Release:	2%{?dist}
+Version:	4.4.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -73,7 +73,8 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/%{sname}.md
-%doc %{pginstdir}/doc/extension/%{sname}_howto.md
+%doc %{pginstdir}/doc/extension/%{sname}_howto_native.md
+%doc %{pginstdir}/doc/extension/%{sname}_howto_triggerbased.md
 %{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -102,6 +103,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Thu Jan 21 2021 Devrim Gündüz <devrim@gunduz.org> - 4.4.1-1
+- Update to 4.4.1
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 4.4.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
