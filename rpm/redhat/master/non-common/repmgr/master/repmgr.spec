@@ -14,7 +14,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -122,6 +122,9 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %{__install} -m 644 repmgr.conf.sample %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
 
+# Create the directory for sockets.
+%{__install} -d -m 0755 %{buildroot}%{_rundir}/%{sname}
+
 %if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{unitname}.service
@@ -176,6 +179,7 @@ fi
 %endif
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
+%attr(755,postgres,postgres) %dir %{_rundir}/%{sname}
 %config(noreplace) %{_sysconfdir}/%{sname}/%{pgpackageversion}/%{sname}.conf
 %{pginstdir}/bin/repmgr
 %{pginstdir}/bin/repmgrd
@@ -206,6 +210,10 @@ fi
 %endif
 
 %changelog
+* Fri Jan 22 2021 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-2
+- Make sure that the socket dir is created, per report from
+  Greg Clough.
+
 * Tue Dec 8 2020 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-1
 - Update to 5.2.1
 - Fix unit file breakage caused by
