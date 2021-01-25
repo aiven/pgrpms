@@ -54,7 +54,7 @@
 
 Name:		%{sname}32
 Version:	3.2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -671,6 +671,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Jan 25 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-2
+- Rebuild against armadillo 10 on Fedora 33 (only)
+
 * Mon Jan 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
 - Update to 3.2.1
 
