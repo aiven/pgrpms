@@ -25,6 +25,7 @@ BuildRequires:	cmake >= %{cmake_version} gmp-devel boost-devel >= %{boost_versio
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libqt4-devel libqt5-qtbase-common-devel
+BuildRequires:	libboost_thread1_75_0-devel libboost_system1_75_0-devel
 %endif
 %endif
 
@@ -52,10 +53,10 @@ access to useful, reliable geometric algorithms.
 Summary:	Development files and tools for CGAL applications
 Requires:	cmake
 Requires:	%{name} = %{version}-%{release}
-Requires:	boost-devel%{?_isa} >= %{boost_version}
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 Requires:	libqt4-devel libqt5-qtbase-common-devel
+Requires:	boost-devel >= %{boost_version}
 %endif
 %endif
 
