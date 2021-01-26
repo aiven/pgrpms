@@ -9,8 +9,8 @@
 %global PYTHON_SITELIB64 %{python3_sitelib64}
 
 Name:		pgadmin4
-Version:	4.29
-Release:	2%{?dist}
+Version:	4.30
+Release:	1%{?dist}
 Summary:	Management tool for PostgreSQL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -341,6 +341,9 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Jan 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.30-1
+- Update to 4.30
+
 * Mon Dec 14 2020 - Devrim Gündüz <devrim@gunduz.org> 4.29-1
 - Update to 4.29
 
