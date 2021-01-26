@@ -1,3 +1,4 @@
+%global pgmajorversion 12
 %global _vpath_builddir .
 %global pgroutingmajorversion 3.1
 %global sname	pgrouting
@@ -10,9 +11,9 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.2
+Version:	%{pgroutingmajorversion}.3
 Release:	1%{dist}
-License:	GPLv2
+License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	gcc-c++
@@ -97,6 +98,10 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Tue Jan 26 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1.3-1
+- Update to 3.1.3
+- Update License
+
 * Sun Dec 20 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.2-1
 - Update to 3.1.2
 
