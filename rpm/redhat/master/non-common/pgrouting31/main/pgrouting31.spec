@@ -21,7 +21,7 @@ BuildRequires:	cmake3
 # EPEL:
 BuildRequires:	boost169-devel
 %else
-BuildRequires:	cmake => 3.0.0
+BuildRequires:	cmake => 3.2.0
 BuildRequires:	boost-devel >= 1.53
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
