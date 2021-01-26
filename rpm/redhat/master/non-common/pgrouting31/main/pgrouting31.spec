@@ -1,4 +1,3 @@
-%global pgmajorversion 12
 %global _vpath_builddir .
 %global pgroutingmajorversion 3.1
 %global sname	pgrouting
