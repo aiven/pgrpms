@@ -10,9 +10,9 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.4
+Version:	%{pgroutingmajorversion}.5
 Release:	1%{dist}
-License:	GPLv2
+License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	gcc-c++
@@ -21,7 +21,7 @@ BuildRequires:	cmake3
 # EPEL:
 BuildRequires:	boost169-devel
 %else
-BuildRequires:	cmake => 3.0.0
+BuildRequires:	cmake => 3.2.0
 BuildRequires:	boost-devel >= 1.53
 %endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -61,7 +61,7 @@ value can come from multiple fields or tables.
 
 %{__install} -d build
 pushd build
-cmake3 .. \
+%cmake3 .. \
 %if 0%{?rhel} && 0%{?rhel} == 7
 	-DBOOST_ROOT=%{_includedir}/boost169 \
 %endif
@@ -97,6 +97,10 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Tue Jan 26 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0.5-1
+- Update to 3.0.5
+- Update License
+,
 * Sun Dec 20 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.4-1
 - Update to 3.0.4
 
