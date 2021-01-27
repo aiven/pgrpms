@@ -29,7 +29,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -41,14 +41,21 @@ Patch1:		sfcgal-config.patch
 URL:		http://sfcgal.org/
 
 BuildRequires:	cmake pgdg-srpm-macros
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libboost_date_time1_54_0 libboost_thread1_54_0
 BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
+BuildRequires:	libboost_serialization1_54_0-devel libboost_atomic1_54_0-devel
 %endif
-%else
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libboost_date_time1_75_0 libboost_thread1_75_0
+BuildRequires:	libboost_system1_75_0 libboost_serialization1_75_0
+BuildRequires:	libboost_serialization1_75_0-devel libboost_atomic1_75_0-devel
+%endif
+%if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 %endif
+
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -175,6 +182,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-4
+- Add proper SLES 15 support
+
 * Fri Oct 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-3
 - Use cmake3 macro to build packages, and define vpath_builddir macro
   manually. This will solve the FTBFS issue on Fedora 33, per:
