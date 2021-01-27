@@ -326,7 +326,9 @@ fi
 %files client
 %defattr(644,root,root)
 %attr(755,root,root) %{pginstdir}/bin/pgsql2shp
+%if %{raster}
 %attr(755,root,root) %{pginstdir}/bin/raster2pgsql
+%endif
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 
 %files devel
