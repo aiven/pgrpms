@@ -19,7 +19,7 @@
 %else
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %endif
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 0}
@@ -44,7 +44,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -350,7 +350,9 @@ fi
 %files client
 %defattr(644,root,root)
 %attr(755,root,root) %{pginstdir}/bin/pgsql2shp
+%if %{raster}
 %attr(755,root,root) %{pginstdir}/bin/raster2pgsql
+%endif
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 
 %files devel
@@ -376,6 +378,10 @@ fi
 %endif
 
 %changelog
+* Wed Jan 27 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-4
+- Disable raster support on SLES (15), because of missing
+  build dependencies for GDAL.
+
 * Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-3
 - Rebuild against GeOS 3.9.0
 
