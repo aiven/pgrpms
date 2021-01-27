@@ -9,11 +9,10 @@
 Summary:	Sampling based statistics of wait events
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.2
+Version:	1.1.3
 Release:	1%{?dist}
-License:	BSD
+License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
@@ -34,7 +33,6 @@ events.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -43,11 +41,11 @@ events.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -74,6 +72,11 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-1
+- Update to 1.1.3
+- export PATH for pg_config, to get rid of patches.
+- Fix license
+
 * Wed Nov 11 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.2-1
 - Update to 1.1.2
 
