@@ -672,7 +672,7 @@ popd
 
 %changelog
 * Mon Jan 25 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-2
-- Rebuild against armadillo 10 on Fedora 33 (only)
+- Rebuild against armadillo 10 on Fedora 32 and 33 (only)
 
 * Mon Jan 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
 - Update to 3.2.1
