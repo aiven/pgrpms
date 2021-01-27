@@ -286,21 +286,21 @@ fi
 %{pginstdir}/share/extension/address_standardizer*.sql
 %{pginstdir}/share/extension/address_standardizer*.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/sfcgal_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
+%{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
+%{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
+%{pginstdir}/share/extension/%{sname}_topology-*.sql
+%{pginstdir}/share/extension/%{sname}_topology.control
+%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
 %if %{raster}
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_legacy.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_upgrade.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/uninstall_rtpostgis.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/raster_comments.sql
 %{pginstdir}/share/extension/postgis_raster*.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
-%{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/spatial*.sql
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
-%{pginstdir}/share/extension/%{sname}_topology-*.sql
-%{pginstdir}/share/extension/%{sname}_topology.control
-%{pginstdir}/share/extension/%{sname}_tiger_geocoder*.sql
-%{pginstdir}/share/extension/%{sname}_tiger_geocoder.control
 %endif
 %ifarch ppc64 ppc64le
  %else
