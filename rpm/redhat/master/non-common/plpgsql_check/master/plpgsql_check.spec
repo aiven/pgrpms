@@ -9,13 +9,12 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.15.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
 Source0:	https://github.com/okbob/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -34,7 +33,6 @@ performance issues.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -43,11 +41,11 @@ performance issues.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -75,6 +73,9 @@ performance issues.
 %endif
 
 %changelog
+* Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.1-2
+- export PATH for pg_config, to get rid of patches.
+
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> 1.15.1-1
 - Update to 1.15.1
 
