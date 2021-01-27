@@ -51,8 +51,12 @@ URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.7 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.12 pcre-devel gmp-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libgmp10
+%else
 Requires:	gmp
+%endif
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
@@ -87,13 +91,16 @@ Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projf
 Requires:	libgeotiff%{libgeotiffmajorversion}
 Requires:	hdf5
 
+%if %{raster}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
+%endif
+
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
+Requires:	libjson-c5
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
-Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
