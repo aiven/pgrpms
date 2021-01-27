@@ -61,7 +61,11 @@ value can come from multiple fields or tables.
 
 %{__install} -d build
 pushd build
+%if 0%{?suse_version} >= 1315
+cmake .. \
+%else
 %cmake3 .. \
+%endif
 %if 0%{?rhel} && 0%{?rhel} == 7
 	-DBOOST_ROOT=%{_includedir}/boost169 \
 %endif
