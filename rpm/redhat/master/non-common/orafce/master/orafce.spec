@@ -12,10 +12,9 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/orafce/orafce
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
@@ -38,7 +37,6 @@ for production work.
 
 %prep
 %setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -47,11 +45,11 @@ for production work.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -76,6 +74,8 @@ for production work.
 %endif
 
 %changelog
+* Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 3.14.0-2
+- Export PATH for pg_config, to get rid of patches.
 
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> 3.14.0-1
 - Update to 3.14.0
