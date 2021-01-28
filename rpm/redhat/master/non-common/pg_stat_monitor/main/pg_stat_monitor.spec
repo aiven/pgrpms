@@ -13,7 +13,7 @@
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
 Source0:	https://github.com/percona/%{sname}/archive/REL%{monitormajver}_%{monitormidver}_%{monitorminver}.tar.gz
@@ -84,5 +84,8 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Jan 28 2021 - Devrim Gündüz <devrim@gunduz.org> 0.7.2-2
+- Fix distro part in RPM names.
+
 * Thu Jan 21 2021 - Devrim Gündüz <devrim@gunduz.org> 0.7.2-1
 - Initial RPM packaging for PostgreSQL RPM Repository
