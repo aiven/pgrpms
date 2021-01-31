@@ -54,7 +54,7 @@
 
 Name:		%{sname}32
 Version:	3.2.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -426,6 +426,9 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-proj=%{projinstdir}	\
 	%{spatialite}		\
 %if 0%{?rhel} && 0%{?rhel} == 7
+	--disable-driver-elastic \
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 7
 	--with-sqlite3=%{sqlitelibdir}	\
 %else
 	--with-sqlite3		\
@@ -671,6 +674,11 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Jan 31 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-3
+- Disable elastic driver on RHEL 7, per upstream:
+  https://github.com/OSGeo/gdal/issues/3422
+  https://github.com/OSGeo/gdal/issues/3414
+
 * Mon Jan 25 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-2
 - Rebuild against armadillo 10 on Fedora 32 and 33 (only)
 
