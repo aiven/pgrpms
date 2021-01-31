@@ -341,7 +341,7 @@ fi
 %defattr(-,root,root,-)
 
 %changelog
-* Tue Jan 26 2020 - Devrim Gündüz <devrim@gunduz.org> 4.30-1
+* Tue Jan 26 2021 - Devrim Gündüz <devrim@gunduz.org> 4.30-1
 - Update to 4.30
 
 * Mon Dec 14 2020 - Devrim Gündüz <devrim@gunduz.org> 4.29-1
