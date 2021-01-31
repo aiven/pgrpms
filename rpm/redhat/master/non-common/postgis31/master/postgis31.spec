@@ -17,7 +17,7 @@
 %if 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 0}
 %else
-%{!?raster:%global     raster 0}
+%{!?raster:%global     raster 1}
 %endif
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
