@@ -39,8 +39,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.1
+Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -361,6 +361,9 @@ fi
 %endif
 
 %changelog
+* Sun Jan 31 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-1
+- Update to 3.1.1
+
 * Wed Jan 27 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-2
 - Disable raster support on SLES (15), because of missing
   build dependencies for GDAL.
