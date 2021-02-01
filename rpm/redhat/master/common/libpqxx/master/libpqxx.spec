@@ -1,7 +1,8 @@
+%global		libpqxxmajorver 7.2
 Name:           libpqxx
 Summary:        C++ client API for PostgreSQL
 Epoch:          1
-Version:        7.2.0
+Version:        %{libpqxxmajorver}.0
 Release:        1%{?dist}
 
 License:        BSD
@@ -55,7 +56,7 @@ popd
 %files
 %doc AUTHORS NEWS README.md VERSION
 %license COPYING
-%{_libdir}/%{name}-7.2.so
+%{_libdir}/%{name}-%{libpqxxmajorver}.so
 
 %files devel
 %dir %{_libdir}/cmake/%{name}
