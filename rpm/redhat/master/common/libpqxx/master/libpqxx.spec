@@ -1,22 +1,22 @@
 %global		libpqxxmajorver 7.2
-Name:           libpqxx
-Summary:        C++ client API for PostgreSQL
-Epoch:          1
-Version:        %{libpqxxmajorver}.0
-Release:        1%{?dist}
+Name:		libpqxx
+Summary:	C++ client API for PostgreSQL
+Epoch:		1
+Version:	%{libpqxxmajorver}.0
+Release:	1%{?dist}
 
-License:        BSD
-URL:            http://pqxx.org/
-Source0:        https://github.com/jtv/libpqxx/archive/%{version}.tar.gz
+License:	BSD
+URL:		http://pqxx.org/
+Source0:	https://github.com/jtv/libpqxx/archive/%{version}.tar.gz
 
-BuildRequires:  gcc-c++
-BuildRequires:  ninja-build
-BuildRequires:  cmake
-BuildRequires:  pkgconfig
-BuildRequires:  libpq5-devel
-BuildRequires:  doxygen
-BuildRequires:  graphviz
-BuildRequires:  xmlto
+BuildRequires:	gcc-c++
+BuildRequires:	ninja-build
+BuildRequires:	cmake
+BuildRequires:	pkgconfig
+BuildRequires:	libpq5-devel
+BuildRequires:	doxygen
+BuildRequires:	graphviz
+BuildRequires:	xmlto
 
 %description
 C++ client API for PostgreSQL. The standard front-end (in the sense of
@@ -24,15 +24,15 @@ C++ client API for PostgreSQL. The standard front-end (in the sense of
 Supersedes older libpq++ interface.
 
 %package devel
-Summary:        Development files for %{name}
-Requires:       %{name}%{?_isa} = %{epoch}:%{version}-%{release}
-Requires:       pkgconfig
+Summary:	Development files for %{name}
+Requires:	%{name}%{?_isa} = %{epoch}:%{version}-%{release}
+Requires:	pkgconfig
 %description devel
 %{summary}.
 
 %package doc
-Summary: Developer documentation for %{name}
-BuildArch: noarch
+Summary:	Developer documentation for %{name}
+BuildArch:	noarch
 %description doc
 %{summary}.
 
@@ -42,8 +42,8 @@ BuildArch: noarch
 %build
 mkdir build
 pushd build
-%cmake -G Ninja         \
-  -DBUILD_DOC=ON        \
+%cmake -G Ninja		\
+  -DBUILD_DOC=ON	\
   ..
 %ninja_build
 popd
