@@ -6,17 +6,18 @@
 %endif
 %endif
 
+%pgdg_set_gis_variables
+
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.12
-Release:	3%{?dist}
+Version:	1.1.0
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-Patch2:		ogr_fdw-makefile-gdal31.patch
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal31-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server gdal31-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.12
+Requires:	postgresql%{pgmajorversion}-server gdal%{gdalmajorversion}-libs
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 
@@ -32,8 +33,6 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 
 %prep
 %setup -q -n pgsql-ogr-fdw-%{version}
-%patch0 -p0
-%patch2 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,7 +40,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -49,7 +48,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %{__install} -d %{buildroot}%{pginstdir}/
 %{__install} -d %{buildroot}%{pginstdir}/bin/
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
@@ -66,7 +65,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %doc %{pginstdir}/share/extension/README-%{sname}.md
 %attr (755,root,root) %{pginstdir}/bin/ogr_fdw_info
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
@@ -80,6 +79,10 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %endif
 
 %changelog
+* Fri Feb 5 2021 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0
+- Remove patches, and export PATH instead of them.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.12-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
