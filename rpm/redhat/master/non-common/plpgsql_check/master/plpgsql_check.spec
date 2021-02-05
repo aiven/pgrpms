@@ -8,8 +8,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.15.1
-Release:	2%{?dist}
+Version:	1.15.2
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -73,6 +73,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Fri Feb 5 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.2-1
+- Update to 1.15.2
+
 * Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.1-2
 - export PATH for pg_config, to get rid of patches.
 
