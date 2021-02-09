@@ -93,8 +93,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.10
-Release:	2PGDG%{?dist}
+Version:	11.11
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1666,6 +1666,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-1PGDG
+- Update to 11.11, per changes described at
+  https://www.postgresql.org/docs/release/11.11/
+
 * Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 11.10-2PGDG
 - Drop Advance Toolchain on RHEL 8 - ppc64le.
 - Enable LLVM support on RHEL 8 - ppc64le
