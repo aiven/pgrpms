@@ -8,12 +8,12 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_2%{pgmajorversion}
-Version:	0.7.1
-Release:	2%{?dist}
+Version:	0.8.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		https://gitlab.com/daamien/%{sname}
+URL:		https://gitlab.com/dalibo/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
 
@@ -75,6 +75,9 @@ PostgreSQL database.
 %endif
 
 %changelog
+* Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-1
+- Update to 0.8.1
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.1-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
