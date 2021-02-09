@@ -6,8 +6,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.31
-Release:	2%{?dist}
+Version:	2.32
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -116,6 +116,10 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 2.32-1
+- Update to 2.32, per changes described here:
+  https://pgbackrest.org/release.html#2.32
+
 * Wed Jan 6 2021 Devrim Gündüz <devrim@gunduz.org> - 2.31-2
 - Add RHEL 7 - ppc64le support. While adding it, fix
   build issue on this platform, per report from Gunnar "Nick" Bluth.
