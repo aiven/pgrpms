@@ -12,7 +12,7 @@ Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
 Release:	1%{?dist}
-License:	BSD
+License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
