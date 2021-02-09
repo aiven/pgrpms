@@ -96,8 +96,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
-Version:	9.5.24
-Release:	2PGDG%{?dist}
+Version:	9.5.25
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -1450,6 +1450,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 9.5.25-1PGDG
+- Update to 9.5.25, per changes described at:
+  https://www.postgresql.org/docs/devel/static/release-9-5-25.html
+
 * Thu Jan 7 2021 Devrim Gündüz <devrim@gunduz.org> - 9.5.24-2PGDG
 - Drop Advance Toolchain on RHEL 8 - ppc64le.
 
