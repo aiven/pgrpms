@@ -6,6 +6,20 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 %pgdg_set_gis_variables
 
 Summary:	PostgreSQL foreign data wrapper for OGR
@@ -30,6 +44,31 @@ Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 %description
 This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
 handler of PostgreSQL which provides easy way for interacting with OGR.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for ogr_fdw
+Requires:       %{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:       llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:       llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for ogr_fdw.
+%endif
 
 %prep
 %setup -q -n pgsql-ogr-fdw-%{version}
@@ -67,13 +106,17 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
+
+%if %llvm
+%files llvmjit
+ %ifarch ppc64 ppc64le
   %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+   %if 0%{?rhel} && 0%{?rhel} <= 6
+   %else
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %endif
   %endif
  %endif
 %endif
@@ -82,6 +125,7 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 * Fri Feb 5 2021 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
 - Update to 1.1.0
 - Remove patches, and export PATH instead of them.
+- Split llvmjit into its own subpackage.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.12-3
 - Use underscore before PostgreSQL version number for consistency, per:
