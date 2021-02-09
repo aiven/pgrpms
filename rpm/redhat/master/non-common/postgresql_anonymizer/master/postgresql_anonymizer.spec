@@ -7,7 +7,7 @@
 %endif
 
 Summary:	Anonymization & Data Masking for PostgreSQL
-Name:		%{sname}_2%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	0.8.1
 Release:	1%{?dist}
 License:	PostgreSQL
