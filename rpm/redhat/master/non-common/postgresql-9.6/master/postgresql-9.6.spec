@@ -82,8 +82,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.20
-Release:	3PGDG%{?dist}
+Version:	9.6.21
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1510,6 +1510,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.21-1PGDG
+- Update to 9.6.21, per changes described at:
+  https://www.postgresql.org/docs/release/9.6.21/
+
 * Thu Jan 7 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.20-3PGDG
 - Drop Advance Toolchain on RHEL 8 - ppc64le.
 
