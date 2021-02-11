@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.1
+Version:	%{pgmajorversion}.2
 Release:	10PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -230,6 +230,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 13.2-10PGDG
+- Update to 13.2
+
 * Mon Nov 16 2020 Devrim Gündüz <devrim@gunduz.org> - 13.1-10PGDG
 - Update to 13.1
 
