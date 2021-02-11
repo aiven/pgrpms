@@ -74,13 +74,17 @@
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{!?llvm:%global llvm 0}
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
 %else
-%{!?llvm:%global llvm 1}
-%endif
-%else
-%{!?llvm:%global llvm 1}
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -88,7 +92,6 @@
 %else
  %{!?selinux:%global selinux 1}
 %endif
- 
 
 %if 0%{?fedora} > 23
 %global _hardened_build 1
