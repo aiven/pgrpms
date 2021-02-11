@@ -64,9 +64,13 @@
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?sdt:%global sdt 0}
-%else
- %{!?sdt:%global sdt 1}
+ %{!?sdt:%global sdt 0}
+ %else
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+   %{!?sdt:%global sdt 0}
+  %else
+  %{!?sdt:%global sdt 1}
+ %endif
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -79,7 +83,12 @@
 %{!?llvm:%global llvm 1}
 %endif
 
-%{!?selinux:%global selinux 1}
+%if 0%{?rhel} && 0%{?rhel} <= 6
+%{!?selinux:%global selinux 0}
+%else
+ %{!?selinux:%global selinux 1}
+%endif
+ 
 
 %if 0%{?fedora} > 23
 %global _hardened_build 1
@@ -94,7 +103,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.11
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1666,6 +1675,10 @@ fi
 %endif
 
 %changelog
+* Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-2PGDG
+- A few fixes around sdt and selinux macros, so that they work
+  on RHEL 6 as well.
+
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-1PGDG
 - Update to 11.11, per changes described at
   https://www.postgresql.org/docs/release/11.11/
