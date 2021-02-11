@@ -7,9 +7,23 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.15.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -30,6 +44,31 @@ The plpgsql_check is PostgreSQL extension with functionality for direct
 or indirect extra validation of functions in PL/pgSQL language. It verifies
 a validity of SQL identifiers used in PL/pgSQL code. It also tries to identify
 performance issues.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for plpgsql_check
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for plpgsql_check
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -61,18 +100,24 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
+%if %llvm
+%files llvmjit
+ %ifarch ppc64 ppc64le
   %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+   %if 0%{?rhel} && 0%{?rhel} <= 6
+   %else
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+   %endif
   %endif
  %endif
 %endif
 
 %changelog
+* Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.3-2
+- Split llvmjit into separate package
+
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.3-1
 - Update to 1.15.3
 
