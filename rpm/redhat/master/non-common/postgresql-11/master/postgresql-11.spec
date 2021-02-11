@@ -1679,8 +1679,8 @@ fi
 
 %changelog
 * Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-2PGDG
-- A few fixes around sdt and selinux macros, so that they work
-  on RHEL 6 as well.
+- A few fixes around llvm, sdt and selinux macros, so that they
+  work on RHEL 6 as well.
 
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-1PGDG
 - Update to 11.11, per changes described at
