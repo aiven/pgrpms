@@ -7,7 +7,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.32
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -19,19 +19,23 @@ Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 %endif
 %endif
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
-BuildRequires:	libzstd-devel libxml2-devel bzip2-devel
+BuildRequires:	libzstd-devel libxml2-devel
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 Requires:	lz4-libs
-BuildRequires:	lz4-devel
+BuildRequires:	lz4-devel bzip2-devel
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	lz4
-BuildRequires:	lz4-devel
+BuildRequires:	lz4-devel bzip2-devel
 %endif
-%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+%if 0%{?suse_version} && 0%{?suse_version} <= 1499
 Requires:	liblz4-1_7
-BuildRequires:	liblz4-devel
+BuildRequires:	liblz4-devel libbz2-devel
+%endif
+%if 0%{?suse_version} && 0%{?suse_version} >= 1500
+Requires:	liblz4-
+BuildRequires:	liblz4-devel libbz2-devel
 %endif
 
 Requires:	postgresql-libs libzstd
@@ -116,6 +120,9 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 2.32-2
+- Adjust dependencies for SLES 15 support.
+
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 2.32-1
 - Update to 2.32, per changes described here:
   https://pgbackrest.org/release.html#2.32
