@@ -34,7 +34,7 @@ Requires:	liblz4-1_7
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
-Requires:	liblz4-
+Requires:	liblz4-1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 
