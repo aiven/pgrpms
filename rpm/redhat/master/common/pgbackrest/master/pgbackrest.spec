@@ -22,23 +22,23 @@ BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
-Requires:	lz4-libs
+Requires:	lz4-libs libzstd
 BuildRequires:	lz4-devel bzip2-devel
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
-Requires:	lz4
+Requires:	lz4 libzstd
 BuildRequires:	lz4-devel bzip2-devel
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} <= 1499
-Requires:	liblz4-1_7
+Requires:	liblz4-1_7 libzstd1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
-Requires:	liblz4-1
+Requires:	liblz4-1 libzstd1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 
-Requires:	postgresql-libs libzstd
+Requires:	postgresql-libs
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
 %if 0%{?rhel} && 0%{?rhel} == 7
