@@ -14,25 +14,22 @@
 %pgdg_set_gis_variables
 
 %{!?utils:%global	utils 1}
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
+%if 0%{?suse_version} >= 1315
+%{!?raster:%global	raster 0}
 %else
-%{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
+%{!?raster:%global	raster 1}
 %endif
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
-%{!?raster:%global     raster 1}
-%else
-%{!?raster:%global     raster 0}
-%endif
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 6 || 0%{?suse_version} >= 1315
+
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
-%{!?sfcgal:%global     sfcgal 1}
+%{!?sfcgal:%global	sfcgal 1}
 %else
-%{!?sfcgal:%global     sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 %else
-%{!?sfcgal:%global    sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -44,7 +41,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -55,8 +52,12 @@ URL:		http://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.10 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.12 pcre-devel gmp-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libgmp10
+%else
 Requires:	gmp
+%endif
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
@@ -93,28 +94,23 @@ BuildRequires:	protobuf-c-devel
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
 Requires:	libgeotiff%{libgeotiffmajorversion}
-%if 0%{?rhel} && 0%{?rhel} < 6
-Requires:	hdf5 < 1.8.7
-%else
 Requires:	hdf5
+
+%if %{raster}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
-Requires:	libjson-c2 gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
+Requires:	libjson-c5
 Requires:	libxerces-c-3_1
 %else
 Requires:	json-c xerces-c
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	gdal-libs >= 1.9.2-9
-%else
-Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
-%endif
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
-Requires:	protobuf-c
+Requires:	protobuf-c >= 1.1.0
 %endif
 
 Provides:	%{sname} = %{version}-%{release}
@@ -378,6 +374,9 @@ fi
 %endif
 
 %changelog
+* Fri Feb 12 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-5
+- Backport more fixes from 3.1 spec file
+
 * Wed Jan 27 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-4
 - Disable raster support on SLES (15), because of missing
   build dependencies for GDAL.
