@@ -18,7 +18,7 @@
 
 Name:		pgbouncer
 Version:	1.15.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -51,11 +51,15 @@ Requires:	python3-psycopg2
 %endif
 BuildRequires:	openssl-devel pam-devel
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
 BuildRequires:	c-ares-devel >= 1.11
 Requires:	c-ares >= 1.11
 %endif
 
+%if 0%{?suse_version} >= 1500
+BuildRequires:	c-ares-devel >= 1.11
+Requires:	libcares2 >= 1.11
+%endif
 
 %if %{systemd_enabled}
 BuildRequires:		systemd
@@ -232,6 +236,9 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Fri Feb 12 2021 Devrim Gündüz <devrim@gunduz.org> - 1.15.0-2
+- Fix SLES 15 dependency.
+
 * Thu Aug 13 2020 Devrim Gündüz <devrim@gunduz.org> - 1.15.0-1
 - Update to 1.15.0, per changes described at:
   http://www.pgbouncer.org/changelog.html#pgbouncer-115x
