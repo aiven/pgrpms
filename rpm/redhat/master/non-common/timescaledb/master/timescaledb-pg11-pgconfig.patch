@@ -1,6 +1,6 @@
---- CMakeLists.txt.old	2020-04-02 10:42:37.178368447 +0100
-+++ CMakeLists.txt	2020-04-02 10:43:04.289545775 +0100
-@@ -166,7 +166,7 @@
+--- CMakeLists.txt.old	2021-02-15 11:17:15.326906177 +0000
++++ CMakeLists.txt	2021-02-15 11:17:29.173906252 +0000
+@@ -169,7 +169,7 @@
      DOC "The path to a PostgreSQL installation")
  endif()
  
