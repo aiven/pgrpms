@@ -4,7 +4,6 @@ Name:		librttopo
 Version:	1.1.0
 Release:	1%{?dist}
 Summary:	Create and manage SQL/MM topologies
-
 License:	GPLv2+
 URL:		https://git.osgeo.org/gitea/rttopo/%{name}
 Source0:	https://git.osgeo.org/gitea/rttopo/%{name}/archive/%{name}-%{version}.tar.gz
@@ -29,7 +28,7 @@ developing applications that use %{name}.
 %autosetup -p1 -n %{name}
 
 %build
-CFLAGS="$CFLAGS -I%{geosinstdir}/include -fPIE"; export CFLAGS
+CFLAGS="$CFLAGS -I%{geosinstdir}/include -g -fPIE"; export CFLAGS
 autoreconf -ifv
 export PATH=%{geosinstdir}/bin:$PATH
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
