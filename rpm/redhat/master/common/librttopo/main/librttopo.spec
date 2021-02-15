@@ -1,5 +1,3 @@
-#%global debug_package %{nil}
-
 %pgdg_set_gis_variables
 
 Name:		librttopo
@@ -8,8 +6,8 @@ Release:	1%{?dist}
 Summary:	Create and manage SQL/MM topologies
 
 License:	GPLv2+
-URL:		https://git.osgeo.org/gitea/rttopo/librttopo
-Source0:	https://git.osgeo.org/gitea/rttopo/librttopo/archive/%{name}-%{version}.tar.gz
+URL:		https://git.osgeo.org/gitea/rttopo/%{name}
+Source0:	https://git.osgeo.org/gitea/rttopo/%{name}/archive/%{name}-%{version}.tar.gz
 
 BuildRequires:	autoconf automake gcc libtool make
 BuildRequires:	pgdg-srpm-macros >= 1.0.12
@@ -26,7 +24,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 %description    devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
-
 
 %prep
 %autosetup -p1 -n %{name}
@@ -55,5 +52,7 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/rttopo.pc
 
 %changelog
-* Fri Nov 13 2020 Sandro Mani <manisandro@gmail.com> 1.1.0-1
-- Initial package
+* Mon Feb 15 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+- Initial packaging for PostgreSQL RPM repository to satisfy
+  libspatialite50 packaging, per Fedora spec file written by
+  Sandro Mani (ours is a bir different then that spec file).
