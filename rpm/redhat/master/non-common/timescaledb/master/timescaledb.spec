@@ -9,12 +9,14 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.0
+Version:	2.0.1
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
+%if 0%{?rhel} && 0%{?rhel} == 7
 Patch1:		%{sname}-cmake3-rhel7.patch
+%endif
 URL:		https://github.com/timescale/timescaledb
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -40,7 +42,9 @@ support.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%if 0%{?rhel} && 0%{?rhel} == 7
 %patch1 -p0
+%endif
 
 # Build only the portions that have Apache Licence, and disable telemetry:
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
@@ -83,6 +87,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Feb 15 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
+- Update to 2.0.1
+- Use patch1 only on RHEL 7, otherwise it breaks SLES-15 builds.
+
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.0
 
