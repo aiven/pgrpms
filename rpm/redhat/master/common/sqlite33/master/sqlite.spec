@@ -14,9 +14,9 @@
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	Public Domain
-URL:		http://www.sqlite.org/
+URL:		https://www.sqlite.org/
 
 Source0:	http://www.sqlite.org/2019/sqlite-src-%{realver}.zip
 Source1:	http://www.sqlite.org/2019/sqlite-doc-%{docver}.zip
@@ -124,7 +124,7 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 		-DSQLITE_ENABLE_RTREE=1 -DSQLITE_SECURE_DELETE=1 \
 		-DSQLITE_ENABLE_UNLOCK_NOTIFY=1 -DSQLITE_ENABLE_DBSTAT_VTAB=1 \
 		-DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
-		-Wall -fno-strict-aliasing"
+		-DSQLITE=THREADSAFE=2 -Wall -fno-strict-aliasing"
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -191,6 +191,10 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Wed Feb 17 2021 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-5
+- Add full multithreading support, per
+  https://redmine.postgresql.org/issues/5189
+
 * Wed May 6 2020 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-4
 - Add ppc64le support. Patch from Talha Bin Rizwan
 
