@@ -1215,10 +1215,8 @@ fi
 %{pgbaseinstdir}/bin/oid2name
 %{pgbaseinstdir}/bin/vacuumlo
 %{pgbaseinstdir}/bin/pg_recvlogical
-%{pgbaseinstdir}/bin/pg_standby
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
-%{pgbaseinstdir}/share/man/man1/pg_standby.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
 
 %files libs -f pg_libpq5.lst
