@@ -1273,6 +1273,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
+%{pgbaseinstdir}/share/system_constraints.sql
 %{pgbaseinstdir}/share/system_views.sql
 %{pgbaseinstdir}/share/*.sample
 %{pgbaseinstdir}/share/timezonesets/*
