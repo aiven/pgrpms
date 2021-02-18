@@ -1,6 +1,6 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	11.4
+Version:	11.5
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -47,6 +47,9 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Thu Feb 18 2021 - Devrim Gündüz <devrim@gunduz.org> 11.5-1
+- Update to 11.5
+
 * Tue Nov 24 2020 - Devrim Gündüz <devrim@gunduz.org> 11.4-1
 - Update to 11.4
 
