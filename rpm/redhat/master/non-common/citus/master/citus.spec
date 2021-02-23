@@ -6,10 +6,24 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
 Version:	10.0.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -17,8 +31,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 BuildRequires:	libcurl-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-Requires(post):	%{_sbindir}/update-alternatives
-Requires(postun):	%{_sbindir}/update-alternatives
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -46,6 +58,31 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 This package includes development libraries for Citus.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for Citus
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for Citus
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -81,26 +118,25 @@ make %{?_smp_mflags}
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
-   %{pginstdir}/lib/bitcode/columnar/*.bc
-  %endif
- %endif
-%endif
 
 %files devel
 %defattr(-,root,root,-)
 %{pginstdir}/include/server/citus_version.h
 %{pginstdir}/include/server/distributed/*.h
 
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
+    %{pginstdir}/lib/bitcode/columnar/*.bc
+%endif
+
 %changelog
-* Mon Feb 22 2021 Devrim Gündüz <devrim@gunduz.org> 10.0.1
+* Mon Feb 22 2021 Devrim Gündüz <devrim@gunduz.org> 10.0.1-2
+- Split llvmjit into its own subpackage.
+
+* Mon Feb 22 2021 Devrim Gündüz <devrim@gunduz.org> 10.0.1-1
 - Update to 10.0.1
 
 * Mon Feb 22 2021 Devrim Gündüz <devrim@gunduz.org> 9.5.4-1
