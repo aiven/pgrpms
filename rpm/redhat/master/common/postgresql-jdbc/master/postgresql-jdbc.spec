@@ -2,7 +2,7 @@
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
 Version:	42.2.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -43,6 +43,12 @@ PostgreSQL is an advanced Object-Relational database management
 system. The postgresql-jdbc package includes the .jar files needed for
 Java programs to access a PostgreSQL database.
 
+%package javadoc
+Summary:	API docs for %{name}
+
+%description javadoc
+This package contains the API Documentation for %{name}.
+
 %prep
 %setup -q -n postgresql-%{version}-jdbc-src
 %if 0%{?suse_version}
@@ -67,9 +73,9 @@ export CLASSPATH=
 # upstream to have updated the translations files before packaging.
 
 %if 0%{?rhel} == 7
-/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests package
+/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests -Pjavadoc package
 %else
-mvn -DskipTests package
+mvn -DskipTests -Pjavadoc package
 %endif
 
 %install
@@ -90,6 +96,10 @@ popd
 sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 %{__install} -d -m 755 %{buildroot}%{_mavenpomdir}/
 %{__install} -m 644 JPP-%{name}.pom %{buildroot}%{_mavenpomdir}/JPP-%{name}.pom
+
+%{__install} -d -m 755 %{buildroot}%{_javadocdir}
+%{__cp} -ra target/apidocs %{buildroot}%{_javadocdir}/%{name}
+%{__install} -d target/apidocs docs/%{name}
 
 %check
 %if 0%{?runselftest}
@@ -134,8 +144,14 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
 %{_javadir}/postgresql-jdbc3.jar
+%files javadoc
+%doc LICENSE
+%doc %{_javadocdir}/%{name}
 
 %changelog
+* Mon Feb 22 2021 - John Harvey <john.harvey@crunchydata.com> 42.2.19-2
+- Add maven profile for javadoc and restore javadoc package
+
 * Fri Feb 19 2021 Devrim Gündüz <devrim@gunduz.org> - 42.2.19-1
 - Update to 42.2.19
 - Remove javadoc package -- upstream removed its contents
