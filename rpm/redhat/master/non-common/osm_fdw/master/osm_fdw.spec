@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname osm_fdw
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -7,13 +6,26 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.0.0
-Release:	2%{?dist}
+Version:	4.1.1
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Patch1:		%{sname}-missinginclude.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel pgdg-srpm-macros
@@ -31,9 +43,33 @@ Obsoletes:	%{sname}_%{pgmajorversion} < 4.0.0-2
 This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
 handler of PostgreSQL which provides easy way for interacting with osm.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for osm_fdw
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for osm_fdw
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 %patch1 -p0
 
 %build
@@ -42,7 +78,7 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -50,7 +86,7 @@ handler of PostgreSQL which provides easy way for interacting with osm.
 %{__install} -d %{buildroot}%{pginstdir}/
 %{__install} -d %{buildroot}%{pginstdir}/bin/
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -69,20 +105,20 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %attr(755,root,root) %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
-  %endif
- %endif
+
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
 %endif
 
 %changelog
+* Wed Feb 24 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.1-1
+- Update to 4.1.1
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 4.0.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
