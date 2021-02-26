@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname osm_fdw
 
 %if 0%{?rhel} && 0%{?rhel} == 7
