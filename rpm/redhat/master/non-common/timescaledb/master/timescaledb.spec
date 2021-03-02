@@ -48,10 +48,7 @@ support.
 
 # Build only the portions that have Apache Licence, and disable telemetry:
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
-	-DPROJECT_INSTALL_METHOD=pgdg -DREGRESS_CHECKS=OFF \
-	-DWARNINGS_AS_ERRORS=OFF
-# The flag above is a temporary solution for 2.0.0.
-# https://github.com/timescale/timescaledb/issues/2770
+	-DPROJECT_INSTALL_METHOD=pgdg -DREGRESS_CHECKS=OFF
 
 %build
 %ifarch ppc64 ppc64le
