@@ -845,6 +845,9 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7 %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
+# These file(s) should not be packaged:
+%{__rm} %{buildroot}%{pginstdir}/lib/libpgfeutils.a
+
 # initialize file lists
 %{__cp} /dev/null main.lst
 %{__cp} /dev/null libs.lst
@@ -1223,7 +1226,6 @@ fi
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/libpq.so.*
 %{pgbaseinstdir}/lib/libecpg.so*
-%{pgbaseinstdir}/lib/libpgfeutils.a
 %{pgbaseinstdir}/lib/libpgtypes.so.*
 %{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
