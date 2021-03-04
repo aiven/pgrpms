@@ -1,8 +1,8 @@
 %global		name perl-DBD-Oracle
 %global		pkgname %(echo %{name}| sed 's/perl-//')
 %{!?version:%global version 1.80}
-%{!?oi_ver:%global oi_ver instantclient19.8}
-%{!?oi_release:%global oi_release 19.8.0.0.0}
+%{!?oi_ver:%global oi_ver instantclient21.1}
+%{!?oi_release:%global oi_release 21.1.0.0.0}
 %global		release %{oi_release}%{dist}
 %global		perl_vendorarch %(eval "$(%{__perl} -V:installvendorarch)"; echo $installvendorarch)
 %global		_use_internal_dependency_generator 0
@@ -67,6 +67,9 @@ chmod 755 %{custom_find_req}
 %{_mandir}/man3/*
 
 %changelog
+* Thu Mar 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.80-4
+- Rebuild for instant client 21.1.0.0.0
+
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.80-3
 - Rebuild for instant client 19.8.0.0.0
 
