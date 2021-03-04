@@ -1,0 +1,11 @@
+--- Makefile.PL.old	2021-03-04 11:38:07.453000000 +0000
++++ Makefile.PL	2021-03-04 11:39:16.468000000 +0000
+@@ -1704,7 +1704,7 @@
+ 	$client_version_full = $force_version;
+     }
+ 
+-    if ($client_version_full && $client_version_full !~ m/^(7|8|9|1\d)\.\d+/
++    if ($client_version_full && $client_version_full !~ m/^([789]|[12][0-9])\.[0-9]+/
+     ) {
+ 	print "Oracle version seems to be $client_version_full but that looks wrong so I'll ignore it.\n";
+ 	$client_version_full = "";

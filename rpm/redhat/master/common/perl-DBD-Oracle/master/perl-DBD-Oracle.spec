@@ -17,14 +17,17 @@ Summary:	DBD-Oracle - Oracle database driver for the DBI module
 License:	GPL+ or Artistic
 URL:		https://github.com/pythian/DBD-Oracle
 Source0:	https://www.cpan.org/modules/by-module/DBD/DBD-Oracle-1.80.tar.gz
+# A temp patch until the next release of perl-DBD-Oracle
+# so that it recognizes the new packaging as of OIC 21
+Patch0:		%{name}-OIC21.patch
 Requires:	libaio
 Requires:	perl(:MODULE_COMPAT_%(eval "$(%{__perl} -V:version)"; echo $version))
 Requires:	perl(ExtUtils::MakeMaker) >= 6.30
 BuildRequires:	perl(DBI) >= 1.51 perl(ExtUtils::MakeMaker) >= 6.30
 Requires:	perl(DBI) >= 1.51
-Requires:	oracle-%{oi_ver}-basic = %{oi_release}
-BuildRequires:	oracle-%{oi_ver}-devel = %{oi_release}
-BuildRequires:	oracle-%{oi_ver}-sqlplus = %{oi_release}
+Requires:	oracle-instantclient-basic = %{oi_release}
+BuildRequires:	oracle-instantclient-devel = %{oi_release}
+BuildRequires:	oracle-instantclient-sqlplus = %{oi_release}
 Provides:	perl(DBD-Oracle) = %{version}
 
 %description
@@ -36,12 +39,13 @@ In any case consult the DBI documentation first!
 
 %prep
 %setup -q -n %{pkgname}-%{version}
+%patch0 -p0
 chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 
 %build
-export ORACLE_HOME=$(dirname $(dirname $(rpm -ql oracle-%{oi_ver}-sqlplus | grep '/usr/lib/oracle/.*/sqlplus')))
+export ORACLE_HOME=$(dirname $(dirname $(rpm -ql oracle-instantclient-sqlplus | grep '/usr/lib/oracle/.*/sqlplus')))
 export LD_LIBRARY_PATH=$ORACLE_HOME/lib
-MKFILE=$(rpm -ql oracle-%{oi_ver}-devel | grep demo.mk)
+MKFILE=$(rpm -ql oracle-instantclient-devel | grep demo.mk)
 %{__perl} Makefile.PL -m $MKFILE INSTALLDIRS="vendor" PREFIX=%{_prefix} -V %{oi_release}
 %{__make} %{?_smp_mflags} OPTIMIZE="%{optflags}"
 
@@ -69,6 +73,8 @@ chmod 755 %{custom_find_req}
 %changelog
 * Thu Mar 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.80-4
 - Rebuild for instant client 21.1.0.0.0
+- Add a temp patch until the next release of perl-DBD-Oracle,
+  so that it recognizes the new packaging as of OIC 21.
 
 * Thu Sep 24 2020 Devrim Gündüz <devrim@gunduz.org> - 1.80-3
 - Rebuild for instant client 19.8.0.0.0
