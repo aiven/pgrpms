@@ -22,8 +22,8 @@
 
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
-Version:	10.0.1
-Release:	2%{dist}
+Version:	10.0.2
+Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -133,6 +133,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Fri Mar 5 2021 Devrim Gündüz <devrim@gunduz.org> 10.0.2-1
+- Update to 10.0.2
+
 * Mon Feb 22 2021 Devrim Gündüz <devrim@gunduz.org> 10.0.1-2
 - Split llvmjit into its own subpackage.
 
