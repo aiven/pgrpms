@@ -1,1 +1,0 @@
-../master/pgadmin4-filter-requires-python.sh

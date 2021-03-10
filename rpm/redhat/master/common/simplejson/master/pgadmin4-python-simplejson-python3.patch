@@ -1,8 +1,0 @@
---- scripts/make_docs.py.old	2019-09-27 10:10:54.351406369 +0100
-+++ scripts/make_docs.py	2019-09-27 10:10:56.480419706 +0100
-@@ -1,4 +1,4 @@
--#!/usr/bin/env python
-+#!/usr/bin/env python3
- import os
- import subprocess
- 
