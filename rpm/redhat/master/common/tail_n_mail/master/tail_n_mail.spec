@@ -1,6 +1,6 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
-Version:	3.0.0
+Version:	3.3.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
@@ -38,6 +38,9 @@ ln -s %{_bindir}/%{name} %{buildroot}/%{_bindir}/%{name}.pl
 %attr(644,root,root) %{_docdir}/%{name}/README.md
 
 %changelog
+* Wed Mar 10 2021 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1
+- Update to 3.3.0
+
 * Wed Aug 19 2020 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 
