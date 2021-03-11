@@ -22,8 +22,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.15.3
-Release:	2%{?dist}
+Version:	1.16.0
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -115,6 +115,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Mar 11 2021 Devrim Gündüz <devrim@gunduz.org> 1.16.0-1
+- Update to 1.16.0
+
 * Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> 1.15.3-2
 - Split llvmjit into separate package
 
