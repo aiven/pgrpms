@@ -1,1 +1,1 @@
-../main/pgadmin4-repo.spec
+../EL-7/pgadmin4-repo.spec

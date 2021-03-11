@@ -1,7 +1,7 @@
 Name:		pgadmin4-fedora-repo
 Version:	0.9
 Release:	1
-Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
+Summary:	pgAdmin4 repo switch configuration for PGDG - Fedora
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
 Source0:	PGADMIN_PKG_KEY
