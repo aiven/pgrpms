@@ -2,7 +2,7 @@
 
 Summary:	PostgreSQL backup daemon and restore tooling for cloud object storage
 Name:		pghoard
-Version:	2.1.0
+Version:	2.1.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{name}/archive/%{version}.tar.gz
@@ -54,6 +54,9 @@ sed -e "s@#!/bin/python@#!%{_bindir}/python@" -i %{buildroot}%{_bindir}/*
 %license LICENSE
 
 %changelog
+* Thu Mar 11 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-1
+- Update to 2.1.1
+
 * Sat Feb 8 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
