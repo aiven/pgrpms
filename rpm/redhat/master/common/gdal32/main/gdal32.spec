@@ -53,8 +53,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}32
-Version:	3.2.1
-Release:	3%{?dist}
+Version:	3.2.2
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -674,6 +674,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Mar 10 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-1
+- Update to 3.2.2
+
 * Sun Jan 31 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-3
 - Disable elastic driver on RHEL 7, per upstream:
   https://github.com/OSGeo/gdal/issues/3422
