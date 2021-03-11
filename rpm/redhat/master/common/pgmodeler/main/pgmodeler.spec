@@ -4,13 +4,13 @@
 
 Name:		pgmodeler
 Version:	0.9.3
-Release:	beta1_1%{?dist}
+Release:	1%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
 URL:		http://pgmodeler.io/
-Source0:	https://github.com/pgmodeler/pgmodeler/archive/v0.9.3-beta1.tar.gz
+Source0:	https://github.com/%{name}/%{name}/archive/v%{version}.tar.gz
 Source2:	%{name}.desktop
-Source3:	pgmodeler-mime-dbm.xml
+Source3:	%{name}-mime-dbm.xml
 
 Requires:	hicolor-icon-theme shared-mime-info libpq5
 BuildRequires:	qt5-qtbase-devel libxml2-devel libpq5-devel
@@ -30,7 +30,7 @@ by the user to SQL code and apply them onto database clusters (Version
 9.x).
 
 %prep
-%setup -q -n %{name}-%{version}-beta1
+%setup -q -n %{name}-%{version}
 
 %build
 
@@ -87,6 +87,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Thu Mar 11 2021 Devrim Gündüz <devrim@gunduz.org> 0.9.3-1
+- Update to 0.9.3
+
 * Sun Nov 15 2020 Devrim Gündüz <devrim@gunduz.org> 0.9.3-beta1-1
 - Initial packaging for PostgreSQL RPM repository. This is an improved
   version of the spec file written by Pavel Alexeev <Pahan@Hubbitus.info
