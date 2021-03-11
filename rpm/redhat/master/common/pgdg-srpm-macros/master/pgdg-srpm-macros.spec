@@ -47,7 +47,7 @@ echo no build stage needed
 
 %changelog
 * Mon Mar 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.13-1
-- Update PROJ to 8.0.0
+- Update PROJ to 8.0.0, GDAL to 3.2.2 and GeOS to 3.9.1
 
 * Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.12-1
 - Introduce pgdg_set_llvm_variables macro, to specify which
