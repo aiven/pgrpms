@@ -1,6 +1,6 @@
 Name:		pgadmin4-redhat-repo
 Version:	0.9
-Release:	1
+Release:	2
 Summary:	pgAdmin4 repo switch configuration for PGDG - RHEL
 License:	PostgreSQL
 URL:		https://www.pgadmin.org
@@ -56,6 +56,9 @@ sudo yum install pgadmin4-web
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Thu Feb 25 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
+* Fri Mar 12 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9-2
+- Fix RHEL repo URLs
+
+* Thu Feb 25 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9-1
 - The new repo package
 
