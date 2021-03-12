@@ -5,7 +5,7 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.6.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
