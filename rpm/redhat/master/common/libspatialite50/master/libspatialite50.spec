@@ -41,7 +41,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -147,6 +147,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Fri Mar 12 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-2
+- Rebuild against GeOS 3.9.1 and Proj 8.0.0.
+
 * Mon Feb 15 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-1
 - Update to 5.0.1
 - Add librttopo dependency
