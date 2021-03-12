@@ -8,13 +8,13 @@ Version:	1.6.0
 Release:	1%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
-URL:		http://trac.osgeo.org/geotiff/
-Source0:	http://download.osgeo.org/geotiff/libgeotiff/libgeotiff-%{version}.tar.gz
+URL:		https://github.com/OSGeo/%{sname}
+Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.5
+BuildRequires:	pgdg-srpm-macros >= 1.0.13
 
-Obsoletes:	libgeotiff15 >= 1.5.0
+Obsoletes:	%{sname}15 >= 1.5.0
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -27,7 +27,7 @@ Summary:	Development Libraries for the GeoTIFF file format library
 Requires:	pkgconfig libtiff-devel
 Requires:	%{name} = %{version}-%{release}
 
-Obsoletes:	libgeotiff15-devel >= 1.5.0
+Obsoletes:	%{sname}15-devel >= 1.5.0
 
 %description devel
 The GeoTIFF library provides support for development of geotiff image format.
@@ -138,5 +138,9 @@ EOF
 
 
 %changelog
+* Fri Mar 12 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-2
+- Rebuild against Proj 8.0.0
+- Update URLs
+
 * Mon May 4 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
 - Initial packaging for PostgreSQL RPM repository.
