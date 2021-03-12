@@ -39,8 +39,8 @@ Version:	4.3.0a
 Release:	16%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
-URL:		https://www.gaia-gis.it/fossil/libspatialite
-Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-%{version}.tar.gz
+URL:		https://www.gaia-gis.it/fossil/%{sname}
+Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.tar.gz
 Source1:	%{name}-pgdg-libs.conf
 
 Patch0:		%{name}-proj_api.h-configure.patch
