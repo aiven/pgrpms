@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 14
+%global orafcemidver 15
 %global orafceminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -12,7 +12,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/orafce/orafce
@@ -74,6 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Mar 15 2021 Devrim Gündüz <devrim@gunduz.org> 3.15.0-1
+- Update to 3.15.0
+
 * Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 3.14.0-2
 - Export PATH for pg_config, to get rid of patches.
 
