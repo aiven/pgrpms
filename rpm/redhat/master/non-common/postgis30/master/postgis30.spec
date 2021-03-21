@@ -13,6 +13,12 @@
 
 %pgdg_set_gis_variables
 
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global projmajorversion 72
+%endif
+
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?suse_version} >= 1315
@@ -41,7 +47,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -374,6 +380,11 @@ fi
 %endif
 
 %changelog
+* Sun Mar 21 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-6
+- Rebuild Proj 8.0.0 (except on RHEL 7) and GeOS 3.9.1
+- Override PROJ major version on RHEL 7. libspatialite 4.3
+  does not build against 8.0.0 as of March 2021.
+
 * Fri Feb 12 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-5
 - Backport more fixes from 3.1 spec file
 
