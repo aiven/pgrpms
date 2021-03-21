@@ -98,6 +98,16 @@ BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 
+# lz4 dependency
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4
+%endif
+
 # This dependency is needed for Source 16:
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:	perl-generators
@@ -601,6 +611,7 @@ export PYTHON=/usr/bin/python3
 	--mandir=%{pgbaseinstdir}/share/man \
 	--datadir=%{pgbaseinstdir}/share \
 	--libdir=%{pgbaseinstdir}/lib \
+	--with-lz4 \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
@@ -1221,8 +1232,10 @@ fi
 %{pgbaseinstdir}/share/extension/xml2*
 %endif
 %{pgbaseinstdir}/bin/oid2name
-%{pgbaseinstdir}/bin/vacuumlo
+%{pgbaseinstdir}/bin/pg_amcheck
 %{pgbaseinstdir}/bin/pg_recvlogical
+%{pgbaseinstdir}/bin/vacuumlo
+%{pgbaseinstdir}/share/man/man1/pg_amcheck.1
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
