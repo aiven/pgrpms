@@ -21,6 +21,12 @@
 
 %pgdg_set_gis_variables
 
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global projmajorversion 72
+%endif
+
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
 #TODO: msg needs to have PublicDecompWT.zip from EUMETSAT, which is not free;
@@ -54,7 +60,7 @@
 
 Name:		%{sname}32
 Version:	3.2.2
-Release:	1%{?dist}
+Release:	12%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -674,6 +680,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Mar 21 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-2
+- Override PROJ major version on RHEL 7. libspatialite 4.3
+  does not build against 8.0.0 as of March 2021.
+
 * Wed Mar 10 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-1
 - Update to 3.2.2
 
