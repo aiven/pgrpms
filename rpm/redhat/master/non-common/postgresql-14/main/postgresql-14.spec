@@ -1235,7 +1235,6 @@ fi
 %{pgbaseinstdir}/bin/pg_amcheck
 %{pgbaseinstdir}/bin/pg_recvlogical
 %{pgbaseinstdir}/bin/vacuumlo
-%{pgbaseinstdir}/share/man/man1/pg_amcheck.1
 %{pgbaseinstdir}/share/man/man1/oid2name.1
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
