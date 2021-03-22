@@ -25,6 +25,7 @@
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global projmajorversion 72
+%global projfullversion 7.2.1
 %endif
 
 #TODO: g2clib and grib (said to be modified)
@@ -60,7 +61,7 @@
 
 Name:		%{sname}32
 Version:	3.2.2
-Release:	13%{?dist}
+Release:	14%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -680,6 +681,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-14
+- On RHEL 7, override Proj minor version as well. :(
+
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-13
 - Bump up Proj so major version
 
