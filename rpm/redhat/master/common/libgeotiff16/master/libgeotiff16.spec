@@ -8,11 +8,12 @@
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global projmajorversion 72
 %global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
 %endif
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.6.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
@@ -145,6 +146,9 @@ EOF
 
 
 %changelog
+* Mon Mar 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-4
+- Emergency commit to fix RHEL 7 issues.
+
 * Mon Mar 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-3
 - Override PROJ major version on RHEL 7. libspatialite 4.3
   does not build against 8.0.0 as of March 2021.
