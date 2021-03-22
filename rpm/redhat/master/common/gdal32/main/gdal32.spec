@@ -11,13 +11,14 @@
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global sqlitepname	sqlite33
 %global sqlitelibdir	/usr/sqlite330/lib
+# Major digit of the proj so version
+%global proj_somaj 19
 %else
 %global sqlitepname	sqlite
 %global sqlitelibdir	%{_libdir}
-%endif
-
 # Major digit of the proj so version
 %global proj_somaj 22
+%endif
 
 %pgdg_set_gis_variables
 
@@ -26,6 +27,7 @@
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global projmajorversion 72
 %global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
 %endif
 
 #TODO: g2clib and grib (said to be modified)
@@ -61,7 +63,7 @@
 
 Name:		%{sname}32
 Version:	3.2.2
-Release:	14%{?dist}
+Release:	15%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -681,6 +683,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-15
+- Emergency RHEL 7 patch
+
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-14
 - On RHEL 7, override Proj minor version as well. :(
 
