@@ -13,13 +13,11 @@
 
 %pgdg_set_gis_variables
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
+# Override PROJ major version on PostGIS 2.5
+# Does not build against Proj >= 8.0.0
 %global projmajorversion 72
 %global projfullversion 7.2.1
 %global projinstdir /usr/proj%{projmajorversion}
-%endif
 
 %{!?utils:%global	utils 1}
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -400,9 +398,10 @@ fi
 
 %changelog
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-4
-- Rebuild against Proj 8.0.0 (except on RHEL 7) and GeOS 3.9.1
-- Override PROJ major version on RHEL 7. libspatialite 4.3
-  does not build against 8.0.0 as of March 2021.
+- Rebuild against GeOS 3.9.1
+- Override PROJ major version. PostGIS 2.5 does not build against
+  Proj 8.0.0
+
 
 * Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-3
 - Rebuild against GeOS 3.9.0
