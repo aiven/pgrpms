@@ -369,7 +369,7 @@ fi
 
 %changelog
 * Sun Mar 21 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-2
-- Rebuild Proj 8.0.0 (except on RHEL 7) and GeOS 3.9.1
+- Rebuild against Proj 8.0.0 (except on RHEL 7) and GeOS 3.9.1
 - Override PROJ major version on RHEL 7. libspatialite 4.3
   does not build against 8.0.0 as of March 2021.
 
