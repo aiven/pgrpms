@@ -16,6 +16,7 @@
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
 %global projmajorversion 72
+%global projfullversion 7.2.1
 %endif
 
 %{!?utils:%global	utils 1}
