@@ -23,7 +23,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.2
-Release:	10PGDG%{?dist}
+Release:	11PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -49,6 +49,10 @@ BuildRequires:	openldap-devel
 %endif
 
 BuildRequires:	gettext >= 0.10.35
+
+%ifarch ppc64 ppc64le
+%pgdg_set_ppc64le_min_requires
+%endif
 
 %if %selinux
 # All supported distros have libselinux-devel package:
@@ -114,6 +118,11 @@ Requires:	%name%{?_isa} = %version-%release
 The libpq5 package provides the essential shared library for any PostgreSQL
 client program or interface.  You will need to install this package to build any
 package or any clients that need to connect to a PostgreSQL server.
+
+%ifarch ppc64 ppc64le
+AutoReq:	0
+Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -230,6 +239,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Tue Mar 23 2021 Devrim Gündüz <devrim@gunduz.org> - 13.2-11PGDG
+- Add a few dependencies for ppc64le.
+
 * Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 13.2-10PGDG
 - Update to 13.2
 
