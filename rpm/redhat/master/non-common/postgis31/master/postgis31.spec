@@ -18,11 +18,6 @@
 %global projmajorversion 72
 %global projfullversion 7.2.1
 %global projinstdir /usr/proj%{projmajorversion}
-%else
-# Invent a new macro so that we can apply
-# Proj 8.0 patch. Should be removed in next
-# minor release, but must check.
-%{!?raster:%global     proj80 1}
 %endif
 
 %{!?utils:%global	utils 1}
@@ -59,9 +54,7 @@ Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
-%if %{proj80}
 Patch1:		%{sname}%{postgiscurrmajorversion}-proj80.patch
-%endif
 
 URL:		http://www.postgis.net/
 
@@ -210,9 +203,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
-%if %{proj80}
 %patch1 -p0
-%endif
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -231,9 +222,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdali
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 
-%if %{proj80}
 autoconf
-%endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
