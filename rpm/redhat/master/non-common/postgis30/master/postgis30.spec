@@ -49,12 +49,13 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
+Patch1:		%{sname}%{postgiscurrmajorversion}-proj80.patch
 
 URL:		http://www.postgis.net/
 
@@ -207,6 +208,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
+%patch1 -p0
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -224,6 +226,8 @@ SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -L/usr/lib64/ -ltiff"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
+
+autoconf
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -382,6 +386,10 @@ fi
 %endif
 
 %changelog
+* Sun Mar 28 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-8
+- Add a patch to support PROJ 8.0, too. Could be removed in
+  next minor version.
+
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-7
 - Emergency RHEL 7 patches
 

@@ -1,0 +1,17 @@
+--- configure.ac.old	2021-03-28 20:37:21.273215045 +0100
++++ configure.ac	2021-03-28 20:38:09.304248266 +0100
+@@ -902,9 +902,11 @@
+ dnl Ensure we can link against libproj
+ LIBS_SAVE="$LIBS"
+ LIBS="$PROJ_LDFLAGS"
+-AC_CHECK_LIB([proj], [pj_get_release],
+-	[],
+-	[AC_MSG_ERROR([could not find libproj - you may need to specify the directory of a PROJ installation using --with-projdir])],
++AC_CHECK_LIB([proj], [pj_get_release], [],
++	[AC_CHECK_LIB([proj], [proj_info], [],
++		[AC_MSG_ERROR([could not find libproj - you may need to specify the directory of a PROJ installation using --with-projdir])],
++		[]
++		)],
+ 	[])
+ LIBS="$LIBS_SAVE"
+ 
