@@ -375,8 +375,8 @@ fi
 
 %changelog
 * Sun Mar 28 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-4
-- Invent a new macro so that we can apply Proj 8.0-only patch.
-  Should be removed in next minor release, but must check.
+- Add a patch to support PROJ 8.0, too. Could be removed in
+  next minor version.
 
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-3
 - Emergency RHEL 7 patches
