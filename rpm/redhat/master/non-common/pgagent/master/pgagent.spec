@@ -15,8 +15,8 @@
 
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.0.0
-Release:	5%{?dist}
+Version:	4.2.1
+Release:	0%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -189,6 +189,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Apr 1 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1
+- Update to 4.2.1
+
 * Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-5
 - Use cmake3 macro to build packages, and define vpath_builddir macro
   manually. This will solve the FTBFS issue on Fedora 33, per:
