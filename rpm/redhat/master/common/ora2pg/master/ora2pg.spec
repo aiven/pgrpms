@@ -1,6 +1,6 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	21.0
+Version:	21.1
 Release:	1%{?dist}
 License:	GPLv3
 URL:		http://ora2pg.darold.net/
@@ -61,6 +61,9 @@ Oracle database to a PostgreSQL database.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Fri Apr 2 2021 Devrim Gündüz <devrim@gunduz.org> 21.1-1
+- Update to 21.1
+
 * Tue Oct 13 2020 Devrim Gündüz <devrim@gunduz.org> 21.0-1
 - Update to 21.0
 
