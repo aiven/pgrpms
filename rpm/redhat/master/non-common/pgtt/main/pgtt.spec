@@ -8,11 +8,10 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2
+Version:	2.3
 Release:	1%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/darold/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -37,7 +36,6 @@ PostgreSQL temporary tables.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -46,11 +44,11 @@ PostgreSQL temporary tables.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory with a better name:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -75,5 +73,9 @@ USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Fri Apr 2 2021 Devrim Gündüz <devrim@gunduz.org> 2.3-1
+- Update to 2.3
+- Export PATH, and remove pgxs patches.
+
 * Tue Nov 17 2020 Devrim Gündüz <devrim@gunduz.org> 2.2-1
 - Initial packaging for PostgreSQL RPM repository
