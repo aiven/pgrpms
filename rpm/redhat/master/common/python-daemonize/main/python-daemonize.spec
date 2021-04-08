@@ -35,4 +35,5 @@ daemonize is a library for writing system daemons in Python.
 
 %changelog
 * Thu Dec 10 2020 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-8
-- Initial packaging to satisfy pg_chameleon dependency on RHEL 7.
+- Initial packaging to satisfy pg_chameleon dependency on
+  RHEL 7 and 8.
