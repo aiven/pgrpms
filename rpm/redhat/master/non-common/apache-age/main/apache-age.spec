@@ -22,11 +22,11 @@
 
 Summary:	A Graph Extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.3.0
+Version:	0.4.0
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/apache/incubator-age
-Source0:	https://github.com/apache/incubator-age/archive/v%{version}.rc0-incubating.tar.gz
+Source0:	https://github.com/apache/incubator-age/archive/refs/tags/%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel flex
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -72,7 +72,7 @@ This packages provides JIT support for Age
 %endif
 
 %prep
-%setup -q -n incubator-age-%{version}.rc0-incubating
+%setup -q -n incubator-age-%{version}
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -107,5 +107,8 @@ This packages provides JIT support for Age
 %endif
 
 %changelog
+* Thu Apr 8 2021 Devrim Gündüz <devrim@gunduz.org> 0.4.0-1
+- Update to 0.4.0
+
 * Sat Mar 6 2021 Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
 - Initial packaging for PostgreSQL RPM repository.
