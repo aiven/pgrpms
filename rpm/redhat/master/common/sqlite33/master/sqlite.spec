@@ -14,7 +14,7 @@
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	Public Domain
 URL:		https://www.sqlite.org/
 
@@ -156,14 +156,27 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %if ! %{with static}
 %{__rm} -f $RPM_BUILD_ROOT/%{sqlite33instdir}/lib/*.{la,a}
 %endif
+# Create linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+echo "%{sqlite33instdir}/lib/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
+
 
 %post libs
 %ifarch ppc64 ppc64le
 %if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
+	%{atpath}/sbin/ldconfig
 %endif
 %else
-/sbin/ldconfig
+	/sbin/ldconfig
+%endif
+
+%postun libs
+%ifarch ppc64 ppc64le
+%if 0%{?rhel} && 0%{?rhel} == 7
+	%{atpath}/sbin/ldconfig
+%endif
+%else
+	/sbin/ldconfig
 %endif
 
 %files
@@ -173,6 +186,7 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %files libs
 %doc README.md
 %{sqlite33instdir}/lib/*.so.*
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %{sqlite33instdir}/include/*.h
@@ -191,6 +205,9 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Fri Apr 9 2021 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-6
+- Add linker config file, per #6373
+
 * Wed Feb 17 2021 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-5
 - Add full multithreading support, per
   https://redmine.postgresql.org/issues/5189
