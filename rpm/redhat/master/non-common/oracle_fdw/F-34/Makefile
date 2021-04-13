@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f33
+DIST=.f34
 SPECFILE="oracle_fdw.spec"
 
 # Now, include global Makefile

@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f33
+DIST=.f34
 SPECFILE="table_version.spec"
 
 # Now, include global Makefile
