@@ -1,0 +1,1 @@
+../master/pitrery.spec

@@ -1,0 +1,1 @@
+../master/wal2mongo.spec

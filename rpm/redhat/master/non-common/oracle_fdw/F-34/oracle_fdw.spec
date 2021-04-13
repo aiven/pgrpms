@@ -1,0 +1,1 @@
+../master/oracle_fdw.spec
