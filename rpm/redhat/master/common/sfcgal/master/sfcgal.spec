@@ -23,13 +23,14 @@ BuildRequires:	CGAL-devel >= 4.7
 %endif
 %if 0%{?fedora} && 0%{?fedora} >= 33
 Version:	1.3.9
+BuildRequires:	CGAL-devel >= 5.1.0
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -182,6 +183,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Wed Apr 14 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-5
+- Add BR for Fedora 33+
+
 * Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.9-4
 - Add proper SLES 15 support
 
