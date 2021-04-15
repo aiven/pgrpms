@@ -1,16 +1,21 @@
  %global debug_package %{nil}
 
 %global sname pg_bulkload
-# Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_16
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
+%if %{pgmajorversion} == 13
+Version:	3.1.17
+# Please note underscores -- this reflects the tarball name:
+%global pgbulkloadpackagever 3_1_17
+%else
 Version:	3.1.16
-Release:	2%{?dist}
+# Please note underscores -- this reflects the tarball name:
+%global pgbulkloadpackagever 3_1_16
+%endif
+Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
 BuildRequires:	libsepol-devel readline-devel krb5-devel
@@ -31,14 +36,13 @@ pg_bulkload client subpackage provides client-only tools.
 
 %prep
 %setup -q -n %{sname}-VERSION%{pgbulkloadpackagever}
-%patch0 -p0
 
 %build
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
+PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -75,6 +79,10 @@ pg_bulkload client subpackage provides client-only tools.
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Thu Apr 15 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.17-1
+- Update to 3.1.17
+- Export PATH, and remove pgxs patches.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.1.16-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
