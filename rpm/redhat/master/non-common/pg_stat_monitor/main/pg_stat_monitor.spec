@@ -1,8 +1,8 @@
 %global sname pg_stat_monitor
 
 %global monitormajver 0
-%global monitormidver 7
-%global monitorminver 2
+%global monitormidver 9
+%global monitorminver 1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.7.2
-Release:	2%{?dist}
+Version:	0.9.1
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
 Source0:	https://github.com/percona/%{sname}/archive/REL%{monitormajver}_%{monitormidver}_%{monitorminver}.tar.gz
@@ -84,6 +84,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Apr 15 2021 - Devrim Gündüz <devrim@gunduz.org> 0.9.1-1
+- Update to 0.9.1
+
 * Thu Jan 28 2021 - Devrim Gündüz <devrim@gunduz.org> 0.7.2-2
 - Fix distro part in RPM names.
 
