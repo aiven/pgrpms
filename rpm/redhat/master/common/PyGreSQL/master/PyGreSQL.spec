@@ -10,7 +10,7 @@
 %endif
 
 Name:		PyGreSQL
-Version:	5.2.1
+Version:	5.2.2
 Release:	1%{?dist}
 Summary:	A Python client library for PostgreSQL
 
@@ -23,13 +23,15 @@ URL:		http://www.PyGreSQL.org/
 License:	PostgreSQL or Python
 
 Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
-Patch0:		%{name}-pg%{pgmajorversion}-setup.py-rpm.patch
 
 Provides:	python3-%{name} = %{version}-%{release}
 Provides:	python3-%{name}%{?_isa} = %{version}-%{release}
 %{?python_provide:%python_provide python2-%{name}}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel python3-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel python3-devel
+BuildRequires:	pgdg-srpm-macros libpq5-devel
+
+Requires:	libpq5
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -44,7 +46,6 @@ Python code for accessing a PostgreSQL database.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
 
 # PyGreSQL releases have execute bits on all files
 find -type f -exec chmod 644 {} +
@@ -77,6 +78,10 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Tue Apr 20 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1
+- Update to 5.2.2
+- Use our own libpq5(-devel)
+
 * Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 5.2.1-1
 - Update to 5.2.1
 
