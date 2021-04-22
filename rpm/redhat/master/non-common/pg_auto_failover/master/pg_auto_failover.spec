@@ -9,7 +9,7 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.1
+Version:	1.5.1
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -75,6 +75,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Apr 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
+- Update to 1.5.1
+
 * Sun Dec 20 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
 - Update to 1.4.1
 - Require -contrib subpackage, per:
