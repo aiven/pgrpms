@@ -8,7 +8,7 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
+Version:	1.3.1
 Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -77,6 +77,9 @@ schedule PostgreSQL commands directly from the database.
 %endif
 
 %changelog
+* Thu Apr 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+
 * Thu Oct 8 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
 - Update to 1.3.0
 
