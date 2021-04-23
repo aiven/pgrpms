@@ -1,8 +1,8 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.2.19
-Release:	2%{?dist}
+Version:	42.2.20
+Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -149,6 +149,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Fri Apr 23 2021 Devrim Gündüz <devrim@gunduz.org> - 42.2.20-1
+- Update to 42.2.20
+
 * Mon Feb 22 2021 - John Harvey <john.harvey@crunchydata.com> 42.2.19-2
 - Add maven profile for javadoc and restore javadoc package
 
