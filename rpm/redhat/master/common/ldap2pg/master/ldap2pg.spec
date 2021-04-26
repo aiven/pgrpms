@@ -15,8 +15,8 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
-Version:	5.4
-Release:	2%{?dist}
+Version:	5.5
+Release:	1%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
@@ -114,6 +114,9 @@ done
 %doc docs/
 
 %changelog
+* Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 5.5-1
+- Update to 5.5
+
 * Wed Nov 18 2020 Devrim Gündüz <devrim@gunduz.org> - 5.4-2
 - Fix RHEL 7 dependency, per report from Magnus.
 
