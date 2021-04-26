@@ -16,8 +16,17 @@ URL:		https://gitlab.com/dalibo/%{sname}
 BuildArch:	noarch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server python3-faker
+Requires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-plpython3
+%if 0%{?fedora} || 0%{?rhel} >= 7
+Requires:	python3-faker
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1499
+Requires:	python3-Faker
+%endif
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
