@@ -8,7 +8,7 @@
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.31.1
+Version:	0.31.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
