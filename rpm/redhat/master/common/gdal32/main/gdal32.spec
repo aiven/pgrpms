@@ -106,6 +106,7 @@ BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
+BuildRequires:	gc2lib-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
