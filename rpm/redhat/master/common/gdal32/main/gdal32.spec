@@ -106,7 +106,7 @@ BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
-BuildRequires:	gc2lib-devel
+BuildRequires:	g2clib-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
@@ -380,9 +380,16 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
-%if 0%{?fedora} >= 27 || 0%{?rhel} > 7
+%if 0%{?fedora} >= 34
+%global g2clib g2c_v1.6.2
+%endif
+%if 0%{?fedora} <= 33 || 0%{?rhel} > 7
 %global g2clib g2c_v1.6.0
-%else
+%endif
+%if 0%{?rhel} == 7
+%global g2clib g2c_v1.4.0
+%endif
+%if 0%{?suse_version} >= 1315
 %global g2clib grib2c
 %endif
 
