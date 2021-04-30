@@ -10,6 +10,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/common/redhat/rhel-
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG CentOS Stream stable stable repositories:
 
@@ -19,6 +20,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/13/redhat/rhel-$rel
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch
@@ -26,6 +28,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/12/redhat/rhel-$rel
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch
@@ -33,6 +36,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/11/redhat/rhel-$rel
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream10]
 name=PostgreSQL 10 for CentOS Stream $releasever - $basearch
@@ -40,6 +44,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/10/redhat/rhel-$rel
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream96]
 name=PostgreSQL 9.6 for CentOS Stream $releasever - $basearch
@@ -47,6 +52,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/9.6/redhat/rhel-$re
 enabled=1
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG CentOS Stream Updates Testing common repositories.
 
@@ -56,6 +62,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/common/redh
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG CentOS Stream Updates Testing repositories. (These packages should not be used in production)
 # Available for 11 and above.
@@ -66,6 +73,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/14/redhat/r
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream13-updates-testing]
 name=PostgreSQL 13 for CentOS Stream $releasever - $basearch - Updates testing
@@ -73,6 +81,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/13/redhat/r
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12-updates-testing]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch - Updates testing
@@ -80,6 +89,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/12/redhat/r
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11-updates-testing]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch - Updates testing
@@ -87,6 +97,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/11/redhat/r
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG Red Hat Enterprise Linux / CentOS SRPM testing common repository
 
@@ -96,6 +107,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/common/redhat
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG RHEL / CentOS testing common SRPM repository for all PostgreSQL versions
 
@@ -105,6 +117,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/testing/commo
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # PGDG Source RPMs (SRPM), and their testing repositories:
 
@@ -115,6 +128,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/testing/14/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream13-source-updates-testing]
 name=PostgreSQL 13 for CentOS Stream $releasever - $basearch - Source updates testing
@@ -123,6 +137,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/testing/13/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12-source]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch - Source
@@ -131,6 +146,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/12/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12-source-updates-testing]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch - Source update testing
@@ -139,6 +155,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/testing/12/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11-source]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch - Source
@@ -147,6 +164,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/11/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11-source-updates-testing]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch - Source update testing
@@ -155,6 +173,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/testing/11/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream10-source]
 name=PostgreSQL 10 for CentOS Stream $releasever - $basearch - Source
@@ -163,6 +182,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/10/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream96-source]
 name=PostgreSQL 9.6 for CentOS Stream $releasever - $basearch - Source
@@ -171,6 +191,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/srpms/9.6/redhat/rh
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # Debuginfo/debugsource packages for stable repos
 
@@ -180,6 +201,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/debug/13/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12-updates-debuginfo]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -187,6 +209,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/debug/12/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11-updates-debuginfo]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -194,6 +217,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/debug/11/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream10-updates-debuginfo]
 name=PostgreSQL 10 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -201,6 +225,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/debug/10/redhat/rhe
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream96-updates-debuginfo]
 name=PostgreSQL 9.6 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -208,6 +233,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/debug/9.6/redhat/rh
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 # Debuginfo/debugsource packages for testing repos
 # Available for 11 and above.
@@ -218,6 +244,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/debug/14/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream13-updates-testing-debuginfo]
 name=PostgreSQL 13 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -225,6 +252,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/debug/13/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream12-updates-testing-debuginfo]
 name=PostgreSQL 12 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -232,6 +260,7 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/debug/12/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdgcentosstream11-updates-testing-debuginfo]
 name=PostgreSQL 11 for CentOS Stream $releasever - $basearch - Debuginfo
@@ -239,3 +268,4 @@ baseurl=https://download.postgresql.org/pub/repos/yum/stream/testing/debug/11/re
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
