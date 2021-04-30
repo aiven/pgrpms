@@ -1,11 +1,12 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	15
+Release:	16
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS on aarch64
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64
 Source2:	pgdg-redhat-all.repo
+Source3:	pgdg-redhat-all-rhel8.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 
@@ -25,8 +26,14 @@ and also the GPG key for PGDG RPMs on aarch64.
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
+
+%if 0%{?rhel} && 0%{?rhel} == 8
+%{__install} -pm 644 %{SOURCE3} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
+%else
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
+%endif
 
 %files
 %defattr(-,root,root,-)
@@ -35,6 +42,10 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Fri Apr 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-16
+- Sign repository metadata on RHEL 8+ to fix CVE-2021-20271, per
+  https://access.redhat.com/security/cve/cve-2021-20271
+
 * Thu Feb 25 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-15
 - Remove 9.5 repo
 
@@ -42,7 +53,7 @@ and also the GPG key for PGDG RPMs on aarch64.
 - Add v14 testing repo.
 - Remove 9.4 repo
 
-* Thu Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-13
+* Sun Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-13
 - Add v13 stable repo.
 
 * Fri Aug 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-12
