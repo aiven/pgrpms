@@ -9,12 +9,12 @@ Source2:	pgdg-redhat-all.repo
 Source3:	pgdg-redhat-all-rhel8.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
-Obsoletes:	pgdg-centos12 pgdg-redhat12 pgdg-sl12
-Obsoletes:	pgdg-centos11 pgdg-redhat11 pgdg-sl11
-Obsoletes:	pgdg-centos10 pgdg-redhat10 pgdg-sl10
-Obsoletes:	pgdg-centos96 pgdg-redhat96 pgdg-sl96
-Obsoletes:	pgdg-centos95 pgdg-redhat95 pgdg-sl95
-Obsoletes:	pgdg-centos94 pgdg-redhat94 pgdg-sl94
+Obsoletes:	pgdg-centos12 <= 42.0 pgdg-redhat12 <= 42.0 pgdg-sl12 <= 42.0
+Obsoletes:	pgdg-centos11 <= 42.0 pgdg-redhat11 <= 42.0 pgdg-sl11 <= 42.0
+Obsoletes:	pgdg-centos10 <= 42.0 pgdg-redhat10 <= 42.0 pgdg-sl10 <= 42.0
+Obsoletes:	pgdg-centos96 <= 42.0 pgdg-redhat96 <= 42.0 pgdg-sl96 <= 42.0
+Obsoletes:	pgdg-centos95 <= 42.0 pgdg-redhat95 <= 42.0 pgdg-sl95 <= 42.0
+Obsoletes:	pgdg-centos94 <= 42.0 pgdg-redhat94 <= 42.0 pgdg-sl94 <= 42.0
 
 %description
 This package contains yum configuration for Red Hat Enterprise Linux, CentOS,
