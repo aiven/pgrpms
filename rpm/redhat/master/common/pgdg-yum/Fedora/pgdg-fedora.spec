@@ -8,8 +8,8 @@ Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-fedora-all.repo
 BuildArch:	noarch
 Requires:	/etc/fedora-release
-Obsoletes:	pgdg-fedora94 pgdg-fedora95 pgdg-fedora96
-Obsoletes:	pgdg-fedora10 pgdg-fedora11 pgdg-fedora12
+Obsoletes:	pgdg-fedora94 <= 42.0 pgdg-fedora95 <= 42.0 pgdg-fedora96 <= 42.0
+Obsoletes:	pgdg-fedora10 <= 42.0 pgdg-fedora11 <= 42.0 pgdg-fedora12 <= 42.0
 
 %description
 This package contains yum configuration for Fedora, and also the GPG
@@ -27,7 +27,7 @@ key for PGDG RPMs.
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
-%{__install} -pm 644 %{SOURCE2}  \
+%{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
 
 %files
@@ -48,7 +48,7 @@ key for PGDG RPMs.
 - Add v14 testing repo
 - Remove 9.4 repo
 
-* Thu Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-12
+* Sun Sep 13 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-12
 - Add v13 stable repo.
 
 * Tue Apr 28 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-11
