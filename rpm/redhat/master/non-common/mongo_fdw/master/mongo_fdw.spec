@@ -97,7 +97,7 @@ sh autogen.sh --with-master
 %endif
 
 %changelog
-* Mon Nay 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
+* Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
 - Update to 5.2.8
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 5.2.7-2
