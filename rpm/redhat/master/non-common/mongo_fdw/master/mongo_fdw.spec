@@ -12,6 +12,7 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.8
 Release:	1%{?dist}
 License:	BSD
+URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
 %ifarch ppc64 ppc64le
@@ -22,11 +23,34 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 %ifarch ppc64 ppc64le
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
-URL:		https://github.com/EnterpriseDB/%{sname}
+# Patch to disable mongo-c-driver compilation from sources for rhel7 and ppc64le
+Patch2:		%{sname}-disable-mongoc-sources-rhel7.patch
+
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
-BuildRequires:	mongo-c-driver-devel snappy snappy-devel
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:		libsnappy1 libbson-1_0-0 libmongoc-1_0-0
+BuildRequires:		snappy-devel libbson-1_0-0-devel libmongoc-1_0-0-devel
+BuildRequires:		libopenssl-devel
+%endif
+%else
+# use pgdg-libmongoc and pgdg-libmongoc-devel packages for rhel7
+%if 0%{?rhel} == 7
+Requires:	snappy
+Requires:	pgdg-libmongoc-libs
+BuildRequires:	pgdg-libmongoc-devel snappy-devel
 BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
 BuildRequires:	libbson-devel
+%else
+Requires:	snappy
+Requires:	mongo-c-driver-libs
+BuildRequires:	mongo-c-driver-devel snappy-devel
+BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
+BuildRequires:	libbson-devel
+%endif
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server cyrus-sasl-lib
 Requires:	libbson
 
@@ -49,6 +73,13 @@ MongoDB.
 %patch1 -p0
 %endif
 %{__cp} %{SOURCE1} ./config.h
+# apply patch to disable mongo-c-driver source compilation for rhel7
+%if 0%{?rhel} == 7
+%patch2 -p0
+# set rpath of edb-mongoc driver libs
+sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/xxxlibexec/edb-libmongoc/lib64',--enable-new-dtags' Makefile.meta
+%endif
+
 
 %build
 %ifarch ppc64 ppc64le
@@ -103,6 +134,8 @@ sh autogen.sh --with-master
 * Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
 - Update to 5.2.8
 - Add missing BR and Requires, per Martin Marques.
+- Use custom mongo-c-driver package on RHEL 7, per:
+  https://redmine.postgresql.org/issues/6424
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 5.2.7-2
 - Use underscore before PostgreSQL version number for consistency, per:
