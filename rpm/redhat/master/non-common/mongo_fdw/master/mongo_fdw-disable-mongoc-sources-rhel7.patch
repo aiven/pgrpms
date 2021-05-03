@@ -1,20 +1,18 @@
-diff --git a/autogen.sh b/autogen.sh
-index b675155..47c415b 100755
---- autogen.sh.old
-+++ autogen.sh
-@@ -111,12 +111,12 @@ if [ "--with-legacy" = $1 ]; then
+--- autogen.sh.old	2021-05-03 22:26:41.291855010 +0100
++++ autogen.sh	2021-05-03 22:29:30.714089399 +0100
+@@ -112,12 +112,12 @@
  	cp Makefile.legacy Makefile
  	echo "Done"
  elif [ "--with-master" == $1 ]; then
 -	checkout_mongo_driver
-+	#checkout_mongo_driver
++#	checkout_mongo_driver
  	checkout_json_lib
 -	install_mongoc_driver
-+	#install_mongoc_driver
++#	install_mongoc_driver
  	install_json_lib
  	create_config
--	export PKG_CONFIG_PATH=mongo-c-driver/src/libmongoc/src:mongo-c-driver/src/libbson/src
-+	export PKG_CONFIG_PATH=/usr/libexec/edb-libmongoc${EDB_MONGOC_VERSION}/lib/pkgconfig
+-	export PKG_CONFIG_PATH=mongo-c-driver/src/:mongo-c-driver/src/libbson/src
++	export PKG_CONFIG_PATH=/usr/pgdg-libmongoc/lib64/pkgconfig
  	cp Makefile.meta Makefile
  	echo "Done"
  else
