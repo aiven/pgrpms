@@ -1,7 +1,7 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 5
-%global mysqlfdwminver 5
+%global mysqlfdwmidver 6
+%global mysqlfdwminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -99,6 +99,9 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %endif
 
 %changelog
+* Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.0-1
+- Update to 2.6.0
+
 * Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> - 2.5.5-1
 - Update to 2.5.5
 
