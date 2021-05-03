@@ -25,7 +25,10 @@ Patch1:		mongo_fdw-autogen-ppc64le.patch
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 BuildRequires:	mongo-c-driver-devel snappy snappy-devel
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
+BuildRequires:	libbson-devel
+Requires:	postgresql%{pgmajorversion}-server cyrus-sasl-lib
+Requires:	libbson
 
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.7-2
 
@@ -99,6 +102,7 @@ sh autogen.sh --with-master
 %changelog
 * Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
 - Update to 5.2.8
+- Add missing BR and Requires, per Martin Marques.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 5.2.7-2
 - Use underscore before PostgreSQL version number for consistency, per:
