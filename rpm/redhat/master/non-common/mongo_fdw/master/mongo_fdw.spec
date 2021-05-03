@@ -16,11 +16,7 @@ URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
 %ifarch ppc64 ppc64le
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-ppc64le.patch
-%else
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
-%endif
-%ifarch ppc64 ppc64le
+Patch0:		mongo_fdw-makefile-includes-ppc64le.patch
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
 %if 0%{?rhel} == 7
@@ -70,8 +66,8 @@ MongoDB.
 
 %prep
 %setup -q -n %{sname}-REL-%{relver}
-%patch0 -p0
 %ifarch ppc64 ppc64le
+%patch0 -p0
 %patch1 -p0
 %endif
 %{__cp} %{SOURCE1} ./config.h
@@ -79,9 +75,8 @@ MongoDB.
 %if 0%{?rhel} == 7
 %patch2 -p0
 # set rpath of edb-mongoc driver libs
-sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/xxxlibexec/edb-libmongoc/lib64',--enable-new-dtags' Makefile.meta
+sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/pgdg-libmongoc/lib64',--enable-new-dtags' Makefile.meta
 %endif
-
 
 %build
 %ifarch ppc64 ppc64le
@@ -94,13 +89,29 @@ sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -
 %else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
 %endif
+
+# build Mongo C Driver build sources except on RHEL 7
+%if 0%{?rhel} == 7
+:
+%else
 sh autogen.sh --with-master
-%{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags}
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/libmongoc-1.0 -I/usr/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile.meta
+sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.c
+sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.h
+sed -i "s:\(^#include \"bson.h\"\)://\1:g" mongo_wrapper.h
+%endif
+%endif
+
+PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -138,6 +149,7 @@ sh autogen.sh --with-master
 - Add missing BR and Requires, per Martin Marques.
 - Use custom mongo-c-driver package on RHEL 7, per:
   https://redmine.postgresql.org/issues/6424
+- Get rid of pg_config patches, export PATH instead.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 5.2.7-2
 - Use underscore before PostgreSQL version number for consistency, per:
