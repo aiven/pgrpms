@@ -74,7 +74,7 @@ MongoDB.
 # apply patch to disable mongo-c-driver source compilation for rhel7
 %if 0%{?rhel} == 7
 %patch2 -p0
-# set rpath of edb-mongoc driver libs
+# set rpath of pgdg-libmongoc  libs
 sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/pgdg-libmongoc/lib64',--enable-new-dtags' Makefile.meta
 %endif
 
