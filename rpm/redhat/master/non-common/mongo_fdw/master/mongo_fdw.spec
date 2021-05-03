@@ -23,8 +23,10 @@ Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs-x86.patch
 %ifarch ppc64 ppc64le
 Patch1:		mongo_fdw-autogen-ppc64le.patch
 %endif
+%if 0%{?rhel} == 7
 # Patch to disable mongo-c-driver compilation from sources for rhel7 and ppc64le
 Patch2:		%{sname}-disable-mongoc-sources-rhel7.patch
+%endif
 
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 
