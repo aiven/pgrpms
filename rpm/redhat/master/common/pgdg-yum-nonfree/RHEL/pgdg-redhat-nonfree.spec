@@ -22,7 +22,7 @@ non-free repository, and also the GPG key for PGDG RPMs.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-nonfree
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 %{__install} -pm 644 %{SOURCE2} \
@@ -38,6 +38,7 @@ non-free repository, and also the GPG key for PGDG RPMs.
 * Sat May 8 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-9
 - Sign repository metadata to fix CVE-2021-20271, per
   https://access.redhat.com/security/cve/cve-2021-20271
+- Rename GPG key, so that it does not conflict with primary repo.
 
 * Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-8
 - Add missing repos, remove obsoleted repos.
