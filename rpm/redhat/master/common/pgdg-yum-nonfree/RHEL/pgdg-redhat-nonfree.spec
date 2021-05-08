@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-nonfree-repo
 Version:	42.0
-Release:	8
+Release:	9
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS NonFree
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -8,12 +8,6 @@ Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-redhat-nonfree-all.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
-Obsoletes:	pgdg-centos12 pgdg-redhat12 pgdg-sl12
-Obsoletes:	pgdg-centos11 pgdg-redhat11 pgdg-sl11
-Obsoletes:	pgdg-centos10 pgdg-redhat10 pgdg-sl10
-Obsoletes:	pgdg-centos96 pgdg-redhat96 pgdg-sl96
-Obsoletes:	pgdg-centos95 pgdg-redhat95 pgdg-sl95
-Obsoletes:	pgdg-centos94 pgdg-redhat94 pgdg-sl94
 
 %description
 This package contains yum configuration for Red Hat Enterprise Linux, CentOS
@@ -41,6 +35,10 @@ non-free repository, and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sat May 8 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-9
+- Sign repository metadata to fix CVE-2021-20271, per
+  https://access.redhat.com/security/cve/cve-2021-20271
+
 * Sun Sep 27 2020 Devrim Gündüz <devrim@gunduz.org> - 42.0-8
 - Add missing repos, remove obsoleted repos.
 
