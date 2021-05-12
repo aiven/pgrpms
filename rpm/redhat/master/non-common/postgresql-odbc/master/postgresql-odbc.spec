@@ -6,7 +6,7 @@
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	13.00.0000
+Version:	13.01.0000
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
@@ -95,6 +95,9 @@ popd
 %endif
 
 %changelog
+* Wed May 12 2021 Devrim Gündüz <devrim@gunduz.org> - 13.01.0000-1PGDG
+- Update to 13.01.0000
+
 * Wed Dec 23 2020 Devrim Gündüz <devrim@gunduz.org> - 13.00.0000-1PGDG
 - Update to 13.00.0000
 
