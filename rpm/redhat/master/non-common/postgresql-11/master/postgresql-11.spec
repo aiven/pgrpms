@@ -105,8 +105,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.11
-Release:	2PGDG%{?dist}
+Version:	11.12
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1678,6 +1678,10 @@ fi
 %endif
 
 %changelog
+* Thu May 13 2021 Devrim Gündüz <devrim@gunduz.org> - 11.12-1PGDG
+- Update to 11.12, per changes described at
+  https://www.postgresql.org/docs/release/11.12/
+
 * Thu Feb 11 2021 Devrim Gündüz <devrim@gunduz.org> - 11.11-2PGDG
 - A few fixes around llvm, sdt and selinux macros, so that they
   work on RHEL 6 as well.
