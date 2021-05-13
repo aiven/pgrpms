@@ -84,7 +84,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.16
+Version:	10.17
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1524,6 +1524,10 @@ fi
 %endif
 
 %changelog
+* Thu May 13 2021 Devrim Gündüz <devrim@gunduz.org> - 10.17-1PGDG
+- Update to 10.17, per changes described at
+  https://www.postgresql.org/docs/release/10.17/
+
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 10.16-1PGDG
 - Update to 10.16, per changes described at
   https://www.postgresql.org/docs/release/10.16/
