@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.2
+Version:	%{pgmajorversion}.3
 Release:	11PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -239,6 +239,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu May 13 2021 Devrim Gündüz <devrim@gunduz.org> - 13.3-10PGDG
+- Update to 13.3
+
 * Tue Mar 23 2021 Devrim Gündüz <devrim@gunduz.org> - 13.2-11PGDG
 - Add a few dependencies for ppc64le.
 
