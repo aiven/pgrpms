@@ -1,6 +1,6 @@
---- src/backend/utils/misc/postgresql.conf.sample.old	2020-05-22 13:19:53.049155343 +0100
-+++ src/backend/utils/misc/postgresql.conf.sample	2020-05-22 13:20:54.491231312 +0100
-@@ -421,25 +421,25 @@
+--- src/backend/utils/misc/postgresql.conf.sample.old	2021-05-17 09:52:59.425705769 +0100
++++ src/backend/utils/misc/postgresql.conf.sample	2021-05-17 09:54:21.979821446 +0100
+@@ -429,30 +429,30 @@
  
  # - Where to Log -
  
@@ -26,15 +26,6 @@
  					# can include strftime() escapes
  #log_file_mode = 0600			# creation mode for log files,
  					# begin with 0 to use octal notation
--#log_truncate_on_rotation = off		# If on, an existing log file with the
-+log_truncate_on_rotation = on		# If on, an existing log file with the
- 					# same name as the new log file will be
- 					# truncated rather than appended to.
- 					# But such truncation only occurs on
-@@ -447,9 +447,9 @@
- 					# or size-driven rotation.  Default is
- 					# off, meaning append to existing files
- 					# in all cases.
 -#log_rotation_age = 1d			# Automatic rotation of logfiles will
 +log_rotation_age = 1d			# Automatic rotation of logfiles will
  					# happen after that time.  0 disables.
@@ -42,8 +33,12 @@
 +log_rotation_size = 0			# Automatic rotation of logfiles will
  					# happen after that much log output.
  					# 0 disables.
- 
-@@ -525,7 +525,7 @@
+-#log_truncate_on_rotation = off		# If on, an existing log file with the
++log_truncate_on_rotation = on		# If on, an existing log file with the
+ 					# same name as the new log file will be
+ 					# truncated rather than appended to.
+ 					# But such truncation only occurs on
+@@ -538,7 +538,7 @@
  #log_duration = off
  #log_error_verbosity = default		# terse, default, or verbose messages
  #log_hostname = off
