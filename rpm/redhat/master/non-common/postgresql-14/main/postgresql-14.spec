@@ -875,6 +875,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %find_lang ecpglib6-%{pgmajorversion}
 %find_lang initdb-%{pgmajorversion}
 %find_lang libpq5-%{pgmajorversion}
+%find_lang pg_amcheck-%{pgmajorversion}
 %find_lang pg_archivecleanup-%{pgmajorversion}
 %find_lang pg_basebackup-%{pgmajorversion}
 %find_lang pg_checksums-%{pgmajorversion}
@@ -908,6 +909,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %find_lang postgres-%{pgmajorversion}
 %find_lang psql-%{pgmajorversion}
 
+cat pg_amcheck-%{pgmajorversion}.lang > pg_contrib.lst
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
 cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang > pg_main.lst
@@ -1105,7 +1107,7 @@ fi
 %doc src/tutorial
 %doc doc/html
 
-%files contrib
+%files contrib -f pg_contrib.lst
 %defattr(-,root,root)
 %doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
