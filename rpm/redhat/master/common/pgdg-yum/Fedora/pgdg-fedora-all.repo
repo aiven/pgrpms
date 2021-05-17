@@ -123,7 +123,6 @@ repo_gpgcheck = 1
 
 [pgdg14-source-updates-testing]
 name=PostgreSQL 14 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/14/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -132,7 +131,6 @@ repo_gpgcheck = 1
 
 [pgdg13-source-updates-testing]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/13/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -141,7 +139,6 @@ repo_gpgcheck = 1
 
 [pgdg12-source]
 name=PostgreSQL 12 for Fedora $releasever - $basearch - Source
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/12/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -150,7 +147,6 @@ repo_gpgcheck = 1
 
 [pgdg12-source-updates-testing]
 name=PostgreSQL 12 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/12/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -159,7 +155,6 @@ repo_gpgcheck = 1
 
 [pgdg11-source]
 name=PostgreSQL 11 for Fedora $releasever - $basearch - Source
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/11/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -168,7 +163,6 @@ repo_gpgcheck = 1
 
 [pgdg11-source-updates-testing]
 name=PostgreSQL 11 for Fedora $releasever - $basearch - Source updates testing
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/11/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -177,7 +171,6 @@ repo_gpgcheck = 1
 
 [pgdg10-source]
 name=PostgreSQL 10 for Fedora $releasever - $basearch - Source
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/10/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
@@ -186,7 +179,6 @@ repo_gpgcheck = 1
 
 [pgdg96-source]
 name=PostgreSQL 9.6 for Fedora $releasever - $basearch - Source
-failovermethod=priority
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.6/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1

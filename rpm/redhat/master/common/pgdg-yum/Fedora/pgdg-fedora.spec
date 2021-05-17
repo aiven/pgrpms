@@ -1,10 +1,10 @@
 Name:		pgdg-fedora-repo
 Version:	42.0
-Release:	15
+Release:	16
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-new
 Source2:	pgdg-fedora-all.repo
 BuildArch:	noarch
 Requires:	/etc/fedora-release
@@ -37,6 +37,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Mon May 17 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-16
+- Remove deprecated "failovermethod" parameter.
+
 * Fri Apr 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-15
 - Sign repository metadata to fix CVE-2021-20271, per
   https://access.redhat.com/security/cve/cve-2021-20271
