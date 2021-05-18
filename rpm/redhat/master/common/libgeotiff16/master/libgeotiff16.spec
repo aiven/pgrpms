@@ -13,14 +13,14 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.6.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.13
+BuildRequires:	pgdg-srpm-macros >= 1.0.14
 
 Obsoletes:	%{sname}15 >= 1.5.0
 
@@ -146,6 +146,9 @@ EOF
 
 
 %changelog
+* Tue May 18 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-5
+- Rebuild against Proj 8.0.1
+
 * Mon Mar 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-4
 - Emergency commit to fix RHEL 7 issues.
 
