@@ -104,8 +104,8 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj71instdir		/usr/proj%{proj71majorversion}
 %global proj70instdir		/usr/proj%{proj70majorversion}
 %global geosfullversion		3.9.1
-%global projfullversion		8.0.0
-%global gdalfullversion		3.2.2
+%global projfullversion		8.0.1
+%global gdalfullversion		3.2.3
 \
 }
 
