@@ -6,14 +6,6 @@
 
 %pgdg_set_gis_variables
 
-# Warning to ELGIS:
-# 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
-# Tests pass though on PPC and PPC64
-# The author is informed about that.
-# The problem seems to stem from Geos.
-
-#EPSG data in libspatialite should be in sync with our current GDAL version
-
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
 # Disabled due to a circular dependency issue with PostGIS
@@ -41,7 +33,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -147,6 +139,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-3
+- Rebuild against Proj 8.0.1
+
 * Fri Mar 12 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-2
 - Rebuild against GeOS 3.9.1 and Proj 8.0.0.
 
