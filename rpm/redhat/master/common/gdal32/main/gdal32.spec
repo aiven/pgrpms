@@ -62,8 +62,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}32
-Version:	3.2.2
-Release:	15%{?dist}
+Version:	3.2.3
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -691,6 +691,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-1
+- Update to 3.2.3
+
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-15
 - Emergency RHEL 7 patch
 
