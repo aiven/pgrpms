@@ -128,11 +128,11 @@ export CC="gcc -fPIC" # hack to make the cmake call pass
 	-DENABLE_QT6=OFF \
 	..
 unset CC
-%{__make}%{?_smp_mflags}
+%{__make} %{?_smp_mflags}
 
 %install
 cd build
-%{__make}install DESTDIR=$RPM_BUILD_ROOT
+%{__make} install DESTDIR=$RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
