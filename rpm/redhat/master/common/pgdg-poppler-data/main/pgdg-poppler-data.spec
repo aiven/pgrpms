@@ -37,8 +37,6 @@ BuildRequires:	pkgconfig
 This sub-package currently contains only pkgconfig file, which can be used with
 pkgconfig utility allowing your software to be build with poppler-data.
 
-# === BUILD INSTRUCTIONS ======================================================
-
 %prep
 %autosetup -S git -n %{sname}-%{version}
 
@@ -48,16 +46,16 @@ pkgconfig utility allowing your software to be build with poppler-data.
 %install
 %make_install prefix=%{popplerdatainstdir}
 
-# === PACKAGING INSTRUCTIONS ==================================================
+# Install pkgconfig file under standard directory:
+%{__mkdir} -p %{buildroot}%{_libdir}/pkgconfig/
+%{__mv} %{buildroot}%{popplerdatainstdir}/share/pkgconfig/poppler-data.pc %{buildroot}%{_libdir}/pkgconfig/pgdg-poppler-data.pc
 
 %files
 %license COPYING COPYING.adobe COPYING.gpl2
 %{popplerdatainstdir}/share/poppler/
 
 %files devel
-%{popplerdatainstdir}/share/pkgconfig/poppler-data.pc
-
-# =============================================================================
+%{_libdir}/pkgconfig/%{name}.pc
 
 %changelog
 * Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 0.4.9-7
