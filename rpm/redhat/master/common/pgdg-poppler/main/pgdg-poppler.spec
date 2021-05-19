@@ -4,7 +4,7 @@
 Summary:	PDF rendering library
 Name:		pgdg-%{sname}
 Version:	20.11.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	(GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
 URL:		https://poppler.freedesktop.org/
 Source0:	https://poppler.freedesktop.org/poppler-%{version}.tar.xz
@@ -203,6 +203,9 @@ cd build
 %{popplerinstdir}/share/man/man1/*
 
 %changelog
+* Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 20.11.0-3
+- Add linker config file
+
 * Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 20.11.0-2
 - Initial packaging for PostgreSQL RPM repository, to prevent
   further breakages caused by Poppler updates on RHEL 8.x
