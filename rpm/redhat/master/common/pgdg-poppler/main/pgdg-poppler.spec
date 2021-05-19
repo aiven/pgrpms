@@ -137,7 +137,7 @@ cd build
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-%{__install} %{SOURCE3} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE1} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
