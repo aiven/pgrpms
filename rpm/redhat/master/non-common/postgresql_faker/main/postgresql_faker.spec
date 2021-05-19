@@ -8,7 +8,7 @@
 
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.3.0
+Version:	0.4.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
@@ -75,5 +75,8 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 0.4.0
+- Update to 0.4.0
+
 * Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 0.3.0
 - Initial packaging for PostgreSQL RPM Repository
