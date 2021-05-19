@@ -8,6 +8,7 @@ Release:	2%{?dist}
 License:	(GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
 URL:		https://poppler.freedesktop.org/
 Source0:	https://poppler.freedesktop.org/poppler-%{version}.tar.xz
+Source1:	poppler20-pgdg-libs.conf
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1185007
 Patch0:		poppler-0.30.0-rotated-words-selection.patch
@@ -134,6 +135,10 @@ unset CC
 cd build
 %{__make} install DESTDIR=$RPM_BUILD_ROOT
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE3} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -150,6 +155,7 @@ cd build
 %doc README.md
 %license COPYING
 %{popplerinstdir}/lib64/libpoppler.so.104*
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/poppler20-pgdg-libs.conf
 
 %files devel
 %{popplerinstdir}/lib64/pkgconfig/poppler.pc
