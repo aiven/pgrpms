@@ -1,0 +1,1055 @@
+diff --git a/config.h.cmake b/config.h.cmake
+index 7989cbfb..6f5e147e 100644
+--- a/config.h.cmake
++++ b/config.h.cmake
+@@ -24,9 +24,6 @@
+ /* Use zlib instead of builtin zlib decoder to uncompress flate streams. */
+ #cmakedefine ENABLE_ZLIB_UNCOMPRESS 1
+ 
+-/* Build against libnss3 for digital signature validation */
+-#cmakedefine ENABLE_NSS3 1
+-
+ /* Use cairo for rendering. */
+ #cmakedefine HAVE_CAIRO 1
+ 
+diff --git a/poppler/Decrypt.cc b/poppler/Decrypt.cc
+index 16476f4f..9f4adda3 100644
+--- a/poppler/Decrypt.cc
++++ b/poppler/Decrypt.cc
+@@ -39,17 +39,33 @@
+ #include "goo/grandom.h"
+ #include "Decrypt.h"
+ #include "Error.h"
+-
++#ifdef ENABLE_NSS3
++#include <nss.h>
++#include <prerror.h>
++#include <sechash.h>
++#endif
++
++#ifdef ENABLE_NSS3
++static PK11Context *rc4InitContext(const unsigned char *key, int keyLen);
++static unsigned char rc4DecryptByte(PK11Context *context, unsigned char c);
++#else
+ static void rc4InitKey(const unsigned char *key, int keyLen, unsigned char *state);
+ static unsigned char rc4DecryptByte(unsigned char *state, unsigned char *x, unsigned char *y, unsigned char c);
++#endif
+ 
+ static bool aesReadBlock(Stream *str, unsigned char *in, bool addPadding);
+ 
++#ifdef ENABLE_NSS3
++static PK11Context *aesInitContext(unsigned char *in, unsigned char *objKey, int objKeyLength, bool decrypt);
++#else
+ static void aesKeyExpansion(DecryptAESState *s, const unsigned char *objKey, int objKeyLen, bool decrypt);
++#endif
+ static void aesEncryptBlock(DecryptAESState *s, const unsigned char *in);
+ static void aesDecryptBlock(DecryptAESState *s, const unsigned char *in, bool last);
+ 
++#ifndef ENABLE_NSS3
+ static void aes256KeyExpansion(DecryptAES256State *s, const unsigned char *objKey, int objKeyLen, bool decrypt);
++#endif
+ static void aes256EncryptBlock(DecryptAES256State *s, const unsigned char *in);
+ static void aes256DecryptBlock(DecryptAES256State *s, const unsigned char *in, bool last);
+ 
+@@ -70,6 +86,31 @@ static const unsigned char passwordPad[32] = {
+ // Decrypt
+ //------------------------------------------------------------------------
+ 
++#ifdef ENABLE_NSS3
++static void shutdownNSS()
++{
++    if (NSS_Shutdown() != SECSuccess) {
++        error(errInternal, -1, "NSS shutdown failed: {0:s}",
++              PR_ErrorToString(PR_GetError(), PR_LANGUAGE_I_DEFAULT));
++    }
++}
++
++static bool initNSS() {
++    if (NSS_IsInitialized()) {
++        return true;
++    } else {
++        if (NSS_NoDB_Init(".") != SECSuccess) {
++            error(errInternal, -1, "NSS initialization failed: {0:s}",
++                  PR_ErrorToString(PR_GetError(), PR_LANGUAGE_I_DEFAULT));
++            return false;
++        } else {
++            atexit(shutdownNSS);
++            return true;
++        }
++    }
++}
++#endif
++
+ bool Decrypt::makeFileKey(int encVersion, int encRevision, int keyLength, const GooString *ownerKey, const GooString *userKey, const GooString *ownerEnc, const GooString *userEnc, int permissions, const GooString *fileID,
+                           const GooString *ownerPassword, const GooString *userPassword, unsigned char *fileKey, bool encryptMetadata, bool *ownerPasswordOk)
+ {
+@@ -80,13 +121,21 @@ bool Decrypt::makeFileKey(int encVersio
+     DecryptAES256State state;
+     unsigned char test[127 + 56], test2[32];
+     GooString *userPassword2;
+-    unsigned char fState[256];
+     unsigned char tmpKey[16];
+-    unsigned char fx, fy;
+     int len, i, j;
++#ifdef ENABLE_NSS3
++    PK11Context *rc4Context;
++#else
++    unsigned char fState[256];
++    unsigned char fx, fy;
++#endif
+ 
+     *ownerPasswordOk = false;
+ 
++#ifdef ENABLE_NSS3
++    initNSS();
++#endif
++
+     if (encRevision == 5 || encRevision == 6) {
+ 
+         // check the owner password
+@@ -115,14 +164,26 @@ bool Decrypt::makeFileKey(int encVersio
+                     // test contains the initial SHA-256 hash input K.
+                     revision6Hash(ownerPassword, test, userKey->c_str());
+                 }
++#ifndef ENABLE_NSS3
+                 aes256KeyExpansion(&state, test, 32, true);
++#endif
+                 for (i = 0; i < 16; ++i) {
+                     state.cbc[i] = 0;
+                 }
++#ifdef ENABLE_NSS3
++                state.context = aesInitContext(state.cbc, test, 32, true);
++                if (state.context) {
++#endif
+                 aes256DecryptBlock(&state, (unsigned char *)ownerEnc->c_str(), false);
+                 memcpy(fileKey, state.buf, 16);
+                 aes256DecryptBlock(&state, (unsigned char *)ownerEnc->c_str() + 16, false);
+                 memcpy(fileKey + 16, state.buf, 16);
++#ifdef ENABLE_NSS3
++                PK11_DestroyContext(state.context, PR_TRUE);
++                } else {
++                    return false;
++                }
++#endif
+ 
+                 *ownerPasswordOk = true;
+                 return true;
+@@ -156,14 +217,26 @@ bool Decrypt::makeFileKey(int encVersio
+                     // user key is not used in computing intermediate user key.
+                     revision6Hash(userPassword, test, nullptr);
+                 }
++#ifndef ENABLE_NSS3
+                 aes256KeyExpansion(&state, test, 32, true);
++#endif
+                 for (i = 0; i < 16; ++i) {
+                     state.cbc[i] = 0;
+                 }
++#ifdef ENABLE_NSS3
++                state.context = aesInitContext(state.cbc, test, 32, true);
++                if (state.context) {
++#endif
+                 aes256DecryptBlock(&state, (unsigned char *)userEnc->c_str(), false);
+                 memcpy(fileKey, state.buf, 16);
+                 aes256DecryptBlock(&state, (unsigned char *)userEnc->c_str() + 16, false);
+                 memcpy(fileKey + 16, state.buf, 16);
++#ifdef ENABLE_NSS3
++                PK11_DestroyContext(state.context, PR_TRUE);
++                } else {
++                    return false;
++                }
++#endif
+ 
+                 return true;
+             }
+@@ -189,22 +262,41 @@ bool Decrypt::makeFileKey(int encVersio
+                 }
+             }
+             if (encRevision == 2) {
++#ifdef ENABLE_NSS3
++                rc4Context = rc4InitContext(test, keyLength);
++                if (rc4Context) {
++                    for (i = 0; i < 32; ++i)
++                        test2[i] = rc4DecryptByte(rc4Context, ownerKey->getChar(i));
++                    PK11_DestroyContext(rc4Context, PR_TRUE);
++                }
++#else
+                 rc4InitKey(test, keyLength, fState);
+                 fx = fy = 0;
+                 for (i = 0; i < 32; ++i) {
+                     test2[i] = rc4DecryptByte(fState, &fx, &fy, ownerKey->getChar(i));
+                 }
++#endif
+             } else {
+                 memcpy(test2, ownerKey->c_str(), 32);
+                 for (i = 19; i >= 0; --i) {
+                     for (j = 0; j < keyLength; ++j) {
+                         tmpKey[j] = test[j] ^ i;
+                     }
++#ifdef ENABLE_NSS3
++                    rc4Context = rc4InitContext(tmpKey, keyLength);
++                    if (rc4Context) {
++                        for (j = 0; j < 32; ++j) {
++                            test2[j] = rc4DecryptByte(rc4Context, test2[j]);
++                        }
++                        PK11_DestroyContext(rc4Context, PR_TRUE);
++                    }
++#else
+                     rc4InitKey(tmpKey, keyLength, fState);
+                     fx = fy = 0;
+                     for (j = 0; j < 32; ++j) {
+                         test2[j] = rc4DecryptByte(fState, &fx, &fy, test2[j]);
+                     }
++#endif
+                 }
+             }
+             userPassword2 = new GooString((char *)test2, 32);
+@@ -232,11 +324,15 @@ bool Decrypt::makeFileKey2(int encVersi
+ {
+     unsigned char *buf;
+     unsigned char test[32];
+-    unsigned char fState[256];
+     unsigned char tmpKey[16];
+-    unsigned char fx, fy;
+     int len, i, j;
+-    bool ok;
++    bool ok = true;
++#ifdef ENABLE_NSS3
++    PK11Context *rc4Context;
++#else
++    unsigned char fState[256];
++    unsigned char fx, fy;
++#endif
+ 
+     // generate file key
+     buf = (unsigned char *)gmalloc(72 + fileID->getLength());
+@@ -273,28 +369,52 @@ bool Decrypt::makeFileKey2(int encVersi
+ 
+     // test user password
+     if (encRevision == 2) {
++#ifdef ENABLE_NSS3
++        rc4Context = rc4InitContext(fileKey, keyLength);
++        if (rc4Context) {
++            for (i = 0; i < 32; ++i)
++                test[i] = rc4DecryptByte(rc4Context, userKey->getChar(i));
++            PK11_DestroyContext(rc4Context, PR_TRUE);
++        } else {
++            ok = false;
++        }
++#else
+         rc4InitKey(fileKey, keyLength, fState);
+         fx = fy = 0;
+         for (i = 0; i < 32; ++i) {
+             test[i] = rc4DecryptByte(fState, &fx, &fy, userKey->getChar(i));
+         }
+-        ok = memcmp(test, passwordPad, 32) == 0;
++#endif
++        if (ok)
++            ok = memcmp(test, passwordPad, 32) == 0;
+     } else if (encRevision == 3) {
+         memcpy(test, userKey->c_str(), 32);
+         for (i = 19; i >= 0; --i) {
+             for (j = 0; j < keyLength; ++j) {
+                 tmpKey[j] = fileKey[j] ^ i;
+             }
++#ifdef ENABLE_NSS3
++            rc4Context = rc4InitContext(tmpKey, keyLength);
++            if (rc4Context) {
++                for (j = 0; j < 32; ++j)
++                    test[j] = rc4DecryptByte(rc4Context, test[j]);
++                PK11_DestroyContext(rc4Context, PR_TRUE);
++            } else {
++                ok = false;
++            }
++#else
+             rc4InitKey(tmpKey, keyLength, fState);
+             fx = fy = 0;
+             for (j = 0; j < 32; ++j) {
+                 test[j] = rc4DecryptByte(fState, &fx, &fy, test[j]);
+             }
++#endif
+         }
+         memcpy(buf, passwordPad, 32);
+         memcpy(buf + 32, fileID->c_str(), fileID->getLength());
+         md5(buf, 32 + fileID->getLength(), buf);
+-        ok = memcmp(test, buf, 16) == 0;
++        if (ok)
++            ok = memcmp(test, buf, 16) == 0;
+     } else {
+         ok = false;
+     }
+@@ -334,6 +454,9 @@ BaseCryptStream::BaseCryptStream(Stream
+         if ((objKeyLength = keyLength + 5) > 16) {
+             objKeyLength = 16;
+         }
++#ifdef ENABLE_NSS3
++        state.rc4.context = nullptr;
++#endif
+         break;
+     case cryptAES:
+         objKey[keyLength] = refA.num & 0xff;
+@@ -349,9 +472,15 @@ BaseCryptStream::BaseCryptStream(Stream
+         if ((objKeyLength = keyLength + 5) > 16) {
+             objKeyLength = 16;
+         }
++#ifdef ENABLE_NSS3
++        state.aes.context = nullptr;
++#endif
+         break;
+     case cryptAES256:
+         objKeyLength = keyLength;
++#ifdef ENABLE_NSS3
++        state.aes256.context = nullptr;
++#endif
+         break;
+     case cryptNone:
+         break;
+@@ -359,10 +488,33 @@ BaseCryptStream::BaseCryptStream(Stream
+     charactersRead = 0;
+     nextCharBuff = EOF;
+     autoDelete = true;
++
++#ifdef ENABLE_NSS3
++    initNSS();
++#endif
+ }
+ 
+ BaseCryptStream::~BaseCryptStream()
+ {
++#ifdef ENABLE_NSS3
++    switch (algo) {
++    case cryptRC4:
++        if (state.rc4.context)
++            PK11_DestroyContext(state.rc4.context, PR_TRUE);
++        break;
++    case cryptAES:
++        if (state.aes.context)
++            PK11_DestroyContext(state.aes.context, PR_TRUE);
++        break;
++    case cryptAES256:
++        if (state.aes256.context)
++            PK11_DestroyContext(state.aes256.context, PR_TRUE);
++        break;
++    default:
++        break;
++    }
++#endif
++
+     if (autoDelete) {
+         delete str;
+     }
+@@ -424,18 +576,40 @@ void EncryptStream::reset() {
+ 
+     switch (algo) {
+     case cryptRC4:
++#ifdef ENABLE_NSS3
++        if (state.rc4.context)
++            PK11_DestroyContext(state.rc4.context, PR_TRUE);
++        state.rc4.context = rc4InitContext(objKey, objKeyLength);
++#else
+         state.rc4.x = state.rc4.y = 0;
+         rc4InitKey(objKey, objKeyLength, state.rc4.state);
++#endif
+         break;
+     case cryptAES:
++#ifdef ENABLE_NSS3
++        memcpy(state.aes.buf, state.aes.cbc, 16); // Copy CBC IV to buf
++        if (state.aes.context)
++            PK11_DestroyContext(state.aes.context, PR_TRUE);
++        state.aes.context = aesInitContext(state.aes.cbc, objKey, objKeyLength,
++                                           false);
++#else
+         aesKeyExpansion(&state.aes, objKey, objKeyLength, false);
+         memcpy(state.aes.buf, state.aes.cbc, 16); // Copy CBC IV to buf
++#endif
+         state.aes.bufIdx = 0;
+         state.aes.paddingReached = false;
+         break;
+     case cryptAES256:
++#ifdef ENABLE_NSS3
++        memcpy(state.aes256.buf, state.aes256.cbc, 16); // Copy CBC IV to buf
++        if (state.aes256.context)
++            PK11_DestroyContext(state.aes256.context, PR_TRUE);
++        state.aes256.context = aesInitContext(state.aes256.cbc, objKey, objKeyLength,
++                                              false);
++#else
+         aes256KeyExpansion(&state.aes256, objKey, objKeyLength, false);
+         memcpy(state.aes256.buf, state.aes256.cbc, 16); // Copy CBC IV to buf
++#endif
+         state.aes256.bufIdx = 0;
+         state.aes256.paddingReached = false;
+         break;
+@@ -456,7 +630,11 @@ int EncryptStream::lookChar() {
+     case cryptRC4:
+         if ((c = str->getChar()) != EOF) {
+             // RC4 is XOR-based: the decryption algorithm works for encryption too
++#ifdef ENABLE_NSS3
++            c = rc4DecryptByte(state.rc4.context, (unsigned char)c);
++#else
+             c = rc4DecryptByte(state.rc4.state, &state.rc4.x, &state.rc4.y, (unsigned char)c);
++#endif
+         }
+         break;
+     case cryptAES:
+@@ -506,21 +684,47 @@ void DecryptStream::reset() {
+ 
+     switch (algo) {
+     case cryptRC4:
++#ifdef ENABLE_NSS3
++        if (state.rc4.context)
++            PK11_DestroyContext(state.rc4.context, PR_TRUE);
++        state.rc4.context = rc4InitContext(objKey, objKeyLength);
++#else
+         state.rc4.x = state.rc4.y = 0;
+         rc4InitKey(objKey, objKeyLength, state.rc4.state);
++#endif
+         break;
+     case cryptAES:
++#ifdef ENABLE_NSS3
++        if (state.aes.context)
++            PK11_DestroyContext(state.aes.context, PR_TRUE);
++        for (i = 0; i < 16; ++i) {
++            state.aes.cbc[i] = str->getChar();
++        }
++        state.aes.context = aesInitContext(state.aes.cbc, objKey, objKeyLength,
++                                           true);
++#else
+         aesKeyExpansion(&state.aes, objKey, objKeyLength, true);
+         for (i = 0; i < 16; ++i) {
+             state.aes.cbc[i] = str->getChar();
+         }
++#endif
+         state.aes.bufIdx = 16;
+         break;
+     case cryptAES256:
++#ifdef ENABLE_NSS3
++        if (state.aes256.context)
++            PK11_DestroyContext(state.aes256.context, PR_TRUE);
++        for (i = 0; i < 16; ++i) {
++            state.aes256.cbc[i] = str->getChar();
++        }
++        state.aes256.context = aesInitContext(state.aes256.cbc, objKey, objKeyLength,
++                                              true);
++#else
+         aes256KeyExpansion(&state.aes256, objKey, objKeyLength, true);
+         for (i = 0; i < 16; ++i) {
+             state.aes256.cbc[i] = str->getChar();
+         }
++#endif
+         state.aes256.bufIdx = 16;
+         break;
+     case cryptNone:
+@@ -539,10 +743,21 @@ int DecryptStream::lookChar() {
+     switch (algo) {
+     case cryptRC4:
+         if ((c = str->getChar()) != EOF) {
++#ifdef ENABLE_NSS3
++            if (unlikely(state.rc4.context == nullptr))
++                c = EOF;
++            else
++                c = rc4DecryptByte(state.rc4.context, (unsigned char)c);
++#else
+             c = rc4DecryptByte(state.rc4.state, &state.rc4.x, &state.rc4.y, (unsigned char)c);
++#endif
+         }
+         break;
+     case cryptAES:
++#ifdef ENABLE_NSS3
++        if (unlikely(state.aes.context == nullptr))
++            break;
++#endif
+         if (state.aes.bufIdx == 16) {
+             if (aesReadBlock(str, in, false)) {
+                 aesDecryptBlock(&state.aes, in, str->lookChar() == EOF);
+@@ -555,6 +770,10 @@ int DecryptStream::lookChar() {
+         }
+         break;
+     case cryptAES256:
++#ifdef ENABLE_NSS3
++        if (unlikely(state.aes256.context == nullptr))
++            break;
++#endif
+         if (state.aes256.bufIdx == 16) {
+             if (aesReadBlock(str, in, false)) {
+                 aes256DecryptBlock(&state.aes256, in, str->lookChar() == EOF);
+@@ -576,7 +795,176 @@ int DecryptStream::lookChar() {
+ // RC4-compatible decryption
+ //------------------------------------------------------------------------
+ 
++#ifdef ENABLE_NSS3
++/*
++ * This function turns given key into token key (compared to a session key
++ * which is prohibited in FIPS mode).
++ */
++static PK11SymKey *tokenizeKey(const unsigned char *key, int keyLen,
++                               CK_ATTRIBUTE_TYPE operation) {
++    CK_MECHANISM_TYPE  cipherMech = CKM_AES_CBC_PAD;
++    PK11SlotInfo      *slot;
++    PK11SymKey        *wrappingKey = nullptr;
++    PK11SymKey        *symKey = nullptr;
++    PK11SymKey        *token = nullptr;
++    SECStatus          retval;
++    SECItem           *secParam = nullptr;
++    SECItem            ivItem, wrappedKey;
++    unsigned char      output[48];   // Buffer to hold 256 bit key + padding
++    unsigned char      iv[16];       // Initialization vector for AES
++    unsigned int       outputLength;
++    int                i;
++
++    slot = PK11_GetBestSlot(CKM_AES_KEY_GEN, nullptr);
++    if (slot == nullptr) {
++        error(errInternal, -1, "Unable to find security device (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    // Generate random key for wrapping of given key by AES-256
++    wrappingKey = PK11_KeyGen(slot, CKM_AES_KEY_GEN, nullptr, 32, nullptr);
++    if (wrappingKey == nullptr) {
++        error(errInternal, -1, "Failed to generate wrapping key (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    for (i = 0; i < 16; i++)
++        iv[i] = i;
++
++    ivItem.type = siBuffer;
++    ivItem.data = iv;
++    ivItem.len = 16;
++
++    secParam = PK11_ParamFromIV(cipherMech, &ivItem);
++    if (secParam == nullptr) {
++        error(errInternal, -1, "Failed to set up PKCS11 param (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    // Encrypt given key
++    retval = PK11_Encrypt(wrappingKey,
++                          cipherMech,
++                          secParam,
++                          output,
++                          &outputLength,
++                          sizeof(output),
++                          key,
++                          keyLen);
++    if (retval != SECSuccess) {
++        error(errInternal, -1, "Failed to encrypt key (err {0:d})",
++              PR_GetError());
++    }
++
++    wrappedKey.type = siBuffer;
++    wrappedKey.data = output;
++    wrappedKey.len = outputLength;
++
++    // Unwrap the wrapped key to token so it can be used in FIPS mode
++    token = PK11_UnwrapSymKey(wrappingKey,
++                              cipherMech,
++                              &ivItem,
++                              &wrappedKey,
++                              operation,
++                              CKA_UNWRAP,
++                              keyLen);
++
++    if (token == nullptr) {
++        error(errInternal, -1, "Failed to unwrap symmetric key (err {0:d})",
++              PR_GetError());
++    }
++
++err:
++    if (secParam != nullptr)
++        SECITEM_FreeItem(secParam, PR_TRUE);
++
++    if (wrappingKey != nullptr)
++        PK11_FreeSymKey(wrappingKey);
++
++    if (symKey != nullptr)
++        PK11_FreeSymKey(symKey);
++
++    if (slot != nullptr)
++        PK11_FreeSlot(slot);
++
++    return token;
++}
++
++static PK11Context *rc4InitContext(const unsigned char *key, int keyLen) {
++    CK_MECHANISM_TYPE  cipherMech = CKM_RC4;
++    PK11SlotInfo      *slot = nullptr;
++    PK11SymKey        *symKey = nullptr;
++    SECItem           *secParam = nullptr;
++    PK11Context       *context = nullptr;
++
++    slot = PK11_GetBestSlot(cipherMech, nullptr);
++    if (slot == nullptr) {
++        error(errInternal, -1, "Unable to find security device (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    symKey = tokenizeKey(key, keyLen, cipherMech);
++    if (symKey == nullptr) {
++        error(errInternal, -1, "Failed to create token from key (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    secParam = PK11_ParamFromIV(cipherMech, nullptr);
++    if (secParam == nullptr) {
++        error(errInternal, -1, "Failed to set up PKCS11 param (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    context = PK11_CreateContextBySymKey(cipherMech,
++                                         CKA_DECRYPT,
++                                         symKey,
++                                         secParam);
++    if (context == nullptr) {
++        error(errInternal, -1, "Failed to create context (err {0:d})",
++              PR_GetError());
++    }
++
++err:
++    if (secParam != nullptr)
++        SECITEM_FreeItem(secParam, PR_TRUE);
++
++    if (symKey != nullptr)
++        PK11_FreeSymKey(symKey);
++
++    if (slot != nullptr)
++        PK11_FreeSlot(slot);
++
++    return context;
++}
++
++static unsigned char rc4DecryptByte(PK11Context *context, unsigned char c) {
++    unsigned char outputChar = 0;
++    SECStatus     retval;
++    int           outputLength;
++
++    retval = PK11_CipherOp(context,
++                           &outputChar,
++                           &outputLength,
++                           1,
++                           &c,
++                           1);
++
++    if (retval != SECSuccess) {
++        error(errInternal, -1, "Failed to decrypt byte (err {0:d})",
++              PR_GetError());
++    }
++
++    return outputChar;
++}
++
++#else
++
+ static void rc4InitKey(const unsigned char *key, int keyLen, unsigned char *state)
+ {
+     unsigned char index1, index2;
+     unsigned char t;
+@@ -609,6 +997,8 @@ static unsigned char rc4DecryptByte(unsigned char *sta
+     return c ^ state[(tx + ty) % 256];
+ }
+ 
++#endif
++
+ //------------------------------------------------------------------------
+ // AES decryption
+ //------------------------------------------------------------------------
+@@ -639,6 +1029,178 @@ static bool aesReadBlock(Stream *str, G
+     }
+ }
+ 
++#ifdef ENABLE_NSS3
++
++static PK11Context *aesInitContext(unsigned char *in, unsigned char *objKey,
++                                   int objKeyLength, bool decrypt) {
++    CK_MECHANISM_TYPE  cipherMech = CKM_AES_CBC;
++    CK_ATTRIBUTE_TYPE  operationType = decrypt ? CKA_DECRYPT : CKA_ENCRYPT;
++    PK11SlotInfo      *slot;
++    PK11SymKey        *symKey = nullptr;
++    SECItem           *secParam = nullptr;
++    PK11Context       *context = nullptr;
++    SECItem            ivItem;
++
++    slot = PK11_GetBestSlot(cipherMech, nullptr);
++    if (slot == nullptr) {
++        error(errInternal, -1, "Unable to find security device (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    symKey = tokenizeKey(objKey, objKeyLength, cipherMech);
++    if (symKey == nullptr) {
++        error(errInternal, -1, "Failed to create token from key (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    ivItem.type = siBuffer;
++    ivItem.data = in;
++    ivItem.len = 16;
++
++    secParam = PK11_ParamFromIV(cipherMech, &ivItem);
++    if (secParam == nullptr) {
++        error(errInternal, -1, "Failed to set up PKCS11 param (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    context = PK11_CreateContextBySymKey(cipherMech,
++                                         operationType,
++                                         symKey,
++                                         secParam);
++
++err:
++    if (secParam != nullptr)
++        SECITEM_FreeItem(secParam, PR_TRUE);
++
++    if (symKey != nullptr)
++        PK11_FreeSymKey(symKey);
++
++    if (slot != nullptr)
++        PK11_FreeSlot(slot);
++
++    return context;
++}
++
++static void aesEncryptBlock(DecryptAESState *s, const unsigned char *in) {
++    SECStatus rv;
++    int       outputLength;
++
++    rv = PK11_CipherOp(s->context,
++                       s->buf,
++                       &outputLength,
++                       16,
++                       in,
++                       16);
++
++    if (rv != SECSuccess) {
++        error(errInternal, -1, "Failed to encrypt input block (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    s->bufIdx = 0;
++
++err:
++    return;
++}
++
++static void aesDecryptBlock(DecryptAESState *s, const unsigned char *in, bool last) {
++    SECStatus rv1;
++    int       outputLen;
++    int       n, i;
++
++    rv1 = PK11_CipherOp(s->context,
++                        s->buf,
++                        &outputLen,
++                        16,
++                        in,
++                        16);
++
++    if (rv1 != SECSuccess) {
++        error(errInternal, -1, "Failed to decrypt input block (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    s->bufIdx = 0;
++    if (last) {
++        n = s->buf[15];
++        if (n < 1 || n > 16) { // this should never happen
++            n = 16;
++        }
++        for (i = 15; i >= n; --i) {
++            s->buf[i] = s->buf[i-n];
++        }
++        s->bufIdx = n;
++    }
++
++err:
++    return;
++}
++
++static void aes256EncryptBlock(DecryptAES256State *s, const unsigned char *in) {
++    SECStatus rv;
++    int       outputLength;
++
++    rv = PK11_CipherOp(s->context,
++                       s->buf,
++                       &outputLength,
++                       16,
++                       in,
++                       16);
++
++    if (rv != SECSuccess) {
++        error(errInternal, -1, "Failed to encrypt input block (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    s->bufIdx = 0;
++
++err:
++    return;
++}
++
++static void aes256DecryptBlock(DecryptAES256State *s, const unsigned char *in,
++                               bool last) {
++    SECStatus rv1;
++    int       outputLen;
++    int       n, i;
++
++    rv1 = PK11_CipherOp(s->context,
++                        s->buf,
++                        &outputLen,
++                        16,
++                        in,
++                        16);
++
++    if (rv1 != SECSuccess) {
++        error(errInternal, -1, "Failed to decrypt input block (err {0:d})",
++              PR_GetError());
++        goto err;
++    }
++
++    s->bufIdx = 0;
++    if (last) {
++        n = s->buf[15];
++        if (n < 1 || n > 16) { // this should never happen
++            n = 16;
++        }
++        for (i = 15; i >= n; --i) {
++            s->buf[i] = s->buf[i-n];
++        }
++        s->bufIdx = n;
++    }
++
++err:
++    return;
++}
++
++#else
++
+ static const unsigned char sbox[256] = { 0x63, 0x7c, 0x77, 0x7b, 0xf2, 0x6b, 0x6f, 0xc5, 0x30, 0x01, 0x67, 0x2b, 0xfe, 0xd7, 0xab, 0x76, 0xca, 0x82, 0xc9, 0x7d, 0xfa, 0x59, 0x47, 0xf0, 0xad, 0xd4, 0xa2, 0xaf, 0x9c, 0xa4, 0x72, 0xc0,
+                                          0xb7, 0xfd, 0x93, 0x26, 0x36, 0x3f, 0xf7, 0xcc, 0x34, 0xa5, 0xe5, 0xf1, 0x71, 0xd8, 0x31, 0x15, 0x04, 0xc7, 0x23, 0xc3, 0x18, 0x96, 0x05, 0x9a, 0x07, 0x12, 0x80, 0xe2, 0xeb, 0x27, 0xb2, 0x75,
+                                          0x09, 0x83, 0x2c, 0x1a, 0x1b, 0x6e, 0x5a, 0xa0, 0x52, 0x3b, 0xd6, 0xb3, 0x29, 0xe3, 0x2f, 0x84, 0x53, 0xd1, 0x00, 0xed, 0x20, 0xfc, 0xb1, 0x5b, 0x6a, 0xcb, 0xbe, 0x39, 0x4a, 0x4c, 0x58, 0xcf,
+@@ -1121,10 +1683,33 @@ static void aes256DecryptBlock(DecryptAE
+     }
+ }
+ 
++#endif
++
+ //------------------------------------------------------------------------
+ // MD5 message digest
+ //------------------------------------------------------------------------
+ 
++#ifdef ENABLE_NSS3
++static void hashFunc(const unsigned char *msg, int msgLen, unsigned char *hash,
++                     HASH_HashType type) {
++    HASHContext *context;
++    unsigned int hashLen = 0;
++
++    if (!initNSS())
++        return;
++
++    context = HASH_Create(type);
++    if (context == nullptr)
++        return;
++
++    HASH_Begin(context);
++    HASH_Update(context, msg, msgLen);
++    HASH_End(context, hash, &hashLen, HASH_ResultLen(type));
++    HASH_Destroy(context);
++}
++
++#else
++
+ // this works around a bug in older Sun compilers
+ static inline unsigned long rotateLeft(unsigned long x, int r)
+ {
+@@ -1151,8 +1736,13 @@ static inline unsigned long md5Round4(unsigned long a,
+     state->digest[15] = (unsigned char)(state->d >> 24);
+ }
+ 
++#endif
++
+ void md5(const unsigned char *msg, int msgLen, unsigned char *digest)
+ {
++#ifdef ENABLE_NSS3
++    hashFunc(msg, msgLen, digest, HASH_AlgMD5);
++#else
+     if (msgLen < 0) {
+         return;
+     }
+@@ -1296,12 +1886,14 @@ void md5(unsigned char *msg, int msgLen, unsigned char
+     for (int i = 0; i < 16; ++i) {
+         digest[i] = state.digest[i];
+     }
++#endif
+ }
+ 
+ //------------------------------------------------------------------------
+ // SHA-256 hash
+ //------------------------------------------------------------------------
+ 
++#ifndef ENABLE_NSS3
+ static const unsigned int sha256K[64] = { 0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5, 0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+                                           0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da, 0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+                                           0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85, 0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+@@ -1400,9 +1992,13 @@ static void sha256HashBlock(unsigned char *blk,
+     H[6] += g;
+     H[7] += h;
+ }
++#endif
+ 
+ static void sha256(unsigned char *msg, int msgLen, unsigned char *hash)
+ {
++#ifdef ENABLE_NSS3
++    hashFunc(msg, msgLen, hash, HASH_AlgSHA256);
++#else
+     unsigned char blk[64];
+     unsigned int H[8];
+     int blkLen, i;
+@@ -1453,7 +2049,10 @@ static void sha256(unsigned char *msg, int msgL
+         hash[i * 4 + 2] = (unsigned char)(H[i] >> 8);
+         hash[i * 4 + 3] = (unsigned char)H[i];
+     }
++#endif
+ }
++
++#ifndef ENABLE_NSS3
+ //------------------------------------------------------------------------
+ // SHA-512 hash (see FIPS 180-4)
+ //------------------------------------------------------------------------
+@@ -1557,9 +2156,13 @@ static void sha512HashBlock(unsigned char *blk,
+     H[6] += g;
+     H[7] += h;
+ }
++#endif
+ 
+ static void sha512(unsigned char *msg, int msgLen, unsigned char *hash)
+ {
++#ifdef ENABLE_NSS3
++    hashFunc(msg, msgLen, hash, HASH_AlgSHA512);
++#else
+     unsigned char blk[128];
+     uint64_t H[8];
+     int blkLen = 0, i;
+@@ -1622,6 +2225,7 @@ static void sha512(unsigned char *msg, int msgL
+         hash[i * 8 + 6] = (unsigned char)(H[i] >> 8);
+         hash[i * 8 + 7] = (unsigned char)H[i];
+     }
++#endif
+ }
+ 
+ //------------------------------------------------------------------------
+@@ -1631,6 +2235,9 @@ static void sha512(unsigned char *msg, int msgL
+ // 2.A 384 bit message digest is obtained by truncating the final hash value.
+ static void sha384(unsigned char *msg, int msgLen, unsigned char *hash)
+ {
++#ifdef ENABLE_NSS3
++    hashFunc(msg, msgLen, hash, HASH_AlgSHA384);
++#else
+     unsigned char blk[128];
+     uint64_t H[8];
+     int blkLen, i;
+@@ -1696,6 +2303,7 @@ static void sha384(unsigned char *msg, int msgL
+         hash[i * 8 + 6] = (unsigned char)(H[i] >> 8);
+         hash[i * 8 + 7] = (unsigned char)H[i];
+     }
++#endif
+ }
+ 
+ //------------------------------------------------------------------------
+@@ -1735,7 +2344,11 @@ static void revision6Hash(GooString *inp
+         memcpy(state.buf, state.cbc, 16); // Copy CBC IV to buf
+         state.bufIdx = 0;
+         state.paddingReached = false;
++#ifdef ENABLE_NSS3
++        state.context = aesInitContext(state.cbc, aesKey, 16, false);
++#else
+         aesKeyExpansion(&state, aesKey, 16, false);
++#endif
+ 
+         for (int i = 0; i < (4 * sequenceLength); i++) {
+             aesEncryptBlock(&state, K1 + (16 * i));
+@@ -1776,6 +2389,9 @@ static void revision6Hash(GooString *inp
+             sha512(E, totalLength, K);
+         }
+         rounds++;
++#ifdef ENABLE_NSS3
++        PK11_DestroyContext(state.context, PR_TRUE);
++#endif
+     }
+     // the first 32 bytes of the final K are the output of the function.
+ }
+diff --git a/poppler/Decrypt.h b/poppler/Decrypt.h
+index d4667c8c..16fa9830 100644
+--- a/poppler/Decrypt.h
++++ b/poppler/Decrypt.h
+@@ -31,6 +32,9 @@
+ #include "goo/GooString.h"
+ #include "Object.h"
+ #include "Stream.h"
++#ifdef ENABLE_NSS3
++#include <pk11pub.h>
++#endif
+ 
+ //------------------------------------------------------------------------
+ // Decrypt
+@@ -73,14 +77,22 @@ private:
+  * case of encryption. */
+ struct DecryptRC4State
+ {
++#ifdef ENABLE_NSS3
++    PK11Context *context;
++#else
+     unsigned char state[256];
+     unsigned char x, y;
++#endif
+ };
+ 
+ struct DecryptAESState
+ {
++#ifdef ENABLE_NSS3
++    PK11Context *context;
++#else
+     unsigned int w[44];
+     unsigned char state[16];
++#endif
+     unsigned char cbc[16];
+     unsigned char buf[16];
+     bool paddingReached; // encryption only
+@@ -87,8 +99,12 @@ struct DecryptAESState {
+ 
+ struct DecryptAES256State
+ {
++#ifdef ENABLE_NSS3
++    PK11Context *context;
++#else
+     unsigned int w[60];
+     unsigned char state[16];
++#endif
+     unsigned char cbc[16];
+     unsigned char buf[16];
+     bool paddingReached; // encryption only
+diff --git a/poppler/poppler-config.h.cmake b/poppler/poppler-config.h.cmake
+index f0a5a1a0..dcaade6f 100644
+--- a/poppler/poppler-config.h.cmake
++++ b/poppler/poppler-config.h.cmake
+@@ -115,6 +115,12 @@
+ #cmakedefine USE_BOOST_HEADERS 1
+ #endif
+ 
++/* Build against libnss3 for digital signature validation and
++   implementation of encryption/decryption. */
++#ifndef ENABLE_NSS3
++#cmakedefine ENABLE_NSS3 1
++#endif
++
+ //------------------------------------------------------------------------
+ // version
+ //------------------------------------------------------------------------

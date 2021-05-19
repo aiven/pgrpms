@@ -1,0 +1,205 @@
+--- poppler/glib/poppler-document.cc
++++ poppler/glib/poppler-document.cc
+@@ -3405,6 +3405,7 @@ PopplerFormField *poppler_document_get_f
+     unsigned fieldNum;
+     FormPageWidgets *widgets;
+     FormWidget *field;
++    PopplerFormField *formField;
+ 
+     FormWidget::decodeID(id, &pageNum, &fieldNum);
+ 
+@@ -3417,8 +3418,14 @@ PopplerFormField *poppler_document_get_f
+         return nullptr;
+ 
+     field = widgets->getWidget(fieldNum);
+-    if (field)
+-        return _poppler_form_field_new(document, field);
++    if (field) {
++        formField = _poppler_form_field_new(document, field);
++        delete widgets;
++
++        return formField;
++    }
++
++    delete widgets;
+ 
+     return nullptr;
+ }
+--- poppler/poppler/CairoOutputDev.cc
++++ poppler/poppler/CairoOutputDev.cc
+@@ -2921,8 +2921,10 @@ void CairoOutputDev::setMimeData(GfxStat
+ 
+     // colorspace in stream dict may be different from colorspace in jpx
+     // data
+-    if (strKind == strJPX && colorSpace)
++    if (strKind == strJPX && colorSpace) {
++        delete colorSpace;
+         return;
++    }
+ 
+     // only embed mime data for gray, rgb, and cmyk colorspaces.
+     if (colorSpace) {
+--- poppler/poppler/TextOutputDev.cc
++++ poppler/poppler/TextOutputDev.cc
+@@ -1619,7 +1619,6 @@ TextBlock::~TextBlock()
+ 
+ void TextBlock::addWord(TextWord *word)
+ {
+-    pool->addWord(word);
+     if (xMin > xMax) {
+         xMin = word->xMin;
+         xMax = word->xMax;
+@@ -1639,6 +1638,7 @@ void TextBlock::addWord(TextWord *word)
+             yMax = word->yMax;
+         }
+     }
++    pool->addWord(word);
+ }
+ 
+ void TextBlock::coalesce(const UnicodeMap *uMap, double fixedPitch)
+@@ -3064,11 +3064,13 @@ void TextPage::coalesce(bool physLayout,
+             word0 = pool->getPool(startBaseIdx);
+             pool->setPool(startBaseIdx, word0->next);
+             word0->next = nullptr;
+-            blk = new TextBlock(this, rot);
+-            blk->addWord(word0);
+ 
+             fontSize = word0->fontSize;
+             minBase = maxBase = word0->base;
++
++            blk = new TextBlock(this, rot);
++            blk->addWord(word0);
++
+             colSpace1 = minColSpacing1 * fontSize;
+             colSpace2 = minColSpacing2 * fontSize;
+             lineSpace = maxLineSpacingDelta * fontSize;
+@@ -3095,9 +3097,9 @@ void TextPage::coalesce(bool physLayout,
+                             }
+                             word1 = word1->next;
+                             word2->next = nullptr;
++                            newMinBase = word2->base;
+                             blk->addWord(word2);
+                             found = true;
+-                            newMinBase = word2->base;
+                         } else {
+                             word0 = word1;
+                             word1 = word1->next;
+@@ -3123,9 +3125,9 @@ void TextPage::coalesce(bool physLayout,
+                             }
+                             word1 = word1->next;
+                             word2->next = nullptr;
++                            newMaxBase = word2->base;
+                             blk->addWord(word2);
+                             found = true;
+-                            newMaxBase = word2->base;
+                         } else {
+                             word0 = word1;
+                             word1 = word1->next;
+@@ -3198,12 +3200,12 @@ void TextPage::coalesce(bool physLayout,
+                                 }
+                                 word1 = word1->next;
+                                 word2->next = nullptr;
+-                                blk->addWord(word2);
+                                 if (word2->base < minBase) {
+                                     minBase = word2->base;
+                                 } else if (word2->base > maxBase) {
+                                     maxBase = word2->base;
+                                 }
++                                blk->addWord(word2);
+                                 found = true;
+                                 break;
+                             } else {
+@@ -3246,12 +3248,12 @@ void TextPage::coalesce(bool physLayout,
+                                 }
+                                 word1 = word1->next;
+                                 word2->next = nullptr;
+-                                blk->addWord(word2);
+                                 if (word2->base < minBase) {
+                                     minBase = word2->base;
+                                 } else if (word2->base > maxBase) {
+                                     maxBase = word2->base;
+                                 }
++                                blk->addWord(word2);
+                                 found = true;
+                                 break;
+                             } else {
+--- poppler/poppler/XRef.cc
++++ poppler/poppler/XRef.cc
+@@ -402,6 +402,7 @@ int XRef::reserve(int newSize)
+ 
+         void *p = greallocn_checkoverflow(entries, realNewSize, sizeof(XRefEntry));
+         if (p == nullptr) {
++            entries = nullptr;
+             return 0;
+         }
+ 
+@@ -835,7 +836,6 @@ bool XRef::constructXRef(bool *wasRecons
+     int offset = 0;
+ 
+     resize(0); // free entries properly
+-    gfree(entries);
+     capacity = 0;
+     size = 0;
+     entries = nullptr;
+--- poppler/test/pdf-inspector.cc
++++ poppler/test/pdf-inspector.cc
+@@ -43,6 +43,7 @@ class PdfInspector
+ {
+ public:
+     PdfInspector();
++    ~PdfInspector();
+ 
+     void set_file_name(const char *file_name);
+     void load(const char *file_name);
+@@ -108,6 +109,11 @@ PdfInspector::PdfInspector()
+     load(nullptr);
+ }
+ 
++PdfInspector::~PdfInspector(void)
++{
++    delete output;
++}
++
+ void PdfInspector::set_file_name(const char *file_name)
+ {
+     GtkWidget *widget;
+--- poppler/utils/HtmlOutputDev.cc
++++ poppler/utils/HtmlOutputDev.cc
+@@ -1337,6 +1337,7 @@ void HtmlOutputDev::drawPngImage(GfxStat
+     // TODO can we calculate the resolution of the image?
+     if (!writer->init(f1, width, height, 72, 72)) {
+         error(errInternal, -1, "Can't init PNG for image '{0:t}'", fName);
++        delete fName;
+         delete writer;
+         fclose(f1);
+         return;
+--- poppler/utils/pdftotext.cc
++++ poppler/utils/pdftotext.cc
+@@ -329,6 +329,7 @@ int main(int argc, char *argv[])
+             fputs("<pre>\n", f);
+             if (f != stdout) {
+                 fclose(f);
++                f = nullptr;
+             }
+         }
+     }
+@@ -348,8 +349,9 @@ int main(int argc, char *argv[])
+                 printWordBBox(f, doc, textOut, firstPage, lastPage);
+             }
+         }
+-        if (f != stdout) {
++        if (f != stdout && f != nullptr) {
+             fclose(f);
++            f = nullptr;
+         }
+     } else {
+         textOut = new TextOutputDev(textFileName->c_str(), physLayout, fixedPitch, rawOrder, htmlMeta, discardDiag);
+@@ -390,7 +392,7 @@ int main(int argc, char *argv[])
+             fputs("</pre>\n", f);
+         fputs("</body>\n", f);
+         fputs("</html>\n", f);
+-        if (f != stdout) {
++        if (f != stdout && f != nullptr) {
+             fclose(f);
+         }
+     }
