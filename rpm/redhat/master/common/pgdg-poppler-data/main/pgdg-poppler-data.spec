@@ -62,5 +62,5 @@ pkgconfig utility allowing your software to be build with poppler-data.
 %changelog
 * Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 0.4.9-7
 - Initial packaging for PostgreSQL RPM repository, to prevent
-  further brekages caused by Poppler updates on RHEL 8.x. Spec file taken
+  further breakages caused by Poppler updates on RHEL 8.x. Spec file taken
   from Fedora rawhide.

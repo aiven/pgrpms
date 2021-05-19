@@ -202,4 +202,4 @@ chmod -x poppler/CairoFontEngine.cc
 %changelog
 * Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 21.01.0-6
 - Initial packaging for PostgreSQL RPM repository, to prevent
-  further brekages caused by Poppler updates on RHEL 8.x
+  further breakages caused by Poppler updates on RHEL 8.x
