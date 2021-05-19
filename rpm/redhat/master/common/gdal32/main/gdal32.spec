@@ -58,7 +58,11 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 %global mysql --with-mysql
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
+%if 0%{?rhel} && 0%{?rhel} == 8
+%global poppler --with-poppler=/usr/pgdg-poppler/
+%else
 %global poppler --with-poppler
+%endif
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}32
