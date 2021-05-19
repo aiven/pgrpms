@@ -63,7 +63,7 @@
 
 Name:		%{sname}32
 Version:	3.2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -140,7 +140,11 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libpoppler-devel
 %else
+%if 0%{?rhel} && 0%{?rhel} == 8
+BuildRequires:	pgdg-poppler-devel
+%else
 BuildRequires:	poppler-devel
+%endif
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -691,6 +695,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed May 19 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-2
+- Require our own pgdg-poppler on RHEL 8 to avoid further
+  breakages caused by Poppler updates on RHEL 8.x
+
 * Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-1
 - Update to 3.2.3
 
