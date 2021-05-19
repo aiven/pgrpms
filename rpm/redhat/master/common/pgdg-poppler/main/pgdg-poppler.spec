@@ -5,119 +5,105 @@ Summary:	PDF rendering library
 Name:		pgdg-%{sname}
 Version:	20.11.0
 Release:	2%{?dist}
-License: (GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
-URL:     http://poppler.freedesktop.org/
-Source0: http://poppler.freedesktop.org/poppler-%{version}.tar.xz
+License:	(GPLv2 or GPLv3) and GPLv2+ and LGPLv2+ and MIT
+URL:		https://poppler.freedesktop.org/
+Source0:	https://poppler.freedesktop.org/poppler-%{version}.tar.xz
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1185007
-Patch0:  poppler-0.30.0-rotated-words-selection.patch
+Patch0:		poppler-0.30.0-rotated-words-selection.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1602662
 # https://bugzilla.redhat.com/show_bug.cgi?id=1638712
-Patch4:  poppler-0.66.0-covscan.patch
+Patch4:		poppler-0.66.0-covscan.patch
 
 # https://bugzilla.redhat.com/show_bug.cgi?id=1618766
-Patch21: poppler-0.66.0-nss.patch
+Patch21:	poppler-0.66.0-nss.patch
 
-BuildRequires: cmake
-BuildRequires: gettext-devel
-BuildRequires: pkgconfig(cairo)
-BuildRequires: pkgconfig(cairo-ft)
-BuildRequires: pkgconfig(cairo-pdf)
-BuildRequires: pkgconfig(cairo-ps)
-BuildRequires: pkgconfig(cairo-svg)
-BuildRequires: pkgconfig(fontconfig)
-BuildRequires: pkgconfig(freetype2)
-BuildRequires: pkgconfig(gdk-pixbuf-2.0)
-BuildRequires: pkgconfig(gio-2.0)
-BuildRequires: pkgconfig(gobject-2.0)
-BuildRequires: pkgconfig(gobject-introspection-1.0)
-BuildRequires: pkgconfig(gtk+-3.0)
-BuildRequires: pkgconfig(gtk-doc)
-BuildRequires: pkgconfig(lcms2)
-BuildRequires: pkgconfig(libjpeg)
-BuildRequires: pkgconfig(libopenjp2)
-BuildRequires: pkgconfig(libpng)
-BuildRequires: pkgconfig(libtiff-4)
-BuildRequires: pkgconfig(nss)
-BuildRequires: pkgconfig(pgdg-poppler-data)
-BuildRequires: pkgconfig(Qt5Core)
-BuildRequires: pkgconfig(Qt5Gui)
-BuildRequires: pkgconfig(Qt5Test)
-BuildRequires: pkgconfig(Qt5Widgets)
-BuildRequires: pkgconfig(Qt5Xml)
-BuildRequires: python3-devel
+BuildRequires:	cmake gettext-devel
+BuildRequires:	pkgconfig(cairo) pkgconfig(cairo-ft)
+BuildRequires:	pkgconfig(cairo-pdf) pkgconfig(cairo-ps)
+BuildRequires:	pkgconfig(cairo-svg) pkgconfig(fontconfig)
+BuildRequires:	pkgconfig(freetype2) pkgconfig(gdk-pixbuf-2.0)
+BuildRequires:	pkgconfig(gio-2.0) pkgconfig(gobject-2.0)
+BuildRequires:	pkgconfig(gobject-introspection-1.0) pkgconfig(gtk+-3.0)
+BuildRequires:	pkgconfig(gtk-doc) pkgconfig(lcms2)
+BuildRequires:	pkgconfig(libjpeg) pkgconfig(libopenjp2)
+BuildRequires:	pkgconfig(libpng) pkgconfig(libtiff-4)
+BuildRequires:	pkgconfig(nss) pkgconfig(pgdg-poppler-data)
+BuildRequires:	pkgconfig(Qt5Core) pkgconfig(Qt5Gui)
+BuildRequires:	pkgconfig(Qt5Test) pkgconfig(Qt5Widgets)
+BuildRequires:	pkgconfig(Qt5Xml) python3-devel
 
-Requires: poppler-data
+Requires:	pgdg-poppler-data
 
-Obsoletes: poppler-glib-demos < 0.60.1-1
+Obsoletes:	pgdg-poppler-glib-demos < 0.60.1-1
 
 %description
 %{name} is a PDF rendering library.
 
 %package devel
-Summary: Libraries and headers for poppler
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Summary:	Libraries and headers for poppler
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description devel
 You should install the poppler-devel package if you would like to
 compile applications based on poppler.
 
 %package glib
-Summary: Glib wrapper for poppler
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Summary:	Glib wrapper for poppler
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description glib
 %{summary}.
 
 %package glib-devel
-Summary: Development files for glib wrapper
-Requires: %{name}-glib%{?_isa} = %{version}-%{release}
-Requires: %{name}-devel%{?_isa} = %{version}-%{release}
-Suggests: %{name}-doc = %{version}-%{release}
+Summary:	Development files for glib wrapper
+Requires:	%{name}-glib%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Suggests:	%{name}-doc = %{version}-%{release}
 
 %description glib-devel
 %{summary}.
 
 %package glib-doc
-Summary: Documentation for glib wrapper
-BuildArch: noarch
+Summary:	Documentation for glib wrapper
+BuildArch:	noarch
 
 %description glib-doc
 %{summary}.
 
 %package qt5
-Summary: Qt5 wrapper for poppler
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Summary:	Qt5 wrapper for poppler
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 %description qt5
 %{summary}.
 
 %package qt5-devel
-Summary: Development files for Qt5 wrapper
-Requires: %{name}-qt5%{?_isa} = %{version}-%{release}
-Requires: %{name}-devel%{?_isa} = %{version}-%{release}
-Requires: qt5-qtbase-devel
+Summary:	Development files for Qt5 wrapper
+Requires:	%{name}-qt5%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Requires:	qt5-qtbase-devel
 %description qt5-devel
 %{summary}.
 
 %package cpp
-Summary: Pure C++ wrapper for poppler
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Summary:	Pure C++ wrapper for poppler
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description cpp
 %{summary}.
 
 %package cpp-devel
-Summary: Development files for C++ wrapper
-Requires: %{name}-cpp%{?_isa} = %{version}-%{release}
-Requires: %{name}-devel%{?_isa} = %{version}-%{release}
+Summary:	Development files for C++ wrapper
+Requires:	%{name}-cpp%{?_isa} = %{version}-%{release}
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 
 %description cpp-devel
 %{summary}.
 
 %package utils
-Summary: Command line utilities for converting PDF files
-Requires: %{name}%{?_isa} = %{version}-%{release}
+Summary:	Command line utilities for converting PDF files
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 %description utils
 Command line tools for manipulating PDF files and converting them to
 other formats.
@@ -131,22 +117,22 @@ mkdir build
 cd build
 export CC="gcc -fPIC" # hack to make the cmake call pass
 %cmake \
-        -DCMAKE_INSTALL_PREFIX=/usr/pgdg-poppler \
-  -DENABLE_CMS=lcms2 \
-  -DENABLE_DCTDECODER=libjpeg \
-  -DENABLE_GTK_DOC=ON \
-  -DENABLE_LIBOPENJPEG=openjpeg2 \
-  -DENABLE_ZLIB=OFF \
-  -DENABLE_NSS=ON \
-  -DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
-  -DENABLE_QT6=OFF \
-  ..
+	-DCMAKE_INSTALL_PREFIX=/usr/pgdg-poppler \
+	-DENABLE_CMS=lcms2 \
+	-DENABLE_DCTDECODER=libjpeg \
+	-DENABLE_GTK_DOC=ON \
+	-DENABLE_LIBOPENJPEG=openjpeg2 \
+	-DENABLE_ZLIB=OFF \
+	-DENABLE_NSS=ON \
+	-DENABLE_UNSTABLE_API_ABI_HEADERS=ON \
+	-DENABLE_QT6=OFF \
+	..
 unset CC
-make %{?_smp_mflags}
+%{__make}%{?_smp_mflags}
 
 %install
 cd build
-make install DESTDIR=$RPM_BUILD_ROOT
+%{__make}install DESTDIR=$RPM_BUILD_ROOT
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
