@@ -5,8 +5,6 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global pgdg_build_timestamp %(date +"%Y%m%d")
-
 %global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -67,11 +65,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	beta1_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/v14beta1/postgresql-14beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -552,7 +550,7 @@ benchmarks.
 %global __perl_requires %{SOURCE16}
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}devel
+%setup -q -n %{sname}-%{pgpackageversion}beta1
 
 %patch1 -p0
 %patch3 -p0
@@ -1391,6 +1389,9 @@ fi
 %endif
 
 %changelog
+* Tue May 18 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1
+- Update to beta1
+
 * Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 14.0-alpha1
 - Initial cut for PostgreSQL 14
 
