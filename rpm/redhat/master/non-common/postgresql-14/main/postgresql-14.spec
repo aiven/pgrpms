@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 140
 %global pgpackageversion 14
@@ -58,6 +59,9 @@
 %global _hardened_build 1
 %endif
 
+#Filter out PostgresVersion "dependency"
+%global __requires_exclude ^perl\\((PostgresVersion)
+
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -65,7 +69,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta1_PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1389,7 +1393,10 @@ fi
 %endif
 
 %changelog
-* Tue May 18 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1
+* Thu May 20 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_2
+- Filter out PostgresVersion "dependency", per hint from Honza Horak.
+
+* Tue May 18 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_1
 - Update to beta1
 
 * Thu Sep 17 2020 Devrim Gündüz <devrim@gunduz.org> - 14.0-alpha1
