@@ -9,11 +9,10 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.17
+Version:	0.18
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lacanoid/%{pname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildArch:	noarch
@@ -33,7 +32,6 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 
 %prep
 %setup -q -n %{pname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,11 +39,11 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -64,6 +62,9 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 0.18-1
+- Update to 0.18
+
 * Thu Oct 8 2020 Devrim Gündüz <devrim@gunduz.org> - 0.17-1
 - Update to 0.17
 

@@ -1,8 +1,0 @@
---- Makefile.old	2019-08-14 09:48:53.901728301 +0300
-+++ Makefile	2019-08-14 09:49:09.558783388 +0300
-@@ -1,4 +1,4 @@
--PG_CONFIG    = pg_config
-+PG_CONFIG    = /usr/pgsql-10/bin/pg_config
- PKG_CONFIG   = pkg-config
- 
- EXTENSION    = ddlx
