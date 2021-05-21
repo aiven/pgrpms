@@ -1,9 +1,0 @@
---- Makefile.old	2017-03-31 13:23:31.130858690 +0100
-+++ Makefile	2017-03-31 13:23:42.404879525 +0100
-@@ -1,5 +1,5 @@
- MODULES = bgw_replstatus
- 
--PG_CONFIG=pg_config
-+PG_CONFIG=/usr/pgsql-9.6/bin/pg_config
- PGXS := $(shell $(PG_CONFIG) --pgxs)
- include $(PGXS)

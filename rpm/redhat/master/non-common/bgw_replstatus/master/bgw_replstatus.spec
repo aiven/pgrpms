@@ -15,7 +15,6 @@ Summary:	PostgreSQL background worker to report wether a node is a replication m
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
 Source0:	https://github.com/mhagander/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.12
 Requires:	postgresql%{pgmajorversion}-server
@@ -46,7 +45,6 @@ checking the status.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -54,11 +52,11 @@ checking the status.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
