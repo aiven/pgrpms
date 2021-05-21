@@ -9,10 +9,9 @@
 Summary:	Columnar store extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.7.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://citusdata.github.io/cstore_fdw/
 %if 0%{?suse_version} >= 1315
 BuildRequires:	protobuf-c libprotobuf-c-devel
@@ -37,7 +36,6 @@ let you:
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -46,11 +44,11 @@ let you:
 %endif
 %endif
 
-%{__make}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Let's also install documentation:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-cstore_fdw.md
@@ -82,6 +80,9 @@ let you:
 %endif
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> 1.7.0-2
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Feb 18 2020 - Devrim Gündüz <devrim@gunduz.org> 1.7.0-1
 - Update to 1.7.0
 
