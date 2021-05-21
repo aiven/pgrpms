@@ -58,6 +58,10 @@
 %global _hardened_build 1
 %endif
 
+#Filter out some Perl "dependencies"
+%global __requires_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
+%global __provides_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
+
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -1392,6 +1396,8 @@ fi
 %changelog
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_4
 - Remove redundant __perl_excludes, per Andrew Dunstan.
+- Filter out some perl dependencies, per Andrew. This will probably
+  be removed in v15.
 
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_3
 - Add a temp patch (by Andrew Dunstan) to properly fix the PostgresVersion
