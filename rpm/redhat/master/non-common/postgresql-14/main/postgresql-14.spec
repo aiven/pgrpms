@@ -65,11 +65,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta1_3PGDG%{?dist}
+Release:	beta1_4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/v14beta1/postgresql-14beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v14beta1/postgresql-14beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -77,7 +77,6 @@ Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
 Source14:	%{sname}-%{pgmajorversion}.pam
-Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
@@ -549,8 +548,6 @@ The postgresql%{pgmajorversion}-test package contains files needed for various t
 PostgreSQL database management system, including regression tests and
 benchmarks.
 %endif
-
-%global __perl_requires %{SOURCE16}
 
 %prep
 %setup -q -n %{sname}-%{pgpackageversion}beta1
@@ -1393,6 +1390,9 @@ fi
 %endif
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_4
+- Remove redundant __perl_excludes, per Andrew Dunstan.
+
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_3
 - Add a temp patch (by Andrew Dunstan) to properly fix the PostgresVersion
   dependency issue. This patch will be removed in Beta 2.
