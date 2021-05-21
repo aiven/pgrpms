@@ -58,9 +58,6 @@
 %global _hardened_build 1
 %endif
 
-#Filter out PostgresVersion "dependency"
-%global __requires_exclude ^perl\\((PostgresVersion)
-
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -68,7 +65,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta1_2PGDG%{?dist}
+Release:	beta1_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -94,6 +91,9 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+
+# To be removed in beta2:
+Patch7:		%{sname}-%{pgmajorversion}-install-PostgresVersion.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -559,6 +559,7 @@ benchmarks.
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
+%patch7 -p0
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1392,6 +1393,10 @@ fi
 %endif
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_3
+- Add a temp patch (by Andrew Dunstan) to properly fix the PostgresVersion
+  dependency issue. This patch will be removed in Beta 2.
+
 * Thu May 20 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_2
 - Filter out PostgresVersion "dependency", per hint from Honza Horak.
 
