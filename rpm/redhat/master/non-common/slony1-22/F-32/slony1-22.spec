@@ -1,1 +1,0 @@
-../master/slony1-22.spec

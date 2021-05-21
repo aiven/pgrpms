@@ -1,1 +1,0 @@
-../master/pgauditlogtofile11.spec

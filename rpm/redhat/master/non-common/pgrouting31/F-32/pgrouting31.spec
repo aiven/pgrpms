@@ -1,1 +1,0 @@
-../main/pgrouting31.spec
