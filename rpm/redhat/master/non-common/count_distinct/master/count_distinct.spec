@@ -9,10 +9,9 @@
 Summary:	A hash-table based alternative to COUNT(DISTINCT ...) aggregate in PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tvondra/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -31,7 +30,6 @@ amounts of data often ends in sorting and poor performance.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -39,11 +37,11 @@ amounts of data often ends in sorting and poor performance.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 %{__mkdir} -p %{buildroot}/%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}/%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -73,6 +71,9 @@ amounts of data often ends in sorting and poor performance.
 %endif
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> 3.0.1-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.0.1-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
