@@ -54,7 +54,6 @@ Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
-Patch1:		%{sname}%{postgiscurrmajorversion}-proj80.patch
 
 URL:		http://www.postgis.net/
 
@@ -203,7 +202,6 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
-%patch1 -p0
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -377,6 +375,7 @@ fi
 * Wed May 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-1
 - Update to 3.1.2, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.2/NEWS
+- Remove PROJ 8.0 patch, now in 3.1.2.
 
 * Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-5
 - Rebuild against Proj 8.0.1 and GDAL 3.2.3
