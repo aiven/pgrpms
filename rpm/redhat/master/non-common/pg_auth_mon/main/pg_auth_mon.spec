@@ -10,7 +10,7 @@ Summary:	PostgreSQL extension to store authentication attempts
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
 Release:	1%{?dist}
-License:	PostgreSQL
+License:	MIT
 Source0:	https://github.com/RafiaSabih/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/RafiaSabih/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
