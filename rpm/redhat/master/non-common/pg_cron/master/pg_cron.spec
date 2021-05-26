@@ -9,11 +9,10 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel openssl-devel
 Requires:	postgresql%{pgmajorversion}-server openssl-libs
 Requires(post):	%{_sbindir}/update-alternatives openldap
@@ -33,7 +32,6 @@ schedule PostgreSQL commands directly from the database.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -42,10 +40,10 @@ schedule PostgreSQL commands directly from the database.
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
-%make_install
+PATH=%{pginstdir}/bin/:$PATH %make_install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -77,6 +75,9 @@ schedule PostgreSQL commands directly from the database.
 %endif
 
 %changelog
+* Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Thu Apr 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
 - Update to 1.3.1
 
