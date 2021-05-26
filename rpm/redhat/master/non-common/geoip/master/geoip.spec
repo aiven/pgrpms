@@ -9,10 +9,9 @@
 Summary:	Geolocation using GeoIP for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/geoip/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildArch:	noarch
@@ -35,7 +34,6 @@ from MaxMind (available at www.maxmind.com).
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -44,12 +42,12 @@ from MaxMind (available at www.maxmind.com).
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -62,6 +60,9 @@ from MaxMind (available at www.maxmind.com).
 %{pginstdir}/share/extension/uninstall_%{sname}.sql
 
 %changelog
+* Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.4-3
+- Remove PGXS patches, export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.2.4-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
