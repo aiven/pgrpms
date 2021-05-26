@@ -10,11 +10,10 @@ Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -34,7 +33,6 @@ to simulate the behavior once the feature is finally integrated.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -43,11 +41,11 @@ to simulate the behavior once the feature is finally integrated.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 
 %clean
@@ -72,6 +70,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2-2
+- Remove PGXS patches, and export PATH instead.
+
 * Wed Sep 23 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
 - Update to 1.2
 
