@@ -12,7 +12,6 @@ Version:	1.2.0
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/HypoPG/%{sname}
 BuildRequires:  postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
@@ -28,7 +27,6 @@ HypoPG is a PostgreSQL extension adding support for hypothetical indexes.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -37,11 +35,11 @@ HypoPG is a PostgreSQL extension adding support for hypothetical indexes.
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
