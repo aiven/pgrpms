@@ -12,7 +12,6 @@ Version:	1.1.1
 Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/ver_%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}/
 
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
@@ -47,7 +46,6 @@ This package includes the development headers for the jsquery extension.
 
 %prep
 %setup -q -n %{sname}-ver_%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -56,15 +54,15 @@ This package includes the development headers for the jsquery extension.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-install -d %{buildroot}%{pginstdir}/include/server
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+%{__install} -d %{buildroot}%{pginstdir}/include/server
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
-install -d %{buildroot}%{pginstdir}/doc/extension
-install -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
 
 %clean
