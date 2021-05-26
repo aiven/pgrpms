@@ -8,11 +8,10 @@
 
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
+Version:	2.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/munakoiso/%{sname}
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
@@ -29,7 +28,6 @@ Extension for PostgreSQL for collecting statistics about messages in logfile
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -38,10 +36,10 @@ Extension for PostgreSQL for collecting statistics about messages in logfile
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
-%make_install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 # Let's also install documentation:
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
@@ -67,5 +65,8 @@ Extension for PostgreSQL for collecting statistics about messages in logfile
 %endif
 
 %changelog
+* Wed May 26 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0-1
+- Update to 2.0
+
 * Mon Aug 3 2020 - Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
