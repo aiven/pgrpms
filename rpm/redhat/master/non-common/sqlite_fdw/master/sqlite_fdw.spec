@@ -12,12 +12,11 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.1
+Version:	2.0.0
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server sqlite-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -41,7 +40,6 @@ This PostgreSQL extension is a Foreign Data Wrapper for SQLite.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -50,11 +48,11 @@ This PostgreSQL extension is a Foreign Data Wrapper for SQLite.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -81,6 +79,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
+- Update to 2.0.0
+
 * Thu Jan 21 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
 - Update to 1.3.1
 
