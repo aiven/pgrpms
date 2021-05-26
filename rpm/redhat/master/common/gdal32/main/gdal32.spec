@@ -395,7 +395,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %global g2clib g2c_v1.6.0
 %endif
 %if 0%{?rhel} == 7
-%global g2clib g2c_v1.4.0
+%global g2clib grib2c
 %endif
 %if 0%{?suse_version} >= 1315
 %global g2clib grib2c
