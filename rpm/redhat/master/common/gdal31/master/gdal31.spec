@@ -54,7 +54,7 @@
 
 Name:		%{sname}31
 Version:	3.1.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -635,6 +635,9 @@ done
 %{_mandir}/man1
 
 %changelog
+* Thu May 27 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-3
+- Rebuild against new poppler on RHEL 8.
+
 * Tue Sep 29 2020 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-2
 - Rebuild against libgeotiff 1.6
 
