@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global	painstdir	/usr/%{name}
 
 Summary:	PostgreSQL Audit Analyzer
