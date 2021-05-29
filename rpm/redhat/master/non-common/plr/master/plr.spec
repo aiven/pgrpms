@@ -8,16 +8,16 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.4.1
-Release:	2%{?dist}
+Version:	8.4.2
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_1.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_2.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} < 0.4.1-2
+Obsoletes:	%{sname}%{pgmajorversion} < 8.4.1-2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -30,7 +30,7 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}-REL8_4_1
+%setup -q -n %{sname}-REL8_4_2
 %patch0 -p0
 
 %build
@@ -74,6 +74,10 @@ statistical computing and graphics".
 %endif
 
 %changelog
+* Sat May 29 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
+- Update to 8.4.2, per changes described at:
+  https://github.com/postgres-plr/plr/blob/REL8_4_2/changelog.md
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
