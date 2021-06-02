@@ -8,13 +8,12 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Source1:	%{sname}.LICENSE
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -35,7 +34,6 @@ part of pgAdmin 4.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %{__cp} -p %{SOURCE1} ./LICENSE
 
@@ -46,11 +44,11 @@ part of pgAdmin 4.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -83,6 +81,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
