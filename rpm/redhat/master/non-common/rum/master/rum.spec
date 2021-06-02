@@ -9,10 +9,9 @@
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -38,7 +37,6 @@ This package includes the development headers for the rum extension.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -47,12 +45,12 @@ This package includes the development headers for the rum extension.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -d %{buildroot}%{pginstdir}/include/server
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
 %{__install}  -d %{buildroot}%{pginstdir}/doc/extension
 %{__install}  -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -80,6 +78,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.7-2
+- Remove pgxs patches, and  export PATH instead.
+
 * Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> 1.3.7-1
 - Update to 1.3.7
 
