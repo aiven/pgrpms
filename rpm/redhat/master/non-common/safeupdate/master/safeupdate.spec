@@ -10,11 +10,10 @@ Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and 
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
 Source0:	https://github.com/eradman/pg-safeupdate/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -33,7 +32,6 @@ is writable by PostgREST.
 
 %prep
 %setup -q -n pg-%{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -42,11 +40,11 @@ is writable by PostgREST.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 
 %clean
@@ -69,6 +67,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.3-2
+- Remove pgxs patches, and export PATH instead.
+
 * Wed Aug 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Update to 1.3
 
