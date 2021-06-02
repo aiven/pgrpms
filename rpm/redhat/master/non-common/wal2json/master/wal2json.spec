@@ -3,10 +3,9 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_3.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/eulerto/wal2json
 # This is for older spec files (RHEL <= 6)
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -30,14 +29,13 @@ schema-qualified, data types, and transaction ids.
 
 %prep
 %setup -q -n %{sname}-%{sname}_2_3
-%patch0 -p0
 
 %build
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%make_install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %{__install} -d %{buildroot}/%{pginstdir}/doc/extension/
 %{__mv} README.md  %{buildroot}/%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -59,6 +57,9 @@ schema-qualified, data types, and transaction ids.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.3-4
+- Remove PGXS patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
