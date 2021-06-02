@@ -124,5 +124,5 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %endif
 
 %changelog
-* Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 0.3.0
+* Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.9-1
 - Initial packaging for PostgreSQL RPM Repository
