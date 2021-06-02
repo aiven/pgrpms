@@ -1,5 +1,5 @@
 %global sname repmgr
-%global unitname	%{sname}%{pgmajorversion}
+%global unitname	%{sname}-%{pgmajorversion}
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %global systemd_enabled 0
 %else
@@ -14,7 +14,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -210,6 +210,9 @@ fi
 %endif
 
 %changelog
+* Wed Jun 2 2021 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-3
+- Fix unit file path.
+
 * Fri Jan 22 2021 - Devrim Gündüz <devrim@gunduz.org> 5.2.1-2
 - Make sure that the socket dir is created, per report from
   Greg Clough.
