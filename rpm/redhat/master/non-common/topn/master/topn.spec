@@ -9,10 +9,9 @@
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/citusdata/postgresql-%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -39,7 +38,6 @@ HLL extension, you can think of TopN as its cousin.
 
 %prep
 %setup -q -n postgresql-%{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -48,10 +46,10 @@ HLL extension, you can think of TopN as its cousin.
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
-%make_install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -78,6 +76,9 @@ HLL extension, you can think of TopN as its cousin.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Dec 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
 - Update to 2.3.1
 
