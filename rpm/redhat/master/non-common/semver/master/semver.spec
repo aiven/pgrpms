@@ -9,10 +9,9 @@
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.31.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/theory/pg-semver/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -32,7 +31,6 @@ Versioning 2.0.0 Specification.
 
 %prep
 %setup -q -n pg-%{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,11 +39,11 @@ Versioning 2.0.0 Specification.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -70,6 +68,9 @@ Versioning 2.0.0 Specification.
 
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 0.31.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Apr 27 2021 Devrim Gündüz <devrim@gunduz.org> - 0.31.1-1
 - Update to 0.31.1
 
