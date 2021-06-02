@@ -9,10 +9,9 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.8.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://gitlab.com/dalibo/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
@@ -32,7 +31,6 @@ PostgreSQL database.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -40,11 +38,11 @@ PostgreSQL database.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -75,6 +73,9 @@ PostgreSQL database.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Feb 9 2021 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-1
 - Update to 0.8.1
 
