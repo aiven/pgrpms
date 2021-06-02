@@ -33,8 +33,8 @@ License:	MIT
 Source0:	https://github.com/RhodiumToad/%{pname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
 URL:		https://github.com/RhodiumToad/%{pname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server lua-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros lua-devel
+Requires:	postgresql%{pgmajorversion}-server lua-libs
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
