@@ -9,13 +9,12 @@
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 # Use this source for pg_prove and pg_tapgen
 Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	perl-Test-Pod perl-Test-Pod-Coverage perl-Module-Build
 
@@ -42,7 +41,6 @@ test frameworks. It can also be used in the xUnit testing style.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -51,7 +49,7 @@ test frameworks. It can also be used in the xUnit testing style.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 TAPSCHEMA=pgtap %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} TAPSCHEMA=pgtap %{?_smp_mflags}
 
 # Build pg_prove and pg_tapgen
 tar zxf %{SOURCE1}
@@ -62,7 +60,7 @@ popd
 
 %install
 %{__rm} -rf  %{buildroot}
-%{__make} install USE_PGXS=1 DESTDIR=%{buildroot} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} install DESTDIR=%{buildroot} %{?_smp_mflags}
 
 # Install pg_prove and pg_tapgen
 pushd TAP-Parser-SourceHandler-pgTAP-3.33
@@ -85,6 +83,9 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
