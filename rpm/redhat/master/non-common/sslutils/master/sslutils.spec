@@ -9,11 +9,10 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -28,7 +27,6 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 
 %prep
 %setup -q  -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -37,11 +35,11 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 # Install README-sslutils.txt
 %{__install} -d -m 755 %{buildroot}%{pginstdir}/share/doc/extension
@@ -95,6 +93,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-3
+- Remove pgxs patches, and export PATH instead.
+
 * Thu Apr 30 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
 - Switch to the new open source repo
 - Switch to pgdg-srpm-macros
