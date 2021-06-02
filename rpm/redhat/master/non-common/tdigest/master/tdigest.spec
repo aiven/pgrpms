@@ -9,10 +9,9 @@
 Summary:	t-digest implementation for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/tvondra/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tvondra/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -36,7 +35,6 @@ the fact that t-digests are much more compact when stored on disk.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -45,11 +43,11 @@ the fact that t-digests are much more compact when stored on disk.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -77,6 +75,9 @@ the fact that t-digests are much more compact when stored on disk.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Thu Nov 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 
