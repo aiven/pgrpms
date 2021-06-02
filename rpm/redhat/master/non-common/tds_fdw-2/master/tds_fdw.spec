@@ -9,10 +9,9 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/tds-fdw/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel freetds-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server freetds
@@ -32,7 +31,6 @@ Server and Sybase databases.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,11 +39,11 @@ Server and Sybase databases.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make}  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}  DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -82,6 +80,9 @@ Server and Sybase databases.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
