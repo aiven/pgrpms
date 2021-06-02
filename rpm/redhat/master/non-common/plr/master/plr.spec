@@ -12,7 +12,6 @@ Version:	8.4.2
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_2.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -31,7 +30,6 @@ statistical computing and graphics".
 
 %prep
 %setup -q -n %{sname}-REL8_4_2
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -40,11 +38,11 @@ statistical computing and graphics".
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 DESTDIR=%{buildroot}/ install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
@@ -77,6 +75,7 @@ statistical computing and graphics".
 * Sat May 29 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
 - Update to 8.4.2, per changes described at:
   https://github.com/postgres-plr/plr/blob/REL8_4_2/changelog.md
+- Remove pgxs patches, and export PATH instead.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
 - Use underscore before PostgreSQL version number for consistency, per:
