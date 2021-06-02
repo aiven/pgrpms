@@ -9,14 +9,10 @@
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.9
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
-Patch0:		prefix-pg%{pgmajorversion}-makefile-pgconfig.patch
 URL:		https://github.com/dimitri/prefix
-# This is for older spec files (RHEL <= 6)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -35,7 +31,6 @@ searches.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -44,11 +39,11 @@ searches.
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%make_install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 # Rename docs to avoid conflict:
 %{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-prefix.md
 %{__mv} %{buildroot}%{pginstdir}/doc/extension/TESTS.md %{buildroot}%{pginstdir}/doc/extension/TESTS-prefix.md
@@ -70,6 +65,9 @@ searches.
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.2.9-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2.9-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
