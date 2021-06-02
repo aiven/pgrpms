@@ -9,10 +9,9 @@
 Summary:	PostgreSQL logical decoding output plugin for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/HighgoSoftware/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/HighgoSoftware/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -32,7 +31,6 @@ to a JSON-like format accepted by mongo.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,11 +39,11 @@ to a JSON-like format accepted by mongo.
 %endif
 %endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %make_install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %{__install} -d %{buildroot}/%{pginstdir}/doc/extension/
 %{__mv} README.md  %{buildroot}/%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -67,6 +65,9 @@ USE_PGXS=1 %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-3
+- Remove pgxs patch, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
