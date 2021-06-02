@@ -1,8 +1,0 @@
---- Makefile.old	2018-11-05 14:15:59.470236655 +0000
-+++ Makefile	2018-11-05 14:16:08.832290429 +0000
-@@ -1,4 +1,4 @@
--PG_CONFIG ?= pg_config
-+PG_CONFIG ?= /usr/pgsql-12/bin/pg_config
- MODULE_big = pg_squeeze
- OBJS = pg_squeeze.o concurrent.o worker.o pgstatapprox.o $(WIN32RES)
- PGFILEDESC = "pg_squeeze - a tool to remove unused space from a relation."
