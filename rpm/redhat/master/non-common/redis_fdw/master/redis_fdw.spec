@@ -12,11 +12,10 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Redis
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel hiredis-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-server hiredis
@@ -70,7 +69,6 @@ list, zset, and pubsub.
 
 %prep
 %setup -q -n rw_redis_fdw-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -112,6 +110,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/p
 %endif
 
 %changelog
+* Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.1-1
+- Remove pxgs patches, and export PATH instead.
+
 * Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Update to 1.1, which supports PostgreSQL 13.
 
