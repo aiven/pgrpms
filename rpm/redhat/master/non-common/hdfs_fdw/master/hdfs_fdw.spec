@@ -9,10 +9,9 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	libxml2-devel java-devel
@@ -34,7 +33,6 @@ the hdfs.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -48,10 +46,10 @@ export JRE_LIBDIR="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
 export JVM_LIB="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
 #export JVM_LIB="/etc/alternatives/jre_1.8.0_exports/lib/amd64/server"
 pushd libhive
-%{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 popd
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -68,7 +66,7 @@ pushd libhive/jdbc
 	%{__cp} HiveJdbcClient-1.0.jar %{buildroot}%{pginstdir}/lib
 popd
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install INSTALL_DIR=%{buildroot} DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTALL_DIR=%{buildroot} DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -101,6 +99,9 @@ popd
 %endif
 
 %changelog
+* Thu Jun 3 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.7-2
+- Remove pgxs patches, and export PATH instead.
+
 * Wed Oct 21 2020 - Devrim Gündüz <devrim@gunduz.org> 2.0.7-1
 - Update to 2.0.7
 
