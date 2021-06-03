@@ -8,7 +8,7 @@ Version:	%{libpqxxmajorver}.2
 Release:	1%{?dist}
 
 License:	BSD
-URL:		http://pqxx.org/
+URL:		https://github.com/jtv/libpqxx
 Source0:	https://github.com/jtv/libpqxx/archive/%{version}.tar.gz
 
 BuildRequires:	gcc-c++
