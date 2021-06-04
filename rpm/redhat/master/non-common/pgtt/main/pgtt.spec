@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3
+Version:	2.4
 Release:	1%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
@@ -73,6 +73,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 2.4-1
+- Update to 2.4
+
 * Fri Apr 2 2021 Devrim Gündüz <devrim@gunduz.org> 2.3-1
 - Update to 2.3
 - Export PATH, and remove pgxs patches.
