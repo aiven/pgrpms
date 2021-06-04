@@ -1,18 +1,11 @@
- %global debug_package %{nil}
+%global	debug_package %{nil}
+%global	pgbulkloadpackagever 3_1_18
 
 %global sname pg_bulkload
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-%if %{pgmajorversion} == 13
-Version:	3.1.17
-# Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_17
-%else
-Version:	3.1.16
-# Please note underscores -- this reflects the tarball name:
-%global pgbulkloadpackagever 3_1_16
-%endif
+Version:	3.1.18
 Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
@@ -79,6 +72,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-1
+- Update to 3.1.18
+
 * Thu Apr 15 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.17-1
 - Update to 3.1.17
 - Export PATH, and remove pgxs patches.
