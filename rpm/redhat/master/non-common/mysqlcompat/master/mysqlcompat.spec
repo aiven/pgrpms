@@ -9,10 +9,9 @@
 Summary:	MySQL compatibility functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.0.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		http://pgxn.org/dist/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -39,7 +38,6 @@ rely heavily on certain MySQL functions.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -47,11 +45,11 @@ rely heavily on certain MySQL functions.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
@@ -70,6 +68,9 @@ rely heavily on certain MySQL functions.
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Jun 3 2021 Devrim Gündüz <devrim@gunduz.org> 0.0.7-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.0.7-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
