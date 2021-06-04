@@ -9,10 +9,9 @@
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/powa-team/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -40,7 +39,6 @@ together.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -49,12 +47,12 @@ together.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file.
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension/
@@ -68,13 +66,8 @@ together.
 
 %files
 %defattr(644,root,root,755)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc %{pginstdir}/doc/extension/README-%{sname}.md
-%doc LICENSE
-%else
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %license LICENSE
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -90,6 +83,9 @@ together.
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
