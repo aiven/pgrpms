@@ -244,15 +244,15 @@ autoconf
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
-%{__make} -C extensions
+%{__make} %{?_smp_mflags}  -C extensions
 
 %if %utils
- SHLIB_LINK="$SHLIB_LINK" %{__make} -C utils
+ SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  -C utils
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-SHLIB_LINK="$SHLIB_LINK" %{__make} install DESTDIR=%{buildroot}
+SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  install DESTDIR=%{buildroot}
 
 %if %utils
 %{__install} -d %{buildroot}%{_datadir}/%{name}
