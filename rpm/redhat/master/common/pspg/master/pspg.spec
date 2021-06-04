@@ -1,6 +1,6 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	4.6.3
+Version:	5.0.2
 Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/okbob/%{name}
@@ -33,15 +33,15 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 
 %files
 %defattr(-,root,root)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md LICENSE
-%else
 %license LICENSE
 %doc README.md
-%endif
 %{_bindir}/*
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 5.0.2-1
+- Update to 5.0.2
+- Remove RHEL 6 stuff.
+
 * Wed Apr 28 2021 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-1
 - Update to 4.6.3
 
