@@ -9,10 +9,9 @@
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/anayrat/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -42,7 +41,6 @@ pg_sampletolog allows to:
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -51,11 +49,11 @@ pg_sampletolog allows to:
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -67,11 +65,7 @@ pg_sampletolog allows to:
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %ifarch ppc64 ppc64le
  %else
  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
@@ -86,6 +80,9 @@ pg_sampletolog allows to:
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-4
+- Remove pgxs patches, and export PATH instead.
+
 * Sun Dec 13 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-3
 - Fix upgrade path breakage.
 
