@@ -1,12 +1,6 @@
 %global _vpath_builddir .
 %global sname	pgagent
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
-
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -16,15 +10,10 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.1
-Release:	0%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
-%if ! %{systemd_enabled}
-Source3:	%{sname}-%{pgmajorversion}.init
-%endif
-Source4:	%{sname}-%{pgmajorversion}.logrotate
-Source5:	%{sname}-%{pgmajorversion}.conf
 URL:		http://www.pgadmin.org/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} <= 7
@@ -35,7 +24,6 @@ BuildRequires:	cmake => 3.0.0
 
 BuildRequires:	boost-devel >= 1.41
 
-%if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
 Requires:		systemd
 %if 0%{?suse_version}
@@ -47,13 +35,6 @@ Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -95,7 +76,7 @@ fi
 	export CXXFLAGS
 %endif
 
-%cmake3  \
+%cmake3	\
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
 	-D STATIC_BUILD:BOOL=OFF .
@@ -112,47 +93,50 @@ fi
 %{__rm} -f %{buildroot}/usr/README
 %{__mv} -f %{buildroot}%{_datadir}/pgagent*.sql %{buildroot}%{_datadir}/%{name}-%{version}/
 
-%if %{systemd_enabled}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{sname}_%{pgmajorversion}.service
 # Install conf file
 %{__install} -p -d %{buildroot}%{_sysconfdir}/%{sname}/
-%{__install} -p -m 644 %{SOURCE5} %{buildroot}%{_sysconfdir}/%{sname}/%{name}.conf
+cat > %{buildroot}%{_sysconfdir}/%{sname}/%{name}.conf <<EOF
+DBNAME=postgres
+DBUSER=postgres
+DBHOST=127.0.0.1
+DBPORT=5432
+LOGFILE=/var/log/pgagent_%{pgmajorversion}.log
+EOF
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_rundir}/%{sname} 0755 root root -
 EOF
-%else
-# install init script
-%{__install} -d %{buildroot}%{_initrddir}
-%{__install} -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{name}
-%endif
 
 # Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
-%{__install} -p -m 644 %{SOURCE4} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+cat > %{buildroot}%{_sysconfdir}/logrotate.d/%{name} <<EOF
+/var/log/pgagent_%{pgmajorversion}.log {
+    missingok
+    compress
+    notifempty
+    sharedscripts
+    create 0640 pgagent pgagent
+    nodateext
+    weekly
+    rotate 5
+}
+EOF
 
 %post
 if [ $1 -eq 1 ] ; then
-%if %{systemd_enabled}
 %systemd_post %{sname}_%{pgmajorversion}.service
-%else
-chkconfig --add %{name}
-%endif
 fi
 
 %preun
-%if %{systemd_enabled}
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
 	/bin/systemctl --no-reload disable %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 	/bin/systemctl stop %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 fi
-%else
-	chkconfig --del %{name}
-%endif
 
 %postun
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
@@ -166,30 +150,26 @@ fi
 
 %files
 %defattr(-, root, root)
-%if %{systemd_enabled}
 %doc README
 %license LICENSE
-%else
-%doc README LICENSE
-%endif
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
-%if %{systemd_enabled}
 %ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
 %dir %{_sysconfdir}/%{sname}/
-%config(noreplace) %{_sysconfdir}/%{sname}/%{name}.conf
-%else
-%{_initrddir}/%{name}
-%endif
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{sname}/%{name}.conf
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}--unpackaged--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Thu Apr 1 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1
+- Move .conf and .logrotate files to spec file, so that we
+  do less work during each PostgreSQL major release.
+
+* Thu Apr 1 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-0
 - Update to 4.2.1
 
 * Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-5
