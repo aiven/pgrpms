@@ -15,7 +15,7 @@ Version:	%{pgstatsmajver}.%{pgstatsmidver}.%{pgstatsminver}
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/gleu/pgstats/archive/refs/tags/REL%{pgstatsmajver}_%{pgstatsmidver}_%{pgstatsminver}.tar.gz
-URL:		https://github.com/postgrespro/%{sname}
+URL:		https://github.com/gleu/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs libpq5
 
