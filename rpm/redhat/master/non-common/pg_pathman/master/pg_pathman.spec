@@ -9,10 +9,9 @@
 Summary:	Partitioning tool for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.12
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/postgrespro/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server python3-psycopg2
@@ -31,7 +30,6 @@ to manage partitions.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -40,14 +38,14 @@ to manage partitions.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 %{__mkdir} -p  %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -71,6 +69,9 @@ to manage partitions.
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 1.5.12-2
+- Remove pgxs patches, and export PATH instead.
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> 1.5.12-1
 - Update to 1.5.12
 
