@@ -12,10 +12,9 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/EnterpriseDB/mysql_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
@@ -41,7 +40,6 @@ the MySQL.
 
 %prep
 %setup -q -n %{sname}-REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -52,12 +50,12 @@ the MySQL.
 
 export LDFLAGS="-L%{_libdir}/mysql"
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -99,6 +97,9 @@ export LDFLAGS="-L%{_libdir}/mysql"
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.0-2
+- Remove pgxs patches, and export PATH instead.
+
 * Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.0-1
 - Update to 2.6.0
 
