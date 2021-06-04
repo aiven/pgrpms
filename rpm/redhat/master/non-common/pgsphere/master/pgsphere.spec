@@ -15,7 +15,7 @@ Source0:	https://download.postgresql.org/pub/projects/pgFoundry/%{sname}/%{sname
 Source1:	%{sname}.control
 Patch1:		%{sname}-int4.patch
 Patch2:		%{sname}-makefile-extension.patch
-URL:		http://pgfoundry.org/projects/%{sname}
+URL:		https://github.com/%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
