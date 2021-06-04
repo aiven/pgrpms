@@ -10,10 +10,9 @@
 Summary:	Get and set the nice priorities of PostgreSQL backends
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{pname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/schmiddy/%{pname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -34,7 +33,6 @@ which you may be familiar with from the nice or renice programs.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -43,11 +41,11 @@ which you may be familiar with from the nice or renice programs.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -74,5 +72,8 @@ which you may be familiar with from the nice or renice programs.
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-2
+- Remove pgxs patches, and export PATH instead.
+
 * Fri Sep 11 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-1
 - Initial packaging for PostgreSQL RPM Repository
