@@ -9,11 +9,10 @@
 Summary:	PostgreSQL extension to partition tables following a foreign key
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.7.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2
-Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
-URL:		http://pgxn.org/dist/pg_fkpart/
+Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+URL:		https://github.com/lemoineat/pg_fkpart
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
@@ -32,7 +31,6 @@ of a table.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,26 +39,26 @@ of a table.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %files
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 1.7.0-3
+- Remove pgxs patches, and export PATH instead.
+- Remove RHEL 6 stuff.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.7.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
