@@ -11,10 +11,9 @@
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		pg_repack-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://pgxn.org/dist/pg_repack/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
@@ -36,7 +35,6 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -45,11 +43,11 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 %endif
 %endif
 
-USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 make DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 
 %files
 %defattr(644,root,root)
@@ -74,6 +72,9 @@ USE_PGXS=1 make DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.6-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.6-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
