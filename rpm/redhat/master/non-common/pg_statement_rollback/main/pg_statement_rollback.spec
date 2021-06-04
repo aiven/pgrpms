@@ -9,10 +9,9 @@
 Summary:	Server side rollback at statement level for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/lzlabs/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/lzlabs/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -29,7 +28,6 @@ transaction with rollback at statement level like in Oracle or DB2.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -38,11 +36,11 @@ transaction with rollback at statement level like in Oracle or DB2.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 # Install documentation with a better name:
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -67,5 +65,8 @@ transaction with rollback at statement level like in Oracle or DB2.
 %endif
 
 %changelog
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Thu Nov 12 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
