@@ -6,28 +6,20 @@
 %endif
 %endif
 
-%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
+%if 0%{?fedora} > 32 || 0%{?rhel} >= 7
 %{!?with_python3:%global with_python3 1}
-%endif
-
-%if 0%{?rhel} <= 6
-%{!?with_python3:%global with_python3 0}
 %endif
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/pgpartman/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-%if 0%{?rhel}  == 6
-Requires:	python-psycopg2
-%endif
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
 Requires:	python3-psycopg2
 %endif
 
@@ -44,7 +36,6 @@ pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -60,12 +51,12 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/
 find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/g" {} \;
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -103,6 +94,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/
 %endif
 
 %changelog
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 4.5.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 4.5.1-1
 - Update to 4.5.1
 
