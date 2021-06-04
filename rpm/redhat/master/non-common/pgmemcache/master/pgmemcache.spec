@@ -9,10 +9,9 @@
 Summary:	A PostgreSQL API to interface with memcached
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/Ohmu/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libmemcached-devel
 BuildRequires:	pgdg-srpm-macros cyrus-sasl-devel
@@ -32,7 +31,6 @@ an interface to memcached.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,11 +39,11 @@ an interface to memcached.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -56,11 +54,7 @@ an interface to memcached.
 %files
 %defattr(644,root,root,755)
 %doc README.rst
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/lib/pgmemcache.so
 %{pginstdir}/share/extension/pgmemcache--*.sql
 %{pginstdir}/share/extension/pgmemcache.control
@@ -76,6 +70,10 @@ an interface to memcached.
 %endif
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-4
+- Remove pgxs patches, and export PATH instead.
+- Remove RHEL 6 stuff.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-4
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
