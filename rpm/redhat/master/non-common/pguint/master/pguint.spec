@@ -9,15 +9,14 @@
 Summary:	Unsigned and other extra integer types for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20200704
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
-Patch1:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/petere/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-Obsoletes:	%{sname}%{pgmajorversion} <2 1.20200704-2
+Obsoletes:	%{sname}%{pgmajorversion} <= 1.20200704-2
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -36,7 +35,6 @@ This extension provides additional integer types for PostgreSQL:
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch1 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -45,12 +43,12 @@ This extension provides additional integer types for PostgreSQL:
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -75,6 +73,9 @@ This extension provides additional integer types for PostgreSQL:
 %endif
 
 %changelog
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 1.20200704-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200704-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
