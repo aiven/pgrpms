@@ -1,9 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
-
 %global sname powa
 %global swebname powa-web
 # Powa archivist version
@@ -31,12 +25,11 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://powa.readthedocs.io/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-contrib
@@ -44,13 +37,11 @@ Requires:	postgresql%{pgmajorversion}-contrib
 Requires:	pg_qualstats_%{pgmajorversion}, pg_stat_kcache_%{pgmajorversion}
 Requires:	hypopg_%{pgmajorversion}
 
-%if %{systemd_enabled}
 Requires:		systemd
 Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -79,7 +70,6 @@ This is the user interface of POWA.
 
 %prep
 %setup -q -n %{sname}-archivist-REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -88,7 +78,7 @@ This is the user interface of POWA.
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 # Build powa-web
 tar zxf %{SOURCE1}
@@ -98,7 +88,7 @@ popd
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Move powa docs into their own subdirectory:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/%{sname}
 %{__install} INSTALL.md LICENSE.md PL_funcs.md README.md %{buildroot}%{pginstdir}/doc/extension/%{sname}
@@ -111,10 +101,8 @@ pushd %{swebname}-%{powawebversion}
 %{__install} powa-web.conf-dist %{buildroot}%{_sysconfdir}
 popd
 
-%if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{swebname}-%{pgpackageversion}.service
-%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -122,15 +110,10 @@ popd
 %files
 %defattr(-,root,root,-)
 %dir %{pginstdir}/doc/extension/%{sname}
-%if %{systemd_enabled}
 %doc %{pginstdir}/doc/extension/%{sname}/INSTALL.md
 %doc %{pginstdir}/doc/extension/%{sname}/PL_funcs.md
 %doc %{pginstdir}/doc/extension/%{sname}/README.md
 %license %{pginstdir}/doc/extension/%{sname}/LICENSE.md
-%else
-%defattr(-,root,root,-)
-%doc %{pginstdir}/doc/extension/%{sname}/*.md
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -152,11 +135,13 @@ popd
 %{python_sitelib}/%{sname}/*
 %{python_sitelib}/powa_web-%{powawebversion}-py%{pyver}.egg-info/*
 %{_sysconfdir}/powa-web.conf-dist
-%if %{systemd_enabled}
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
-%endif
 
 %changelog
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-2
+- Remove pgxs patches, and export PATH instead.
+- Remove RHEL 6 stuff.
+
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-1
 - Update to 4.1.2
 
