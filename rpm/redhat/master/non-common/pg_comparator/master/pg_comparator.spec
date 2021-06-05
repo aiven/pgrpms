@@ -9,10 +9,9 @@
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.5
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/koordinates/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -33,7 +32,6 @@ time-efficient approach.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -42,11 +40,11 @@ time-efficient approach.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__install} -d %{buildroot}%{pginstdir}/share/contrib/
 
 %post
@@ -89,6 +87,9 @@ time-efficient approach.
 %endif
 
 %changelog
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> 2.2.5-4
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.2.5-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
