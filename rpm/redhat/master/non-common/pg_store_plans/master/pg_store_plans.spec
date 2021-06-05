@@ -8,12 +8,11 @@
 
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4
-Release:	2%{?dist}
+Version:	1.5
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
 Source1:	README-%{sname}.txt
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/ossc-db/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -37,7 +36,6 @@ to add or remove the module.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -46,11 +44,11 @@ to add or remove the module.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 # Install documentation
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} %{SOURCE1} %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -61,11 +59,7 @@ to add or remove the module.
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -81,6 +75,11 @@ to add or remove the module.
 %endif
 
 %changelog
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 1.5-1
+- Update to 1.5.
+- Remove pgxs patches, and export PATH instead.
+- Remove RHEL 6 stuff.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
