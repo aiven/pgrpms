@@ -10,10 +10,9 @@
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/rjuju/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -40,7 +39,6 @@ and overloaded settings (the pg_db_role_setting table).
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -49,12 +47,12 @@ and overloaded settings (the pg_db_role_setting table).
 %endif
 %endif
 
-%{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 #Avoid conflict with some other README file:
 %{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -77,6 +75,9 @@ and overloaded settings (the pg_db_role_setting table).
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-3
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
