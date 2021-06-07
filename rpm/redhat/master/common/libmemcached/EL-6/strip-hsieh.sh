@@ -1,1 +1,0 @@
-../master/strip-hsieh.sh
