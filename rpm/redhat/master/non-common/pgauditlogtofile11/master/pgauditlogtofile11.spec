@@ -66,7 +66,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--1.0.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
