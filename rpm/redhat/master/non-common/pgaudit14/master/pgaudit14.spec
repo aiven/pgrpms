@@ -9,10 +9,9 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}14_%{pgmajorversion}
 Version:	1.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -40,7 +39,6 @@ trail or audit log. The term audit log is used in this documentation.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -49,11 +47,11 @@ trail or audit log. The term audit log is used in this documentation.
 %endif
 %endif
 
-%{__make} USE_PGXS=1 %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make}  USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -80,6 +78,9 @@ trail or audit log. The term audit log is used in this documentation.
 %endif
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-2
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 6 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.1 1
 - Update to 1.4.1
 
