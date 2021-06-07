@@ -6,7 +6,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.33
+Version:	2.34
 Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -120,6 +120,10 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 2.34-1
+- Update to 2.34, per changes described at:
+  https://pgbackrest.org/release.html#2.34
+
 * Tue Apr 6 2021 Devrim Gündüz <devrim@gunduz.org> - 2.33-1
 - Update to 2.33
 
