@@ -10,12 +10,11 @@
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
 Version:	13.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Source0:	https://github.com/df7cb/pg_filedump/archive/%{sversion}.tar.gz
-Patch1:		pg_filedump-pg%{pgmajorversion}-makefile-pgxs.patch
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -28,7 +27,6 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 
 %prep
 %setup -q -n %{sname}-%{sversion}
-%patch1 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -39,7 +37,7 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 
 export CFLAGS="$RPM_OPT_FLAGS"
 
-USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH make %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -56,6 +54,9 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 13.1-2
+- Remove pgxs patch, and export PATH instead.
+
 * Mon Jan 4 2021 Devrim Gündüz <devrim@gunduz.org> - 13.1-1
 - Update to 13.1
 

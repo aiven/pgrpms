@@ -10,12 +10,11 @@
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
 Version:	9.6.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Source0:	https://github.com/df7cb/%{sname}/archive/%{sversion}.tar.gz
-Patch1:		pg_filedump-pg%{pgmajorversion}-makefile-pgxs.patch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 9.6.0-2
 
@@ -30,7 +29,6 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 
 %prep
 %setup -q -n %{sname}-%{sversion}
-%patch1 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -41,7 +39,7 @@ Display formatted contents of a PostgreSQL heap/index/control file.
 
 export CFLAGS="$RPM_OPT_FLAGS"
 
-USE_PGXS=1 make %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH make %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -58,6 +56,9 @@ USE_PGXS=1 make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 9.6.0-3
+- Remove pgxs patch, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 9.6.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
