@@ -9,7 +9,7 @@
 
 Summary:	Logical Replication extension for PostgreSQ
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.3
+Version:	2.3.4
 Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
@@ -85,6 +85,9 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 2.3.4-1
+- Update to 2.3.4
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.3-1
 - Update to 2.3.3
 - Use underscore before PostgreSQL version number for consistency, per:
