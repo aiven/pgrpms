@@ -8,8 +8,8 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.2
-Release:	3%{?dist}
+Version:	2.0.3
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/powa-team/%{sname}
@@ -83,6 +83,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-1
+- Update to 2.0.3
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-3
 - Remove pgxs patches, and export PATH instead.
 
