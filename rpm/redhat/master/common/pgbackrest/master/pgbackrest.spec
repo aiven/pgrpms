@@ -62,7 +62,7 @@ are required to perform a backup which increases security.
 %setup -q -n %{name}-release-%{version}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
-%patch0 -p1
+%patch0 -p0
 %endif
 %endif
 
