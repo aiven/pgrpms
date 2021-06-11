@@ -12,6 +12,20 @@
 
 %pgdg_set_gis_variables
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -48,7 +62,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -320,25 +334,21 @@ fi
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
 %endif
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if %llvm
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}.index.bc
-   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}/lwgeom_sfcgal*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
    %if %raster
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
    %endif
-  %endif
- %endif
+   %if %{sfcgal}
+   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}.index.bc
+   %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}/lwgeom_sfcgal.bc
+   %endif
 %endif
 
 %files client
@@ -372,6 +382,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 10 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-2
+- Fix builds on RHEL 8 - ppc64le
+
 * Wed May 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.2-1
 - Update to 3.1.2, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.2/NEWS
