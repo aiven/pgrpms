@@ -8,8 +8,8 @@
 
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.7
-Release:	2%{?dist}
+Version:	1.3.8
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Fri Jun 11 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.8-1
+- Update to 1.3.8
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.7-2
 - Remove pgxs patches, and  export PATH instead.
 
