@@ -1,6 +1,6 @@
 %global sname	pgmoneta
 
-Name:		%{sname}
+Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.0
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
@@ -8,17 +8,9 @@ License:	BSD
 URL:		https://github.com/%{sname}/%{sname}
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 
-BuildRequires:	gcc cmake make
-%if 0%{?rhel} && 0%{?rhel} <= 7
-BuildRequires:	python36-docutils
-%else
-BuildRequires:	python3-docutils
-%endif
+BuildRequires:	gcc cmake make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
 Requires:	libev openssl systemd gzip postgresql%{pgmajorversion}
-
-Obsoletes:	%{sname}_%{pgmajorversion} < 0.2.0
-
 
 %description
 pgmoneta is a backup / restore solution for PostgreSQL.
