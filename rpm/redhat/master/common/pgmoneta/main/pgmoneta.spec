@@ -1,7 +1,7 @@
 %global sname	pgmoneta
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.1.0
+Version:	0.2.0
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -45,6 +45,10 @@ cd build
 %{_mandir}/man5/%{sname}*
 
 %changelog
+* Mon Jun 14 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
+- Update to 0.2.0
+  file from upstream.
+
 * Fri May 28 2021 Devrim Gündüz <devrim@gunduz.org> 0.1.0-1
 - Initial packaging for PostgreSQL RPM repository. Took spec
   file from upstream.
