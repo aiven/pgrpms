@@ -1,8 +1,8 @@
 %global sname	pgmoneta
 
-Name:		%{sname}_%{pgmajorversion}
+Name:		%{sname}
 Version:	0.2.0
-Release:	1%{dist}
+Release:	2%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{sname}/%{sname}
@@ -11,6 +11,8 @@ Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 BuildRequires:	gcc cmake make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
 Requires:	libev openssl systemd gzip postgresql%{pgmajorversion}
+
+Obsoletes:	%{sname}_13 < 0.2.0-2
 
 %description
 pgmoneta is a backup / restore solution for PostgreSQL.
@@ -45,6 +47,10 @@ cd build
 %{_mandir}/man5/%{sname}*
 
 %changelog
+* Thu Jun 17 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.0-2
+- Remove PostgreSQL version number from the package. This
+  is a common one.
+
 * Mon Jun 14 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
 - Update to 0.2.0
   file from upstream.
