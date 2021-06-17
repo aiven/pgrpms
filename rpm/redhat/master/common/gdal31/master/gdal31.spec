@@ -464,7 +464,7 @@ SHLIB_LINK="$SHLIB_LINK" make %{?_smp_mflags} DESTDIR=%{buildroot}	\
 	install	\
 	install-man
 
-%{__install} -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{gdal%{gdalversion}instdir}/bin
+%{__install} -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{gdal31instdir}/bin
 
 # Directory for auto-loading plugins
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
