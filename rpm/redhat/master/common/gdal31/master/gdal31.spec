@@ -1,6 +1,6 @@
 %global sname gdal
-%global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	27
+%global gdalversion	31
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global	libspatialitemajorversion	43
@@ -54,7 +54,7 @@
 
 Name:		%{sname}31
 Version:	3.1.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -93,7 +93,7 @@ Patch16:	gdal-3.1.2-sfgcal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.5
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.15
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
@@ -353,20 +353,27 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
-%if 0%{?fedora} >= 27 || 0%{?rhel} > 7
+%if 0%{?fedora} >= 34
+%global g2clib g2c_v1.6.2
+%endif
+%if 0%{?fedora} <= 33 || 0%{?rhel} > 7
 %global g2clib g2c_v1.6.0
-%else
+%endif
+%if 0%{?rhel} == 7
+%global g2clib grib2c
+%endif
+%if 0%{?suse_version} >= 1315
 %global g2clib grib2c
 %endif
 
 ./configure \
 	LIBS="-l%{g2clib} -ltirpc" \
-	--prefix=%{gdalinstdir}	\
-	--bindir=%{gdalinstdir}/bin	\
-	--sbindir=%{gdalinstdir}/sbin	\
-	--libdir=%{gdalinstdir}/lib	\
-	--datadir=%{gdalinstdir}/share	\
-	--datarootdir=%{gdalinstdir}/share	\
+	--prefix=%{gdal31instdir}	\
+	--bindir=%{gdal31instdir}/bin	\
+	--sbindir=%{gdal31instdir}/sbin	\
+	--libdir=%{gdal31instdir}/lib	\
+	--datadir=%{gdal31instdir}/share	\
+	--datarootdir=%{gdal31instdir}/share	\
 	--with-armadillo	\
 	--with-curl		\
 	--with-cfitsio=%{_prefix}	\
@@ -457,7 +464,7 @@ SHLIB_LINK="$SHLIB_LINK" make %{?_smp_mflags} DESTDIR=%{buildroot}	\
 	install	\
 	install-man
 
-%{__install} -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{gdalinstdir}/bin
+%{__install} -pm 755 ogr/ogrsf_frmts/s57/s57dump %{buildroot}%{gdal%{gdalversion}instdir}/bin
 
 # Directory for auto-loading plugins
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}plugins
@@ -470,13 +477,13 @@ done
 
 #TODO: Header date lost during installation
 # Install multilib cpl_config.h bz#430894
-%{__install} -p -D -m 644 port/cpl_config.h %{buildroot}%{gdalinstdir}/include/cpl_config-%{cpuarch}.h
+%{__install} -p -D -m 644 port/cpl_config.h %{buildroot}%{gdal31instdir}/include/cpl_config-%{cpuarch}.h
 # Create universal multilib cpl_config.h bz#341231
 # The problem is still there in 1.9.
 #TODO: Ticket?
 
 #>>>>>>>>>>>>>
-cat > %{buildroot}%{gdalinstdir}/include/cpl_config.h <<EOF
+cat > %{buildroot}%{gdal31instdir}/include/cpl_config.h <<EOF
 #include <bits/wordsize.h>
 
 #if __WORDSIZE == 32
@@ -518,27 +525,27 @@ touch -r NEWS %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 # and create a script to call one or the other -- depending on detected architecture
 # TODO: The extra script will direct you to 64 bit libs on
 # 64 bit systems -- whether you like that or not
-mv %{buildroot}%{gdalinstdir}/bin/%{sname}-config %{buildroot}%{gdalinstdir}/bin/%{sname}-config-%{cpuarch}
+mv %{buildroot}%{gdal31instdir}/bin/%{sname}-config %{buildroot}%{gdal31instdir}/bin/%{sname}-config-%{cpuarch}
 #>>>>>>>>>>>>>
-cat > %{buildroot}%{gdalinstdir}/bin/%{sname}-config <<EOF
+cat > %{buildroot}%{gdal31instdir}/bin/%{sname}-config <<EOF
 #!/bin/bash
 
 ARCH=\$(uname -m)
 case \$ARCH in
 x86_64 | ppc64 | ppc64le | ia64 | s390x | sparc64 | alpha | alphaev6 | aarch64 )
-%{gdalinstdir}/bin/%{sname}-config-64 \${*}
+%{gdal31instdir}/bin/%{sname}-config-64 \${*}
 ;;
 *)
-%{gdalinstdir}/bin/%{sname}-config-32 \${*}
+%{gdal31instdir}/bin/%{sname}-config-32 \${*}
 ;;
 esac
 EOF
 #<<<<<<<<<<<<<
-touch -r NEWS %{buildroot}%{gdalinstdir}/bin/%{sname}-config
-chmod 755 %{buildroot}%{gdalinstdir}/bin/%{sname}-config
+touch -r NEWS %{buildroot}%{gdal31instdir}/bin/%{sname}-config
+chmod 755 %{buildroot}%{gdal31instdir}/bin/%{sname}-config
 
 # Clean up junk
-%{__rm} -f %{buildroot}%{gdalinstdir}/bin/*.dox
+%{__rm} -f %{buildroot}%{gdal31instdir}/bin/*.dox
 
 #jni-libs and libgdal are also built static (*.a)
 #.exists and .packlist stem from Perl
@@ -551,16 +558,16 @@ done
 
 # Throw away random API man mages plus artefact seemingly caused by Doxygen 1.8.1 or 1.8.1.1
 for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetProperty EnhanceCBInfo ListFieldDesc NamedColor OGRSplitListFieldLayer VRTBuilder; do
-  %{__rm} -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
+  %{__rm} -rf %{buildroot}%{gdal31instdir}/share/man/man1/$f.1*
 done
 
 #TODO: What's that?
-%{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/*_%{name}-%{version}-fedora_apps_*
-%{__rm} -f %{buildroot}%{gdalinstdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps_.1*
+%{__rm} -f %{buildroot}%{gdal31instdir}/share/man/man1/*_%{name}-%{version}-fedora_apps_*
+%{__rm} -f %{buildroot}%{gdal31instdir}/share/man/man1/_home_rouault_dist_wrk_gdal_apps_.1*
 
 # PGDG: Move includes under gdalinst directory:
-%{__mkdir} -p %{buildroot}%{gdalinstdir}/include
-%{__mkdir} -p %{buildroot}%{gdalinstdir}/share/man
+%{__mkdir} -p %{buildroot}%{gdal31instdir}/include
+%{__mkdir} -p %{buildroot}%{gdal31instdir}/share/man
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -576,65 +583,68 @@ done
 %postun libs -p /sbin/ldconfig
 
 %files
-%{gdalinstdir}/bin/gdallocationinfo
-%{gdalinstdir}/bin/gdal_contour
-%{gdalinstdir}/bin/gdal_rasterize
-%{gdalinstdir}/bin/gdal_translate
-%{gdalinstdir}/bin/gdaladdo
-%{gdalinstdir}/bin/gdalinfo
-%{gdalinstdir}/bin/gdaldem
-%{gdalinstdir}/bin/gdalbuildvrt
-%{gdalinstdir}/bin/gdaltindex
-%{gdalinstdir}/bin/gdalwarp
-%{gdalinstdir}/bin/gdal_grid
-%{gdalinstdir}/bin/gdalenhance
-%{gdalinstdir}/bin/gdalmanage
-%{gdalinstdir}/bin/gdalserver
-%{gdalinstdir}/bin/gdalsrsinfo
-%{gdalinstdir}/bin/gdaltransform
-%{gdalinstdir}/bin/gdal_viewshed
-%{gdalinstdir}/bin/gdalmdiminfo
-%{gdalinstdir}/bin/gdalmdimtranslate
-%{gdalinstdir}/bin/nearblack
-%{gdalinstdir}/bin/ogr*
-%{gdalinstdir}/bin/s57*
-%{gdalinstdir}/bin/testepsg
-%{gdalinstdir}/bin/gnmanalyse
-%{gdalinstdir}/bin/gnmmanage
-%{gdalinstdir}/share/man/man1/gdal*.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal-config.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal2tiles.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_fillnodata.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_merge.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_retile.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_sieve.1*
-%{gdalinstdir}/share/man/man1/nearblack.1*
-%{gdalinstdir}/share/man/man1/ogr*.1*
-%{gdalinstdir}/share/man/man1/gnm*.1
+%{gdal31instdir}/bin/gdallocationinfo
+%{gdal31instdir}/bin/gdal_contour
+%{gdal31instdir}/bin/gdal_rasterize
+%{gdal31instdir}/bin/gdal_translate
+%{gdal31instdir}/bin/gdaladdo
+%{gdal31instdir}/bin/gdalinfo
+%{gdal31instdir}/bin/gdaldem
+%{gdal31instdir}/bin/gdalbuildvrt
+%{gdal31instdir}/bin/gdaltindex
+%{gdal31instdir}/bin/gdalwarp
+%{gdal31instdir}/bin/gdal_grid
+%{gdal31instdir}/bin/gdalenhance
+%{gdal31instdir}/bin/gdalmanage
+%{gdal31instdir}/bin/gdalserver
+%{gdal31instdir}/bin/gdalsrsinfo
+%{gdal31instdir}/bin/gdaltransform
+%{gdal31instdir}/bin/gdal_viewshed
+%{gdal31instdir}/bin/gdalmdiminfo
+%{gdal31instdir}/bin/gdalmdimtranslate
+%{gdal31instdir}/bin/nearblack
+%{gdal31instdir}/bin/ogr*
+%{gdal31instdir}/bin/s57*
+%{gdal31instdir}/bin/testepsg
+%{gdal31instdir}/bin/gnmanalyse
+%{gdal31instdir}/bin/gnmmanage
+%{gdal31instdir}/share/man/man1/gdal*.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal-config.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal2tiles.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal_fillnodata.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal_merge.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal_retile.1*
+%exclude %{gdal31instdir}/share/man/man1/gdal_sieve.1*
+%{gdal31instdir}/share/man/man1/nearblack.1*
+%{gdal31instdir}/share/man/man1/ogr*.1*
+%{gdal31instdir}/share/man/man1/gnm*.1
 
 %files libs
 %doc LICENSE.TXT NEWS PROVENANCE.TXT COMMITTERS
-%{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}
-%{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}.*
-%{gdalinstdir}/share/
+%{gdal31instdir}/lib/libgdal.so.%{gdalsomajorversion}
+%{gdal31instdir}/lib/libgdal.so.%{gdalsomajorversion}.*
+%{gdal31instdir}/share/
 #TODO: Possibly remove files like .dxf, .dgn, ...
-%dir %{gdalinstdir}/lib/%{sname}plugins
+%dir %{gdal31instdir}/lib/%{sname}plugins
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
-%{gdalinstdir}/bin/%{sname}-config
-%{gdalinstdir}/bin/%{sname}-config-%{cpuarch}
-%{gdalinstdir}/share/man/man1/gdal-config.1*
-%dir %{gdalinstdir}/include/
-%{gdalinstdir}/include/*.h
-%{gdalinstdir}/lib/*.so
-%{gdalinstdir}/lib/pkgconfig/%{sname}.pc
+%{gdal31instdir}/bin/%{sname}-config
+%{gdal31instdir}/bin/%{sname}-config-%{cpuarch}
+%{gdal31instdir}/share/man/man1/gdal-config.1*
+%dir %{gdal31instdir}/include/
+%{gdal31instdir}/include/*.h
+%{gdal31instdir}/lib/*.so
+%{gdal31instdir}/lib/pkgconfig/%{sname}.pc
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
 %{_mandir}/man1
 
 %changelog
+* Thu Jun 17 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-4
+- Fix conflicts with gdal32 package
+
 * Thu May 27 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-3
 - Rebuild against new poppler on RHEL 8.
 
