@@ -27,10 +27,8 @@ BuildRequires:  java-11-openjdk-devel
 %endif
 
 %if 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-BuildRequires:	rh-maven36-maven
-%else
-BuildRequires:	rh-maven33-maven
+# Default maven 3.0 does not build the driver, so use 3.3:
+BuildRequires:	rh-maven35-maven
 %endif
 
 # On the remaining distros, use the maven package supplied by OS.
