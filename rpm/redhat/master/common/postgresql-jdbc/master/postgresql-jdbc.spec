@@ -32,6 +32,7 @@ BuildRequires:	rh-maven36-maven
 %else
 BuildRequires:	rh-maven33-maven
 %endif
+%endif
 
 # On the remaining distros, use the maven package supplied by OS.
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
