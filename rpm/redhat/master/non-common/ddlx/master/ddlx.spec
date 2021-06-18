@@ -9,7 +9,7 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.18
+Version:	0.19
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
@@ -62,6 +62,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Fri Jun 18 2021 Devrim Gündüz <devrim@gunduz.org> - 0.19-1
+- Update to 0.19.0
+
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 0.18-1
 - Update to 0.18
 
