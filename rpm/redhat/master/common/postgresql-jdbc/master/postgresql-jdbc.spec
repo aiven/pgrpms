@@ -28,7 +28,7 @@ BuildRequires:  java-11-openjdk-devel
 
 %if 0%{?rhel} == 7
 # Default maven 3.0 does not build the driver, so use 3.3:
-BuildRequires:	rh-maven35-maven
+BuildRequires:	rh-maven33-maven
 %endif
 
 # On the remaining distros, use the maven package supplied by OS.
@@ -66,7 +66,7 @@ export CLASSPATH=
 # upstream to have updated the translations files before packaging.
 
 %if 0%{?rhel} == 7
-/opt/rh/rh-maven35/root/usr/bin/mvn -DskipTests -Pjavadoc package
+/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests -Pjavadoc package
 %else
 mvn -DskipTests -Pjavadoc package
 %endif
