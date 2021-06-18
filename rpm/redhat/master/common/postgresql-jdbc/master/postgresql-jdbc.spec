@@ -2,7 +2,7 @@
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
 Version:	42.2.22
-Release:	1%{?dist}
+Release:	2%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -12,20 +12,19 @@ BuildArch:	noarch
 
 Requires:	jpackage-utils
 Requires:	java-headless >= 1:1.8
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	java-1_8_0-openjdk-devel
 Patch0:		%{name}-sles12-java8.patch
 %endif
-%else
-BuildRequires:	java-1.8.0-openjdk-devel
+%if 0%{?suse_version} >= 1500
+BuildRequires:  java-11-openjdk-devel
 %endif
-
-%if 0%{?rhel} && 0%{?rhel} <= 6
-# On RHEL 6, we depend on the apache-maven package that we provide via our
-# repo. Build servers should not have any other apache-maven package from other
-# repos, because they depend on java-1.7.0, which is not supported by pgjdbc.
-BuildRequires:	apache-maven >= 3.0.0
+%if 0%{?rhel}
+BuildRequires:  java-1.8.0-openjdk-devel
+%endif
+%if 0%{?fedora}
+BuildRequires:  java-11-openjdk-devel
 %endif
 
 %if 0%{?rhel} == 7
@@ -51,10 +50,8 @@ This package contains the API Documentation for %{name}.
 
 %prep
 %setup -q -n postgresql-%{version}-jdbc-src
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 %patch0 -p0
-%endif
 %endif
 %{__rm} -f .gitattributes
 %{__rm} -f .gitignore
@@ -149,6 +146,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Fri Jun 18 2021 Devrim Gündüz <devrim@gunduz.org> - 42.2.22-2
+- Fix SLES packaging, remove RHEL 6 support, update Fedora dependency.
+
 * Fri Jun 18 2021 Devrim Gündüz <devrim@gunduz.org> - 42.2.22-1
 - Update to 42.2.22
 
