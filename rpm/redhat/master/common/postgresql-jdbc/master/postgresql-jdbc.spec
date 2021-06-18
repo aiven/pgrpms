@@ -15,7 +15,6 @@ Requires:	java-headless >= 1:1.8
 
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	java-1_8_0-openjdk-devel
-Patch0:		%{name}-sles12-java8.patch
 %endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:  java-11-openjdk-devel
@@ -50,9 +49,6 @@ This package contains the API Documentation for %{name}.
 
 %prep
 %setup -q -n postgresql-%{version}-jdbc-src
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-%patch0 -p0
-%endif
 %{__rm} -f .gitattributes
 %{__rm} -f .gitignore
 %{__rm} -f .travis.yml
