@@ -69,11 +69,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta1_4PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v14beta1/postgresql-14beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v14beta2/postgresql-14beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -94,9 +94,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-
-# To be removed in beta2:
-Patch7:		%{sname}-%{pgmajorversion}-install-PostgresVersion.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -554,13 +551,12 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta1
+%setup -q -n %{sname}-%{pgpackageversion}beta2
 
 %patch1 -p0
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
-%patch7 -p0
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1394,6 +1390,9 @@ fi
 %endif
 
 %changelog
+* Mon Jun 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_1
+- Update to beta2
+
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_4
 - Remove redundant __perl_excludes, per Andrew Dunstan.
 - Filter out some perl dependencies, per Andrew. This will probably
