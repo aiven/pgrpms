@@ -8,7 +8,7 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
+Version:	1.3.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
@@ -67,6 +67,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Jun 23 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
 - Update to 1.3.0
 
