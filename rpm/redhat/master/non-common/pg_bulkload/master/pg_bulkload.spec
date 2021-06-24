@@ -13,7 +13,6 @@ License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
 BuildRequires:	libsepol-devel readline-devel krb5-devel
 Requires:	postgresql%{pgmajorversion}-server %{sname}_%{pgmajorversion}-client
-Patch0:		104.patch
 
 Obsoletes:	%{sname} <= %{version}-1
 Obsoletes:	%{sname}%{pgmajorversion} < 3.1.16-2
@@ -30,7 +29,6 @@ pg_bulkload client subpackage provides client-only tools.
 
 %prep
 %setup -q -n %{sname}-VERSION%{pgbulkloadpackagever}
-%patch0 -p1
 
 %build
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
