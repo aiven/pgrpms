@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 140
 %global pgpackageversion 14
