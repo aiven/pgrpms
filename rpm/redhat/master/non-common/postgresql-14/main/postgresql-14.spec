@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 # These are macros to be used with find_lang and other stuff
 %global packageversion 140
 %global pgpackageversion 14
@@ -62,14 +63,16 @@
 %global __requires_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
 %global __provides_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
+%endif
 %endif
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta2_1PGDG%{?dist}
+Release:	beta2_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -114,10 +117,11 @@ Requires:	lz4
 BuildRequires:	perl-generators
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
-
+%endif
 Requires:	/sbin/ldconfig
 
 %if %icu
@@ -293,9 +297,11 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description libs
@@ -329,9 +335,11 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Provides:	postgresql-server >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description server
@@ -358,9 +366,11 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description contrib
@@ -416,9 +426,11 @@ BuildRequires:	perl-IPC-Run
 Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel <= 42.0
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description devel
@@ -451,9 +463,11 @@ Requires:	llvm => 5.0
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description llvmjit
@@ -474,9 +488,11 @@ BuildRequires:	perl-devel
 Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plperl
@@ -500,9 +516,11 @@ Requires:	python3-libs
 Requires:	python3-libs
 %endif
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description plpython3
@@ -521,9 +539,11 @@ Requires:	tcl
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description pltcl
@@ -539,9 +559,11 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
 
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
 Requires:	advance-toolchain-%{atstring}-runtime
+%endif
 %endif
 
 %description test
@@ -573,11 +595,13 @@ benchmarks.
 %endif
 
 CFLAGS="${CFLAGS:-%optflags}"
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
 	LDFLAGS="-L%{atpath}/%{_lib}"
 	CC=%{atpath}/bin/gcc; export CC
+%endif
 %else
 	# Strip out -ffast-math from CFLAGS....
 	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
@@ -670,9 +694,11 @@ export PYTHON=/usr/bin/python3
 %if %{systemd_enabled}
 	--with-systemd \
 %endif
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 	--with-includes=%{atpath}/include \
 	--with-libraries=%{atpath}/lib64 \
+%endif
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -1390,6 +1416,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_2
+- Build with GCC on RHEL 8 - ppc64le
+
 * Mon Jun 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_1
 - Update to beta2
 
