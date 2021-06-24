@@ -6,13 +6,14 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.18
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
 BuildRequires:	libsepol-devel readline-devel krb5-devel
-Requires:	postgresql%{pgmajorversion}-server %{sname}%{pgmajorversion}-client
+Requires:	postgresql%{pgmajorversion}-server %{sname}_%{pgmajorversion}-client
+Patch0:		104.patch
 
 Obsoletes:	%{sname} <= %{version}-1
 Obsoletes:	%{sname}%{pgmajorversion} < 3.1.16-2
@@ -29,6 +30,7 @@ pg_bulkload client subpackage provides client-only tools.
 
 %prep
 %setup -q -n %{sname}-VERSION%{pgbulkloadpackagever}
+%patch0 -p1
 
 %build
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
@@ -72,6 +74,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-2
+- Unbreak pg_bulkload installation.
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-1
 - Update to 3.1.18
 
