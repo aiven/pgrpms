@@ -13,17 +13,18 @@
 %endif
 %endif
 
-Summary:	Multicorn Python bindings for Postgres 9.5+ FDW
+Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch0:		%{sname}-python-destdir.patch
 URL:		http://pgxn.org/dist/multicorn/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
+Provides:	%{sname}%{pgmajorversion} = %{version}-%{release}
 Obsoletes:	%{sname}%{pgmajorversion} < 1.4.0-3
 
 # Provide versionless multicorn. This will simplify using
@@ -53,7 +54,7 @@ in python.
 
 export PYTHON_OVERRIDE="python%{pyver}"
 
-%{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -63,7 +64,7 @@ export PYTHON_OVERRIDE="python%{pyver}"
 %endif
 %endif
 export PYTHON_OVERRIDE="python%{pyver}"
-%{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
+PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -92,6 +93,9 @@ export PYTHON_OVERRIDE="python%{pyver}"
 
 
 %changelog
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.4.0-4
+- Remove pgxs patches, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.4.0-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
