@@ -5,7 +5,7 @@
 %global powamidversion 1
 %global powaminorversion 2
 # powa-web version
-%global powawebversion 4.1.0
+%global powawebversion 4.1.2
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -25,7 +25,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
@@ -138,6 +138,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Mon Jun 28 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-3
+- Update powa-web to 4.1.2
+
 * Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-2
 - Remove pgxs patches, and export PATH instead.
 - Remove RHEL 6 stuff.
