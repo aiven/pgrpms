@@ -5,7 +5,7 @@
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Name:		powa-collector
-Version:	1.1.0
+Version:	1.1.1
 Release:	1%{?dist}
 Summary:	POWA data collector daemon
 
@@ -68,6 +68,9 @@ database (in the powa_servers table).
 %{python3_sitelib}/%{sname}/__pycache__/*.py*
 
 %changelog
+* Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
+- Update to 1.1.1
+
 * Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 
