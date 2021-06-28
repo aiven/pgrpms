@@ -8,8 +8,8 @@
 
 Summary:	Server side rollback at statement level for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
-Release:	2%{?dist}
+Version:	1.2
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/lzlabs/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/lzlabs/%{sname}
@@ -65,6 +65,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
+- Update to 1.2
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
 - Remove pgxs patches, and export PATH instead.
 
