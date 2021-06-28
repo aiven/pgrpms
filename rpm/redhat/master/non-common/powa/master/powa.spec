@@ -15,17 +15,15 @@
 %endif
 %endif
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-%endif
 
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
@@ -37,11 +35,18 @@ Requires:	postgresql%{pgmajorversion}-contrib
 Requires:	pg_qualstats_%{pgmajorversion}, pg_stat_kcache_%{pgmajorversion}
 Requires:	hypopg_%{pgmajorversion}
 
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
 Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -138,6 +143,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-4
+- Add SLES support
+
 * Mon Jun 28 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-3
 - Update powa-web to 4.1.2
 
