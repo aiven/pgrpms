@@ -60,6 +60,13 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
 # PGDG RHEL/CentOS Updates Testing repositories. (These packages should not be used in production)
 # Available for 11 and above.
 
+[pgdg15-updates-testing]
+name=PostgreSQL 15 for RHEL/CentOS $releasever - $basearch - Updates testing
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/15/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
+
 [pgdg14-updates-testing]
 name=PostgreSQL 14 for RHEL/CentOS $releasever - $basearch - Updates testing
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/14/redhat/rhel-$releasever-$basearch

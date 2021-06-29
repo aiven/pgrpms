@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	16
+Release:	17
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS on aarch64
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -42,6 +42,9 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-17
+- Add v15 testing repo.
+
 * Fri Apr 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-16
 - Sign repository metadata on RHEL 8+ to fix CVE-2021-20271, per
   https://access.redhat.com/security/cve/cve-2021-20271
