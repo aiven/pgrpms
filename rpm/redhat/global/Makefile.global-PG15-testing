@@ -1,0 +1,109 @@
+#################################
+# Makefile for PostgreSQL 15	#
+# testing packaging	 	#
+# https://yum.postgresql.org	#
+#			   	#
+# Devrim Gunduz		   	#
+# devrim@gunduz.org	   	#
+#################################
+#			 	#
+#				#
+# build target is for      	#
+# RPM buildfarm		   	#
+#			   	#
+#			   	#
+#################################
+
+
+## PostgreSQL 15 Testing
+
+prep15:
+	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
+	# Update spec file, patches, etc, before running spectool:
+	git pull
+	# Use spectool to download source files, especially tarballs.
+	spectool -g -S --define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" $(SPECFILE)
+
+build15testing: bfsrpm15testing
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_builddir $(HOME)/rpm15testing/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm15testing/RPMS/" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+srpm15testing: prep15
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15"  --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfsrpm15testing: prep15
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15"  --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfnosignsrpm15testing: prep15
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15"  --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+rpm15testing: prep15
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nosignbuild15testimg: bfnosignsrpm15testing
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm15testing/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm15testing/RPMS/" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+noprepbuild15testing:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm15testing/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm15testing/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm15testing/RPMS/" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nopreprpm15testing:
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+noprepsrpm15testing:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm15testing/BUILDROOT" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15" --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
