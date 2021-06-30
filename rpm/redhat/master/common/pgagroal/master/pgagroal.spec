@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	1.2.1
+Version:	1.2.2
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -127,6 +127,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Wed Jun 30 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
+- Update to 1.2.2
+
 * Tue Mar 23 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.1-1
 - Update to 1.2.1
 
