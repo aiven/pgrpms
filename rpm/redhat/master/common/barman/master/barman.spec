@@ -40,11 +40,11 @@ Requires:	python
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.12
+Version:	2.12.1
 Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
-Source0:	http://downloads.sourceforge.net/project/pgbarman/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
 BuildArch:	noarch
@@ -81,7 +81,7 @@ Requires:	%{__python_ver}-dateutil
 Python libraries used by Barman.
 
 %prep
-%setup -n barman-%{version}%{?extra_version:%{extra_version}} -q
+%setup -n barman-release-%{version}
 
 %build
 %{__ospython} setup.py build
@@ -141,6 +141,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Jul 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.12.1-1
+- Update to 2.12.1
+- Update Source URL
+
 * Mon Nov 9 2020 Devrim Gündüz <devrim@gunduz.org> - 2.12-1
 - Update to 2.12
 
