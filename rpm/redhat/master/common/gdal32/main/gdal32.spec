@@ -67,7 +67,7 @@
 
 Name:		%{sname}32
 Version:	3.2.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -699,6 +699,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Jul 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-3
+- Rebuild against libgta 1.2.1 on Fedora 34 (only)
+
 * Wed May 19 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-2
 - Require our own pgdg-poppler on RHEL 8 to avoid further
   breakages caused by Poppler updates on RHEL 8.x
