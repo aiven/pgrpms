@@ -8,13 +8,14 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.8.1
-Release:	2%{?dist}
+Version:	0.9.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 URL:		https://gitlab.com/dalibo/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib ddlx_%{pgmajorversion}
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
+Requires:	python3-faker ddlx_%{pgmajorversion}
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.7.1-2
 
@@ -73,6 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sun Jul 4 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-1
+- Update to 0.9.0
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-2
 - Remove pgxs patches, and export PATH instead.
 
