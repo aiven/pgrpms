@@ -152,7 +152,7 @@ fi
 
 
 %changelog
-* Tue Jul 8 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
+* Tue Jul 6 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-210
 
