@@ -104,10 +104,8 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{pginstdir}/share/extension/pgautofailover.control
 %if %llvm
 %files llvmjit
-    %{pginstdir}/lib/bitcode/%{sname}*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
-    %{pginstdir}/lib/bitcode/columnar/*.bc
+    %{pginstdir}/lib/bitcode/pgautofailover*.bc
+    %{pginstdir}/lib/bitcode/pgautofailover/*.bc
 %endif
 
 %changelog
