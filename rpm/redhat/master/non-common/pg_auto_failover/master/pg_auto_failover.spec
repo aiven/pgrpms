@@ -7,10 +7,24 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -33,6 +47,31 @@ secondary node for storing data. The monitor node tracks the health of the
 data nodes and implements a failover state machine. On the PostgreSQL nodes,
 the pg_autoctl program runs alongside PostgreSQL and runs the necessary
 commands to configure synchronous streaming replication.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_auto_failover
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_auto_failover.
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -63,18 +102,18 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{pginstdir}/lib/pgautofailover.so
 %{pginstdir}/share/extension/pgautofailover-*.sql
 %{pginstdir}/share/extension/pgautofailover.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/pgautofailover*.bc
-   %{pginstdir}/lib/bitcode/pgautofailover/*.bc
-  %endif
- %endif
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
+    %{pginstdir}/lib/bitcode/columnar/*.bc
 %endif
 
 %changelog
+* Thu Jul 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-2
+- Add llvmjit subpackage (and also fix RHEL 8 - ppc64le builds)
+
 * Thu Jul 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
 - Update to 1.6.1
 
