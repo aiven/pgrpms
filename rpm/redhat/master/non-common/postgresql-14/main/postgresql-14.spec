@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta2_2PGDG%{?dist}
+Release:	beta2_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -148,7 +148,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm10-devel clang10-devel
+BuildRequires:	llvm11-devel clang11-devel
 %endif
 %endif
 
@@ -400,7 +400,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm10-devel clang10-devel
+BuildRequires:	llvm11-devel clang11-devel
 %endif
 %endif
 %if %icu
@@ -454,7 +454,7 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm10
+Requires:	llvm11
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -1415,6 +1415,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_3
+- Rebuild against clang11 and llvm11 on SLES 15 SP3
+
 * Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_2
 - Build with GCC on RHEL 8 - ppc64le
 
