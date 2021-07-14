@@ -50,7 +50,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -224,12 +224,10 @@ The %{name}-utils package provides the utilities for PostGIS.
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
+LDFLAGS="-Wl,-rpath,%{projinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
+LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib" ; export SHLIB_LINK
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/lib"; export LDFLAGS
-CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
-
-CFLAGS="${CFLAGS:-%optflags}"
+SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64";  export SFCGAL_LDFLAGS
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -237,9 +235,9 @@ CFLAGS="${CFLAGS:-%optflags}"
 %endif
 %endif
 
-# Strip out fstack-clash-protection from CFLAGS:
-CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v fstack-clash-protection|xargs -n 100`; export CFLAGS
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
+CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 %if !%raster
@@ -397,11 +395,13 @@ fi
 %endif
 
 %changelog
+* Wed Jul 14 2021 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-5
+- Merge some flags from 3.x spec files.
+
 * Mon Mar 22 2021 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-4
 - Rebuild against GeOS 3.9.1
 - Override PROJ major version. PostGIS 2.5 does not build against
   Proj 8.0.0
-
 
 * Tue Dec 22 2020 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-3
 - Rebuild against GeOS 3.9.0
