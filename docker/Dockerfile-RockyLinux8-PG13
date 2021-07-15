@@ -16,9 +16,10 @@ RUN rpm --import https://yum.postgresql.org/RPM-GPG-KEY-PGDG-13 && \
 	dnf -q -y module disable postgresql && \
 	# Install PostgreSQL 13
 	dnf -q -y install postgresql13-server && \
+	dnf -qy remove ethtool snappy && \
 	# Clean repository metadata to save disk space:
 	dnf  clean all && \
-	rm -rf /var/cache/dnf
+	rm -rf /var/cache/dnf /var/log/*
 
 # Run the rest of the commands as the postgres user created by the postgresql13-server
 # package when it was dnf installed:
