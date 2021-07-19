@@ -1,16 +1,16 @@
 %global sname	pgmoneta
 
 Name:		%{sname}
-Version:	0.3.0
+Version:	0.3.1
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{sname}/%{sname}
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 
-BuildRequires:	gcc cmake make python3-docutils
+BuildRequires:	gcc cmake make python3-docutils zlib-devel libzstd-devel
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
-Requires:	libev openssl systemd gzip postgresql%{pgmajorversion}
+Requires:	libev openssl systemd postgresql zlib libzstd
 
 Obsoletes:	%{sname}_13 < 0.2.0-2
 
@@ -47,6 +47,9 @@ cd build
 %{_mandir}/man5/%{sname}*
 
 %changelog
+* Tue Jul 20 2021 Devrim Gündüz <devrim@gunduz.org> 0.3.1-1
+- Update to 0.3.1
+
 * Sun Jul 4 2021 Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
 - Update to 0.3.0
 
