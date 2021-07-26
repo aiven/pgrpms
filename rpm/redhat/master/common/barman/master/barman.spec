@@ -40,7 +40,7 @@ Requires:	python
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.12.1
+Version:	2.13
 Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
@@ -141,6 +141,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Jul 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.13-1
+- Update to 2.13
+
 * Thu Jul 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.12.1-1
 - Update to 2.12.1
 - Update Source URL
