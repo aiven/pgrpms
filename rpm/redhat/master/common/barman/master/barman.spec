@@ -41,7 +41,7 @@ Requires:	python
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.13
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -112,7 +112,7 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %files
 %defattr(-,root,root)
 %doc NEWS README.rst
-%{_bindir}/%{name}*
+%{_bindir}/%{name}
 %doc %{_mandir}/man1/%{name}.1.gz
 %doc %{_mandir}/man5/%{name}.5.gz
 %config(noreplace) %{_sysconfdir}/bash_completion.d/
@@ -131,6 +131,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{_bindir}/barman-wal-restore
 %{_bindir}/barman-cloud-backup
 %{_bindir}/barman-cloud-wal-archive
+%{_bindir}/barman-cloud-backup-list
+%{_bindir}/barman-cloud-restore
+%{_bindir}/barman-cloud-wal-restore
 %doc %{_mandir}/man1/barman-cloud*
 %doc %{_mandir}/man1/barman-wal*
 
@@ -141,6 +144,10 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Sun Aug 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.13-2
+- Remove duplicate binaries from main package, per report from
+  Abhijit Menon-Sen.
+
 * Mon Jul 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.13-1
 - Update to 2.13
 
