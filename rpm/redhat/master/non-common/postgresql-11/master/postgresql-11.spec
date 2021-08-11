@@ -105,8 +105,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.12
-Release:	3PGDG%{?dist}
+Version:	11.13
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1678,6 +1678,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 11.13-1PGDG
+- Update to 11.13, per changes described at
+  https://www.postgresql.org/docs/release/11.13/
+
 * Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 11.12-3PGDG
 - Rebuild against clang11 and llvm11 on SLES 15 SP3
 
