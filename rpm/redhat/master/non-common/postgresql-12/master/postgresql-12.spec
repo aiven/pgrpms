@@ -106,8 +106,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.7
-Release:	3PGDG%{?dist}
+Version:	12.8
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1688,9 +1688,12 @@ fi
 %endif
 
 %changelog
+* Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 12.8-1PGDG
+- Update to 12.8, per changes described at
+  https://www.postgresql.org/docs/release/12.8/
+
 * Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 12.7-3PGDG
 - Rebuild against clang11 and llvm11 on SLES 15 SP3
-
 
 * Tue May 18 2021 Devrim Gündüz <devrim@gunduz.org> - 12.7-2PGDG
 - Rebuild against new CLANG and LLVM on RHEL 8.4
