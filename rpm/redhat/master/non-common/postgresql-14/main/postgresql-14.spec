@@ -71,11 +71,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta2_3PGDG%{?dist}
+Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v14beta2/postgresql-14beta2.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v14beta3/postgresql-14beta3.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -572,7 +572,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta2
+%setup -q -n %{sname}-%{pgpackageversion}beta3
 
 %patch1 -p0
 %patch3 -p0
@@ -1415,6 +1415,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_1
+- Update to beta3
+
+* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_4
 * Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_3
 - Rebuild against clang11 and llvm11 on SLES 15 SP3
 
