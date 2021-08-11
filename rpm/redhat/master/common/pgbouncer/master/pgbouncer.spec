@@ -17,8 +17,8 @@
 %endif
 
 Name:		pgbouncer
-Version:	1.15.0
-Release:	2%{?dist}
+Version:	1.16.0
+Release:	1%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -236,6 +236,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1.16.0-1
+- Update to 1.15.0, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-116x
+
 * Fri Feb 12 2021 Devrim Gündüz <devrim@gunduz.org> - 1.15.0-2
 - Fix SLES 15 dependency.
 
