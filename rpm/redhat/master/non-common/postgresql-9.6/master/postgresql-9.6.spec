@@ -82,7 +82,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.22
+Version:	9.6.23
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1510,6 +1510,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.23-1PGDG
+- Update to 9.6.23, per changes described at:
+  https://www.postgresql.org/docs/release/9.6.23/
+
 * Thu May 13 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.22-1PGDG
 - Update to 9.6.22, per changes described at:
   https://www.postgresql.org/docs/release/9.6.22/
