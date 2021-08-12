@@ -1418,7 +1418,6 @@ fi
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_1
 - Update to beta3
 
-* Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta1_4
 * Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta2_3
 - Rebuild against clang11 and llvm11 on SLES 15 SP3
 
