@@ -22,8 +22,8 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.3
-Release:	11PGDG%{?dist}
+Version:	%{pgmajorversion}.4
+Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -199,7 +199,7 @@ done
 
 # remove files not to be packaged
 find %{buildroot} -name '*.a' -delete
-rm -r %{buildroot}%_includedir/pgsql/server
+%{__rm} -r %{buildroot}%_includedir/pgsql/server
 
 %{__cp} /dev/null libs.lst
 
@@ -239,6 +239,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Aug 12 2021 Devrim Gündüz <devrim@gunduz.org> - 13.4-42PGDG
+- Update to 13.4
+
 * Thu May 13 2021 Devrim Gündüz <devrim@gunduz.org> - 13.3-10PGDG
 - Update to 13.3
 
