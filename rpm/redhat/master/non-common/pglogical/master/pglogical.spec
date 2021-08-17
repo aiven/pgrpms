@@ -1,5 +1,5 @@
 %global sname pglogical
-%global tag 2_3_3
+%global tag 2_4_0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -7,9 +7,23 @@
 %endif
 %endif
 
-Summary:	Logical Replication extension for PostgreSQ
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
+Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.4
+Version:	2.4.0
 Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
@@ -33,6 +47,31 @@ replicating data using a publish/subscribe model for selective replication.
 
 he pglogical 2 extension provides logical streaming replication for
 PostgreSQL, using a publish/subscribe model.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pglogical
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pglogical
+%endif
 
 %prep
 %setup -q -n %{sname}-REL%{tag}
@@ -71,20 +110,19 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %{pginstdir}/share/extension/%{sname}_origin--1.0.0.sql
 %{pginstdir}/share/extension/%{sname}_origin.control
 
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}_output/*.bc
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/compat%{pgmajorversion}/*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc*
-  %endif
- %endif
 %endif
 
 %changelog
+* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+- Update to 2.4.0
+- Split llvmjit bits into a separate package
+
 * Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 2.3.4-1
 - Update to 2.3.4
 
