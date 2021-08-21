@@ -49,7 +49,7 @@
 %{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
+%{!?llvm:%global llvm 0}
  %{!?sdt:%global sdt 1}
 %endif
 %{!?selinux:%global selinux 1}
