@@ -66,7 +66,7 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}33
-Version:	3.3.0
+Version:	3.3.1
 Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -695,6 +695,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Thu Aug 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.1-1
+- Update to 3.3.1
+
 * Sun Jul 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.0-1
 - Initial 3.3.0 packaging for the PostgreSQL RPM repository.
 
