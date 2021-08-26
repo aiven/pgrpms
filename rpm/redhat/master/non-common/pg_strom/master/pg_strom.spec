@@ -3,10 +3,10 @@
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3
-Release:	2%{?dist}
+Version:	3.1
+Release:	1%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
-License:	GPL 2.0
+License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
 Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
@@ -80,6 +80,9 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/dbgen-ssbm
 
 %changelog
+* Thu Aug 26 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1-1
+- Update to 3.1
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
