@@ -85,7 +85,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 
 %pgdg_set_gis_variables() %{expand: \
 %global geosmajorversion	39
-%global gdalmajorversion	32
+%global gdalmajorversion	33
 %global gdal33majorversion	33
 %global gdal32majorversion	32
 %global gdal31majorversion	31
@@ -115,8 +115,8 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj70instdir		/usr/proj%{proj70majorversion}
 %global geosfullversion		3.9.1
 %global projfullversion		8.1.0
-%global gdalfullversion		3.2.3
-%global gdal33fullversion	3.1.1
+%global gdalfullversion		3.3.1
+%global gdal33fullversion	3.3.1
 %global gdal32fullversion	3.2.3
 %global gdal31fullversion	3.1.3
 \
