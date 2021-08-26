@@ -92,7 +92,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global gdal30majorversion	30
 %global libgeotiffmajorversion	16
 %global ogdimajorversion	41
-%global projmajorversion	80
+%global projmajorversion	81
 %global proj81majorversion	81
 %global proj80majorversion	80
 %global proj72majorversion	72
@@ -114,7 +114,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj71instdir		/usr/proj%{proj71majorversion}
 %global proj70instdir		/usr/proj%{proj70majorversion}
 %global geosfullversion		3.9.1
-%global projfullversion		8.0.1
+%global projfullversion		8.1.0
 %global gdalfullversion		3.2.3
 %global gdal33fullversion	3.1.1
 %global gdal32fullversion	3.2.3
