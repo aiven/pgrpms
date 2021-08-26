@@ -696,7 +696,8 @@ popd
 
 %changelog
 * Thu Aug 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.1-1
-- Update to 3.3.1
+- Update to 3.3.1, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.3.1/gdal/NEWS
 
 * Sun Jul 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.0-1
 - Initial 3.3.0 packaging for the PostgreSQL RPM repository.
