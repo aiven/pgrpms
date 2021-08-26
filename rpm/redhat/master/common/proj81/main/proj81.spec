@@ -27,7 +27,7 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel
-BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.9
+BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.16
 
 %if 0%{?fedora} > 30 || 0%{?rhel} == 8
 Requires:	%{sqlitepname}-libs >= 3.7
