@@ -62,14 +62,14 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
-URL:		http://www.postgis.net/
+URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
@@ -382,6 +382,9 @@ fi
 %endif
 
 %changelog
+* Thu Aug 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-2
+- Rebuild against Proj 8.1.0 and GDAL 3.3.1
+
 * Sun Jul 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-1
 - Update to 3.1.3
 
