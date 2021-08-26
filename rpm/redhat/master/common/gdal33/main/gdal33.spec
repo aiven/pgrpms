@@ -93,7 +93,7 @@ Patch8:		%{sname}-3.1.2-java.patch
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
 Patch13:	gdal33-configure-ogdi%{ogdimajorversion}.patch
 
-Patch16:	gdal-3.1.2-sfgcal-linker.patch
+Patch16:	gdal-3.1.2-sfcgal-linker.patch
 
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
