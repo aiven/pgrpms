@@ -9,7 +9,7 @@
 #
 
 [Unit]
-Description=High-performance connection pool for PostgreSQL
+Description=pgmoneta is a backup / restore solution for PostgreSQL.
 Documentation=man:pgmoneta(1)
 Documentation=https://pgmoneta.github.io/
 After=network.target
