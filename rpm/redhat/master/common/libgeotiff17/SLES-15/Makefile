@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=".sles15"
 SPECFILE="libgeotiff17.spec"
 
 # Now, include global Makefile
