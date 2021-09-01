@@ -1,6 +1,6 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
-Version:	2.6.4
+Version:	2.7.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
@@ -50,6 +50,9 @@ sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" pg_bloat_check.py
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Wed Sep 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1
+- Update to 2.7.0
+
 * Thu Jan 21 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.4-1
 - Update to 2.6.4
 
