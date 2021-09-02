@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta3_1PGDG%{?dist}
+Release:	beta3_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -881,7 +881,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
 # These file(s) should not be packaged:
-%{__rm} %{buildroot}%{pginstdir}/lib/libpgfeutils.a
+%{__rm} %{buildroot}%{pgbaseinstdir}/lib/libpgfeutils.a
 
 # initialize file lists
 %{__cp} /dev/null main.lst
@@ -1415,6 +1415,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 2 2021 - John Harvey <john.harvey@crunchydata.com> 14.0-beta3_2
+- Fix macro for consistency
+
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_1
 - Update to beta3
 
