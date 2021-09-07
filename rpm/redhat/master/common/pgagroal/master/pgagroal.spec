@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	1.2.2
+Version:	1.3.0
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -28,6 +28,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__mkdir} -p %{buildroot}%{_libdir}
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/grafana
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/images
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
@@ -37,8 +38,11 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/LICENSE %{buildroot}%{_docdir}/%{name}/LICENSE
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/CODE_OF_CONDUCT.md %{buildroot}%{_docdir}/%{name}/CODE_OF_CONDUCT.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/README.md %{buildroot}%{_docdir}/%{name}/README.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/grafana/dashboard.json %{buildroot}%{_docdir}/%{name}/grafana/dashboard.json
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/grafana/README.md %{buildroot}%{_docdir}/%{name}/grafana/README.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/ARCHITECTURE.md %{buildroot}%{_docdir}/%{name}/ARCHITECTURE.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CLI.md %{buildroot}%{_docdir}/%{name}/CLI.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/FAILOVER.md %{buildroot}%{_docdir}/%{name}/FAILOVER.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/GETTING_STARTED.md %{buildroot}%{_docdir}/%{name}/GETTING_STARTED.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/PERFORMANCE.md %{buildroot}%{_docdir}/%{name}/PERFORMANCE.md
@@ -107,7 +111,10 @@ fi
 %files
 %license %{_docdir}/%{name}/LICENSE
 %{_docdir}/%{name}/*.md
+
 %{_docdir}/%{name}/images/*.png
+%{_docdir}/%{name}/grafana/dashboard.json
+%{_docdir}/%{name}/grafana/README.md
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
 %{_mandir}/man1/%{name}-cli.1*
@@ -127,6 +134,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Tue Sep 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
+- Update to 1.3.0
+
 * Wed Jun 30 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
 - Update to 1.2.2
 
