@@ -1,14 +1,14 @@
 Summary:	Oracle to PostgreSQL database schema converter
 Name:		ora2pg
 Version:	22.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 URL:		http://ora2pg.darold.net/
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 BuildRequires:	perl
-Requires:	perl(DBD::Oracle)
+Requires:	perl(DBD::Oracle) perl-DBD-Pg
 Requires:	perl-DBD-MySQL perl(DBI) perl(String::Random) perl(IO::Compress::Base)
 
 %description
@@ -61,6 +61,9 @@ Oracle database to a PostgreSQL database.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Tue Sep 7 2021 Devrim Gündüz <devrim@gunduz.org> 22.1-2
+- Add perl-DBD-Pg dependency
+
 * Fri Jul 2 2021 Devrim Gündüz <devrim@gunduz.org> 22.1-1
 - Update to 22.1
 
