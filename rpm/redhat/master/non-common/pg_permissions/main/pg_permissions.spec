@@ -56,5 +56,5 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}*.*
 
 %changelog
-* Sed Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
+* Wed Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
 - Initial packaging for PostgreSQL RPM Repository
