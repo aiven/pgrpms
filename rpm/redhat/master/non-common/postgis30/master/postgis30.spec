@@ -13,6 +13,20 @@
 
 %pgdg_set_gis_variables
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -48,14 +62,13 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.3
-Release:	9%{?dist}
+Version:	%{postgismajorversion}.4
+Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
-Patch1:		%{sname}%{postgiscurrmajorversion}-proj80.patch
 
 URL:		http://www.postgis.net/
 
@@ -208,7 +221,6 @@ The %{name}-utils package provides the utilities for PostGIS.
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
-%patch1 -p0
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -239,6 +251,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
+        --with-projdir=%{projinstdir} \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
@@ -336,11 +349,7 @@ fi
 %{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
 %endif
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if %llvm
    %{pginstdir}/lib/bitcode/address_standardizer*.bc
    %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
@@ -348,11 +357,9 @@ fi
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
    %if %raster
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
    %endif
-  %endif
- %endif
 %endif
 
 %files client
@@ -386,6 +393,10 @@ fi
 %endif
 
 %changelog
+* Wed Sep 8 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.4-1
+- Update to 3.0.4, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.0.4/NEWS
+
 * Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 3.0.3-9
 - Rebuild against PROJ 8.0.1 (except RHEL 7) and GDAL 3.2.3 .
 
