@@ -23,8 +23,8 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.1
-Release:	2%{dist}
+Version:	1.6.2
+Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -109,6 +109,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
+- Update to 1.6.2
+
 * Thu Jul 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-2
 - Add llvmjit subpackage (and also fix RHEL 8 - ppc64le builds)
 
