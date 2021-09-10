@@ -9,9 +9,9 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}16_%{pgmajorversion}
 Version:	1.6
-Release:	beta1_1%{?dist}
+Release:	beta2_1%{?dist}
 License:	BSD
-Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/1.6beta1.tar.gz
+Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/1.6beta2.tar.gz
 URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -38,7 +38,7 @@ the PostgreSQL Audit extension (pgaudit) is properly called an audit
 trail or audit log. The term audit log is used in this documentation.
 
 %prep
-%setup -q -n %{sname}-%{version}beta1
+%setup -q -n %{sname}-%{version}beta2
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -78,5 +78,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6beta2-1
+- Update to 1.6beta2
+
 * Tue Jul 13 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6beta1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
