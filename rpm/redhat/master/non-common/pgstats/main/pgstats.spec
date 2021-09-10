@@ -1,6 +1,6 @@
 %global sname	pgstats
 %global pgstatsmajver 1
-%global pgstatsmidver 1
+%global pgstatsmidver 2
 %global pgstatsminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -74,5 +74,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/pgwaitevent
 
 %changelog
+* Fri Jul 9 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+
 * Thu May 20 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Initial packaging for PostgreSQL RPM Repository
