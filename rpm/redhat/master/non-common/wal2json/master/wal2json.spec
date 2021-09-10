@@ -2,10 +2,10 @@
 
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3
-Release:	4%{?dist}
+Version:	2.4
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_3.tar.gz
+Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_2_4.tar.gz
 URL:		https://github.com/eulerto/wal2json
 # This is for older spec files (RHEL <= 6)
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -28,7 +28,7 @@ options to include properties such as transaction timestamp,
 schema-qualified, data types, and transaction ids.
 
 %prep
-%setup -q -n %{sname}-%{sname}_2_3
+%setup -q -n %{sname}-%{sname}_2_4
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -57,6 +57,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> 2.4-1
+- Update to 2.4
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.3-4
 - Remove PGXS patches, and export PATH instead.
 
