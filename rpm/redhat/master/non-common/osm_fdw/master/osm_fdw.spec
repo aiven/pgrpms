@@ -109,10 +109,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 %if %llvm
 %files llvmjit
-    %{pginstdir}/lib/bitcode/%{sname}*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/%{sname}*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
+%{pginstdir}/lib/bitcode/%{sname}*.bc
+%{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
+%{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
 %endif
 
 %changelog
