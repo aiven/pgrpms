@@ -69,8 +69,6 @@ database adapter.
 %endif
 
 export PATH=%{pginstdir}/bin:$PATH
-# Change /usr/bin/python to /usr/bin/python2 in the scripts:
-for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" $i; done
 pushd psycopg
 %{__python3} setup.py build
 popd
