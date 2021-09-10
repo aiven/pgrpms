@@ -62,7 +62,7 @@ the PORTS section in the output. An example is:
 
 $ docker ps
 CONTAINER ID        IMAGE               COMMAND                  CREATED              STATUS              PORTS                     NAMES
-fe9158def36b        eg_postgresql       "/usr/pgsql-9.6/bin/p"   About a minute ago   Up About a minute   0.0.0.0:32773->5432/tcp   pg_yum_test
+fe9158def36b        eg_postgresql       "/usr/pgsql-13/bin/p"   About a minute ago   Up About a minute   0.0.0.0:32773->5432/tcp   pg_yum_test
 
 In this example, 32773 is the port for the PostgreSQL instance. Now,
 connect to the instance by:
