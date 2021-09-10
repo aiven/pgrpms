@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta3_2PGDG%{?dist}
+Release:	beta3_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1392,6 +1392,9 @@ fi
 %endif
 
 %changelog
+* Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_3
+- Fix setup script, put back scram auth.
+
 * Thu Sep 2 2021 - John Harvey <john.harvey@crunchydata.com> 14.0-beta3_2
 - Fix macro for consistency
 
