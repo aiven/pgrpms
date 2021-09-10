@@ -22,11 +22,11 @@
 
 Summary:	A Graph Extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.4.0
+Version:	0.5.0
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/apache/incubator-age
-Source0:	https://github.com/apache/incubator-age/archive/refs/tags/%{version}.tar.gz
+Source0:	https://github.com/apache/incubator-age/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel flex
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
