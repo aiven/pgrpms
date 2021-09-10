@@ -15,6 +15,7 @@ Release:	3%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://pgxn.org/dist/pg_repack/
+Patch0:		277.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -35,6 +36,7 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -54,7 +56,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %doc COPYRIGHT doc/pg_repack.rst
 %attr (755,root,root) %{pginstdir}/bin/pg_repack
 %attr (755,root,root) %{pginstdir}/lib/pg_repack.so
-%{pginstdir}/share/extension/%{sname}--%{version}.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
