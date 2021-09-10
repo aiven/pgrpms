@@ -11,7 +11,7 @@
 Summary:	PostgreSQL permission reports and checks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/refs/tags/%{tarballversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/pg_permissions/
@@ -56,5 +56,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}*.*
 
 %changelog
+* Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
+- Bump of for rpm Makefile issues on RHEL 7 and RHEL 8.
+
 * Wed Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
 - Initial packaging for PostgreSQL RPM Repository
