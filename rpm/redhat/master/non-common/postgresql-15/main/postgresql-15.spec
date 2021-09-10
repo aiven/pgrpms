@@ -486,7 +486,6 @@ Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
 %ifarch ppc ppc64
 BuildRequires:	perl-devel
 %endif
-Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -508,7 +507,6 @@ Install this if you want to write database functions in Perl.
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
 %if 0%{?rhel} == 7
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
@@ -537,7 +535,6 @@ Summary:	The Tcl procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
-Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
