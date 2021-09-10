@@ -9,7 +9,7 @@
 
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
-Version:	1.3
+Version:	1.3.2
 Release:	1%{?dist}
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
@@ -31,8 +31,6 @@ removing extensions in a PostgreSQL installation or database.
 %{__rm} -rf %{buildroot}
 %{__ospython} setup.py install --root %{buildroot}
 
-%{__mv} %{buildroot}%{python_sitelib}/tests %{buildroot}%{python_sitelib}/%{name}/tests
-
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -49,7 +47,6 @@ removing extensions in a PostgreSQL installation or database.
 %{_bindir}/pgxn
 %{_bindir}/%{name}
 %{python_sitelib}/%{name}/*.py*
-%{python_sitelib}/%{name}/tests/*.py*
 %{python_sitelib}/%{name}/utils/*.py*
 %{python_sitelib}/%{name}/commands/*.py*
 %{python_sitelib}/%{name}/libexec/*
@@ -57,11 +54,13 @@ removing extensions in a PostgreSQL installation or database.
 %if 0%{with_python3}
 %{python_sitelib}/%{name}/__pycache__/*.p*
 %{python_sitelib}/%{name}/commands/__pycache__/*.p*
-%{python_sitelib}/%{name}/tests/__pycache__/*.p*
 %{python_sitelib}/%{name}/utils/__pycache__/*.p*
 %endif
 
 %changelog
+* Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
+- Update to 1.3.2
+
 * Mon Oct 7 2019 Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Update to 1.3
 
