@@ -1,5 +1,7 @@
-%{expand: %%global py3ver %(echo `%{python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
+%global __ospython3 %{_bindir}/python3
+%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 %global	python_runtimes python3 python3-debug
 
