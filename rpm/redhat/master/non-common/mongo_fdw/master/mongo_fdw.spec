@@ -144,6 +144,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Tue Sep 14 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.9-1
+- Update to 5.2.9
+
 * Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
 - Update to 5.2.8
 - Add missing BR and Requires, per Martin Marques.
