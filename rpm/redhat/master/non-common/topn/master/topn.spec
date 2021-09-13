@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.1
-Release:	2%{dist}
+Version:	2.4.0
+Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
@@ -76,6 +76,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Sep 13 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
+- Update to 2.4.0
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-2
 - Remove pgxs patches, and export PATH instead.
 
