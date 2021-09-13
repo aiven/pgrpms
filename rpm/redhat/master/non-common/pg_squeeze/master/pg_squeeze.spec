@@ -1,4 +1,5 @@
 %global sname pg_squeeze
+%global pgsqueezerelversion 1_4_0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -8,10 +9,10 @@
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.1
+Version:	1.4.0
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL1_3_0.tar.gz
+Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -30,7 +31,7 @@ optionally sorts tuples according to particular index (as if CLUSTER
 command was executed concurrently with regular reads / writes).
 
 %prep
-%setup -q -n %{sname}-REL1_3_0
+%setup -q -n %{sname}-REL%{pgsqueezerelversion}
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -51,11 +52,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__rm} -rf %{buildroot}
 
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %defattr(644,root,root,755)
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -73,6 +70,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Sep 13 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
 - Update to 1.3.1
 - Remove pgxs patches, and export PATH instead.
