@@ -1,4 +1,3 @@
-%global pgmajorversion 13
 %global sname mongo_fdw
 %global relver 5_2_9
 
