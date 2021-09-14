@@ -1,3 +1,4 @@
+%global pgmajorversion 13
 %global sname mongo_fdw
 %global relver 5_2_9
 
@@ -7,21 +8,30 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.9
 Release:	1%{?dist}
-License:	BSD
+License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
 %ifarch ppc64 ppc64le
-Patch0:		mongo_fdw-makefile-includes-ppc64le.patch
-Patch1:		mongo_fdw-autogen-ppc64le.patch
-%endif
-%if 0%{?rhel} == 7
-# Patch to disable mongo-c-driver compilation from sources for rhel7 and ppc64le
-Patch2:		%{sname}-disable-mongoc-sources-rhel7.patch
+Patch0:		mongo_fdw-autogen-ppc64le.patch
 %endif
 
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
@@ -64,18 +74,51 @@ Obsoletes:	%{sname}%{pgmajorversion} < 5.2.7-2
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 MongoDB.
 
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for mongo_fdw
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for mongo_fdw
+%endif
+
 %prep
 %setup -q -n %{sname}-REL-%{relver}
 %ifarch ppc64 ppc64le
 %patch0 -p0
-%patch1 -p0
 %endif
 %{__cp} %{SOURCE1} ./config.h
-# apply patch to disable mongo-c-driver source compilation for rhel7
-%if 0%{?rhel} == 7
-%patch2 -p0
-# set rpath of pgdg-libmongoc  libs
+
+sed -i 's|^[[:space:]]checkout_mongo_driver|#checkout_mongo_driver|' autogen.sh
+sed -i 's|^[[:space:]]install_mongoc_driver|#install_mongo_driver|' autogen.sh
+sed -i 's|^[[:space:]]make install |# make install|' autogen.sh
+sed -i 's|^[[:space:]]export PKG_CONFIG_PATH=mongo-c-driver/src/:mongo-c-driver/src/libbson/src|#export PKG_CONFIG_PATH=mongo-c-driver/src/:mongo-c-driver/src/libbson/src|' autogen.sh
+
+# set rpath of edb-mongoc driver libs
+# RHEL 7: Use edb-mongoc driver for building, so disable mongo-c-driver compilation
+# RHEL 8 and Fedora: Use OS supplied mongo-c-driver
+%if 0%{?rhel} && 0%{?rhel} == 7
 sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/pgdg-libmongoc/lib64',--enable-new-dtags' Makefile.meta
+%else
+sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/lib64',--enable-new-dtags' Makefile.meta
 %endif
 
 %build
@@ -90,12 +133,7 @@ sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -
 	CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
 %endif
 
-# build Mongo C Driver build sources except on RHEL 7
-%if 0%{?rhel} == 7
-:
-%else
 sh autogen.sh --with-master
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -131,21 +169,19 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %{pginstdir}/share/extension/README-%{sname}.md
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
    %{pginstdir}/lib/bitcode/%{sname}/json-c/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
 * Tue Sep 14 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.9-1
 - Update to 5.2.9
+- Add llvmjit subpackage
+- Use OS supplied mongo-c-driver on RHEL8+ and Fedora.
 
 * Mon May 3 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.8-1
 - Update to 5.2.8
