@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_2_8
+%global relver 5_2_9
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.8
+Version:	5.2.9
 Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/EnterpriseDB/%{sname}
