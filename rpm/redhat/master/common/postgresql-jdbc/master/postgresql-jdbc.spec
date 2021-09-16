@@ -6,7 +6,7 @@ Release:	1%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
-Source0:	https://jdbc.postgresql.org/download/postgresql-%{version}-jdbc-src.tar.gz
+Source0:	https://jdbc.postgresql.org/download/postgresql-jdbc-%{version}.src.tar.gz
 Source1:	%{name}.pom
 BuildArch:	noarch
 
