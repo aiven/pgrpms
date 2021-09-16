@@ -97,7 +97,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Thu Sep 18 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
+* Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
 - Update to 2.6.1
 
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.0-2
