@@ -3,7 +3,7 @@
 
 %global plluangmajver 2
 %global plluangmidver 0
-%global plluangminver 9
+%global plluangminver 10
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -124,5 +124,8 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %endif
 
 %changelog
+* Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.10-1
+- Update to 2.0.10
+
 * Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.9-1
 - Initial packaging for PostgreSQL RPM Repository
