@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_2_9
+%global relver 5_2_10
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -23,7 +23,7 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.9
+Version:	5.2.10
 Release:	1%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -177,6 +177,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.10-1
+- Update to 5.2.10
+
 * Tue Sep 14 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.9-1
 - Update to 5.2.9
 - Add llvmjit subpackage
