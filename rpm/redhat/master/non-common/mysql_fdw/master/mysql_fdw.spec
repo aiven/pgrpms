@@ -1,7 +1,7 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
 %global mysqlfdwmidver 6
-%global mysqlfdwminver 0
+%global mysqlfdwminver 1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -12,7 +12,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -97,6 +97,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Sep 18 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
+- Update to 2.6.1
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.0-2
 - Remove pgxs patches, and export PATH instead.
 
