@@ -1,6 +1,6 @@
 Name:		pgdg-centos-stream-repo
 Version:	42.0
-Release:	17
+Release:	18
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for CentOS Stream
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -37,6 +37,9 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-18
+- Add v14 stable repo.
+
 * Fri Apr 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-17
 - Sign repository metadata on RHEL 8+ to fix CVE-2021-20271, per
   https://access.redhat.com/security/cve/cve-2021-20271
