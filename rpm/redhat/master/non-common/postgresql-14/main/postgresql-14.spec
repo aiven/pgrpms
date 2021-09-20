@@ -5,7 +5,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -71,11 +71,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14
-Release:	beta3_3PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v14beta3/postgresql-14beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v14rc1/postgresql-14rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -563,7 +563,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{pgpackageversion}rc1
 
 %patch1 -p0
 %patch3 -p0
@@ -1392,6 +1392,10 @@ fi
 %endif
 
 %changelog
+* Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0rc1-1
+- Update ro rc1
+- Fix setup script, so that it uses the right pwfile.
+
 * Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_3
 - Fix setup script, put back scram auth.
 
