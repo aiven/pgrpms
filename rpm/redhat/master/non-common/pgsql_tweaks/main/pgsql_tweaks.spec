@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL functions which a DBA regularly needs
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.7.1
+Version:	0.8.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -59,5 +59,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> 0:0.8.0-1
+- Update to 0.8.0
+
 * Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> 0:0.7.1-1
 - Initial packaging for PostgreSQL RPM Repository
