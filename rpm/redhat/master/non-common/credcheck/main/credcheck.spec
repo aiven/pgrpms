@@ -9,12 +9,12 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.1.1
+Version:	0.2.0
 Release:	1%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
-Source0:	https://github.com/MigOpsRepos/%{sname}/archive/refs/tags/%{version}.tar.gz
+Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v0.2.0.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.15
 Requires:	postgresql%{pgmajorversion}-server
@@ -66,6 +66,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.3-3
+* Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
+- Initial packaging for PostgreSQL YUM repository.
+
+* Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> 0.1.1-2
 - Initial packaging for PostgreSQL YUM repository.
 
