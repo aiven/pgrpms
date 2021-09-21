@@ -11,7 +11,7 @@
 %endif
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	%{pgtclmajorversion}.5
+Version:	%{pgtclmajorversion}.7
 Release:	1%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
@@ -86,6 +86,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 2.7.7-1
+- Update to 2.7.7
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.7.5-1
 - Update to 2.7.5
 - Use underscore before PostgreSQL version number for consistency, per:
