@@ -1,4 +1,5 @@
-%global sname		pljava
+%global sname	pljava
+%global relver	1_6_2
 
 %global debug_package %{nil}
 
@@ -16,13 +17,12 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.6
-Release:	2%{?dist}
+Version:	1.6.2
+Release:	1%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
-Patch0:		%{sname}-pg%{pgmajorversion}-buildxml.patch
 
-Source0:	https://github.com/tada/%{sname}/archive/V1_5_6.tar.gz
+Source0:	https://github.com/tada/%{sname}/archive/V%{relver}.tar.gz
 Source1:	%{sname}.pom
 
 %if 0%{?suse_version}
@@ -60,8 +60,7 @@ stored procedures, triggers, and functions to be written in the Java™
 language and executed in the backend.
 
 %prep
-%setup -q -n %{sname}-1_5_6
-%patch0 -p0
+%setup -q -n %{sname}-%{relver}
 
 %build
 export CLASSPATH=
@@ -71,10 +70,12 @@ export PATH=%{atpath}/bin/:$PATH
 %endif
 
 %ifarch ppc64 ppc64le
+# The next line is useful only on RHEL 7, for the rh-maven33 package
+export PATH=%{pginstdir}/bin
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
 # The next line is useful only on RHEL 7, for the rh-maven33 package
-export PATH=/opt/rh/rh-maven33/root/usr/bin:$PATH
+export PATH=%{pginstdir}/bin:/opt/rh/rh-maven33/root/usr/bin:$PATH
 # ommon for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
@@ -83,7 +84,7 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__rm} -rf %{buildroot}
 
 %{__install} -d %{buildroot}%{pginstdir}/lib
-%{__cp} -f %{sname}-so/target/nar/%{sname}-so-%{version}-%{archtag}-Linux-gpp-plugin/lib/%{archtag}-Linux-gpp/plugin/libpljava-so-%{version}.so %{buildroot}%{pginstdir}/lib
+%{__cp} -f ./pljava-so/target/pljava-pgxs/libpljava-so-%{version}.so  %{buildroot}%{pginstdir}/lib
 
 %{__install} -d %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}/target/%{sname}-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
@@ -114,6 +115,10 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Tue Sep 21 2021 - Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
+- Update to 1.6.2
+- Remove patch0, and export PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.5.6-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
