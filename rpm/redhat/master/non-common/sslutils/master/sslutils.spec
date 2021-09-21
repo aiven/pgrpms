@@ -10,6 +10,20 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
@@ -85,15 +99,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %{pginstdir}/share/extension/sslutils*.sql
 %{pginstdir}/share/extension/uninstall_sslutils.sql
 %{pginstdir}/share/extension/sslutils.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if %llvm
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
