@@ -98,7 +98,6 @@ This packages provides JIT support for mongo_fdw
 
 %prep
 %setup -q -n %{sname}-REL-%{relver}
-%ifarch ppc64 ppc64le
 
 sed -i 's|^[[:space:]]checkout_mongo_driver|#checkout_mongo_driver|' autogen.sh
 sed -i 's|^[[:space:]]install_mongoc_driver|#install_mongo_driver|' autogen.sh
