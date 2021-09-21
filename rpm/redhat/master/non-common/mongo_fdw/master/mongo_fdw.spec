@@ -24,14 +24,11 @@
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.2.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
-%ifarch ppc64 ppc64le
-Patch0:		mongo_fdw-autogen-ppc64le.patch
-%endif
 
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 
@@ -102,9 +99,6 @@ This packages provides JIT support for mongo_fdw
 %prep
 %setup -q -n %{sname}-REL-%{relver}
 %ifarch ppc64 ppc64le
-%patch0 -p0
-%endif
-%{__cp} %{SOURCE1} ./config.h
 
 sed -i 's|^[[:space:]]checkout_mongo_driver|#checkout_mongo_driver|' autogen.sh
 sed -i 's|^[[:space:]]install_mongoc_driver|#install_mongo_driver|' autogen.sh
@@ -177,6 +171,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.10-2
+- Remove patch0, no more needed.
+
 * Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.10-1
 - Update to 5.2.10
 
