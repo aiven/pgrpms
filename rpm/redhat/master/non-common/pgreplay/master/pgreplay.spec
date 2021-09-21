@@ -8,16 +8,14 @@
 %endif
 
 Summary:	PostgreSQL log file re-player
-Name:		%{sname}_%{pgmajorversion}
+Name:		%{sname}
 Version:	1.3.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
-Source0:	https://github.com/laurenz/pgreplay/archive/%{vname}.tar.gz
-URL:		https://github.com/laurenz/pgreplay
-Requires:	postgresql%{pgmajorversion}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.3.0-2
+Source0:	https://github.com/laurenz/%{sname}/archive/%{vname}.tar.gz
+URL:		https://github.com/laurenz/%{sname}
+Requires:	postgresql-server >= 10.0
+BuildRequires:	libpq5-devel pgdg-srpm-macros
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -61,20 +59,20 @@ affect you.
 %{__rm} -rf %{buildroot}
 
 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-# Rename files for multiple version installation
-%{__mv} %{buildroot}%{_bindir}/%{sname} %{buildroot}%{_bindir}/%{sname}%{pgmajorversion}
-%{__mv} %{buildroot}%{_mandir}/man1/%{sname}.1 %{buildroot}%{_mandir}/man1/%{sname}%{pgmajorversion}.1.gz
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc pgreplay.html README CHANGELOG
-%{_bindir}/%{sname}%{pgmajorversion}
+%doc %{sname}.html README CHANGELOG
+%{_bindir}/%{sname}
 %{_mandir}/man1/%{sname}*
 
 %changelog
+* Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-3
+- Move this package to common repository.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
