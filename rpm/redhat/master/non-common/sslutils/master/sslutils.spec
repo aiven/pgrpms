@@ -1,3 +1,7 @@
+%ifarch ppc64 ppc64le
+%global	debug_package %{nil}
+%endif
+
 %global sname sslutils
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -9,7 +13,7 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -93,6 +97,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-4
+- Disable debug packages on ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-3
 - Remove pgxs patches, and export PATH instead.
 
