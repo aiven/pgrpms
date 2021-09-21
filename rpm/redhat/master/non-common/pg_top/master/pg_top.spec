@@ -84,7 +84,7 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
-* Tue Feb 4 2021 John Harvey <john.harvey@crunchydata.com> 3.7.0-7
+* Thu Feb 4 2021 John Harvey <john.harvey@crunchydata.com> 3.7.0-7
 - Fix Obsoletes
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-6
