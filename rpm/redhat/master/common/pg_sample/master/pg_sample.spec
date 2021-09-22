@@ -1,11 +1,9 @@
-%global debug_package %{nil}
-
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
-Version:	1.09
-Release:	1%{?dist}.1
+Version:	1.12
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/mla/pg_sample/archive/v1.09.tar.gz
+Source0:	https://github.com/mla/pg_sample/archive/v%{version}.tar.gz
 URL:		https://github.com/mla/pg_sample
 Requires:	postgresql, perl-DBI, perl-DBD-Pg >= 2.0
 
@@ -35,6 +33,9 @@ maintains referential integrity, and supports circular dependencies.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.12-1
+- Update to 1.12
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.09-1.1
 - Rebuild against PostgreSQL 11.0
 
