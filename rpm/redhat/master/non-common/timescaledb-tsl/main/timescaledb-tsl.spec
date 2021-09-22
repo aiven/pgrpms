@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
-Version:	2.4.1
+Version:	2.4.2
 Release:	1%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -87,6 +87,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-1
+- Update to 2.4.2
+
 * Thu Aug 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
 - Update to 2.4.1
 
