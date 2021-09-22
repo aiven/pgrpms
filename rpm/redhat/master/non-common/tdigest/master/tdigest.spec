@@ -6,9 +6,23 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	t-digest implementation for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
+Version:	1.2.0
 Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/tvondra/%{sname}/archive/v%{version}.tar.gz
@@ -63,18 +77,15 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
+%if %llvm
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.1-2
 - Remove pgxs patches, and export PATH instead.
 
