@@ -6,14 +6,27 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	Extra Window Functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1%{dist}
+Release:	2%{dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -31,7 +44,6 @@ useful to someone.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -39,10 +51,11 @@ useful to someone.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-%{__make} %{?_smp_mflags}
+
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
-%make_install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -58,17 +71,16 @@ useful to someone.
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/*%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
+
+%if %llvm
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> 1.0-2
+- Remove pgxs patches, and export PATH instead.
+- Add RHEL 8 / ppc64le support.
+
 * Sat Jun 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0-1
 - Initial RPM packaging for PostgreSQL RPM Repository
