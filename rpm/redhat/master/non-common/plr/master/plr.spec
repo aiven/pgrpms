@@ -8,7 +8,7 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.4.2
+Version:	8.4.3
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_2.tar.gz
@@ -72,7 +72,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
-* Sat May 29 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.1-2
+* Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.3-1
+- Update to 8.4.3
+
+* Sat May 29 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.2-1
 - Update to 8.4.2, per changes described at:
   https://github.com/postgres-plr/plr/blob/REL8_4_2/changelog.md
 - Remove pgxs patches, and export PATH instead.
