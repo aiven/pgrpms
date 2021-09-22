@@ -11,7 +11,7 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	8.4.3
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_2.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_3.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -29,7 +29,7 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}-REL8_4_2
+%setup -q -n %{sname}-REL8_4_3
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
