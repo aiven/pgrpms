@@ -40,8 +40,8 @@ Requires:	python
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.13
-Release:	2%{?dist}
+Version:	2.14
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -130,6 +130,8 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{_bindir}/barman-wal-archive
 %{_bindir}/barman-wal-restore
 %{_bindir}/barman-cloud-backup
+%{_bindir}/barman-cloud-backup-delete
+%{_bindir}/barman-cloud-backup-keep
 %{_bindir}/barman-cloud-wal-archive
 %{_bindir}/barman-cloud-backup-list
 %{_bindir}/barman-cloud-restore
@@ -144,6 +146,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Sep 23 2021 Devrim Gündüz <devrim@gunduz.org> - 2.14-1
+- Update to 2.14
+
 * Sun Aug 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.13-2
 - Remove duplicate binaries from main package, per report from
   Abhijit Menon-Sen.
