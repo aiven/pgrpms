@@ -1,8 +1,8 @@
 %global sname	pgmoneta
 
 Name:		%{sname}
-Version:	0.5.0
-Release:	2%{dist}
+Version:	0.5.1
+Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{sname}/%{sname}
@@ -104,6 +104,9 @@ fi
 %{_unitdir}/%{sname}.service
 
 %changelog
+* Thu Sep 23 2021 Devrim Gündüz <devrim@gunduz.org> 0.5.1-1
+- Update to 0.5.1
+
 * Wed Sep 1 2021 Devrim Gündüz <devrim@gunduz.org> 0.5.0-2
 - Add systemd support (unit file and tmpfiles.d support)
 - Create log directory
