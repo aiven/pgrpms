@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.5
+Version:	2.6
 Release:	1%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
@@ -81,6 +81,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> 2.6-1
+- Update to 2.6
+
 * Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> 2.5-1
 - Update to 2.5
 - Fix RHEL 8 / ppc64le support.
