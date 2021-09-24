@@ -12,7 +12,7 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.0
+Version:	2.1.0
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
@@ -79,6 +79,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
+- Update to 2.1.0
+
 * Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1
 - Update to 2.0.0
 
