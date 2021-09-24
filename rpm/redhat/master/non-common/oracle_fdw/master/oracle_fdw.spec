@@ -1,6 +1,6 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
-%global ofdwmidver 3
+%global ofdwmidver 4
 %global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
@@ -102,6 +102,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+- Update to 2.4.0
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 2.3.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
