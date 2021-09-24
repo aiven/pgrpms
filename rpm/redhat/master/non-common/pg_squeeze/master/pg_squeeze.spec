@@ -1,5 +1,5 @@
 %global sname pg_squeeze
-%global pgsqueezerelversion 1_4_0
+%global pgsqueezerelversion 1_4_1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -7,9 +7,23 @@
 %endif
 %endif
 
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+ %{!?llvm:%global llvm 0}
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+ %else
+ %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 0}
+%endif
+
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
+Version:	1.4.1
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
@@ -58,18 +72,15 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
+%if %llvm
+ %{pginstdir}/lib/bitcode/%{sname}*.bc
+ %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
+- Update to 1.4.1
+
 * Mon Sep 13 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0
 
