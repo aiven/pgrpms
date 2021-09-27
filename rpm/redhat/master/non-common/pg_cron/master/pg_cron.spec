@@ -8,8 +8,8 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.1
-Release:	2%{dist}
+Version:	1.4.1
+Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
@@ -75,6 +75,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Sep 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
+- Update to 1.4.1
+
 * Wed May 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2
 - Remove pgxs patches, and export PATH instead.
 
