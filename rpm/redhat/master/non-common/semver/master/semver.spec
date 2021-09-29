@@ -8,8 +8,8 @@
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.31.1
-Release:	2%{?dist}
+Version:	0.31.2
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/theory/pg-semver/
@@ -68,6 +68,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 
 
 %changelog
+* Wed Sep 29 2021 Devrim Gündüz <devrim@gunduz.org> - 0.31.2-1
+- Update to 0.31.2
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 0.31.1-2
 - Remove pgxs patches, and export PATH instead.
 
