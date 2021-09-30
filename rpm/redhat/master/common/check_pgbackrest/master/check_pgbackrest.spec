@@ -4,11 +4,11 @@
 
 Name:		nagios-plugins-pgbackrest
 Version:	2.1
-Release:	%{dist}
+Release:	2%{dist}
 Summary:	pgBackRest backup check plugin for Nagios
 License:	PostgreSQL
-Url:		https://github.com/dalibo/%{sname}
-Source0:	https://github.com/dalibo/%{sname}/archive/%{_tag}.tar.gz
+Url:		https://github.com/pgstef/%{sname}
+Source0:	https://github.com/pgstef/%{sname}/archive/%{_tag}.tar.gz
 BuildArch:	noarch
 Requires:	perl-JSON
 Requires:	nagios-plugins
@@ -44,6 +44,9 @@ check_pgbackrest is designed to monitor pgBackRest backups from Nagios.
 %endif
 
 %changelog
+* Thu Sep 30 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1-2
+- Update URLs, per Stefan.
+
 * Wed Sep 29 2021 Devrim Gündüz <devrim@gunduz.org> - 2.1-1
 - Update to 2.1
 
