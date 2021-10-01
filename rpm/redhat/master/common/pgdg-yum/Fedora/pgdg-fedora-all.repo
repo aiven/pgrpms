@@ -203,6 +203,14 @@ repo_gpgcheck = 1
 
 # Debuginfo/debugsource repositories for stable repos
 
+[pgdg14-debuginfo]
+name=PostgreSQL 14 for Fedora $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/14/fedora/fedora-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
+
 [pgdg13-debuginfo]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Debuginfo
 baseurl=https://download.postgresql.org/pub/repos/yum/debug/13/fedora/fedora-$releasever-$basearch
