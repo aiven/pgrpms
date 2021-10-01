@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.25.1
+%global		_verstr	0.27.1
 %endif
 
 Name:		consul-template
@@ -106,8 +106,11 @@ fi
 
 
 %changelog
-* Fri Oct 2 2020 Devrim Gündüz <devrim@gunduz.org> 0.24.1-1
-- Update to 0.24.1
+* Fri Oct 1 2021 Devrim Gündüz <devrim@gunduz.org> 0.27.1-1
+- Update to 0.27.1
+
+* Fri Oct 2 2020 Devrim Gündüz <devrim@gunduz.org> 0.25.1-1
+- Update to 0.25.1
 
 * Fri Mar 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.24.1-1
 - Update to 0.24.1
