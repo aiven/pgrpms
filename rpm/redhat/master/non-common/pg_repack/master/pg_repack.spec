@@ -10,12 +10,11 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.6
-Release:	3%{?dist}
+Version:	1.4.7
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://pgxn.org/dist/pg_repack/
-Patch0:		277.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -36,7 +35,6 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -74,6 +72,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Mon Oct 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.7-1
+- Update to 1.4.7
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.6-3
 - Remove pgxs patches, and export PATH instead.
 
