@@ -1,0 +1,1 @@
+../master/pgcli.spec

@@ -1,0 +1,1 @@
+../master/ogr_fdw.spec

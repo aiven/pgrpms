@@ -1,0 +1,1 @@
+../master/python-pgspecial.spec
