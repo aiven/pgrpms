@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f35
 SPECFILE="pg_checksums.spec"
 
 # Now, include global Makefile
