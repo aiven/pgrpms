@@ -62,7 +62,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -74,7 +74,7 @@ URL:		https://www.postgis.net/
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros >= 1.0.14 pcre-devel gmp-devel
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} >= 1315
 Requires:	libgmp10
 %else
 Requires:	gmp
@@ -382,6 +382,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 6 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.4-2
+- Add SLES 12 support.
+
 * Wed Sep 8 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.4-1
 - Update to 3.1.4, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.4/NEWS
