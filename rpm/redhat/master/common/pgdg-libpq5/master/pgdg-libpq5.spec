@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global pgmajorversion 13
+%global pgmajorversion 14
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.4
+Version:	%{pgmajorversion}.0
 Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -239,6 +239,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Wed Oct 6 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-42PGDG
+- Update to 14.0
+
 * Thu Aug 12 2021 Devrim Gündüz <devrim@gunduz.org> - 13.4-42PGDG
 - Update to 13.4
 
