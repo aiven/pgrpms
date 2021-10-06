@@ -1,16 +1,10 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
-
 %global		pgcluudatadir		/var/lib/pgcluu/data
 %global		pgcluureportdir		/var/lib/pgcluu/report
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	3.1
-Release:	2%{?dist}
+Version:	3.2
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -52,10 +46,8 @@ of the PostgreSQL cluster and the system utilization
 %{__install} -d %{buildroot}%{_sysconfdir}/
 %{__install} -m 644 pgcluu.conf %{buildroot}%{_sysconfdir}/%{name}.conf
 
-%if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{SOURCE2} %{SOURCE3} %{buildroot}%{_unitdir}/
-%endif
 
 %post
 %{__mkdir} -p %{pgcluudatadir}
@@ -76,13 +68,14 @@ of the PostgreSQL cluster and the system utilization
 %{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{_sysconfdir}/%{name}.conf
 /var/www/cgi-bin/%{name}.cgi
-%if %{systemd_enabled}
 %{_unitdir}/%{name}_collectd.service
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}.timer
-%endif
 
 %changelog
+* Wed Oct 6 2021 Devrim Gündüz <devrim@gunduz.org> 3.2-1
+- Update to 3.2
+
 * Wed Jan 1 2020 Devrim Gündüz <devrim@gunduz.org> 3.1-2
 - Add cgi file and config file, per #4833
 
