@@ -118,10 +118,15 @@ Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 
 Requires:	pcre
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	libjson-c2
+Requires:	libxerces-c-3_1
+%endif
+%if 0%{?suse_version} >= 1500
 Requires:	libjson-c5
 Requires:	libxerces-c-3_1
-%else
+%endif
+%if 0%{?rhel} || 0%{?fedora}
 Requires:	json-c xerces-c
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
