@@ -2,11 +2,12 @@
 
 Summary:	PostgreSQL Audit Analyzer
 Name:		pgaudit_analyze
-Version:	1.0.7
+Version:	1.0.8
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgaudit/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/pgaudit/%{name}
+BuildArch:	noarch
 
 Requires:	perl-Carp
 
@@ -44,5 +45,8 @@ and loads them into a database schema to aid in analysis and auditing.
 %{painstdir}/sql/*
 
 %changelog
+* Mon Oct 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1
+- Update to 1.0.8
+
 * Fri Jun 28 2019 Devrim Gündüz <devrim@gunduz.org> - 1.0.7-1
 - Initial RPM packaging for PostgreSQL RPM Repository
