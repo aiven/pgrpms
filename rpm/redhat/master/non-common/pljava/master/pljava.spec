@@ -1,5 +1,5 @@
 %global sname	pljava
-%global relver	1_6_2
+%global relver	1_6_3
 
 %global debug_package %{nil}
 
@@ -17,7 +17,7 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.2
+Version:	1.6.3
 Release:	1%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
@@ -115,6 +115,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Mon Oct 11 2021 - Devrim Gündüz <devrim@gunduz.org> - 1.6.3-1
+- Update to 1.6.3
+
 * Tue Sep 21 2021 - Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
 - Update to 1.6.2
 - Remove patch0, and export PATH instead.
