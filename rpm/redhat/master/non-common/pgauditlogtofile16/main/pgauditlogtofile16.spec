@@ -80,10 +80,13 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
-* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> 1.2-1
+* Mon Oct 11 2021 Devrim Gündüz <devrim@gunduz.org> 1.4-1
+- Update to 1.4
+
 * Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> 1.3-1
 - Update to 1.3
 
+* Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> 1.2-1
 - Update to 1.2
 - Remove pgxs patches, and export PATH instead.
 
