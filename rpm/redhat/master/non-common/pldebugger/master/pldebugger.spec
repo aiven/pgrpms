@@ -22,7 +22,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic  2.0
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -33,6 +33,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.3-1
+Provides:	%{sname}%{pgmajorversion} = %{version}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -89,6 +90,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 
 
 %changelog
+* Tue Oct 12 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4-2
+- Provide non-underscore version as well, in order not to break
+  upgrades and existing scripts. Per Dave Page and others.
+
 * Thu Sep 23 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4-1
 - Update to 1.4
 
