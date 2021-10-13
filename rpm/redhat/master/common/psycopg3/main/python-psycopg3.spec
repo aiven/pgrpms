@@ -16,11 +16,11 @@ BuildArch:	noarch
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.0
-Release:	beta1_1%{?dist}
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
-Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/3.0.beta1.tar.gz
+Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/3.0.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -59,7 +59,7 @@ database adapter.
 %endif
 
 %prep
-%setup -q -n psycopg-%{version}.beta1
+%setup -q -n psycopg-%{version}
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -102,7 +102,7 @@ popd
 %doc  README.rst
 %dir %{python3_sitearch}/%{sname}
 
-%{python3_sitelib}/psycopg-3.0b1-py%{py3ver}.egg-info/*
+%{python3_sitelib}/psycopg-3.0-py%{py3ver}.egg-info/*
 %{python3_sitelib}/psycopg/*.py
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/pq/*.py*
@@ -121,5 +121,8 @@ popd
 %endif
 
 %changelog
+* Wed Oct 13 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-1
+- Update to 3.0
+
 * Wed Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-beta1-1
 - Initial packaging
