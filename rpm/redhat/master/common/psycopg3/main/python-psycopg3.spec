@@ -16,7 +16,7 @@ BuildArch:	noarch
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -39,12 +39,15 @@ programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
+# Enable this package only on Fedora, which has PY 3.9:
+%if 0%{?fedora} > 32
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
 
 %description -n python3-%{sname}-tests
 This sub-package delivers set of tests for the adapter.
+%endif
 
 %if %with_docs
 %package doc
@@ -88,11 +91,15 @@ pushd psycopg
 %{__python3} setup.py install --no-compile --root %{buildroot}
 popd
 
-# Copy tests directory:
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
+
+#Only on Fedora:
+%if 0%{?fedora} > 32
+# Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
+%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -111,8 +118,11 @@ popd
 %{python3_sitelib}/psycopg/types/__pycache__/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
+#Only on Fedora:
+%if 0%{?fedora} > 32
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
+%endif
 
 %if %with_docs
 %files doc
@@ -121,6 +131,10 @@ popd
 %endif
 
 %changelog
+* Wed Oct 13 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-2
+- Disable unit tests on RHEL, because of Python version. Per tip from
+  Daniele: https://github.com/psycopg/psycopg/issues/106
+
 * Wed Oct 13 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-1
 - Update to 3.0
 
