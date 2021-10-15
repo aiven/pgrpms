@@ -43,7 +43,7 @@ The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
 %endif
 %endif
 
-USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
