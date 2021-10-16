@@ -9,14 +9,40 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.1
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel openssl-devel
-Requires:	postgresql%{pgmajorversion}-server openssl-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
+Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives openldap
 Requires(postun):	%{_sbindir}/update-alternatives
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl
+%else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	libopenssl1_0_0
+%else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
+%else
+Requires:	openssl-libs >= 1.0.2k
+%endif
+%endif
+%endif
+
+# We depend un the SSL libraries provided by Advance Toolchain on PPC,
+# so use openssl-devel only on other platforms:
+%ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
+BuildRequires:	openssl-devel
+%endif
+%endif
+%endif
+
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -75,6 +101,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-2
+- Fix SLES dependencies, per report from Tiago ANASTACIO.
+
 * Mon Sep 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
 - Update to 1.4.1
 
