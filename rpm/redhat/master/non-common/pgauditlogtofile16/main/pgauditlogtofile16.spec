@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3
+Version:	1.4
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
