@@ -9,8 +9,8 @@
 
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.3
-Release:	2%{?dist}
+Version:	0.4
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/CrunchyData/%{sname}
@@ -62,6 +62,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} DESTDIR=%{buildroot} %{?_smp_
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> 0.4-1
+- Update to 0.4
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 0.3-2
 - Remove pgxs patches, and export PATH instead.
 
