@@ -14,7 +14,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -51,9 +51,33 @@ Requires(postun):	initscripts
 %endif
 
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
-BuildRequires:	libxslt-devel pam-devel openssl-devel readline-devel
+BuildRequires:	libxslt-devel pam-devel readline-devel
 BuildRequires:	libmemcached-devel libicu-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+Requires:	openssl
+%else
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+Requires:	libopenssl1_0_0
+%else
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl1_1
+%else
+Requires:	openssl-libs >= 1.0.2k
+%endif
+%endif
+%endif
+
+# We depend un the SSL libraries provided by Advance Toolchain on PPC,
+# so use openssl-devel only on other platforms:
+%ifnarch ppc64 ppc64le
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	libopenssl-devel
+%else
+BuildRequires:	openssl-devel
+%endif
+%endif
 
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.1-1
 Obsoletes:	%{sname}_%{pgmajorversion} < 5.2.1-1
@@ -210,6 +234,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 16 2021 - Devrim Gündüz <devrim@gunduz.org> 5.3.1-1
+- Fix OpenSSL dependencies on SLES.
+
 * Thu Oct 14 2021 - Devrim Gündüz <devrim@gunduz.org> 5.3.0-1
 - Update to 5.3.0, per changes described at:
   https://repmgr.org/docs/current/release-5.3.0.html
