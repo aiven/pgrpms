@@ -1,1 +1,1 @@
-../master/barman.spec
+../main/barman.spec
