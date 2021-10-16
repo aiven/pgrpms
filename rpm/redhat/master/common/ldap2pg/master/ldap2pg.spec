@@ -34,10 +34,15 @@ Obsoletes:	python-ldap2pg < 5.1
 Requires:	libpq5 >= 10.0
 
 Requires:	python3-psycopg2 python3-ldap python3-setuptools
+
 %if 0%{?rhel} == 7
-Requires:	python36-yaml
-%else
-Requires:	python3-yaml
+Requires:	python36-PyYAML
+%endif
+%if 0%{?suse_version} >= 1315
+Requires:	python3-PyYAML
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	python3-pyyaml
 %endif
 
 %description
