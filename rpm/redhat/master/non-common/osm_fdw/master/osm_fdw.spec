@@ -23,7 +23,7 @@
 
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.1.1
+Version:	4.1.2
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
@@ -115,6 +115,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-1
+- Update to 4.1.2
+
 * Wed Feb 24 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.1-1
 - Update to 4.1.1
 - Remove pgxs patches, and export PATH instead.
