@@ -23,7 +23,7 @@ Version:	2.2.10
 Release:	1%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
-Source0:	%{sname}-%{version}.tar.bz2
+Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
 %if ! %{systemd_enabled}
 Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
@@ -120,6 +120,7 @@ find doc/ -type f -exec chmod 600 {} \;
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 export LIBNAME=%{_lib}
+%endif
 %configure --prefix=%{pginstdir} --includedir %{pginstdir}/include --with-pgconfigdir=%{pginstdir}/bin --libdir=%{pginstdir}/lib \
 	--with-perltools=%{pginstdir}/bin --sysconfdir=%{_sysconfdir}/%{sname}-%{pgmajorversion} \
 %if %docs
