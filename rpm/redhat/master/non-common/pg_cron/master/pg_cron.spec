@@ -49,7 +49,6 @@ BuildRequires:	openldap2-devel
 %else
 BuildRequires:	openldap-devel
 %endif
-%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
