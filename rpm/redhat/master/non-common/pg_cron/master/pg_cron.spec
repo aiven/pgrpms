@@ -41,7 +41,6 @@ BuildRequires:	libopenssl-devel
 BuildRequires:	openssl-devel
 %endif
 %endif
-%endif
 
 
 %if 0%{?rhel} && 0%{?rhel} == 7
