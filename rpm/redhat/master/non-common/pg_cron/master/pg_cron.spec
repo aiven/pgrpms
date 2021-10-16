@@ -15,7 +15,7 @@ Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
-Requires(post):	%{_sbindir}/update-alternatives openldap
+Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -42,6 +42,14 @@ BuildRequires:	openssl-devel
 %endif
 %endif
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires:	openldap2-devel
+%endif
+%else
+BuildRequires:	openldap-devel
+%endif
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
