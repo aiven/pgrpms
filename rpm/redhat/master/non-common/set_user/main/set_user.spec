@@ -1,8 +1,8 @@
 %global sname	set_user
 
-%global setusermajver 2
+%global setusermajver 3
 %global setusermidver 0
-%global setuserminver 1
+%global setuserminver 0
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -111,5 +111,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0
+
 * Tue Aug 31 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
