@@ -3,7 +3,7 @@
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1
+Version:	3.2
 Release:	1%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -80,6 +80,9 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/dbgen-ssbm
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 3.2-1
+- Update to 3.2
+
 * Thu Aug 26 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1-1
 - Update to 3.1
 
