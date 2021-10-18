@@ -1,12 +1,12 @@
 %global	debug_package %{nil}
-%global	pgbulkloadpackagever 3_1_18
+%global	pgbulkloadpackagever 3_1_19
 
 %global sname pg_bulkload
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1.18
-Release:	2%{?dist}
+Version:	3.1.19
+Release:	1%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
@@ -72,6 +72,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/postgresql
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.19-1
+- Update to 3.1.19
+
 * Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-2
 - Unbreak pg_bulkload installation.
 
