@@ -384,8 +384,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
-%if 0%{?fedora} >= 34
+%if 0%{?fedora} == 34
 %global g2clib g2c_v1.6.2
+%endif
+%if 0%{?fedora} == 35
+%global g2clib g2c_v1.6.3
 %endif
 %if 0%{?fedora} <= 33 || 0%{?rhel} > 7
 %global g2clib g2c_v1.6.0
