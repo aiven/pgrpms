@@ -26,7 +26,7 @@ Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 BuildRequires:	libcurl-devel pgdg-srpm-macros libzstd-devel
-Requires:	postgresql%{pgmajorversion}-server
+Requires:	postgresql%{pgmajorversion}-server libzstd
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
