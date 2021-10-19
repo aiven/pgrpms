@@ -11,20 +11,23 @@ Name:		SFCGAL
 %if 0%{?suse_version} && 0%{?suse_version} >= 1315
 Version:	1.3.8
 %endif
+
 %if 0%{?rhel} && 0%{?rhel} >= 8
 Version:	1.3.8
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-%if 0%{?fedora} && 0%{?fedora} <= 32
-Version:	1.3.8
-Requires:	CGAL => 4.7
-BuildRequires:	CGAL-devel >= 4.7
-%endif
-%if 0%{?fedora} && 0%{?fedora} >= 33
+
+%if 0%{?fedora} && 0%{?fedora} >= 33 && 0%{?fedora} <= 34
 Version:	1.3.10
 BuildRequires:	CGAL-devel >= 5.1.0
 %endif
+
+%if 0%{?fedora} && 0%{?fedora} == 35
+Version:	1.4.0
+BuildRequires:	CGAL-devel >= 5.3.0
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Version:	1.3.1
 Requires:	CGAL => 4.7
@@ -183,6 +186,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0 for Fedora 35
+
 * Mon Jun 14 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.10-10
 - Bump up release version to prevent conflict with OS packages.
 
