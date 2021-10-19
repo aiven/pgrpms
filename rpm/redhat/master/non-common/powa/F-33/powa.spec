@@ -1,1 +1,1 @@
-../master/powa.spec
+../main/powa.spec
