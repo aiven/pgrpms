@@ -25,7 +25,7 @@ BuildRequires:	CGAL-devel >= 5.1.0
 
 %if 0%{?fedora} && 0%{?fedora} == 35
 Version:	1.4.0
-BuildRequires:	CGAL-devel >= 5.3.0
+BuildRequires:	CGAL-devel >= 5.3
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 7
