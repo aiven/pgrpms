@@ -85,7 +85,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.18
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1524,6 +1524,10 @@ fi
 %endif
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 10.18-2PGDG
+- Fix Makefile.regress, so that regression tests can actually be run.
+  Per report from Tomoaki Sato.
+
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 10.18-1PGDG
 - Update to 10.18, per changes described at
   https://www.postgresql.org/docs/release/10.18/

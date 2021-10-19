@@ -21,7 +21,7 @@ REGRESS_OPTS += --dlpath=.
 
 pg_regress_locale_flags = $(if $(ENCODING),--encoding=$(ENCODING)) $(NOLOCALE)
 
-pg_regress_installcheck = ./pg_regress --inputdir=$(srcdir) --psqldir='/usr/bin' $(pg_regress_locale_flags)
+pg_regress_installcheck = ./pg_regress --inputdir=$(srcdir) --bindir='/usr/pgsql-13/bin/' $(pg_regress_locale_flags)
 
 # Test input and expected files.  These are created by pg_regress itself, so we
 # don't have a rule to create them.  We do need rules to clean them however.
@@ -47,7 +47,9 @@ installcheck-parallel: cleandirs
 cleandirs:
 	-rm -rf testtablespace results
 	mkdir testtablespace results
-	[ -x /usr/bin/chcon ] && /usr/bin/chcon -u system_u -r object_r -t postgresql_db_t testtablespace results
+	if test -x /usr/bin/chcon && ! test -f /.dockerenv; then \
+	    /usr/bin/chcon -u system_u -r object_r -t postgresql_db_t testtablespace results ; \
+	fi
 
 # old interfaces follow...
 

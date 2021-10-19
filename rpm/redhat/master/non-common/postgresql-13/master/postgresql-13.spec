@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1402,6 +1402,10 @@ fi
 %endif
 
 %changelog
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 13.4-2PGDG
+- Fix Makefile.regress, so that regression tests can actually be run.
+  Per report from Tomoaki Sato.
+
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 13.4-1PGDG
 - Update to 13.4, for changes described at:
   https://www.postgresql.org/docs/release/13.4/
