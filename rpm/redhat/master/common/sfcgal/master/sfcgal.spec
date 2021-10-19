@@ -38,7 +38,7 @@ License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
 # per  https://github.com/Oslandia/SFCGAL/pull/219
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
 Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
 Patch1:		sfcgal-config.patch
 %endif
@@ -103,7 +103,7 @@ Development headers and libraries for SFCGAL.
 %prep
 %setup -q -n SFCGAL-v%{version}
 
-%if 0%{?fedora} >= 32
+%if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
 %patch0 -p0
 %patch1 -p0
 %endif
