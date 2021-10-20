@@ -98,7 +98,7 @@ Patch16:	gdal-3.3.1-sfcgal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.14
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.18
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
