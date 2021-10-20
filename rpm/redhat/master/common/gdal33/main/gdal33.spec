@@ -66,7 +66,7 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}33
-Version:	3.3.1
+Version:	3.3.2
 Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -698,6 +698,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Oct 20 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.2-1
+- Update to 3.3.2, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.3.2/gdal/NEWS
+
 * Thu Aug 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.1-1
 - Update to 3.3.1, per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.3.1/gdal/NEWS
