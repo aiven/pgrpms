@@ -83,7 +83,7 @@ Source2:	PROVENANCE.TXT-fedora
 Source3:	%{name}-pgdg-libs.conf
 
 %if 0%{?suse_version} >= 1315
-Patch8:		%{sname}-%{version}-java-sles.patch
+Patch8:		%{sname}-3.2.1-java-sles.patch
 %else
 # Fedora uses Alternatives for Java
 Patch8:		%{sname}-3.1.2-java.patch
