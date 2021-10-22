@@ -1,4 +1,7 @@
 %global sname gdal
+
+%pgdg_set_gis_variables
+
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	29
 
@@ -19,8 +22,6 @@
 # Major digit of the proj so version
 %global proj_somaj 22
 %endif
-
-%pgdg_set_gis_variables
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -67,7 +68,7 @@
 
 Name:		%{sname}33
 Version:	3.3.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -698,6 +699,12 @@ popd
 %_bindir/*.py
 
 %changelog
+* Fri Oct 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.2-2
+- Export our own global macros prior to defining gdalinstdir parameter,
+  so thatc our will override the one in macros file. This avoids conflict
+  between gdal32 and gdal33 packages. Per report from Mehmet Furkan
+  Şahin: https://redmine.postgresql.org/issues/6951
+
 * Wed Oct 20 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.2-1
 - Update to 3.3.2, per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.3.2/gdal/NEWS
