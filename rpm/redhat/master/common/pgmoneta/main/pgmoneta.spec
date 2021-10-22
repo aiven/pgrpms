@@ -1,7 +1,7 @@
 %global sname	pgmoneta
 
 Name:		%{sname}
-Version:	0.5.2
+Version:	0.5.3
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -104,6 +104,9 @@ fi
 %{_unitdir}/%{sname}.service
 
 %changelog
+* Fri Oct 22 2021 Devrim Gündüz <devrim@gunduz.org> 0.5.3-1
+- Update to 0.5.3
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> 0.5.2-1
 - Update to 0.5.2
 
