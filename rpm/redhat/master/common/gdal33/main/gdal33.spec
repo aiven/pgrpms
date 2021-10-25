@@ -203,7 +203,12 @@ BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
 
 BuildRequires:	python3-devel
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	python36-numpy
+%slse
 BuildRequires:	python3-numpy
+%endif
 BuildRequires:	python3-setuptools
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
