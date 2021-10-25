@@ -10,7 +10,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.1
+Version:	%{pgroutingmajorversion}.2
 Release:	1%{dist}
 License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
@@ -101,6 +101,9 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Oct 25 2021 Devrim Gündüz <devrim@gunduz.org> - 3.2.2-1
+- Update to 3.2.2 (for RHEL 7 only)
+
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 3.2.1-1
 - Update to 3.2.1
 
