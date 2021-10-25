@@ -2,7 +2,7 @@
 %global _vpath_builddir .
 
 Name:           %{sname}_%{pgmajorversion}
-Version:	0.1.0
+Version:	0.2.0
 Release:	1%{dist}
 Summary:	PostgreSQL extension to provide additional Prometheus metrics for pgexporter.
 License:	BSD
@@ -40,7 +40,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
-* Fri Oct 22 2021 - Devrim Gündüz <devrim@gunduz.org> 0.1.0-1
+* Fri Oct 22 2021 - Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
 - Initial packaging for PostgreSQL RPM repository. Used upstream's
   spec file.
 
