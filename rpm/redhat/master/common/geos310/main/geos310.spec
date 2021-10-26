@@ -1,3 +1,5 @@
+%global _vpath_builddir .
+
 %global		sname geos
 %global		_geosversion	310
 %global		geosinstdir /usr/%{sname}%{_geosversion}
