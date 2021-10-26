@@ -21,7 +21,7 @@ URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
-BuildRequires:	cmake >= 3.13 libtool
+BuildRequires:	cmake3 >= 3.13 libtool
 BuildRequires:	gcc-c++ pgdg-srpm-macros
 Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
