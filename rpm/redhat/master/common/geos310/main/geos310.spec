@@ -67,7 +67,7 @@ use GEOS
 %endif
 %endif
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1499
+%if 0%{?suse_version} >= 1315
 cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %endif
 %else
