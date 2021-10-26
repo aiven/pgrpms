@@ -66,7 +66,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta1_1%{?dist}
+Release:	beta1_2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta1.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta1.pdf
