@@ -21,7 +21,7 @@ URL:		http://trac.osgeo.org/geos/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
-BuildRequires:	cmake libtool
+BuildRequires:	cmake >= 3.13 libtool
 BuildRequires:	gcc-c++ pgdg-srpm-macros
 Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
@@ -66,8 +66,14 @@ use GEOS
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-
-%cmake3 .. -DCMAKE_INSTALL_PREFIX:PATH=%{geosinstdir} -DCMAKE_BUILD_TYPE=Release .. \
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
+%endif
+%else
+%cmake3 .. \
+%endif
+	-DCMAKE_INSTALL_PREFIX:PATH=%{geosinstdir} -DCMAKE_BUILD_TYPE=Release .. \
 	-D LIB_INSTALL_DIR=%{_lib} .
 
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
