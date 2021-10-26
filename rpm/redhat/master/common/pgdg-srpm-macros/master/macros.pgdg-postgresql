@@ -85,6 +85,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 
 %pgdg_set_gis_variables() %{expand: \
 %global geosmajorversion		39
+%global geos310majorversion		310
 %global gdalmajorversion		33
 %global gdal33majorversion		33
 %global gdal32majorversion		32
@@ -104,6 +105,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global gdal32instdir			/usr/gdal%{gdal32majorversion}
 %global gdal31instdir			/usr/gdal%{gdal31majorversion}
 %global gdal30instdir			/usr/gdal%{gdal30majorversion}
+%global geos310instdir			/usr/geos%{geos310majorversion}
 %global geosinstdir			/usr/geos%{geosmajorversion}
 %global libgeotiffinstdir		/usr/libgeotiff%{libgeotiffmajorversion}
 %global libgeotiff17instdir		/usr/libgeotiff%{libgeotiff17majorversion}
@@ -115,6 +117,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj72instdir			/usr/proj%{proj72majorversion}
 %global proj71instdir			/usr/proj%{proj71majorversion}
 %global proj70instdir			/usr/proj%{proj70majorversion}
+%global geos310fullversion		3.10.0
 %global geosfullversion			3.9.1
 %global projfullversion			8.1.1
 %global gdalfullversion			3.3.2
