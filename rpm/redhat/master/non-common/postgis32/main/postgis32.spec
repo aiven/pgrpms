@@ -4,13 +4,17 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global sname	postgis
 
+%pgdg_set_gis_variables
+# Override some variables. PostGIS 3.2 is best served with GeOS 3.10.
+%global geosfullversion %geos310fullversion
+%global geosmajorversion %geos310majorversion
+%global geosinstdir %geos310instdir
+
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global libspatialitemajorversion	43
 %else
 %global libspatialitemajorversion	50
 %endif
-
-%pgdg_set_gis_variables
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -73,7 +77,7 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.18 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.19 pcre-devel gmp-devel
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
@@ -253,7 +257,7 @@ autoconf
 %endif
 	--with-projdir=%{projinstdir} \
 	--enable-rpath --libdir=%{pginstdir}/lib \
-	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
+	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
@@ -382,6 +386,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta1-2
+- PostGIS 3.2 is best served with GeOS 3.10.
+
 * Mon Oct 25 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta1-1
 - Update to 3.2.0 beta1
 
