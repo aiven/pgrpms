@@ -386,7 +386,7 @@ fi
 %endif
 
 %changelog
-* Wed Oct 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta1-2
+* Tue Oct 26 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta1-2
 - PostGIS 3.2 is best served with GeOS 3.10.
 
 * Mon Oct 25 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta1-1
