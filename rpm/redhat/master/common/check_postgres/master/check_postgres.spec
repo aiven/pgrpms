@@ -1,7 +1,7 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
 Version:	2.25.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://bucardo.org/wiki/Check_postgres
@@ -9,9 +9,13 @@ BuildArch:	noarch
 BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	perl-DBD-Pg >= 2.0 perl-DBI >= 1.51
 #perl-Date-Parse
-Requires:	perl-File-Temp perl-Time-HiRes
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
-Requires:	perl-Digest-MD5 perl-Getopt-Long
+Requires:	perl-File-Temp perl-Time-HiRes perl-Digest-MD5
+%if 0%{?fedora} >= 32 || 0%{?rhel} >= 7
+Requires:	perl-Getopt-Long
+%endif
+
+%if 0%{?suse_version} >= 1315
+Requires:	perl-Getopt-Long-Descriptive
 %endif
 
 %description
@@ -48,6 +52,12 @@ scripts.
 %{_bindir}/%{name}.pl
 
 %changelog
+* Mon Nov 1 2021 - Devrim Gündüz <devrim@gunduz.org> 2.25.0-3
+- Fix SLES dependencies
+
+* Wed May 13 2020 - Devrim Gündüz <devrim@gunduz.org> 2.25.0-2
+- Update BR and remove obsoleted dependency, per Justin Pryzby.
+
 * Wed May 13 2020 - Devrim Gündüz <devrim@gunduz.org> 2.25.0-2
 - Update BR and remove obsoleted dependency, per Justin Pryzby.
 
