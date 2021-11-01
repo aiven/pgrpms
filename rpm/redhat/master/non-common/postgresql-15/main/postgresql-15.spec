@@ -498,10 +498,10 @@ Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
-%if 0%{?rhel} == 7
-# We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
-Requires:	python3-libs
+%if 0%{?suse_version} >= 1315
+Requires:	python3-base
 %else
+# We support Python3 natively on RHEL/CentOS 7 as of 7.7.
 Requires:	python3-libs
 %endif
 
