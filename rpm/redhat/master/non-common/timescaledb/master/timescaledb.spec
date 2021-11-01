@@ -9,11 +9,10 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.2
+Version:	2.5.0
 Release:	1%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
 %if 0%{?rhel} && 0%{?rhel} == 7
 Patch1:		%{sname}-cmake3-rhel7.patch
 %endif
@@ -42,16 +41,17 @@ support.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %patch1 -p0
 %endif
 
 # Build only the portions that have Apache Licence, and disable telemetry:
+export PATH=%{pginstdir}/bin:$PATH
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
 	-DPROJECT_INSTALL_METHOD=pgdg -DREGRESS_CHECKS=OFF
 
 %build
+export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
 %if 0%{?rhel} && 0%{?rhel} == 7
 	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
@@ -67,6 +67,7 @@ support.
 cd build; %{__make}
 
 %install
+export PATH=%{pginstdir}/bin:$PATH
 cd build; %{__make} DESTDIR=%{buildroot} install
 %{__rm} -f %{buildroot}/%{pginstdir}/lib/pgxs/src/test/perl/*pm
 
@@ -86,6 +87,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1
+- Update to 2.5.0
+- Remove patch0, and export PATH instead.
+
 * Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-1
 - Update to 2.4.2
 

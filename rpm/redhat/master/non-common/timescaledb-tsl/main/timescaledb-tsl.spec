@@ -9,11 +9,10 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
-Version:	2.4.2
+Version:	2.5.0
 Release:	1%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-pgconfig.patch
 %if 0%{?rhel} && 0%{?rhel} == 7
 Patch1:		%{sname}-cmake3-rhel7.patch
 %endif
@@ -44,16 +43,17 @@ support.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %patch1 -p0
 %endif
 
 # Disable telemetry, so that we can distribute it via PGDG repos:
+export PATH=%{pginstdir}/bin:$PATH
 ./bootstrap -DSEND_TELEMETRY_DEFAULT=NO \
 	-DREGRESS_CHECKS=OFF
 
 %build
+export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
 %if 0%{?rhel} && 0%{?rhel} == 7
 	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
@@ -69,6 +69,7 @@ support.
 cd build; %{__make}
 
 %install
+export PATH=%{pginstdir}/bin:$PATH
 cd build; %{__make} DESTDIR=%{buildroot} install
 
 %clean
@@ -87,6 +88,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1
+- Update to 2.5.0
+- Remove patch0, and export PATH instead.
+
 * Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-1
 - Update to 2.4.2
 
