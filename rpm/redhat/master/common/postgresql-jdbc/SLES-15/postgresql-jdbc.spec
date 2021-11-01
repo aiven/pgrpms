@@ -1,1 +1,1 @@
-../master/postgresql-jdbc.spec
+../main/postgresql-jdbc.spec
