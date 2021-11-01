@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.0
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -499,11 +499,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
-%if 0%{?rhel} == 7
-# We support Python3 natively on RHEL/CentOS 7 as of 7.7+,
-Requires:	python3-libs
+%if 0%{?suse_version} >= 1315
+Requires:       python3-base
 %else
-Requires:	python3-libs
+# We support Python3 natively on RHEL/CentOS 7 as of 7.7.
+Requires:       python3-libs
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -1392,6 +1392,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-3PGDG
+- Fix PL/Python3 dependency on SLES 12 and 15.
+
 * Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-2PGDG
 - Fix Makefile.regress, so that regression tests can actually be run.
   Per report from Tomoaki Sato.
