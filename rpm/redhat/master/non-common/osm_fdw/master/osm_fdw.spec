@@ -29,7 +29,12 @@ License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch1:		%{sname}-missinginclude.patch
 URL:		https://github.com/vpikulik/postgres_osm_pbf_fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel protobuf-c-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+%if 0%{?suse_version} >= 1315
+BuildRequires:	protobuf-c libprotobuf-c-devel
+%else
+BuildRequires:	protobuf-c-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server, protobuf-c
 
 Obsoletes:	%{sname}_%{pgmajorversion} < 4.0.0-2
