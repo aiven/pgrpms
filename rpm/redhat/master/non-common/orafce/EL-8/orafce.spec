@@ -1,1 +1,1 @@
-../master/orafce.spec
+../main/orafce.spec
