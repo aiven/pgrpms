@@ -192,6 +192,7 @@ BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
 BuildRequires:	libexpat-devel libjson-c-devel
 BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
+BuildRequires:	python3-numpy-devel
 %else
 BuildRequires:	g2clib-static
 BuildRequires:	libdap-devel
