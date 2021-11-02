@@ -1,12 +1,16 @@
 %global sname powa_collector
 
-%global __ospython %{_bindir}/python3
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%endif
+%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
 
 Name:		powa-collector
 Version:	1.1.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	POWA data collector daemon
 
 License:	BSD
@@ -68,6 +72,9 @@ database (in the powa_servers table).
 %{python3_sitelib}/%{sname}/__pycache__/*.py*
 
 %changelog
+* Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-2
+- Add Fedora 35 support
+
 * Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
 - Update to 1.1.1
 
