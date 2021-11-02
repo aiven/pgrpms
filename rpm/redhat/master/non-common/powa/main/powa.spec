@@ -15,7 +15,6 @@
 %endif
 %endif
 
-%global __ospython %{_bindir}/python3
 %if 0%{?fedora} >= 35
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
