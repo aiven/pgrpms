@@ -10,13 +10,18 @@ BuildArch:	noarch
 
 %{!?with_docs:%global with_docs 0}
 
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -131,6 +136,9 @@ popd
 %endif
 
 %changelog
+* Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-3
+- Add Fedora 35 support.
+
 * Wed Oct 13 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0-2
 - Disable unit tests on RHEL, because of Python version. Per tip from
   Daniele: https://github.com/psycopg/psycopg/issues/106
