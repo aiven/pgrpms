@@ -68,7 +68,7 @@
 
 Name:		%{sname}32
 Version:	3.2.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -389,8 +389,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
-%if 0%{?fedora} >= 34
+%if 0%{?fedora} == 34
 %global g2clib g2c_v1.6.2
+%endif
+%if 0%{?fedora} == 35
+%global g2clib g2c_v1.6.3
 %endif
 %if 0%{?fedora} <= 33 || 0%{?rhel} > 7
 %global g2clib g2c_v1.6.0
@@ -700,6 +703,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-4
+- Add Fedora 35 support to un-break upgrades from Fedora 34.
+
+- Export our own global macros prior to defining gdalinstdir parameter,
 * Sun Jul 4 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-3
 - Export our own global macros prior to defining gdalinstdir parameter,
   so thatc our will override the one in macros file. This avoids conflict
