@@ -67,8 +67,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}33
-Version:	3.3.2
-Release:	2%{?dist}
+Version:	3.3.3
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -704,9 +704,13 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1
+- Update to 3.3.3, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.3.3/gdal/NEWS
+
 * Fri Oct 22 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.2-2
 - Export our own global macros prior to defining gdalinstdir parameter,
-  so thatc our will override the one in macros file. This avoids conflict
+  so that our will override the one in macros file. This avoids conflict
   between gdal32 and gdal33 packages. Per report from Mehmet Furkan
   Şahin: https://redmine.postgresql.org/issues/6951
 
