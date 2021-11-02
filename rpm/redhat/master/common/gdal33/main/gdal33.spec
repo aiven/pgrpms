@@ -31,6 +31,12 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
+%global g2clib_enabled 1
+%else
+%global g2clib_enabled 0
+%endif
+
 #TODO: g2clib and grib (said to be modified)
 #TODO: Create script to make clean tarball
 #TODO: msg needs to have PublicDecompWT.zip from EUMETSAT, which is not free;
@@ -108,7 +114,9 @@ BuildRequires:	curl-devel
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
+%if 0%{?g2clib_enabled}
 BuildRequires:	g2clib-devel
+%endif
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
@@ -390,24 +398,30 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
-%if 0%{?fedora} == 34
-%global g2clib g2c_v1.6.2
-%endif
-%if 0%{?fedora} == 35
-%global g2clib g2c_v1.6.3
-%endif
-%if 0%{?fedora} <= 33 || 0%{?rhel} > 7
-%global g2clib g2c_v1.6.0
-%endif
-%if 0%{?rhel} == 7
-%global g2clib grib2c
-%endif
-%if 0%{?suse_version} >= 1315
-%global g2clib grib2c
+%if 0%{?g2clib_enabled}
+ %if 0%{?fedora} == 34
+ %global g2clib g2c_v1.6.2
+ %endif
+ %if 0%{?fedora} == 35
+ %global g2clib g2c_v1.6.3
+ %endif
+ %if 0%{?fedora} <= 33 || 0%{?rhel} > 7
+ %global g2clib g2c_v1.6.0
+ %endif
+ %if 0%{?rhel} == 7
+ %global g2clib grib2c
+ %endif
+ %if 0%{?suse_version} >= 1315
+ %global g2clib grib2c
+ %endif
 %endif
 
 ./configure \
+%if 0%{?g2clib_enabled}
 	LIBS="-l%{g2clib} -ltirpc" \
+%else
+	LIBS="-ltirpc" \
+%endif
 	--prefix=%{gdalinstdir}	\
 	--bindir=%{gdalinstdir}/bin	\
 	--sbindir=%{gdalinstdir}/sbin	\
@@ -419,6 +433,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-cfitsio=%{_prefix}	\
 %if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 	--with-dods-root=%{_prefix}	\
+	LIBS="-l%{g2clib} -ltirpc" \
 %endif
 	--with-expat		\
 	--with-freexl		\
@@ -709,6 +724,7 @@ popd
 * Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-2
 - Disable DODS support on SLES 15, per
   https://github.com/OSGeo/gdal/issues/4750#issuecomment-957913317
+- Disable g2clib support on SLES 15 (lack of packages)
 
 * Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3, per changes described at:
