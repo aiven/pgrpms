@@ -68,7 +68,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -417,7 +417,9 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 	--with-armadillo	\
 	--with-curl		\
 	--with-cfitsio=%{_prefix}	\
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 	--with-dods-root=%{_prefix}	\
+%endif
 	--with-expat		\
 	--with-freexl		\
 	--with-geos=%{geosinstdir}/bin/geos-config	\
@@ -704,6 +706,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-2
+- Disable DODS support on SLES 15, per
+  https://github.com/OSGeo/gdal/issues/4750#issuecomment-957913317
+
 * Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3, per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.3.3/gdal/NEWS
