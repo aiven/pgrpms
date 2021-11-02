@@ -7,13 +7,17 @@
 %endif
 %endif
 
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	A tool for syncing LDAP users to Postgres Roles
 Name:		%{sname}
 Version:	1.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/enterprisedb/pgldapsync
 Source0:	https://github.com/EnterpriseDB/pgldapsync/archive/refs/tags/pgldapsync-%{version}.tar.gz
@@ -70,5 +74,8 @@ for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\
 %{python3_sitelib}/%{sname}/pgutils/__pycache__/*.py*
 
 %changelog
+* Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-2
+- Add Fedora 35 support
+
 * Wed Sep 1 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Initial packaging for the PostgreSQL RPM repository.
