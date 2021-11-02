@@ -15,17 +15,15 @@
 %endif
 %endif
 
-%if 0%{?fedora} >= 35
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
+%global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
-%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	5%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
@@ -145,9 +143,6 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
-* Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-5
-- Add Fedora 35 support
-
 * Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-4
 - Add SLES support
 
