@@ -1,3 +1,4 @@
+%global __python %{_bindir}/python3
 %global sname powa
 %global swebname powa-web
 # Powa archivist version
@@ -21,7 +22,7 @@
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
-%global python3_sitelib64 %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 
 Summary:	PostgreSQL Workload Analyzer
