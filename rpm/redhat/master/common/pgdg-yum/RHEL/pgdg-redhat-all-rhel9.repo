@@ -66,14 +66,6 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-[pgdg96]
-name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch
-baseurl=https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-$releasever-$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-repo_gpgcheck = 1
-
 # PGDG RHEL/CentOS Updates Testing common repositories.
 
 [pgdg-common-testing]
@@ -205,14 +197,6 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-[pgdg96-source]
-name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - Source
-baseurl=https://download.postgresql.org/pub/repos/yum/srpms/9.6/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-repo_gpgcheck = 1
-
 # Debuginfo/debugsource packages for stable repos
 
 [pgdg14-updates-debuginfo]
@@ -250,14 +234,6 @@ repo_gpgcheck = 1
 [pgdg10-updates-debuginfo]
 name=PostgreSQL 10 for RHEL/CentOS $releasever - $basearch - Debuginfo
 baseurl=https://download.postgresql.org/pub/repos/yum/debug/10/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-repo_gpgcheck = 1
-
-[pgdg96-updates-debuginfo]
-name=PostgreSQL 9.6 for RHEL/CentOS $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/9.6/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
