@@ -1,0 +1,1 @@
+../master/pg_fkpart.spec

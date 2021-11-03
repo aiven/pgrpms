@@ -1,0 +1,1 @@
+../master/postgis30.spec
