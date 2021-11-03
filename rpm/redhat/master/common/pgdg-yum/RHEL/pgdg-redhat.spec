@@ -1,12 +1,13 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	21
+Release:	22
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-redhat-all.repo
 Source3:	pgdg-redhat-all-rhel8.repo
+Source4:	pgdg-redhat-all-rhel9.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 Obsoletes:	pgdg-centos12 <= 42.0 pgdg-redhat12 <= 42.0 pgdg-sl12 <= 42.0
@@ -34,6 +35,9 @@ and also the GPG key for PGDG RPMs.
 %if 0%{?rhel} && 0%{?rhel} == 8
 %{__install} -pm 644 %{SOURCE3} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
+%elif 0%{?rhel} && 0%{?rhel} == 9
+%{__install} -pm 644 %{SOURCE4} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
 %else
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/
@@ -46,6 +50,9 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Nov 3 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-22
+- Add RHEL 9 repo.
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-21
 - Add missing v14 debuginfo repos, per Demur Rumed.
 
