@@ -19,7 +19,7 @@
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
 Version:	10.2.2
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -129,6 +129,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-2
+- Rebuild against LLVM 11 on SLES 15.
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-1
 - Update to 10.2.2
 

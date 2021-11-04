@@ -23,7 +23,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -115,6 +115,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 2.0.5-2
+- Rebuild against LLVM 11 on SLES 15.
+
 * Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> 2.0.5-1
 - Update to 2.0.5
 
