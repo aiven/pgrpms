@@ -19,14 +19,20 @@
 Summary:	PostgreSQL-based distributed RDBMS
 Name:		%{sname}_%{pgmajorversion}
 Version:	10.2.2
-Release:	2%{dist}
+Release:	3%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 BuildRequires:	libcurl-devel pgdg-srpm-macros libzstd-devel
-Requires:	postgresql%{pgmajorversion}-server libzstd
+Requires:	postgresql%{pgmajorversion}-server
+
+%if 0%{?suse_version} == 1315
+Requires:	libzstd1
+%else
+Requires:	libzstd
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -131,6 +137,7 @@ make %{?_smp_mflags}
 %changelog
 * Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-2
 - Rebuild against LLVM 11 on SLES 15.
+- Fix libzstd dependency name on SLES.
 
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-1
 - Update to 10.2.2
