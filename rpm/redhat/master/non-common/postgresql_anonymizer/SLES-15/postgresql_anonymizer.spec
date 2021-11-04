@@ -1,1 +1,1 @@
-../master/postgresql_anonymizer.spec
+../main/postgresql_anonymizer.spec
