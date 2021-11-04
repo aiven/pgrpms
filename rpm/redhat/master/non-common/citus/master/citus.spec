@@ -28,7 +28,7 @@ BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
 BuildRequires:	libcurl-devel pgdg-srpm-macros libzstd-devel
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?suse_version} == 1315
+%if 0%{?suse_version} >= 1315
 Requires:	libzstd1
 %else
 Requires:	libzstd
