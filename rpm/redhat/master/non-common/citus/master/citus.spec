@@ -143,6 +143,8 @@ make %{?_smp_mflags}
 * Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-2
 - Rebuild against LLVM 11 on SLES 15.
 - Fix libzstd dependency name on SLES.
+- Make sure that LLVM dependency versions are the same as
+  PostgreSQL.
 
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> 10.2.2-1
 - Update to 10.2.2
