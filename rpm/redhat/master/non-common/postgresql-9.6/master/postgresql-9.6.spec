@@ -82,8 +82,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	9.6.23
-Release:	2PGDG%{?dist}
+Version:	9.6.24
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1505,6 +1505,12 @@ fi
 %endif
 
 %changelog
+* Nov Mon 8 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.24-1PGDG
+- This is the final 9.6 release, please upgrade!
+- Update to 9.6.24, per changes described at:
+  https://www.postgresql.org/docs/release/9.6.24/
+- Configure systemd to not sigkill the postmaster, per Justin Pryzby.
+
 * Mon Nov 8 2021 John Harvey <john.harvey@crunchydata.com> - 9.6.23-2PGDG
 - Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
   postgres startup on SLES when using the default logfile path.
