@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.0
-Release:	4PGDG%{?dist}
+Version:	14.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1387,6 +1387,11 @@ fi
 %endif
 
 %changelog
+* Mon Nov 8 2021 Devrim Gündüz <devrim@gunduz.org> - 14.1-1PGDG
+- Update to 14.1, per changes described at
+  https://www.postgresql.org/docs/release/14.1/
+- Configure systemd to not sigkill the postmaster, per Justin Pryzby.
+
 * Mon Nov 8 2021 John Harvey <john.harvey@crunchydata.com> - 14.0-4PGDG
 - Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
   postgres startup on SLES when using the default logfile path.
