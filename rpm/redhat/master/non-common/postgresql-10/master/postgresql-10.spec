@@ -85,7 +85,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.18
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1452,12 +1452,7 @@ fi
 
 %dir %{pgbaseinstdir}/lib
 %dir %{pgbaseinstdir}/share
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%endif
-%else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
-%endif
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
@@ -1529,6 +1524,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 8 2021 John Harvey <john.harvey@crunchydata.com> - 10.18-4PGDG
+- Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
+  postgres startup on SLES when using the default logfile path.
+
 * Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 10.18-3PGDG
 - Fix PL/Python3 dependency on SLES 12 and 15.
 
