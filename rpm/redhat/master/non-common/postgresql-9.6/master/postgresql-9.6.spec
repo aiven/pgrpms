@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.23
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1429,12 +1429,7 @@ fi
 
 %dir %{pginstdir}/lib
 %dir %{pginstdir}/share
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%endif
-%else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
-%endif
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgpackageversion}/backups
@@ -1510,6 +1505,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 8 2021 John Harvey <john.harvey@crunchydata.com> - 9.6.23-2PGDG
+- Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
+  postgres startup on SLES when using the default logfile path.
+
 * Wed Aug 11 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.23-1PGDG
 - Update to 9.6.23, per changes described at:
   https://www.postgresql.org/docs/release/9.6.23/
