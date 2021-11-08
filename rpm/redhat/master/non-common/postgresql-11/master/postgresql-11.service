@@ -44,10 +44,14 @@ ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
  
-
 # Do not set any timeout value, so that systemd will not kill postmaster
 # during crash recovery.
 TimeoutSec=0
+
+# 0 is the same as infinity, but "infinity" needs systemd 229
+TimeoutStartSec=0
+
+TimeoutStopSec=1h
 
 [Install]
 WantedBy=multi-user.target
