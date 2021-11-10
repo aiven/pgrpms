@@ -1505,7 +1505,7 @@ fi
 %endif
 
 %changelog
-* Nov Mon 8 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.24-1PGDG
+* Mon Nov 8 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.24-1PGDG
 - This is the final 9.6 release, please upgrade!
 - Update to 9.6.24, per changes described at:
   https://www.postgresql.org/docs/release/9.6.24/
