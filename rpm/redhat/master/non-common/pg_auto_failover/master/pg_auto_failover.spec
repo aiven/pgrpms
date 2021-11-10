@@ -23,8 +23,8 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.2
-Release:	2%{dist}
+Version:	1.6.3
+Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -114,12 +114,15 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Wed Nov 10 2021 Devrim Gündüz <devrim@gunduz.org> 1.6.3-1
+- Update to 1.6.3
+
 * Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 1.6.2-2
 - Rebuild against LLVM 11 on SLES 15.
 - Make sure that LLVM dependency versions are the same as
   PostgreSQL.
 
-* Thu Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
+* Wed Sep 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
 - Update to 1.6.2
 
 * Thu Jul 8 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-2
