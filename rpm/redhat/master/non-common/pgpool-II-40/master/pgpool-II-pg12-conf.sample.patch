@@ -14,14 +14,14 @@
  #------------------------------------------------------------------------------
  
 -pid_file_name = '/var/run/pgpool/pgpool.pid'
-+pid_file_name = '/var/run/pgpool-II-12/pgpool.pid'
++pid_file_name = '/var/run/pgpool-II_12/pgpool.pid'
                                     # PID file name
                                     # Can be specified as relative to the"
                                     # location of pgpool.conf file or
                                     # as an absolute path
                                     # (change requires restart)
 -logdir = '/var/log/pgpool'
-+logdir = '/var/log/pgpool-II-12'
++logdir = '/var/log/pgpool-II_12'
                                     # Directory of pgPool status file
                                     # (change requires restart)
  
