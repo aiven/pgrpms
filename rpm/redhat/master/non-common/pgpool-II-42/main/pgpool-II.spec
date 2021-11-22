@@ -26,7 +26,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}-%{pgpoolmajorversion}_%{pgmajorversion}
-Version:		4.2.5
+Version:		4.2.6
 Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
@@ -60,6 +60,11 @@ Requires(postun):	systemd
 %pgdg_set_ppc64le_min_requires
 %endif
 %endif
+
+# The path to the config files is different in older
+# versions of pgpool.  Let's conflict so that an upgrade
+# would need to be a manual process to be safe.
+Conflicts:	%{sname}_%{pgmajorversion}
 
 %description
 pgpool-II is a inherited project of pgpool (to classify from
@@ -315,6 +320,9 @@ fi
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Nov 22 2021 - John Harvey <john.harvey@crunchydata.com> 4.2.6-1
+- Update to 4.2.6. Fix sample file pathing issue, add Conflicts.
+
 * Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.5-1
 - Update to 4.2.5
 
