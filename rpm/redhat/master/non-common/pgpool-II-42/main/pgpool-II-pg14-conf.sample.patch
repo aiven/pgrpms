@@ -1,5 +1,5 @@
---- src/sample/pgpool.conf.sample.old	2021-09-20 23:11:35.862450313 +0100
-+++ src/sample/pgpool.conf.sample	2021-09-20 23:12:22.247599083 +0100
+--- src/sample/pgpool.conf.sample-stream.old	2021-09-20 23:11:35.862450313 +0100
++++ src/sample/pgpool.conf.sample-stream	2021-09-20 23:12:22.247599083 +0100
 @@ -80,7 +80,7 @@
                                     # Port number for backend 0
  backend_weight0 = 1
