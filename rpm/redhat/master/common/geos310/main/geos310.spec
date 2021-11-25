@@ -12,12 +12,12 @@
 %endif
 
 Name:		%{sname}%{_geosversion}
-Version:	3.10.0
+Version:	3.10.1
 Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
-URL:		http://trac.osgeo.org/geos/
+URL:		https://libgeos.org/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
@@ -130,6 +130,10 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 3.10.1-1
+- Update to 3.10.1
+- Update URL
+
 * Thu Oct 21 2021 Devrim Gündüz <devrim@gunduz.org> - 3.10.0-1
 - Update to 3.10.0
 
