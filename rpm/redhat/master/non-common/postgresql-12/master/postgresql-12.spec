@@ -107,7 +107,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.9
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1679,6 +1679,9 @@ fi
 %endif
 
 %changelog
+* Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 12.9-2PGDG
+- Rebuild against LLVM 12 on RHEL 8 / aarch64.
+
 * Mon Nov 8 2021 Devrim Gündüz <devrim@gunduz.org> - 12.9-1PGDG
 - Update to 12.9, per changes described at
   https://www.postgresql.org/docs/release/12.9/
