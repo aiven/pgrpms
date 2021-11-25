@@ -108,7 +108,7 @@ touch %{buildroot}/var/log/barman/barman.log
 
 %pre
 groupadd -f -r barman >/dev/null 2>&1 || :
-useradd -M -g barman -o -r -d /var/lib/barman -s /bin/bash \
+useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %clean
