@@ -73,7 +73,7 @@ Requires:	%{__python_ver}-setuptools %{__python_ver}-psycopg2 >= 2.4.2
 Requires:	python-dateutil
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	python3-python-dateutil
+Requires:	python3-python-dateutil python3-argh
 %endif
 
 
