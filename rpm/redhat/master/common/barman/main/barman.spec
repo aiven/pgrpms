@@ -41,7 +41,7 @@ Requires:	python
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.15
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -108,7 +108,7 @@ touch %{buildroot}/var/log/barman/barman.log
 
 %pre
 groupadd -f -r barman >/dev/null 2>&1 || :
-useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
+useradd -M -g barman -o -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
 %clean
@@ -151,6 +151,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-3
+- Fix useradd for SLES
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-2
 - Fix SLES 15 dependency
 
