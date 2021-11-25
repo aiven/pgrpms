@@ -1,8 +1,8 @@
-%if 0%{?fedora} && 0%{?fedora} > 27
+%if 0%{?fedora} && 0%{?fedora} > 33
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %global __python_ver python3
-BuildRequires:	python3
+BuildRequires:	python3-devel
 Requires:	python3
 %endif
 
@@ -10,16 +10,8 @@ Requires:	python3
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
 %global __python_ver python3
-BuildRequires:	python36
-Requires:	python36
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} <= 7
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%global __python_ver python
-BuildRequires:	python
-Requires:	python
+BuildRequires:	python3-devel
+Requires:	python3
 %endif
 
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
@@ -41,7 +33,7 @@ Requires:	python
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.15
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -151,6 +143,9 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-4
+- Add RHEL 9 support
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-3
 - Fix useradd for SLES
 
