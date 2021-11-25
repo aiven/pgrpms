@@ -41,7 +41,7 @@ Requires:	python
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.15
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -69,9 +69,14 @@ Client utilities for the integration of Barman in PostgreSQL clusters.
 %package -n %{__python_ver}-barman
 Summary:	The shared libraries required for Barman family components
 Requires:	%{__python_ver}-setuptools %{__python_ver}-psycopg2 >= 2.4.2
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	python-dateutil
 %endif
+%if 0%{?suse_version} >= 1500
+Requires:	python3-python-dateutil
+%endif
+
+
 %if 0%{?rhel} || 0%{?fedora}
 Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
 Requires:	%{__python_ver}-dateutil
@@ -146,6 +151,9 @@ useradd -M -n -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-2
+- Fix SLES 15 dependency
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-1
 - Update to 2.15
 
