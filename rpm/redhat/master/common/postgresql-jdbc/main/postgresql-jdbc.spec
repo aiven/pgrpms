@@ -104,7 +104,7 @@ mvn clean package 2>&1 | tee test.log | grep FAILED
 test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6 || 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315
 %files
 %doc LICENSE README.md
 %else
@@ -113,10 +113,7 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %license LICENSE
 %{_javadir}/%{name}.jar
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{_javadir}/%{name}.jar
-%{_datadir}/maven2/poms/JPP-%{name}.pom
-%endif
+
 # ...and SLES locates .pom file somewhere else:
 %if 0%{?suse_version} >= 1315
 %{_javadir}/%{name}.jar
@@ -125,14 +122,11 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %if 0%{?rhel} && 0%{?rhel} == 7
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
-%if 0%{?rhel} && 0%{?rhel} == 8
+%if 0%{?rhel} && 0%{?rhel} >= 8
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
 %if 0%{?fedora}
 %{_datadir}/maven-poms/JPP-%{name}.pom
-%endif
-%if 0%{?fedora} && 0%{?fedora} <= 27
-%{_datadir}/maven-metadata/%{name}.xml
 %endif
 %{_javadir}/postgresql-jdbc2.jar
 %{_javadir}/postgresql-jdbc2ee.jar
@@ -142,6 +136,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Fri Nov 26 2021 Devrim Gündüz <devrim@gunduz.org> - 42.3.1-2
+- Add RHEL 9 support
+
 * Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 42.3.1-1
 - Update to 42.3.1, per changes described at:
   https://jdbc.postgresql.org/documentation/changelog.html#version_42.3.1
