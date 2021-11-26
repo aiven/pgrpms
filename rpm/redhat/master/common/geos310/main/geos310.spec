@@ -21,10 +21,12 @@ URL:		https://libgeos.org/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 Patch0:		%{name}-gcc43.patch
 
-BuildRequires:	cmake3 >= 3.13 libtool
-BuildRequires:	gcc-c++ pgdg-srpm-macros
-Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
-Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
+%if 0%{?suse_version} && 0%{?suse_version} >= 1499
+BuildRequires:	cmake >= 3.13
+%else
+BuildRequires:	cmake3 >= 3.13
+%endif
+BuildRequires:	libtool gcc-c++ pgdg-srpm-macros
 Provides:	geos%{_geosversion}-python >= %{version}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
