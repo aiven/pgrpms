@@ -26,14 +26,18 @@ Requires:	python3
 %global __python_ver python3
 %endif
 
-%global pybasever %(%{__ospython} -c "import sys; print(sys.version[:3])")
+%if 0%{?fedora} >= 35
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.15
-Release:	4%{?dist}
+Version:	2.16
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -78,7 +82,7 @@ Requires:	%{__python_ver}-dateutil
 Python libraries used by Barman.
 
 %prep
-%setup -n barman-release-%{version}
+%setup -q -n barman-release-%{version}
 
 %build
 %{__ospython} setup.py build
@@ -129,6 +133,7 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{_bindir}/barman-cloud-backup
 %{_bindir}/barman-cloud-backup-delete
 %{_bindir}/barman-cloud-backup-keep
+%{_bindir}/barman-cloud-check-wal-archive
 %{_bindir}/barman-cloud-wal-archive
 %{_bindir}/barman-cloud-backup-list
 %{_bindir}/barman-cloud-restore
@@ -143,6 +148,9 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Nov 29 2021 Devrim Gündüz <devrim@gunduz.org> - 2.16-1
+- Update to 2.16
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 2.15-4
 - Add RHEL 9 support
 
