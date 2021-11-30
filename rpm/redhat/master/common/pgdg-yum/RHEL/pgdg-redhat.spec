@@ -52,7 +52,7 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Wed Nov 3 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-22
+* Tue Nov 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-23
 - Change -debuginfo repo names, so that yum/dnf will be able
   to pick up these repos automagically with debuginfo-install
   (RHEL 7), and dnf debuginfo-install (on RHEL 8 and 9).
