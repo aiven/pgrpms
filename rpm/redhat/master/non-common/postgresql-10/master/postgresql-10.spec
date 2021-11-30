@@ -85,7 +85,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.19
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -992,9 +992,9 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %endif
 
 %if ! %plpython2
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*_plpythonu.control
 %endif
 
 # Fix some more documentation
@@ -1524,6 +1524,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 30 2021 John Harvey <john.harvey@crunchydata.com> - 10.19-2PGDG
+- Convert a few remaining pginstdir's to pgbaseinstdir's for consistency
+
 * Mon Nov 8 2021 Devrim Gündüz <devrim@gunduz.org> - 10.19-1PGDG
 - Update to 10.19, per changes described at
   https://www.postgresql.org/docs/release/10.19/

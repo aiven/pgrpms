@@ -106,7 +106,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.14
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1125,9 +1125,9 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %endif
 
 %if ! %plpython2
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpython2u*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*plpythonu-*
-%{__rm} -f %{buildroot}/%{pginstdir}/share/extension/*_plpythonu.control
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpython2u*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpythonu-*
+%{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*_plpythonu.control
 %endif
 
 # Fix some more documentation
@@ -1678,6 +1678,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 30 2021 John Harvey <john.harvey@crunchydata.com> - 11.14-3PGDG
+- Convert a few remaining pginstdir's to pgbaseinstdir's for consistency
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 11.14-2PGDG
 - Rebuild against LLVM 12 on RHEL 8 / aarch64.
 
