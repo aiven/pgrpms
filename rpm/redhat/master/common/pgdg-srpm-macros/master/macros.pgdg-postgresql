@@ -87,6 +87,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global geosmajorversion		39
 %global geos310majorversion		310
 %global gdalmajorversion		33
+%global gdal34majorversion		34
 %global gdal33majorversion		33
 %global gdal32majorversion		32
 %global gdal31majorversion		31
@@ -101,6 +102,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj71majorversion		71
 %global proj70majorversion		70
 %global gdalinstdir			/usr/gdal%{gdalmajorversion}
+%global gdal34instdir			/usr/gdal%{gdal34majorversion}
 %global gdal33instdir			/usr/gdal%{gdal33majorversion}
 %global gdal32instdir			/usr/gdal%{gdal32majorversion}
 %global gdal31instdir			/usr/gdal%{gdal31majorversion}
@@ -117,11 +119,12 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj72instdir			/usr/proj%{proj72majorversion}
 %global proj71instdir			/usr/proj%{proj71majorversion}
 %global proj70instdir			/usr/proj%{proj70majorversion}
-%global geos310fullversion		3.10.0
-%global geosfullversion			3.9.1
+%global geos310fullversion		3.10.1
+%global geosfullversion			3.9.2
 %global projfullversion			8.1.1
-%global gdalfullversion			3.3.2
-%global gdal33fullversion		3.3.2
+%global gdalfullversion			3.3.3
+%global gdal34fullversion		3.4.0
+%global gdal33fullversion		3.3.3
 %global gdal32fullversion		3.2.3
 %global gdal31fullversion		3.1.3
 \
