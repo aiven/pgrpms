@@ -70,7 +70,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta2_1%{?dist}
+Release:	beta2_2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta2.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta2.pdf
@@ -390,6 +390,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 30 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta2-2
+- Build with GDAL 3.4
+
 * Tue Nov 30 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta2-1
 - Update to 3.2.0 beta2
 
