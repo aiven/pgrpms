@@ -1,11 +1,11 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	22
+Release:	23
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
-Source2:	pgdg-redhat-all.repo
+Source2:	pgdg-redhat-all-rhel7.repo
 Source3:	pgdg-redhat-all-rhel8.repo
 Source4:	pgdg-redhat-all-rhel9.repo
 BuildArch:	noarch
@@ -32,15 +32,17 @@ and also the GPG key for PGDG RPMs.
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%{__install} -pm 644 %{SOURCE2} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
+%endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 %{__install} -pm 644 %{SOURCE3} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%elif 0%{?rhel} && 0%{?rhel} == 9
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 9
 %{__install} -pm 644 %{SOURCE4} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%else
-%{__install} -pm 644 %{SOURCE2} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/
 %endif
 
 %files
@@ -50,6 +52,12 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Nov 3 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-22
+- Change -debuginfo repo names, so that yum/dnf will be able
+  to pick up these repos automagically with debuginfo-install
+  (RHEL 7), and dnf debuginfo-install (on RHEL 8 and 9).
+- Rename Source3
+
 * Wed Nov 3 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-22
 - Add RHEL 9 repo.
 
