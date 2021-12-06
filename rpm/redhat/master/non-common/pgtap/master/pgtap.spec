@@ -8,8 +8,8 @@
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
-Release:	3%{?dist}
+Version:	1.2.0
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
@@ -83,6 +83,9 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Mon Dec 6 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
+- Update to 1.2.0
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-3
 - Remove pgxs patches, and export PATH instead.
 
