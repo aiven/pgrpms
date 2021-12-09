@@ -36,8 +36,8 @@
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
-%if 0%{?suse_version} >= 1315
-%{!?raster:%global     raster 0}
+%if 0%{?suse_version} < 1499
+%{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 1}
 %endif
@@ -62,7 +62,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +387,10 @@ fi
 %endif
 
 %changelog
+* Thu Dec 9 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.4-3
+- Enable raster support on SLES 15. We now have all dependencies
+  in the repo.
+
 * Wed Oct 6 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.4-2
 - Add SLES 12 support.
 
