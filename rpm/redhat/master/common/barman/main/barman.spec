@@ -45,7 +45,7 @@ Requires:	python3
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.17
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -62,7 +62,7 @@ disaster recovery of PostgreSQL servers written in Python. It allows your
 organization to perform remote backups of multiple servers in business
 critical environments to reduce risk and help DBAs during the recovery phase.
 
-Barman is distributed under GNU GPL 3 and maintained by 2ndQuadrant.
+Barman is distributed under GNU GPL 3 and maintained by EnterpriseDB.
 
 %package -n barman-cli
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
@@ -76,10 +76,11 @@ Requires:	%{__python_ver}-setuptools %{__python_ver}-psycopg2 >= 2.4.2
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	python-dateutil
 %endif
-%if 0%{?suse_version} >= 1500
-Requires:	python3-python-dateutil python3-argh
-%endif
 
+%if 0%{?suse_version} >= 1500
+Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
+Requires:	%{__python_ver}-python-dateutil
+%endif
 
 %if 0%{?rhel} || 0%{?fedora}
 Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
@@ -156,6 +157,10 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Dec 13 2021 Devrim Gündüz <devrim@gunduz.org> - 2.17-2
+- Add argcomplete dependency to SLES 15, per report from
+  Tiago ANASTACIO.
+
 * Wed Dec 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.17-1
 - Update to 2.17
 
