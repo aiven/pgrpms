@@ -74,7 +74,7 @@
 
 Name:		%{sname}34
 Version:	3.4.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -273,6 +273,13 @@ Requires:	geos%{geosmajorversion} ogdi%{ogdimajorversion}
 Requires:	netcdf gpsbabel
 Requires:	libgeotiff%{libgeotiffmajorversion}-devel
 Requires:	libspatialite%{libspatialitemajorversion}-devel
+
+%if 0%{?suse_version} <= 1499
+Requires:	libarmadillo10
+%endif
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+Requires:	armadillo
+%endif
 
 %description libs
 This package contains the GDAL file format library.
@@ -732,6 +739,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Dec 15 2021 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-2
+- Add Requires for armadillo package, per
+  https://redmine.postgresql.org/issues/7076
+
 * Tue Nov 30 2021 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-1
 - Initial 3.4.0 packaging for the PostgreSQL RPM repository, per:
   https://github.com/OSGeo/gdal/blob/v3.4.0/gdal/NEWS.md
