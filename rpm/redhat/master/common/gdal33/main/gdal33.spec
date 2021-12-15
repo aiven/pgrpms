@@ -74,7 +74,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -263,6 +263,13 @@ Requires:	geos%{geosmajorversion} ogdi%{ogdimajorversion}
 Requires:	netcdf gpsbabel
 Requires:	libgeotiff%{libgeotiffmajorversion}-devel
 Requires:	libspatialite%{libspatialitemajorversion}-devel
+
+%if 0%{?suse_version} <= 1499
+Requires:	libarmadillo10
+%endif
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+Requires:	armadillo
+%endif
 
 %description libs
 This package contains the GDAL file format library.
@@ -722,6 +729,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Dec 15 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-3
+- Add Requires for armadillo package, per
+  https://redmine.postgresql.org/issues/7076
+
 * Tue Nov 2 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-2
 - Disable DODS support on SLES 15, per
   https://github.com/OSGeo/gdal/issues/4750#issuecomment-957913317
