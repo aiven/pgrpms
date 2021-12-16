@@ -6,12 +6,12 @@
 %global macros_dir %{_sysconfdir}/rpm
 %endif
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8
 BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.20
+Version:	1.0.21
 Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -29,7 +29,6 @@ override these macros and use their own.
 %setup -c -T
 %{__cp} %{SOURCE1} %{SOURCE2} .
 
-
 %build
 echo no build stage needed
 
@@ -46,7 +45,10 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
-* Tue Oct 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.19-1
+* Thu Dec 16 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.21-1
+- Add PROJ 8.2 support
+
+* Tue Oct 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.20-1
 - Add GDAL 3.4.0, update GeOS 3.9 to 3.9.2
 
 * Tue Oct 26 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.19-1
