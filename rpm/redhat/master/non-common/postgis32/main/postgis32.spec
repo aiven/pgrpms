@@ -70,10 +70,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta2_2%{?dist}
+Release:	rc1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta2.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta2.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -220,7 +220,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}beta2
+%setup -q -n %{sname}-%{version}rc1
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -230,7 +230,7 @@ LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
-SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64";  export SFCGAL_LDFLAGS
+SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -259,22 +259,21 @@ autoconf
 %else
 	--without-protobuf \
 %endif
-	--with-projdir=%{projinstdir} \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
-%{__make} %{?_smp_mflags}  -C extensions
+%{__make} %{?_smp_mflags} -C extensions
 
 %if %utils
- SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  -C utils
+ SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags} -C utils
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  install DESTDIR=%{buildroot}
+SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %if %utils
 %{__install} -d %{buildroot}%{_datadir}/%{name}
@@ -372,7 +371,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}beta2.pdf
+%doc %{sname}-%{version}rc1.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -390,6 +389,11 @@ fi
 %endif
 
 %changelog
+* Thu Dec 16 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0rc1-1
+- Update to 3.2.0 rc1
+- Remove --projdir configure parameter, which will be incompatible with
+  future releases of Proj. We already export PKG_CONFIG_PATH.
+
 * Tue Nov 30 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0beta2-2
 - Build with GDAL 3.4
 
