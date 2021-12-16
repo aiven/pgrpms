@@ -36,7 +36,7 @@ Requires:	%{sname}-%{pgmajorversion}
 This package provides test tools and scripts related to PG-Strom
 
 %prep
-%setup -q -n pg-strom-%{version}
+%setup -q -n pg-strom-3.3-2
 
 %build
 %{__make} -j 8 CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config
