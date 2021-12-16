@@ -3,13 +3,15 @@
 Summary:	PostgreSQL Audit Analyzer
 Name:		pgaudit_analyze
 Version:	1.0.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgaudit/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/pgaudit/%{name}
 BuildArch:	noarch
 
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
 Requires:	perl-Carp
+%endif
 
 %description
 The PostgreSQL Audit extension (pgAudit) provides detailed session and/or
@@ -45,6 +47,9 @@ and loads them into a database schema to aid in analysis and auditing.
 %{painstdir}/sql/*
 
 %changelog
+* Thu Dec 16 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-2
+- Use perl-Carp dependency only on Fedora/RHEL. SLES does not
+  have this package, and also it still works.
 * Mon Oct 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1
 - Update to 1.0.8
 
