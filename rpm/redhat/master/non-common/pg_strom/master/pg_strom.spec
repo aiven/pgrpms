@@ -3,12 +3,12 @@
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.2
+Version:	3.3.2
 Release:	1%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
-Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
+Source0:	https://github.com/heterodb/pg-strom/archive/v3.3-2.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -80,6 +80,9 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/bin/dbgen-ssbm
 
 %changelog
+* Thu Dec 16 2021 Devrim Gündüz <devrim@gunduz.org> - 3.3-2-1
+- Update to 3.3-2
+
 * Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 3.2-1
 - Update to 3.2
 
