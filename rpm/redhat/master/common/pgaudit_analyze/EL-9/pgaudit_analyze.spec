@@ -1,1 +1,1 @@
-../master/pgaudit_analyze.spec
+../main/pgaudit_analyze.spec
