@@ -61,7 +61,6 @@ This package provides test tools and scripts related to PG-Strom
 
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/bin/gpuinfo
-%{pginstdir}/bin/pg2arrow
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/*
 %config %{__systemd_conf}
