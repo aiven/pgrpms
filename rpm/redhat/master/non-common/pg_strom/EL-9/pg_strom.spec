@@ -1,1 +1,1 @@
-../master/pg_strom.spec
+../main/pg_strom.spec
