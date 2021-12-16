@@ -1,1 +1,1 @@
-../master/timescaledb.spec
+../main/timescaledb.spec
