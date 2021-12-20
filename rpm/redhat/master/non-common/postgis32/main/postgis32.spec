@@ -70,10 +70,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	rc1%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -220,7 +220,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}rc1
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -371,7 +371,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}rc1.pdf
+%doc %{sname}-%{version}.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -389,6 +389,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 20 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
+- Update to 3.2.0
+
 * Thu Dec 16 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0rc1-1
 - Update to 3.2.0 rc1
 - Remove --projdir configure parameter, which will be incompatible with
