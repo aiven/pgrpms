@@ -5,6 +5,7 @@
 %global sname	postgis
 
 %pgdg_set_gis_variables
+
 # Override some variables. PostGIS 3.2 is best served with GeOS 3.10
 # and GDAL 3.4:
 %global geosfullversion %geos310fullversion
@@ -13,6 +14,17 @@
 %global gdalfullversion %gdal34fullversion
 %global gdalmajorversion %gdal34majorversion
 %global gdalinstdir %gdal34instdir
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
+
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global projmajorversion 72
+%global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
+%endif
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global libspatialitemajorversion	43
@@ -32,14 +44,6 @@
  %endif
 %else
  %{!?llvm:%global llvm 0}
-%endif
-
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
 %endif
 
 %{!?utils:%global	utils 1}
@@ -81,7 +85,7 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.20 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.21 pcre-devel gmp-devel
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
@@ -391,6 +395,7 @@ fi
 %changelog
 * Mon Dec 20 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
 - Update to 3.2.0
+- Build with PROJ 8.2.x on all platforms except RHEL 7.
 
 * Thu Dec 16 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0rc1-1
 - Update to 3.2.0 rc1
