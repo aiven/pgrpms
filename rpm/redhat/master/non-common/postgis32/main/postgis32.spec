@@ -6,8 +6,8 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables. PostGIS 3.2 is best served with GeOS 3.10
-# and GDAL 3.4:
+# Override some variables. PostGIS 3.2 is best served with GeOS 3.10,
+# GDAL 3.4 and PROJ 8.2:
 %global geosfullversion %geos310fullversion
 %global geosmajorversion %geos310majorversion
 %global geosinstdir %geos310instdir
