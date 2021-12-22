@@ -1,1 +1,0 @@
-../master/pgagroal.spec

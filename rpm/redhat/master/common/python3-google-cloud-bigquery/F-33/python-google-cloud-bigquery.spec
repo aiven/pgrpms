@@ -1,1 +1,0 @@
-../master/python-google-cloud-bigquery.spec

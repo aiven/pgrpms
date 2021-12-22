@@ -1,1 +1,0 @@
-../master/bigquery_fdw.spec

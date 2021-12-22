@@ -1,1 +1,0 @@
-../master/system_stats.spec
