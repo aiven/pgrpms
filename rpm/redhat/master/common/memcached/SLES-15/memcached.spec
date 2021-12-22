@@ -1,1 +1,1 @@
-../master/memcached.spec
+../main/../main/memcached.spec

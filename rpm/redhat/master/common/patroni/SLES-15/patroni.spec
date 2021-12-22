@@ -1,1 +1,1 @@
-../master/patroni.spec
+../main/../main/patroni.spec

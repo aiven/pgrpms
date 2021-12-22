@@ -1,1 +1,1 @@
-../master/pgloader.spec
+../main/../main/pgloader.spec

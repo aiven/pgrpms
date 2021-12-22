@@ -1,1 +1,1 @@
-../master/pgdg-libpq5.spec
+../main/../main/pgdg-libpq5.spec

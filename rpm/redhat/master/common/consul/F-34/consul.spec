@@ -1,1 +1,1 @@
-../master/consul.spec
+../main/../main/consul.spec

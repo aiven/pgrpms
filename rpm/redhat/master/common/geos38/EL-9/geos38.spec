@@ -1,1 +1,1 @@
-../master/geos38.spec
+../main/../main/geos38.spec

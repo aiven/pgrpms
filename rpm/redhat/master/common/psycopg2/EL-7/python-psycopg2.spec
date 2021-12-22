@@ -1,1 +1,1 @@
-../master/python-psycopg2.spec
+../main/../main/python-psycopg2.spec

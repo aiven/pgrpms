@@ -1,1 +1,1 @@
-../master/python-cdiff.spec
+../main/../main/python-cdiff.spec

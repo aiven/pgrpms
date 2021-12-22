@@ -1,1 +1,1 @@
-../master/pgdg-srpm-macros.spec
+../main/../main/pgdg-srpm-macros.spec

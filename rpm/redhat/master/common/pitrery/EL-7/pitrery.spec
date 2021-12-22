@@ -1,1 +1,1 @@
-../master/pitrery.spec
+../main/../main/pitrery.spec

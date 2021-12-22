@@ -1,1 +1,1 @@
-../master/pgxnclient.spec
+../main/../main/pgxnclient.spec

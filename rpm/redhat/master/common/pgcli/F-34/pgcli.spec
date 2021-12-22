@@ -1,1 +1,1 @@
-../master/pgcli.spec
+../main/../main/pgcli.spec

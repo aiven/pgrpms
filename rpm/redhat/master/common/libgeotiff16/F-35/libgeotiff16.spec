@@ -1,1 +1,1 @@
-../master/libgeotiff16.spec
+../main/../main/libgeotiff16.spec

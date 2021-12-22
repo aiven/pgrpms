@@ -1,1 +1,1 @@
-../master/phpPgAdmin.spec
+../main/../main/phpPgAdmin.spec

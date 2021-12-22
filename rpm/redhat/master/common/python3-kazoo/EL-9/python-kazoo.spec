@@ -1,1 +1,1 @@
-../master/python-kazoo.spec
+../main/../main/python-kazoo.spec

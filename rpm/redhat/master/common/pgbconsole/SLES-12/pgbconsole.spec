@@ -1,1 +1,1 @@
-../master/pgbconsole.spec
+../main/../main/pgbconsole.spec

@@ -1,1 +1,1 @@
-../master/pgbackman.spec
+../main/../main/pgbackman.spec

@@ -1,1 +1,1 @@
-../master/pg_back.spec
+../main/../main/pg_back.spec

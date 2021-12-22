@@ -1,1 +1,1 @@
-../master/ogdi41.spec
+../main/../main/ogdi41.spec

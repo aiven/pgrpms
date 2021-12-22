@@ -1,1 +1,1 @@
-../master/pgcluu.spec
+../main/../main/pgcluu.spec

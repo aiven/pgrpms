@@ -1,1 +1,1 @@
-../master/sfcgal.spec
+../main/../main/sfcgal.spec

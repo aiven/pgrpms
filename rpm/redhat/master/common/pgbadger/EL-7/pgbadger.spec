@@ -1,1 +1,1 @@
-../master/pgbadger.spec
+../main/../main/pgbadger.spec

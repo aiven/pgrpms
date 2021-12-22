@@ -1,1 +1,1 @@
-../master/ldap2pg.spec
+../main/../main/ldap2pg.spec

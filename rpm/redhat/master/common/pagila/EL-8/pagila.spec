@@ -1,1 +1,1 @@
-../master/pagila.spec
+../main/../main/pagila.spec

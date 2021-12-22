@@ -1,1 +1,1 @@
-../master/CGAL.spec
+../main/../main/CGAL.spec

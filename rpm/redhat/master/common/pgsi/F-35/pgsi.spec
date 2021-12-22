@@ -1,1 +1,1 @@
-../master/pgsi.spec
+../main/../main/pgsi.spec

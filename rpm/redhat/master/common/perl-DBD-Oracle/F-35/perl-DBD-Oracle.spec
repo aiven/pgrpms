@@ -1,1 +1,1 @@
-../master/perl-DBD-Oracle.spec
+../main/../main/perl-DBD-Oracle.spec

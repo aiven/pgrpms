@@ -1,1 +1,1 @@
-../master/mhash.spec
+../main/../main/mhash.spec

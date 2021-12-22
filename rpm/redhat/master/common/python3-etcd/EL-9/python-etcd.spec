@@ -1,1 +1,1 @@
-../master/python-etcd.spec
+../main/../main/python-etcd.spec

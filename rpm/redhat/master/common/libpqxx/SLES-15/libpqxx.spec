@@ -1,1 +1,1 @@
-../master/libpqxx.spec
+../main/../main/libpqxx.spec

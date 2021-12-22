@@ -1,1 +1,1 @@
-../master/pgpoolAdmin-40.spec
+../main/../main/pgpoolAdmin-40.spec

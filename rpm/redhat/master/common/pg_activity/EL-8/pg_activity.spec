@@ -1,1 +1,1 @@
-../master/pg_activity.spec
+../main/../main/pg_activity.spec

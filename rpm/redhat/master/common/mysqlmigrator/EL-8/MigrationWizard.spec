@@ -1,1 +1,1 @@
-../master/MigrationWizard.spec
+../main/../main/MigrationWizard.spec

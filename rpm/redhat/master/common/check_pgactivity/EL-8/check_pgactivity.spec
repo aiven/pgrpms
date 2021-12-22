@@ -1,1 +1,1 @@
-../master/check_pgactivity.spec
+../main/../main/check_pgactivity.spec

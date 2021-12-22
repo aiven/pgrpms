@@ -1,1 +1,1 @@
-../master/pgdbconn.spec
+../main/../main/pgdbconn.spec

@@ -1,1 +1,1 @@
-../master/gdal-cleaner.sh
+../main/../main/gdal-cleaner.sh

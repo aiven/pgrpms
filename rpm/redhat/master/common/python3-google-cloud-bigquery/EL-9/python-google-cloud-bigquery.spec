@@ -1,1 +1,1 @@
-../master/python-google-cloud-bigquery.spec
+../main/../main/python-google-cloud-bigquery.spec

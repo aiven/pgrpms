@@ -1,1 +1,1 @@
-../master/PyGreSQL.spec
+../main/../main/PyGreSQL.spec

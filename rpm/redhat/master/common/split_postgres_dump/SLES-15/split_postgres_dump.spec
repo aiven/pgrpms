@@ -1,1 +1,1 @@
-../master/split_postgres_dump.spec
+../main/../main/split_postgres_dump.spec

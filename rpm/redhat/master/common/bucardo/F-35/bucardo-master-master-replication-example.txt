@@ -1,1 +1,1 @@
-../master/bucardo-master-master-replication-example.txt
+../main/../main/bucardo-master-master-replication-example.txt

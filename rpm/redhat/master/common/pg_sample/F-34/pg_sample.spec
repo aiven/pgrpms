@@ -1,1 +1,1 @@
-../master/pg_sample.spec
+../main/../main/pg_sample.spec

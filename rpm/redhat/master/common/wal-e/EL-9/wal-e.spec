@@ -1,1 +1,1 @@
-../master/wal-e.spec
+../main/../main/wal-e.spec

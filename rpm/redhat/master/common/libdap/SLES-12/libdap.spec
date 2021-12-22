@@ -1,1 +1,1 @@
-../master/libdap.spec
+../main/../main/libdap.spec

@@ -1,1 +1,1 @@
-../master/pg_bloat_check.spec
+../main/../main/pg_bloat_check.spec

@@ -1,1 +1,1 @@
-../master/proj71.spec
+../main/../main/proj71.spec

@@ -1,1 +1,1 @@
-../master/strip-hsieh.sh
+../main/../main/strip-hsieh.sh

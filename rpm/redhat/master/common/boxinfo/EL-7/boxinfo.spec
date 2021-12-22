@@ -1,1 +1,1 @@
-../master/boxinfo.spec
+../main/../main/boxinfo.spec

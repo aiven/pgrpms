@@ -1,1 +1,1 @@
-../master/libspatialite50.spec
+../main/../main/libspatialite50.spec

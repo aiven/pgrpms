@@ -1,1 +1,1 @@
-../master/tail_n_mail.spec
+../main/../main/tail_n_mail.spec

@@ -1,1 +1,1 @@
-../master/pg_monz.spec
+../main/../main/pg_monz.spec

@@ -1,1 +1,1 @@
-../master/bucardo.spec
+../main/../main/bucardo.spec

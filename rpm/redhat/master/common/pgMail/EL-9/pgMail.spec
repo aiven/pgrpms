@@ -1,1 +1,1 @@
-../master/pgMail.spec
+../main/../main/pgMail.spec

@@ -1,1 +1,1 @@
-../master/python-consul.spec
+../main/../main/python-consul.spec

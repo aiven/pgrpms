@@ -1,1 +1,1 @@
-../master/pgagroal.spec
+../main/../main/pgagroal.spec

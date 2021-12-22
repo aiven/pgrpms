@@ -1,1 +1,1 @@
-../master/libmemcached.spec
+../main/../main/libmemcached.spec

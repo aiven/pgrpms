@@ -1,1 +1,1 @@
-../master/check_postgres.spec
+../main/../main/check_postgres.spec

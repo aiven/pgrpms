@@ -1,1 +1,1 @@
-../master/gdal31.spec
+../main/../main/gdal31.spec

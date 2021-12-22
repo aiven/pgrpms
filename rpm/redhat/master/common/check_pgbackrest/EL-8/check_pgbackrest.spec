@@ -1,1 +1,1 @@
-../master/check_pgbackrest.spec
+../main/../main/check_pgbackrest.spec

@@ -1,1 +1,1 @@
-../master/pyrseas.spec
+../main/../main/pyrseas.spec

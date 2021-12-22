@@ -1,1 +1,1 @@
-../master/python-google-auth.spec
+../main/../main/python-google-auth.spec

@@ -1,1 +1,1 @@
-../master/pghoard.spec
+../main/../main/pghoard.spec

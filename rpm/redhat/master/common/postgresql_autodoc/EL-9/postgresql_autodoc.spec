@@ -1,1 +1,1 @@
-../master/postgresql_autodoc.spec
+../main/../main/postgresql_autodoc.spec

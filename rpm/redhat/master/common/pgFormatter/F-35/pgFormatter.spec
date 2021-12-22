@@ -1,1 +1,1 @@
-../master/pgFormatter.spec
+../main/../main/pgFormatter.spec

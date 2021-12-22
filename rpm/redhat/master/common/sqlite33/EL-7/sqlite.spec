@@ -1,1 +1,1 @@
-../master/sqlite.spec
+../main/../main/sqlite.spec

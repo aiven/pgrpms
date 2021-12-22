@@ -1,1 +1,1 @@
-../master/ora2pg.spec
+../main/../main/ora2pg.spec

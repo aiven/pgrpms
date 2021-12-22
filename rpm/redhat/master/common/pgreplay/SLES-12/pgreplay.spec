@@ -1,1 +1,1 @@
-../master/pgreplay.spec
+../main/../main/pgreplay.spec

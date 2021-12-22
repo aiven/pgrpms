@@ -1,1 +1,1 @@
-../master/pgbouncer.spec
+../main/../main/pgbouncer.spec

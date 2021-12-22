@@ -1,1 +1,1 @@
-../master/pspg.spec
+../main/../main/pspg.spec

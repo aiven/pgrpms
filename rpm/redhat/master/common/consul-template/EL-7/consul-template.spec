@@ -1,1 +1,1 @@
-../master/consul-template.spec
+../main/../main/consul-template.spec

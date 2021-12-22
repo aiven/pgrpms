@@ -1,1 +1,1 @@
-../master/mailchimp_fdw.spec
+../main/../main/mailchimp_fdw.spec

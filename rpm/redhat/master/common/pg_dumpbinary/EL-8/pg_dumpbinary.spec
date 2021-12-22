@@ -1,1 +1,1 @@
-../master/pg_dumpbinary.spec
+../main/../main/pg_dumpbinary.spec

@@ -1,1 +1,1 @@
-../master/python-pgspecial.spec
+../main/../main/python-pgspecial.spec
