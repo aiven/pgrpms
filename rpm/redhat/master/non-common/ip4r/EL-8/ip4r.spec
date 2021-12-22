@@ -1,1 +1,1 @@
-../master/ip4r.spec
+../main/../main/ip4r.spec

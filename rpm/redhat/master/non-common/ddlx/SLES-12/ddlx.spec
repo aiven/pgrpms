@@ -1,1 +1,1 @@
-../master/ddlx.spec
+../main/../main/ddlx.spec

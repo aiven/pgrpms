@@ -1,1 +1,1 @@
-../master/postgresql-13.spec
+../main/../main/postgresql-13.spec

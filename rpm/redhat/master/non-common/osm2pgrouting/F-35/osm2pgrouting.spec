@@ -1,1 +1,1 @@
-../master/osm2pgrouting.spec
+../main/../main/osm2pgrouting.spec

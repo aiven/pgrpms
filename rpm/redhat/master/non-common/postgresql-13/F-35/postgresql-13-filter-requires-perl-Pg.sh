@@ -1,1 +1,1 @@
-../master/postgresql-13-filter-requires-perl-Pg.sh
+../main/../main/postgresql-13-filter-requires-perl-Pg.sh

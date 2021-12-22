@@ -1,1 +1,1 @@
-../master/pg_pathman.spec
+../main/../main/pg_pathman.spec

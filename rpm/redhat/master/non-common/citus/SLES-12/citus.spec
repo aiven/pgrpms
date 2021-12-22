@@ -1,1 +1,1 @@
-../master/citus.spec
+../main/../main/citus.spec

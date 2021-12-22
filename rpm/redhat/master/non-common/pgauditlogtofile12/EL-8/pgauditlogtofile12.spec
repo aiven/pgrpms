@@ -1,1 +1,1 @@
-../master/pgauditlogtofile12.spec
+../main/../main/pgauditlogtofile12.spec

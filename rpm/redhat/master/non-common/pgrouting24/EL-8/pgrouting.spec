@@ -1,1 +1,1 @@
-../master/pgrouting.spec
+../main/../main/pgrouting.spec

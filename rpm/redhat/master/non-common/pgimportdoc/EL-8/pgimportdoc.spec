@@ -1,1 +1,1 @@
-../master/pgimportdoc.spec
+../main/../main/pgimportdoc.spec

@@ -1,1 +1,1 @@
-../master/filter-requires-perl-Pg.sh
+../main/../main/filter-requires-perl-Pg.sh

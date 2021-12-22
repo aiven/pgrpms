@@ -1,1 +1,1 @@
-../master/sslutils.spec
+../main/../main/sslutils.spec

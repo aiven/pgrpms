@@ -1,1 +1,1 @@
-../master/pg_filedump11.spec
+../main/../main/pg_filedump11.spec

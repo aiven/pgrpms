@@ -1,1 +1,1 @@
-../master/postgresql-10-ecpg_config.h
+../main/../main/postgresql-10-ecpg_config.h

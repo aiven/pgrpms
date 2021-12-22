@@ -1,1 +1,1 @@
-../master/mongo_fdw-config.h
+../main/../main/mongo_fdw-config.h

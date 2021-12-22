@@ -1,1 +1,1 @@
-../master/pglogical.spec
+../main/../main/pglogical.spec

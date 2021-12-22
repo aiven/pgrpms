@@ -1,1 +1,1 @@
-../master/pg_bulkload.spec
+../main/../main/pg_bulkload.spec

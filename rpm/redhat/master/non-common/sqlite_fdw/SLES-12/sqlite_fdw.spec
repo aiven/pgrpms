@@ -1,1 +1,1 @@
-../master/sqlite_fdw.spec
+../main/../main/sqlite_fdw.spec

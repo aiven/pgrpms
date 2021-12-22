@@ -1,1 +1,1 @@
-../master/pldebugger.spec
+../main/../main/pldebugger.spec

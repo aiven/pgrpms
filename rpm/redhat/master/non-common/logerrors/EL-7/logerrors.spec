@@ -1,1 +1,1 @@
-../master/logerrors.spec
+../main/../main/logerrors.spec

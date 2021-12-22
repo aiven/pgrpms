@@ -1,1 +1,1 @@
-../master/pgaudit13.spec
+../main/../main/pgaudit13.spec

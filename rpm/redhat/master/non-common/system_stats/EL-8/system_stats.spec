@@ -1,1 +1,1 @@
-../master/system_stats.spec
+../main/../main/system_stats.spec

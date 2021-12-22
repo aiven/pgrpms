@@ -1,1 +1,1 @@
-../master/jsquery.spec
+../main/../main/jsquery.spec

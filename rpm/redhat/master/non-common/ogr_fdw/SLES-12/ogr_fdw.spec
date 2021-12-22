@@ -1,1 +1,1 @@
-../master/ogr_fdw.spec
+../main/../main/ogr_fdw.spec

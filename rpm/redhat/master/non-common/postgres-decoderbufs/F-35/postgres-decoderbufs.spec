@@ -1,1 +1,1 @@
-../master/postgres-decoderbufs.spec
+../main/../main/postgres-decoderbufs.spec

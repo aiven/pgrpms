@@ -1,1 +1,1 @@
-../master/acinclude.m4
+../main/../main/acinclude.m4

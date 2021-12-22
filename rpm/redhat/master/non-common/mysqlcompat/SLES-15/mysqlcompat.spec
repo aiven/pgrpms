@@ -1,1 +1,1 @@
-../master/mysqlcompat.spec
+../main/../main/mysqlcompat.spec

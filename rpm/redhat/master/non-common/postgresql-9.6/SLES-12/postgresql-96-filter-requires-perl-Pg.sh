@@ -1,1 +1,1 @@
-../master/postgresql-96-filter-requires-perl-Pg.sh
+../main/../main/postgresql-96-filter-requires-perl-Pg.sh

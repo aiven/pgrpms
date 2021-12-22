@@ -1,1 +1,1 @@
-../master/wal2json.spec
+../main/../main/wal2json.spec

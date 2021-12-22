@@ -1,1 +1,1 @@
-../master/postgresql-13-ecpg_config.h
+../main/../main/postgresql-13-ecpg_config.h

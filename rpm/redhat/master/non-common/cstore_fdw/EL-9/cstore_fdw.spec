@@ -1,1 +1,1 @@
-../master/cstore_fdw.spec
+../main/../main/cstore_fdw.spec

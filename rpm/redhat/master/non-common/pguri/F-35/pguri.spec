@@ -1,1 +1,1 @@
-../master/pguri.spec
+../main/../main/pguri.spec

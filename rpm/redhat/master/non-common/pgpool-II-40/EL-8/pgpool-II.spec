@@ -1,1 +1,1 @@
-../master/pgpool-II.spec
+../main/../main/pgpool-II.spec

@@ -1,1 +1,1 @@
-../master/pg_auto_failover.spec
+../main/../main/pg_auto_failover.spec

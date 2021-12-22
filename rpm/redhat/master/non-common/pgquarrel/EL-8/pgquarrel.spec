@@ -1,1 +1,1 @@
-../master/pgquarrel.spec
+../main/../main/pgquarrel.spec

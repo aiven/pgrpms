@@ -1,1 +1,1 @@
-../master/extra_window_functions.spec
+../main/../main/extra_window_functions.spec

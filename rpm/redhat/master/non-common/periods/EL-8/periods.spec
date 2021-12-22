@@ -1,1 +1,1 @@
-../master/periods.spec
+../main/../main/periods.spec

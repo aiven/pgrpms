@@ -1,1 +1,1 @@
-../master/postgresql-96-tmpfiles.d
+../main/../main/postgresql-96-tmpfiles.d

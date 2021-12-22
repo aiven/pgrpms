@@ -1,1 +1,1 @@
-../master/pg_repack.spec
+../main/../main/pg_repack.spec

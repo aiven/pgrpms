@@ -1,1 +1,1 @@
-../master/pam-pgsql.spec
+../main/../main/pam-pgsql.spec

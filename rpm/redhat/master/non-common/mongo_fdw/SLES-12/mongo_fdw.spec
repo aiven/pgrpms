@@ -1,1 +1,1 @@
-../master/mongo_fdw.spec
+../main/../main/mongo_fdw.spec

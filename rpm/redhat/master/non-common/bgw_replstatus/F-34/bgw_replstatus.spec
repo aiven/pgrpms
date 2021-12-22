@@ -1,1 +1,1 @@
-../master/bgw_replstatus.spec
+../main/../main/bgw_replstatus.spec

@@ -1,1 +1,1 @@
-../master/slony1-22-11-tmpfiles.d
+../main/../main/slony1-22-11-tmpfiles.d

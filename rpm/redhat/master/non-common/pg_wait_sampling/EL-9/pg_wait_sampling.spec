@@ -1,1 +1,1 @@
-../master/pg_wait_sampling.spec
+../main/../main/pg_wait_sampling.spec

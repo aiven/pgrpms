@@ -1,1 +1,1 @@
-../master/count_distinct.spec
+../main/../main/count_distinct.spec

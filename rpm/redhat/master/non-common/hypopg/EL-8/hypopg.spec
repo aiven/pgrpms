@@ -1,1 +1,1 @@
-../master/hypopg.spec
+../main/../main/hypopg.spec

@@ -1,1 +1,1 @@
-../master/plproxy.spec
+../main/../main/plproxy.spec

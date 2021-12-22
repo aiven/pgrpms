@@ -1,1 +1,1 @@
-../master/pgmemcache.spec
+../main/../main/pgmemcache.spec

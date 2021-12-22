@@ -1,1 +1,1 @@
-../master/postgresql-96-ecpg_config.h
+../main/../main/postgresql-96-ecpg_config.h

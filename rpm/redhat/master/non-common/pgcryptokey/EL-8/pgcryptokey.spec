@@ -1,1 +1,1 @@
-../master/pgcryptokey.spec
+../main/../main/pgcryptokey.spec

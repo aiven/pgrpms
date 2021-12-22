@@ -1,1 +1,1 @@
-../master/postgresql-11-pg_config.h
+../main/../main/postgresql-11-pg_config.h

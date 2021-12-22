@@ -1,1 +1,1 @@
-../master/pg_prioritize.spec
+../main/../main/pg_prioritize.spec

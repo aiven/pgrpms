@@ -1,1 +1,1 @@
-../master/pgmp.spec
+../main/../main/pgmp.spec

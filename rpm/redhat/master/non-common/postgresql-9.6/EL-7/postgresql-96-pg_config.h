@@ -1,1 +1,1 @@
-../master/postgresql-96-pg_config.h
+../main/../main/postgresql-96-pg_config.h

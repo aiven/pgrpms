@@ -1,1 +1,1 @@
-../master/pg_jobmon.spec
+../main/../main/pg_jobmon.spec

@@ -1,1 +1,1 @@
-../master/hdfs_fdw.spec
+../main/../main/hdfs_fdw.spec

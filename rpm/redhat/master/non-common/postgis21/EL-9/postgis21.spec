@@ -1,1 +1,1 @@
-../master/postgis21.spec
+../main/../main/postgis21.spec

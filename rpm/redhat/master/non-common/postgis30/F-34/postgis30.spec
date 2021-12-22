@@ -1,1 +1,1 @@
-../master/postgis30.spec
+../main/../main/postgis30.spec

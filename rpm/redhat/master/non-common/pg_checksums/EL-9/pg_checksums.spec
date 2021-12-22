@@ -1,1 +1,1 @@
-../master/pg_checksums.spec
+../main/../main/pg_checksums.spec

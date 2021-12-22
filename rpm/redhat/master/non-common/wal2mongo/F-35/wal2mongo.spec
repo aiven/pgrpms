@@ -1,1 +1,1 @@
-../master/wal2mongo.spec
+../main/../main/wal2mongo.spec

@@ -1,1 +1,1 @@
-../master/pg_partman.spec
+../main/../main/pg_partman.spec

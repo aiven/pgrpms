@@ -1,1 +1,1 @@
-../master/pguint.spec
+../main/../main/pguint.spec

@@ -1,1 +1,1 @@
-../master/semver.spec
+../main/../main/semver.spec

@@ -1,1 +1,1 @@
-../master/hll.spec
+../main/../main/hll.spec

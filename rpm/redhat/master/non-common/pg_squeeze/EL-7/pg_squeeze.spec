@@ -1,1 +1,1 @@
-../master/pg_squeeze.spec
+../main/../main/pg_squeeze.spec

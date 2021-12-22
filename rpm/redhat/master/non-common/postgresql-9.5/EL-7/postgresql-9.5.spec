@@ -1,1 +1,1 @@
-../master/postgresql-9.5.spec
+../main/../main/postgresql-9.5.spec

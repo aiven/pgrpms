@@ -1,1 +1,1 @@
-../master/pg_cron.spec
+../main/../main/pg_cron.spec

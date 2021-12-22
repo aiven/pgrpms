@@ -1,1 +1,1 @@
-../master/pg_config.h
+../main/../main/pg_config.h

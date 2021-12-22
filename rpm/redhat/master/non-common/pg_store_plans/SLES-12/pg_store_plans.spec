@@ -1,1 +1,1 @@
-../master/pg_store_plans.spec
+../main/../main/pg_store_plans.spec

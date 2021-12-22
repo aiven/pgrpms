@@ -1,1 +1,1 @@
-../master/rum.spec
+../main/../main/rum.spec

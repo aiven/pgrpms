@@ -1,1 +1,1 @@
-../master/postgresql-odbc.spec
+../main/../main/postgresql-odbc.spec

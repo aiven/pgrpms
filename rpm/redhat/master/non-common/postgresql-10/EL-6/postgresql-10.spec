@@ -1,1 +1,1 @@
-../master/postgresql-10.spec
+../main/../main/postgresql-10.spec

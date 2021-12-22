@@ -1,1 +1,1 @@
-../master/table_version.spec
+../main/../main/table_version.spec

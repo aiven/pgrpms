@@ -1,1 +1,1 @@
-../master/db2_fdw.spec
+../main/../main/db2_fdw.spec

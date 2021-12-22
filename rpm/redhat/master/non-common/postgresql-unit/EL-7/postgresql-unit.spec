@@ -1,1 +1,1 @@
-../master/postgresql-unit.spec
+../main/../main/postgresql-unit.spec

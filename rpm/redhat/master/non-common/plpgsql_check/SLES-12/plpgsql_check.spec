@@ -1,1 +1,1 @@
-../master/plpgsql_check.spec
+../main/../main/plpgsql_check.spec

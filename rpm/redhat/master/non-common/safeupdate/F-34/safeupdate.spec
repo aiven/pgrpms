@@ -1,1 +1,1 @@
-../master/safeupdate.spec
+../main/../main/safeupdate.spec

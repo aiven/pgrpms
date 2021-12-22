@@ -1,1 +1,1 @@
-../master/skytools.spec
+../main/../main/skytools.spec

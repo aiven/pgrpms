@@ -1,1 +1,1 @@
-../master/tdigest.spec
+../main/../main/tdigest.spec

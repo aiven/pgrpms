@@ -1,1 +1,1 @@
-../master/ecpg_config.h
+../main/../main/ecpg_config.h

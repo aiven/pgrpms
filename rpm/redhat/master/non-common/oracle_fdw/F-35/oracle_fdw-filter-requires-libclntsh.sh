@@ -1,1 +1,1 @@
-../master/oracle_fdw-filter-requires-libclntsh.sh
+../main/../main/oracle_fdw-filter-requires-libclntsh.sh

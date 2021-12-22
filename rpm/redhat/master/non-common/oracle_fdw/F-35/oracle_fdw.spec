@@ -1,1 +1,1 @@
-../master/oracle_fdw.spec
+../main/../main/oracle_fdw.spec

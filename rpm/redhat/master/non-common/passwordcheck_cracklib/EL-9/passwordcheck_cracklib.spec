@@ -1,1 +1,1 @@
-../master/passwordcheck_cracklib.spec
+../main/../main/passwordcheck_cracklib.spec

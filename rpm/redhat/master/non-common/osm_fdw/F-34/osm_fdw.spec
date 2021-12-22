@@ -1,1 +1,1 @@
-../master/osm_fdw.spec
+../main/../main/osm_fdw.spec

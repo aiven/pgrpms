@@ -1,1 +1,1 @@
-../master/pg_filedump96.spec
+../main/../main/pg_filedump96.spec

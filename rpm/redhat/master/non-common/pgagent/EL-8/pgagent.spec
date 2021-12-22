@@ -1,1 +1,1 @@
-../master/pgagent.spec
+../main/../main/pgagent.spec

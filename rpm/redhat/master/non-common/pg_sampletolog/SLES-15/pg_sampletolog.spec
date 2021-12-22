@@ -1,1 +1,1 @@
-../master/pg_sampletolog.spec
+../main/../main/pg_sampletolog.spec

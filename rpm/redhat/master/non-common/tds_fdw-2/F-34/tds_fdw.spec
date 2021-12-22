@@ -1,1 +1,1 @@
-../master/tds_fdw.spec
+../main/../main/tds_fdw.spec

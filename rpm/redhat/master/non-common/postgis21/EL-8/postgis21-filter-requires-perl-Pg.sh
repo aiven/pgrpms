@@ -1,1 +1,1 @@
-../master/postgis21-filter-requires-perl-Pg.sh
+../main/../main/postgis21-filter-requires-perl-Pg.sh

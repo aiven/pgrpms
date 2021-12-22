@@ -1,1 +1,1 @@
-../master/plsh.spec
+../main/../main/plsh.spec

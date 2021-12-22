@@ -1,1 +1,1 @@
-../master/topn.spec
+../main/../main/topn.spec

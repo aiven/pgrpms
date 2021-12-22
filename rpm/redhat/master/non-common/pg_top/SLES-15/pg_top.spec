@@ -1,1 +1,1 @@
-../master/pg_top.spec
+../main/../main/pg_top.spec

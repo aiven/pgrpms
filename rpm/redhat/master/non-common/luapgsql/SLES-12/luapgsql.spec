@@ -1,1 +1,1 @@
-../master/luapgsql.spec
+../main/../main/luapgsql.spec

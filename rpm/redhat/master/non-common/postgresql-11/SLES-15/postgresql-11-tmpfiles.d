@@ -1,1 +1,1 @@
-../master/postgresql-11-tmpfiles.d
+../main/../main/postgresql-11-tmpfiles.d

@@ -1,1 +1,1 @@
-../master/plr.spec
+../main/../main/plr.spec

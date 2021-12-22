@@ -1,1 +1,1 @@
-../master/prefix.spec
+../main/../main/prefix.spec

@@ -1,1 +1,1 @@
-../master/slony1-22.spec
+../main/../main/slony1-22.spec

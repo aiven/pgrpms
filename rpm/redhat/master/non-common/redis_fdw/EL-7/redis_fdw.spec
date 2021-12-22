@@ -1,1 +1,1 @@
-../master/redis_fdw.spec
+../main/../main/redis_fdw.spec

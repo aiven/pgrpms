@@ -1,1 +1,1 @@
-../master/pg_comparator.spec
+../main/../main/pg_comparator.spec

@@ -1,1 +1,1 @@
-../master/postgresql-tcl.spec
+../main/../main/postgresql-tcl.spec

@@ -1,1 +1,1 @@
-../master/pgtap.spec
+../main/../main/pgtap.spec

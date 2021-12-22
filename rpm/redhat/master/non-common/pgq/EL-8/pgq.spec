@@ -1,1 +1,1 @@
-../master/pgq.spec
+../main/../main/pgq.spec

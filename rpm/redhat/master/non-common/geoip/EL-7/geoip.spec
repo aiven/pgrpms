@@ -1,1 +1,1 @@
-../master/geoip.spec
+../main/../main/geoip.spec

@@ -1,1 +1,1 @@
-../master/pgfincore.spec
+../main/../main/pgfincore.spec

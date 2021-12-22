@@ -1,1 +1,1 @@
-../master/pg_qualstats.spec
+../main/../main/pg_qualstats.spec

@@ -1,1 +1,1 @@
-../master/repmgr.spec
+../main/../main/repmgr.spec

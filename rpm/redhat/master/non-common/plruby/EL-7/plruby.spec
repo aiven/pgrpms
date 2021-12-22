@@ -1,1 +1,1 @@
-../master/plruby.spec
+../main/../main/plruby.spec

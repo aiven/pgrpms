@@ -1,1 +1,1 @@
-../master/pg_catcheck.spec
+../main/../main/pg_catcheck.spec

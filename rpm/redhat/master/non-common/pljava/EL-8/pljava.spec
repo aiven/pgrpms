@@ -1,1 +1,1 @@
-../master/pljava.spec
+../main/../main/pljava.spec
