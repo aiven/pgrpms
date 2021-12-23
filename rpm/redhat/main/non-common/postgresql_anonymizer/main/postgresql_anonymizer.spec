@@ -9,7 +9,7 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.9.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -18,7 +18,7 @@ Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 Requires:	ddlx_%{pgmajorversion}
 
 %if 0%{?suse_version} >= 1315
-Requires:	python3-Fake
+Requires:	python3-Faker
 %else
 Requires:	python3-faker
 %endif
@@ -79,6 +79,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-3
+- Fix SLES dependency name
+
 * Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-2
 - Add SLES support.
 
