@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -445,7 +445,7 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm11
+Requires:	libLLVM11
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -1387,6 +1387,10 @@ fi
 %endif
 
 %changelog
+* Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 14.1-3PGDG
+- Require libLLVM11 on SLES 15, not llvm11 (compiler). Per report from
+  Tiago ANASTACIO: https://redmine.postgresql.org/issues/7007
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> - 14.1-2PGDG
 - Rebuild against LLVM 12 on RHEL 8 / aarch64.
 
