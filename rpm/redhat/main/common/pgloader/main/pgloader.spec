@@ -3,11 +3,11 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.6.2
+Version:	3.6.3
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		http://pgloader.io
-Source0:	https://github.com/dimitri/%{name}/releases/download/v%{version}/%{name}-bundle-%{version}.tgz
+Source0:	https://github.com/dimitri/%{name}/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires:	sbcl >= 1.3.6
 BuildRequires:	freetds-devel
@@ -56,6 +56,9 @@ export DYNSIZE="DYNSIZE=1024"
 %{_bindir}/%{name}
 
 %changelog
+* Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1
+- Update to 3.6.3
+
 * Sat Apr 4 2020 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-1
 - Update to 3.6.2
 
@@ -65,7 +68,7 @@ export DYNSIZE="DYNSIZE=1024"
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 3.5.2-1.1
 - Rebuild against PostgreSQL 11.0
 
-* Fri Sep 14 2018 Bruno Friedmann <bruno@ioda.net>  3.5.2-1
+* Fri Sep 14 2018 Bruno Friedmann <bruno@ioda.net> - 3.5.2-1
 - Update to 3.5.2
 - Cleanup unused deps (python)
 - Adapt file list (no man.1)
