@@ -89,13 +89,13 @@ Requires:	%{name} = %{version}-%{release}
 Development headers and libraries for pgpool-II.
 
 %package extensions
-Summary:	Postgresql extensions for pgpool-II
+Summary:	PostgreSQL extensions for pgpool-II
 Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
 Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
 Requires:	postgresql%{pgmajorversion}-server
 
 %description extensions
-Postgresql extensions libraries and sql files for pgpool-II.
+PostgreSQL extensions libraries and sql files for pgpool-II.
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -310,8 +310,6 @@ fi
 %{pginstdir}/share/extension/pgpool-recovery.sql
 %{pginstdir}/share/extension/pgpool_recovery*.sql
 %{pginstdir}/share/extension/pgpool_recovery.control
-# From PostgreSQL 9.4 pgpool-regclass.so is not needed anymore
-# because 9.4 or later has to_regclass.
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
