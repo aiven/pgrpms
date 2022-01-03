@@ -7,7 +7,7 @@
 Summary:	MySQL to PostgreSQL replica system
 Name:		pg_chameleon
 Version:	2.0.16
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/the4thdoctor/%{name}
@@ -15,10 +15,15 @@ BuildArch:	noarch
 
 Requires:	python3-PyMySQL python3-psycopg2 python3-rollbar
 Requires:	python3-mysql-replication python3-tabulate python3-daemonize
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 Requires:	python36-PyYAML
-%else
+%endif
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8
 Requires:	python3-pyyaml
+%endif
+%if 0%{?suse_version} >= 1315
+Requires:	python3-PyYAML
 %endif
 
 %description
@@ -56,6 +61,9 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{python3_sitelib}/%{name}/sql/upgrade/*.sql
 
 %changelog
+* Mon Jan 3 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.16-4
+- Fix SLES dependency, per https://redmine.postgresql.org/issues/7094
+
 * Mon Nov 1 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.16-3
 - Looks like we don't need python3-sphinx dependency.
 
