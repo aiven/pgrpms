@@ -1,8 +1,8 @@
 %global sname pg_stat_monitor
 
-%global monitormajver 0
-%global monitormidver 9
-%global monitorminver 2
+%global monitormajver 1
+%global monitormidver 0
+%global monitorminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -26,11 +26,11 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.2
-Release:	beta1_1%{?dist}
+Version:	1.0.0
+Release:	rc.1_1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
-Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}-BETA1.tar.gz
+Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}-rc.1.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -57,7 +57,7 @@ advanced replacement. It provides all the features of pg_stat_statements
 plus its own feature set.
 
 %prep
-%setup -q -n %{sname}-%{version}-BETA1
+%setup -q -n %{sname}-%{version}-rc.1
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -96,6 +96,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Jan 4 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-rc.1
+- Update to 1.0.0-rc.1
+
 * Fri Sep 24 2021 - Devrim Gündüz <devrim@gunduz.org> 0.9.2-beta1
 - Update to 0.9.2 beta1
 
