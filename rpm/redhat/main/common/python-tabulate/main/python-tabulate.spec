@@ -53,5 +53,5 @@ BuildRequires:	python3dist(wcwidth)
 %{python3_sitelib}/__pycache__/%{sname}.*
 
 %changelog
-* Tue Jab 4 2022 Devrim Gündüz <devrim@gunduz.org> - 0.8.9-1
+* Tue Jan 4 2022 Devrim Gündüz <devrim@gunduz.org> - 0.8.9-1
 - Initial packaging to provide pg_chameleon dependency on SLES 15.
