@@ -7,17 +7,20 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.37
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
-Source1:	pgbackrest-conf.patch
-Source3:	pgbackrest.logrotate
+Source1:	%{name}-conf.patch
+Source2:	%{name}-tmpfiles.d
+Source3:	%{name}.logrotate
+Source4:	%{name}.service
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 %endif
 %endif
+
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel libyaml-devel
 
@@ -40,6 +43,21 @@ BuildRequires:	liblz4-devel libbz2-devel
 
 Requires:	postgresql-libs
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
+
+BuildRequires:		systemd, systemd-devel
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
+
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -94,6 +112,14 @@ popd
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
+# ... and make a tmpfiles script to recreate it at reboot.
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE2} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+
+# Install unit file:
+%{__install} -d %{buildroot}%{_unitdir}
+%{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
+
 %pre
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
 %{__install} -d -m 700 /var/lib/pgsql/
@@ -101,6 +127,34 @@ groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
 %{__chown} postgres: /var/lib/pgsql
+
+%post
+if [ $1 -eq 1 ] ; then
+   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version}
+   %if 0%{?suse_version} >= 1315
+   %service_add_pre %{name}.service
+   %endif
+   %else
+   %systemd_post %{name}.service
+   %endif
+fi
+
+%preun
+if [ $1 -eq 0 ] ; then
+	# Package removal, not upgrade
+	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+fi
+
+%postun
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+
+if [ $1 -ge 1 ] ; then
+	# Package upgrade, not uninstall
+	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+fi
+
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -115,11 +169,16 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %{_bindir}/%{name}
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{name}.service
 %attr(-,postgres,postgres) /var/log/%{name}
 %attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Jan 4 2022 Devrim Gündüz <devrim@gunduz.org> - 2.37-2
+- Add unit file and systemd support for the TLS server feature.
+
 * Mon Jan 3 2022 Devrim Gündüz <devrim@gunduz.org> - 2.37-1
 - Update to 2.37, per changes described at:
   https://pgbackrest.org/release.html#2.37
