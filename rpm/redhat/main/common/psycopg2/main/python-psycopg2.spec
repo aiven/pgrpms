@@ -19,7 +19,13 @@
 %endif
 
 %global	python3_runtimes python3
-%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
+
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
+%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 %if 0%{?with_python2}
  %global python2_runtimes python2
@@ -36,7 +42,7 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	2.9
+Version:	2.9.3
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -205,6 +211,9 @@ done
 %endif
 
 %changelog
+* Wed Jan 5 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.3-1
+- Update to 2.9.3
+
 * Mon Jun 21 2021 Devrim Gündüz <devrim@gunduz.org> - 2.9-1
 - Update to 2.9
 
