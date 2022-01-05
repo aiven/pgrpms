@@ -1,15 +1,3 @@
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%global systemd_enabled 1
-%endif
-%endif
-
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -18,12 +6,11 @@
 
 Name:		pgbouncer
 Version:	1.16.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
 Source0:	https://www.pgbouncer.org/downloads/files/%{version}/%{name}-%{version}.tar.gz
-Source1:	%{name}.init
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
@@ -32,6 +19,8 @@ Patch0:		%{name}-ini.patch
 Patch1:		%{name}-mkauth-py3.patch
 
 BuildRequires:	pgdg-srpm-macros
+Requires:	python3
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libevent-devel
@@ -51,7 +40,7 @@ Requires:	python3-psycopg2
 %endif
 BuildRequires:	openssl-devel pam-devel
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8
 BuildRequires:	c-ares-devel >= 1.11
 Requires:	c-ares >= 1.11
 %endif
@@ -61,7 +50,6 @@ BuildRequires:	c-ares-devel >= 1.11
 Requires:	libcares2 >= 1.11
 %endif
 
-%if %{systemd_enabled}
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
@@ -75,13 +63,7 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
-%endif
+
 Requires:	/usr/sbin/useradd
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -120,7 +102,7 @@ sed -i.fedora \
 # available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
 %configure \
 	--datadir=%{_datadir} --disable-evdns \
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-cares \
 	--with-systemd \
 %endif
@@ -138,7 +120,6 @@ sed -i.fedora \
 %{__install} -p -m 644 etc/pgbouncer.ini %{buildroot}%{_sysconfdir}/%{name}
 %{__install} -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 
-%if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
@@ -152,10 +133,6 @@ cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_rundir}/%{name} 0700 pgbouncer pgbouncer -
 EOF
 
-%else
-%{__install} -p -d %{buildroot}%{_initrddir}
-%{__install} -p -m 755 %{SOURCE1} %{buildroot}%{_initrddir}/%{name}
-%endif
 
 # Create the directory for the pid files (defined in pgbouncer.ini)
 %{__install} -d -m 755 %{buildroot}/var/run/%{name}
@@ -171,12 +148,8 @@ EOF
 %endif
 
 %post
-%if %{systemd_enabled}
 %systemd_post %{name}.service
-%else
-# This adds the proper /etc/rc*.d links for the script
-/sbin/chkconfig --add %{name}
-%endif
+
 if [ ! -d %{_localstatedir}/log/pgbouncer ] ; then
 %{__mkdir} -m 700 %{_localstatedir}/log/pgbouncer
 fi
@@ -189,45 +162,26 @@ useradd -m -g pgbouncer -r -s /bin/bash \
 	-c "PgBouncer Server" pgbouncer >/dev/null 2>&1 || :
 
 %preun
-%if %{systemd_enabled}
 %systemd_preun %{name}.service
-%else
-if [ $1 -eq 0 ] ; then
-	/sbin/service pgbouncer condstop >/dev/null 2>&1
-	chkconfig --del pgbouncer
-fi
-%endif
 
 %postun
 if [ $1 -eq 0 ]; then
 %{__rm} -rf %{_rundir}/%{name}
 fi
-%if %{systemd_enabled}
 %systemd_postun_with_restart %{name}.service
-%else
-if [ $1 -ge 1 ] ; then
-	/sbin/service pgbouncer condrestart >/dev/null 2>&1 || :
-fi
-%endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %doc %{_defaultdocdir}/pgbouncer
-%if %{systemd_enabled}
 %license COPYRIGHT
-%endif
 %dir %{_sysconfdir}/%{name}
 %{_bindir}/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
-%if %{systemd_enabled}
 %ghost %{_rundir}/%{name}
 %{_tmpfilesdir}/%{name}.conf
 %attr(644,root,root) %{_unitdir}/%{name}.service
-%else
-%{_initrddir}/%{name}
-%endif
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_mandir}/man1/%{name}.*
@@ -236,6 +190,12 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Jan 5 2022 Devrim Gündüz <devrim@gunduz.org> - 1.16.1-2
+- Require python3 explicitly. Default and RHEL/Rocky 8 images
+  install python39 as default, where psycopg2 uses 3.6. Requiring
+  python3 installs python36 on RHEL 8.
+- Remove RHEL 6 bits.
+
 * Thu Nov 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1.16.1-1
 - Update to 1.16.1, per changes described at:
   http://www.pgbouncer.org/changelog.html#pgbouncer-116x
