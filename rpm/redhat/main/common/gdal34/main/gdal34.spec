@@ -73,8 +73,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}34
-Version:	3.4.0
-Release:	2%{?dist}
+Version:	3.4.1
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -739,6 +739,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Fri Jan 7 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-1
+- Update to 3.4.1
+
 * Wed Dec 15 2021 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-2
 - Add Requires for armadillo package, per
   https://redmine.postgresql.org/issues/7076
