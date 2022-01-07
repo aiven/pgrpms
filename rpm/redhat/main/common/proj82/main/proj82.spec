@@ -16,7 +16,7 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}82
-Version:	8.2.0
+Version:	8.2.1
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -165,5 +165,8 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{proj82instdir}/lib/libproj.la
 
 %changelog
+* Fri Jan 7 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-1
+- Update to 8.2.1
+
 * Thu Dec 16 2021 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.0-1
 - Initial 8.2 packaging for PostgreSQL RPM Repository.
