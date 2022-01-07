@@ -124,10 +124,10 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global geos310fullversion		3.10.1
 %global geosfullversion			3.9.2
 %global projfullversion			8.1.1
-%global proj82fullversion		8.2.0
+%global proj82fullversion		8.2.1
 %global proj81fullversion		8.1.1
 %global gdalfullversion			3.3.3
-%global gdal34fullversion		3.4.0
+%global gdal34fullversion		3.4.1
 %global gdal33fullversion		3.3.3
 %global gdal32fullversion		3.2.3
 %global gdal31fullversion		3.1.3
