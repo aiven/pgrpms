@@ -2,6 +2,14 @@
 
 %pgdg_set_gis_variables
 
+%global geosfullversion %geos310fullversion
+%global geosmajorversion %geos310majorversion
+%global geosinstdir %geos310instdir
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
+
+
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	30
 
@@ -74,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -739,6 +747,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sat Jan 8 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2
+- Build against PROJ 8.2.x and GeOS 3.10.x
+
 * Fri Jan 7 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1
 
