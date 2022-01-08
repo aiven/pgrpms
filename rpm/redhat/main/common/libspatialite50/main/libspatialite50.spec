@@ -146,7 +146,7 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
-* Sat Han 8 2022 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-4
+* Sat Jan 8 2022 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-4
 - Rebuild against Proj 8.2.x and GeOS 3.10.x
 
 * Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-3
