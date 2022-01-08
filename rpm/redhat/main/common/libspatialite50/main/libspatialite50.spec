@@ -5,6 +5,13 @@
 %global	libspatialitemajorversion	50
 
 %pgdg_set_gis_variables
+# Override some variables.
+%global geosfullversion %geos310fullversion
+%global geosmajorversion %geos310majorversion
+%global geosinstdir %geos310instdir
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
 
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
@@ -33,7 +40,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -139,6 +146,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Sat Han 8 2022 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-4
+- Rebuild against Proj 8.2.x and GeOS 3.10.x
+
 * Tue May 18 2021 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-3
 - Rebuild against Proj 8.0.1
 
