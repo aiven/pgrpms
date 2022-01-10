@@ -70,12 +70,12 @@
 
 Summary:	PostgreSQL client programs and libraries for Red Hat's UBI image
 Name:		%{sname}%{pgmajorversion}
-Version:	14
-Release:	beta3_1PGDG_UBI%{?dist}
+Version:	14.1
+Release:	1PGDG_UBI%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v14beta3/postgresql-14beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -529,7 +529,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{version}
 
 %patch1 -p0
 %patch3 -p0
@@ -1288,5 +1288,8 @@ fi
 %endif
 
 %changelog
+* Mon Jan 10 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1_1-UBI
+- Update to 14.1
+
 * Sat Aug 21 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-beta3_1-UBI
 - Initial cut for UBI image compatible PGDG RPMs.
