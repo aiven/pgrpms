@@ -1,16 +1,14 @@
-%global sname	pgmoneta
-
-Name:		%{sname}
-Version:	0.5.4
+Name:		pgmoneta
+Version:	0.5.5
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
-URL:		https://github.com/%{sname}/%{sname}
-Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
-Source1:	%{sname}.service
-Source2:	%{sname}-tmpfiles.d
+URL:		https://github.com/%{name}/%{name}
+Source0:	https://github.com/%{name}/%{name}/archive/%{version}.tar.gz
+Source1:	%{name}.service
+Source2:	%{name}-tmpfiles.d
 
-Patch0:		%{sname}-conf-rpm.patch
+Patch0:		%{name}-conf-rpm.patch
 BuildRequires:	gcc cmake make python3-docutils zlib-devel libzstd-devel
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
 Requires:	libev openssl systemd postgresql zlib libzstd
@@ -30,13 +28,13 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
-Obsoletes:	%{sname}_13 < 0.2.0-2
+Obsoletes:	%{name}_13 < 0.2.0-2
 
 %description
 pgmoneta is a backup / restore solution for PostgreSQL.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{name}-%{version}
 %patch0 -p0
 
 %build
@@ -50,20 +48,20 @@ cmake -DCMAKE_BUILD_TYPE=Release .. -DCMAKE_INSTALL_PREFIX=/usr
 cd build
 %{__make} install DESTDIR=%{buildroot}
 
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{sname}
-%{__mv} %{buildroot}/usr/etc/%{sname}/%{sname}.conf %{buildroot}%{_sysconfdir}/%{sname}
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}/usr/etc/%{name}/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}
 
 %{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{sname}.service
+%{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
-%{__install} -m 0644 %{SOURCE2} %{buildroot}/%{_tmpfilesdir}/%{sname}.conf
+%{__install} -m 0644 %{SOURCE2} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 
 %post
-%{__chown} -R postgres:postgres %{_sysconfdir}/%{sname}
-%{__mkdir} -p /var/log/%{sname}
-%{__chown} -R postgres:postgres /var/log/%{sname}
+%{__chown} -R postgres:postgres %{_sysconfdir}/%{name}
+%{__mkdir} -p /var/log/%{name}
+%{__chown} -R postgres:postgres /var/log/%{name}
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
@@ -71,7 +69,7 @@ if [ $1 -eq 1 ] ; then
      %service_add_pre %{same}.service
     %endif
    %else
-    %systemd_post %{sname}.service
+    %systemd_post %{name}.service
     %endif
 fi
 
@@ -79,31 +77,34 @@ fi
 %preun
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable %{sname}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop %{sname}.service >/dev/null 2>&1 || :
+	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 fi
 
 %postun
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{sname}.service >/dev/null 2>&1 || :
+	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
 fi
 
 %files
 %license LICENSE
-%{_bindir}/%{sname}
-%{_bindir}/%{sname}-admin
-%{_bindir}/%{sname}-cli
-%config %{_sysconfdir}/%{sname}/%{sname}.conf
+%{_bindir}/%{name}
+%{_bindir}/%{name}-admin
+%{_bindir}/%{name}-cli
+%config %{_sysconfdir}/%{name}/%{name}.conf
 %{_libdir}/libpgmoneta.so*
-%dir %{_docdir}/%{sname}
-%{_docdir}/%{sname}/*
-%{_mandir}/man1/%{sname}*
-%{_mandir}/man5/%{sname}*
-%{_tmpfilesdir}/%{sname}.conf
-%{_unitdir}/%{sname}.service
+%dir %{_docdir}/%{name}
+%{_docdir}/%{name}/*
+%{_mandir}/man1/%{name}*
+%{_mandir}/man5/%{name}*
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{name}.service
 
 %changelog
+* Mon Jan 10 2022 Devrim Gündüz <devrim@gunduz.org> 0.5.5-1
+- Update to 0.5.5
+
 * Thu Nov 25 2021 Devrim Gündüz <devrim@gunduz.org> 0.5.4-1
 - Update to 0.5.4
 
