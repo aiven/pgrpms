@@ -95,8 +95,6 @@ Source17:	%{sname}-%{pgmajorversion}-setup
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
 Source18:	%{sname}-%{pgmajorversion}.service
 Source19:	%{sname}-%{pgmajorversion}-tmpfiles.d
-%else
-Source3:	%{sname}-%{pgmajorversion}.init
 %endif
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
@@ -248,12 +246,6 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
 %endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
@@ -327,9 +319,7 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-%else
-Requires:	/usr/sbin/useradd, /sbin/chkconfig
-%endif
+
 Provides:	postgresql-server >= %{version}-%{release}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -815,10 +805,6 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
-%else
-%{__install} -d %{buildroot}%{_initrddir}
-sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
-%{__install} -m 755 %{sname}.init %{buildroot}%{_initrddir}/%{sname}-%{pgmajorversion}
 %endif
 
 %if %pam
@@ -951,8 +937,6 @@ if [ $1 -eq 1 ] ; then
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
    %endif
-  %else
-   chkconfig --add %{sname}-%{pgpackageversion}
   %endif
 fi
 
@@ -975,10 +959,6 @@ if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
 	/bin/systemctl --no-reload disable %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
 	/bin/systemctl stop %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
-%else
-	/sbin/service %{sname}-%{pgmajorversion} condstop >/dev/null 2>&1
-	chkconfig --del %{sname}-%{pgmajorversion}
-
 %endif
 fi
 
@@ -986,15 +966,11 @@ fi
 /sbin/ldconfig
 %if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-%else
- /sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
 %endif
 if [ $1 -ge 1 ] ; then
  %if %{systemd_enabled}
 	# Package upgrade, not uninstall
 	/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
- %else
-   /sbin/service %{sname}-%{pgmajorversion} condrestart >/dev/null 2>&1
  %endif
 fi
 
@@ -1269,8 +1245,6 @@ fi
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
-%else
-%config(noreplace) %{_initrddir}/%{sname}-%{pgmajorversion}
 %endif
 %if %pam
 %config(noreplace) /etc/pam.d/%{sname}
@@ -1397,6 +1371,11 @@ fi
 %endif
 
 %changelog
+* Thu Jan 13 2022 Devrim Gündüz <devrim@gunduz.org> - 13.5-4PGDG
+- Remove non-systemd portions from the spec file. systemd_enabled macro
+  is still available, because users may want to build a non-systemd
+  version of PostgreSQL for container images.
+
 * Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 13.5-3PGDG
 - Require libLLVM11 on SLES 15, not llvm11 (compiler). Per report from
   Tiago ANASTACIO: https://redmine.postgresql.org/issues/7007
