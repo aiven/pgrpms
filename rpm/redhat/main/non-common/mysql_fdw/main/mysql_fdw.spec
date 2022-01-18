@@ -1,7 +1,7 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 6
-%global mysqlfdwminver 1
+%global mysqlfdwmidver 7
+%global mysqlfdwminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -26,7 +26,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -34,13 +34,8 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	mysql-devel
-Requires:	mysql-libs mysql-devel
-%else
 BuildRequires:	mariadb-devel
 Requires:	mariadb-devel
-%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -105,6 +100,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Jan 18 2022 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1
+- Update to 2.7.0
+- Remove the remaining RHEL 6 bit.
+
 * Thu Sep 16 2021 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
 - Fix spec file for RHEL 8 / ppc64le. Per report from Aparna
  (I did not use her patch, though)
