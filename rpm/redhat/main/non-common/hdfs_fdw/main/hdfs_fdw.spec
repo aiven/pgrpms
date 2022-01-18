@@ -22,8 +22,8 @@
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.9
-Release:	2%{?dist}
+Version:	2.1.0
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -107,6 +107,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Tue Jan 18 2022 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
+- Update to 2.1.0
+
 * Tue Sep 21 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.9-2
 - Fix spec file for RHEL 8 / ppc64le.
 
