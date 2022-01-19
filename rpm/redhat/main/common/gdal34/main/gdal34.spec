@@ -82,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -282,8 +282,10 @@ Requires:	netcdf gpsbabel
 Requires:	libgeotiff%{libgeotiffmajorversion}-devel
 Requires:	libspatialite%{libspatialitemajorversion}-devel
 
+%if 0%{?suse_version}
 %if 0%{?suse_version} <= 1499
 Requires:	libarmadillo10
+%endif
 %endif
 %if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
 Requires:	armadillo
@@ -747,6 +749,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Jan 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3
+- Fix dependency on RHEL 7.
+
 * Sat Jan 8 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2
 - Build against PROJ 8.2.x and GeOS 3.10.x
 
