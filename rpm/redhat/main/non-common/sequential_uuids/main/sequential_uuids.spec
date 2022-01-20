@@ -8,7 +8,7 @@
 %endif
 
 Summary:	Sequential UUID generators for PostgreSQL
-Name:		%{sname}_%{pgmajorversion}
+Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.2
 Release:	1%{?dist}
 License:	MIT
