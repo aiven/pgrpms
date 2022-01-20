@@ -319,6 +319,7 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
+%endif
 
 Provides:	postgresql-server >= %{version}-%{release}
 
