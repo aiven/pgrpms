@@ -44,8 +44,8 @@ Requires:	python3
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	2.17
-Release:	2%{?dist}
+Version:	2.18
+Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -157,6 +157,10 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Jan 24 2022 Devrim Gündüz <devrim@gunduz.org> - 2.18-1
+- Update to 2.18, per changes described at:
+  https://github.com/EnterpriseDB/barman/releases/tag/release%2F2.18
+
 * Mon Dec 13 2021 Devrim Gündüz <devrim@gunduz.org> - 2.17-2
 - Add argcomplete dependency to SLES 15, per report from
   Tiago ANASTACIO.
