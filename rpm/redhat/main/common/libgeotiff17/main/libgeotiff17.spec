@@ -3,6 +3,11 @@
 
 %pgdg_set_gis_variables
 
+# Override some variables:
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
+
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -72,7 +77,7 @@ sed -i 's|LD_SHARED=@LD_SHARED@|LD_SHARED=@CC@ -shared|' Makefile.in
 	--includedir=%{libgeotiff17instdir}/include/ \
 	--mandir=%{libgeotiff17instdir}/man	\
 	--libdir=%{libgeotiff17instdir}/lib	\
-	--with-proj=%{proj81instdir}	\
+	--with-proj=%{projinstdir}	\
 	--with-tiff		\
 	--with-jpeg		\
 	--with-zip
