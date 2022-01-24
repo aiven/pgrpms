@@ -1,6 +1,16 @@
 %global sname wal2json
 %global wal2json_rel 2_4
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4
@@ -8,9 +18,6 @@ Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{wal2json_rel}.tar.gz
 URL:		https://github.com/eulerto/wal2json
-# This is for older spec files (RHEL <= 6)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -46,14 +53,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %files
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
+
+%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
+ %if %llvm
+  %{pginstdir}/lib/bitcode/%{sname}*.bc
+  %{pginstdir}/lib/bitcode/%{sname}/*.bc
  %endif
 %endif
 
