@@ -85,7 +85,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.19
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -100,7 +100,11 @@ Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
+%if 0%{?suse_version}
+Source14:	%{sname}-%{pgmajorversion}.pam.suse
+%else
 Source14:	%{sname}-%{pgmajorversion}.pam
+%endif
 Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
@@ -1524,6 +1528,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 10.19-3PGDG
+- Fix PAM support on suse
+
 * Tue Nov 30 2021 John Harvey <john.harvey@crunchydata.com> - 10.19-2PGDG
 - Convert a few remaining pginstdir's to pgbaseinstdir's for consistency
 
