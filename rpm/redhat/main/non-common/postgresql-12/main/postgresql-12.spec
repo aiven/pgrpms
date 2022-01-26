@@ -107,7 +107,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.9
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -122,7 +122,11 @@ Source6:	%{sname}-%{pgmajorversion}-README-init.rpm-dist
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
+%if 0%{?suse_version}
+Source14:	%{sname}-%{pgmajorversion}.pam.suse
+%else
 Source14:	%{sname}-%{pgmajorversion}.pam
+%endif
 Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
@@ -1679,6 +1683,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 12.9-5PGDG
+- Fix PAM support on suse
+
 * Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 12.9-4PGDG
 - Require libLLVM11 on SLES 15, not llvm11 (compiler). Per report from
   Tiago ANASTACIO: https://redmine.postgresql.org/issues/7007
