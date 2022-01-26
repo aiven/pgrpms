@@ -84,7 +84,11 @@ Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
+%if 0%{?suse_version}
+Source14:	%{sname}-%{pgmajorversion}.pam.suse
+%else
 Source14:	%{sname}-%{pgmajorversion}.pam
+%endif
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
@@ -1390,6 +1394,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 15.0-20220126
+- Fix PAM support on suse
+
 * Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> - 15.0-alpha
 - Initial cut for PostgreSQL 15
 
