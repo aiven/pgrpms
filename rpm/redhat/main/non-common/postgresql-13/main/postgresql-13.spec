@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.5
-Release:	3PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -88,7 +88,11 @@ Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
+%if 0%{?suse_version}
+Source14:	%{sname}-%{pgmajorversion}.pam.suse
+%else
 Source14:	%{sname}-%{pgmajorversion}.pam
+%endif
 Source16:	%{sname}-%{pgmajorversion}-filter-requires-perl-Pg.sh
 Source17:	%{sname}-%{pgmajorversion}-setup
 %if %{systemd_enabled}
@@ -1372,6 +1376,9 @@ fi
 %endif
 
 %changelog
+* Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 13.5-5PGDG
+- Fix PAM support on suse
+
 * Thu Jan 13 2022 Devrim Gündüz <devrim@gunduz.org> - 13.5-4PGDG
 - Remove non-systemd portions from the spec file. systemd_enabled macro
   is still available, because users may want to build a non-systemd
