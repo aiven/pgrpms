@@ -14,9 +14,7 @@ Release:	1%{?dist}
 License:	BSD
 URL:		http://pgpool.net
 Source0:	http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Obsoletes:	postgresql-pgpool-II-recovery <= 1:3.3.4-1
-Provides:	postgresql-pgpool-II-recovery = %{version}-%{release}
-Requires:	postgresql%{pgmajorversion}-server pgpool-II-pcp
+Requires:	postgresql%{pgmajorversion}-server %{sname}-pcp
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:	libmemcached-devel openssl-devel pgdg-srpm-macros >= 1.0.21
