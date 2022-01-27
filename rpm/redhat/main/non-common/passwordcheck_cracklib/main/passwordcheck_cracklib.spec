@@ -7,13 +7,12 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.2
-Release:	3%{?dist}
+Version:	2.0.0
+Release:	1%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 Requires:	postgresql%{pgmajorversion}
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.2-3
@@ -25,14 +24,13 @@ This is the regular PostgreSQL passwordcheck extension, built with cracklib.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -52,6 +50,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Jan 27 2022 Devrim Gündüz <devrim@gunduz.org> 2.0.0-1
+- Update to 2.0.0
+- Remove PGXS patches, and use PATH instead.
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.2-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
