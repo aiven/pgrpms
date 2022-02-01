@@ -1,20 +1,21 @@
---- src/backend/utils/misc/postgresql.conf.sample.old	2021-05-17 09:52:59.425705769 +0100
-+++ src/backend/utils/misc/postgresql.conf.sample	2021-05-17 09:54:21.979821446 +0100
-@@ -429,30 +429,30 @@
+--- src/backend/utils/misc/postgresql.conf.sample.old	2022-01-31 23:58:34.933636453 +0000
++++ src/backend/utils/misc/postgresql.conf.sample	2022-01-31 23:59:39.759645623 +0000
+@@ -431,31 +431,31 @@
  
  # - Where to Log -
  
 -#log_destination = 'stderr'		# Valid values are combinations of
 +log_destination = 'stderr'		# Valid values are combinations of
- 					# stderr, csvlog, syslog, and eventlog,
- 					# depending on platform.  csvlog
- 					# requires logging_collector to be on.
+ 					# stderr, csvlog, jsonlog, syslog, and
+ 					# eventlog, depending on platform.
+ 					# csvlog and jsonlog require
+ 					# logging_collector to be on.
  
  # This is used when logging to stderr:
--#logging_collector = off		# Enable capturing of stderr and csvlog
-+logging_collector = on			# Enable capturing of stderr and csvlog
- 					# into log files. Required to be on for
- 					# csvlogs.
+-#logging_collector = off		# Enable capturing of stderr, jsonlog
++logging_collector = on			# Enable capturing of stderr, jsonlog
+ 					# and csvlog into log files. Required
+ 					# to be on for csvlogs and jsonlogs.
  					# (change requires restart)
  
  # These are only used if logging_collector is on:
@@ -38,7 +39,7 @@
  					# same name as the new log file will be
  					# truncated rather than appended to.
  					# But such truncation only occurs on
-@@ -538,7 +538,7 @@
+@@ -546,7 +546,7 @@
  #log_duration = off
  #log_error_verbosity = default		# terse, default, or verbose messages
  #log_hostname = off
