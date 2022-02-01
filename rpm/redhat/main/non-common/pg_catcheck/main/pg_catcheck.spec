@@ -2,8 +2,8 @@
 
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.0
-Release:	3%{?dist}
+Version:	1.3.0
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -25,6 +25,7 @@ checksum feature (`initdb -k`).
 %setup -q -n %{sname}-%{version}
 
 %build
+export CFLAGS="${CFLAGS} -flto"
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
@@ -49,6 +50,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/doc/README-%{sname}.md
 
 %changelog
+* Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> 1.3.0-1
+- Update to 1.3.0
+
 * Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 1.2.0-3
 - Remove pgxs patches, and export PATH instead.
 
