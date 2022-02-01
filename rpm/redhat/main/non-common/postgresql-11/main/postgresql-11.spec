@@ -106,7 +106,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.14
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1682,6 +1682,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 11.14-6PGDG
+- Rebuild on Fedora 35 and RHEL 9 because of LLVM updates.
+
 * Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 11.14-5PGDG
 - Fix PAM support on suse
 

@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.1
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1391,6 +1391,9 @@ fi
 %endif
 
 %changelog
+* Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1-5PGDG
+- Rebuild on Fedora 35 and RHEL 9 because of LLVM updates.
+
 * Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 14.1-4PGDG
 - Fix PAM support on suse
 
