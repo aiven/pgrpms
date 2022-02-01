@@ -10,7 +10,7 @@
 %endif
 
 Name:		PyGreSQL
-Version:	5.2.2
+Version:	5.2.3
 Release:	1%{?dist}
 Summary:	A Python client library for PostgreSQL
 
@@ -78,6 +78,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 5.2.3-1
+- Update to 5.2.3
+
 * Tue Apr 20 2021 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1
 - Update to 5.2.2
 - Use our own libpq5(-devel)
