@@ -61,8 +61,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.4
-Release:	3%{?dist}
+Version:	%{postgismajorversion}.5
+Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +387,10 @@ fi
 %endif
 
 %changelog
+* Mon Feb 7 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.5-1
+- Update to 3.1.5, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.5/NEWS
+
 * Thu Dec 9 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.4-3
 - Enable raster support on SLES 15. We now have all dependencies
   in the repo.
