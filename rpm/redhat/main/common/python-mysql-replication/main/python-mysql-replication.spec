@@ -44,7 +44,7 @@ their datas and raw SQL queries.
 %{__rm} -rf %{buildroot}
 
 %files
-%{python3_sitelib}/mysql_replication-%{version}-py%{pyver}.egg-info/*
+%{python3_sitelib}/mysql_replication-%{version}-py%{py3ver}.egg-info/*
 %{python3_sitelib}/pymysqlreplication/*.py*
 %{python3_sitelib}/pymysqlreplication/__pycache__/*.py*
 %{python3_sitelib}/pymysqlreplication/constants/*.py*
