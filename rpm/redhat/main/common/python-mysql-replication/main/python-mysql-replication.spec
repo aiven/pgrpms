@@ -1,15 +1,19 @@
 %global sname	mysql-replication
-%global __ospython %{_bindir}/python3
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global __ospython3 %{_bindir}/python3
+
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 Name:		python3-%{sname}
-Version:	0.22
+Version:	0.26
 Release:	1%{?dist}
 Summary:	Pure Python Implementation of MySQL replication protocol build on top of PyMYSQL
 License:	Apache-2.0
 URL:		https://github.com/noplay/python-mysql-replication
-Source0:	https://github.com/noplay/python-mysql-replication/archive/0.22.tar.gz
+Source0:	https://github.com/noplay/python-mysql-replication/archive/%{version}.tar.gz
 BuildArch:	noarch
 
 BuildRequires:	python3-setuptools
@@ -31,10 +35,10 @@ their datas and raw SQL queries.
 %setup -q -n python-%{sname}-%{version}
 
 %build
-%{__ospython} setup.py build
+%{__ospython3} setup.py build
 
 %install
-%{__ospython} setup.py install --prefix=%{_prefix} --root=%{buildroot} -O2
+%{__ospython3} setup.py install --prefix=%{_prefix} --root=%{buildroot} -O2
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -49,6 +53,10 @@ their datas and raw SQL queries.
 %{python3_sitelib}/pymysqlreplication/tests/__pycache__/*.py*
 
 %changelog
+* Mon Feb 7 2022 - Devrim Gündüz <devrim@gunduz.org> 0.26-1
+- Update to 0.26
+- Add Python 3.10 fixes to spec file
+
 * Wed Dec 9 2020 - Devrim Gündüz <devrim@gunduz.org> 0.22-1
 - Initial packaging for PostgreSQL RPM repository, to satisfy
   pg_chameleon dependency.
