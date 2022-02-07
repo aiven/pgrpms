@@ -2,7 +2,7 @@
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
 Version:	42.3.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -11,7 +11,13 @@ Source1:	%{name}.pom
 BuildArch:	noarch
 
 Requires:	jpackage-utils
+%if 0%{?suse_version} >= 1500
+# On SUSE/SLES, java-headless is Provided by java-11-openjdk-headless, which is version 0:11
+Requires:	java-headless >= 8
+%else
+# On rhel/centos, java-headless Provides 'java-headless = 1:1.8.0'
 Requires:	java-headless >= 1:1.8
+%endif
 
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	java-1_8_0-openjdk-devel
@@ -136,6 +142,9 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Mon Feb 7 2022 - John Harvey <john.harvey@crunchydata.com> 42.3.2-2
+- Fix SLES15 java-headless dependency
+
 * Wed Feb 2 2022 Devrim Gündüz <devrim@gunduz.org> - 42.3.2-1
 - Update to 42.3.2, per changes described at:
   https://jdbc.postgresql.org/documentation/changelog.html#version_42.3.2
