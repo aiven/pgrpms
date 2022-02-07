@@ -1,13 +1,15 @@
-
 %global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 Summary:	MySQL to PostgreSQL replica system
 Name:		pg_chameleon
-Version:	2.0.16
-Release:	4%{?dist}
+Version:	2.0.17
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/the4thdoctor/%{name}
@@ -61,6 +63,10 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{python3_sitelib}/%{name}/sql/upgrade/*.sql
 
 %changelog
+* Mon Feb 7 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.17-1
+- Update to 2.0.17
+- Add Python 3.10 support to the spec file.
+
 * Mon Jan 3 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.16-4
 - Fix SLES dependency, per https://redmine.postgresql.org/issues/7094
 
