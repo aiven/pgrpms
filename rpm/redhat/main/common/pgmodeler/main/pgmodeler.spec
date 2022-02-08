@@ -3,7 +3,7 @@
 %global __requires_exclude (%{_privatelibs})
 
 Name:		pgmodeler
-Version:	0.9.3
+Version:	0.9.4
 Release:	1%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
@@ -87,6 +87,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> 0.9.4-1
+- Update to 0.9.4
+
 * Thu Mar 11 2021 Devrim Gündüz <devrim@gunduz.org> 0.9.3-1
 - Update to 0.9.3
 
