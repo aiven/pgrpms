@@ -1,5 +1,5 @@
 Name:           pitrery
-Version:        3.3
+Version:        3.4
 Release:        1%{?dist}
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
@@ -48,6 +48,10 @@ restores for PostgreSQL.
 %doc %{_mandir}/man1/restore_wal.1.gz
 
 %changelog
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 3.4-1
+- Update to 3.4
+- This software is now deprecated.
+
 * Tue Feb 2 2021 Devrim Gündüz <devrim@gunduz.org> - 3.3-1
 - Update to 3.3
 
