@@ -5,9 +5,11 @@
 
 %global	python_runtimes python3 python3-debug
 
+%{?python_disable_dependency_generator}
+
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	3.2.0
+Version:	3.3.1
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -21,7 +23,7 @@ Requires:	python3-sqlparse >= 0.1.14, python3-%{name}
 Requires:	python3-jedi => 0.8.1 python3-setproctitle >= 1.1.9
 Requires:	python3-wcwidth >= 0.1.6 python3-humanize >= 0.5.1
 Requires:	python3-configobj >= 5.0.6 python3-prompt_toolkit >= 1.0.10
-
+Requires:	python3-cli-helpers python3-cli-helpers+styles
 BuildArch:	noarch
 
 %description
@@ -85,6 +87,9 @@ done
 %doc LICENSE.txt
 
 %changelog
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1
+- Update to 3.3.1
+
 * Mon Sep 13 2021 Devrim Gündüz <devrim@gunduz.org> - 3.2.0-1
 - Update to 3.2.0
 
