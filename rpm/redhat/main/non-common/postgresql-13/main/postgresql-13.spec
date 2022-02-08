@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.5
-Release:	6PGDG%{?dist}
+Version:	13.6
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1376,6 +1376,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 13.6-1PGDG
+- Update to 13.6, per changes described at
+  https://www.postgresql.org/docs/release/13.6/
+
 * Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 13.5-6PGDG
 - Rebuild on Fedora 35 and RHEL 9 because of LLVM and GCC updates.
 
