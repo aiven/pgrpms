@@ -8,14 +8,17 @@
 %endif
 
 %global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 %global	python_runtimes python3
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
-Version:	5.6
+Version:	5.7
 Release:	1%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
@@ -119,8 +122,11 @@ done
 %doc docs/
 
 %changelog
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 5.7-1
+- Update to 5.7
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 5.6-1
-- Update to 56
+- Update to 5.6
 
 * Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 5.5-1
 - Update to 5.5
