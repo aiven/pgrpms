@@ -3,8 +3,8 @@ Version:	0.2.0
 Release:	1%{dist}
 Summary:	Prometheus exporter for PostgreSQL
 License:	BSD
-URL:		https://github.com/pgexporter/pgexporter
-Source0:	https://github.com/pgexporter/pgexporter/archive/%{version}.tar.gz
+URL:		https://github.com/%{name}/%{name}
+Source0:	https://github.com/%{name}/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake3 make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
@@ -31,7 +31,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/pgexporter
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/LICENSE %{buildroot}%{_docdir}/%{name}/LICENSE
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/CODE_OF_CONDUCT.md %{buildroot}%{_docdir}/%{name}/CODE_OF_CONDUCT.md
@@ -41,24 +41,24 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/GETTING_STARTED.md %{buildroot}%{_docdir}/%{name}/GETTING_STARTED.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/RPM.md %{buildroot}%{_docdir}/%{name}/RPM.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgexporter.service %{buildroot}%{_docdir}/%{name}/etc/pgexporter.service
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.service %{buildroot}%{_docdir}/%{name}/etc/%{name}.service
 
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/pgexporter.conf %{buildroot}%{_sysconfdir}/pgexporter/pgexporter.conf
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgexporter.1 %{buildroot}%{_mandir}/man1/pgexporter.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgexporter-admin.1 %{buildroot}%{_mandir}/man1/pgexporter-admin.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgexporter-cli.1 %{buildroot}%{_mandir}/man1/pgexporter-cli.1
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgexporter.conf.5 %{buildroot}%{_mandir}/man5/pgexporter.conf.5
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-admin.1 %{buildroot}%{_mandir}/man1/%{name}-admin.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-cli.1 %{buildroot}%{_mandir}/man1/%{name}-cli.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.conf.5 %{buildroot}%{_mandir}/man5/%{name}.conf.5
 
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgexporter %{buildroot}%{_bindir}/pgexporter
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgexporter-cli %{buildroot}%{_bindir}/pgexporter-cli
-%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgexporter-admin %{buildroot}%{_bindir}/pgexporter-admin
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name} %{buildroot}%{_bindir}/%{name}
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-cli %{buildroot}%{_bindir}/%{name}-cli
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-admin %{buildroot}%{_bindir}/%{name}-admin
 
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/libpgexporter.so.%{version} %{buildroot}%{_libdir}/libpgexporter.so.%{version}
 
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgexporter
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgexporter-cli
-chrpath -r %{_libdir} %{buildroot}%{_bindir}/pgexporter-admin
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-cli
+chrpath -r %{_libdir} %{buildroot}%{_bindir}/%{name}-admin
 
 cd %{buildroot}%{_libdir}/
 %{__ln_s} -f libpgexporter.so.%{version} libpgexporter.so.0
@@ -73,15 +73,15 @@ cd %{buildroot}%{_libdir}/
 %{_docdir}/%{name}/GETTING_STARTED.md
 %{_docdir}/%{name}/README.md
 %{_docdir}/%{name}/RPM.md
-%{_docdir}/%{name}/etc/pgexporter.service
-%{_mandir}/man1/pgexporter.1*
-%{_mandir}/man1/pgexporter-admin.1*
-%{_mandir}/man1/pgexporter-cli.1*
-%{_mandir}/man5/pgexporter.conf.5*
-%config %{_sysconfdir}/pgexporter/pgexporter.conf
-%{_bindir}/pgexporter
-%{_bindir}/pgexporter-cli
-%{_bindir}/pgexporter-admin
+%{_docdir}/%{name}/etc/%{name}.service
+%{_mandir}/man1/%{name}.1*
+%{_mandir}/man1/%{name}-admin.1*
+%{_mandir}/man1/%{name}-cli.1*
+%{_mandir}/man5/%{name}.conf.5*
+%config %{_sysconfdir}/%{name}/%{name}.conf
+%{_bindir}/%{name}
+%{_bindir}/%{name}-cli
+%{_bindir}/%{name}-admin
 %{_libdir}/libpgexporter.so
 %{_libdir}/libpgexporter.so.0
 %{_libdir}/libpgexporter.so.%{version}
