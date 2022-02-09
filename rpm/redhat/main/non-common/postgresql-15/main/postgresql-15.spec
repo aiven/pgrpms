@@ -1121,6 +1121,7 @@ fi
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
 %{pgbaseinstdir}/lib/auto_explain.so
+%{pgbaseinstdir}/lib/basic_archive.so
 %{pgbaseinstdir}/lib/bloom.so
 %{pgbaseinstdir}/lib/btree_gin.so
 %{pgbaseinstdir}/lib/btree_gist.so
