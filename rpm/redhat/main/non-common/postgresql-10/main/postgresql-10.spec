@@ -119,6 +119,11 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-logging.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+%if 0%{?rhel} && 0%{?rhel} == 6
+# Revert a72c43012, as RHEL 6 uses Python 2.6. This patch is needed as of
+# version 10.20.
+Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-a72c43012.patch
+%endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -550,6 +555,9 @@ benchmarks.
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
+%if 0%{?rhel} && 0%{?rhel} == 6
+%patch7 -p0
+%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1531,6 +1539,7 @@ fi
 * Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 10.20-1PGDG
 - Update to 10.20, per changes described at
   https://www.postgresql.org/docs/release/10.20/
+- Add a patch to revert a72c43012 on RHEL 6.
 
 * Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 10.19-4PGDG
 - Rebuild on Fedora 35 and RHEL 9 because of LLVM and GCC updates.
