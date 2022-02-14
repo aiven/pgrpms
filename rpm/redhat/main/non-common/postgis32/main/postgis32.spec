@@ -73,7 +73,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.0
+Version:	%{postgismajorversion}.1
 Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
@@ -393,6 +393,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 14 2022 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1
+- Update to 3.2.1
+
 * Mon Dec 20 2021 Devrim Gunduz <devrim@gunduz.org> - 3.2.0-1
 - Update to 3.2.0
 - Build with PROJ 8.2.x on all platforms except RHEL 7.
