@@ -4,7 +4,7 @@
 # Powa archivist version
 %global powamajorversion 4
 %global powamidversion 1
-%global powaminorversion 2
+%global powaminorversion 3
 # powa-web version
 %global powawebversion 4.1.2
 
@@ -28,7 +28,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	5%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
@@ -148,6 +148,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Mon Feb 14 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-1
+- Update to 4.1.3
+
 * Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-5
 - Add Fedora 35 support
 
