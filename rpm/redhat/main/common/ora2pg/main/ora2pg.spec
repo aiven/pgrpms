@@ -55,6 +55,7 @@ Oracle database to a PostgreSQL database.
 %attr(0644,root,root) %{_mandir}/man3/%{name}.3.gz
 %config(noreplace) %{_sysconfdir}/%{name}.conf.dist
 %{perl_vendorlib}/Ora2Pg/MySQL.pm
+%{perl_vendorlib}/Ora2Pg/Oracle.pm
 %{perl_vendorlib}/Ora2Pg/PLSQL.pm
 %{perl_vendorlib}/Ora2Pg/GEOM.pm
 %{perl_vendorlib}/Ora2Pg.pm
