@@ -13,8 +13,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.3.0
-Release:	2%{?dist}
+Version:	5.3.1
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -234,6 +234,10 @@ fi
 %endif
 
 %changelog
+* Wed Feb 16 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.1-1
+- Update to 5.3.1, per changes described at:
+  https://repmgr.org/docs/current/release-5.3.1.html
+
 * Sat Oct 16 2021 - Devrim Gündüz <devrim@gunduz.org> 5.3.1-1
 - Fix OpenSSL dependencies on SLES.
 
