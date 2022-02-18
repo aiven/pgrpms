@@ -24,8 +24,8 @@
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.1
-Release:	1%{?dist}
-License:	BSD
+Release:	2%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Feb 18 2022 John Harvey <john.harvey@crunchydata.com> - 1.4.1-2
+- Update license to match source code
+
 * Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
 - Update to 1.4.1
 
