@@ -107,7 +107,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.10
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1691,6 +1691,9 @@ fi
 %endif
 
 %changelog
+* Fri Feb 18 2022 Devrim Gündüz <devrim@gunduz.org> - 12.10-2PGDG
+- Rebuild on Fedora 34 because of LLVM and GCC updates.
+
 * Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 12.10-1PGDG
 - Update to 12.10, per changes described at
   https://www.postgresql.org/docs/release/12.10/
