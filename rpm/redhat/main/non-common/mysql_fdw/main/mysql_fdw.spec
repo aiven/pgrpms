@@ -26,8 +26,8 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	1%{?dist}
-License:	BSD
+Release:	2%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -100,6 +100,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Feb 18 2022 John Harvey <john.harvey@crunchydata.com> - 2.7.0-2
+- Update license to match source code
+
 * Tue Jan 18 2022 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1
 - Update to 2.7.0
 - Remove the remaining RHEL 6 bit.
