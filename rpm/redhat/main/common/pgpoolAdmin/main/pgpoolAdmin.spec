@@ -47,11 +47,8 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 %{__install} -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}/
 %{__ln_s}  ../../../..%{_sysconfdir}/%{name}/pgmgt.conf.php %{buildroot}%{_pgpoolAdmindir}/conf/pgmgt.conf.php
 
-if [ -d %{_sysconfdir}/httpd/conf.d/ ]
-then
-	%{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
-	%{__install} -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
-fi
+%{__install} -d %{buildroot}%{_sysconfdir}/httpd/conf.d/
+%{__install} -m 755 %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 
 %post
 	systemctl reload httpd.service > /dev/null 2>&1
