@@ -396,7 +396,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+Requires:	llvm11-devel clang11-devel
 %endif
 %endif
 %if %icu

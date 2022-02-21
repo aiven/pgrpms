@@ -71,7 +71,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.2
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -395,7 +395,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+Requires:	llvm11-devel clang11-devel
 %endif
 %endif
 %if %icu
@@ -1391,6 +1391,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 14.2-3PGDG
+- Fix broken dependency on SLES.
+
 * Fri Feb 18 2022 Devrim Gündüz <devrim@gunduz.org> - 14.2-2PGDG
 - Rebuild on Fedora 34 because of LLVM and GCC updates.
 
