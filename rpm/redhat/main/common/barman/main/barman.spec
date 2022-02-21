@@ -45,7 +45,7 @@ Requires:	python3
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	2.18
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -78,12 +78,12 @@ Requires:	python-dateutil
 %endif
 
 %if 0%{?suse_version} >= 1500
-Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
+Requires:	%{__python_ver}-argcomplete
 Requires:	%{__python_ver}-python-dateutil
 %endif
 
 %if 0%{?rhel} || 0%{?fedora}
-Requires:	%{__python_ver}-argh >= 0.21.2, %{__python_ver}-argcomplete
+Requires:	%{__python_ver}-argcomplete
 Requires:	%{__python_ver}-dateutil
 %endif
 
@@ -157,6 +157,9 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 2.18-2
+- Remove argh dependency, per report from Michael Wallace.
+
 * Mon Jan 24 2022 Devrim Gündüz <devrim@gunduz.org> - 2.18-1
 - Update to 2.18, per changes described at:
   https://github.com/EnterpriseDB/barman/releases/tag/release%2F2.18
