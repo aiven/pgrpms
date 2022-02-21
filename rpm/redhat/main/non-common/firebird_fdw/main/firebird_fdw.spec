@@ -37,7 +37,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm10-devel clang10-devel
+BuildRequires:	llvm11-devel clang11-devel
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
