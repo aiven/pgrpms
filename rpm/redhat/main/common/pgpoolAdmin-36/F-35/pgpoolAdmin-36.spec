@@ -1,1 +1,0 @@
-../main/../main/pgpoolAdmin-36.spec
