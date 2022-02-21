@@ -6,9 +6,9 @@
 
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
-Version:	0.4.2
+Version:	0.4.3
 Release:	1%{dist}
-Source:		https://github.com/ibarwick/%{name}/archive/0.4.2.tar.gz
+Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
 Group:		Development/Libraries/C and C++
@@ -64,6 +64,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-1
+- Update to 0.4.3
+
 * Tue Oct 20 2020 Devrim Gündüz <devrim@gunduz.org> - 0.4.2-1
 - Initial packaging for the PostgreSQL RPM repository, to satisfy
   firebird_fdw dependency. This is an improved version of the upstream
