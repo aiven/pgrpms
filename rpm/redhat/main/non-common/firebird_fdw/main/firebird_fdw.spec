@@ -9,7 +9,7 @@
 Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.3
-Release:	1%{dist}
+Release:	2%{dist}
 Source:		https://github.com/ibarwick/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
@@ -91,6 +91,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.3-2
+- Rebuild against libfq 0.4.3
+
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.3-1
 - Update to 1.2.3
 
