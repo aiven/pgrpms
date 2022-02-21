@@ -5,7 +5,7 @@
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
 Version:	%{pgpoolmajorversion}.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 URL:		https://pgpool.net
 
@@ -14,7 +14,7 @@ Source1:	%{name}.conf
 
 Requires:	php, php-pgsql, php-posix, webserver
 Requires:	webserver
-Requires:	pgpool-II-%{pgmajorversion} >= %{version}
+Requires:	pgpool-II
 
 BuildArch:	noarch
 
@@ -82,5 +82,8 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-2
+- Fix pgpool dependency
+
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
 - Initial packaging for pgpoolAdmin 4.2
