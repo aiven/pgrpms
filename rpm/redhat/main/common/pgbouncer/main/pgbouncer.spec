@@ -6,7 +6,7 @@
 
 Name:		pgbouncer
 Version:	1.16.1
-Release:	2%{?dist}
+Release:	10%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -28,26 +28,16 @@ Requires:	libevent-devel
 %endif
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	libevent2-devel >= 2.0
-Requires:	libevent2 >= 2.0
-Requires:	python-psycopg2
-Requires:	initscripts
+Requires:	python3-psycopg2
+
+BuildRequires:	openssl-devel pam-devel
+
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+BuildRequires:	c-ares-devel >= 1.13
+Requires:	c-ares >= 1.13
 %else
 BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
-Requires:	python3-psycopg2
-%endif
-BuildRequires:	openssl-devel pam-devel
-
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8
-BuildRequires:	c-ares-devel >= 1.11
-Requires:	c-ares >= 1.11
-%endif
-
-%if 0%{?suse_version} >= 1500
-BuildRequires:	c-ares-devel >= 1.11
-Requires:	libcares2 >= 1.11
 %endif
 
 BuildRequires:		systemd
@@ -79,11 +69,7 @@ pgbouncer uses libevent for low-level socket handling.
 %prep
 %setup -q
 %patch0 -p0
-%if 0%{?rhel} && 0%{?rhel} <= 6
-:
-%else
 %patch1 -p0
-%endif
 
 
 %build
@@ -98,12 +84,22 @@ sed -i.fedora \
 %endif
 %endif
 
+# c-ares >= 1.16 is needed for proper c-ares support. Currently only RHEL 9
+# and Fedora has it. Use libevent on the remaining ones.
+# Per https://redmine.postgresql.org/issues/6315https://redmine.postgresql.org/issues/6315 .
+#
 # Building with systemd flag tries to enable notify support which is not
 # available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
+
 %configure \
-	--datadir=%{_datadir} --disable-evdns \
+	--datadir=%{_datadir} \
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+	--with-cares --disable-evdns \
+%else
+# RHEL 7, 8 an SLES 12, 15:
+	--with-udns
+%endif
 %if 0%{?fedora} >= 34 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
-	--with-cares \
 	--with-systemd \
 %endif
 	--with-pam
@@ -190,6 +186,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Tue Feb 22 2022 Devrim Gündüz <devrim@gunduz.org> - 1.16.1-10
+- Do not use c-ares on RHEL 8, per report from Jonathan Katz:
+  https://redmine.postgresql.org/issues/6315
+
 * Wed Jan 5 2022 Devrim Gündüz <devrim@gunduz.org> - 1.16.1-2
 - Require python3 explicitly. Default and RHEL/Rocky 8 images
   install python39 as default, where psycopg2 uses 3.6. Requiring
