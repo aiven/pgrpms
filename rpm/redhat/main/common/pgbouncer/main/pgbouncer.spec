@@ -96,7 +96,7 @@ sed -i.fedora \
 %if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
 	--with-cares --disable-evdns \
 %else
-	--with-udns
+	--with-udns \
 %endif
 %if 0%{?fedora} >= 34 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-systemd \
