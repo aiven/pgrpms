@@ -1,11 +1,9 @@
-%global pgpoolmajorversion 4.2
-
 %global	_pgpoolAdmindir	%{_datadir}/%{name}
 
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
-Version:	%{pgpoolmajorversion}.0
-Release:	2%{?dist}
+Version:	4.2.0
+Release:	3%{?dist}
 License:	BSD
 URL:		https://pgpool.net
 
@@ -52,15 +50,15 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 
 %post
 	systemctl reload httpd.service > /dev/null 2>&1
-	chgrp apache /var/log/pgpool-II-%{pgmajorversion}
-	chgrp apache /var/run/pgpool-II-%{pgmajorversion}
-	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
-	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
+	chgrp apache /var/log/pgpool-II
+	chgrp apache /var/run/pgpool-II
+	chmod g+rwx /var/log/pgpool-II
+	chmod g+rwx /var/run/pgpool-II
 
 %postun
 	systemctl reload httpd.service
-	chmod g+rwx /var/log/pgpool-II-%{pgmajorversion}
-	chmod g+rwx /var/run/pgpool-II-%{pgmajorversion}
+	chmod g+rwx /var/log/pgpool-II
+	chmod g+rwx /var/run/pgpool-II
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -82,6 +80,9 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Tue Feb 22 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-3
+- Fix directory names to chown/chgrp.
+
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-2
 - Fix pgpool dependency
 
