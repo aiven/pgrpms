@@ -116,14 +116,17 @@ popd
 
 %{python3_sitelib}/psycopg-%{version}-py%{py3ver}.egg-info/*
 %{python3_sitelib}/psycopg/*.py
-%{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/pq/*.py*
-%{python3_sitelib}/psycopg/pq/__pycache__/*.py*
 %{python3_sitelib}/psycopg/types/*.py*
-%{python3_sitelib}/psycopg/types/__pycache__/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
-#Only on Fedora:
+%if 0%{?fedora} >= 34 || 0%{?rhel} >= 7
+%{python3_sitelib}/psycopg/__pycache__/*.pyc
+%{python3_sitelib}/psycopg/pq/__pycache__/*.py*
+%{python3_sitelib}/psycopg/types/__pycache__/*.py*
+%endif
+
+# Only on Fedora:
 %if 0%{?fedora} > 32
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
