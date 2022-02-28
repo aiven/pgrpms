@@ -24,7 +24,7 @@
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
@@ -39,16 +39,16 @@ BuildRequires:		snappy-devel libbson-1_0-0-devel libmongoc-1_0-0-devel
 BuildRequires:		libopenssl-devel
 %endif
 %else
-# use pgdg-libmongoc and pgdg-libmongoc-devel packages for rhel7
+# use pgdg-libmongoc and pgdg-libmongoc-devel packages for rhel7. pgdg-libmongoc* contains required version of libbson libs.
+# so no need to install libbson-devel or libbson libs packages.
 %if 0%{?rhel} == 7
 Requires:	snappy
 Requires:	pgdg-libmongoc-libs
-BuildRequires:	pgdg-libmongoc-devel snappy-devel
+BuildRequires:	pgdg-libmongoc-devel snappy-devel cmake3
 BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
-BuildRequires:	libbson-devel
 %else
 Requires:	snappy
-Requires:	mongo-c-driver-libs
+Requires:	mongo-c-driver-libs libbson
 BuildRequires:	mongo-c-driver-devel snappy-devel
 BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
 BuildRequires:	libbson-devel
@@ -56,7 +56,6 @@ BuildRequires:	libbson-devel
 %endif
 
 Requires:	postgresql%{pgmajorversion}-server cyrus-sasl-lib
-Requires:	libbson
 
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.7-2
 
@@ -127,6 +126,11 @@ sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -
 
 sh autogen.sh --with-master
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+export PKG_CONFIG_PATH=/usr/pgdg-libmongoc/lib64/pkgconfig
+sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/pgdg-libmongoc/include/libmongoc-1.0 -I/usr/pgdg-libmongoc/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile.meta
+%endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
 sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/libmongoc-1.0 -I/usr/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile.meta
@@ -170,6 +174,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+
+* Mon Feb 28 2022 Devrim Gündüz <devrim@gunduz.org> - 5.3.0-2
+- Fix mongo_fdw installation on RHEL 7, per report and patch
+  from Varsha Mehtre.
 
 * Tue Jan 18 2022 Devrim Gündüz <devrim@gunduz.org> - 5.3.0-1
 - Update to 5.3.0
