@@ -1,13 +1,17 @@
 %global sname consul
 
 %global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
+%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
 
 Name:		python3-%{sname}
 Version:	1.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Python client for Consul
 
 License:	MIT
@@ -44,6 +48,9 @@ Python client for Consul (http://www.consul.io/)
  %{python3_sitelib}/python_%{sname}-%{version}-py%{pyver}.egg-info/*
 
 %changelog
+* Mon Feb 28 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
+- Fix for Python 3.10
+
 * Wed Aug 5 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Initial packaging for PostgreSQL RPM repository, to satisfy
 patroni dependency.
