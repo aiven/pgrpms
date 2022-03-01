@@ -1,12 +1,13 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	18
-Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS on aarch64
+Release:	24
+Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / Rocky on aarch64
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64
-Source2:	pgdg-redhat-all.repo
-Source3:	pgdg-redhat-all-rhel8.repo
+Source2:	pgdg-redhat-all-rhel7-aarch64.repo
+Source3:	pgdg-redhat-all-rhel8-aarch64.repo
+Source4:	pgdg-redhat-all-rhel9-aarch64.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 
@@ -23,16 +24,21 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
+%if 0%{?rhel} && 0%{?rhel} == 7
+%{__install} -pm 644 %{SOURCE2} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
+%endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 %{__install} -pm 644 %{SOURCE3} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%else
-%{__install} -pm 644 %{SOURCE2} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 9
+%{__install} -pm 644 %{SOURCE4} \
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
 %endif
 
 %files
@@ -42,6 +48,14 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Tue Mar 1 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-24
+- Fix repo signature error caused by errorneous push to the repo.
+- Change -debuginfo repo names, so that yum/dnf will be able
+  to pick up these repos automagically with debuginfo-install
+  (RHEL 7), and dnf debuginfo-install (on RHEL 8 and 9).
+- Add RHEL 9 repo.
+- Add missing v14 debuginfo repos, per Demur Rumed.
+
 * Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-18
 - Add v14 stable repo.
 
