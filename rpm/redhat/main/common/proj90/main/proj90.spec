@@ -111,7 +111,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
 %attr(0755,root,root) %{proj90instdir}/lib64/pkgconfig/%{sname}.pc
 %{proj90instdir}/include/proj/util.hpp
 %{proj90instdir}/lib64/cmake/%{sname}/*cmake
-%{proj90instdir}/lib6x/cmake/%{sname}4/*cmake
+%{proj90instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
 * Wed Mar 2 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.0.0-1
