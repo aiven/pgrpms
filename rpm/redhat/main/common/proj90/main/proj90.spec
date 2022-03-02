@@ -47,7 +47,7 @@ This package contains libproj and the appropriate header files and man pages.
 %build
 
 LDFLAGS="-Wl,-rpath,{%proj90instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj90instdir}/lib" ; export SHLIB_LINK
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj90instdir}/lib64" ; export SHLIB_LINK
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
@@ -66,7 +66,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
 %else
 %cmake3 .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
 %endif
-	-DLIB_INSTALL_DIR=%{proj90instdir}/lib
+	-DLIB_INSTALL_DIR=%{proj90instdir}/lib64
 
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
