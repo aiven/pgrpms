@@ -1,3 +1,4 @@
+%global         _vpath_builddir .
 %global sname proj
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
@@ -46,6 +47,8 @@ This package contains libproj and the appropriate header files and man pages.
 
 %build
 
+%{__install} -d build
+pushd build
 LDFLAGS="-Wl,-rpath,%{proj90instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj90instdir}/lib64" ; export SHLIB_LINK
 
@@ -61,19 +64,23 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
+cmake ..\
 %endif
 %else
-%cmake3 .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
+cmake3 .. \
 %endif
-	-DLIB_INSTALL_DIR=%{proj90instdir}/lib64
+	-DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
+	-DCMAKE_C_FLAGS="${RPM_OPT_FLAGS}" \
+        -DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS}"
 
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
+popd
 
 %install
+pushd build
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
 	DESTDIR=%{buildroot}
-
+popd
 #{__rm} -rf %{buildroot}
 
 %{__install} -d %{buildroot}%{proj90instdir}/share/%{sname}
@@ -109,7 +116,6 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{proj90instdir} \
 %{proj90instdir}/include/proj/*
 %{proj90instdir}/lib64/*.so
 %attr(0755,root,root) %{proj90instdir}/lib64/pkgconfig/%{sname}.pc
-%{proj90instdir}/include/proj/util.hpp
 %{proj90instdir}/lib64/cmake/%{sname}/*cmake
 %{proj90instdir}/lib64/cmake/%{sname}4/*cmake
 
