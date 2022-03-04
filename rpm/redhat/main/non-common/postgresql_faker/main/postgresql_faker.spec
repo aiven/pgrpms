@@ -6,9 +6,19 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.4.0
+Version:	0.5.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
@@ -37,7 +47,7 @@ Requires:	python3-Faker
 %description
 postgresql_faker is a PostgreSQL extension based on the awesome Python Faker
 Library. This is useful to generate random-but-meaningful datasets for
-functionnal testing, anonymization, training data, etc...
+functional testing, anonymization, training data, etc...
 
 This extension is simply a wrapper written in pl/python procedural language.
 
@@ -64,19 +74,25 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %{__rm} -rf %{buildroot}
 
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.md
-%else
 %license LICENSE.md
-%endif
 %defattr(644,root,root,755)
+%{pginstdir}/lib/faker.so
 %{pginstdir}/share/extension/faker--*.sql
 %{pginstdir}/share/extension/faker.control
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
+%if %llvm
+    %{pginstdir}/lib/bitcode/faker*.bc
+    %{pginstdir}/lib/bitcode/faker/*.bc
+%endif
+
+
 %changelog
-* Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 0.4.0
+* Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-1
+- Update to 0.5.1
+
+* Wed May 19 2021 Devrim Gündüz <devrim@gunduz.org> - 0.4.0-1
 - Update to 0.4.0
 
-* Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 0.3.0
+* Mon Apr 26 2021 Devrim Gündüz <devrim@gunduz.org> - 0.3.0-1
 - Initial packaging for PostgreSQL RPM Repository
