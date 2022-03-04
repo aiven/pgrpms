@@ -8,10 +8,10 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}16_%{pgmajorversion}
-Version:	1.6.0
+Version:	1.6.2
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/1.6.0.tar.gz
+Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/%{version}.tar.gz
 URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -64,7 +64,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/pgaudit--1.6.sql
+%{pginstdir}/share/extension/pgaudit--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1
+- Update to 1.6.2
+
 * Wed Sep 29 2021 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1
 - Update to 1.6.0
 
