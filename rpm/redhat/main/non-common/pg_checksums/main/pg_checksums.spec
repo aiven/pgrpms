@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname pg_checksums
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -9,8 +8,8 @@
 
 Summary:	Activate/deactivate/verify checksums in offline Postgres clusters
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
-Release:	3%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
 Source0:	https://github.com/credativ/%{sname}/archive/%{version}.tar.gz
@@ -64,14 +63,13 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYRIGHT
-%else
 %license COPYRIGHT
-%endif
-%{pginstdir}/bin/%{sname}
+%{pginstdir}/bin/%{sname}_ext
 
 %changelog
+* Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> 1.1-1
+- Update to 1.1
+
 * Mon Jun 28 2021 Devrim Gündüz <devrim@gunduz.org> 1.0-3
 - Remove pgxs patches, and export PATH instead.
 
