@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}15_%{pgmajorversion}
-Version:	1.5.0
-Release:	2%{?dist}
+Version:	1.5.2
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 URL:		https://www.pgaudit.org
@@ -64,7 +64,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/pgaudit--1.5.sql
+%{pginstdir}/share/extension/pgaudit--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %ifarch ppc64 ppc64le
  %else
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1
+- Update to 1.5.2
+
 * Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-2
 - Remove pgxs patches, and export PATH instead.
 
