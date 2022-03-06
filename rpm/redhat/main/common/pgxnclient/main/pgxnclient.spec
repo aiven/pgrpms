@@ -1,16 +1,17 @@
 %global debug_package %{nil}
 
-%if 0%{?fedora} > 27 || 0%{?rhel} >= 7
-%{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
+%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
 Version:	1.3.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
 Url:		https://github.com/pgxn/pgxnclient
@@ -42,22 +43,23 @@ removing extensions in a PostgreSQL installation or database.
 %else
 %license COPYING
 %endif
-%dir %{python_sitelib}/
-%dir %{python_sitelib}/%{name}
+%dir %{python3_sitelib}/
+%dir %{python3_sitelib}/%{name}
 %{_bindir}/pgxn
 %{_bindir}/%{name}
-%{python_sitelib}/%{name}/*.py*
-%{python_sitelib}/%{name}/utils/*.py*
-%{python_sitelib}/%{name}/commands/*.py*
-%{python_sitelib}/%{name}/libexec/*
-%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
-%if 0%{with_python3}
-%{python_sitelib}/%{name}/__pycache__/*.p*
-%{python_sitelib}/%{name}/commands/__pycache__/*.p*
-%{python_sitelib}/%{name}/utils/__pycache__/*.p*
-%endif
+%{python3_sitelib}/%{name}/*.py*
+%{python3_sitelib}/%{name}/utils/*.py*
+%{python3_sitelib}/%{name}/commands/*.py*
+%{python3_sitelib}/%{name}/libexec/*
+%{python3_sitelib}/%{name}-%{version}-py%{pyver}.egg-info/*
+%{python3_sitelib}/%{name}/__pycache__/*.p*
+%{python3_sitelib}/%{name}/commands/__pycache__/*.p*
+%{python3_sitelib}/%{name}/utils/__pycache__/*.p*
 
 %changelog
+* Sun Mar 6 2022 Devrim Gündüz <devrim@gunduz.org> 1.3.2-2
+- Fix builds with Fedora 35, and also use the standard macros.
+
 * Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.2-1
 - Update to 1.3.2
 
