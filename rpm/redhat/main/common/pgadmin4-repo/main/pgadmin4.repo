@@ -1,6 +1,0 @@
-[pgAdmin4]
-name=pgadmin4
-baseurl=https://ftp.postgresql.org/pub/pgadmin/pgadmin4/yum/fedora/fedora-$releasever-$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/PGADMIN_PKG_KEY
