@@ -6,8 +6,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.37
-Release:	2%{?dist}
+Version:	2.38
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -176,6 +176,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Sun Mar 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.38-1
+- Update to 2.38, per changes described at:
+  https://pgbackrest.org/release.html#2.38
+
 * Tue Jan 4 2022 Devrim Gündüz <devrim@gunduz.org> - 2.37-2
 - Add unit file and systemd support for the TLS server feature.
 
