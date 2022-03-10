@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global sname postgresql_faker
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -18,7 +19,7 @@
 
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.5.1
+Version:	0.5.3
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
@@ -77,7 +78,7 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %license LICENSE.md
 %defattr(644,root,root,755)
 %{pginstdir}/lib/faker.so
-%{pginstdir}/share/extension/faker--*.sql
+%{pginstdir}/share/extension/faker/faker*.sql
 %{pginstdir}/share/extension/faker.control
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -88,6 +89,12 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 
 
 %changelog
+* Thu Mar 10 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-1
+- Update to 0.5.3
+
+* Wed Mar 9 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.2-1
+- Update to 0.5.2
+
 * Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-1
 - Update to 0.5.1
 
