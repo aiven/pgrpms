@@ -8,8 +8,8 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.0
-Release:	3%{?dist}
+Version:	0.10.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -62,7 +62,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %license LICENSE.md
 %endif
 %defattr(644,root,root,755)
-%{pginstdir}/bin/pg_dump_anon
+%{pginstdir}/bin/pg_dump_anon.sh
 %{pginstdir}/lib/anon.so
 %{pginstdir}/share/extension/anon/*
 %{pginstdir}/share/extension/anon.control
@@ -79,6 +79,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Mar 14 2022 Devrim Gündüz <devrim@gunduz.org> - 0.10.0-1
+- Update to 0.10.0
+
 * Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 0.9.0-3
 - Fix SLES dependency name
 
