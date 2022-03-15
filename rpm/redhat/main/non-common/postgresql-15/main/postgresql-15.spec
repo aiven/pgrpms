@@ -115,6 +115,10 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
+# zstd dependency
+BuildRequires:	libzstd-devel
+Requires:	zstd
+
 # This dependency is needed for Source 16:
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:	perl-generators
@@ -627,6 +631,7 @@ export PYTHON=/usr/bin/python3
 	--datadir=%{pgbaseinstdir}/share \
 	--libdir=%{pgbaseinstdir}/lib \
 	--with-lz4 \
+	--with-zstd \
 %if %beta
 	--enable-debug \
 	--enable-cassert \
