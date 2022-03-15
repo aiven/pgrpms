@@ -81,12 +81,12 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}34
-Version:	3.4.1
-Release:	3%{?dist}
+Version:	3.4.2
+Release:	1%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
-# Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
+# Source0:	http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
@@ -160,7 +160,7 @@ BuildRequires:	mariadb-devel
 BuildRequires:	mariadb-connector-c-devel
 %endif
 BuildRequires:	libpq5-devel
-BuildRequires:	pcre-devel
+BuildRequires:	pcre2-devel
 BuildRequires:	ogdi%{ogdimajorversion}-devel
 BuildRequires:	openjpeg2-devel
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -327,6 +327,7 @@ manipulating GDAL file format library
 %prep
 %setup -q -n %{sname}-%{version}-fedora
 
+pushd gdal
 # Delete bundled libraries
 %{__rm} -rf frmts/zlib
 %{__rm} -rf frmts/png/libpng
@@ -337,6 +338,9 @@ manipulating GDAL file format library
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
+# For patch16:
+autoreconf
+
 %patch8 -p0 -b .java~
 %patch12 -p0
 %patch13 -p0
@@ -346,34 +350,6 @@ manipulating GDAL file format library
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE2 .
 
-# Sanitize linebreaks and encoding
-#TODO: Don't touch data directory!
-# /frmts/grib/degrib18/degrib/metaname.cpp
-# and geoconcept.c are potentially dangerous to change
-set +x
-for f in `find . -type f` ; do
-  if file $f | grep -q ISO-8859 ; then
-    set -x
-    iconv -f ISO-8859-1 -t UTF-8 $f > ${f}.tmp && \
-      mv -f ${f}.tmp $f
-    set +x
-  fi
-  if file $f | grep -q CRLF ; then
-    set -x
-    sed -i -e 's|\r||g' $f
-    set +x
-  fi
-done
-set -x
-
-for f in apps; do
-pushd $f
-  chmod 644 *.cpp
-popd
-done
-
-# For patch16:
-autoconf
 
 # Replace hard-coded library- and include paths
 sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
@@ -406,6 +382,7 @@ sed -i "s|^mandir=.*|mandir='\${prefix}/share/man'|" configure
 # Add our custom cflags when trying to find geos
 # https://bugzilla.redhat.com/show_bug.cgi?id=1284714
 sed -i 's|CFLAGS=\"${GEOS_CFLAGS}\"|CFLAGS=\"${CFLAGS} ${GEOS_CFLAGS}\"|g' configure
+popd
 
 %build
 #TODO: Couldn't I have modified that in the prep section?
@@ -414,9 +391,9 @@ export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include  -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CXXFLAGS="$CFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
 export CPPFLAGS="$CPPFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{projinstdir}/lib -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{projinstdir}/lib -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{geosinstdir}/lib64,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
@@ -444,6 +421,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  %endif
 %endif
 
+pushd gdal
 ./configure \
 %if 0%{?g2clib_enabled}
 	LIBS="-l%{g2clib} -ltirpc" \
@@ -523,14 +501,14 @@ sed -i 's|^runpath_var=LD_RUN_PATH|runpath_var=DIE_RPATH_DIE|g' libtool
 # {?_smp_mflags} doesn't work; Or it does -- who knows!
 # NOTE: running autoconf seems to break build:
 # fitsdataset.cpp:37:10: fatal error: fitsio.h: No such file or directory
-#  #include <fitsio.h>
+# #include <fitsio.h>
 
 POPPLER_OPTS="POPPLER_0_20_OR_LATER=yes POPPLER_0_23_OR_LATER=yes POPPLER_BASE_STREAM_HAS_TWO_ARGS=yes"
 %if 0%{?fedora} > 30 || 0%{?rhel} > 7
 POPPLER_OPTS="$POPPLER_OPTS POPPLER_0_58_OR_LATER=yes"
 %endif
 export SHLIB_LINK="$SHLIB_LINK"
-%{__make} %{?_smp_mflags}  $POPPLER_OPTS
+%{__make} %{?_smp_mflags} $POPPLER_OPTS
 
 # Build some utilities, as requested in BZ #1271906
 pushd ogr/ogrsf_frmts/s57/
@@ -542,17 +520,20 @@ pushd swig/python
   %py3_build
 popd
 
+popd
+
 %install
 %{__rm} -rf %{buildroot}
 
-export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include  -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CXXFLAGS="$CFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
 export CPPFLAGS="$CPPFLAGS -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-LDFLAGS="$LDFLAGS  -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{sqlitelibdir}"; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{geosinstdir}/lib64,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
+pushd gdal
 # Starts here
 SHLIB_LINK="$SHLIB_LINK" make %{?_smp_mflags} DESTDIR=%{buildroot}	\
 	install	\
@@ -612,7 +593,7 @@ EOF
 #<<<<<<<<<<<<<
 %{__mkdir} -p %{buildroot}%{_libdir}/pkgconfig/
 %{__install} -m 644 %{name}.pc %{buildroot}%{_libdir}/pkgconfig/
-touch -r NEWS.md  %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
+touch -r NEWS.md %{buildroot}%{_libdir}/pkgconfig/%{name}.pc
 
 # Multilib gdal-config
 # Rename the original script to gdal-config-$arch (stores arch-specific information)
@@ -650,6 +631,13 @@ done
 # Don't duplicate license files
 %{__rm} -f %{buildroot}%{_datadir}/%{name}/LICENSE.TXT
 
+# Install some files manually, per yet-another-broken-change in 3.4.2:
+
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}-libs
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}-python3
+%{__cp} LICENSE.TXT NEWS.md PROVENANCE.TXT COMMITTERS %{buildroot}%{_docdir}/%{name}-libs
+%{__cp} swig/python/gdal-utils/README.rst %{buildroot}%{_docdir}/%{name}-python3
+
 # Throw away random API man mages plus artefact seemingly caused by Doxygen 1.8.1 or 1.8.1.1
 for f in 'GDAL*' BandProperty ColorAssociation CutlineTransformer DatasetProperty EnhanceCBInfo ListFieldDesc NamedColor OGRSplitListFieldLayer VRTBuilder; do
   %{__rm} -rf %{buildroot}%{gdalinstdir}/share/man/man1/$f.1*
@@ -667,14 +655,11 @@ done
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE3} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
-# Install prebuilt man files
-%{__mkdir} -p %{buildroot}%{_mandir}/man1
-%{__cp} -rp man/* %{buildroot}%{_mandir}/man1
-
 pushd swig/python
   %py3_install
 popd
 
+popd
 
 %check
 
@@ -706,16 +691,6 @@ popd
 %{gdalinstdir}/bin/s57*
 %{gdalinstdir}/bin/gnmanalyse
 %{gdalinstdir}/bin/gnmmanage
-%{gdalinstdir}/share/man/man1/gdal*.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal-config.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal2tiles.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_fillnodata.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_merge.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_retile.1*
-%exclude %{gdalinstdir}/share/man/man1/gdal_sieve.1*
-%{gdalinstdir}/share/man/man1/nearblack.1*
-%{gdalinstdir}/share/man/man1/ogr*.1*
-%{gdalinstdir}/share/man/man1/gnm*.1
 
 %files libs
 %doc LICENSE.TXT NEWS.md PROVENANCE.TXT COMMITTERS
@@ -729,7 +704,6 @@ popd
 %files devel
 %{gdalinstdir}/bin/%{sname}-config
 %{gdalinstdir}/bin/%{sname}-config-%{cpuarch}
-%{gdalinstdir}/share/man/man1/gdal-config.1*
 %dir %{gdalinstdir}/include/
 %{gdalinstdir}/include/*.h
 %{gdalinstdir}/lib/*.so
@@ -737,7 +711,6 @@ popd
 %{_libdir}/pkgconfig/%{name}.pc
 
 %files doc
-%{_mandir}/man1
 
 %files python3
 %doc swig/python/README.rst
@@ -749,6 +722,12 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Mar 14 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1
+- Update to 3.4.2, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.4.2/gdal/NEWS.md
+- Move some logic in the spec file to gdal-cleaner.sh in order
+  to avoid losing time during each build attempt.
+
 * Wed Jan 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3
 - Fix dependency on RHEL 7.
 
