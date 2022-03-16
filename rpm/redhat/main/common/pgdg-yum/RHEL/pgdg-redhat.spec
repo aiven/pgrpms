@@ -13,7 +13,6 @@ Requires:	/etc/redhat-release
 Obsoletes:	pgdg-centos12 <= 42.0 pgdg-redhat12 <= 42.0 pgdg-sl12 <= 42.0
 Obsoletes:	pgdg-centos11 <= 42.0 pgdg-redhat11 <= 42.0 pgdg-sl11 <= 42.0
 Obsoletes:	pgdg-centos10 <= 42.0 pgdg-redhat10 <= 42.0 pgdg-sl10 <= 42.0
-Obsoletes:	pgdg-centos96 <= 42.0 pgdg-redhat96 <= 42.0 pgdg-sl96 <= 42.0
 
 %description
 This package contains yum configuration for Red Hat Enterprise Linux, CentOS,
@@ -54,6 +53,7 @@ and also the GPG key for PGDG RPMs.
 %changelog
 * Wed Mar 16 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-24
 - Introduce new repos: pgdg-rhel8-extras and pgdg-rhel9-extras
+* Remove 9.6 repos.
 
 * Tue Nov 30 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-23
 - Change -debuginfo repo names, so that yum/dnf will be able
