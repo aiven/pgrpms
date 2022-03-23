@@ -17,7 +17,7 @@
 %endif
 
 Name:		%{sname}%{libgeotiffversion}
-Version:	1.7.0
+Version:	1.7.1
 Release:	1%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
@@ -147,5 +147,8 @@ EOF
 
 
 %changelog
+* Wed Mar 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
+- Update to 1.7.1
+
 * Wed Sep 1 2021 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1
 - Initial packaging for PostgreSQL RPM repository.
