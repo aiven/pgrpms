@@ -1,0 +1,1 @@
+../main/../main/osm_fdw.spec

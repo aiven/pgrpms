@@ -1,0 +1,1 @@
+../main/../main/pgaudit12.spec
