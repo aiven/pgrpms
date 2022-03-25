@@ -5,7 +5,7 @@
 %endif
 
 Name:		pgbouncer
-Version:	1.16.1
+Version:	1.17.0
 Release:	10%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -16,7 +16,6 @@ Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Source5:	%{name}.service.rhel7
 Patch0:		%{name}-ini.patch
-Patch1:		%{name}-mkauth-py3.patch
 
 BuildRequires:	pgdg-srpm-macros
 Requires:	python3
@@ -69,8 +68,6 @@ pgbouncer uses libevent for low-level socket handling.
 %prep
 %setup -q
 %patch0 -p0
-%patch1 -p0
-
 
 %build
 sed -i.fedora \
@@ -185,6 +182,11 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Fri Mar 25 2022 Devrim Gündüz <devrim@gunduz.org> - 1.17.0-10
+- Update to 1.17.0, per changes described at:
+  https://www.pgbouncer.org/changelog.html#pgbouncer-117x
+- Remove patch1, no longer needed.
+
 * Tue Feb 22 2022 Devrim Gündüz <devrim@gunduz.org> - 1.16.1-10
 - Do not use c-ares on RHEL 8, per report from Jonathan Katz:
   https://redmine.postgresql.org/issues/6315
