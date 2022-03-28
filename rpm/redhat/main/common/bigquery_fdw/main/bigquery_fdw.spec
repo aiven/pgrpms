@@ -10,12 +10,16 @@
 %endif
 %endif
 
-%{expand: %%global py3ver %(python3 -c 'import sys;print(sys.version[0:3])')}
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 Summary:	BigQuery Foreign Data Wrapper for PostgreSQL
 Name:		bigquery_fdw
 Version:	1.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
@@ -67,6 +71,9 @@ python3 setup.py install --no-compile --root %{buildroot}
 %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
 
 %changelog
+* Mon Mar 28 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6-2
+- Add Fedora 35+ support.
+
 * Mon May 18 2020 Devrim Gündüz <devrim@gunduz.org> - 1.6-1
 - Update to 1.6
 
