@@ -802,9 +802,6 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
-# Create a symlink of the setup script under $PATH
-%{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgmajorversion}-setup
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -955,6 +952,8 @@ if [ $1 -eq 1 ] ; then
    %endif
   %endif
 fi
+# Create a symlink of the setup script under $PATH
+%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{_bindir}/%{sname}-%{pgmajorversion}-setup
 
 # postgres' .bash_profile.
 # We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
@@ -988,6 +987,11 @@ if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
 	/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
  %endif
+fi
+
+# Remove the symlink of the setup script under $PATH after uninstalling the package:
+if [ $1 -eq 0 ] ; then
+%{__rm} -f %{_bindir}/%{sname}-%{pgmajorversion}-setup
 fi
 
 # Create alternatives entries for common binaries and man files
@@ -1126,7 +1130,6 @@ fi
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
 %{pgbaseinstdir}/lib/auto_explain.so
-%{pgbaseinstdir}/lib/basebackup_to_shell.so
 %{pgbaseinstdir}/lib/basic_archive.so
 %{pgbaseinstdir}/lib/bloom.so
 %{pgbaseinstdir}/lib/btree_gin.so
@@ -1266,9 +1269,8 @@ fi
 %files server -f pg_server.lst
 %defattr(-,root,root)
 %if %{systemd_enabled}
-%{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
-%{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
+%{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %endif
