@@ -1,5 +1,5 @@
 %global sname pglogical
-%global tag 2_4_0
+%global tag 2_4_1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -23,8 +23,8 @@
 
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.0
-Release:	2%{dist}
+Version:	2.4.1
+Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -124,11 +124,16 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Wed Mar 30 2022 Devrim Gündüz <devrim@gunduz.org> 2.4.1-1
+- Update to 2.4.1
+
 * Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2
 - Rebuild against LLVM 11 on SLES 15.
 - Make sure that LLVM dependency versions are the same as
   PostgreSQL.
 
+* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+- Update to 2.4.0
 * Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
 - Update to 2.4.0
 - Split llvmjit bits into a separate package
