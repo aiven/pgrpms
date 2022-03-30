@@ -24,7 +24,7 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
