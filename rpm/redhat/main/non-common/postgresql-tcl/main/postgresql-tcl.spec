@@ -1,7 +1,7 @@
 %global _build_id_links none
 
 %global debug_package %{nil}
-%global pgtclmajorversion 2.7
+%global pgtclmajorversion 2.8
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -11,7 +11,7 @@
 %endif
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	%{pgtclmajorversion}.7
+Version:	%{pgtclmajorversion}.0
 Release:	1%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
@@ -19,7 +19,7 @@ URL:		https://github.com/flightaware/Pgtcl
 License:	BSD
 
 Source0:	https://github.com/flightaware/Pgtcl/archive/v%{version}.tar.gz
-
+Patch0:		postgresql-tcl-%{version}-configure-version-fix.patch
 
 Requires:	tcl(abi) >= 8.5
 
@@ -42,6 +42,7 @@ to a PostgreSQL server.
 
 %prep
 %setup -q -n Pgtcl-%{version}
+%patch0 -p0
 
 autoconf
 
@@ -86,6 +87,10 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Thu Mar 31 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
+- Update to 2.8.0
+- Add a temp patch to fix version number in configure.in
+
 * Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 2.7.7-1
 - Update to 2.7.7
 
