@@ -23,7 +23,7 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.3
+Version:	1.6.4
 Release:	1%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -114,6 +114,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Apr 7 2022 Devrim Gündüz <devrim@gunduz.org> 1.6.4-1
+- Update to 1.6.4
+
 * Wed Nov 10 2021 Devrim Gündüz <devrim@gunduz.org> 1.6.3-1
 - Update to 1.6.3
 
