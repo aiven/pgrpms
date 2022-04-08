@@ -10,7 +10,7 @@ Summary:	A Postgres extension for exposing system metrics such as CPU, memory an
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
 Release:	2%{dist}
-License:	AGPLv3
+License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v1.0.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
