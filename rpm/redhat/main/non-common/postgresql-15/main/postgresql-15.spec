@@ -1184,6 +1184,7 @@ fi
 %{pgbaseinstdir}/lib/pg_surgery.so
 %{pgbaseinstdir}/lib/pg_trgm.so
 %{pgbaseinstdir}/lib/pg_visibility.so
+%{pgbaseinstdir}/lib/pg_walinspect.so
 %{pgbaseinstdir}/lib/postgres_fdw.so
 %{pgbaseinstdir}/lib/refint.so
 %{pgbaseinstdir}/lib/seg.so
@@ -1242,6 +1243,7 @@ fi
 %{pgbaseinstdir}/share/extension/pg_surgery*
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
+%{pgbaseinstdir}/share/extension/pg_walinspect*
 %{pgbaseinstdir}/share/extension/pgcrypto*
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
