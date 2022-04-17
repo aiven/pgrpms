@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 3
-%global orafcemidver 20
+%global orafcemidver 21
 %global orafceminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -74,6 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sun Apr 17 2022 Devrim Gündüz <devrim@gunduz.org> 3.21.0-1
+- Update to 3.21.0
+
 * Thu Apr 7 2022 Devrim Gündüz <devrim@gunduz.org> 3.20.0-1
 - Update to 3.20.0
 
