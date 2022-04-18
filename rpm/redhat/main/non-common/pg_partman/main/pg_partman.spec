@@ -12,7 +12,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.6.0
+Version:	4.6.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
@@ -94,6 +94,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Apr 18 2022 Devrim Gündüz <devrim@gunduz.org> - 4.6.1-1
+- Update to 4.6.1
+
 * Wed Oct 13 2021 Devrim Gündüz <devrim@gunduz.org> - 4.6.0-1
 - Update to 4.6.0
 
