@@ -7,7 +7,7 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	2.5.4
+Version:	2.5.5
 Release:	1%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
@@ -126,5 +126,8 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Wed Apr 20 2022 - Devrim Gündüz <devrim@gunduz.org> 2.5.5-1
+- Update to 2.5.5
+
 * Mon Mar 14 2022 - Devrim Gündüz <devrim@gunduz.org> 2.5.4-1
 - Initial RPM packaging for the PostgreSQL RPM Repository
