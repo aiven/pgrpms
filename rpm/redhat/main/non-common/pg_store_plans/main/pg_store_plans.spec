@@ -8,7 +8,7 @@
 
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5
+Version:	1.6.1
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
@@ -75,6 +75,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
+- Update to 1.6.1
+
 * Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 1.5-1
 - Update to 1.5.
 - Remove pgxs patches, and export PATH instead.
