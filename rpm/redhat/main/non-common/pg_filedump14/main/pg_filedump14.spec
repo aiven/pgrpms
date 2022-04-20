@@ -1,5 +1,5 @@
 %global sname pg_filedump
-%global sversion REL_14_0
+%global sversion REL_14_1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
-Version:	14.0
+Version:	14.1
 Release:	1%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
@@ -54,5 +54,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1-1
+- Update to 14.1
+
 * Thu Sep 30 2021 Devrim Gündüz <devrim@gunduz.org> - 14.0-1
 - Initial packaging for PostgreSQL RPM Repository
