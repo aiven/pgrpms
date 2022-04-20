@@ -1,12 +1,16 @@
 %{!?with_python3:%global with_python3 1}
 %global __ospython %{_bindir}/python3
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%if 0%{?fedora} >= 35
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-BuildRequires:	python3-setuptools >= 0.6.10
+
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	2.2.1
+Version:	2.3.0
 Release:	1%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
@@ -21,6 +25,8 @@ Requires:	python36-blessed python36-attrs
 Requires:	python3-psutil python3-humanize
 Requires:	python3-blessed python3-attrs
 %endif
+
+BuildRequires:	python3-setuptools >= 0.6.10
 
 %description
 top like application for PostgreSQL server activity monitoring.
@@ -50,6 +56,10 @@ top like application for PostgreSQL server activity monitoring.
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1
+- Update to 2.3.0
+- Fix for Python 3.10+ builds
+
 * Thu Aug 26 2021 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
 - Update to 2.2.1
 
