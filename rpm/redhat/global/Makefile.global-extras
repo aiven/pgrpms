@@ -1,0 +1,71 @@
+#################################
+# Makefile for PostgreSQL 	#
+# Extras packaging	 	#
+# https://yum.postgresql.org	#
+#			   	#
+# Devrim Gunduz		   	#
+# devrim@gunduz.org	   	#
+#################################
+
+## PostgreSQL extras build targets
+
+extrasbfsrpm: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg-$(DIST)-extras/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14"  --define "pgpackageversion 14" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+extrasbuild: extrasbfsrpm
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "_builddir $(HOME)/pgdg-$(DIST)-extras/BUILD" \
+	--define "_srcrpmdir $(HOME)/pgdg-$(DIST)-extras/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg-$(DIST)-extras/RPMS/" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+extrasrpm: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+extrasnoprepbuild:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg-$(DIST)-extras/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/pgdg-$(DIST)-extras/BUILD" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/pgdg-$(DIST)-extras/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg-$(DIST)-extras/RPMS/" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+extrasnopreprpm:
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+extrasnoprepsrpm:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/pgdg-$(DIST)-extras/BUILDROOT" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14" --define "pgpackageversion 14" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
