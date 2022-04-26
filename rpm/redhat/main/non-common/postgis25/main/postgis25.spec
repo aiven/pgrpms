@@ -49,8 +49,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.5
-Release:	5%{?dist}
+Version:	%{postgismajorversion}.6
+Release:	1%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -395,6 +395,9 @@ fi
 %endif
 
 %changelog
+* Tue Apr 26 2022 Devrim Gündüz <devrim@gunduz.org> 2.5.6-1
+- Update to 2.5.6
+
 * Wed Jul 14 2021 Devrim Gunduz <devrim@gunduz.org> - 2.5.5-5
 - Merge some flags from 3.x spec files.
 
