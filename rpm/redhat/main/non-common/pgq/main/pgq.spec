@@ -22,8 +22,8 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	3.4.2
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/pgq/pgq/archive/v%{version}.tar.gz
-URL:		https://github.com/pgq/pgq/
+Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/%{sname}/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 3.4.1-2
@@ -94,10 +94,10 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 
 %files
 %defattr(644,root,root,755)
-%{pginstdir}/lib/pgq*.so
-%{pginstdir}/share/contrib/*pgq*.sql
-%{pginstdir}/share/extension/pgq*.sql
-%{pginstdir}/share/extension/pgq*.control
+%{pginstdir}/lib/%{sname}*.so
+%{pginstdir}/share/contrib/*%{sname}*.sql
+%{pginstdir}/share/extension/%{sname}*.sql
+%{pginstdir}/share/extension/%{sname}*.control
 
 %ifarch ppc64 ppc64le
  %else
