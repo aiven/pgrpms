@@ -3,10 +3,20 @@
 
 %global sname pg_bulkload
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
@@ -26,6 +36,31 @@ Requires:	postgresql%{pgmajorversion}-libs
 
 %description client
 pg_bulkload client subpackage provides client-only tools.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_bulkload
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_bulkload
+%endif
 
 %prep
 %setup -q -n %{sname}-VERSION%{pgbulkloadpackagever}
@@ -52,40 +87,39 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/share/extension/pg_bulkload*.sql
 %{pginstdir}/share/extension/pg_bulkload.control
 %{pginstdir}/share/extension/uninstall_pg_bulkload.sql
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
-   %{pginstdir}/lib/bitcode/pg_timestamp*.bc
-   %{pginstdir}/lib/bitcode/pg_timestamp/*.bc
-  %endif
- %endif
-%endif
 
 %files client
 %defattr(-,root,root)
 %{pginstdir}/bin/pg_bulkload
 %{pginstdir}/bin/postgresql
 
+%if %llvm
+%files llvmjit
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
+   %{pginstdir}/lib/bitcode/pg_timestamp*.bc
+   %{pginstdir}/lib/bitcode/pg_timestamp/*.bc
+%endif
+
 %changelog
-* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.19-1
+* Wed Apr 27 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.19-2
+- Split llvmjit into its own subpackage.
+
+* Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1.19-1
 - Update to 3.1.19
 
-* Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-2
+* Thu Jun 24 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1.18-2
 - Unbreak pg_bulkload installation.
 
-* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.18-1
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1.18-1
 - Update to 3.1.18
 
-* Thu Apr 15 2021 Devrim Gündüz <devrim@gunduz.org> 3.1.17-1
+* Thu Apr 15 2021 Devrim Gündüz <devrim@gunduz.org> - 3.1.17-1
 - Update to 3.1.17
 - Export PATH, and remove pgxs patches.
 
-* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 3.1.16-2
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.1.16-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
 
