@@ -1,12 +1,13 @@
 %global debug_package %{nil}
 %global sname e-maj
+%global pname emaj
 
-Name:		emaj
-Version:	3.4.0
+Name:		%{sname}_%{pgmajorversion}
+Version:	4.0.1
 Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 License:	GPLv2
-URL:		https://pgxn.org/dist/%{sname}/
+URL:		https://github.com/dalibo/%{sname}/
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 
 %description
@@ -22,22 +23,25 @@ in time.
 
 %install
 %{__rm} -rf %{buildroot}
-%{__install} -d %{buildroot}%{_datadir}/%{name}-%{version}/
-%{__cp} -r sql %{buildroot}%{_datadir}/%{name}-%{version}/
-%{__cp} %{name}.control %{buildroot}%{_datadir}/%{name}-%{version}/
+%{__install} -d %{buildroot}%{pginstdir}/share/extension/
+%{__cp} -r sql/* %{buildroot}%{pginstdir}/share/extension
+%{__cp} %{pname}.control %{buildroot}%{pginstdir}/share/extension
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc CHANGES.md doc LICENSE README.md
-%dir %{_datadir}/%{name}-%{version}
-%dir %{_datadir}/%{name}-%{version}/sql
-%{_datadir}/%{name}-%{version}/%{name}.control
-%{_datadir}/%{name}-%{version}/sql/*.sql
+%license LICENSE
+%doc CHANGES.md doc README.md
+%{pginstdir}/share/extension/%{pname}.control
+%{pginstdir}/share/extension/%{pname}*.sql
 
 %changelog
+* Fri Apr 29 2022 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1
+- Update to 4.0.1
+- Move this package to non-common directory, to where it belongs.
+
 * Sun Jul 26 2020 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0
 

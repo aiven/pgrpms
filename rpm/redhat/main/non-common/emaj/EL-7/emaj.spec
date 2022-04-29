@@ -1,1 +1,1 @@
-../main/../main/emaj.spec
+../main/emaj.spec
