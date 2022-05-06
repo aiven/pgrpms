@@ -27,10 +27,10 @@
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.0
-Release:	rc.1_1%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
-Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}-rc.1.tar.gz
+Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -57,7 +57,7 @@ advanced replacement. It provides all the features of pg_stat_statements
 plus its own feature set.
 
 %prep
-%setup -q -n %{sname}-%{version}-rc.1
+%setup -q -n %{sname}-%{version}
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -96,6 +96,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Fri May 6 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
+- Update to 1.0.0
+
 * Tue Jan 4 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-rc.1
 - Update to 1.0.0-rc.1
 
