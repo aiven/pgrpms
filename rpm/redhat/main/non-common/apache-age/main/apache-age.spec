@@ -22,11 +22,12 @@
 
 Summary:	A Graph Extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.5.0
-Release:	1%{dist}
+Version:	1.0.0
+Release:	rc1_1%{dist}
 License:	AGPLv3
 URL:		https://github.com/apache/incubator-age
-Source0:	https://github.com/apache/incubator-age/archive/refs/tags/v%{version}.tar.gz
+Source0:	https://github.com/apache/incubator-age/archive/refs/tags/v1.0.0-rc0.tar.gz
+#https://github.com/apache/incubator-age/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel flex
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -72,7 +73,7 @@ This packages provides JIT support for Age
 %endif
 
 %prep
-%setup -q -n incubator-age-%{version}
+%setup -q -n incubator-age-%{version}-rc0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
