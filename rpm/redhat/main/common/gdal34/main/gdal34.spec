@@ -123,7 +123,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.18
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.23
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
