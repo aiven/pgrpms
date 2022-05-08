@@ -20,16 +20,8 @@
 %global _lwgeom "--disable-lwgeom"
 
 # Geocallbacks work with SQLite 3.7.3 and up, available in Fedora and EL 7
-%if (0%{?fedora} || 0%{?rhel} > 6)
+%if (0%{?fedora} || 0%{?rhel} >= 7)
   %global _geocallback "--enable-geocallbacks"
-%endif
-
-%if 0%{?rhel} == 6
-# Checks are known to fail if libspatialite is built without geosadvanced
-#TODO: Fails to build, reported by mail. If geosadvanced is disabled, linker flags miss geos_c
-#TODO: Check if that's still true anywhere
-  %global _geosadvanced "--disable-geosadvanced"
-  %global _no_checks 1
 %endif
 
 # check_bufovflw test fails on gcc 4.9
