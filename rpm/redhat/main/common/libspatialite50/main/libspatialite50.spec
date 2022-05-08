@@ -48,7 +48,7 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc librttopo-devel
-BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.9
+BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.23
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
