@@ -1,5 +1,5 @@
 #!/bin/bash
-VERSION="3.4.2"
+VERSION="3.4.3"
 
 rm -rf gdal-"${VERSION}"{,-fedora}
 tar zxf v"${VERSION}".tar.gz
