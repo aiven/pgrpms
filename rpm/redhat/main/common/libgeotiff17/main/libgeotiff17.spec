@@ -4,9 +4,9 @@
 %pgdg_set_gis_variables
 
 # Override some variables:
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -18,14 +18,14 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	2%{?dist}
+Release:	1%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.23
+BuildRequires:	pgdg-srpm-macros >= 1.0.17
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -147,9 +147,6 @@ EOF
 
 
 %changelog
-* Sun May 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-2
-- Rebuild against Proj 9.0.0
-
 * Wed Mar 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
 - Update to 1.7.1
 
