@@ -961,12 +961,8 @@ if [ $1 -eq 1 ] ; then
    %endif
   %endif
 fi
-
 # Create a symlink of the setup script under $PATH
-# ...and do this only for new installations. Don't do this during upgrades.
-if [ $1 -eq 1 ] ; then
 %{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{_bindir}/%{sname}-%{pgmajorversion}-setup
-fi
 
 # postgres' .bash_profile.
 # We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
