@@ -74,7 +74,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -353,7 +353,11 @@ popd
 done
 
 # For patch16:
+%if 0%{?fedora} == 36
+:
+%else
 autoconf
+%endif
 
 # Replace hard-coded library- and include paths
 sed -i 's|-L\$with_cfitsio -L\$with_cfitsio/lib -lcfitsio|-lcfitsio|g' configure
@@ -413,7 +417,10 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  %if 0%{?fedora} == 35
  %global g2clib g2c_v1.6.3
  %endif
- %if 0%{?fedora} <= 33 || 0%{?rhel} > 7
+ %if 0%{?fedora} == 36
+ %global g2clib g2c_v1.6.3
+ %endif
+ %if 0%{?rhel} > 7
  %global g2clib g2c_v1.6.0
  %endif
  %if 0%{?rhel} == 7
@@ -729,6 +736,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue May 10 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-4
+- Add Fedora 36 support.
+
 * Wed Dec 15 2021 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-3
 - Add Requires for armadillo package, per
   https://redmine.postgresql.org/issues/7076
