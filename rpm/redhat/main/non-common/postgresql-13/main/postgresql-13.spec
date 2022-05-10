@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.6
-Release:	3PGDG%{?dist}
+Version:	13.7
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1376,6 +1376,10 @@ fi
 %endif
 
 %changelog
+* Tue May 10 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-1PGDG
+- Update to 13.7, per changes described at
+  https://www.postgresql.org/docs/release/13.7/
+
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 13.6-3PGDG
 - Fix broken dependency on SLES.
 
