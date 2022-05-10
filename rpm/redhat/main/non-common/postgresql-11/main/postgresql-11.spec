@@ -105,8 +105,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.16
-Release:	1PGDG%{?dist}
+Version:	11.15
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1690,10 +1690,6 @@ fi
 %endif
 
 %changelog
-* Tue May 10 2022 Devrim Gündüz <devrim@gunduz.org> - 11.16-1PGDG
-- Update to 11.16, per changes described at
-  https://www.postgresql.org/docs/release/11.16/
-
 * Fri Feb 18 2022 Devrim Gündüz <devrim@gunduz.org> - 11.15-2PGDG
 - Rebuild on Fedora 34 because of LLVM and GCC updates.
 
