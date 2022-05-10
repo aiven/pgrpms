@@ -70,8 +70,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.3
-Release:	1PGDG%{?dist}
+Version:	14.2
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1391,10 +1391,6 @@ fi
 %endif
 
 %changelog
-* Tue May 10 2022 Devrim Gündüz <devrim@gunduz.org> - 14.3-1PGDG
-- Update to 14.3, per changes described at
-  https://www.postgresql.org/docs/release/14.3/
-
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 14.2-3PGDG
 - Fix broken dependency on SLES.
 
