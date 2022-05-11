@@ -75,9 +75,9 @@
  
  AC_MSG_RESULT([${python_libspec} ${python_additional_libs}])
  
---- configure.old	2022-05-11 20:26:00.411461528 +0100
-+++ configure	2022-05-11 20:38:17.128508145 +0100
-@@ -9889,31 +9889,37 @@
+--- configure.old	2022-05-11 21:17:56.562713205 +0100
++++ configure	2022-05-11 21:20:37.747124512 +0100
+@@ -9889,31 +9889,38 @@
  python_minorversion=`echo "$python_fullversion" | sed 's/^[0-9]*\.\([0-9]*\).*/\1/'`
  python_version=`echo "$python_fullversion" | sed 's/^\([0-9]*\.[0-9]*\).*/\1/'`
  # Reject unsupported Python versions as soon as practical.
@@ -90,10 +90,10 @@
 -{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Python sysconfig module" >&5
 -$as_echo_n "checking for Python sysconfig module... " >&6; }
 -if "${PYTHON}" -c 'import sysconfig' 2>&5
--then
 +{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for Python distutils module" >&5
 +$as_echo_n "checking for Python distutils module... " >&6; }
-+if "${PYTHON}" -c 'import distutils' 2>&5then
++if "${PYTHON}" -c 'import distutils' 2>&5
+ then
      { $as_echo "$as_me:${as_lineno-$LINENO}: result: yes" >&5
  $as_echo "yes" >&6; }
  else
@@ -126,7 +126,7 @@
  if test "$PORTNAME" = win32 ; then
      python_includespec=`echo $python_includespec | sed 's,[\],/,g'`
  fi
-@@ -9925,8 +9931,8 @@
+@@ -9925,8 +9932,8 @@
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking how to link an embedded Python application" >&5
  $as_echo_n "checking how to link an embedded Python application... " >&6; }
  
@@ -137,7 +137,7 @@
  
  # If LDLIBRARY exists and has a shlib extension, use it verbatim.
  ldlibrary=`echo "${python_ldlibrary}" | sed -e 's/\.so$//' -e 's/\.dll$//' -e 's/\.dylib$//' -e 's/\.sl$//'`
-@@ -9938,11 +9944,11 @@
+@@ -9938,11 +9945,11 @@
  	# Otherwise, guess the base name of the shlib.
  	# LDVERSION was added in Python 3.2, before that use VERSION,
  	# or failing that, $python_version from _PGAC_CHECK_PYTHON_DIRS.
@@ -151,7 +151,7 @@
  		if test x"${python_version_var}" != x""; then
  			ldlibrary="python${python_version_var}"
  		else
-@@ -10002,7 +10008,7 @@
+@@ -10002,7 +10009,7 @@
  fi
  python_libspec="-L${python_libdir} -l${ldlibrary}"
  
