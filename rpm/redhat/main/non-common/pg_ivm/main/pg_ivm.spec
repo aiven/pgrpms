@@ -4,10 +4,10 @@
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	alpha1%{?dist}
+Release:	%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
-Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}-alpha.tar.gz
+Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
 
 %description
 Incremental View Maintenance (IVM) is a way to make materialized views
@@ -17,7 +17,7 @@ MATERIALIZED VIEW does. IVM can update materialized views more efficiently
 than recomputation when only small parts of the view are changed.
 
 %prep
-%setup -q -n %{sname}-%{version}-alpha
+%setup -q -n %{sname}-%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
@@ -41,5 +41,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Wed May 11 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
+- Update to 1.0
+
 * Fri May 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-alpha-1
 - Initial RPM packaging for the PostgreSQL RPM Repository.
