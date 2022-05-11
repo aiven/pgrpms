@@ -84,8 +84,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.20
-Release:	3PGDG%{?dist}
+Version:	10.21
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1536,6 +1536,10 @@ fi
 %endif
 
 %changelog
+* Wed May 11 2022 Devrim Gündüz <devrim@gunduz.org> - 10.21-1PGDG
+- Update to 10.21, per changes described at
+  https://www.postgresql.org/docs/release/10.21/
+
 * Tue May 10 2022 Devrim Gündüz <devrim@gunduz.org> - 10.20-3PGDG
 - Rebuild on RHEL 8 against new LLVM and GCC.
 
