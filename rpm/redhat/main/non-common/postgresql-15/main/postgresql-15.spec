@@ -77,7 +77,7 @@ Release:	beta1_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15beta1/postgresql-15beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15beta1/postgresql-%{pgpackageversion}beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
