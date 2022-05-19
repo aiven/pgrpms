@@ -4,9 +4,9 @@
 # Powa archivist version
 %global powamajorversion 4
 %global powamidversion 1
-%global powaminorversion 3
+%global powaminorversion 4
 # powa-web version
-%global powawebversion 4.1.2
+%global powawebversion 4.1.3
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -31,7 +31,7 @@ Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
-Source1:	https://github.com/powa-team/powa-web/archive/%{powawebversion}.tar.gz
+Source1:	https://github.com/powa-team/powa-web/archive/refs/tags/%{powawebversion}.tar.gz
 Source2:	powa-%{pgpackageversion}.service
 URL:		https://powa.readthedocs.io/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -148,6 +148,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-1
+- Update to 4.1.4
+
 * Mon Feb 14 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-1
 - Update to 4.1.3
 
