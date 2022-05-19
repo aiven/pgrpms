@@ -8,10 +8,10 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.4.3
+Version:	8.4.5
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_3.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_5.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -29,7 +29,7 @@ Procedural Language Handler for the "R software environment for
 statistical computing and graphics".
 
 %prep
-%setup -q -n %{sname}-REL8_4_3
+%setup -q -n %{sname}-REL8_4_5
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -72,6 +72,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 8.4.5-1
+- Update to 8.4.5
+
 * Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 8.4.3-1
 - Update to 8.4.3
 
