@@ -7,8 +7,6 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global pgdg_build_timestamp %(date +"%Y%m%d")
-
 %global beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -74,12 +72,12 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Version:	15.0
+Release:	beta1_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15beta1/postgresql-15beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -577,7 +575,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}devel
+%setup -q -n %{sname}-%{pgpackageversion}beta1
 
 %patch1 -p0
 %patch3 -p0
@@ -1414,6 +1412,9 @@ fi
 %endif
 
 %changelog
+* Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-1
+- Update to PostgreSQL Beta 1
+
 * Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 15.0-20220126
 - Fix PAM support on suse
 
