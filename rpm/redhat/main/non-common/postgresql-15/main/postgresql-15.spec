@@ -1,3 +1,5 @@
+%undefine _package_note_file
+
 # These are macros to be used with find_lang and other stuff
 %global packageversion 150
 %global pgpackageversion 15

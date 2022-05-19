@@ -1,3 +1,5 @@
+%undefine _package_note_file
+
 # These are macros to be used with find_lang and other stuff
 %global packageversion 130
 %global pgpackageversion 13
@@ -77,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1376,6 +1378,12 @@ fi
 %endif
 
 %changelog
+* Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-2PGDG
+- Undefine _package_note_file macro. This is needed for Fedora 36+,
+  but does not hurt to use in all distros.
+  Per https://fedoraproject.org/wiki/Changes/Package_information_on_ELF_objects
+  and help from Fedora developers on IRC.
+
 * Wed May 11 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-1PGDG
 - Update to 13.7, per changes described at
   https://www.postgresql.org/docs/release/13.7/
