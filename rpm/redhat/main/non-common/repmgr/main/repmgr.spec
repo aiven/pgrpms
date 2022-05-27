@@ -13,7 +13,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.3.1
+Version:	5.3.2
 Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
@@ -234,6 +234,10 @@ fi
 %endif
 
 %changelog
+* Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.2-1
+- Update to 5.3.2, per changes described at:
+  https://repmgr.org/docs/current/release-5.3.2.html
+
 * Wed Feb 16 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.1-1
 - Update to 5.3.1, per changes described at:
   https://repmgr.org/docs/current/release-5.3.1.html
