@@ -1,5 +1,5 @@
 Name:		pgexporter
-Version:	0.2.2
+Version:	0.2.3
 Release:	1%{dist}
 Summary:	Prometheus exporter for PostgreSQL
 License:	BSD
@@ -17,7 +17,6 @@ Prometheus exporter for PostgreSQL
 %setup -q
 
 %build
-
 %{__mkdir} build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
@@ -87,6 +86,9 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgexporter.so.%{version}
 
 %changelog
+* Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> 0.2.3-1
+- Update to 0.2.3
+
 * Wed Apr 27 2022 - Devrim Gündüz <devrim@gunduz.org> 0.2.2-1
 - Update to 0.2.2
 
