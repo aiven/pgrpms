@@ -41,7 +41,7 @@ time-series data. It is engineered up from PostgreSQL, providing automatic
 partitioning across time and space (partitioning key), as well as full SQL
 support.
 
-%if 0%{?fedora} || 0%{?rhel} >= 9
+%if 0%{?fedora}
 %package devel
 Summary:	Development portions of timescaledb-tsl
 Requires:	%{name}%{?_isa} = %{version}-%{release}
@@ -92,7 +92,7 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
-%if 0%{?fedora} || 0%{?rhel} >= 9
+%if 0%{?fedora}
 %files devel
 %{pginstdir}/lib/pgxs/src/test/perl/AccessNode.pm
 %{pginstdir}/lib/pgxs/src/test/perl/DataNode.pm
