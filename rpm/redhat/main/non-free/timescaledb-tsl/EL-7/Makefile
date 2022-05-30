@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="timescaledb-tsl.spec"
 
 # Now, include global Makefile
-include ../../global/Makefile.global
+include ../../../../global/Makefile.global
