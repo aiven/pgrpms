@@ -1,6 +1,6 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 7
+%global mysqlfdwmidver 8
 %global mysqlfdwminver 0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -100,6 +100,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon May 30 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
+- Update to 2.8.0
+
 * Fri Feb 18 2022 John Harvey <john.harvey@crunchydata.com> - 2.7.0-2
 - Update license to match source code
 
