@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
-Version:	2.6.1
+Version:	2.7.0
 Release:	1%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -52,6 +52,13 @@ export PATH=%{pginstdir}/bin:$PATH
 ./bootstrap -DSEND_TELEMETRY_DEFAULT=NO \
 	-DREGRESS_CHECKS=OFF
 
+%package devel
+Summary:	Development portions of timescaledb-tsl
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+
+%description devel
+This packages includes development portions of timescaledb-tsl.
+
 %build
 export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
@@ -77,17 +84,22 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 
 %files
 %defattr(-, root, root)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md LICENSE-APACHE LICENSE
-%else
 %doc README.md
 %license LICENSE
-%endif
 %{pginstdir}/lib/%{sname}*.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
+%files devel
+%{pginstdir}/lib/pgxs/src/test/perl/AccessNode.pm
+%{pginstdir}/lib/pgxs/src/test/perl/DataNode.pm
+%{pginstdir}/lib/pgxs/src/test/perl/TimescaleNode.pm
+
 %changelog
+* Mon May 30 2022 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1
+- Update to 2.7.0
+- Add -devel subpackage
+
 * Mon Apr 18 2022 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1
 - Update to 2.6.1
 
