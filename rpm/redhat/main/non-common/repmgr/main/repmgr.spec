@@ -6,6 +6,16 @@
 %global systemd_enabled 1
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -115,6 +125,31 @@ The repmgr-devel package contains the header files needed to compile C or C++
 applications which will directly interact with repmgr.
 %endif
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for repmgr
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for repmgr
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
@@ -218,19 +253,16 @@ fi
 %{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
 %config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
 %endif
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if 0%{?rhel} && 0%{?rhel} <= 6
- %else
-  %ifnarch ppc64 ppc64le
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
-%endif
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %files devel
 %defattr(-,root,root,-)
+%endif
+
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
