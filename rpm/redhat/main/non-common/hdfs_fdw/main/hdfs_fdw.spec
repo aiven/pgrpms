@@ -107,7 +107,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
-* Mon May 20 2022 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
+* Mon May 30 2022 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
 - Update to 2.2.0
 
 * Tue Jan 18 2022 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
