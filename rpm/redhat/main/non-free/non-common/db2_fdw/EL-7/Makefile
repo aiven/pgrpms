@@ -14,4 +14,4 @@ DIST=.rhel7
 SPECFILE="db2_fdw.spec"
 
 # Now, include global Makefile
-include ../../../../global/Makefile.global
+include ../../global/Makefile.global

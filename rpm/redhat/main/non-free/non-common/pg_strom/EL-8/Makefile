@@ -14,4 +14,4 @@ DIST=.rhel8
 SPECFILE="pg_strom.spec"
 
 # Now, include global Makefile
-include ../../../../global/Makefile.global
+include ../../global/Makefile.global
