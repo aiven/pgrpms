@@ -28,7 +28,7 @@ BuildRequires:  java-11-openjdk-devel
 %if 0%{?rhel} == 9
 BuildRequires:  java-17-openjdk-devel
 %endif
-%if 0%{?rhel} <= 9
+%if 0%{?rhel} < 9
 BuildRequires:  java-latest-openjdk-devel
 %endif
 %if 0%{?fedora}
