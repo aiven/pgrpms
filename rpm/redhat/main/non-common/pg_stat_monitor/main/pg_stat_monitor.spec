@@ -1,9 +1,5 @@
 %global sname pg_stat_monitor
 
-%global monitormajver 1
-%global monitormidver 0
-%global monitorminver 0
-
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -26,7 +22,7 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.0
+Version:	1.0.1
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
@@ -96,6 +92,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue May 31 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
+- Update to 1.0.1
+
 * Fri May 6 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
 - Update to 1.0.0
 
