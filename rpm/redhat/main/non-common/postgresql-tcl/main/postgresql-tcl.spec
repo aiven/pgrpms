@@ -1,7 +1,7 @@
 %global _build_id_links none
 
 %global debug_package %{nil}
-%global pgtclmajorversion 2.8
+%global pgtclmajorversion 3.0
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -87,6 +87,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0
+
 * Thu Mar 31 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
 - Update to 2.8.0
 - Add a temp patch to fix version number in configure.in
