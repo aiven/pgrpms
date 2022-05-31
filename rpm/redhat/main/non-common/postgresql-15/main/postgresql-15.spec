@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta1_PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -637,8 +637,7 @@ export PYTHON=/usr/bin/python3
 	--datadir=%{pgbaseinstdir}/share \
 	--libdir=%{pgbaseinstdir}/lib \
 	--with-lz4 \
-%if 0%{?suse_version} <= 1315
-%else
+%if 0%{?rhel} || 0%{?suse_version} >= 1499 || 0%{?fedora}
 	--with-zstd \
 %endif
 %if %beta
@@ -1412,6 +1411,9 @@ fi
 %endif
 
 %changelog
+* Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-2
+- Fix zstd conditional, per report from Justin Pryzby
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-1
 - Update to PostgreSQL Beta 1
 
