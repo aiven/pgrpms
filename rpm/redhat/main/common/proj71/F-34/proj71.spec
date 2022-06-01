@@ -1,1 +1,0 @@
-../main/../main/proj71.spec

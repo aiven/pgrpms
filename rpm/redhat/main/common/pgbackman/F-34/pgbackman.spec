@@ -1,1 +1,0 @@
-../main/../main/pgbackman.spec
