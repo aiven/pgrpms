@@ -8,8 +8,8 @@
 
 Summary:	Unsigned and other extra integer types for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20200704
-Release:	3%{?dist}
+Version:	1.20220601
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
@@ -73,6 +73,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Wed Jun 1 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20220601-1
+- Update to 1.20220601
+
 * Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> - 1.20200704-3
 - Remove pgxs patches, and export PATH instead.
 
