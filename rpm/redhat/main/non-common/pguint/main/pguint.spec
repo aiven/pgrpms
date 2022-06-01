@@ -101,7 +101,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %if %llvm
 %files llvmjit
     %{pginstdir}/lib/bitcode/uint.index.bc
-    %{pginstdir}/lib/bitcode/uint/*.bcaggregates.bc
+    %{pginstdir}/lib/bitcode/uint/*.bc
 %endif
 
 %changelog
