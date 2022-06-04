@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	3.2
+Version:	3.3
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -73,6 +73,9 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
+* Sat Jun 4 2022 Devrim Gündüz <devrim@gunduz.org> 3.3-1
+- Update to 3.3
+
 * Wed Oct 6 2021 Devrim Gündüz <devrim@gunduz.org> 3.2-1
 - Update to 3.2
 
