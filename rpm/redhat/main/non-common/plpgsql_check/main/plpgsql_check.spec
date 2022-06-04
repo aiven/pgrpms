@@ -7,23 +7,19 @@
 %endif
 %endif
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.1.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -50,25 +46,20 @@ performance issues.
 Summary:	Just-in-time compilation support for plpgsql_check
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
-# Packages come from EPEL and SCL:
 %ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 %else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
+Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
+%if 0%{?suse_version} == 1315
+Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
 %endif
 
 %description llvmjit
@@ -105,21 +96,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+
 %if %llvm
 %files llvmjit
- %ifarch ppc64 ppc64le
-  %else
-  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-   %if 0%{?rhel} && 0%{?rhel} <= 6
-   %else
     %{pginstdir}/lib/bitcode/%{sname}*.bc
     %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
-   %endif
-  %endif
- %endif
 %endif
 
 %changelog
+* Sat Jun 4 2022 Devrim Gündüz <devrim@gunduz.org> 2.1.7-2
+- Attempt to fix RHEL 8 - ppc64le builds.
+
 * Sat Jun 4 2022 Devrim Gündüz <devrim@gunduz.org> 2.1.7-1
 - Update to 2.1.7
 
