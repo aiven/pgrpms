@@ -722,7 +722,7 @@ popd
 %_bindir/*.py
 
 %changelog
-* Sun Jun 11 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-2
+* Sun Jun 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-2
 - Rebuild against new armadillo on RHEL 8
 
 * Fri May 6 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-1
