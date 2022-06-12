@@ -54,7 +54,7 @@
 
 Name:		%{sname}31
 Version:	3.1.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -642,6 +642,9 @@ done
 %{_mandir}/man1
 
 %changelog
+* Sun Jun 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-5
+- Rebuild against new armadillo on RHEL 8
+
 * Thu Jun 17 2021 Devrim Gunduz <devrim@gunduz.org> - 3.1.3-4
 - Fix conflicts with gdal32 package
 
