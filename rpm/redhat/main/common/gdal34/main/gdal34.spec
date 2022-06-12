@@ -82,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -722,6 +722,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Jun 11 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-2
+- Rebuild against new armadillo on RHEL 8
+
 * Fri May 6 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-1
 - Update to 3.4.3, per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.4.3/gdal/NEWS.md
