@@ -72,8 +72,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.3
-Release:	2PGDG%{?dist}
+Version:	14.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1393,6 +1393,10 @@ fi
 %endif
 
 %changelog
+* Thu Jum 16 2022 Devrim Gündüz <devrim@gunduz.org> - 14.4-1PGDG
+- Update to 14.4, per changes described at
+  https://www.postgresql.org/docs/release/14.4/
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 14.3-2PGDG
 - Undefine _package_note_file macro. This is needed for Fedora 36+,
   but does not hurt to use in all distros.
