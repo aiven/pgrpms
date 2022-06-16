@@ -1393,7 +1393,7 @@ fi
 %endif
 
 %changelog
-* Thu Jum 16 2022 Devrim Gündüz <devrim@gunduz.org> - 14.4-1PGDG
+* Thu Jun 16 2022 Devrim Gündüz <devrim@gunduz.org> - 14.4-1PGDG
 - Update to 14.4, per changes described at
   https://www.postgresql.org/docs/release/14.4/
 
