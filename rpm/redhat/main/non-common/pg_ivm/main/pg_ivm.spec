@@ -1,6 +1,16 @@
 %global debug_package %{nil}
 %global sname	pg_ivm
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
@@ -16,6 +26,30 @@ views rather than recomputing the contents from scratch as REFRESH
 MATERIALIZED VIEW does. IVM can update materialized views more efficiently
 than recomputation when only small parts of the view are changed.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for XXX
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for XXX
+%endif
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -34,10 +68,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
