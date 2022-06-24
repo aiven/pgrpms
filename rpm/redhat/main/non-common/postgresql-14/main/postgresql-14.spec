@@ -54,6 +54,8 @@
  %{!?sdt:%global sdt 1}
 %endif
 
+%{!?selinux:%global selinux 1}
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
