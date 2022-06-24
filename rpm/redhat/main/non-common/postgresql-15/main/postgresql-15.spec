@@ -28,7 +28,7 @@
 
 # All Fedora releases now use Python3
 # Support Python3 on RHEL 7.7+ natively
-# RHEL 8 uses Python3
+# RHEL 8+ use Python3
 %{!?plpython3:%global plpython3 1}
 
 %if 0%{?suse_version}
@@ -625,8 +625,8 @@ CFLAGS="${CFLAGS:-%optflags}"
 export CFLAGS
 
 %if %plpython3
-
 export PYTHON=/usr/bin/python3
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch aarch64
@@ -721,8 +721,6 @@ export PYTHON=/usr/bin/python3
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
-
-%endif
 
 cd src/backend
 MAKELEVEL=0 %{__make} submake-generated-headers
@@ -1423,6 +1421,7 @@ fi
 %changelog
 * Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-3
 - Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
+- Fix builds when plpython3 macro is disabled, per report from Shteryu Hristov.
 
 * Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-2
 - Fix zstd conditional, per report from Justin Pryzby
