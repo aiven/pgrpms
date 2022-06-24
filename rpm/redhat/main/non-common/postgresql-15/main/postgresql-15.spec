@@ -47,13 +47,23 @@
 %{!?xml:%global xml 1}
 
 %{!?systemd_enabled:%global systemd_enabled 1}
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
+
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 %{!?selinux:%global selinux 1}
 
 %if 0%{?fedora} > 30
@@ -73,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta1_2PGDG%{?dist}
+Release:	beta1_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1411,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-3
+- Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
+
 * Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-2
 - Fix zstd conditional, per report from Justin Pryzby
 

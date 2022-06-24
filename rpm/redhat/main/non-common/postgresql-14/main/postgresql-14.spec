@@ -47,14 +47,22 @@
 %{!?xml:%global xml 1}
 
 %{!?systemd_enabled:%global systemd_enabled 1}
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?llvm:%global llvm 0}
 %{!?sdt:%global sdt 0}
 %else
-%{!?llvm:%global llvm 1}
  %{!?sdt:%global sdt 1}
 %endif
-%{!?selinux:%global selinux 1}
+
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
 
 %if 0%{?fedora} > 30
 %global _hardened_build 1
@@ -73,7 +81,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1393,6 +1401,9 @@ fi
 %endif
 
 %changelog
+* Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 14.4-2PGDG
+- Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
+
 * Thu Jun 16 2022 Devrim Gündüz <devrim@gunduz.org> - 14.4-1PGDG
 - Update to 14.4, per changes described at
   https://www.postgresql.org/docs/release/14.4/

@@ -67,27 +67,19 @@
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
- %{!?sdt:%global sdt 0}
- %else
- %if 0%{?rhel} && 0%{?rhel} <= 6
-   %{!?sdt:%global sdt 0}
-  %else
-  %{!?sdt:%global sdt 1}
- %endif
+%{!?sdt:%global sdt 0}
+%else
+ %{!?sdt:%global sdt 1}
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
-%else
- %if 0%{?rhel} && 0%{?rhel} <= 6
-  %{!?llvm:%global llvm 0}
- %else
   %{!?llvm:%global llvm 1}
  %endif
+%else
+ %{!?llvm:%global llvm 1}
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} <= 6
@@ -109,7 +101,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.11
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1693,6 +1685,9 @@ fi
 %endif
 
 %changelog
+* Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 12.11-3PGDG
+- Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 12.11-2PGDG
 - Undefine _package_note_file macro. This is needed for Fedora 36+,
   but does not hurt to use in all distros.
