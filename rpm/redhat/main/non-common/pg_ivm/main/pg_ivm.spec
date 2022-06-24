@@ -4,7 +4,7 @@
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
 Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
