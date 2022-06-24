@@ -713,8 +713,6 @@ export PYTHON=/usr/bin/python3
 	--docdir=%{pgbaseinstdir}/doc \
 	--htmldir=%{pgbaseinstdir}/doc/html
 
-##FIXMEendif
-
 cd src/backend
 MAKELEVEL=0 %{__make} submake-generated-headers
 cd ../..
