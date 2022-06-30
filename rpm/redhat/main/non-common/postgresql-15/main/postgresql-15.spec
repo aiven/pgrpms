@@ -83,11 +83,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta1_3PGDG%{?dist}
+Release:	beta2_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15beta1/postgresql-%{pgpackageversion}beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15beta2/postgresql-%{pgpackageversion}beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -585,7 +585,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta1
+%setup -q -n %{sname}-%{pgpackageversion}beta2
 
 %patch1 -p0
 %patch3 -p0
@@ -1419,6 +1419,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 30 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-1
+- Update to PostgreSQL 15 Beta 2
+
 * Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-3
 - Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
 - Fix builds when plpython3 macro is disabled, per report from Shteryu Hristov.
@@ -1427,7 +1430,7 @@ fi
 - Fix zstd conditional, per report from Justin Pryzby
 
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta1-1
-- Update to PostgreSQL Beta 1
+- Update to PostgreSQL 15 Beta 1
 
 * Wed Jan 26 2022 John Harvey <john.harvey@crunchydata.com> - 15.0-20220126
 - Fix PAM support on suse
