@@ -20,7 +20,7 @@ BuildArch:	noarch
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.0.11
+Version:	3.0.15
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -139,6 +139,9 @@ popd
 %endif
 
 %changelog
+* Sun Jul 10 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.15-1
+- Update to 3.0.15
+
 * Mon Apr 18 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.11-1
 - Update to 3.0.11
 
