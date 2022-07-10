@@ -11,7 +11,7 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}90
-Version:	9.0.0
+Version:	9.0.1
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -120,5 +120,8 @@ popd
 %{proj90instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Sun Jul 10 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.0.1-1
+- Update to 9.0.1
+
 * Wed Mar 2 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.0.0-1
 - Initial 9.0 packaging for PostgreSQL RPM Repository.
