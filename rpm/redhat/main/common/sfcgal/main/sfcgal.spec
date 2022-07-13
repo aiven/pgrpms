@@ -12,15 +12,15 @@ Name:		SFCGAL
 Version:	1.3.8
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} >= 8
+%if 0%{?rhel} && 0%{?rhel} == 8
 Version:	1.3.8
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
 
-%if 0%{?fedora} && 0%{?fedora} >= 33 && 0%{?fedora} <= 34
-Version:	1.3.10
-BuildRequires:	CGAL-devel >= 5.1.0
+%if 0%{?rhel} && 0%{?rhel} == 9
+Version:	1.4.1
+BuildRequires:	CGAL-devel >= 5.4
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 35
@@ -33,7 +33,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	10%{?dist}
+Release:	11%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -186,7 +186,10 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
-* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1
+* Wed Jul 13 20222 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-11
+- Add RHEL 9 support, and remove Fedora <= 34 support.
+
+* Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-10
 - Update to 1.4.1 for Fedora 35
 
 * Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
