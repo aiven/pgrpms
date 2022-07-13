@@ -1,3 +1,5 @@
+%global tarballversion 1_8_0
+
 Name:		gpsbabel
 Version:	1.8.0
 Release:	1%{?dist}
@@ -7,7 +9,7 @@ License:	GPLv2+
 URL:		https://www.gpsbabel.org
 # Upstream's website hides tarball behind some ugly php script
 # Original repo is at https://github.com/gpsbabel/gpsbabel
-Source0:	https://github.com/GPSBabel/gpsbabel/archive/refs/tags/%{name}_1_8_0.tar.gz
+Source0:	https://github.com/GPSBabel/gpsbabel/archive/refs/tags/%{name}_%{tarballversion}.tar.gz
 Source2:	%{name}.png
 
 # No automatic phone home by default (RHBZ 668865)
@@ -43,7 +45,7 @@ Qt GUI interface for GPSBabel
 %endif
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{name}-%{tarballversion}
 
 %patch2 -p1
 
