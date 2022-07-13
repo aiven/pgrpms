@@ -82,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -106,7 +106,7 @@ Patch8:		%{sname}-3.1.2-java.patch
 
 # PGDG patches
 Patch12:	%{name}-gdalconfig-pgdg-path.patch
-Patch13:	gdal34-configure-ogdi%{ogdimajorversion}.patch
+Patch13:	%{name}-configure-ogdi%{ogdimajorversion}.patch
 
 Patch16:	gdal-3.3.1-sfcgal-linker.patch
 
@@ -696,7 +696,14 @@ popd
 %{gdalinstdir}/bin/gnmmanage
 
 %files libs
+%if 0%{?rhel} == 7
+%{docdir}/%{name}-libs/COMMITTERS
+%{docdir}/%{name}-libs/LICENSE.TXT
+%{docdir}/%{name}-libs/NEWS.md
+%{docdir}/%{name}-libs/PROVENANCE.TXT
+%else
 %doc LICENSE.TXT NEWS.md PROVENANCE.TXT COMMITTERS
+%endif
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}
 %{gdalinstdir}/lib/libgdal.so.%{gdalsomajorversion}.*
 %{gdalinstdir}/share/
@@ -716,7 +723,11 @@ popd
 %files doc
 
 %files python3
+%if 0%{?rhel} == 7
+%{docdir}/%{name}-python3/README.rst
+%else
 %doc swig/python/README.rst
+%endif
 %{python3_sitearch}/osgeo
 %{python3_sitearch}/osgeo_utils
 %{python3_sitearch}/GDAL-%{version}-py*.egg-info/
@@ -725,6 +736,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Jul 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-4
+- Fix RHEL 7 builds (extremely ugly hack, though)
+
 * Wed Jul 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-3
 - Add RHEL 9 support and fix Fedora 36 support.
 
