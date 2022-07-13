@@ -45,7 +45,7 @@ Qt GUI interface for GPSBabel
 %endif
 
 %prep
-%setup -q -n %{name}-%{name}-%{tarballversion}
+%setup -q -n %{name}-%{name}_%{tarballversion}
 
 %patch2 -p1
 
