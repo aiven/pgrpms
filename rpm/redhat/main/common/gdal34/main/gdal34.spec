@@ -82,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -407,14 +407,17 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  %if 0%{?fedora} == 34
  %global g2clib g2c_v1.6.2
  %endif
- %if 0%{?fedora} == 35
+ %if 0%{?fedora} <= 36
  %global g2clib g2c_v1.6.3
  %endif
- %if 0%{?fedora} <= 33 || 0%{?rhel} > 7
+ %if 0%{?fedora} <= 33 || 0%{?rhel} <= 8
  %global g2clib g2c_v1.6.0
  %endif
  %if 0%{?rhel} == 7
  %global g2clib grib2c
+ %endif
+ %if 0%{?rhel} == 9
+ %global g2clib g2c_v1.6.3
  %endif
  %if 0%{?suse_version} >= 1315
  %global g2clib grib2c
@@ -722,6 +725,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Jul 13 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-3
+- Add RHEL 9 support and fix Fedora 36 support.
+
 * Sun Jun 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-2
 - Rebuild against new armadillo on RHEL 8
 
