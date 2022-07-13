@@ -725,7 +725,7 @@ popd
 %_bindir/*.py
 
 %changelog
-* Wed Jul 13 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-3
+* Wed Jul 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-3
 - Add RHEL 9 support and fix Fedora 36 support.
 
 * Sun Jun 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-2
