@@ -1,0 +1,25 @@
+diff -Naur CGAL-5.3.orig/include/CGAL/CORE/Expr_impl.h CGAL-5.3/include/CGAL/CORE/Expr_impl.h
+--- CGAL-5.3.orig/include/CGAL/CORE/Expr_impl.h	2021-07-04 15:03:37.000000000 -0400
++++ CGAL-5.3/include/CGAL/CORE/Expr_impl.h	2021-11-16 11:52:09.754813368 -0500
+@@ -1225,21 +1225,6 @@
+ 
+ CORE_MEMORY_IMPL(MultRep)
+ CORE_MEMORY_IMPL(DivRep)
+-
+-
+- template class AddSubRep<Add>;
+- template class AddSubRep<Sub>;
+-
+-template class Realbase_for<long>;
+-template class Realbase_for<double>;
+-template class Realbase_for<BigInt>;
+-template class Realbase_for<BigRat>;
+-template class Realbase_for<BigFloat>;
+-
+- template class ConstPolyRep<Expr>;
+- template class ConstPolyRep<BigFloat>;
+- template class ConstPolyRep<BigInt>;
+- template class ConstPolyRep<BigRat>;
+ } //namespace CORE
+ 
+ #include <CGAL/enable_warnings.h>
