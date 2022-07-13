@@ -697,10 +697,10 @@ popd
 
 %files libs
 %if 0%{?rhel} == 7
-%{docdir}/%{name}-libs/COMMITTERS
-%{docdir}/%{name}-libs/LICENSE.TXT
-%{docdir}/%{name}-libs/NEWS.md
-%{docdir}/%{name}-libs/PROVENANCE.TXT
+%{_docdir}/%{name}-libs/COMMITTERS
+%{_docdir}/%{name}-libs/LICENSE.TXT
+%{_docdir}/%{name}-libs/NEWS.md
+%{_docdir}/%{name}-libs/PROVENANCE.TXT
 %else
 %doc LICENSE.TXT NEWS.md PROVENANCE.TXT COMMITTERS
 %endif
@@ -724,7 +724,7 @@ popd
 
 %files python3
 %if 0%{?rhel} == 7
-%{docdir}/%{name}-python3/README.rst
+%{_docdir}/%{name}-python3/README.rst
 %else
 %doc swig/python/README.rst
 %endif
