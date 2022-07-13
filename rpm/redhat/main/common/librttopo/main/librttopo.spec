@@ -28,10 +28,10 @@ developing applications that use %{name}.
 %autosetup -p1 -n %{name}
 
 %build
-CFLAGS="$CFLAGS -I%{geosinstdir}/include -g -fPIE"; export CFLAGS
+CFLAGS="$CFLAGS -I%{geos311instdir}/include -g -fPIE"; export CFLAGS
 autoreconf -ifv
-export PATH=%{geosinstdir}/bin:$PATH
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
+export PATH=%{geos311instdir}/bin:$PATH
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geos311instdir}/lib64" ; export SHLIB_LINK
 %configure --disable-static
 %make_build
 
