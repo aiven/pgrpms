@@ -249,6 +249,7 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 autoconf
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
+	--enable-lto \
 %if !%raster
 	--without-raster \
 %endif
@@ -266,7 +267,6 @@ autoconf
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
-#	--with-projdir=%{projinstdir}/lib64
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
