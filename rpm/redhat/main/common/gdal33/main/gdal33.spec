@@ -409,27 +409,27 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # epsilon: Stalled review -- https://bugzilla.redhat.com/show_bug.cgi?id=660024
 # Building without pgeo driver, because it drags in Java
 
+
 %if 0%{?g2clib_enabled}
  %if 0%{?fedora} == 34
  %global g2clib g2c_v1.6.2
  %endif
- %if 0%{?fedora} == 35
+ %if 0%{?fedora} <= 36
  %global g2clib g2c_v1.6.3
  %endif
- %if 0%{?fedora} == 36
- %global g2clib g2c_v1.6.3
- %endif
- %if 0%{?rhel} > 7
+ %if 0%{?fedora} <= 33 || 0%{?rhel} <= 8
  %global g2clib g2c_v1.6.0
  %endif
  %if 0%{?rhel} == 7
  %global g2clib grib2c
  %endif
+ %if 0%{?rhel} == 9
+ %global g2clib g2c_v1.6.3
+ %endif
  %if 0%{?suse_version} >= 1315
  %global g2clib grib2c
  %endif
 %endif
-
 ./configure \
 %if 0%{?g2clib_enabled}
 	LIBS="-l%{g2clib} -ltirpc" \
