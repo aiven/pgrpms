@@ -1,4 +1,4 @@
-%if 0%{?rhel} && 0%{?rhel} == 739
+%if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
 %endif
@@ -6,7 +6,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.39
+Version:	2.40
 Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -176,8 +176,13 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Jul 19 2022 Devrim Gündüz <devrim@gunduz.org> - 2.40-1
+- Update to 2.40, per changes described at:
+  https://pgbackrest.org/release.html#2.40
+
 * Tue May 17 2022 Devrim Gündüz <devrim@gunduz.org> - 2.39-1
 - Update to 2.39, per changes described at:
+  https://pgbackrest.org/release.html#2.39
 
 * Sun Mar 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.38-1
 - Update to 2.38, per changes described at:
