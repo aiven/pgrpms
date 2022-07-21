@@ -2,7 +2,7 @@
 
 Name:		gpsbabel
 Version:	1.8.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A tool to convert between various formats used by GPS devices
 
 License:	GPLv2+
@@ -21,8 +21,14 @@ BuildRequires:	desktop-file-utils
 BuildRequires:	shapelib-devel
 BuildRequires:	cmake
 
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libqt5-qtbase-devel
+BuildRequires:	libqt5-qtserialport-devel
+%else
 BuildRequires:	qt5-qtbase-devel
 BuildRequires:	qt5-qtserialport-devel
+%endif
+
 %ifarch %{qt5_qtwebengine_arches}
 # HACK: Don't build GUI on archs not supported by qtwebengine
 %global build_gui 1
@@ -103,5 +109,8 @@ install -m 0644 -p %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 %endif
 
 %changelog
+* Thu Jul 21 2022 Devrim Gunduz <devrim@gunduz.org> - 1.8.0-2
+- Add SLES 12 support
+
 * Wed Jul 13 2022 Devrim Gunduz <devrim@gunduz.org> - 1.8.0-1
 - Initial packaging for RHEL 9, until EPEL provides a package itself.
