@@ -18,8 +18,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.7
-Release:	2%{?dist}
+Version:	2.1.8
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -104,6 +104,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Jul 25 2022 Devrim Gündüz <devrim@gunduz.org> 2.1.8-1
+- Update to 2.1.8
+
 * Sat Jun 4 2022 Devrim Gündüz <devrim@gunduz.org> 2.1.7-2
 - Attempt to fix RHEL 8 - ppc64le builds.
 
