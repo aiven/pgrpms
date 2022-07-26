@@ -100,7 +100,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.16
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -141,6 +141,7 @@ Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-e41176bd6.patch
 %endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
+BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
@@ -1684,6 +1685,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 11.16-4PGDG
+- Add gcc-c++ BR expliclity.
+
 * Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 11.16-3PGDG
 - Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
 

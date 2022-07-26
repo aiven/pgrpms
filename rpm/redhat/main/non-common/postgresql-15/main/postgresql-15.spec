@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta2_3PGDG%{?dist}
+Release:	beta2_4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -112,6 +112,7 @@ Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 
@@ -1420,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-2
+- Add gcc-c++ BR expliclity.
+
 * Thu Jun 30 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-1
 - Update to PostgreSQL 15 Beta 2
 

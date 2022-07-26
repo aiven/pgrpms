@@ -87,7 +87,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.21
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -128,6 +128,7 @@ Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-a72c43012.patch
 %endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
+BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
@@ -1538,6 +1539,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 10.21-3PGDG
+- Add gcc-c++ BR expliclity.
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 10.21-2PGDG
 - Undefine _package_note_file macro. This is needed for Fedora 36+,
   but does not hurt to use in all distros.

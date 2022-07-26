@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.7
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -109,6 +109,7 @@ Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 
@@ -1376,6 +1377,9 @@ fi
 %endif
 
 %changelog
+* Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-4PGDG
+- Add gcc-c++ BR expliclity.
+
 * Fri Jun 24 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-3PGDG
 - Enable LLVM on ppc64le except on RHEL 7, per report from Chuan Hua Zhao
 - Fix builds when plpython3 macro is disabled, per report from Shteryu Hristov.
