@@ -1,12 +1,12 @@
 Summary:	A sample database for PostgreSQL
 Name:		pagila
-Version:	2.1.0
+Version:	3.0.0
 Release:	1%{?dist}
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{name}
-Source0:	https://github.com/devrimgunduz/%{name}/archive/v%{version}.tar.gz
+Source0:	https://github.com/devrimgunduz/%{name}/archive/%{name}-v%{version}.tar.gz
 
-Requires:	postgresql-server >= 11.0
+Requires:	postgresql-server >= 12.0
 
 BuildArch:	noarch
 
@@ -19,7 +19,7 @@ is intended to provide a standard schema that can be used for examples in
 books, tutorials, articles, samples, etc.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{name}-v%{version}
 
 %build
 
@@ -28,9 +28,6 @@ books, tutorials, articles, samples, etc.
 %{__install} -d %{buildroot}%{_pagiladir}
 %{__install} -m 644 -p *.sql %{buildroot}%{_pagiladir}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(0644,root,root,0755)
 %doc README.md
@@ -38,6 +35,10 @@ books, tutorials, articles, samples, etc.
 %attr(644,root,root) %{_pagiladir}/*.sql
 
 %changelog
+* Thu Jul 28 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
+- Update to 3.0.0, per changes described at:
+  https://github.com/devrimgunduz/pagila/releases/tag/pagila-v3.0.0
+
 * Sat Aug 22 2020 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
