@@ -1,6 +1,14 @@
 %global sname bgw_replstatus
 
-%pgdg_set_llvm_variables
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -9,8 +17,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.3
-Release:	3%{?dist}
+Version:	1.0.6
+Release:	1%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
@@ -43,6 +51,32 @@ Using a background worker like this will make polling a lot more light
 weight than making a full PostgreSQL connection, logging in, and
 checking the status.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for bgw_replstatus
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} == 1315
+Requires:	llvm
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	llvm10
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for bgw_replstatus
+%endif
+
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -58,9 +92,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %if 0%{?rhel} && 0%{?rhel} <= 6
 %doc README.md LICENSE
@@ -69,15 +100,18 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %license LICENSE
 %endif
 %{pginstdir}/lib/%{sname}.so
-%if 0%{?isllvm}
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
- %endif
-%else
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Thu Jul 28 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-1
+- Update to 1.0.6
+- Split llvmjit package
+- Remove superfluous %%clean section.
+
 * Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.3-3
 - Use pgdg_set_llvm_variables macro for LLVM related files.
 
