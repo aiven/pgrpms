@@ -36,3 +36,4 @@ include ../../../../global/Makefile.global-PG13
 include ../../../../global/Makefile.global-PG14-testing
 include ../../../../global/Makefile.global-PG14
 include ../../../../global/Makefile.global-PG15-testing
+include ../../../../global/Makefile.global-PG16-testing
