@@ -12,7 +12,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.6.2
+Version:	4.7.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
@@ -71,6 +71,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/doc/extension/migration_to_partman.md
 %{pginstdir}/doc/extension/migrate_to_native.md
+%{pginstdir}/doc/extension/fix_missing_procedures.md
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
@@ -94,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Aug 9 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.0-1
+- Update to 4.7.0
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 4.6.2-1
 - Update to 4.6.2
 
