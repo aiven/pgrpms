@@ -100,8 +100,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.11
-Release:	4PGDG%{?dist}
+Version:	12.12
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1686,6 +1686,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 12.12-1PGDG
+- Update to 12.12, per changes described at
+  https://www.postgresql.org/docs/release/12.12/
+
 * Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 12.11-4PGDG
 - Add gcc-c++ BR expliclity.
 
