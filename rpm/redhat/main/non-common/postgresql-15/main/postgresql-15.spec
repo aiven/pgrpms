@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta2_4PGDG%{?dist}
+Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1421,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta3-1
+- Update to PostgreSQL 15 Beta 3
+
 * Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-2
 - Add gcc-c++ BR expliclity.
 
