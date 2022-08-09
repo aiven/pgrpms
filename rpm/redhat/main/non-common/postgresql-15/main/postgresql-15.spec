@@ -173,7 +173,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+BuildRequires:	llvm13-devel clang13-devel
 %endif
 %endif
 
@@ -418,7 +418,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm11-devel clang11-devel
+Requires:	llvm13-devel clang13-devel
 %endif
 %endif
 %if %icu
@@ -472,7 +472,7 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	libLLVM11
+Requires:	libLLVM13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -1423,6 +1423,7 @@ fi
 %changelog
 * Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta3-1
 - Update to PostgreSQL 15 Beta 3
+- Require LLVM and clang 13 on SLES 15, as SP4 is out and SP2 is already EOLed.
 
 * Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-2
 - Add gcc-c++ BR expliclity.
