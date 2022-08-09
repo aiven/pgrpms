@@ -78,8 +78,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.7
-Release:	4PGDG%{?dist}
+Version:	13.8
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1377,6 +1377,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 13.8-1PGDG
+- Update to 13.8, per changes described at
+  https://www.postgresql.org/docs/release/13.8/
+
 * Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 13.7-4PGDG
 - Add gcc-c++ BR expliclity.
 
