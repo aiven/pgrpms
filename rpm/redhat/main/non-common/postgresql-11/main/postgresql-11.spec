@@ -473,7 +473,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 
 Provides:	postgresql-devel >= %{version}-%{release}
-Obsoletes:	libpq-devel
+Obsoletes:	libpq-devel <= 42.0
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
