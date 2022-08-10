@@ -823,7 +823,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 # Create a symlink of the setup script under $PATH
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgmajorversion}-setup
+%{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -872,7 +872,12 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	# pg_regress binary should be only in one subpackage,
+	# there will be a symlink from -test to -devel
+	%{__rm} -f %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	%{__mkdir} -p %{buildroot}%{pginstdir}/lib/pgsql/test/regress/
+	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so

@@ -87,7 +87,7 @@ Release:	beta3_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15beta2/postgresql-%{pgpackageversion}beta2.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15beta3/postgresql-%{pgpackageversion}beta3.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -587,7 +587,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta2
+%setup -q -n %{sname}-%{pgpackageversion}beta3
 
 %patch1 -p0
 %patch3 -p0
@@ -822,7 +822,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 # Create a symlink of the setup script under $PATH
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} %{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/%{sname}-%{pgmajorversion}-setup
+%{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -871,7 +871,12 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	pushd  %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	# pg_regress binary should be only in one subpackage,
+	# there will be a symlink from -test to -devel
+	%{__rm} -f %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	%{__mkdir} -p %{buildroot}%{pginstdir}/lib/pgsql/test/regress/
+	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
@@ -1423,7 +1428,11 @@ fi
 %changelog
 * Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta3-1
 - Update to PostgreSQL 15 Beta 3
-- Require LLVM and clang 13 on SLES 15, as SP4 is out and SP2 is already EOLed.
+- Require LLVM and clang 13 on SLES 15, as SP4 is out and SP2 is
+  already EOLed.
+- Fix long standing "absolute symlink" error while building the package
+- Create a symlink of pg_regress instead of full copy to fix "duplicate
+  build-id"  warning while building the package.
 
 * Tue Jul 26 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta2-2
 - Add gcc-c++ BR expliclity.
