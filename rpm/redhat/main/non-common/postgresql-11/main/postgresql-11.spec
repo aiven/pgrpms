@@ -66,9 +66,17 @@
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?sdt:%global sdt 0}
-%else
- %{!?sdt:%global sdt 1}
+ %{!?sdt:%global sdt 0}
+ %else
+ %if 0%{?rhel} && 0%{?rhel} <= 6
+   %{!?sdt:%global sdt 0}
+  %else
+  %{!?sdt:%global sdt 1}
+ %endif
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 6
+  %{!?llvm:%global llvm 0}
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
