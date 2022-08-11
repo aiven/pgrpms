@@ -35,7 +35,7 @@ The database management systems that are currently supported are:
 
 %build
 
-CFLAGS="$CFLAGS -I%{pginstdir}/include/server"; export CFLAGS
+CFLAGS="$CFLAGS -I%{pginstdir}/include/server -g -fPIE"; export CFLAGS
 export PATH=%{pginstdir}/bin/:$PATH
 %{__install} -d build
 pushd build

@@ -35,7 +35,7 @@ This package includes binaries to run the test.
 
 %build
 
-CFLAGS="$CFLAGS -I%{pginstdir}/include/server"; export CFLAGS
+CFLAGS="$CFLAGS -I%{pginstdir}/include/server -g -fPIE"; export CFLAGS
 
 %{__install} -d build
 pushd build
