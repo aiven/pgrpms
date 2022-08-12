@@ -874,9 +874,9 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	# pg_regress binary should be only in one subpackage,
 	# there will be a symlink from -test to -devel
-	%{__rm} -f %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
-	%{__mkdir} -p %{buildroot}%{pginstdir}/lib/pgsql/test/regress/
-	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	%{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/test/regress/pg_regress
+	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/pgsql/test/regress/
+	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pgbaseinstdir}/lib/test/regress/pg_regress
 	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
@@ -901,7 +901,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
 
 # These file(s) should not be packaged:
-%{__rm} %{buildroot}%{pginstdir}/lib/libpgfeutils.a
+%{__rm} %{buildroot}%{pgbaseinstdir}/lib/libpgfeutils.a
 
 # initialize file lists
 %{__cp} /dev/null main.lst

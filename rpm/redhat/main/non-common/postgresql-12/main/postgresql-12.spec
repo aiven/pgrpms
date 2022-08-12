@@ -109,7 +109,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.12
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1131,9 +1131,9 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	# pg_regress binary should be only in one subpackage,
 	# there will be a symlink from -test to -devel
-	%{__rm} -f %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
-	%{__mkdir} -p %{buildroot}%{pginstdir}/lib/pgsql/test/regress/
-	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pginstdir}/lib/test/regress/pg_regress
+	%{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/test/regress/pg_regress
+	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/pgsql/test/regress/
+	%{__ln_s} -f ../../pgxs/src/test/regress/pg_regress %{buildroot}%{pgbaseinstdir}/lib/test/regress/pg_regress
 	pushd %{buildroot}%{pgbaseinstdir}/lib/test/regress
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
@@ -1699,6 +1699,9 @@ fi
 %endif
 
 %changelog
+* Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 12.12-2PGDG
+- Fix macro for consistency
+
 * Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 12.12-1PGDG
 - Update to 12.12, per changes described at
   https://www.postgresql.org/docs/release/12.12/
