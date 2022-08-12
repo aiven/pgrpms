@@ -1076,7 +1076,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 %{__install} -m 755 postgresql-%{pgmajorversion}-setup %{buildroot}%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup
 # Create a symlink of the setup script under $PATH
 %{__mkdir} -p %{buildroot}%{_bindir}
-%{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}
+%{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/
 
 # prep the startup check script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
@@ -1701,6 +1701,7 @@ fi
 %changelog
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 12.12-2PGDG
 - Fix macro for consistency
+- Add trailing slash for consistency with other PGs
 
 * Tue Aug 9 2022 Devrim Gündüz <devrim@gunduz.org> - 12.12-1PGDG
 - Update to 12.12, per changes described at
