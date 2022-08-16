@@ -66,7 +66,7 @@
 %endif
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
-%bcond_without python3
+%{!?with_python3:%global with_python3 1}
 # No complete java yet in EL8
 %if 0%{?rhel} >= 8
 %bcond_with java
@@ -186,10 +186,12 @@ BuildRequires: xz-devel
 BuildRequires: zlib-devel
 
 # Python
+%if %{with_python3}
 BuildRequires: python3-devel
 BuildRequires: python3-setuptools
-BuildRequires: python3dist(pytest) >= 3.6
-BuildRequires: python3dist(lxml) >= 4.5.1
+BuildRequires: python3-pytest >= 3.4
+BuildRequires: python3-lxml >= 4.2.3
+%endif
 
 # Java
 %if 0%{?suse_version}
@@ -289,6 +291,7 @@ This package contains the API documentation for %{name}.
 %endif
 
 
+%if %{with_python3}
 %package python3
 %{?python_provide:%python_provide python3-gdal}
 Summary:        Python modules for the GDAL file format library
@@ -307,10 +310,10 @@ Requires:       python3-gdal
 The GDAL Python package provides number of tools for programming and
 manipulating GDAL file format library
 
-
 # We don't want to provide private Python extension libs
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\.so$
 %global __provides_exclude_from ^%{python3_sitearch}/.*\.so$
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}-fedora
@@ -357,6 +360,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
   -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
   -DCMAKE_INSTALL_INCLUDEDIR=include \
   -DCMAKE_INSTALL_LIBDIR=lib \
+%if %{with_python3}
+  -DBUILD_PYTHON_BINDINGS=ON \
+%else
+  -DBUILD_PYTHON_BINDINGS=OFF \
+%endif
   -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
   -DGDAL_USE_JPEG12_INTERNAL=OFF
 %cmake_build
@@ -434,6 +442,7 @@ done
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
 
+%if %{with_python3}
 %files python3
 %doc swig/python/README.rst
 %{python3_sitearch}/GDAL-%{version}-py*.egg-info/
@@ -459,6 +468,7 @@ done
 %{gdalinstdir}/bin/pct2rgb.py
 %{gdalinstdir}/bin/rgb2pct.py
 %{gdalinstdir}/share/bash-completion/completions/*.py
+%endif
 
 %if %{with java}
 %files java
