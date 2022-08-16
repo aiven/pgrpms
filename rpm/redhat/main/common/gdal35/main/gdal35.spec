@@ -88,21 +88,13 @@ URL:           http://www.gdal.org
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:       %{sname}-%{version}%{?pre:%pre}-fedora.tar.xz
-# Multilib compatible cpl-config.h header
-Source2:       cpl-config.h
-# Multilib compatible gdal-config script
-Source3:       gdal-config
 Source4:       PROVENANCE.TXT-fedora
 
 # Cleaner script for the tarball
-Source5:       %{name}-cleaner.sh
+Source5:       %{sname}-cleaner.sh
 
 Source6:        %{name}-pgdg-libs.conf
 
-
-# Add some utils to the default install target
-Patch0:        gdal_utils.patch
-Patch1:        gdal_libver.patch
 
 
 %if 0%{?suse_version} >= 1315
@@ -379,15 +371,6 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
     echo "%exclude %{gdalinstdir}/share/man/man1/`basename ${file/.py/.1*}`" >> gdal_python_manpages_excludes.txt
   fi
 done
-
-# Multilib
-# - cpl_config.h is arch-dependent (contains various SIZEOF defines)
-# - gdal-config stores arch-specific information
-#mv %{buildroot}%{_includedir}/%{name}/cpl_config.h %{buildroot}%{_includedir}/%{name}/cpl_config-%{cpuarch}.h
-#cp -a %{SOURCE2} %{buildroot}%{_includedir}/%{name}/cpl_config.h
-#mkdir -p %{buildroot}%{_bindir}/
-#mv %{buildroot}/%{gdalinstdir}/bin/%{sname}-config %{buildroot}%{_bindir}/%{name}-config-%{cpuarch}
-#cp -a %{SOURCE3} %{buildroot}%{_bindir}/%{name}-config
 
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
