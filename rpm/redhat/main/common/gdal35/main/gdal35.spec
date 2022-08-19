@@ -66,7 +66,11 @@
 %endif
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
+%if 0%{?rhel} >= 9 || 0%{?fedora} >= 35
 %{!?with_python3:%global with_python3 1}
+%else
+%{!?with_python3:%global with_python3 0}
+fi
 # No complete java yet in EL8
 %if 0%{?rhel} >= 8
 %bcond_with java
