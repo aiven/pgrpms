@@ -141,7 +141,6 @@ BuildRequires: libdap-devel
 BuildRequires: libgeotiff%{libgeotiffmajorversion}-devel
 BuildRequires: libgta-devel
 BuildRequires: libjpeg-devel
-BuildRequires: libkml-devel
 BuildRequires: libpng-devel
 BuildRequires: libpq5-devel
 BuildRequires: librx-devel
@@ -377,10 +376,12 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   fi
 done
 
+%if %{with_python3}
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
+%endif
 
 %files -f gdal_python_manpages_excludes.txt
 %{gdalinstdir}/bin/gdal_contour
