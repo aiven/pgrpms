@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta3_2PGDG%{?dist}
+Release:	beta3_3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1352,12 +1352,7 @@ fi
 
 %dir %{pgbaseinstdir}/lib
 %dir %{pgbaseinstdir}/share
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%endif
-%else
 %attr(700,postgres,postgres) %dir /var/lib/pgsql
-%endif
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
@@ -1426,6 +1421,10 @@ fi
 %endif
 
 %changelog
+* Fri Aug 19 2022 John Harvey <john.harvey@crunchydata.com> - 15.0-beta3-3
+- Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
+  postgres startup on SLES when using the default logfile path.
+
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 15.0-beta3-2
 - Fix macro for consistency
 
