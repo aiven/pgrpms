@@ -74,12 +74,12 @@
 
 # No complete java yet in EL8
 %if 0%{?rhel} <= 8
-%bcond_with java
+%{!?with_java:%global with_java 0}
 %else
 %ifarch %{java_arches}
-%bcond_without java
+%{!?with_java:%global with_java 1}
 %else
-%bcond_with java
+%{!?with_java:%global with_java 0}
 %endif
 %endif
 
@@ -372,6 +372,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %install
 %cmake_install
 
+%if %{with_python3}
 # List of manpages for python scripts
 for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   if [ -f %{buildroot}%{gdalinstdir}/share/man/man1/`basename ${file/.py/.1*}` ]; then
@@ -380,14 +381,17 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   fi
 done
 
-%if %{with_python3}
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 %endif
 
+%if %{with_python3}
 %files -f gdal_python_manpages_excludes.txt
+%else
+%files
+%endif
 %{gdalinstdir}/bin/gdal_contour
 %{gdalinstdir}/bin/gdal_create
 %{gdalinstdir}/bin/gdal_grid
