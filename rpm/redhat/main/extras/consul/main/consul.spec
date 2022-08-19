@@ -2,7 +2,7 @@
 %global		_missing_build_ids_terminate_build 0
 
 Name:		consul
-Version:	1.12.3
+Version:	1.13.1
 Release:	1%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
@@ -112,6 +112,9 @@ fi
 %doc
 
 %changelog
+* Fri Aug 19 2022 Devrim Gündüz <devrim@gunduz.org> 1.13.1-1
+- Update to 1.13.1
+
 * Wed Jul 20 2022 Devrim Gündüz <devrim@gunduz.org> 1.12.3-1
 - Update to 1.12.3
 
