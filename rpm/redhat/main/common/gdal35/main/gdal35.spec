@@ -190,7 +190,7 @@ BuildRequires: python3-lxml >= 4.2.3
 %endif
 
 # Java
-%if %{with_java}
+%if 0%{with_java}
 %if 0%{?suse_version}
 %if 0%{?suse_version} <= 1315
 BuildRequires:  java-1_8_0-openjdk-devel
@@ -363,7 +363,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %else
   -DBUILD_PYTHON_BINDINGS=OFF \
 %endif
-%if %{with_java}
+%if 0%{with_java}
   -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
 %endif
   -DGDAL_USE_JPEG12_INTERNAL=OFF
