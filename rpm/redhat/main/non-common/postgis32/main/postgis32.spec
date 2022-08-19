@@ -73,7 +73,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.2
+Version:	%{postgismajorversion}.3
 Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
@@ -393,6 +393,10 @@ fi
 %endif
 
 %changelog
+* Fri Aug 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-1
+- Update to 3.2.3, per changes described at
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.3/NEWS
+
 * Mon Jul 25 2022 Devrim Gunduz <devrim@gunduz.org> - 3.2.2-1
 - Update to 3.2.2, per changes described at
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.2/NEWS
