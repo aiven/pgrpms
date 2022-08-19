@@ -11,12 +11,12 @@
 %global geosfullversion %geos311fullversion
 %global geosmajorversion %geos311majorversion
 %global geosinstdir %geos311instdir
-%global gdalfullversion %gdal34fullversion
-%global gdalmajorversion %gdal34majorversion
-%global gdalinstdir %gdal34instdir
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
+%global gdalfullversion %gdal35fullversion
+%global gdalmajorversion %gdal35majorversion
+%global gdalinstdir %gdal35instdir
+%global projmajorversion %proj90majorversion
+%global projfullversion %proj90fullversion
+%global projinstdir %proj90instdir
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -74,10 +74,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta2_1%{?dist}
+Release:	rc1_1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta2.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta2.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -224,7 +224,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}beta2
+%setup -q -n %{sname}-%{version}rc1
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -244,7 +244,7 @@ SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
-export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
+export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib64/pkgconfig
 
 autoconf
 
@@ -378,7 +378,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}beta2.pdf
+%doc %{sname}-%{version}rc1.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -396,6 +396,10 @@ fi
 %endif
 
 %changelog
+* Fri Aug 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.0rc1-1
+- Update to 3.3.0 rc1
+- Use PROJ 9.0.X
+
 * Thu Jul 14 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.0beta2-1
 - Update to 3.3.0 beta2
 
