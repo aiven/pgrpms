@@ -72,17 +72,6 @@
 %{!?with_python3:%global with_python3 0}
 %endif
 
-# No complete java yet in EL8
-%if 0%{?rhel} <= 8
-%{!?with_java:%global with_java 0}
-%else
-%ifarch %{java_arches}
-%{!?with_java:%global with_java 1}
-%else
-%{!?with_java:%global with_java 0}
-%endif
-%endif
-
 Name:          %{sname}35
 Version:       3.5.1
 Release:       1%{?pre:%pre}%{?dist}
@@ -190,13 +179,11 @@ BuildRequires: python3-lxml >= 4.2.3
 %endif
 
 # Java
-%if 0%{with_java}
 %if 0%{?suse_version}
 %if 0%{?suse_version} <= 1315
 BuildRequires:  java-1_8_0-openjdk-devel
 %else
 BuildRequires:  java-11-openjdk-devel
-%endif
 %endif
 %endif
 
@@ -269,7 +256,6 @@ Requires:	armadillo
 This package contains the GDAL file format library.
 
 # No complete java yet in EL8
-%if %{with java}
 %package java
 Summary:        Java modules for the GDAL file format library
 Requires:       jpackage-utils
@@ -286,8 +272,6 @@ BuildArch:      noarch
 
 %description javadoc
 This package contains the API documentation for %{name}.
-%endif
-
 
 %if %{with_python3}
 %package python3
@@ -363,9 +347,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %else
   -DBUILD_PYTHON_BINDINGS=OFF \
 %endif
-%if 0%{with_java}
   -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
-%endif
   -DGDAL_USE_JPEG12_INTERNAL=OFF
 %cmake_build
 
@@ -467,7 +449,6 @@ done
 %{gdalinstdir}/share/bash-completion/completions/*.py
 %endif
 
-%if %{with java}
 %files java
 %{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
@@ -478,7 +459,6 @@ done
 
 %files javadoc
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
-%endif
 
 %changelog
 * Mon Aug 15 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.1-1
