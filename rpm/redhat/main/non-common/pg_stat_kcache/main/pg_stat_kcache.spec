@@ -2,7 +2,7 @@
 
 %global kcachemajver 2
 %global kcachemidver 2
-%global kcacheminver 0
+%global kcacheminver 1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -77,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-
+- Update to 2.2.1
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2
 - Remove pgxs patches, and export PATH instead.
 
