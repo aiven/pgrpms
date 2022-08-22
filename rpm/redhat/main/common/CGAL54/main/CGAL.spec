@@ -12,7 +12,7 @@
 
 
 Name:           CGAL
-Version:        5.4.1
+Version:        5.4.2
 Release:        1%{?dist}
 Summary:        Computational Geometry Algorithms Library
 
@@ -157,6 +157,9 @@ ldd ./constrained_plus
 %exclude %{_datadir}/CGAL/*/*/skip_vcproj_auto_generation
 
 %changelog
-* Wed Jul 13 2022 Devrim Gündüz <devrim@gunduz.org> - 5.4.1
+* Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> - 5.4.2-1
+- Update to 5.4.2, and also add to RHEL 8 as well.
+
+* Wed Jul 13 2022 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1
 - Initial packaging for PostgreSQL RPM repository, to build
   SFCGAL package on RHEL 9. Took spec file, etc from Fedora.
