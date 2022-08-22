@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 24
-%global orafceminver 0
+%global orafceminver 4
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -74,6 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> 3.24.4-1
+- Update to 3.24.4
+
 * Mon Aug 1 2022 Devrim Gündüz <devrim@gunduz.org> 3.24.0-1
 - Update to 3.24.0
 
