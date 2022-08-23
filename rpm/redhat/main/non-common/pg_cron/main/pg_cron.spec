@@ -8,10 +8,11 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.1
-Release:	2%{dist}
+Version:	1.4.2
+Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
+Patch0:		%{sname}-1.4.2-makefile.patch
 URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -64,6 +65,7 @@ schedule PostgreSQL commands directly from the database.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -107,6 +109,11 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Tue Aug 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1
+- Update to 1.4.2
+- Add a (temp) patch to fix builds on Fedora 36, per
+  https://github.com/citusdata/pg_cron/issues/187
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-2
 - Fix SLES dependencies, per report from Tiago ANASTACIO.
 
