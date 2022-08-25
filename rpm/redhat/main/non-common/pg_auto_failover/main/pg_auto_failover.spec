@@ -24,7 +24,7 @@
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.4
-Release:	1%{dist}
+Release:	2%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -71,7 +71,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+BuildRequires:	llvm13-devel clang13-devel
 %endif
 
 %description llvmjit
@@ -114,6 +114,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> 1.6.4-2
+- Update SLES 15 dependencies for SP4.
+
 * Thu Apr 7 2022 Devrim Gündüz <devrim@gunduz.org> 1.6.4-1
 - Update to 1.6.4
 

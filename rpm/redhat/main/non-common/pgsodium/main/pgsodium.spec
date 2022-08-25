@@ -19,7 +19,7 @@
 Summary:	PostgreSQL extension for high level cryptographic algorithms
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.4
-Release:	1%{dist}
+Release:	2%{dist}
 License:	BSD
 URL:		https://github.com/michelp/%{sname}/
 Source0:	https://github.com/michelp/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -65,7 +65,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm11-devel clang11-devel
+BuildRequires:	llvm13-devel clang13-devel
 %endif
 
 %description llvmjit
@@ -109,6 +109,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> 3.0.4-2
+- Update SLES 15 dependencies for SP4.
+
 * Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> 3.0.4-1
 - Update to 3.0.4
 
