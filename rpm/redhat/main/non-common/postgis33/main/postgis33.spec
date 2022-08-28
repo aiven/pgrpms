@@ -74,10 +74,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	rc2_1%{?dist}
+Release:	1%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc2.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc2.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.patch
 
@@ -224,7 +224,7 @@ The %{name}-utils package provides the utilities for PostGIS.
 %global __perl_requires %{SOURCE4}
 
 %prep
-%setup -q -n %{sname}-%{version}rc2
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
 %patch0 -p0
@@ -378,7 +378,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-%doc %{sname}-%{version}rc2.pdf
+%doc %{sname}-%{version}.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -396,6 +396,9 @@ fi
 %endif
 
 %changelog
+* Sun Aug 28 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.0-1
+- Update to 3.3.0
+
 * Tue Aug 23 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.0rc2-1
 - Update to 3.3.0 rc2
 
