@@ -1,5 +1,5 @@
---- examples/dbt2_profile.old	2022-08-28 22:14:15.801948869 +0100
-+++ examples/dbt2_profile	2022-08-28 22:14:48.370035804 +0100
+--- examples/dbt2_profile.old	2022-08-28 22:20:50.497002354 +0100
++++ examples/dbt2_profile	2022-08-28 22:22:47.775315378 +0100
 @@ -4,15 +4,8 @@
  
  # Database instance name.
@@ -18,3 +18,16 @@
  
  #
  # PostgreSQL specific variables.
+@@ -22,10 +15,10 @@
+ DBT2PORT=5432; export DBT2PORT
+ 
+ # Database instance path.
+-DBT2PGDATA=${HOME}/local/dbt2/pgdata; export DBT2PGDATA
++DBT2PGDATA=/pgsql/14/dbt2; export DBT2PGDATA
+ 
+ # Directory with tablespace mount points, if using tablespaces.
+-DBT2TSDIR=${HOME}/local/dbt2; export DBT2TSDIR
++DBT2TSDIR=/pgsql/14/dbt2; export DBT2TSDIR
+ 
+ # Flag to use PGPOOL.
+ USE_PGPOOL=0; export USE_PGPOOL
