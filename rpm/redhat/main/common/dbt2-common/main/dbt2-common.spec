@@ -10,6 +10,7 @@ Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.g
 URL:		https://github.com/osdldbt/%{sname}/
 Patch0:		%{sname}-cmakelists-rpm.patch
 Patch1:		%{sname}-profile.patch
+Patch2:		%{sname}-pgsql-db-stat-mkdir.patch
 
 BuildRequires:	gcc-c++
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -34,6 +35,7 @@ This package includes binaries to run the test.
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
 %patch1 -p0
+%patch2 -p0
 
 %build
 
@@ -72,7 +74,7 @@ popd
 %license LICENSE
 %config %{_sysconfdir}/dbt2_profile.conf
 %doc README doc/dbt2-architecture.txt  doc/dbt2-tpc.txt  doc/dbt2-user-guide.txt
-%{_bindir}/%{sname}-*
+%attr (755,root,root) %{_bindir}/%{sname}-*
 
 %changelog
 * Sun Aug 28 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-2
