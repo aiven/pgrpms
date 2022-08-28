@@ -17,7 +17,6 @@
 %global projfullversion %proj90fullversion
 %global projinstdir %proj90instdir
 
-
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	30
 
@@ -47,6 +46,7 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
+
 %if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
@@ -74,7 +74,7 @@
 
 Name:          %{sname}35
 Version:       3.5.1
-Release:       1%{?pre:%pre}%{?dist}
+Release:       2%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -154,14 +154,14 @@ BuildRequires:  pgdg-poppler-devel
 BuildRequires:  poppler-devel
 %endif
 %endif
-BuildRequires:  proj%{projmajorversion}-devel >= 7.1.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:  %{sqlitepname}-devel
 %else
 BuildRequires:  sqlite-devel
 %endif
 
-BuildRequires: proj%{projmajorversion}-devel >= 9.0.0
+BuildRequires:  proj%{projmajorversion}-devel >= %{projfullversion}
+
 BuildRequires: qhull-devel
 BuildRequires: sqlite-devel
 BuildRequires: swig
@@ -461,5 +461,8 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Sun Aug 28 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.1-2
+- Fix PROJ dependency on RHEL 7.
+
 * Mon Aug 15 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.1-1
 - Final version of the spec file for 3.5.1
