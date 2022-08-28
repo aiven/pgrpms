@@ -114,7 +114,7 @@ BuildRequires:  lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires: cmake
+BuildRequires: cmake3
 BuildRequires: gcc-c++
 
 BuildRequires: armadillo-devel
@@ -338,7 +338,7 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
-%cmake \
+%cmake3 \
   -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
   -DCMAKE_INSTALL_INCLUDEDIR=include \
   -DCMAKE_INSTALL_LIBDIR=lib \
