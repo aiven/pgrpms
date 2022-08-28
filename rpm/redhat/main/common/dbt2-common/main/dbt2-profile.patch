@@ -1,0 +1,20 @@
+--- examples/dbt2_profile.old	2022-08-28 22:14:15.801948869 +0100
++++ examples/dbt2_profile	2022-08-28 22:14:48.370035804 +0100
+@@ -4,15 +4,8 @@
+ 
+ # Database instance name.
+ DBT2DBNAME=dbt2; export DBT2DBNAME
+-PGUSER=root; export PGUSER
+-PGPORT=26257; export PGPORT
+-
+-#
+-# CockroachDB specific variables.
+-#
+-
+-PGUSER=root; export PGUSER
+-PGPORT=26257; export PGPORT
++PGUSER=postgres; export PGUSER
++PGPORT=5432; export PGPORT
+ 
+ #
+ # PostgreSQL specific variables.

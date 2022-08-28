@@ -4,11 +4,12 @@
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
 Version:	0.48.3
-Release:	1%{dist}
+Release:	2%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
 Patch0:		%{sname}-cmakelists-rpm.patch
+Patch1:		%{sname}-profile.patch
 
 BuildRequires:	gcc-c++
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -32,6 +33,7 @@ This package includes binaries to run the test.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
+%patch1 -p0
 
 %build
 
@@ -59,18 +61,22 @@ popd
 # Remove .sql files, we'll ship them with -extensions  subpackages.
 %{__rm} -f %{buildroot}/%{_datadir}/pgsql/*.sql
 
+%{__mkdir} -p %{buildroot}/%{_sysconfdir}/
+%{__cp} examples/dbt2_profile %{buildroot}/%{_sysconfdir}/dbt2_profile.conf
+
 %clean
 %{__rm} -rf %{buildroot}
-
-%post	-p /sbin/ldconfig
-%postun	-p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %license LICENSE
-%doc README
+%config %{_sysconfdir}/dbt2_profile.conf
+%doc README doc/dbt2-architecture.txt  doc/dbt2-tpc.txt  doc/dbt2-user-guide.txt
 %{_bindir}/%{sname}-*
 
 %changelog
+* Sun Aug 28 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-2
+- Add config file, and docs.
+
 * Thu Aug 11 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-1
 - Initial packaging
