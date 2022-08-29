@@ -29,7 +29,7 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 3.2.0
 %endif
 
-BuildRequires:	libpq5-devel openssl-dev curl-devel expat-devel
+BuildRequires:	libpq5-devel openssl-devel curl-devel expat-devel
 
 %description
 The Open Source Development Lab's Database Test 2 (DBT-2) test kit.
