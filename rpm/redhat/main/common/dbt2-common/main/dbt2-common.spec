@@ -12,7 +12,7 @@ Patch0:		%{sname}-cmakelists-rpm.patch
 Patch1:		%{sname}-profile.patch
 Patch2:		%{sname}-pgsql-db-stat-mkdir.patch
 
-BuildRequires:	gcc-c++ openssl-dev curl-devel expat-devel
+BuildRequires:	gcc-c++ openssl-devel curl-devel expat-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
 %else
