@@ -1,3 +1,4 @@
+%define		_build_id_links none
 %global		debug_package %{nil}
 %global		_missing_build_ids_terminate_build 0
 
