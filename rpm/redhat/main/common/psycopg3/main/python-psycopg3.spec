@@ -20,7 +20,7 @@ BuildArch:	noarch
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.0.15
+Version:	3.1
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -116,12 +116,14 @@ popd
 
 %{python3_sitelib}/psycopg-%{version}-py%{py3ver}.egg-info/*
 %{python3_sitelib}/psycopg/*.py
+%{python3_sitelib}/psycopg/crdb/*.py*
 %{python3_sitelib}/psycopg/pq/*.py*
 %{python3_sitelib}/psycopg/types/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
 %if 0%{?fedora} >= 34 || 0%{?rhel} >= 7
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
+%{python3_sitelib}/psycopg/crdb/__pycache__/*.py*
 %{python3_sitelib}/psycopg/pq/__pycache__/*.py*
 %{python3_sitelib}/psycopg/types/__pycache__/*.py*
 %endif
@@ -139,6 +141,9 @@ popd
 %endif
 
 %changelog
+* Sun Sep 4 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1-1
+- Update to 3.1
+
 * Sun Jul 10 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.15-1
 - Update to 3.0.15
 
