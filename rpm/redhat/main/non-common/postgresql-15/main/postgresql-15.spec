@@ -83,11 +83,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta3_3PGDG%{?dist}
+Release:	beta4_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15beta3/postgresql-%{pgpackageversion}beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15beta4/postgresql-%{pgpackageversion}beta4.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -587,7 +587,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{pgpackageversion}beta4
 
 %patch1 -p0
 %patch3 -p0
@@ -1421,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Wed Sep 7 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta4-1
+- Update to PostgreSQL 15 Beta 4
+
 * Fri Aug 19 2022 John Harvey <john.harvey@crunchydata.com> - 15.0-beta3-3
 - Ensure that /var/lib/pgsql is postgres-owned on SLES. This fixes
   postgres startup on SLES when using the default logfile path.
