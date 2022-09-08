@@ -4,8 +4,8 @@
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.0.0
-Release:	2%{?dist}
+Version:	5.0.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -57,6 +57,9 @@ export DB2_HOME="%{db2_home}"
 %endif
 
 %changelog
+* Thu Sep 8 2022 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
+- Update to 5.0.0
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 4.0.0-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
