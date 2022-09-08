@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	1.4.2
+Version:	1.5.0
 Release:	1%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -31,6 +31,8 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/grafana
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/images
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/shell_comp
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/tutorial
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
@@ -53,6 +55,13 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-prepared.png %{buildroot}%{_docdir}/%{name}/images/perf-prepared.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-readonly.png %{buildroot}%{_docdir}/%{name}/images/perf-readonly.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-simple.png %{buildroot}%{_docdir}/%{name}/images/perf-simple.png
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgagroal_comp.bash %{buildroot}%{_docdir}/%{name}/shell_comp/pgagroal_comp.bash
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgagroal_comp.zsh %{buildroot}%{_docdir}/%{name}/shell_comp/pgagroal_comp.zsh
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/01_install.md %{buildroot}%{_docdir}/%{name}/tutorial/01_install.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/02_prefill.md %{buildroot}%{_docdir}/%{name}/tutorial/02_prefill.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/03_remote_management.md %{buildroot}%{_docdir}/%{name}/tutorial/03_remote_management.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/04_prometheus.md %{buildroot}%{_docdir}/%{name}/tutorial/04_prometheus.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/05_split_security.md %{buildroot}%{_docdir}/%{name}/tutorial/05_split_security.md
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}_hba.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}_hba.conf
@@ -115,6 +124,13 @@ fi
 %{_docdir}/%{name}/images/*.png
 %{_docdir}/%{name}/grafana/dashboard.json
 %{_docdir}/%{name}/grafana/README.md
+%{_docdir}/%{name}/shell_comp/pgagroal_comp.bash
+%{_docdir}/%{name}/shell_comp/pgagroal_comp.zsh
+%{_docdir}/%{name}/tutorial/01_install.md
+%{_docdir}/%{name}/tutorial/02_prefill.md
+%{_docdir}/%{name}/tutorial/03_remote_management.md
+%{_docdir}/%{name}/tutorial/04_prometheus.md
+%{_docdir}/%{name}/tutorial/05_split_security.md
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
 %{_mandir}/man1/%{name}-cli.1*
@@ -134,6 +150,9 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Thu Sep 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-1
+- Update to 1.5.0
+
 * Mon Mar 21 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1
 - Update to 1.4.2
 
