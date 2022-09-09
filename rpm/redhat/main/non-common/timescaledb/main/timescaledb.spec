@@ -87,7 +87,7 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Thu Sep8 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
+* Thu Sep 8 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
 - Update to 2.8.0, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.8.0
 
