@@ -9,7 +9,7 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}
-Version:		4.3.2
+Version:		4.3.3
 Release:		1%{?dist}
 License:		BSD
 URL:			http://pgpool.net
@@ -18,7 +18,7 @@ Source1:		%{sname}.service
 Source2:		%{sname}.sysconfig
 Patch1:			%{sname}-conf.sample.patch
 
-BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
+BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel openldap-devel
 BuildRequires:		libmemcached-devel openssl-devel pgdg-srpm-macros
 
 Requires:		libmemcached
@@ -107,6 +107,7 @@ multiple Pgpool installations.
 	--libdir %{_libdir} \
 	--disable-static \
 	--sysconfdir=%{_sysconfdir}/%{name}/ \
+	--with-ldap \
 	--with-memcached=%{_includedir}/libmemcached \
 	--with-openssl \
 	--with-pam \
@@ -238,6 +239,10 @@ fi
 %{_libdir}/libpcp.so*
 
 %changelog
+* Fri Sep 9 2022 Devrim Gündüz <devrim@gunduz.org> - 4.3.3-1
+- Update to 4.3.3
+- Build with --with-ldap, per #7687 .
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 4.3.2-1
 - Updare to 4.3.2
 
