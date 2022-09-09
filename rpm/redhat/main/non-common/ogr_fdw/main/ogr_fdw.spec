@@ -25,13 +25,13 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.12
-Requires:	postgresql%{pgmajorversion}-server gdal%{gdalmajorversion}-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdal35majorversion}-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.25
+Requires:	postgresql%{pgmajorversion}-server gdal%{gdal35majorversion}-libs
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 
@@ -48,7 +48,7 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for ogr_fdw
-Requires:       %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch aarch64
 Requires:	llvm-toolset-7.0-llvm >= 7.0.1
@@ -56,14 +56,16 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?suse_version} == 1315
-Requires:       llvm
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm10
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:       llvm => 5.0
+Requires:	llvm => 5.0
 %endif
 
 %description llvmjit
@@ -122,6 +124,10 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Fri Sep 9 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.2-2
+- Rebuild against GDAL 3.5.X
+- Update LLVM requirements for SLES 15
+
 * Mon Aug 8 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.2-1
 - Update to 1.1.2
 
