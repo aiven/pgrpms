@@ -16,8 +16,8 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
 Release:	3%{?dist}
 License:	PostgreSQL
-URL:		http://laurenz.github.io/oracle_fdw/
-Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
+URL:		http://laurenz.github.io/%{sname}
+Source0:	https://github.com/laurenz/%{sname}/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
 Source1:	%{sname}-filter-requires-libclntsh.sh
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server
@@ -26,9 +26,9 @@ Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-BuildRequires:	oracle-instantclient21.7-basic
-BuildRequires:	oracle-instantclient21.7-devel
-Requires:	oracle-instantclient21.7-basic
+BuildRequires:	oracle-instantclient-basic >= 21.7.0.0.0
+BuildRequires:	oracle-instantclient-devel >= 21.7.0.0.0
+Requires:	oracle-instantclient-basic >= 21.7.0.0.0
 
 %description
 Provides a Foreign Data Wrapper for easy and efficient read access from
