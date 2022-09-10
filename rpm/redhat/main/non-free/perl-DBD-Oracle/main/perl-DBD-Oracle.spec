@@ -1,8 +1,8 @@
 %global		name perl-DBD-Oracle
 %global		pkgname %(echo %{name}| sed 's/perl-//')
-%{!?version:%global version 1.83}
-%{!?oi_ver:%global oi_ver instantclient21.3}
-%{!?oi_release:%global oi_release 21.5.0.0.0}
+%{!?version:%global version 1.90_4}
+%{!?oi_ver:%global oi_ver instantclient21.7}
+%{!?oi_release:%global oi_release 21.7.0.0.0}
 %global		release %{oi_release}%{dist}
 %global		perl_vendorarch %(eval "$(%{__perl} -V:installvendorarch)"; echo $installvendorarch)
 %global		_use_internal_dependency_generator 0
@@ -16,7 +16,7 @@ Release:	%{release}
 Summary:	DBD-Oracle - Oracle database driver for the DBI module
 License:	GPL+ or Artistic
 URL:		https://github.com/pythian/DBD-Oracle
-Source0:	https://www.cpan.org/modules/by-module/DBD/DBD-Oracle-1.83.tar.gz
+Source0:	https://github.com/perl5-dbi/DBD-Oracle/archive/refs/tags/v%{version}.tar.gz
 # A temp patch until the next release of perl-DBD-Oracle
 # so that it recognizes the new packaging as of OIC 21
 Patch0:		%{name}-OIC21.patch
@@ -71,6 +71,10 @@ chmod 755 %{custom_find_req}
 %{_mandir}/man3/*
 
 %changelog
+* Sat Sep 10 2022 Devrim Gündüz <devrim@gunduz.org> - 1.90.4-1
+- Update to 1.90_4
+- Update Oracle instant client version to 21.7.0.0.0
+
 * Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 1.83-1
 - Update to 1.83.0
 
