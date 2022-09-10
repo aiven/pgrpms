@@ -8,61 +8,27 @@
 %global		_use_internal_dependency_generator 0
 %global		__find_requires %{SOURCE1}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 # Disable tests by default.
 %{!?runselftest:%global runselftest 0}
 
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		http://laurenz.github.io/oracle_fdw/
 Source0:	https://github.com/laurenz/oracle_fdw/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
 Source1:	%{sname}-filter-requires-libclntsh.sh
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-# Packages come from EPEL and SCL:
-%ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
-%else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
-%endif
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm10-devel clang10-devel
-%endif
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-BuildRequires:	oracle-instantclient19.8-basic
-BuildRequires:	oracle-instantclient19.8-devel
-Requires:	oracle-instantclient19.8-basic
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
+BuildRequires:	oracle-instantclient21.7-basic
+BuildRequires:	oracle-instantclient21.7-devel
+Requires:	oracle-instantclient21.7-basic
 
 %description
 Provides a Foreign Data Wrapper for easy and efficient read access from
@@ -71,20 +37,14 @@ required columns as well as comprehensive EXPLAIN support.
 
 %prep
 %setup -q -n %{sname}-ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}
-%patch0 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf  %{buildroot}
-USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %check
 %if %runselftest
@@ -102,6 +62,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Sat Sep 10 2022 Devrim Gündüz <devrim@gunduz.org> 2.4.0-3
+- Rebuild against OIC 21.7
+- Remove pgxs patches, and export PATH instead.
+
 * Fri Sep 24 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
 - Update to 2.4.0
 
