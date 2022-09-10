@@ -17,9 +17,6 @@ Summary:	DBD-Oracle - Oracle database driver for the DBI module
 License:	GPL+ or Artistic
 URL:		https://github.com/pythian/DBD-Oracle
 Source0:	https://github.com/perl5-dbi/DBD-Oracle/archive/refs/tags/v%{version}.tar.gz
-# A temp patch until the next release of perl-DBD-Oracle
-# so that it recognizes the new packaging as of OIC 21
-Patch0:		%{name}-OIC21.patch
 Requires:	libaio
 Requires:	perl(:MODULE_COMPAT_%(eval "$(%{__perl} -V:version)"; echo $version))
 Requires:	perl(ExtUtils::MakeMaker) >= 6.30
@@ -39,7 +36,6 @@ In any case consult the DBI documentation first!
 
 %prep
 %setup -q -n %{pkgname}-%{version}
-%patch0 -p0
 chmod -R u+w %{_builddir}/%{pkgname}-%{version}
 
 %build
@@ -74,6 +70,7 @@ chmod 755 %{custom_find_req}
 * Sat Sep 10 2022 Devrim Gündüz <devrim@gunduz.org> - 1.90.4-1
 - Update to 1.90_4
 - Update Oracle instant client version to 21.7.0.0.0
+- Remove patch0, no longer needed.
 
 * Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 1.83-1
 - Update to 1.83.0
