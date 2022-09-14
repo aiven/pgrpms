@@ -4,7 +4,7 @@
 
 Name:		etcd
 Version:	3.5.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Distributed reliable key-value store
 
 License:	ASL 2.0
@@ -40,6 +40,7 @@ of a distributed system, with a focus on being:
 %{__mkdir} -p %{buildroot}/%{_unitdir}
 %{__cp} %{SOURCE1} %{buildroot}/%{_unitdir}/
 
+%{__mkdir} -p %{buildroot}/%{_var}/lib/%{name}
 
 %pre
 getent group %{name} >/dev/null || groupadd -r %{name}
@@ -62,12 +63,18 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %defattr(-,root,root,-)
 %doc README*
 %dir %attr(750, root, root) %{_sysconfdir}/%{name}
-%attr(640, root, root) %{_sysconfdir}/%{name}/%{name}.conf
+%dir %attr(750, etcd, etcd) %{_var}/lib/%{name}
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %{_unitdir}/%{name}.service
 %attr(755, root, root) %{_bindir}/etcd
 %attr(755, root, root) %{_bindir}/etcdctl
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Wed Sep 14 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-2
+- Make sure that we don't override the config file, per report and
+  fix from Matt Baker.
+- Create working directory, so that the daemon can start out of the box.
+
 * Thu Aug 18 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-1
 - Initial packaging for PostgreSQL RPM repository.
