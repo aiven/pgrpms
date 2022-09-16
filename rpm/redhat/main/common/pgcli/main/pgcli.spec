@@ -5,7 +5,7 @@
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	3.4.0
+Version:	3.5.0
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -83,6 +83,9 @@ done
 %doc LICENSE.txt
 
 %changelog
+* Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
+- Update to 3.5.0
+
 * Sun Mar 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0
 
