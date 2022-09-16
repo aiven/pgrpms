@@ -62,7 +62,6 @@ popd
 
 %files devel
 %dir %{_libdir}/cmake/%{name}
-%doc README-UPGRADE
 %{_includedir}/pqxx
 %{_libdir}/%{name}.so
 %{_libdir}/pkgconfig/%{name}.pc
