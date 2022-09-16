@@ -17,7 +17,7 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
-Version:	5.7
+Version:	5.8
 Release:	1%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
@@ -121,6 +121,9 @@ done
 %doc docs/
 
 %changelog
+* Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 5.8-1
+- Update to 5.8
+
 * Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 5.7-1
 - Update to 5.7
 
