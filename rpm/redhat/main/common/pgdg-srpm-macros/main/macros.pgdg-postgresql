@@ -138,7 +138,7 @@ BuildRequires:	advance-toolchain-%{atstring}-devel
 %global proj82fullversion		8.2.1
 %global proj81fullversion		8.1.1
 %global gdalfullversion			3.3.3
-%global gdal35fullversion		3.5.1
+%global gdal35fullversion		3.5.2
 %global gdal34fullversion		3.4.3
 %global gdal33fullversion		3.3.3
 %global gdal32fullversion		3.2.3

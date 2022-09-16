@@ -42,7 +42,7 @@ echo no build stage needed
 
 %changelog
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.26-1
-- Add Proj 9.1.0
+- Add Proj 9.1.0 and update GDAL to 3.5.2
 
 * Fri Aug 19 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.25-1
 - Add GDAL 3.5
