@@ -73,8 +73,8 @@
 %endif
 
 Name:          %{sname}35
-Version:       3.5.1
-Release:       2%{?pre:%pre}%{?dist}
+Version:       3.5.2
+Release:       1%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -461,6 +461,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Fri Sep 16 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-1
+- Update to 3.5.2
+
 * Sun Aug 28 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.1-2
 - Fix PROJ dependency on RHEL 7.
 
