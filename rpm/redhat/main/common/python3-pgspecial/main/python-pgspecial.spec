@@ -1,13 +1,17 @@
 
 %global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 %global sname pgspecial
 %global srcname pgspecial
 
 Name:		python3-%{sname}
-Version:	1.12.1
+Version:	2.0.1
 Release:	1%{?dist}
 Epoch:		1
 Summary:	Meta-commands handler for Postgres Database.
@@ -39,6 +43,9 @@ CFLAGS="%{optflags}" %{__ospython3} setup.py build
 %{python3_sitelib}/%{sname}/*
 
 %changelog
+* Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 1:2.0.1-1
+- Update to 2.0.1
+
 * Thu Mar 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1:1.12.1-1
 - Update to 1.12.1
 - Remove PY2 stuff.
