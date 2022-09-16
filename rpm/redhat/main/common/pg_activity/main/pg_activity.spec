@@ -16,15 +16,9 @@ License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
-Requires:	python3 >= 3.6, python3-psycopg2 >= 2.8.3
-%if 0%{?rhel} == 7
-Requires:	python36-psutil python36-humanize
-Requires:	python36-blessed python36-attrs
-%endif
-%if 0%{?fedora} > 27 || 0%{?rhel} == 8
-Requires:	python3-psutil python3-humanize
-Requires:	python3-blessed python3-attrs
-%endif
+Requires:	python3 >= 3.9, python3-psycopg2 >= 2.8.3
+Requires:	python3-psutil python3-humanize >= 2.6.0
+Requires:	python3-blessed python3-attrs >= 18.1
 
 BuildRequires:	python3-setuptools >= 0.6.10
 
@@ -58,6 +52,8 @@ top like application for PostgreSQL server activity monitoring.
 %changelog
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
+- Remove support for RHEL 7, as this new version requires
+  Python 3.9.
 
 * Thu Apr 28 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1
 - Update to 2.3.1
