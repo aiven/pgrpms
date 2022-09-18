@@ -8,7 +8,7 @@
 %endif
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-Name:           python-attrs
+Name:           python3-attrs
 Version:        22.1.0
 Release:        1%{?dist}
 Summary:        Python attributes without boilerplate
