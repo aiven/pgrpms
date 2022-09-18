@@ -1,4 +1,5 @@
-%global modname attrs
+%global pypi_name attrs
+%global sname attr
 
 %global __ospython %{_bindir}/python3.9
 %if 0%{?fedora} >= 35
@@ -16,7 +17,7 @@ Summary:        Python attributes without boilerplate
 License:        MIT
 URL:            http://www.attrs.org/
 BuildArch:      noarch
-Source0:        https://github.com/hynek/%{modname}/archive/%{version}/%{modname}-%{version}.tar.gz
+Source0:        https://github.com/hynek/%{pypi_name}/archive/%{version}/%{pypi_name}-%{version}.tar.gz
 
 BuildRequires:  python39-devel
 BuildRequires:  python39-setuptools
@@ -26,27 +27,25 @@ attrs is an MIT-licensed Python package with class decorators that
 ease the chores of implementing the most common attribute-related
 object protocols.
 
-%package -n python3-%{modname}
-Summary:        %{summary}
-
-%description -n python%{python3_pkgversion}-%{modname}
-attrs is an MIT-licensed Python package with class decorators that
-ease the chores of implementing the most common attribute-related
-object protocols.
-
 %prep
-%setup -q -n %{modname}-%{version}
+%setup -q -n %{pypi_name}-%{version}
 
 %build
-%py3_build
+%{__ospython} setup.py build
 
 %install
-%py3_install
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 
-%files -n python%{python3_pkgversion}-%{modname}
+%files
 %license LICENSE
 %doc AUTHORS.rst README.rst
-%{python3_sitelib}/*
+%{python3_sitelib}/%{sname}/*.py*
+%{python3_sitelib}/%{sname}/py.typed
+%{python3_sitelib}/%{sname}/__pycache__/*.pyc
+%{python3_sitelib}/%{pypi_name}/*.py*
+%{python3_sitelib}/%{pypi_name}/py.typed
+%{python3_sitelib}/%{pypi_name}/__pycache__/*.pyc
+%{python3_sitelib}/%{pypi_name}-%{version}-py%{pyver}.egg-info
 
 %changelog
 * Sun Sep 18 2022 Devrim Gunduz <devrim@gunduz.org>  - 22.1.0-1
