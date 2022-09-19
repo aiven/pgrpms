@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
+Version:	1.1.0
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
@@ -82,7 +82,6 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%doc docs/
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -92,6 +91,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Sep 19 2022 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+- Update to 1.1.0
+
 * Tue May 31 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
 - Update to 1.0.1
 
