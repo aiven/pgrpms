@@ -1,5 +1,11 @@
 %{!?with_python3:%global with_python3 1}
+
+%if 0%{?rhel} == 8
+%global __ospython %{_bindir}/python3.9
+%else
 %global __ospython %{_bindir}/python3
+%endif
+
 %if 0%{?fedora} >= 35
 %{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
@@ -11,12 +17,19 @@
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	3.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
-Requires:	python3 >= 3.9, python3-psycopg2 >= 2.8.3
+
+%if 0%{?rhel} == 8
+Requires:	python39
+%else
+Requires:	python3 >= 3.9
+%endif
+
+Requires:	python3-psycopg2 >= 2.8.3
 Requires:	python3-psutil python3-humanize >= 2.6.0
 Requires:	python3-blessed python3-attrs >= 18.1
 
@@ -50,6 +63,9 @@ top like application for PostgreSQL server activity monitoring.
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon Sep 19 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-2
+- Add proper RHEL 8 support.
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 - Remove support for RHEL 7, as this new version requires
