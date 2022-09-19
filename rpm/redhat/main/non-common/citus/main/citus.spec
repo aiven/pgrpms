@@ -18,8 +18,8 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	11.0.6
-Release:	2%{dist}
+Version:	11.1.0
+Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -123,9 +123,13 @@ make %{?_smp_mflags}
 %endif
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
+%{pginstdir}/lib/%{sname}_columnar.so
 %{pginstdir}/bin/pg_send_cancellation
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}_columnar-*.sql
+%{pginstdir}/share/extension/columnar-*.sql
+%{pginstdir}/share/extension/%{sname}_columnar.control
 
 %files devel
 %defattr(-,root,root,-)
@@ -137,10 +141,13 @@ make %{?_smp_mflags}
     %{pginstdir}/lib/bitcode/%{sname}*.bc
     %{pginstdir}/lib/bitcode/%{sname}/*.bc
     %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
-    %{pginstdir}/lib/bitcode/columnar/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}_columnar/*
 %endif
 
 %changelog
+* Mon Sep 19 2022 Devrim Gündüz <devrim@gunduz.org> 11.1.1-1
+- Update to 11.1.1
+
 * Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> 11.0.6-2
 - Update SLES 15 requirements for SP4.
 
