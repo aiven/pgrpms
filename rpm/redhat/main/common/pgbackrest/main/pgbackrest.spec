@@ -6,7 +6,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.40
+Version:	2.41
 Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -24,7 +24,7 @@ Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel libyaml-devel
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 35 || 0%{?rhel} >= 8
 Requires:	lz4-libs libzstd
 BuildRequires:	lz4-devel bzip2-devel
 %endif
@@ -176,6 +176,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Sep 19 2022 Devrim Gündüz <devrim@gunduz.org> - 2.41-1
+- Update to 2.41, per changes described at:
+  https://pgbackrest.org/release.html#2.41
+
 * Tue Jul 19 2022 Devrim Gündüz <devrim@gunduz.org> - 2.40-1
 - Update to 2.40, per changes described at:
   https://pgbackrest.org/release.html#2.40
