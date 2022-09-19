@@ -1,1 +1,0 @@
-../main/../main/cstore_fdw.spec
