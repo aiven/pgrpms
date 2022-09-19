@@ -10,9 +10,9 @@
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos310fullversion
-%global geosmajorversion %geos310majorversion
-%global geosinstdir %geos310instdir
+%global geosfullversion %geos311fullversion
+%global geosmajorversion %geos311majorversion
+%global geosinstdir %geos311instdir
 %global projmajorversion %proj90majorversion
 %global projfullversion %proj90fullversion
 %global projinstdir %proj90instdir
@@ -74,7 +74,7 @@
 
 Name:          %{sname}35
 Version:       3.5.2
-Release:       1%{?pre:%pre}%{?dist}
+Release:       2%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -461,6 +461,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Sep 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-2
+- Rebuild against GeOS 3.11.0, per report from Laurenz Albe .
+
 * Fri Sep 16 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-1
 - Update to 3.5.2
 
