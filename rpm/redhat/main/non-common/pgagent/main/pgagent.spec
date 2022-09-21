@@ -9,12 +9,12 @@
 
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2.1
+Version:	4.2.2
 Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	https://download.postgresql.org/pub/pgadmin/%{sname}/pgAgent-%{version}-Source.tar.gz
+Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
-URL:		http://www.pgadmin.org/
+URL:		https://github.com/pgadmin-org/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 %if 0%{?rhel} && 0%{?rhel} <= 7
 BuildRequires:	cmake3
@@ -58,7 +58,7 @@ fi
 %{__chmod} 0700 /var/log/pgagent_%{pgmajorversion}.log
 
 %prep
-%setup -q -n pgAgent-%{version}-Source
+%setup -q -n %{sname}-%{sname}-%{version}
 
 %build
 %ifarch ppc64 ppc64le
@@ -161,10 +161,13 @@ fi
 %dir %{_sysconfdir}/%{sname}/
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{sname}/%{name}.conf
 %{pginstdir}/share/extension/%{sname}--*.sql
-%{pginstdir}/share/extension/%{sname}--unpackaged--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Sep 11 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
+- Update to 4.2.2
+- Update URLs
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1
 - Move .conf and .logrotate files to spec file, so that we
   do less work during each PostgreSQL major release.
