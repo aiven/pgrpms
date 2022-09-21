@@ -3,7 +3,7 @@
 
 Name:		python3-%{modname}
 Version:	0.4.5
-Release:	20%{?dist}
+Release:	42%{?dist}
 Summary:	A python client library for etcd
 
 License:	MIT
@@ -19,14 +19,15 @@ BuildArch:	noarch
 ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x
 
 %if 0%{?rhel} == 7
-BuildRequires:	python36-mock
-BuildRequires:	python36-nose
-BuildRequires:	python36-pyOpenSSL
+Requires:	python36-urllib3 >= 1.7.1
+Requires:	python36-dnspython >= 1.13.0
 %else
-BuildRequires:	python3-mock
-BuildRequires:	python3-nose
-BuildRequires:	python3-pyOpenSSL
+Requires:	python3-urllib3 >= 1.7.1
+Requires:	python3-dnspython >= 1.13.0
 %endif
+
+    'urllib3>=1.7.1',
+    'dnspython>=1.13.0'
 
 %description
 Client library for interacting with an etcd service, providing Python
@@ -49,6 +50,10 @@ election.
 %{python3_sitelib}/*
 
 %changelog
+* Wed Sep 21 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-42
+- Fix dependencies. The previous one was for tests. Now we specify
+  runtime dependencies.
+
 * Wed Aug 5 2020 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-20
 - Initial packaging for PostgreSQL RPM repository to satisfy
   patroni dependency on RHEL 8
