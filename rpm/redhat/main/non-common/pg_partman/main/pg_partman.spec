@@ -6,20 +6,20 @@
 %endif
 %endif
 
-%if 0%{?fedora} > 32 || 0%{?rhel} >= 7
+%if 0%{?fedora} > 32 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1500
 %{!?with_python3:%global with_python3 1}
 %endif
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1500
 Requires:	python3-psycopg2
 %endif
 
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Sep 22 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.0-2
+- SUSE should use python3 by default
+
 * Tue Aug 9 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.0-1
 - Update to 4.7.0
 
