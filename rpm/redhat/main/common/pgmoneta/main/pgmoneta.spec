@@ -1,5 +1,5 @@
 Name:		pgmoneta
-Version:	0.5.7
+Version:	0.6.0
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -9,9 +9,11 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 
 Patch0:		%{name}-conf-rpm.patch
-BuildRequires:	gcc cmake make python3-docutils zlib-devel libzstd-devel
-BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
-Requires:	libev openssl systemd postgresql zlib libzstd
+BuildRequires:	gcc cmake make python3-docutils zlib-devel lz4-devel
+BuildRequires:	libev libev-devel openssl openssl-devel
+BuildRequires:	libssh-devel systemd-devel libzstd-devel
+Requires:	libev openssl systemd postgresql zlib
+Requires:	libzstd lz4 libssh
 
 # Systemd stuff
 BuildRequires:		systemd, systemd-devel
@@ -48,9 +50,17 @@ cmake -DCMAKE_BUILD_TYPE=Release .. -DCMAKE_INSTALL_PREFIX=/usr
 cd build
 %{__make} install DESTDIR=%{buildroot}
 
-%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
-%{__mv} %{buildroot}/usr/etc/%{name}/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}
+# Install some files manually
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/shell_comp
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/tutorial
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgmoneta_comp.* %{buildroot}%{_docdir}/%{name}/shell_comp/
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/0*.md %{buildroot}%{_docdir}/%{name}/tutorial/
 
+# Install config file
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} %{buildroot}/%{_docdir}/%{name}/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}
+
+# Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
 
@@ -102,6 +112,9 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Sep 23 2022 Devrim Gündüz <devrim@gunduz.org> 0.6.0-1
+- Update to 0.6.0
+
 * Thu Aug 11 2022 Devrim Gündüz <devrim@gunduz.org> 0.5.7-1
 - Update to 0.5.7
 
