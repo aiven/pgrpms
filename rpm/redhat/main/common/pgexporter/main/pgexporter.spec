@@ -1,5 +1,5 @@
 Name:		pgexporter
-Version:	0.2.3
+Version:	0.3.0
 Release:	1%{dist}
 Summary:	Prometheus exporter for PostgreSQL
 License:	BSD
@@ -8,7 +8,8 @@ Source0:	https://github.com/%{name}/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake3 make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel systemd systemd-devel
-Requires:	libev openssl systemd
+BuildRequires:	libyaml-devel
+Requires:	libev libyaml openssl systemd
 
 %description
 Prometheus exporter for PostgreSQL
@@ -28,6 +29,8 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_bindir}
 %{__mkdir} -p %{buildroot}%{_libdir}
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/shell_comp
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/tutorial
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
@@ -40,7 +43,10 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/GETTING_STARTED.md %{buildroot}%{_docdir}/%{name}/GETTING_STARTED.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/RPM.md %{buildroot}%{_docdir}/%{name}/RPM.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/YAML.md %{buildroot}%{_docdir}/%{name}/YAML.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.service %{buildroot}%{_docdir}/%{name}/etc/%{name}.service
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgexporter_comp.* %{buildroot}%{_docdir}/%{name}/shell_comp/
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/*.md %{buildroot}%{_docdir}/%{name}/tutorial/
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 
@@ -65,14 +71,10 @@ cd %{buildroot}%{_libdir}/
 
 %files
 %license %{_docdir}/%{name}/LICENSE
-%{_docdir}/%{name}/ARCHITECTURE.md
-%{_docdir}/%{name}/CODE_OF_CONDUCT.md
-%{_docdir}/%{name}/CLI.md
-%{_docdir}/%{name}/CONFIGURATION.md
-%{_docdir}/%{name}/GETTING_STARTED.md
-%{_docdir}/%{name}/README.md
-%{_docdir}/%{name}/RPM.md
+%{_docdir}/%{name}/*.md
 %{_docdir}/%{name}/etc/%{name}.service
+%{_docdir}/%{name}/shell_comp/*
+%{_docdir}/%{name}/tutorial/*.md
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
 %{_mandir}/man1/%{name}-cli.1*
@@ -86,6 +88,9 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgexporter.so.%{version}
 
 %changelog
+* Fri Sep 23 2022 - Devrim Gündüz <devrim@gunduz.org> 0.3.0-1
+- Update to 0.3.0
+
 * Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> 0.2.3-1
 - Update to 0.2.3
 
