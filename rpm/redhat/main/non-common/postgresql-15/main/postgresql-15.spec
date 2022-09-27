@@ -7,7 +7,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -83,11 +83,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	beta4_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15beta4/postgresql-%{pgpackageversion}beta4.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15rc1/postgresql-%{pgpackageversion}rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -587,7 +587,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta4
+%setup -q -n %{sname}-%{pgpackageversion}rc1
 
 %patch1 -p0
 %patch3 -p0
@@ -1421,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 27 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-rc1-1
+- Update to PostgreSQL 15 RC 1
+
 * Wed Sep 7 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-beta4-1
 - Update to PostgreSQL 15 Beta 4
 
