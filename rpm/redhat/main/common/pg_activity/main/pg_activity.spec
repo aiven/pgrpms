@@ -32,6 +32,7 @@ Requires:	python3 >= 3.9
 Requires:	python3-psycopg2 >= 2.8.3
 Requires:	python3-psutil python3-humanize >= 2.6.0
 Requires:	python3-blessed python3-attrs >= 18.1
+Requires:	python3-six
 
 BuildRequires:	python3-setuptools >= 0.6.10
 
