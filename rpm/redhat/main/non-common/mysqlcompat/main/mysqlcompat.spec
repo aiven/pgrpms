@@ -68,7 +68,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Fri Jun 3 2021 Devrim Gündüz <devrim@gunduz.org> 0.0.7-3
+* Thu Jun 3 2021 Devrim Gündüz <devrim@gunduz.org> 0.0.7-3
 - Remove pgxs patches, and export PATH instead.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.0.7-2
