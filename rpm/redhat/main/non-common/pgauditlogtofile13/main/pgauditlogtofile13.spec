@@ -18,7 +18,7 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.5
+Version:	1.5.6
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
@@ -110,6 +110,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.5.6-1
+- Update to 1.5.6
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> 1.5.5-1
 - Update to 1.5.5
 
