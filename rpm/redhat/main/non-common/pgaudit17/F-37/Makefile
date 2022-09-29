@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
+DIST=.f37
 SPECFILE="pgaudit17.spec"
 
 # Now, include global Makefile
