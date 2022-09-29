@@ -28,30 +28,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel gcc pgdg-srpm-macros
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 3.4.1-2
 
-%ifnarch ppc64 ppc64le s390 s390x armv7hl
-%if 0%{?rhel} && 0%{?rhel} == 7
-# Packages come from EPEL and SCL:
-%ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
-%else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
-%endif
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm10-devel clang10-devel
-%endif
-%endif
-
 BuildRequires:	python3-devel
 
 Requires:	python3-psycopg2 postgresql%{pgmajorversion} python3
@@ -77,11 +53,13 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?suse_version} == 1315
-Requires:	llvm
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm10
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
