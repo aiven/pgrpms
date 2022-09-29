@@ -117,7 +117,6 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %{pginstdir}/include/server/extension/%{sname}/*
 
 %files llvmjit
-%{pginstdir}/lib/bitcode/%{sname}.index.bc
 %{pginstdir}/lib/bitcode/%{sname}*.bc
 %dir %{pginstdir}/lib/bitcode/%{sname}
 %{pginstdir}/lib/bitcode/%{sname}/*
