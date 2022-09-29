@@ -76,10 +76,6 @@ Requires:	llvm => 5.0
 This packages provides JIT support for pgauditlogtofile
 %endif
 
-%description llvmjit
-This packages provides JIT support for pgauditlogtofile
-%endif
-
 %prep
 %setup -q -n %{sname}-%{version}
 
