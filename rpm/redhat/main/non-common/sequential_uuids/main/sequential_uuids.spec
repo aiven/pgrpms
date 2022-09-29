@@ -7,10 +7,20 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Sequential UUID generators for PostgreSQL
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/tvondra/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/tvondra/%{sname}
@@ -21,6 +31,33 @@ Requires:	postgresql%{pgmajorversion}-server
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_min_requires
 %endif
+%endif
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for sequential_uuids
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for sequential_uuids
 %endif
 
 %description
@@ -55,17 +92,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/lib/%{pname}.so
 %{pginstdir}/share/extension/%{pname}*sql
 %{pginstdir}/share/extension/%{pname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{pname}*.bc
    %{pginstdir}/lib/bitcode/%{pname}/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.0.2-2
+- Fix builds on RHEL 8 - ppc64le (switch to new LLVM scheme)
+
 * Thu Jan 20 2022 Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Initial packaging for PostgreSQL RPM Repository
