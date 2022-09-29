@@ -19,7 +19,7 @@
 
 Summary:	Generic Queue for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.4.2
+Version:	3.5
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/v%{version}.tar.gz
@@ -119,8 +119,7 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %files
 %defattr(644,root,root,755)
 %{pginstdir}/lib/pgq*.so
-%{pginstdir}/share/contrib/*pgq.sql
-%{pginstdir}/share/contrib/pgq*.sql
+%{pginstdir}/share/contrib/*pgq*.sql
 %{pginstdir}/share/extension/pgq*.sql
 %{pginstdir}/share/extension/pgq*.control
 
@@ -131,6 +130,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5-1
+- Update to 3.5
+
 * Wed Apr 27 2022 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-1
 - Update to 3.4.2
 - Split llvmjit into its own subpackage.
