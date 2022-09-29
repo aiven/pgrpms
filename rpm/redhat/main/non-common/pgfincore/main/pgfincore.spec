@@ -6,10 +6,20 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.2
-Release:	3%{?dist}
+Version:	1.2.4
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/klando/pgfincore
@@ -26,6 +36,33 @@ Obsoletes:	%{sname}%{pgmajorversion} < 1.2.2-2
 
 %description
 PgFincore is a set of functions to manage blocks in memory.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pgfincore
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pgfincore
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -56,26 +93,23 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/pgfincore/README.md
 %doc AUTHORS ChangeLog
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYRIGHT
-%else
 %license COPYRIGHT
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/pgfincore/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
+
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.2.4-1
+- Update to 1.2.4
+- Remove RHEL 6 support
+- Update LLVM code.
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 1.2.2-3
 - Remove pgxs patches, and export PATH instead.
 
