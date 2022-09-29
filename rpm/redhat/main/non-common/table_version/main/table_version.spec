@@ -9,7 +9,7 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.9.0
+Version:	1.10.3
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
@@ -69,6 +69,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/table_version.control
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-1
+- Update to 1.10.3
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1
 - Update to 1.9.0
 - Remove pgxs patches, and export PATH instead.
