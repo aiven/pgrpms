@@ -1,10 +1,5 @@
 %global sname repmgr
 %global unitname	%{sname}-%{pgmajorversion}
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -24,21 +19,16 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
 Source0:	https://repmgr.org/download/%{sname}-%{version}.tar.gz
-%if %{systemd_enabled}
 Source1:	repmgr-pg%{pgmajorversion}.service
-%else
-Source2:	repmgr-pg%{pgmajorversion}.init
-%endif
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
 Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 Patch1:		repmgr-pg%{pgmajorversion}-config-file-location.patch
 
-%if %{systemd_enabled}
 BuildRequires:          systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
@@ -52,22 +42,12 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
-%endif
 
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel pam-devel readline-devel
 BuildRequires:	libmemcached-devel libicu-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
@@ -75,7 +55,6 @@ Requires:	libopenssl1_0_0
 Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
-%endif
 %endif
 %endif
 
@@ -136,11 +115,13 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?suse_version} == 1315
-Requires:	llvm
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm10
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -169,13 +150,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
-%if %{systemd_enabled}
 # Use new %%make_install macro:
 USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
-%else
-# Use older version
-USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
-%endif
+
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/%{sname}/%{pgpackageversion}/
@@ -184,7 +161,6 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 # Create the directory for sockets.
 %{__install} -d -m 0755 %{buildroot}%{_rundir}/%{sname}
 
-%if %{systemd_enabled}
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/%{unitname}.service
 
@@ -193,14 +169,6 @@ USE_PGXS=1 %{__make} install  DESTDIR=%{buildroot}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_rundir}/%{sname} 0755 postgres postgres -
 EOF
-
-%else
-%{__install} -d %{buildroot}%{_sysconfdir}/init.d
-%{__install} -m 755 %{SOURCE2} %{buildroot}%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
-# Create the sysconfig directory and config file:
-%{__install} -d -m 700 %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/
-%{__install} -m 600 %{SOURCE3} %{buildroot}%{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
-%endif
 
 %pre
 if [ ! -x /var/log/repmgr ]
@@ -212,7 +180,6 @@ fi
 %post
 /sbin/ldconfig
 if [ $1 -eq 1 ] ; then
- %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
@@ -221,21 +188,13 @@ if [ $1 -eq 1 ] ; then
    %else
     %systemd_post %{sname}-%{pgmajorversion}.service
    %endif
-  %else
-   /sbin/chkconfig --add %{sname}-%{pgpackageversion}
-  %endif
 fi
 
 %postun -p /sbin/ldconfig
 
 %files
-%if %{systemd_enabled}
 %doc CREDITS HISTORY README.md
 %license COPYRIGHT LICENSE
-%else
-%defattr(-,root,root,-)
-%doc CREDITS HISTORY README.md LICENSE COPYRIGHT
-%endif
 %dir %{pginstdir}/bin
 %dir %{_sysconfdir}/%{sname}/%{pgpackageversion}/
 %attr(755,postgres,postgres) %dir %{_rundir}/%{sname}
@@ -245,14 +204,9 @@ fi
 %{pginstdir}/lib/repmgr.so
 %{pginstdir}/share/extension/repmgr.control
 %{pginstdir}/share/extension/repmgr*sql
-%if %{systemd_enabled}
 %ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{unitname}.service
-%else
-%{_sysconfdir}/init.d/%{sname}-%{pgpackageversion}
-%config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/%{sname}/%{sname}-%{pgpackageversion}
-%endif
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %files devel
@@ -266,6 +220,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 29 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.2-2
+- Remove RHEL 6 support.
+
 * Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.2-1
 - Update to 5.3.2, per changes described at:
   https://repmgr.org/docs/current/release-5.3.2.html
