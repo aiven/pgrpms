@@ -6,10 +6,20 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20200522
-Release:	3%{?dist}
+Version:	1.20220917
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/plsh
@@ -27,6 +37,33 @@ Obsoletes:	%{sname}%{pgmajorversion} < 1.20200522-2
 %description
 PL/sh is a procedural language handler for PostgreSQL that
 allows you to write stored procedures in a shell of your choice.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for plsh
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for plsh
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -65,18 +102,18 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %{pginstdir}/share/extension/%{sname}--2.sql
 %{pginstdir}/share/extension/%{sname}--unpackaged--1.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20220917-1
+- Update to 1.20220917
+- Update llvm code
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200522-3
 - Remove pgxs patches, and  export PATH instead.
 
