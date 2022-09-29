@@ -6,10 +6,20 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.0
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
@@ -35,6 +45,33 @@ The TopN extension becomes useful when you want to materialize top
 values, incrementally update these top values, and/or merge top values
 from different time intervals. If you're familiar with the PostgreSQL
 HLL extension, you can think of TopN as its cousin.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for topn
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for topn
+%endif
 
 %prep
 %setup -q -n postgresql-%{sname}-%{version}
@@ -64,18 +101,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
+* Thu Sep 20 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2
+- Fix builds on RHEL 8 - ppc64le (switch to new LLVM scheme)
+
 * Mon Sep 13 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
 - Update to 2.4.0
 
