@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	26
+Release:	27
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / Rocky / CentOS
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -51,6 +51,9 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-27
+- Add v15 stable repo.
+
 * Fri Aug 19 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-26
 - Add pgdg15-source-updates-testing and pgdg15-updates-testing-debuginfo
   repos. Per report from Justin Pryzby .
