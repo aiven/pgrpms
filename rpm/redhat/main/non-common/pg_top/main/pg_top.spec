@@ -9,7 +9,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.7.0
-Release:	7%{?dist}
+Release:	8%{?dist}
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
@@ -20,7 +20,6 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-Obsoletes:	ptop => 3.5.0
 Obsoletes:	%{sname}%{pgmajorversion} < 3.7.0-6
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -75,15 +74,14 @@ fi
 %files
 %defattr(-,root,root,-)
 %doc FAQ README
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/bin/pg_top
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-8
+- Remove RHEL 6 support, and remove obsoletes
+
 * Thu Feb 4 2021 John Harvey <john.harvey@crunchydata.com> 3.7.0-7
 - Fix Obsoletes
 
