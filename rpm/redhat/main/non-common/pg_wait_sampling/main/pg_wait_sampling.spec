@@ -9,7 +9,7 @@
 Summary:	Sampling based statistics of wait events
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.3
+Version:	1.1.4
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/v%{version}.tar.gz
@@ -72,6 +72,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Sep 30 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.4-1
+- Update to 1.1.4
+
 * Wed Jan 27 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-1
 - Update to 1.1.3
 - export PATH for pg_config, to get rid of patches.
