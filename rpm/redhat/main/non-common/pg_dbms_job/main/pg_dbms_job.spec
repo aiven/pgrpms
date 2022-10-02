@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL extension to schedules and manages jobs in a job queue similar to Oracle DBMS_JOB package
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
+Version:	1.5
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/MigOpsRepos/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -41,6 +41,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=%{buildroot
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sun Oct 2 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5-1
+- Update to 1.5
+
 * Fri May 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
 - Update to 1.4.0
 
