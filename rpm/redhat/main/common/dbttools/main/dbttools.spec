@@ -7,7 +7,7 @@ Source0:	https://github.com/osdldbt/dbttools/archive/refs/tags/v0.3.1.tar.gz
 URL:		https://github.com/osdldbt/dbttools
 
 BuildArch:	noarch
-Requires:	R-core >= 2.9.2
+Requires:	R-core >= 2.9.2 pandoc
 
 %description
 The purpose of this package is to provide tools that are shared between
