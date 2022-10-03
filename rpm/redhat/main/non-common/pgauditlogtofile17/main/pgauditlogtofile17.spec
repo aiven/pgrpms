@@ -19,13 +19,13 @@
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/fmbiete/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server pgaudit16_%{pgmajorversion}
+Requires:	postgresql%{pgmajorversion}-server pgaudit17_%{pgmajorversion}
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 1.0-2
 
@@ -113,6 +113,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Oct 3 2022 Devrim Gündüz <devrim@gunduz.org> 1.5.6-2
+- This package needs to require pgaudit17.
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.5.6-1
 - Update to 1.5.6
 
