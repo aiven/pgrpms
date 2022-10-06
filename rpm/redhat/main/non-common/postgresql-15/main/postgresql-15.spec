@@ -83,11 +83,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	rc1_1PGDG%{?dist}
+Release:	rc2_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v15rc1/postgresql-%{pgpackageversion}rc1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v15rc2/postgresql-%{pgpackageversion}rc2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -587,7 +587,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}rc1
+%setup -q -n %{sname}-%{pgpackageversion}rc2
 
 %patch1 -p0
 %patch3 -p0
@@ -1421,6 +1421,9 @@ fi
 %endif
 
 %changelog
+* Tue Oct 4 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-rc2-1
+- Update to PostgreSQL 15 RC 2
+
 * Tue Sep 27 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-rc1-1
 - Update to PostgreSQL 15 RC 1
 
