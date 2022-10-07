@@ -50,7 +50,7 @@ Requires:		python3
 Requires:		python3-psycopg2
 %if 0%{?rhel} == 7
 BuildRequires:	python36-six >= 1.4
-BuildRequires:	python36-psycopg2
+BuildRequires:	python3-psycopg2
 %else
 BuildRequires:	python3-six >= 1.4
 BuildRequires:	python3-psycopg2
