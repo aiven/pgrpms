@@ -1,6 +1,10 @@
 %global sname psycopg2
 %global pname python-%{sname}
 
+%global ppg2majver 2
+%global ppg2midver 9
+%global ppg2minver 4
+
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 %pgdg_set_ppc64le_compiler_at10
@@ -42,12 +46,12 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	2.9.4
+Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
-Url:		http://initd.org/psycopg/
-Source0:	http://initd.org/psycopg/tarballs/PSYCOPG-2-8/psycopg2-%{version}.tar.gz
+Url:		https://www.psycopg.org
+Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/2_9_4.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -116,7 +120,7 @@ database adapter.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{ppg2majver}_%{ppg2midver}_%{ppg2minver}
 
 %build
 %if 0%{?rhel} && 0%{?rhel} == 7
