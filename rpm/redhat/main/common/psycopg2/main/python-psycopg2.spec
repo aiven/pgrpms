@@ -42,7 +42,7 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	2.9.3
+Version:	2.9.4
 Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -211,6 +211,9 @@ done
 %endif
 
 %changelog
+* Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.4-1
+- Update to 2.9.4
+
 * Wed Jan 5 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.3-1
 - Update to 2.9.3
 
