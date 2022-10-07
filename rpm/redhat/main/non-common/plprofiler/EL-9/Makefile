@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.rhel9
 SPECFILE="plprofiler.spec"
 
 # Now, include global Makefile
