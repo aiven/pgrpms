@@ -1,5 +1,15 @@
 %global sname wal2json
-%global wal2json_rel 2_4
+%global wal2json_rel 2_5
+
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,7 +23,7 @@
 
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4
+Version:	2.5
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{wal2json_rel}.tar.gz
@@ -35,6 +45,34 @@ of the new/old tuples are available in the JSON object. Also, there are
 options to include properties such as transaction timestamp,
 schema-qualified, data types, and transaction ids.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for wal2json
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 5.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for wal2json
+%endif
+
+
 %prep
 %setup -q -n %{sname}-%{sname}_%{wal2json_rel}
 
@@ -54,14 +92,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %if %llvm
+%if %llvm
+%files llvmjit
   %{pginstdir}/lib/bitcode/%{sname}*.bc
   %{pginstdir}/lib/bitcode/%{sname}/*.bc
- %endif
 %endif
 
 %changelog
+* Tue Oct 11 2022 Devrim Gündüz <devrim@gunduz.org> 2.5-1
+- Update to 2.5
+- Split LLVM stuff into their own subpackage.
+
 * Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> 2.4-1
 - Update to 2.4
 
