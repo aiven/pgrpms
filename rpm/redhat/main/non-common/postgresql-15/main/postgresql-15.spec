@@ -587,7 +587,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}
+%setup -q -n %{sname}-%{version}
 
 %patch1 -p0
 %patch3 -p0
