@@ -87,7 +87,7 @@ Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{pgpackageversion}.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
