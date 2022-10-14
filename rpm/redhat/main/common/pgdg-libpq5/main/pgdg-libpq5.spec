@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global pgmajorversion 14
+%global pgmajorversion 15
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -22,7 +22,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.5
+Version:	%{pgmajorversion}.0
 Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -39,6 +39,16 @@ Requires:	/sbin/ldconfig
 
 BuildRequires:	krb5-devel
 BuildRequires:	e2fsprogs-devel
+
+# zstd dependency
+%if 0%{?suse_version} >= 1499
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -96,9 +106,9 @@ Requires:	openssl-libs >= 1.0.2k
 
 Obsoletes:	libpq
 Provides:	postgresql-libs >= 9.2 libpq >= 10.0 libpq.so.5
-Provides:	libpq.so.5(RHPG_10)(64bit)
-Provides:	libpq.so.5(RHPG_12)(64bit)
-Provides:	libpq.so.5(RHPG_9.6)(64bit)
+Provides:	libpq.so.5(RHPG_10)(64bit) libpq.so.5(RHPG_11)(64bit)
+Provides:	libpq.so.5(RHPG_12)(64bit) libpq.so.5(RHPG_13)(64bit)
+Provides:	libpq.so.5(RHPG_14)(64bit) libpq.so.5(RHPG_15)(64bit)
 
 %description
 The libpq5 package provides the essential shared libraries for any
@@ -167,6 +177,7 @@ export PYTHON=/usr/bin/python3
 	--with-libraries=%{kerbdir}/%{_lib} \
 	--enable-nls \
 	--with-ldap \
+	--with-lz4 \
 %if %selinux
 	--with-selinux \
 %endif
@@ -239,6 +250,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Fri Oct 14 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42PGDG
+- Update to 15.0
+
 * Thu Aug 11 2022 Devrim Gündüz <devrim@gunduz.org> - 14.5-42PGDG
 - Update to 14.5
 
