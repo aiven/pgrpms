@@ -11,20 +11,10 @@
  %{!?llvm:%global llvm 1}
 %endif
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
-
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{wal2json_rel}.tar.gz
 URL:		https://github.com/eulerto/wal2json
@@ -99,6 +89,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Fri Oct 14 2022 - John Harvey <john.harvey@crunchydata.com> 2.5-2
+- Remove duplicated macros
+
 * Tue Oct 11 2022 Devrim Gündüz <devrim@gunduz.org> 2.5-1
 - Update to 2.5
 - Split LLVM stuff into their own subpackage.
