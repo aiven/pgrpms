@@ -166,7 +166,15 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-# PGDG Source RPMs (SRPM), and their testing repositories:
+# PGDG Source RPMs (SRPMS), and their testing repositories:
+
+[pgdg15-source]
+name=PostgreSQL 15 for RHEL / Rocky $releasever - $basearch - Source
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/15/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdg15-source-updates-testing]
 name=PostgreSQL 15 for RHEL / Rocky $releasever - $basearch - Source updates testing
@@ -176,9 +184,25 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
+[pgdg14-source]
+name=PostgreSQL 14 for RHEL / Rocky $releasever - $basearch - Source
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/14/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
+
 [pgdg14-source-updates-testing]
 name=PostgreSQL 14 for RHEL / Rocky $releasever - $basearch - Source updates testing
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/14/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
+
+[pgdg13-source]
+name=PostgreSQL 13 for RHEL / Rocky $releasever - $basearch - Source
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/13/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
@@ -233,6 +257,14 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
 # Debuginfo/debugsource packages for stable repos
+
+[pgdg15-debuginfo]
+name=PostgreSQL 15 for RHEL / Rocky $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/debug/15/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdg14-debuginfo]
 name=PostgreSQL 14 for RHEL / Rocky $releasever - $basearch - Debuginfo
