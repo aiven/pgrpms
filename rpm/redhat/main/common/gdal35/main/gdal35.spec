@@ -74,7 +74,7 @@
 
 Name:          %{sname}35
 Version:       3.5.2
-Release:       2%{?pre:%pre}%{?dist}
+Release:       3%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -88,8 +88,6 @@ Source4:       PROVENANCE.TXT-fedora
 Source5:       %{sname}-cleaner.sh
 
 Source6:        %{name}-pgdg-libs.conf
-
-
 
 %if 0%{?suse_version} >= 1315
 Patch8:         %{sname}-3.2.1-java-sles.patch
@@ -369,6 +367,11 @@ done
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 %endif
 
+# Install linker config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+%{__install} %{SOURCE6} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
+
+
 %if %{with_python3}
 %files -f gdal_python_manpages_excludes.txt
 %else
@@ -413,6 +416,7 @@ done
 %{gdalinstdir}/lib/libgdal.so.31.*
 %{gdalinstdir}/share/%{sname}/
 %{gdalinstdir}/lib/gdalplugins/
+%config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %{gdalinstdir}/bin/%{sname}-config
@@ -461,6 +465,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Oct 17 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-3
+- Install linker config file, per report from Daryl Herzmann.
+  Fixes: https://redmine.postgresql.org/issues/7727
+
 * Mon Sep 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-2
 - Rebuild against GeOS 3.11.0, per report from Laurenz Albe .
 
