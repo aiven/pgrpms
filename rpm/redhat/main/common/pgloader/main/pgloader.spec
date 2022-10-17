@@ -3,7 +3,7 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.6.3
+Version:	3.6.8
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		http://pgloader.io
@@ -29,7 +29,7 @@ indexes in PostgreSQL. In the MySQL case it's possible to edit CASTing rules
 from the pgloader command directly.
 
 %prep
-%setup -q -n %{name}-bundle-%{version}
+%setup -q -n %{name}-%{version}
 
 
 %build
@@ -56,6 +56,9 @@ export DYNSIZE="DYNSIZE=1024"
 %{_bindir}/%{name}
 
 %changelog
+* Mon Oct 17 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.-1
+- Update to 3.6.8
+
 * Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1
 - Update to 3.6.3
 
