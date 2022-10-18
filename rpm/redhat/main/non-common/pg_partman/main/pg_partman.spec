@@ -12,8 +12,8 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.7.0
-Release:	2%{?dist}
+Version:	4.7.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Oct 18 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.1-1
+- Update to 4.7.1
+
 * Thu Sep 22 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.0-2
 - SUSE should use python3 by default
 
