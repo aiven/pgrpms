@@ -167,8 +167,11 @@ BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 # Packages come from Appstream:
 BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
+%if 0%{?fedora} <= 36
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
+%endif
+%if 0%{?fedora} == 37
+BuildRequires:	llvm14-devel >= 14.0 clang14-devel >= 14.0
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	llvm6-devel clang6-devel
@@ -412,8 +415,11 @@ Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 # Packages come from Appstream:
 Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
-%if 0%{?fedora}
-Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
+%if 0%{?fedora} <= 36
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
+%endif
+%if 0%{?fedora} == 37
+BuildRequires:	llvm14-devel >= 14.0 clang14-devel >= 14.0
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	llvm6-devel clang6-devel
@@ -475,8 +481,11 @@ Requires:	llvm
 %if 0%{?suse_version} >= 1500
 Requires:	libLLVM13
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
+%if 0%{?fedora} <= 36 || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
+%endif
+%if 0%{?fedora} == 37
+Requires:	llvm14 >= 14.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -640,6 +649,9 @@ export PYTHON=/usr/bin/python3
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+%if 0%{?fedora} == 37
+	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_libdir}/llvm14/bin/llvm-config-14-64
 %endif
 
 # These configure options must match main build
