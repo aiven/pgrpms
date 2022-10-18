@@ -416,10 +416,10 @@ Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
 %if 0%{?fedora} <= 36
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
+Requires:	llvm-devel >= 13.0 clang-devel >= 13.0
 %endif
 %if 0%{?fedora} == 37
-BuildRequires:	llvm14-devel >= 14.0 clang14-devel >= 14.0
+Requires:	llvm14-devel >= 14.0 clang14-devel >= 14.0
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	llvm6-devel clang6-devel
