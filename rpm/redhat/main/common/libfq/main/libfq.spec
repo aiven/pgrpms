@@ -7,7 +7,7 @@
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
 Version:	0.4.3
-Release:	1%{dist}
+Release:	2%{dist}
 Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
@@ -49,6 +49,7 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %install
 %{__rm} -rf %{buildroot}
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+%{__rm} %{buildroot}%{_libdir}/%{name}.la
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -56,7 +57,6 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %files
 %defattr(-, root, root)
 %{_libdir}/%{name}.a
-%{_libdir}/%{name}.la
 %{_libdir}/%{name}.so
 %{_libdir}/%{name}-%version.so
 %{_includedir}/%{name}-expbuffer.h
@@ -64,6 +64,10 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-2
+- Remove .la file, per
+  https://fedoraproject.org/wiki/Changes/RemoveLaFiles
+
 * Mon Feb 21 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-1
 - Update to 0.4.3
 
