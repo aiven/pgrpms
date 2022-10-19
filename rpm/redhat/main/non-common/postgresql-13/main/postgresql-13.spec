@@ -108,6 +108,9 @@ Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
+# Temp patch until 13.9 is released:
+Patch10:	%{sname}-%{pgmajorversion}-13.8-Track-LLVM-15-changes.patch
+
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
@@ -575,6 +578,7 @@ benchmarks.
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
+%patch10 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1382,6 +1386,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 13.8-2
+- Add a temp patch to build against LLVM 15. Needed for Fedora 37.
+
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 13.8-2PGDG
 - Fix macro for consistency
 
