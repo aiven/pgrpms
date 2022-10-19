@@ -1412,7 +1412,7 @@ fi
 
 %changelog
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 14.5-3
-- Add a temp patch to build 15 against LLVM 15. Needed for Fedora 37.
+- Add a temp patch to build against LLVM 15. Needed for Fedora 37.
 
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 14.5-2PGDG
 - Fix macro for consistency
