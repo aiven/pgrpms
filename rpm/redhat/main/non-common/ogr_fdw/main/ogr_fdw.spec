@@ -6,26 +6,22 @@
 %endif
 %endif
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 %pgdg_set_gis_variables
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.2
-Release:	2%{?dist}
+Version:	1.1.3
+Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -111,19 +107,15 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 
 %if %llvm
 %files llvmjit
- %ifarch ppc64 ppc64le
-  %else
-  %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-   %if 0%{?rhel} && 0%{?rhel} <= 6
-   %else
     %{pginstdir}/lib/bitcode/%{sname}*.bc
     %{pginstdir}/lib/bitcode/%{sname}/*.bc
-   %endif
-  %endif
- %endif
 %endif
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.3-1
+- Update to 1.1.3
+- Simplify llvm part.
+
 * Fri Sep 9 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.2-2
 - Rebuild against GDAL 3.5.X
 - Update LLVM requirements for SLES 15
