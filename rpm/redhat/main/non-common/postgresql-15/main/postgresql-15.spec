@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -110,6 +110,9 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+
+# Temp patch until 15.1 is released:
+Patch10:	%{sname}-%{pgmajorversion}-15.0-Track-LLVM-15-changes.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -593,6 +596,7 @@ benchmarks.
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
+%patch10 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1421,6 +1425,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-2
+- Add a temp patch to build 15 against LLVM 15. Needed for Fedora 37.
+
 * Mon Oct 10 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-1
 - Update to PostgreSQL 15.0!
 
