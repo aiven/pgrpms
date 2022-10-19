@@ -83,7 +83,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.5
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -110,6 +110,9 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+
+# Temp patch until 14.5 is released:
+Patch10:	%{sname}-%{pgmajorversion}-14.5-Track-LLVM-15-changes.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -586,6 +589,7 @@ benchmarks.
 %patch3 -p0
 %patch5 -p0
 %patch6 -p0
+%patch10 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1407,6 +1411,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 14.5-3
+- Add a temp patch to build 15 against LLVM 15. Needed for Fedora 37.
+
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 14.5-2PGDG
 - Fix macro for consistency
 
