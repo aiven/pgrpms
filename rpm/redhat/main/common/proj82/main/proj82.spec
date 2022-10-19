@@ -162,9 +162,12 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %files static
 %defattr(-,root,root,-)
 %{proj82instdir}/lib/libproj.a
-%{proj82instdir}/lib/libproj.la
+%exclude %{proj82instdir}/lib/libproj.la
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-2
+- Don't install .la file to fix build error on Fedora 37.
+
 * Fri Jan 7 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-1
 - Update to 8.2.1
 
