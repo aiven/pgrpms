@@ -1426,7 +1426,7 @@ fi
 
 %changelog
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-2
-- Add a temp patch to build 15 against LLVM 15. Needed for Fedora 37.
+- Add a temp patch to build against LLVM 15. Needed for Fedora 37.
 
 * Mon Oct 10 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-1
 - Update to PostgreSQL 15.0!
