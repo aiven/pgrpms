@@ -156,13 +156,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{proj82instdir}/lib/*.a
 %attr(0755,root,root) %{proj82instdir}/lib/pkgconfig/%{sname}.pc
 %exclude %{proj82instdir}/lib/libproj.a
-%exclude %{proj82instdir}/lib/libproj.la
-%{proj82instdir}/include/proj/util.hpp
 
 %files static
 %defattr(-,root,root,-)
 %{proj82instdir}/lib/libproj.a
-%exclude %{proj82instdir}/lib/libproj.la
 
 %changelog
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-2
