@@ -10,7 +10,7 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.7
+Version:	1.4.8
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -72,6 +72,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.8-1
+- Update to 1.4.8
+
 * Mon Oct 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.4.7-1
 - Update to 1.4.7
 
