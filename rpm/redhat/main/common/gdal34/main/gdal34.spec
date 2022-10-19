@@ -82,7 +82,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -404,13 +404,10 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 # Building without pgeo driver, because it drags in Java
 
 %if 0%{?g2clib_enabled}
- %if 0%{?fedora} == 34
- %global g2clib g2c_v1.6.2
- %endif
- %if 0%{?fedora} <= 36
+ %if 0%{?fedora} >= 35
  %global g2clib g2c_v1.6.3
  %endif
- %if 0%{?fedora} <= 33 || 0%{?rhel} <= 8
+ %if 0%{?rhel} == 8
  %global g2clib g2c_v1.6.0
  %endif
  %if 0%{?rhel} == 7
@@ -736,6 +733,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Wed Oct 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-5
+- Add gc2lib version for Fedora 37, remove old versions.
+
 * Wed Jul 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-4
 - Fix RHEL 7 builds (extremely ugly hack, though)
 
