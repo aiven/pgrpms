@@ -9,9 +9,9 @@
 %global geosfullversion %geos311fullversion
 %global geosmajorversion %geos311majorversion
 %global geosinstdir %geos311instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
+%global projmajorversion %proj82majorversion
+%global projfullversion %proj82fullversion
+%global projinstdir %proj82instdir
 
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
@@ -139,7 +139,7 @@ find %{buildroot} -type f -name "*.la" -delete
 
 %changelog
 * Wed Oct 19 2022 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-5
-- Rebuild against Proj 9.0.x and GeOS 3.11.x
+- Rebuild against GeOS 3.11.x
 
 * Sat Jan 8 2022 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-4
 - Rebuild against Proj 8.2.x and GeOS 3.10.x
