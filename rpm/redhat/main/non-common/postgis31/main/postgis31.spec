@@ -12,10 +12,13 @@
 
 %pgdg_set_gis_variables
 
-# Switch to GDAL 3.4.
+# Override GDAL and GeOS versions:
 %global gdalfullversion %gdal34fullversion
 %global gdalmajorversion %gdal34majorversion
 %global gdalinstdir %gdal34instdir
+%global	geosfullversion %geos310fullversion
+%global	geosmajorversion %geos310majorversion
+%global	geosinstdir %geos310instdir
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -393,7 +396,7 @@ fi
 
 %changelog
 * Thu Oct 20 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.7-2
-- Switch to GDAL 3.4
+- Switch to GDAL 3.4 and GeOS 3.10
 
 * Fri Aug 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.7-1
 - Update to 3.1.7, per changes described at:
