@@ -12,6 +12,11 @@
 
 %pgdg_set_gis_variables
 
+# Switch to GDAL 3.4.
+%global gdalfullversion %gdal34fullversion
+%global gdalmajorversion %gdal34majorversion
+%global gdalinstdir %gdal34instdir
+
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -62,7 +67,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +392,9 @@ fi
 %endif
 
 %changelog
+* Thu Oct 20 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.7-2
+- Switch to GDAL 3.4
+
 * Fri Aug 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.1.7-1
 - Update to 3.1.7, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.7/NEWS
