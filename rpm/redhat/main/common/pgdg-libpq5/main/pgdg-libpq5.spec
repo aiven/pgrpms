@@ -106,9 +106,10 @@ Requires:	openssl-libs >= 1.0.2k
 
 Obsoletes:	libpq
 Provides:	postgresql-libs >= 9.2 libpq >= 10.0 libpq.so.5
-Provides:	libpq.so.5(RHPG_10)(64bit) libpq.so.5(RHPG_11)(64bit)
-Provides:	libpq.so.5(RHPG_12)(64bit) libpq.so.5(RHPG_13)(64bit)
-Provides:	libpq.so.5(RHPG_14)(64bit) libpq.so.5(RHPG_15)(64bit)
+Provides:	libpq.so.5(RHPG_96)(64bit) libpq.so.5(RHPG_10)(64bit)
+Provides:	libpq.so.5(RHPG_11)(64bit) libpq.so.5(RHPG_12)(64bit)
+Provides:	libpq.so.5(RHPG_13)(64bit) libpq.so.5(RHPG_14)(64bit)
+Provides:	libpq.so.5(RHPG_15)(64bit)
 
 %description
 The libpq5 package provides the essential shared libraries for any
@@ -252,6 +253,7 @@ find_lang_bins %name-devel.lst	pg_config
 %changelog
 * Fri Oct 14 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42PGDG
 - Update to 15.0
+- Keep providing libpq.so.5(RHPG_96)(64bit). Distros still need it.
 
 * Thu Aug 11 2022 Devrim Gündüz <devrim@gunduz.org> - 14.5-42PGDG
 - Update to 14.5
