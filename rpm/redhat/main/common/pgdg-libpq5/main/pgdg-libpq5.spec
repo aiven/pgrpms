@@ -23,7 +23,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.0
-Release:	42PGDG%{?dist}
+Release:	42.1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -251,9 +251,11 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Fri Oct 21 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42.1PGDG
+- Keep providing libpq.so.5(RHPG_96)(64bit). Distros still need it.
+
 * Fri Oct 14 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42PGDG
 - Update to 15.0
-- Keep providing libpq.so.5(RHPG_96)(64bit). Distros still need it.
 
 * Thu Aug 11 2022 Devrim Gündüz <devrim@gunduz.org> - 14.5-42PGDG
 - Update to 14.5
