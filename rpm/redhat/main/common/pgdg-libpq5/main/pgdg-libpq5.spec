@@ -23,7 +23,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.0
-Release:	42.1PGDG%{?dist}
+Release:	42.2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -106,7 +106,7 @@ Requires:	openssl-libs >= 1.0.2k
 
 Obsoletes:	libpq
 Provides:	postgresql-libs >= 9.2 libpq >= 10.0 libpq.so.5
-Provides:	libpq.so.5(RHPG_96)(64bit) libpq.so.5(RHPG_10)(64bit)
+Provides:	libpq.so.5(RHPG_9.6)(64bit) libpq.so.5(RHPG_10)(64bit)
 Provides:	libpq.so.5(RHPG_11)(64bit) libpq.so.5(RHPG_12)(64bit)
 Provides:	libpq.so.5(RHPG_13)(64bit) libpq.so.5(RHPG_14)(64bit)
 Provides:	libpq.so.5(RHPG_15)(64bit)
@@ -251,6 +251,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Fri Oct 21 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42.2PGDG
+- It's 9.6, not 96 :(
+
 * Fri Oct 21 2022 Devrim Gündüz <devrim@gunduz.org> - 15.0-42.1PGDG
 - Keep providing libpq.so.5(RHPG_96)(64bit). Distros still need it.
 
