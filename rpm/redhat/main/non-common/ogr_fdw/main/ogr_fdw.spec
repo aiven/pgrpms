@@ -77,7 +77,7 @@ This packages provides JIT support for ogr_fdw.
 	%pgdg_set_ppc64le_compiler_flags
 %endif
 %endif
-PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -85,7 +85,7 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %{__install} -d %{buildroot}%{pginstdir}/
 %{__install} -d %{buildroot}%{pginstdir}/bin/
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
@@ -112,6 +112,9 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.3-2
+- Oops, really build against GDAL 3.5.
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.3-1
 - Update to 1.1.3
 - Simplify llvm part.
