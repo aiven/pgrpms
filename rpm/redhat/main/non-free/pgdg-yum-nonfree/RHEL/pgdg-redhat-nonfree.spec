@@ -1,6 +1,6 @@
 Name:		pgdg-redhat-nonfree-repo
 Version:	42.0
-Release:	10
+Release:	11
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / CentOS NonFree
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -35,6 +35,9 @@ non-free repository, and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-11
+- Add v15 repo
+
 * Fri Dec 17 2021 Devrim Gündüz <devrim@gunduz.org> - 42.0-10
 - Add v14 repo
 - Remove 9.6 and 10 repos
