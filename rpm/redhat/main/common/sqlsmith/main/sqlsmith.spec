@@ -1,5 +1,5 @@
 Name:		sqlsmith
-Version:	1.3
+Version:	1.4
 Release:	1%{dist}
 Summary:	Random SQL generator
 License:	GPLv3
@@ -37,5 +37,8 @@ PKG_CONFIG_PATH=%{pginstdir}/lib/pkgconfig ./configure CXX='g++ -std=gnu++17' --
 %license COPYING
 
 %changelog
+* Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4-1
+- Update to 1.4
+
 * Wed Feb 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Initial packaging for PostgreSQL RPM repository, per upstream spec.
