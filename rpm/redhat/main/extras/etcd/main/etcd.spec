@@ -73,6 +73,8 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %changelog
 * Mon Oct 24 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-1
 - Update to 3.5.5
+- Enable v2 protocol by default,  per Alexandre Pereira:
+  https://redmine.postgresql.org/issues/7704
 
 * Wed Sep 14 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-2
 - Make sure that we don't override the config file, per report and
