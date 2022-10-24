@@ -3,8 +3,8 @@
 %global		_missing_build_ids_terminate_build 0
 
 Name:		etcd
-Version:	3.5.4
-Release:	2%{?dist}
+Version:	3.5.5
+Release:	1%{?dist}
 Summary:	Distributed reliable key-value store
 
 License:	ASL 2.0
@@ -71,6 +71,9 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Mon Oct 24 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-1
+- Update to 3.5.5
+
 * Wed Sep 14 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-2
 - Make sure that we don't override the config file, per report and
   fix from Matt Baker.
