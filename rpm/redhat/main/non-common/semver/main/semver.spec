@@ -8,7 +8,7 @@
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.31.2
+Version:	0.32.0
 Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
@@ -68,6 +68,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 
 
 %changelog
+* Mon Oct 24 2022 Devrim Gündüz <devrim@gunduz.org> - 0.32.0-1
+- Update to 0.32.0
+
 * Wed Sep 29 2021 Devrim Gündüz <devrim@gunduz.org> - 0.31.2-1
 - Update to 0.31.2
 
