@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 3
 %global orafcemidver 25
-%global orafceminver 0
+%global orafceminver 1
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -22,10 +22,10 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
-URL:		https://github.com/orafce/orafce
+URL:		https://github.com/%{sname}/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
 BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
@@ -93,12 +93,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/COPYRIGHT.orafce
-%doc %{pginstdir}/doc/extension/INSTALL.orafce
+%doc %{pginstdir}/doc/extension/COPYRIGHT.%{sname}
+%doc %{pginstdir}/doc/extension/INSTALL.%{sname}
 %doc %{pginstdir}/doc/extension/README.asciidoc
-%{pginstdir}/lib/orafce.so
+%{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/share/extension/orafce--*.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 
 %if %llvm
 %files llvmjit
@@ -107,6 +107,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 25 2022 Devrim Gündüz <devrim@gunduz.org> 3.25.1-1
+- Update to 3.25.1
+
 * Thu Oct 6 2022 Devrim Gündüz <devrim@gunduz.org> 3.25.0-1
 - Update to 3.25.0
 
