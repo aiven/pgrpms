@@ -3,7 +3,7 @@
 
 %global ppg2majver 2
 %global ppg2midver 9
-%global ppg2minver 4
+%global ppg2minver 5
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
@@ -215,6 +215,9 @@ done
 %endif
 
 %changelog
+* Tue Nov 1 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-1
+- Update to 2.9.5
+
 * Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.4-1
 - Update to 2.9.4
 
