@@ -3,7 +3,7 @@
 
 Summary:	Fast data loader for PostgreSQL
 Name:		pgloader
-Version:	3.6.8
+Version:	3.6.9
 Release:	1%{?dist}
 License:	PostgreSQL
 URL:		http://pgloader.io
@@ -56,7 +56,10 @@ export DYNSIZE="DYNSIZE=1024"
 %{_bindir}/%{name}
 
 %changelog
-* Mon Oct 17 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.-1
+* Tue Nov 1 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.9-1
+- Update to 3.6.9
+
+* Mon Oct 17 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.8-1
 - Update to 3.6.8
 
 * Thu Dec 23 2021 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1
