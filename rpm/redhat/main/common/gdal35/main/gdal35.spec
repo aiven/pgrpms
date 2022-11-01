@@ -73,8 +73,8 @@
 %endif
 
 Name:          %{sname}35
-Version:       3.5.2
-Release:       3%{?pre:%pre}%{?dist}
+Version:       3.5.3
+Release:       1%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -464,6 +464,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Nov 1 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-1
+- Update to 3.5.3
+
 * Mon Oct 17 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.2-3
 - Install linker config file, per report from Daryl Herzmann.
   Fixes: https://redmine.postgresql.org/issues/7727
