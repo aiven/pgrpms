@@ -51,7 +51,7 @@ Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
-Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/2_9_4.tar.gz
+Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}_%{ppg2midver}_%{ppg2minver}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
