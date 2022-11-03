@@ -49,7 +49,7 @@ export DYNSIZE="DYNSIZE=1024"
 %install
 %{__rm} -rf %{buildroot}
 %{__install} -m 755 -d %{buildroot}/%{_bindir}
-%{__install} -m 755 bin/%{name} %{buildroot}%{_bindir}/pgloader
+%{__install} -m 755 build/bin/%{name} %{buildroot}%{_bindir}/pgloader
 
 %clean
 %{__rm} -rf %{buildroot}
