@@ -1,3 +1,6 @@
+# Avoid build_id conflict with sbcl package:
+%global	_build_id_links none
+
 %global debug_package %{nil}
 %global __os_install_post %{nil}
 
@@ -9,7 +12,7 @@ License:	PostgreSQL
 URL:		http://pgloader.io
 Source0:	https://github.com/dimitri/%{name}/archive/refs/tags/v%{version}.tar.gz
 
-BuildRequires:	sbcl >= 1.3.6
+BuildRequires:	sbcl >= 2.2.9
 BuildRequires:	freetds-devel
 BuildRequires:	openssl-devel
 Requires:	openssl-devel
@@ -40,7 +43,7 @@ echo "Arch is : %{_arch}"
 %if "%{_arch}" == "i386" || "%{_arch}" == "arm"
 export DYNSIZE="DYNSIZE=1024"
 %endif
-%{__make} %{?_smp_mflags} ${DYNSIZE}
+%{__make} %{?_smp_mflags} ${DYNSIZE} save
 # TODO build doc with sphinx
 
 %install
@@ -58,6 +61,7 @@ export DYNSIZE="DYNSIZE=1024"
 %changelog
 * Tue Nov 1 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.9-1
 - Update to 3.6.9
+- Require sbcl >= 2.2.9
 
 * Mon Oct 17 2022 Devrim Gündüz <devrim@gunduz.org> - 3.6.8-1
 - Update to 3.6.8
