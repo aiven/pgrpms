@@ -108,8 +108,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.12
-Release:	3PGDG%{?dist}
+Version:	12.13
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -148,9 +148,6 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # version 12.10:
 Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-aa2215d6b.patch
 %endif
-
-# Temp patch until 12.13 is released:
-Patch10:	%{sname}-%{pgmajorversion}-12.12-Track-LLVM-15-changes.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
@@ -1703,6 +1700,11 @@ fi
 %endif
 
 %changelog
+* Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 12.13-1PGDG
+- Update to 12.13, per changes described at
+  https://www.postgresql.org/docs/release/12.13/
+- Remove temp patch added in 12.12-3
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 12.12-3PGDG
 - Add a temp patch to build against LLVM 15. Needed for Fedora 37.
 
