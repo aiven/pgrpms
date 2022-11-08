@@ -8,10 +8,10 @@
 
 Summary:	PostgreSQL extension which allows to set all cluster databases read only.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
+Version:	1.0.3
 Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	https://api.pgxn.org/dist/%{sname}/1.0.1/%{sname}-%{version}.zip
+Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/pierreforstmann/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -73,5 +73,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Nov 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1
+- Update to 1.0.3
+
 * Tue Jan 4 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Initial RPM packaging for PostgreSQL RPM Repository
