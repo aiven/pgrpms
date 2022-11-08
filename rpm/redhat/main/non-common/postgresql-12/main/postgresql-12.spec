@@ -662,7 +662,6 @@ benchmarks.
 %if 0%{?rhel} && 0%{?rhel} == 6
 %patch7 -p0
 %endif
-%patch10 -p1
 
 %{__cp} -p %{SOURCE12} .
 
