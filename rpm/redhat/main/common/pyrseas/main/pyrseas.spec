@@ -7,10 +7,10 @@
 
 Summary:	Compare and synchronize PostgreSQL database schemas
 Name:		python3-%{sname}
-Version:	0.9.1
+Version:	0.10.0
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/perseas/%{cname}/archive/%{version}.tar.gz
+Source0:	https://github.com/perseas/%{cname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/perseas/%{cname}/
 BuildArch:	noarch
 
@@ -43,9 +43,11 @@ Andromeda Project. This is Python 3 version.
 %{_bindir}/yamltodb
 %{python3_sitelib}/%{cname}-%{version}-py%{py3ver}*.egg-info/*
 %{python3_sitelib}/%{sname}
-%{python3_sitelib}/%{sname}/yamltodb.py
 
 %changelog
+* Tue Nov 8 2022 - Devrim Gündüz <devrim@gunduz.org> 0.10.0-1
+- Update to 0.10.0
+
 * Thu Apr 16 2020 - Devrim Gündüz <devrim@gunduz.org> 0.9.1-1
 - Update to 0.9.1
 - Remove Python2 stuff
