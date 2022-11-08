@@ -86,8 +86,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	10.22
-Release:	2PGDG%{?dist}
+Version:	10.23
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1544,6 +1544,10 @@ fi
 %endif
 
 %changelog
+* Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 10.23-1PGDG
+- Update to 10.23, per changes described at
+  https://www.postgresql.org/docs/release/10.23/
+
 * Fri Aug 12 2022 - John Harvey <john.harvey@crunchydata.com> 10.22-2PGDG
 - Fix macro for consistency
 
