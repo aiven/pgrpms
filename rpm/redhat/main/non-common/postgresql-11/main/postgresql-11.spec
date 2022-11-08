@@ -107,8 +107,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.17
-Release:	3PGDG%{?dist}
+Version:	11.18
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -147,9 +147,6 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # version 11.15:
 Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-e41176bd6.patch
 %endif
-
-# Temp patch until 11.18 is released:
-Patch10:	%{sname}-%{pgmajorversion}-11.17-Track-LLVM-15-changes.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
@@ -666,7 +663,6 @@ benchmarks.
 %if 0%{?rhel} && 0%{?rhel} == 6
 %patch7 -p0
 %endif
-%patch10 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1702,6 +1698,11 @@ fi
 %endif
 
 %changelog
+* Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 11.18-1PGDG
+- Update to 11.18, per changes described at
+  https://www.postgresql.org/docs/release/11.18/
+- Remove temp patch added in 11.17-3
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 11.17-3PGDG
 - Add a temp patch to build against LLVM 15. Needed for Fedora 37.
 
