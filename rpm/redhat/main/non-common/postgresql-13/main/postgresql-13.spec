@@ -78,8 +78,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.8
-Release:	2PGDG%{?dist}
+Version:	13.9
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -107,9 +107,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-
-# Temp patch until 13.9 is released:
-Patch10:	%{sname}-%{pgmajorversion}-13.8-Track-LLVM-15-changes.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -1386,6 +1383,11 @@ fi
 %endif
 
 %changelog
+* Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 13.9-1PGDG
+- Update to 13.9, per changes described at
+  https://www.postgresql.org/docs/release/13.9/
+- Remove temp patch added in 13.8-2
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 13.8-2
 - Add a temp patch to build against LLVM 15. Needed for Fedora 37.
 
