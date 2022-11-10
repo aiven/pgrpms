@@ -38,7 +38,7 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 %{_bindir}/*
 
 %changelog
-* Tue Mov 8 2022 Devrim Gündüz <devrim@gunduz.org> - 5.5.9-1
+* Tue Nov 8 2022 Devrim Gündüz <devrim@gunduz.org> - 5.5.9-1
 - Update to 5.5.9
 
 * Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> - 5.5.8-1
