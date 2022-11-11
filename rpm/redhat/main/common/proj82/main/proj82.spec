@@ -117,6 +117,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
+# Remove .la file
+%{__rm} -f %{buildroot}%{proj82instdir}/lib/libproj.la
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -155,11 +158,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{proj82instdir}/lib/*.so
 %{proj82instdir}/lib/*.a
 %attr(0755,root,root) %{proj82instdir}/lib/pkgconfig/%{sname}.pc
-%exclude %{proj82instdir}/lib/libproj.a
 
 %files static
 %defattr(-,root,root,-)
-%{proj82instdir}/lib/libproj.a
 
 %changelog
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-2
