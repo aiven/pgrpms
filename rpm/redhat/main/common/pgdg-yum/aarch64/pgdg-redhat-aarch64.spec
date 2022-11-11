@@ -4,7 +4,15 @@ Release:	30
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / Rocky on aarch64
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64
+%if 0%{?rhel} && 0%{?rhel} == 9
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL9
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL8
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 7
+Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL7
+%endif
 Source2:	pgdg-redhat-all-rhel7-aarch64.repo
 Source3:	pgdg-redhat-all-rhel8-aarch64.repo
 Source4:	pgdg-redhat-all-rhel9-aarch64.repo
@@ -48,6 +56,10 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Thu Nov 10 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-31
+- Keys on RHEL 7 is diferrent from others, so make sure that RHEL
+  9 and 8 keys are installed correctly.
+
 * Mon Oct 17 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-30
 - Add missing srpm and debuginfo repositories, per report from
   Justin Pryzby.
