@@ -55,11 +55,7 @@
 %if 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 0}
 %else
-%ifarch aarch64
-%{!?raster:%global     raster 0}
-%else
 %{!?raster:%global     raster 1}
-%endif
 %endif
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
@@ -82,7 +78,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	3%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -404,9 +400,6 @@ fi
 %endif
 
 %changelog
-* Fri Nov 11 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.1-3
-- Disable raster on aarch64. gdal cannot be built due to missing BR
-
 * Fri Oct 14 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.1-2
 - Use GDAL 3.4 on RHEL 7
 
