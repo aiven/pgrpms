@@ -59,11 +59,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 %global mysql --with-mysql
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
-%if 0%{?rhel} && 0%{?rhel} == 8
-%global poppler --with-poppler=/usr/pgdg-poppler/
-%else
+
 %global poppler --with-poppler
-%endif
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 %if 0%{?rhel} >= 9 || 0%{?fedora} >= 35
@@ -74,7 +71,7 @@
 
 Name:          %{sname}35
 Version:       3.5.3
-Release:       1%{?pre:%pre}%{?dist}
+Release:       2%{?pre:%pre}%{?dist}
 Summary:       GIS file format library
 License:       MIT
 URL:           http://www.gdal.org
@@ -145,11 +142,7 @@ BuildRequires: pcre2-devel
 %if 0%{?suse_version} >= 1500
 BuildRequires:  libpoppler-devel
 %else
-%if 0%{?rhel} && 0%{?rhel} == 8
-BuildRequires:  pgdg-poppler-devel
-%else
 BuildRequires:  poppler-devel
-%endif
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:  %{sqlitepname}-devel
@@ -464,6 +457,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Sat Nov 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-2
+- RHEL 8 includes poppler-devel, so no need for our version.
+
 * Tue Nov 1 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-1
 - Update to 3.5.3
 
