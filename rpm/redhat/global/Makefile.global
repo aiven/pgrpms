@@ -26,7 +26,6 @@ clean:
 
 include ../../../../global/Makefile.global-common
 include ../../../../global/Makefile.global-extras
-include ../../../../global/Makefile.global-PG10
 include ../../../../global/Makefile.global-PG11-testing
 include ../../../../global/Makefile.global-PG11
 include ../../../../global/Makefile.global-PG12-testing
