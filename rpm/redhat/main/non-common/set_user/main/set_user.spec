@@ -1,6 +1,6 @@
 %global sname	set_user
 
-%global setusermajver 3
+%global setusermajver 4
 %global setusermidver 0
 %global setuserminver 0
 
@@ -111,6 +111,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sun Nov 13 2022 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1
+- Update to 4.0.0
+
 * Tue Oct 19 2021 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 
