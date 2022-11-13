@@ -1,11 +1,5 @@
 %global sname pgsodium
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -19,17 +13,18 @@
 Summary:	PostgreSQL extension for high level cryptographic algorithms
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.6
-Release:	1%{dist}
+Release:	2%{dist}
 License:	BSD
 URL:		https://github.com/michelp/%{sname}/
 Source0:	https://github.com/michelp/%{sname}/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel libsodium-devel
-Requires:	postgresql%{pgmajorversion}-server libsodium
+Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
+%if 0%{?fedora} || 0%{?rhel}
+Requires:	libsodium
 %endif
+%if 0%{?suse_version} >= 1315
+Requires:	libsodium23
 %endif
 
 %description
@@ -76,11 +71,6 @@ This packages provides JIT support for pgsodium
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
@@ -109,6 +99,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sun Nov 13 2022 Devrim Gündüz <devrim@gunduz.org> 3.0.6-2
+- Fix SLES dependency, per report from Tiago ANASTACIO.
+  Fixes https://redmine.postgresql.org/issues/7739
+
 * Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> 3.0.6-1
 - Update to 3.0.6
 
