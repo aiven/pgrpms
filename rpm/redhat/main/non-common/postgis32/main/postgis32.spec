@@ -77,8 +77,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.3
-Release:	2%{?dist}
+Version:	%{postgismajorversion}.4
+Release:	1%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -397,6 +397,10 @@ fi
 %endif
 
 %changelog
+* Sun Nov 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.2.4-1
+- Update to 3.2.4, per changes described at
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.4/NEWS
+
 * Fri Nov 11 2022 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-2
 - Disable raster on aarch64. gdal cannot be built due to missing BR
 
