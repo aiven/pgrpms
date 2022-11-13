@@ -73,11 +73,7 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 %global mysql --with-mysql
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
-%if 0%{?rhel} && 0%{?rhel} == 8
-%global poppler --with-poppler=/usr/pgdg-poppler/
-%else
 %global poppler --with-poppler
-%endif
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}34
@@ -168,11 +164,7 @@ BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libpoppler-devel
 %else
-%if 0%{?rhel} && 0%{?rhel} == 8
-BuildRequires:	pgdg-poppler-devel
-%else
 BuildRequires:	poppler-devel
-%endif
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -733,6 +725,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Nov 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-6
+- RHEL 8 includes poppler-devel, so no need for our version.
+
 * Wed Oct 19 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-5
 - Add gc2lib version for Fedora 37, remove old versions.
 
