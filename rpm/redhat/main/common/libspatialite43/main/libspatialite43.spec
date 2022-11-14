@@ -9,13 +9,13 @@
 
 %pgdg_set_gis_variables
 
-# Warning to ELGIS:
-# 1 of the 41 tests is known to fail on EL6 (32 bit and 64 bit Intel)
-# Tests pass though on PPC and PPC64
-# The author is informed about that.
-# The problem seems to stem from Geos.
-
-#EPSG data in libspatialite should be in sync with our current GDAL version
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global projmajorversion 72
+%global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
+%endif
 
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
@@ -36,7 +36,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	4.3.0a
-Release:	16%{?dist}
+Release:	17%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/%{sname}
@@ -132,6 +132,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Mon Nov 14 2022 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-17
+- Use PROJ 7.2 on RHEL 7.
+
 * Fri Mar 12 2021 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-16
 - Rebuild against GeOS 3.9.1 and Proj 8.0.0.
 
