@@ -11,6 +11,7 @@ DEBUG_RPM_DIR=/var/lib/pgsql/rpm13/ALLDEBUGRPMS
 SRPM_DIR=/var/lib/pgsql/rpm13/ALLSRPMS
 
 export GPG_TTY=$(tty)
+export GPG_PASSWORD=blahblah
 
 # Create directories for binary and source RPMs. This directory will help us
 # to create the repo files easily:

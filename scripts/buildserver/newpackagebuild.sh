@@ -15,9 +15,9 @@
 os=F-33
 
 # Supported stable PostgreSQL versions:
-declare -a pgStableBuilds=("13 12 11 10 9.6 9.5" )
+declare -a pgStableBuilds=("15 14 13 12 11" )
 # Supported "testing" versions
-declare -a pgTestVersions=("13 12 11" )
+declare -a pgTestVersions=("15 14" )
 
 #Color schemes
 red=`tput setaf 1`
