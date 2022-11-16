@@ -2,22 +2,23 @@
 %global		debug_package %{nil}
 %global		_missing_build_ids_terminate_build 0
 
+%ifarch x86_64
+%global		tarballarch amd64
+%endif
+%ifarch ppc64le
+%global		tarballarch ppc64le
+%endif
+%ifarch aarch64
+%global		tarballarch arm64
+%endif
+
 Name:		etcd
 Version:	3.5.5
 Release:	2%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
-%ifarch x86_64
-Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-amd64.tar.gz
-%endif
-%ifarch ppc64le
-Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-ppc64le.tar.gz
-%endif
-%ifarch aarch64
-Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-arm64.tar.gz
-%endif
-
+Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-%{tarballarch}.tar.gz
 Source1:        %{name}.service
 Source2:        %{name}.conf
 
@@ -34,7 +35,7 @@ of a distributed system, with a focus on being:
 - Reliable: properly distributed using Raft
 
 %prep
-%setup -q -n %{name}-v%{version}-linux-amd64
+%setup -q -n %{name}-v%{version}-linux-%{tarballarch}
 
 %build
 
