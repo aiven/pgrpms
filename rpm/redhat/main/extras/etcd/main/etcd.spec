@@ -4,12 +4,20 @@
 
 Name:		etcd
 Version:	3.5.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Distributed reliable key-value store
-
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
+%ifarch x86_64
 Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-amd64.tar.gz
+%endif
+%ifarch ppc64le
+Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-ppc64le.tar.gz
+%endif
+%ifarch aarch64
+Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-arm64.tar.gz
+%endif
+
 Source1:        %{name}.service
 Source2:        %{name}.conf
 
@@ -71,6 +79,10 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-2
+- Make sure that we pick up the correct tarball for all supported
+  architectures, not a single one.
+
 * Mon Oct 24 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-1
 - Update to 3.5.5
 - Enable v2 protocol by default,  per Alexandre Pereira:
