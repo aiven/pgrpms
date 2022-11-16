@@ -6,14 +6,24 @@
 %global		_verstr	0.29.5
 %endif
 
+# Consul does not provide tarballs for ppc64le:
+ExcludeArch:    ppc64le
+
+%ifarch x86_64
+%global		tarballarch amd64
+%endif
+%ifarch aarch64
+%global		tarballarch arm64
+%endif
+
 Name:		consul-template
 Version:	%{_verstr}
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	consul-template watches a series of templates on the file system, writing new changes when Consul is updated. It runs until an interrupt is received unless the -once flag is specified.
 
 License:	MPLv2.0
 URL:		http://www.consul.io
-Source0:	https://releases.hashicorp.com/%{name}/%{version}/%{name}_%{version}_linux_amd64.zip
+Source0:	https://releases.hashicorp.com/%{name}/%{version}/%{name}_%{version}_linux_%{tarballarch}.zip
 Source1:	%{name}.sysconfig
 Source2:	%{name}.service
 Source3:	%{name}.init
@@ -106,6 +116,10 @@ fi
 
 
 %changelog
+* Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> 0.29.5-2
+- Enable builds on aarch64, and make sure that the package is
+  not built on ppc64le.
+
 * Mon Oct 10 2022 Devrim Gündüz <devrim@gunduz.org> 0.29.5-1
 - Update to 0.29.5
 
