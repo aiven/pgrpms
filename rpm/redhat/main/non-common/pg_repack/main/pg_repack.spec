@@ -8,10 +8,20 @@
 %endif
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://pgxn.org/dist/pg_repack/
@@ -32,6 +42,33 @@ Obsoletes:	%{sname}%{pgmajorversion} < 1.4.6-2
 pg_repack can re-organize tables on a postgres database without any locks so that
 you can retrieve or update rows in tables being reorganized.
 The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for XXX
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for XXX
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -56,22 +93,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %attr (755,root,root) %{pginstdir}/lib/pg_repack.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
    %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
-  %endif
- %endif
 %endif
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.8-2
+- Split LLVM subpackage to fix builds on RHEL 8 - ppc64le.
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.8-1
 - Update to 1.4.8
 
