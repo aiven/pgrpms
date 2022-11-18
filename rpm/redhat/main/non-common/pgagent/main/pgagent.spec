@@ -164,7 +164,7 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Wed Sep 11 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
+* Wed Sep 14 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
 - Update to 4.2.2
 - Update URLs
 
