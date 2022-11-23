@@ -77,14 +77,6 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-[pgdg10]
-name=PostgreSQL 10 for RHEL / Rocky $releasever - $basearch
-baseurl=https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-$releasever-$basearch
-enabled=1
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-repo_gpgcheck = 1
-
 # PGDG RHEL / Rocky Updates Testing common repository.
 
 [pgdg-common-testing]
@@ -168,6 +160,14 @@ repo_gpgcheck = 1
 
 # PGDG Source RPMs (SRPM), and their testing repositories:
 
+[pgdg16-source-updates-testing]
+name=PostgreSQL 16 for RHEL / Rocky $releasever - $basearch - Source updates testing
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/16/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
+
 [pgdg15-source]
 name=PostgreSQL 15 for RHEL / Rocky $releasever - $basearch - Source
 baseurl=https://download.postgresql.org/pub/repos/yum/srpms/15/redhat/rhel-$releasever-$basearch
@@ -248,14 +248,6 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-[pgdg10-source]
-name=PostgreSQL 10 for RHEL / Rocky $releasever - $basearch - Source
-baseurl=https://download.postgresql.org/pub/repos/yum/srpms/10/redhat/rhel-$releasever-$basearch
-enabled=0
-gpgcheck=1
-gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
-repo_gpgcheck = 1
-
 # Debuginfo/debugsource packages for stable repos
 
 [pgdg15-debuginfo]
@@ -298,16 +290,16 @@ gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
-[pgdg10-debuginfo]
-name=PostgreSQL 10 for RHEL / Rocky $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/10/redhat/rhel-$releasever-$basearch
+# Debuginfo/debugsource packages for testing repos
+# Available for 11 and above.
+
+[pgdg16-updates-testing-debuginfo]
+name=PostgreSQL 16 for RHEL / Rocky $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/16/redhat/rhel-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
-
-# Debuginfo/debugsource packages for testing repos
-# Available for 11 and above.
 
 [pgdg15-updates-testing-debuginfo]
 name=PostgreSQL 15 for RHEL / Rocky $releasever - $basearch - Debuginfo
