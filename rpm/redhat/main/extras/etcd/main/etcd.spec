@@ -13,8 +13,8 @@
 %endif
 
 Name:		etcd
-Version:	3.5.5
-Release:	2%{?dist}
+Version:	3.5.6
+Release:	1%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
@@ -80,6 +80,9 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Wed Nov 23 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.6-1
+- Update to 3.5.6
+
 * Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-2
 - Make sure that we pick up the correct tarball for all supported
   architectures, not a single one.
