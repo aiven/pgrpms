@@ -1,6 +1,6 @@
 Name:		pgdg-fedora-repo
 Version:	42.0
-Release:	25
+Release:	26
 Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -8,8 +8,6 @@ Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
 Source2:	pgdg-fedora-all.repo
 BuildArch:	noarch
 Requires:	/etc/fedora-release
-Obsoletes:	pgdg-fedora94 <= 42.0 pgdg-fedora95 <= 42.0 pgdg-fedora96 <= 42.0
-Obsoletes:	pgdg-fedora10 <= 42.0 pgdg-fedora11 <= 42.0 pgdg-fedora12 <= 42.0
 
 %description
 This package contains yum configuration for Fedora, and also the GPG
@@ -37,6 +35,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Nov 23 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-26
+* Remove v10 repos.
+
 * Sat Oct 15 2022 Devrim Gündüz <devrim@gunduz.org> - 42.0-25
 - Add missing srpm and debuginfo repositories, per report from
   Justin Pryzby.
