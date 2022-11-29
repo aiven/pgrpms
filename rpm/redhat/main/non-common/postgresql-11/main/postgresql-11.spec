@@ -108,7 +108,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.18
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1698,6 +1698,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 29 2022 Devrim Gündüz <devrim@gunduz.org> - 11.18-2PGDG
+- Rebuild against new LLVM on RHEL 9 - aarch64
+
 * Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 11.18-1PGDG
 - Update to 11.18, per changes described at
   https://www.postgresql.org/docs/release/11.18/
