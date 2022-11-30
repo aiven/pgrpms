@@ -6,7 +6,7 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	2.1.4
+Version:	2.1.5
 Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
@@ -155,6 +155,10 @@ fi
 
 
 %changelog
+* Wed Nov 30 2022 Devrim Gündüz <devrim@gunduz.org> - 2.1.5-1
+- Update to 2.1.5, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-215
+
 * Sun Sep 4 2022 Devrim Gündüz <devrim@gunduz.org> - 2.1.4-2
 - Now that we have etcd package in PGDG RHEL extras repo, patroni-etcd
   subpackage will pull it.
