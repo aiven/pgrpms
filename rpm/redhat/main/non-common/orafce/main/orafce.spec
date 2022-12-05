@@ -16,7 +16,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
@@ -89,6 +89,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Nov 22 2022 Devrim Gündüz <devrim@gunduz.org> 4.0.1-1
 - Update to 4.0.1
 

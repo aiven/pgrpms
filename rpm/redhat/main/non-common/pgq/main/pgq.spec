@@ -14,7 +14,7 @@
 Summary:	Generic Queue for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}/
@@ -90,6 +90,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5-1
 - Update to 3.5
 

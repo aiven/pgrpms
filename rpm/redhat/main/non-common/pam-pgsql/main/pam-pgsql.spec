@@ -3,7 +3,7 @@
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.3.2
-Release:	2%{dist}
+Release:	3%{dist}
 Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
@@ -58,6 +58,9 @@ libtool --finish %{pginstdir}/lib/security
 %{pginstdir}/lib/security/pam_pgsql.so
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.7.3.2-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 0.7.3.2-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com

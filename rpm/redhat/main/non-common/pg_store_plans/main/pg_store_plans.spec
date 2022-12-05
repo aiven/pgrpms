@@ -3,7 +3,7 @@
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
 Source1:	README-%{sname}.txt
@@ -57,6 +57,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.1-1
 - Update to 1.6.1
 

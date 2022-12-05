@@ -3,7 +3,7 @@
 Summary:	PostgreSQL json query language with GIN indexing support
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/ver_%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
@@ -72,13 +72,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/include/server/jsquery*.h
 
 %changelog
-* Tue May 5 2020 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-2
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Tue May 5 2020 - Devrim Gündüz <devrim@gunduz.org> - 1.1.1-2
 - Fix -devel package dependency, per report from Justin.
 
-* Fri Sep 6 2019 - Devrim Gündüz <devrim@gunduz.org> 1.1.1-1
+* Fri Sep 6 2019 - Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
 - Update to 1.1.1
 
-* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org>
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Rebuild against PostgreSQL 11.0
 
 * Thu Oct 5 2017 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1

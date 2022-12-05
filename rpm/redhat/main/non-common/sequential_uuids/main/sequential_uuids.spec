@@ -14,7 +14,7 @@
 Summary:	Sequential UUID generators for PostgreSQL
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	MIT
 Source0:	https://github.com/tvondra/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/tvondra/%{sname}
@@ -83,6 +83,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.0.2-2
 - Fix builds on RHEL 8 - ppc64le (switch to new LLVM scheme)
 

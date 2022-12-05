@@ -5,7 +5,7 @@
 Summary:	PostgreSQL permission reports and checks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/refs/tags/%{tarballversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/pg_permissions/
@@ -38,6 +38,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}*.*
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Sep 10 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
 - Bump of for rpm Makefile issues on RHEL 7 and RHEL 8.
 

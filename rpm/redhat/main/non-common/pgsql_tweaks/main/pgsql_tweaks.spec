@@ -3,7 +3,7 @@
 Summary:	PostgreSQL functions which a DBA regularly needs
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.10.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		http://pgxn.org/dist/%{sname}
@@ -42,6 +42,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.10.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Oct 18 2022 Devrim Gündüz <devrim@gunduz.org> 0:0.10.1-1
 - Update to 0.10.1
 

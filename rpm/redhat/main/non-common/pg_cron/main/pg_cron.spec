@@ -3,7 +3,7 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
-Release:	1%{dist}
+Release:	2%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-1.4.2-makefile.patch
@@ -87,6 +87,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Aug 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1
 - Update to 1.4.2
 - Add a (temp) patch to fix builds on Fedora 36, per

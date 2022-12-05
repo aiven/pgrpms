@@ -3,7 +3,7 @@
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.5
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	BSD
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/koordinates/%{sname}
@@ -69,6 +69,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.5-5
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> 2.2.5-4
 - Remove pgxs patches, and export PATH instead.
 

@@ -7,7 +7,7 @@
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/powa-team/%{sname}
 Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
@@ -59,7 +59,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1
 - Update to 2.2.1
 
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2

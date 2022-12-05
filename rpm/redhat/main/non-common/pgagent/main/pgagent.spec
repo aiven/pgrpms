@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -142,6 +142,9 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Sep 14 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1
 - Update to 4.2.2
 - Update URLs

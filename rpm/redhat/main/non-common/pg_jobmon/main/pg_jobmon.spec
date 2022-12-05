@@ -3,7 +3,7 @@
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/pg_jobmon/%{version}/pg_jobmon-%{version}.zip
 URL:		https://github.com/omniti-labs/%{sname}
@@ -40,6 +40,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Aug 16 2021 Devrim Gündüz <devrim@gunduz.org> 1.4.1-1
 - Update to 1.4.1
 

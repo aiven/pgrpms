@@ -4,7 +4,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
@@ -49,9 +49,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
 - Initial packaging for PostgreSQL YUM repository.
 
-* Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> 0.1.1-2
+* Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
 - Initial packaging for PostgreSQL YUM repository.
 

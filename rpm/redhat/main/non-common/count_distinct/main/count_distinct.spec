@@ -3,7 +3,7 @@
 Summary:	A hash-table based alternative to COUNT(DISTINCT ...) aggregate in PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/tvondra/%{sname}
@@ -54,6 +54,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri May 21 2021 Devrim Gündüz <devrim@gunduz.org> 3.0.1-3
 - Remove pgxs patches, and export PATH instead.
 

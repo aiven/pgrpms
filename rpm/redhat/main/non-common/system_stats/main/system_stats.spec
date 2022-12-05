@@ -3,7 +3,7 @@
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	2%{dist}
+Release:	3%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v1.0.tar.gz
@@ -54,6 +54,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.0-2
 - Remove pgxs patches, and export PATH instead.
 

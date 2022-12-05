@@ -15,7 +15,7 @@
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
 Version:	0.48.3
-Release:	2%{dist}
+Release:	3%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -138,6 +138,9 @@ popd
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Aug 17 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-2
 - Foo
 

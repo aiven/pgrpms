@@ -14,7 +14,7 @@
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.8
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://pgxn.org/dist/pg_repack/
@@ -86,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %{__rm} -rf %{buildroot}
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.8-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.8-2
 - Split LLVM subpackage to fix builds on RHEL 8 - ppc64le.
 

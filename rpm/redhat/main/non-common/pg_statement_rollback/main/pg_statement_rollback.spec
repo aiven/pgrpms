@@ -3,7 +3,7 @@
 Summary:	Server side rollback at statement level for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/lzlabs/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/lzlabs/%{sname}
@@ -47,6 +47,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Oct 25 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-1
 - Update to 1.3
 

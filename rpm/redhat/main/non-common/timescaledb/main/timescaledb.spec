@@ -4,7 +4,7 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.8.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -74,6 +74,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Oct 10 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.1-1
 - Update to 2.8.1, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.8.1

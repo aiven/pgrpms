@@ -22,7 +22,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/refs/tags/%{powawebversion}.tar.gz
@@ -130,6 +130,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-1
 - Update to 4.1.4
 

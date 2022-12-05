@@ -12,7 +12,7 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 
@@ -99,6 +99,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.4-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Feb 15 2022 - Devrim Gündüz <devrim@gunduz.org> - 1.6.4-1
 - Update to 1.6.4
 

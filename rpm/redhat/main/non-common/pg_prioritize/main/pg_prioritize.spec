@@ -4,7 +4,7 @@
 Summary:	Get and set the nice priorities of PostgreSQL backends
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/schmiddy/%{pname}
@@ -55,6 +55,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-2
 - Remove pgxs patches, and export PATH instead.
 

@@ -1,7 +1,7 @@
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	13.02.0000
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -78,6 +78,9 @@ popd
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 13.02.0000-2PGDG
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Oct 25 2021 Devrim Gündüz <devrim@gunduz.org> - 13.02.0000-1PGDG
 - Update to 13.02.0000
 

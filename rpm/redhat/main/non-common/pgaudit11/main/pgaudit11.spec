@@ -3,7 +3,7 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}11_%{pgmajorversion}
 Version:	1.1.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 URL:		https://www.pgaudit.org
@@ -50,6 +50,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-2
 - Remove pgxs patches, and export PATH instead.
 

@@ -4,7 +4,7 @@
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
 Version:	13.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -36,6 +36,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 13.1-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Jun 7 2021 Devrim Gündüz <devrim@gunduz.org> 13.1-2
 - Remove pgxs patch, and export PATH instead.
 

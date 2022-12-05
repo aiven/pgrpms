@@ -3,7 +3,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.7.0
-Release:	8%{?dist}
+Release:	9%{?dist}
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
@@ -60,6 +60,9 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-9
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-8
 - Remove RHEL 6 support, and remove obsoletes
 

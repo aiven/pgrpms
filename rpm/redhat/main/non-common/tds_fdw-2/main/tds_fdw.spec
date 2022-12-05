@@ -13,7 +13,7 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/tds-fdw/%{sname}
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}  DESTDIR=%{buildroot} %{?_smp_
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-1
 - Update to 2.0.3
 - Split llvm stuff into its own subpackage.

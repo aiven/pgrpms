@@ -3,7 +3,7 @@
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	LGPL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 # Make sure that we use Python 3.
@@ -57,10 +57,13 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 1.0.4-4
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-5
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-4
 - Remove pgxs patches, and export PATH instead.
 
-* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.0.4-3
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
 

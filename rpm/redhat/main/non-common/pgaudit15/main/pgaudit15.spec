@@ -13,7 +13,7 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}15_%{pgmajorversion}
 Version:	1.5.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/%{version}.tar.gz
 URL:		https://www.pgaudit.org
@@ -70,6 +70,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Mar 4 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1
 - Update to 1.5.2
 

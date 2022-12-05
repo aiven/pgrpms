@@ -4,7 +4,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.3
-Release:	2%{dist}
+Release:	3%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		http://pgrouting.org/
@@ -72,6 +72,9 @@ cmake3 .. \
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.6.3-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 2.6.3-2
 - Require PostGIS >= 2.3, per Vicky.
 

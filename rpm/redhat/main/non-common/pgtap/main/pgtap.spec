@@ -3,7 +3,7 @@
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
@@ -65,6 +65,9 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Dec 6 2021 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1
 - Update to 1.2.0
 

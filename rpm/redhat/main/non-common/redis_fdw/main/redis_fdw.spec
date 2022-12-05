@@ -6,7 +6,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Redis
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
@@ -92,6 +92,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/p
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org>- 1.1-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.1-1
 - Remove pxgs patches, and export PATH instead.
 

@@ -4,7 +4,7 @@
 Summary:	Compares PostgreSQL database schemas (DDL)
 Name:		%{sname}
 Version:	0.7.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{sversion}.tar.gz
 Patch0:		pgquarrel-libminipath.patch
@@ -53,6 +53,9 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %{_libdir}/libmini.so
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Mar 31 2020 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-1
 - Update to 0.7.0
 - Fix packaging

@@ -15,7 +15,7 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -95,6 +95,9 @@ PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mf
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> 1.1.3-2
 - Oops, really build against GDAL 3.5.
 

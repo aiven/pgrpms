@@ -17,7 +17,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -89,19 +89,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
-* Mon May 30 2022 - Devrim Gündüz <devrim@gunduz.org> 2.2.0-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Mon May 30 2022 - Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1
 - Update to 2.2.0
 
-* Tue Jan 18 2022 - Devrim Gündüz <devrim@gunduz.org> 2.1.0-1
+* Tue Jan 18 2022 - Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1
 - Update to 2.1.0
 
-* Tue Sep 21 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.9-2
+* Tue Sep 21 2021 - Devrim Gündüz <devrim@gunduz.org> - 2.0.9-2
 - Fix spec file for RHEL 8 / ppc64le.
 
-* Thu Sep 16 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.9-1
+* Thu Sep 16 2021 - Devrim Gündüz <devrim@gunduz.org> - 2.0.9-1
 - Update to 2.0.9
 
-* Tue Jun 15 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.8-1
+* Tue Jun 15 2021 - Devrim Gündüz <devrim@gunduz.org> - 2.0.8-1
 - Update to 2.0.8
 
 * Thu Jun 3 2021 - Devrim Gündüz <devrim@gunduz.org> 2.0.7-2

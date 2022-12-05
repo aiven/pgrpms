@@ -4,7 +4,7 @@
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
 Version:	14.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 License:	GPLv2+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -36,6 +36,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH make %{?_smp_mflags}
 %doc README.pg_filedump
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Apr 20 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1-1
 - Update to 14.1
 

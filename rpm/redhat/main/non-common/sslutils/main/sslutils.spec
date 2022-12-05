@@ -17,7 +17,7 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -73,6 +73,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3-5
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3-4
 - Disable debug packages on ppc64le
 

@@ -81,7 +81,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	10.23
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1518,6 +1518,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 10.23-2PGDG
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Nov 9 2022 Devrim Gündüz <devrim@gunduz.org> - 10.23-1PGDG
 - Update to 10.23, per changes described at
   https://www.postgresql.org/docs/release/10.23/

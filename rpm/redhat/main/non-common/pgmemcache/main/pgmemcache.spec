@@ -3,7 +3,7 @@
 Summary:	A PostgreSQL API to interface with memcached
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.0
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/Ohmu/%{sname}
@@ -52,6 +52,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-6
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-4
 - Remove pgxs patches, and export PATH instead.
 - Remove RHEL 6 stuff.

@@ -10,7 +10,7 @@
 Summary:	Lua binding for PostgreSQL
 Name:		%{sname}
 Version:	1.6.7
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -48,6 +48,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.6.7-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com

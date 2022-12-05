@@ -17,7 +17,7 @@
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
 Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}.tar.gz
@@ -73,13 +73,16 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Mon Sep 19 2022 - Devrim Gündüz <devrim@gunduz.org> 1.1.0-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Mon Sep 19 2022 - Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
 - Update to 1.1.0
 
-* Tue May 31 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.1-1
+* Tue May 31 2022 - Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Update to 1.0.1
 
-* Fri May 6 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-1
+* Fri May 6 2022 - Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
 - Update to 1.0.0
 
 * Tue Jan 4 2022 - Devrim Gündüz <devrim@gunduz.org> 1.0.0-rc.1

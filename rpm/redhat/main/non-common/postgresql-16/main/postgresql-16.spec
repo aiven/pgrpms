@@ -78,7 +78,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1398,6 +1398,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 16-alpha_20221205_PGDG.1
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Aug 8 2022 Devrim Gündüz <devrim@gunduz.org> - 16.0-alpha
 - Initial cut for PostgreSQL 16.
 

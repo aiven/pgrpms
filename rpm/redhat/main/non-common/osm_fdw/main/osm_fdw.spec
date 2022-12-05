@@ -18,7 +18,7 @@
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.1.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch1:		%{sname}-missinginclude.patch
@@ -103,6 +103,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Oct 16 2021 Devrim Gündüz <devrim@gunduz.org> - 4.1.2-1
 - Update to 4.1.2
 

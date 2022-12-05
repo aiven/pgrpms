@@ -3,7 +3,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.85
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	http://momjian.us/download/%{sname}/%{sname}-%{version}.tar.gz
 URL:		http://momjian.us/download/%{sname}/
@@ -53,6 +53,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.85-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Jun 5 2021 Devrim Gündüz <devrim@gunduz.org> 0.85-3
 - Remove pgxs patches, and export PATH instead.
 

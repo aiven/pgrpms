@@ -3,7 +3,7 @@
 Summary:	MySQL compatibility functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.0.7
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		http://pgxn.org/dist/%{sname}
@@ -51,6 +51,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.0.7-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Jun 3 2021 Devrim Gündüz <devrim@gunduz.org> 0.0.7-3
 - Remove pgxs patches, and export PATH instead.
 

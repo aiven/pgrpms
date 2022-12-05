@@ -18,7 +18,7 @@
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0
-Release:	1%{dist}
+Release:	2%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -96,10 +96,13 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
-* Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> 2.0-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
 - Update to 2.0
 
-* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> 1.6.4-2
+* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.4-2
 - Update SLES 15 dependencies for SP4.
 
 * Thu Apr 7 2022 Devrim Gündüz <devrim@gunduz.org> 1.6.4-1

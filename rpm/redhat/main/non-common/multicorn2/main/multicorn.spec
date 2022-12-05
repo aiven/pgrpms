@@ -20,7 +20,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-python-destdir.patch
@@ -109,6 +109,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Sat Jun 11  2022 Devrim Gündüz <devrim@gunduz.org> 2.3-1
 - Switch to new repo
 

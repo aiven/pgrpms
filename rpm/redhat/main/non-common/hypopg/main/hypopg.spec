@@ -3,7 +3,7 @@
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 URL:		https://github.com/HypoPG/%{sname}
@@ -49,6 +49,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 23 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
 - Update to 1.3.1
 

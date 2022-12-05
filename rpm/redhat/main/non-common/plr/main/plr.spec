@@ -3,7 +3,7 @@
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
 Version:	8.4.5
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_5.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
@@ -54,6 +54,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 8.4.5-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu May 19 2022 Devrim Gündüz <devrim@gunduz.org> - 8.4.5-1
 - Update to 8.4.5
 

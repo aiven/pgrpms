@@ -14,7 +14,7 @@
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -71,6 +71,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Mar 10 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-1
 - Update to 0.5.3
 

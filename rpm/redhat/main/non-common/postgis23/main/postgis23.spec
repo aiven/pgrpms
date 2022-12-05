@@ -32,7 +32,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.11
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -308,6 +308,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3.11-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Aug 17 2020 Devrim Gündüz <devrim@gunduz.org> - 2.3.11-1
 - Update to 2.3.11
 

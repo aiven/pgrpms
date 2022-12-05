@@ -13,7 +13,7 @@
 Summary:	PostgreSQL extension that returns the top values in a database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.0
-Release:	2%{dist}
+Release:	3%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
@@ -91,6 +91,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 20 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2
 - Fix builds on RHEL 8 - ppc64le (switch to new LLVM scheme)
 

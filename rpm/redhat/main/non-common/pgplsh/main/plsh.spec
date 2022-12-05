@@ -13,7 +13,7 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20220917
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/plsh
@@ -92,6 +92,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20220917-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20220917-1
 - Update to 1.20220917
 - Update llvm code

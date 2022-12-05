@@ -16,8 +16,8 @@
 
 Summary:	A Graph Extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.0
-Release:	rc1_1%{dist}
+Version:	1.1.0
+Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/apache/incubator-age
 Source0:	https://github.com/apache/incubator-age/archive/refs/tags/v1.0.0-rc0.tar.gz
@@ -90,6 +90,10 @@ This packages provides JIT support for Age
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
+- Update to 1.1.0
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Apr 8 2021 Devrim Gündüz <devrim@gunduz.org> 0.4.0-1
 - Update to 0.4.0
 

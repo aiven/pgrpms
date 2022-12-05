@@ -3,7 +3,7 @@
 Summary:	uri type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20151224
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/pguri
@@ -63,6 +63,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-3
 - Remove pgxs patches, and export PATH instead.
 

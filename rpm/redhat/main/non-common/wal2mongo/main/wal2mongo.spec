@@ -3,7 +3,7 @@
 Summary:	PostgreSQL logical decoding output plugin for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.6
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/HighgoSoftware/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/HighgoSoftware/%{sname}
@@ -47,6 +47,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-3
 - Remove pgxs patch, and export PATH instead.
 

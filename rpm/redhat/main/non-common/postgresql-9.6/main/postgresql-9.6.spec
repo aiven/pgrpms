@@ -75,7 +75,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.24
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1472,6 +1472,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 9.6.24-2PGDG
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Nov 8 2021 Devrim Gündüz <devrim@gunduz.org> - 9.6.24-1PGDG
 - This is the final 9.6 release, please upgrade!
 - Update to 9.6.24, per changes described at:

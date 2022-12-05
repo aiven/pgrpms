@@ -3,7 +3,7 @@
 Summary:	Import tool for OpenStreetMap data to pgRouting database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.8
-Release:	1%{dist}
+Release:	2%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
@@ -61,6 +61,9 @@ cd build/
 %{_datadir}/%{sname}/mapconfig_for_pedestrian.xml
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3.8-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Jun 3 2021 Devrim Gündüz <devrim@gunduz.org> 2.3.8-1
 - Update to 2.3.8
 - Spec file cleanup

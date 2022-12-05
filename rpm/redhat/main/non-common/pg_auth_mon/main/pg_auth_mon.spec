@@ -3,7 +3,7 @@
 Summary:	PostgreSQL extension to store authentication attempts
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/RafiaSabih/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/RafiaSabih/%{sname}/
@@ -55,5 +55,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Feb 25 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial packaging for PostgreSQL RPM Repository

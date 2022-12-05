@@ -6,7 +6,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -69,6 +69,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0
 

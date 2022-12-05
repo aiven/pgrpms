@@ -21,7 +21,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2
-Release:	1%{dist}
+Release:	2%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
 URL:		https://github.com/bigsql/%{sname}
@@ -125,6 +125,9 @@ cd ..
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Oct 7 2022 Devrim Gündüz <devrim@gunduz.org> 4.2-1
 - Initial packaging for the PostgreSQL RPM repository.
   First version of spec file is contributed by Jan Wieck,

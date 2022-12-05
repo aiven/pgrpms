@@ -13,7 +13,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -198,14 +198,17 @@ fi
 %endif
 
 %changelog
-* Tue Oct 18 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.3-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 5.3.3-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Tue Oct 18 2022 - Devrim Gündüz <devrim@gunduz.org> - 5.3.3-1
 - Update to 5.3.3, per changes described at:
   https://repmgr.org/docs/current/release-5.3.3.html
 
-* Thu Sep 29 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.2-2
+* Thu Sep 29 2022 - Devrim Gündüz <devrim@gunduz.org> - 5.3.2-2
 - Remove RHEL 6 support.
 
-* Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> 5.3.2-1
+* Fri May 27 2022 - Devrim Gündüz <devrim@gunduz.org> - 5.3.2-1
 - Update to 5.3.2, per changes described at:
   https://repmgr.org/docs/current/release-5.3.2.html
 

@@ -3,7 +3,7 @@
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	BSD
 Source0:	https://github.com/anayrat/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/anayrat/%{sname}
@@ -62,6 +62,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-5
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-4
 - Remove pgxs patches, and export PATH instead.
 

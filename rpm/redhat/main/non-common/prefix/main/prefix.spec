@@ -3,7 +3,7 @@
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.9
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/dimitri/prefix
@@ -47,6 +47,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.9-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.2.9-3
 - Remove pgxs patches, and export PATH instead.
 

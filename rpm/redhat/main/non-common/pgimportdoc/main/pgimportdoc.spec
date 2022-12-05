@@ -3,7 +3,7 @@
 Summary:	command line tool for import XML, TEXT and BYTEA documents to PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.1.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/okbob/%{sname}
@@ -39,6 +39,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.1.3-4
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Fri Jun 4 2021 Devrim Gündüz <devrim@gunduz.org> 0.1.3-3
 - Remove pgxs patches, and export PATH instead.
 

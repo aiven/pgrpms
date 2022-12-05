@@ -13,7 +13,7 @@
 Summary:	PgFincore is a set of functions to manage blocks in memory
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/klando/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/klando/pgfincore
@@ -87,6 +87,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.4-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Sep 29 2022 Devrim Gündüz <devrim@gunduz.org> 1.2.4-1
 - Update to 1.2.4
 - Remove RHEL 6 support

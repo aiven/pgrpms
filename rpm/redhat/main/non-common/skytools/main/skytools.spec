@@ -7,7 +7,7 @@
 Summary:	PostgreSQL database management tools from Skype
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.2.6
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/markokr/%{sname}/archive/%{version}.tar.gz
 Source1:	https://github.com/markokr/libusual/archive/2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b.zip
@@ -169,6 +169,9 @@ sed -ie '/^#include <parser\/keywords.h>/s:parser/keywords.h:common/keywords.h:'
 %{pginstdir}/share/contrib/pgq_triggers.sql
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-2
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com

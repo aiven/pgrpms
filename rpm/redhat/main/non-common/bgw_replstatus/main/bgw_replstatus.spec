@@ -12,7 +12,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
@@ -90,6 +90,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu Jul 28 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.6-1
 - Update to 1.0.6
 - Split llvmjit package

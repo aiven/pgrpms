@@ -10,7 +10,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.0
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-python-destdir.patch
@@ -70,10 +70,13 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 
 
 %changelog
-* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.4.0-4
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-5
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-4
 - Remove pgxs patches, and export PATH instead.
 
-* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> 1.4.0-3
+* Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-3
 - Use underscore before PostgreSQL version number for consistency, per:
   https://www.postgresql.org/message-id/CAD%2BGXYMfbMnq3c-eYBRULC3nZ-W69uQ1ww8_0RQtJzoZZzp6ug%40mail.gmail.com
 

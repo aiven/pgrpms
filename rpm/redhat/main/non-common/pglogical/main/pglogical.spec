@@ -18,7 +18,7 @@
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.2
-Release:	1%{dist}
+Release:	2%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -103,23 +103,26 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
-* Fri Oct 21 2022 - John Harvey <john.harvey@crunchydata.com> 2.4.2-1
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
+* Fri Oct 21 2022 - John Harvey <john.harvey@crunchydata.com> - 2.4.2-1
 - Update to 2.4.2
 
-* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> 2.4.1-2
+* Thu Aug 25 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-2
 - Update SLES 15 dependencies for SP4.
 
-* Wed Mar 30 2022 Devrim Gündüz <devrim@gunduz.org> 2.4.1-1
+* Wed Mar 30 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1
 - Update to 2.4.1
 
-* Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2
+* Thu Nov 4 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2
 - Rebuild against LLVM 11 on SLES 15.
 - Make sure that LLVM dependency versions are the same as
   PostgreSQL.
 
-* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
 - Update to 2.4.0
-* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1
+* Tue Aug 17 2021 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
 - Update to 2.4.0
 - Split llvmjit bits into a separate package
 

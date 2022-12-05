@@ -4,7 +4,7 @@
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/CrunchyData/%{sname}
@@ -44,6 +44,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} DESTDIR=%{buildroot} %{?_smp_
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Mon Mar 7 2022 Devrim Gündüz <devrim@gunduz.org> 0.4-2
 - 0.4 requires pgbouncer 1.16.0+
 

@@ -3,7 +3,7 @@
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v1.0.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
@@ -49,5 +49,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Thu May 20 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Initial packaging for PostgreSQL RPM Repository

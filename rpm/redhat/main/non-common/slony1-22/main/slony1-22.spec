@@ -14,7 +14,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.10
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
 Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
@@ -246,6 +246,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.10-2
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Tue Dec 8 2020 Devrim Gündüz <devrim@gunduz.org> - 2.2.10-1
 - Update to 2.2.10
 

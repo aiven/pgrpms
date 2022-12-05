@@ -16,7 +16,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.19
-Release:	2%{?dist}
+Release:	3%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
@@ -103,6 +103,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.19-3
+- Get rid of AT and switch to GCC on RHEL 7 - ppc64le
+
 * Wed Apr 27 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.19-2
 - Split llvmjit into its own subpackage.
 
