@@ -11,7 +11,7 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}91
-Version:	9.1.0
+Version:	9.1.1
 Release:	1%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -22,7 +22,7 @@ Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
 BuildRequires:	%{sqlitepname}-devel >= 3.7 gcc-c++ libcurl-devel cmake
-BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.26
+BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.29
 
 %if 0%{?fedora} > 30 || 0%{?rhel} == 8
 Requires:	%{sqlitepname}-libs >= 3.7
@@ -120,5 +120,8 @@ popd
 %{proj91instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Mon Dec 5 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.1.1-1
+- Update to 9.1.1
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.1.0-1
 - Initial 9.1 packaging for PostgreSQL RPM Repository.
