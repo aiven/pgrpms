@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.2
-Release:	2%{?dist}
+Version:	1.7.0
+Release:	1%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
 License:	MIT
@@ -77,6 +77,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1
+- Update to 1.7.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
