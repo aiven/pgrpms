@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL extension for high level cryptographic algorithms
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.0.6
-Release:	3%{dist}
+Version:	3.1.0
+Release:	1%{dist}
 License:	BSD
 URL:		https://github.com/michelp/%{sname}/
 Source0:	https://github.com/michelp/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -100,6 +100,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
+- Update to 3.1.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.6-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
