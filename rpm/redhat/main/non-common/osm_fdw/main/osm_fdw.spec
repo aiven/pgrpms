@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname osm_fdw
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -38,12 +32,6 @@ BuildRequires:	protobuf-c-devel
 Requires:	postgresql%{pgmajorversion}-server, protobuf-c
 
 Obsoletes:	%{sname}_%{pgmajorversion} < 4.0.0-2
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
@@ -79,11 +67,6 @@ This packages provides JIT support for osm_fdw
 %patch1 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install

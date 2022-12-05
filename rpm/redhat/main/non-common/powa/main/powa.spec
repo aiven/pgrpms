@@ -10,12 +10,6 @@
 
 %global	powawebdir  %{_datadir}/%{name}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %global __ospython %{_bindir}/python3
 %if 0%{?fedora} >= 35
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
@@ -53,12 +47,6 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 PoWA is PostgreSQL Workload Analyzer that gathers performance stats and
 provides real-time charts and graphs to help monitor and tune your PostgreSQL
@@ -82,12 +70,6 @@ This is the user interface of POWA.
 %setup -q -n %{sname}-archivist-REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 # Build powa-web

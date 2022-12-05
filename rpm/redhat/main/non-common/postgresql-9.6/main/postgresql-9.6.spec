@@ -72,14 +72,6 @@
 %global _hardened_build 1
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
-%endif
-%endif
-
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	9.6.24
@@ -117,12 +109,6 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	perl(ExtUtils::MakeMaker)
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-%endif
-
 Requires:	/sbin/ldconfig
 
 %if %plperl
@@ -150,14 +136,10 @@ BuildRequires:	readline-devel
 BuildRequires:	zlib-devel >= 1.0.4
 
 %if %ssl
-# We depend on the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
-%endif
 %endif
 %endif
 
@@ -245,7 +227,6 @@ Provides:	postgresql >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -283,7 +264,6 @@ Requires:	openssl-libs >= 1.0.2k
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -321,7 +301,6 @@ Provides:	postgresql-server >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -352,7 +331,6 @@ Provides:	postgresql-contrib >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -402,7 +380,6 @@ Provides:	postgresql-plperl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -435,13 +412,6 @@ Requires:	python2-libs
 Requires:	python27
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
-
 %description plpython
 The postgresql%{pgmajorversion}-plpython package contains the PL/Python procedural language,
 which is an extension to the PostgreSQL database server.
@@ -461,7 +431,6 @@ Requires:	python3-libs
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -484,7 +453,6 @@ Provides:	postgresql-pltcl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -504,7 +472,6 @@ Provides:	postgresql-test >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 

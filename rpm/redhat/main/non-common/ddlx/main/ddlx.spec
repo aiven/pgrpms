@@ -1,12 +1,6 @@
 %global sname ddlx
 %global pname pgddl
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.22
@@ -18,12 +12,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildArch:	noarch
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This is an SQL-only extension for PostgreSQL that provides uniform functions
 for generating SQL Data Definition Language (DDL) scripts for objects created
@@ -34,11 +22,6 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 %setup -q -n %{pname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags}
 
 %install

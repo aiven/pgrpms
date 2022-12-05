@@ -14,12 +14,6 @@
 %global oname postgresql
 %global	pgbaseinstdir	/usr/pgsql-%{majorversion}
 
-%ifarch ppc64 ppc64le
-# Define the AT version and path.
-%global atstring	at10.0
-%global atpath		/opt/%{atstring}
-%endif
-
 %{!?disablepgfts:%global disablepgfts 0}
 %{!?intdatetimes:%global intdatetimes 1}
 %{!?kerberos:%global kerberos 1}
@@ -209,11 +203,6 @@ Requires(postun):	initscripts
 # This is for /sbin/service
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
 %endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
@@ -247,7 +236,6 @@ Requires:	openssl-libs >= 1.0.2k
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description libs
@@ -282,7 +270,6 @@ Requires:	%{name} = %{version}-%{release}
 Provides:	postgresql-server
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description server
@@ -309,7 +296,6 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description contrib
@@ -323,7 +309,6 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Provides:	postgresql-devel
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description devel
@@ -346,7 +331,6 @@ Obsoletes:	postgresql%{packageversion}-pl
 Provides:	postgresql-plperl
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plperl
@@ -366,7 +350,6 @@ Provides:	postgresql-plpython
 Provides:	%{name}-plpython2%{?_isa} = %{version}-%{release}
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plpython
@@ -385,7 +368,6 @@ Obsoletes:	%{name}-pl
 Provides:	postgresql-plpython3
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description plpython3
@@ -405,7 +387,6 @@ Obsoletes:	%{name}-pl
 Provides:	postgresql-pltcl
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description pltcl
@@ -422,7 +403,6 @@ Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 
 %description test

@@ -1,11 +1,5 @@
 %global sname	osm2pgrouting
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Import tool for OpenStreetMap data to pgRouting database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.8
@@ -24,12 +18,6 @@ BuildRequires:	boost-devel >= 1.53 pgdg-srpm-macros
 Requires:	libpqxx boost-program-options
 Requires:	postgresql%{pgmajorversion}-libs
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 Import tool for OpenStreetMap data to pgRouting database.
 
@@ -37,14 +25,6 @@ Import tool for OpenStreetMap data to pgRouting database.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
-#install -d build
-#cd build
 %if 0%{?rhel} && 0%{?rhel} == 7
 cmake3 .. \
 %else

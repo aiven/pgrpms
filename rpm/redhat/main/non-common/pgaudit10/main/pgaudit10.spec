@@ -1,11 +1,5 @@
 %global sname	pgaudit
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}10_%{pgmajorversion}
 Version:	1.0.8
@@ -16,12 +10,6 @@ URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 The PostgreSQL Audit extension (pgaudit) provides detailed session
@@ -41,12 +29,6 @@ trail or audit log. The term audit log is used in this documentation.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

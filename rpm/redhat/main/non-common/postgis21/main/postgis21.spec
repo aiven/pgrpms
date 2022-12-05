@@ -17,12 +17,6 @@
 # However, this can optionally be overrideen for fedora >= 24 or rhel >= 7
 %{!?sfcgal:%global    sfcgal 0}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
@@ -52,12 +46,6 @@ Requires:	SFCGAL
 BuildRequires:	gdal-devel >= 1.9.0
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-%endif
-
 Requires:	postgresql%{pgmajorversion} geos36 >= 3.6.2
 Requires:	postgresql%{pgmajorversion}-contrib proj49
 %if 0%{?rhel} && 0%{?rhel} < 6
@@ -68,13 +56,6 @@ Requires:	hdf5
 
 Requires:	gdal-libs > 1.9.0, json-c, pcre
 Requires(post):	%{_sbindir}/update-alternatives
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion} <= %{postgismajorversion}.5-1
@@ -92,12 +73,6 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Client tools and their libraries of PostGIS
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
 
@@ -111,12 +86,6 @@ Requires:       %{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
 
 %description devel
 The postgis-devel package contains the header files and libraries
@@ -127,12 +96,6 @@ with PostGIS.
 Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
 
 %description docs
 The postgis-docs package includes PDF documentation of PostGIS.
@@ -144,12 +107,6 @@ Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.5-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
 
 %description utils
 The postgis-utils package provides the utilities for PostGIS.
@@ -164,16 +121,6 @@ The postgis-utils package provides the utilities for PostGIS.
 %patch0 -p0
 
 %build
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%endif
-
 LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
@@ -212,14 +159,6 @@ tar zxf %{SOURCE1}
 cd %{sname}-%{postgisprevversion}
 # To be removed when 2.0.8 is out:
 patch -p0 -s < %{PATCH1}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%endif
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config --without-raster \
 	--disable-rpath --libdir=%{pginstdir}/lib \

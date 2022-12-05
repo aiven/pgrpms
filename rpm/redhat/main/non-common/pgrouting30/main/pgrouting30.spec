@@ -2,12 +2,6 @@
 %global pgroutingmajorversion 3.0
 %global sname	pgrouting
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.6
@@ -29,12 +23,6 @@ BuildRequires:	gmp-devel
 Requires:	postgis >= 2.3
 Requires:	postgresql%{pgmajorversion}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgRouting extends the PostGIS / PostgreSQL geospatial database to
 provide geospatial routing functionality.
@@ -53,12 +41,6 @@ value can come from multiple fields or tables.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %{__install} -d build
 pushd build
 %if 0%{?suse_version} >= 1315

@@ -1,11 +1,5 @@
 %global sname wal2mongo
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL logical decoding output plugin for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.6
@@ -18,12 +12,6 @@ Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.6-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 wal2mongo is a PostgreSQL logical decoding output plugin designed to make the
 logical replication easier from PostgreSQL to MongoDB by formating the output
@@ -33,12 +21,6 @@ to a JSON-like format accepted by mongo.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

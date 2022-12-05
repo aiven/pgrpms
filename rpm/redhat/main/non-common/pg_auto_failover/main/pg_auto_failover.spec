@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname pg_auto_failover
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -30,12 +24,6 @@ Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 pg_auto_failover is an extension and service for PostgreSQL that monitors and
@@ -82,12 +70,6 @@ This packages provides JIT support for pg_auto_failover.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}
 
 %install

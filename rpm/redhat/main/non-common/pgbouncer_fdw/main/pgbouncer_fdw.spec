@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname pgbouncer_fdw
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.4
@@ -20,12 +14,6 @@ Requires:	pgbouncer >= 1.16
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.2-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgbouncer_fdw provides a direct SQL interface to the pgbouncer SHOW commands.
 It takes advantage of the dblink_fdw feature to provide a more typical,
@@ -37,12 +25,6 @@ direct access to pgbouncer statistics.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

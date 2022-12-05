@@ -3,12 +3,6 @@
 %global pgstatsmidver 2
 %global pgstatsminver 0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	vmstat-like tool for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgstatsmajver}.%{pgstatsmidver}.%{pgstatsminver}
@@ -18,12 +12,6 @@ Source0:	https://github.com/gleu/pgstats/archive/refs/tags/REL%{pgstatsmajver}_%
 URL:		https://github.com/gleu/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs libpq5
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 pgstat is a vmstat-like tool for PostgreSQL.
@@ -44,12 +32,6 @@ much experimental.
 %setup -q -n %{sname}-REL%{pgstatsmajver}_%{pgstatsmidver}_%{pgstatsminver}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install

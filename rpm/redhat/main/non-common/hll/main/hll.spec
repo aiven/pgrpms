@@ -1,11 +1,5 @@
 %global sname hll
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.17
@@ -18,12 +12,6 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This Postgres module introduces a new data type hll which is a
 HyperLogLog data structure. HyperLogLog is a fixed-size, set-like
@@ -35,12 +23,6 @@ distinct values with only a few percent error.
 %setup -q -n postgresql-%{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 PG_CONFIG=%{pginstdir}/bin/pg_config %{__make} %{?_smp_mflags}
 
 %install

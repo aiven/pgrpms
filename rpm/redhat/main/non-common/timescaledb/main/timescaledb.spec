@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname	timescaledb
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.8.1
@@ -23,12 +17,6 @@ BuildRequires:	openssl-devel
 BuildRequires:	cmake3
 %else
 BuildRequires:	cmake >= 3.4
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 %endif
 
 Requires:	postgresql%{pgmajorversion}-server
@@ -55,7 +43,6 @@ export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
 %if 0%{?rhel} && 0%{?rhel} == 7
 	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
-	CC=%{atpath}/bin/gcc; export CC
 %endif
 %else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"

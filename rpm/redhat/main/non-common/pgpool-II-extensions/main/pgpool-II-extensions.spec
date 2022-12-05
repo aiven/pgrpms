@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname pgpool-II
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
 Version:	4.3.3
@@ -22,12 +16,6 @@ BuildRequires:	libmemcached-devel openssl-devel pgdg-srpm-macros >= 1.0.21
 Requires:	libmemcached
 Requires:	%{sname}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 PostgreSQL extensions, libraries and sql files for pgpool-II.
 
@@ -35,11 +23,6 @@ PostgreSQL extensions, libraries and sql files for pgpool-II.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # We need this flag on SLES so that pgpool can find libmemched.
 # Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.

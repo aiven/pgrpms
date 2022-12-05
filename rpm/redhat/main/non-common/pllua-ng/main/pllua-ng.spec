@@ -5,12 +5,6 @@
 %global plluangmidver 0
 %global plluangminver 10
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -35,12 +29,6 @@ URL:		https://github.com/RhodiumToad/%{pname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros lua-devel
 Requires:	postgresql%{pgmajorversion}-server lua-libs
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 PL/Lua is a procedural language module for the PostgreSQL database that
@@ -82,12 +70,6 @@ This packages provides JIT support for PL/Lua
 %setup -q -n %{pname}-REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
 	PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 

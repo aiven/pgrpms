@@ -1,11 +1,5 @@
 %global sname ogr_fdw
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -30,12 +24,6 @@ BuildRequires:	pgdg-srpm-macros >= 1.0.25
 Requires:	postgresql%{pgmajorversion}-server gdal%{gdal35majorversion}-libs
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
@@ -72,11 +60,6 @@ This packages provides JIT support for ogr_fdw.
 %setup -q -n pgsql-ogr-fdw-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install

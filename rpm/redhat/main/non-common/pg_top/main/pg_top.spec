@@ -1,11 +1,5 @@
 %global sname pg_top
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.7.0
@@ -22,13 +16,6 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Obsoletes:	%{sname}%{pgmajorversion} < 3.7.0-6
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
-
 %description
 pg_top is 'top' for PostgreSQL processes. See running queries,
 query plans, issued locks, and table and index statistics.
@@ -37,12 +24,6 @@ query plans, issued locks, and table and index statistics.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 sh autogen.sh
 PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
 %ifarch ppc64 ppc64le

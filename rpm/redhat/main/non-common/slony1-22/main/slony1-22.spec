@@ -11,12 +11,6 @@
 %global systemd_enabled 1
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.10
@@ -59,12 +53,6 @@ Requires(postun):	initscripts
 %endif
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 2.2.8-3
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %if %docs
 BuildRequires:	docbook-style-dsssl postgresql_autodoc docbook-utils

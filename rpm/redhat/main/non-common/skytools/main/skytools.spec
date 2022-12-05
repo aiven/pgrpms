@@ -1,11 +1,5 @@
 %global sname skytools
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 # Python major version.
 %{expand: %%global pyver %(python -c 'import sys;print(sys.version[0:3])')}
 %{!?python_sitearch: %global python_sitearch %(%{__python} -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
@@ -23,12 +17,6 @@ Requires:	python-psycopg2, postgresql%{pgmajorversion}
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 3.2.6-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 Database management tools from Skype: WAL shipping, queueing, replication.
 The tools are named walmgr, PgQ and Londiste, respectively.
@@ -45,12 +33,6 @@ This package has PostgreSQL modules of skytools.
 %setup -q -T -D -a 1 -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 rmdir lib
 %{__mv} libusual-2c1cb7f9bfa0a2a183354eb2630a3e4136d0f96b lib
 %if %{pgmajorversion} != 92

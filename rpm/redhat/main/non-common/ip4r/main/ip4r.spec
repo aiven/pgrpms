@@ -1,11 +1,5 @@
 %global sname ip4r
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		%{sname}_%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
 Version:	2.4.1
@@ -19,12 +13,6 @@ Requires:	postgresql%{pgmajorversion}-server
 Provides:	postgresql-ip4r
 Obsoletes:	%{sname}%{pgmajorversion} < 2.4.1-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 ip4, ip4r, ip6, ip6r, ipaddress and iprange are types that contain a single
 IPv4/IPv6 address and a range of IPv4/IPv6 addresses respectively. They can
@@ -34,12 +22,6 @@ be used as a more flexible, indexable version of the cidr type.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

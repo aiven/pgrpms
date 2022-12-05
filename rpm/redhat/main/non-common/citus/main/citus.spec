@@ -1,11 +1,5 @@
 %global sname citus
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -32,12 +26,6 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires:	libzstd1
 %else
 Requires:	libzstd
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 %endif
 
 %description
@@ -95,12 +83,6 @@ This packages provides JIT support for Citus
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %configure PG_CONFIG=%{pginstdir}/bin/pg_config
 make %{?_smp_mflags}
 

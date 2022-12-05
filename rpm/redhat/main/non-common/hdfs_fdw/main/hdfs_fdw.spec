@@ -1,11 +1,5 @@
 %global sname hdfs_fdw
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -35,12 +29,6 @@ BuildRequires:	javapackages-tools
 
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 the hdfs.
@@ -49,12 +37,6 @@ the hdfs.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 export JDK_INCLUDE="/etc/alternatives/java_sdk_openjdk/include"
 export JRE_LIBDIR="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
 export JVM_LIB="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"

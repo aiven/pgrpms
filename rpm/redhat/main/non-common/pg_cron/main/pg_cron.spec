@@ -1,11 +1,5 @@
 %global sname pg_cron
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
@@ -33,14 +27,10 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
-%endif
 %endif
 
 %if 0%{?suse_version}
@@ -49,12 +39,6 @@ BuildRequires:	openldap2-devel
 %endif
 %else
 BuildRequires:	openldap-devel
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 %endif
 
 %description
@@ -68,12 +52,6 @@ schedule PostgreSQL commands directly from the database.
 %patch0 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

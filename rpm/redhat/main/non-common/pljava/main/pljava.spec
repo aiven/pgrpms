@@ -3,12 +3,6 @@
 
 %global debug_package %{nil}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %ifarch ppc64 ppc64le
 %global archtag	ppc64le
 %else
@@ -39,20 +33,10 @@ BuildRequires:	pgdg-srpm-macros
 BuildRequires:	openssl-devel krb5-devel
 
 %if 0%{?rhel} == 7
-%ifnarch ppc64 ppc64le
 BuildRequires:	rh-maven33
-%endif
-%else
-BuildRequires:	maven
 %endif
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 PL/Java is a free open-source extension for PostgreSQL™ that allows

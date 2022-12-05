@@ -1,11 +1,5 @@
 %global sname pam-pgsql
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.3.2
@@ -25,12 +19,6 @@ Patch1:		%{sname}-getservice.patch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.7.3.2-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This module provides support to authenticate against PostgreSQL
 tables for PAM-enabled applications.
@@ -40,12 +28,6 @@ tables for PAM-enabled applications.
 %patch1 -p1
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 sh autogen.sh
 %configure --with-postgresql=%{pginstdir}/bin/pg_config --prefix=%{pginstdir} --libdir=%{pginstdir}/lib/
 %{__make} %{?_smp_mflags}

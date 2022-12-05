@@ -100,12 +100,6 @@
 %global _hardened_build 1
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.13
@@ -157,12 +151,6 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4
 # This dependency is needed for Source 16:
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:	perl-generators
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
 %endif
 
 Requires:	/sbin/ldconfig
@@ -259,14 +247,10 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
-%endif
 %endif
 %endif
 
@@ -313,12 +297,6 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The base postgresql package contains the client programs that you'll need to
@@ -347,12 +325,6 @@ Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
-%endif
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
 %endif
 %endif
 
@@ -387,12 +359,6 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Provides:	postgresql-server >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The postgresql%{pgmajorversion}-server package contains the programs needed to create
@@ -416,12 +382,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description contrib
 The postgresql%{pgmajorversion}-contrib package contains various extension modules that are
@@ -476,12 +436,6 @@ BuildRequires:	perl-IPC-Run
 Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel <= 42.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
@@ -510,14 +464,7 @@ Requires:	libLLVM13
 Requires:	llvm => 5.0
 %endif
 
-
 Provides:	postgresql-llvmjit >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description llvmjit
 The postgresql%{pgmajorversion}-llvmjit package contains support for
@@ -536,12 +483,6 @@ BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description plperl
 The postgresql%{pgmajorversion}-plperl package contains the PL/Perl procedural language,
@@ -571,12 +512,6 @@ Requires:	python2-libs
 Requires:	python27
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description plpython
 The postgresql%{pgmajorversion}-plpython package contains the PL/Python procedural language,
 which is an extension to the PostgreSQL database server.
@@ -598,12 +533,6 @@ Requires:       python3-base
 Requires:       python3-libs
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description plpython3
 The postgresql%{pgmajorversion}-plpython3 package contains the PL/Python3 procedural language,
 which is an extension to the PostgreSQL database server.
@@ -620,12 +549,6 @@ Requires:	tcl
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description pltcl
 PostgreSQL is an advanced Object-Relational database management
 system. The %{name}-pltcl package contains the PL/Tcl language
@@ -638,12 +561,6 @@ Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description test
 The postgresql%{pgmajorversion}-test package contains files needed for various tests for the

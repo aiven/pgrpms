@@ -1,11 +1,5 @@
 %global sname apache-age
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -31,12 +25,6 @@ Source0:	https://github.com/apache/incubator-age/archive/refs/tags/v1.0.0-rc0.ta
 BuildRequires:	postgresql%{pgmajorversion}-devel flex
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 Apache AGE is a PostgreSQL Extension that provides graph database
@@ -76,12 +64,6 @@ This packages provides JIT support for Age
 %setup -q -n incubator-age-%{version}-rc0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %{__make} %{?_smp_mflags} PG_CONFIG=%{pginstdir}/bin/pg_config
 
 %install

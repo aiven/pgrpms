@@ -1,11 +1,5 @@
 %global sname pg_comparator
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.5
@@ -19,12 +13,6 @@ Requires:	perl(Getopt::Long) perl(Time::HiRes) perl-Pod-Usage
 
 Obsoletes:	%{sname}%{pgmajorversion} < 2.2.5-3
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pg_comparator is a tool to compare possibly very big tables in
 different locations and report differences, with a network and
@@ -34,12 +22,6 @@ time-efficient approach.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

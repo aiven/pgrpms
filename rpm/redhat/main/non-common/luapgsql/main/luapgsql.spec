@@ -1,12 +1,5 @@
 %global debug_package %{nil}
-
 %global sname luapgsql
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
 
 %{!?luaver: %global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
 # for compiled modules
@@ -33,12 +26,6 @@ Requires:	lua >= %{luaver}
 Requires:	lua <  %{luanext}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 A Lua Binding for PostgreSQL.
 
@@ -47,12 +34,6 @@ A Lua Binding for PostgreSQL.
 %patch0 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %{__make} %{?_smp_mflags}
 
 %install

@@ -41,12 +41,6 @@
 %{!?sfcgal:%global    sfcgal 0}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.6
@@ -89,12 +83,6 @@ BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	protobuf-c-devel
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 Requires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-contrib
 Requires:	geos%{geosmajorversion} >= %{geosfullversion} proj%{projmajorversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
@@ -121,11 +109,6 @@ Requires:	protobuf-c
 
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion} <= %{postgismajorversion}.2-1
@@ -143,11 +126,6 @@ certified as compliant with the "Types and Functions" profile.
 Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
 
@@ -161,11 +139,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description devel
 The %{name}-devel package contains the header files and libraries
@@ -176,11 +149,6 @@ with PostGIS.
 Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description docs
 The %{name}-docs package includes PDF documentation of PostGIS.
@@ -201,11 +169,6 @@ Requires:	%{name} = %{version}-%{release}, perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description utils
 The %{name}-utils package provides the utilities for PostGIS.
@@ -228,12 +191,6 @@ LDFLAGS="-Wl,-rpath,%{projinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64";  export SFCGAL_LDFLAGS
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS

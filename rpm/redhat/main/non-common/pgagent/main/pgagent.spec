@@ -1,12 +1,6 @@
 %global _vpath_builddir .
 %global sname	pgagent
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.2
@@ -37,12 +31,6 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgAgent is a job scheduler for PostgreSQL which may be managed
 using pgAdmin.
@@ -61,20 +49,10 @@ fi
 %setup -q -n %{sname}-%{sname}-%{version}
 
 %build
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CFLAGS="-O3 -mcpu=power8 -mtune=power8"; export CFLAGS
-	CC=%{atpath}/bin/gcc; export CC
-	LDFLAGS="-pthread"; export LDFLAGS
-	BOOST_INCLUDEDIR=%{atpath}/include; export BOOST_INCLUDEDIR
-	BOOST_LIBRARYDIR=%{atpath}/lib64; export BOOST_LIBRARYDIR
-%endif
-%else
-	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
-	export CFLAGS
-	export CXXFLAGS
-%endif
+CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
+export CFLAGS
+export CXXFLAGS
 
 %cmake3	\
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \

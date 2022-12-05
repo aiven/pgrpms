@@ -1,14 +1,4 @@
-%ifarch ppc64 ppc64le
-%global	debug_package %{nil}
-%endif
-
 %global sname sslutils
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -34,12 +24,6 @@ Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 Required extension for Postgres Enterprise Manager (PEM) Server
 
@@ -47,12 +31,6 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 %setup -q  -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{__make} %{?_smp_mflags}
 
 %install
@@ -78,19 +56,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 %post
 /sbin/ldconfig
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%{atpath}/sbin/ldconfig
-%endif
-%endif
 
 %postun
 /sbin/ldconfig
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%{atpath}/sbin/ldconfig
-%endif
-%endif
 
 %files
 %defattr(-,root,root,-)

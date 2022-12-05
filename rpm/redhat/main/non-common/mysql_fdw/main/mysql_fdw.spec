@@ -3,12 +3,6 @@
 %global mysqlfdwmidver 8
 %global mysqlfdwminver 0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -37,12 +31,6 @@ Requires:	postgresql%{pgmajorversion}-server
 BuildRequires:	mariadb-devel
 Requires:	mariadb-devel
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 the MySQL.
@@ -51,12 +39,6 @@ the MySQL.
 %setup -q -n %{sname}-REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 export LDFLAGS="-L%{_libdir}/mysql"
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -75,18 +57,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%{atpath}/sbin/ldconfig
-%endif
-%endif
-
 %postun -p /sbin/ldconfig
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%{atpath}/sbin/ldconfig
-%endif
-%endif
 
 %files
 %defattr(755,root,root,755)

@@ -4,12 +4,6 @@
 %global pgtclmajorversion 3.0
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
 Release:	1%{?dist}
@@ -26,12 +20,6 @@ Requires:	tcl(abi) >= 8.5
 BuildRequires:	postgresql%{pgmajorversion}-devel tcl-devel
 BuildRequires:	autoconf pgdg-srpm-macros
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %{!?tcl_version: %global tcl_version %(echo 'puts $tcl_version' | tclsh)}
 %{!?tcl_sitearch: %global tcl_sitearch %{_libdir}/tcl%{tcl_version}}
 
@@ -47,12 +35,6 @@ to a PostgreSQL server.
 autoconf
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 ./configure --prefix=%{pgtclprefix}-%{pgmajorversion} \
 	--libdir=%{pgtclprefix}-%{pgmajorversion}/lib \
 	--with-tcl=%{_libdir} --with-postgres-include=%{pginstdir}/include \

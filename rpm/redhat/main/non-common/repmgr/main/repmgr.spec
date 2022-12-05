@@ -11,12 +11,6 @@
  %{!?llvm:%global llvm 1}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.3
 Release:	1%{?dist}
@@ -58,24 +52,14 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
 %endif
-%endif
 
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.1-1
 Obsoletes:	%{sname}_%{pgmajorversion} < 5.2.1-1
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 repmgr is an open-source tool suite to manage replication and failover in a
@@ -140,12 +124,6 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install

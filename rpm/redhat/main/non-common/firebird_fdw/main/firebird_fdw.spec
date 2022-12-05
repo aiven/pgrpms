@@ -1,11 +1,5 @@
 %global sname firebird_fdw
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.3
@@ -40,12 +34,6 @@ BuildRequires:	llvm6-devel clang6-devel
 BuildRequires:	llvm13-devel clang13-devel
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This is a foreign data wrapper (FDW) to connect PostgreSQL to Firebird.
 It provides both read (SELECT) and write (INSERT/UPDATE/DELETE)
@@ -58,11 +46,6 @@ This code is very much work-in-progress; USE AT YOUR OWN RISK.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 PG_CPPFLAGS="-I%{_includedir}/firebird" USE_PGXS=1 %{__make} %{?_smp_mflags}
 

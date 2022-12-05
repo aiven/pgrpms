@@ -1,11 +1,5 @@
 %global sname	pgtap
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.0
@@ -25,12 +19,6 @@ BuildRequires:	perl-Module-Build
 %endif
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 BuildArch:	noarch
 
 %description
@@ -43,12 +31,6 @@ test frameworks. It can also be used in the xUnit testing style.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} TAPSCHEMA=pgtap %{?_smp_mflags}
 
 # Build pg_prove and pg_tapgen

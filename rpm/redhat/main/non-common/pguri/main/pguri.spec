@@ -1,11 +1,5 @@
 %global sname pguri
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	uri type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20151224
@@ -17,12 +11,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel, uriparser-devel pgdg-srpm-macr
 Requires:	postgresql%{pgmajorversion}-server, uriparser
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.20151224-2
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 This is an extension for PostgreSQL that provides a uri data type. Advantages
@@ -43,12 +31,6 @@ arbitrary junk.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

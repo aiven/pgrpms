@@ -1,12 +1,6 @@
 %global sname mongo_fdw
 %global relver 5_4_0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -59,12 +53,6 @@ Requires:	postgresql%{pgmajorversion}-server cyrus-sasl-lib
 
 Obsoletes:	%{sname}%{pgmajorversion} < 5.2.7-2
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
 MongoDB.
@@ -113,16 +101,7 @@ sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -
 %endif
 
 %build
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -fPIC -I%{atpath}/include"; export CFLAGS
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"; export CXXFLAGS
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%else
-	CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
-%endif
+CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
 
 sh autogen.sh --with-master
 

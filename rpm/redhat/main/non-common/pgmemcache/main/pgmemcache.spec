@@ -1,11 +1,5 @@
 %global sname pgmemcache
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	A PostgreSQL API to interface with memcached
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.0
@@ -19,12 +13,6 @@ Requires:	postgresql%{pgmajorversion}-server libmemcached
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 2.3.0-4
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgmemcache is a set of PostgreSQL user-defined functions that provide
 an interface to memcached.
@@ -33,12 +21,6 @@ an interface to memcached.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

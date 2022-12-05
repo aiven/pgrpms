@@ -99,12 +99,6 @@
 %global _hardened_build 1
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.18
@@ -156,12 +150,6 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4
 # This dependency is needed for Source 16:
 %if 0%{?fedora} || 0%{?rhel} > 7
 BuildRequires:	perl-generators
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 %endif
 
 Requires:	/sbin/ldconfig
@@ -258,14 +246,10 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
-%endif
 %endif
 %endif
 
@@ -312,12 +296,6 @@ Requires(postun):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The base postgresql package contains the client programs that you'll need to
@@ -346,12 +324,6 @@ Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
 %endif
-%endif
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
 %endif
 %endif
 
@@ -386,12 +358,6 @@ Requires:	/usr/sbin/useradd, /sbin/chkconfig
 %endif
 Provides:	postgresql-server >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The postgresql%{pgmajorversion}-server package contains the programs needed to create
@@ -415,12 +381,6 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description contrib
 The postgresql%{pgmajorversion}-contrib package contains various extension modules that are
@@ -475,12 +435,6 @@ BuildRequires:	perl-IPC-Run
 Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel <= 42.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
@@ -510,12 +464,6 @@ Requires:	llvm => 5.0
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description llvmjit
 The postgresql%{pgmajorversion}-llvmjit package contains support for
 just-in-time compiling parts of PostgreSQL queries. Using LLVM it
@@ -533,12 +481,6 @@ BuildRequires:	perl-devel
 %endif
 Obsoletes:	postgresql%{pgmajorversion}-pl <= %{version}-%{release}
 Provides:	postgresql-plperl >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description plperl
 The postgresql%{pgmajorversion}-plperl package contains the PL/Perl procedural language,
@@ -571,7 +513,6 @@ Requires:	python27
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -599,7 +540,6 @@ Requires:	python3-libs
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -622,7 +562,6 @@ Provides:	postgresql-pltcl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -642,7 +581,6 @@ Provides:	postgresql-test >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 

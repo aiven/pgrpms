@@ -2,12 +2,6 @@
 
 %pgdg_set_llvm_variables
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.0
 Release:	1%{?dist}
@@ -18,12 +12,6 @@ Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v0.2.0.tar.g
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.15
 Requires:	postgresql%{pgmajorversion}-server
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 The credcheck PostgreSQL extension provides few general credential checks,
@@ -37,11 +25,6 @@ check_password_hook hook.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 
 %install

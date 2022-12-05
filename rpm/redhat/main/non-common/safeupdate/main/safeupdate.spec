@@ -1,11 +1,5 @@
 %global	sname	safeupdate
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and DELETE
 
 Name:		%{sname}_%{pgmajorversion}
@@ -18,12 +12,6 @@ BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 safeupdate is a simple extension to PostgreSQL that raises an error if UPDATE
 and DELETE are executed without specifying conditions. This extension was
@@ -34,12 +22,6 @@ is writable by PostgREST.
 %setup -q -n pg-%{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

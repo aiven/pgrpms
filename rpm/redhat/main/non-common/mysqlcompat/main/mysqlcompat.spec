@@ -1,11 +1,5 @@
 %global sname mysqlcompat
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	MySQL compatibility functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.0.7
@@ -18,12 +12,6 @@ Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.0.7-2
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 This project is a collection of functions, aggregates, operators and
@@ -40,11 +28,6 @@ rely heavily on certain MySQL functions.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install

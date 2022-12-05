@@ -33,12 +33,6 @@
 %{!?sfcgal:%global    sfcgal 0}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.10
@@ -81,12 +75,6 @@ BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	protobuf-c-devel
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-BuildRequires:	advance-toolchain-%{atstring}-devel
-%endif
-%endif
-
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} < 6
@@ -113,13 +101,6 @@ Requires(post):	%{_sbindir}/update-alternatives
 Requires:	protobuf-c
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
-%endif
-%endif
-
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion} <= %{postgismajorversion}.2-1
 Provides:	%{sname}2_%{pgmajorversion} => %{postgismajorversion}.0
@@ -139,7 +120,6 @@ Provides:	%{sname}-client = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
@@ -158,7 +138,6 @@ Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -174,7 +153,6 @@ Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -200,7 +178,6 @@ Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -224,12 +201,6 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib -L%{gdalinstdir}/l
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 
 CFLAGS="${CFLAGS:-%optflags}"
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # Strip out fstack-clash-protection from CFLAGS:
 CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v fstack-clash-protection|xargs -n 100`; export CFLAGS
