@@ -1,17 +1,13 @@
 %global sname pldebugger
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
@@ -34,6 +30,33 @@ This module is a set of shared libraries which implement an API for
 debugging PL/pgSQL functions on PostgreSQL 9.4 and above. The pgAdmin
 project (http://www.pgadmin.org/) provides a client user interface as
 part of pgAdmin 4.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pldebugger
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pldebugger
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -65,11 +88,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/lib/plugin_debugger.so
 %{pginstdir}/share/extension/pldbgapi*.sql
 %{pginstdir}/share/extension/pldbgapi*.control
+
 %if %llvm
+%files llvmjit
  %{pginstdir}/lib/bitcode/plugin_debugger*.bc
  %{pginstdir}/lib/bitcode/plugin_debugger/*.bc
 %endif
-
 
 %changelog
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5-2

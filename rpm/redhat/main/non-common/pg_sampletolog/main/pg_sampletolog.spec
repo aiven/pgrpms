@@ -1,5 +1,15 @@
 %global sname pg_sampletolog
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Postgres extension to sample statements or transactions to logs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.0
@@ -27,6 +37,33 @@ pg_sampletolog allows to:
  -  Log all DDL or MOD statements, same as log_statement
  -  Log statement's queryid if pg_stat_statements is installed
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_sampletolog
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_sampletolog
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -48,18 +85,14 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
 %license LICENSE
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
+
+%if %llvm
+%files llvmjit
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
+%endif
 
 %changelog
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-5

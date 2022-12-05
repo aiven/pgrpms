@@ -1,5 +1,15 @@
 %global sname pg_cron
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
@@ -13,9 +23,6 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
@@ -23,7 +30,6 @@ Requires:	libopenssl1_0_0
 Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
-%endif
 %endif
 %endif
 
@@ -47,6 +53,33 @@ pg_cron is a simple cron-based job scheduler for PostgreSQL
 It uses the same syntax as regular cron, but it allows you to
 schedule PostgreSQL commands directly from the database.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_cron
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_cron
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
@@ -66,24 +99,16 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
-  %endif
- %endif
 %endif
 
 %changelog

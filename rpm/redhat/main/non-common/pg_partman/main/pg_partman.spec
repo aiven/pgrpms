@@ -4,6 +4,16 @@
 %{!?with_python3:%global with_python3 1}
 %endif
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.1
@@ -21,6 +31,33 @@ Obsoletes:	%{sname}%{pgmajorversion} < 4.4.0-2
 
 %description
 pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_partman
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_partman
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -65,15 +102,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
 %endif
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/src/pg_partman_bgw.index.bc
    %{pginstdir}/lib/bitcode/src/pg_partman_bgw/src/pg_partman_bgw.bc
-  %endif
- %endif
 %endif
 
 %changelog

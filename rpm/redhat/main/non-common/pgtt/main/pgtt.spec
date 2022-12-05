@@ -1,17 +1,13 @@
 %global sname pgtt
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	PostgreSQL Global Temporary Tables Extension
@@ -36,6 +32,33 @@ you can not or don't want to rewrite the application code when migrating to
 PostgreSQL. In all other case best is to rewrite the code to use standard
 PostgreSQL temporary tables.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pgtt
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pgtt
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -58,8 +81,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %if %llvm
- %{pginstdir}/lib/bitcode/%{sname}*.bc
- %{pginstdir}/lib/bitcode/%{sname}/*.bc
+%files llvmjit
+   %{pginstdir}/lib/bitcode/%{sname}*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog

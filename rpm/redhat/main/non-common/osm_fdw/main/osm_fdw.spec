@@ -1,18 +1,14 @@
 %global debug_package %{nil}
 %global sname osm_fdw
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	PostgreSQL foreign data wrapper OSM PBF
@@ -48,14 +44,16 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?suse_version} == 1315
-Requires:	llvm
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm10
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
@@ -97,9 +95,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 
 %if %llvm
 %files llvmjit
-%{pginstdir}/lib/bitcode/%{sname}*.bc
-%{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
-%{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/%{sname}/*.bc
+    %{pginstdir}/lib/bitcode/%{sname}/src/osm_reader/*.bc
 %endif
 
 %changelog

@@ -39,6 +39,33 @@ functional testing, anonymization, training data, etc...
 
 This extension is simply a wrapper written in pl/python procedural language.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for postgresql_faker
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for postgresql_faker
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -65,10 +92,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %if %llvm
+%files llvmjit
     %{pginstdir}/lib/bitcode/faker*.bc
     %{pginstdir}/lib/bitcode/faker/*.bc
 %endif
-
 
 %changelog
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-2

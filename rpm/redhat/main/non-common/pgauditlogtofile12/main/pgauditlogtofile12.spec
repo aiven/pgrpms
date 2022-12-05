@@ -39,7 +39,7 @@ trail or audit log. The term audit log is used in this documentation.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for pgauditlogtofile
+Summary:	Just-in-time compilation support for pgauditlogtofile12
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch aarch64
@@ -57,7 +57,11 @@ BuildRequires:  llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pgauditlogtofile12
 %endif
 
 %description llvmjit

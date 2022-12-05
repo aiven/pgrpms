@@ -76,7 +76,6 @@ PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
 rewrite of the existing repmgr code and which will be developed to support
 future PostgreSQL versions.
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %package devel
 Summary:	Development header files of repmgr
 Requires:	%{name}%{?_isa} = %{version}-%{release}
@@ -86,7 +85,6 @@ Obsoletes:	%{sname}_%{pgmajorversion}-devel < 5.2.1-1
 %description devel
 The repmgr-devel package contains the header files needed to compile C or C++
 applications which will directly interact with repmgr.
-%endif
 
 %if %llvm
 %package llvmjit
@@ -108,7 +106,7 @@ BuildRequires:  llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
@@ -186,10 +184,8 @@ fi
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{unitname}.service
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
 %files devel
 %defattr(-,root,root,-)
-%endif
 
 %if %llvm
 %files llvmjit

@@ -13,18 +13,14 @@
 
 %pgdg_set_gis_variables
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 # Override PROJ major version on RHEL 7.
@@ -189,6 +185,33 @@ The %{name}-utils package provides the utilities for PostGIS.
 
 %global __perl_requires %{SOURCE4}
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for postgis30
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for postgis30
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
@@ -316,18 +339,6 @@ fi
 %{pginstdir}/lib/postgis_raster-%{postgisprevmajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
 %endif
-%if %llvm
-   %{pginstdir}/lib/bitcode/address_standardizer*.bc
-   %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
-   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
-   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
-   %if %raster
-    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
-    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
-   %endif
-%endif
 
 %files client
 %defattr(644,root,root)
@@ -350,6 +361,20 @@ fi
 %{pginstdir}/bin/shp2pgsql-gui
 %{pginstdir}/share/applications/shp2pgsql-gui.desktop
 %{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
+%endif
+
+%if %llvm
+%files llvmjit
+   %{pginstdir}/lib/bitcode/address_standardizer*.bc
+   %{pginstdir}/lib/bitcode/address_standardizer-3/*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
+   %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
+   %if %raster
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
+   %endif
 %endif
 
 %if %utils

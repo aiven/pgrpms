@@ -1,5 +1,15 @@
 %global sname pg_comparator
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.5
@@ -17,6 +27,33 @@ Obsoletes:	%{sname}%{pgmajorversion} < 2.2.5-3
 pg_comparator is a tool to compare possibly very big tables in
 different locations and report differences, with a network and
 time-efficient approach.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pg_comparator
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pg_comparator
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -46,26 +83,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %doc %{pginstdir}/doc/contrib/README.pgc_casts
 %doc %{pginstdir}/doc/contrib/README.pgc_checksum
 %doc %{pginstdir}/doc/contrib/README.xor_aggregate
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/bin/%{sname}
 %{pginstdir}/lib/pgc_casts.so
 %{pginstdir}/lib/pgc_checksum.so
 %{pginstdir}/share/contrib/*.sql
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/pgc_casts.index.bc
    %{pginstdir}/lib/bitcode/pgc_checksum.index.bc
    %{pginstdir}/lib/bitcode/pgc_casts/*.bc
    %{pginstdir}/lib/bitcode/pgc_checksum/*.bc
-  %endif
- %endif
 %endif
 
 %changelog

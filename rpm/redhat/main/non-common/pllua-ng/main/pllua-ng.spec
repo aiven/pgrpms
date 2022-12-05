@@ -43,7 +43,7 @@ This package includes development libraries for PL/Lua
 
 %if %llvm
 %package llvmjit
-Summary:        Just-in-time compilation support for PL/Lua
+Summary:	Just-in-time compilation support for PL/Lua
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch aarch64
@@ -52,14 +52,16 @@ Requires:	llvm-toolset-7.0-llvm >= 7.0.1
 Requires:	llvm5.0 >= 5.0
 %endif
 %endif
-%if 0%{?suse_version} == 1315
-Requires:       llvm
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:  llvm6-devel clang6-devel
+Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:       llvm10
+BuildRequires:  llvm13-devel clang13-devel
+Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:       llvm => 5.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
@@ -98,11 +100,13 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %dir %{pginstdir}/include/server/extension/%{sname}
 %{pginstdir}/include/server/extension/%{sname}/*
 
+%if %llvm
 %files llvmjit
-%{pginstdir}/lib/bitcode/%{sname}*.bc
-%dir %{pginstdir}/lib/bitcode/%{sname}
-%{pginstdir}/lib/bitcode/%{sname}/*
+    %{pginstdir}/lib/bitcode/%{sname}*.bc
+    %dir %{pginstdir}/lib/bitcode/%{sname}
+    %{pginstdir}/lib/bitcode/%{sname}/*
 %endif
+
 
 %changelog
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.10-2

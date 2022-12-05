@@ -44,11 +44,7 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %attr (755,root,root) %{_bindir}/%{sname}
 %{_libdir}/libmini.so
 
