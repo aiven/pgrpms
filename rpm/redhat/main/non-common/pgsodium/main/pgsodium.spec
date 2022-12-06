@@ -64,10 +64,6 @@ Requires:	llvm => 13.0
 This packages provides JIT support for pgsodium
 %endif
 
-%description llvmjit
-This packages provides JIT support for pgsodium
-%endif
-
 %prep
 %setup -q -n %{sname}-%{version}
 
