@@ -7,17 +7,11 @@
 %global sqlitepname	sqlite
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %pgdg_set_gis_variables
 
 Name:		%{sname}82
 Version:	8.2.1
-Release:	1%{?dist}
+Release:	3%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -35,29 +29,13 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %package devel
 Summary:	Development files for PROJ
 Requires:	%{name} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 Proj and invproj perform respective forward and inverse transformation of
@@ -74,11 +52,6 @@ This package contains libproj static library.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 LDFLAGS="-Wl,-rpath,%{proj82instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj82instdir}/lib" ; export SHLIB_LINK
@@ -124,22 +97,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{__rm} -rf %{buildroot}
 
 %post
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %postun
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %files
 %defattr(-,root,root,-)
@@ -163,6 +124,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %defattr(-,root,root,-)
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-3
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0:8.2.1-2
 - Don't install .la file to fix build error on Fedora 37.
 

@@ -1,13 +1,7 @@
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
 Version:	0.4.3
-Release:	2%{dist}
+Release:	3%{dist}
 Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
@@ -22,12 +16,6 @@ BuildRequires:	libfbclient2
 Requires:	libfbclient2
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 
@@ -35,12 +23,6 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %setup -q -n %{name}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 ./configure --prefix=%{_prefix} \
 	--with-ibase=%{_includedir}/firebird --libdir=%{_libdir}/
 
@@ -64,6 +46,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-3
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Wed Oct 19 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-2
 - Remove .la file, per
   https://fedoraproject.org/wiki/Changes/RemoveLaFiles

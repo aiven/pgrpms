@@ -1,11 +1,5 @@
 %global _vpath_builddir .
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 %if 0%{?suse_version} && 0%{?suse_version} >= 1315
@@ -33,7 +27,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	12%{?dist}
+Release:	13%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -63,12 +57,6 @@ BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
 BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 SFCGAL is a C++ wrapper library around CGAL with the aim of supporting
 ISO 19107:2013 and OGC Simple Features Access 1.2 for 3D operations.
@@ -86,7 +74,6 @@ Summary:	The shared libraries required for SFCGAL
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -109,11 +96,6 @@ Development headers and libraries for SFCGAL.
 %endif
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 %{__install} -d build
 
@@ -133,40 +115,16 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 	DESTDIR=%{buildroot}
 
 %post
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %post libs
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %postun
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %postun libs
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{atpath}/sbin/ldconfig
-%endif
-%else
 /sbin/ldconfig
-%endif
 
 %files
 %doc AUTHORS README.md NEWS
@@ -186,6 +144,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-13
+- Remove AT support from RHEL 7 - ppc64le.
+
 * Mon Aug 22 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-12
 - Update RHEL 8 version to 1.4.1
 

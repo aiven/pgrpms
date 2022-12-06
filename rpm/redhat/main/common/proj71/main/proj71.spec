@@ -7,15 +7,11 @@
 %global sqlitepname	sqlite
 %endif
 
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-
 %pgdg_set_gis_variables
 
 Name:		%{sname}71
 Version:	7.1.1
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -33,24 +29,14 @@ Requires:	%{sqlitepname}-libs >= 3.7
 Requires:	%{sqlitepname}
 %endif
 
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-
 %package devel
 Summary:	Development files for PROJ
 Requires:	%{name} = %{version}-%{release}
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 
 
 %package static
 Summary:	Development files for PROJ
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 
 %description
 Proj and invproj perform respective forward and inverse transformation of
@@ -67,9 +53,6 @@ This package contains libproj static library.
 %setup -q -n %{sname}-%{version}
 
 %build
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
 LDFLAGS="-Wl,-rpath,%{proj71instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj71instdir}/lib" ; export SHLIB_LINK
 
@@ -111,18 +94,10 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{__rm} -rf %{buildroot}
 
 %post
-%ifarch ppc64 ppc64le
-%{atpath}/sbin/ldconfig
-%else
 /sbin/ldconfig
-%endif
 
 %postun
-%ifarch ppc64 ppc64le
-%{atpath}/sbin/ldconfig
-%else
 /sbin/ldconfig
-%endif
 
 %files
 %defattr(-,root,root,-)
@@ -151,6 +126,9 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
 %{proj71instdir}/lib/libproj.la
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0:7.1.1-4
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Fri Nov 27 2020 Devrim Gündüz <devrim@gunduz.org> - 0:7.1.1-3
 - Make sure that each PROJ package will install into their own directory,
   not under the latest one.

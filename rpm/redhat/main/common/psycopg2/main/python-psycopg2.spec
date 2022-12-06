@@ -5,12 +5,6 @@
 %global ppg2midver 9
 %global ppg2minver 5
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %{!?with_docs:%global with_docs 0}
 
 %global with_python3 1
@@ -47,7 +41,7 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
@@ -63,12 +57,6 @@ BuildRequires:	python2-devel
 Requires:	libpq5 >= 10.0
 
 Conflicts:	python-%{sname}-zope < %{version}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 Psycopg is the most popular PostgreSQL adapter for the Python
@@ -123,11 +111,6 @@ database adapter.
 %setup -q -n %{sname}-%{ppg2majver}_%{ppg2midver}_%{ppg2minver}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 export PATH=%{pginstdir}/bin:$PATH
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
@@ -215,6 +198,9 @@ done
 %endif
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Nov 1 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-1
 - Update to 2.9.5
 

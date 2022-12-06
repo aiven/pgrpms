@@ -1,13 +1,7 @@
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.43
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -58,13 +52,6 @@ Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
 
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
 seamlessly scale up to the largest databases and workloads.
@@ -78,23 +65,12 @@ are required to perform a backup which increases security.
 
 %prep
 %setup -q -n %{name}-release-%{version}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%patch0 -p0
-%endif
-%endif
 
 %build
 pushd src
 export CPPFLAGS='-I %{pginstdir}/include'
 export PATH=%{pginstdir}/bin/:$PATH
 export LDFLAGS='-L%{pginstdir}/lib'
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-	export PATH="%{atpath}/bin:$PATH"
-%endif
-%endif
 %configure
 %{__make}
 popd
@@ -176,6 +152,9 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.43-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Mon Nov 28 2022 Devrim Gündüz <devrim@gunduz.org> - 2.43-1
 - Update to 2.43, per changes described at:
   https://pgbackrest.org/release.html#2.43

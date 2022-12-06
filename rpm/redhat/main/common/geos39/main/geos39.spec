@@ -4,15 +4,9 @@
 
 %global		_geoslibdir lib64
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		%{sname}%{_geosversion}
 Version:	3.9.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -25,12 +19,6 @@ BuildRequires:	gcc-c++ pgdg-srpm-macros
 Obsoletes:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos36 <= 3.6.4 geos37 <= 3.7.3
 Provides:	geos%{_geosversion}-python >= %{version}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 GEOS (Geometry Engine - Open Source) is a C++ port of the Java Topology
@@ -60,11 +48,6 @@ use GEOS
 %patch0 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # disable internal libtool to avoid hardcoded r-path
 %if 0%{?rhel} && 0%{?rhel} >= 7
@@ -96,22 +79,10 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__rm} -rf %{buildroot}
 
 %post
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	%{atpath}/sbin/ldconfig
-%endif
-%else
-	/sbin/ldconfig
-%endif
+/sbin/ldconfig
 
 %postun
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	%{atpath}/sbin/ldconfig
-%endif
-%else
-	/sbin/ldconfig
-%endif
+/sbin/ldconfig
 
 %files
 %defattr(-,root,root,-)
@@ -133,6 +104,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.9.2-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 3.9.2-1
 - Update to 3.9.2
 

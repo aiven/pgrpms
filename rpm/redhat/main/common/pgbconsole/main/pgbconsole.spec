@@ -1,24 +1,16 @@
 %global debug_package %{nil}
 %global sname	pgbconsole
 
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-
 Summary:	top-like console for Pgbouncer - PostgreSQL connection pooler
 Name:		pgbconsole
 Version:	0.1.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/lesovsky/%{sname}
 BuildRequires:	postgresql%{pgmajorversion} ncurses-devel
 BuildRequires:	libpq5-devel >= 10.0 pgdg-srpm-macros
 Requires:	libpq5 >= 10.0
-
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 
 %description
 pgbConsole is the top-like console for Pgbouncer - PostgreSQL connection
@@ -35,9 +27,6 @@ pooler. Features:
 %setup -q -n %{sname}-%{version}
 
 %build
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
 USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
@@ -64,6 +53,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{_bindir}/%{sname}
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-3
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Wed Sep 2 2020 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
 - Use our own libpq5
 - Switch to pgdg-srpm-macros

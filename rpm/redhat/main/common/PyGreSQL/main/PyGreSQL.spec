@@ -3,15 +3,9 @@
 %{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		PyGreSQL
 Version:	5.2.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	A Python client library for PostgreSQL
 
 URL:		http://www.PyGreSQL.org/
@@ -33,12 +27,6 @@ BuildRequires:	pgdg-srpm-macros libpq5-devel
 
 Requires:	libpq5
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 PostgreSQL is an advanced Object-Relational database management system.
 The PyGreSQL package provides a module for developers to use when writing
@@ -51,12 +39,6 @@ Python code for accessing a PostgreSQL database.
 find -type f -exec chmod 644 {} +
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %{__ospython3} setup.py build
 
 %install
@@ -78,6 +60,9 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 5.2.3-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Feb 1 2022 Devrim Gündüz <devrim@gunduz.org> - 5.2.3-1
 - Update to 5.2.3
 

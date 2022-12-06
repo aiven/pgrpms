@@ -1,27 +1,15 @@
 %global sname pgreplay
 %global vname PGREPLAY_1_3_0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL log file re-player
 Name:		%{sname}
 Version:	1.3.0
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	BSD
 Source0:	https://github.com/laurenz/%{sname}/archive/%{vname}.tar.gz
 URL:		https://github.com/laurenz/%{sname}
 Requires:	postgresql-server >= 10.0
 BuildRequires:	libpq5-devel pgdg-srpm-macros
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 pgreplay reads a PostgreSQL log file (not a WAL file), extracts the SQL
@@ -46,12 +34,6 @@ affect you.
 %setup -q -n %{sname}-%{vname}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 %configure --with-postgres=%{pginstdir}/bin
 %{__make} %{?_smp_mflags}
 
@@ -70,6 +52,9 @@ affect you.
 %{_mandir}/man1/%{sname}*
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-4
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Sep 21 2021 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-3
 - Move this package to common repository.
 

@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname ldap2pg
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if 0%{?fedora} >= 35
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
@@ -18,7 +12,7 @@
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
 Version:	5.8
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
@@ -26,12 +20,6 @@ Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 BuildRequires:	python3-devel pgdg-srpm-macros
 
 Obsoletes:	python-ldap2pg < 5.1
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 Requires:	libpq5 >= 10.0
 
@@ -72,12 +60,6 @@ Documentation and example files for the ldap2pg package.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 for python in %{python_runtimes} ; do
   $python setup.py build
 done
@@ -121,6 +103,9 @@ done
 %doc docs/
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 5.8-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 5.8-1
 - Update to 5.8
 

@@ -5,16 +5,10 @@
 %define	docver	3300100
 %define	rpmver	3.30.1
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	Public Domain
 URL:		https://www.sqlite.org/
 
@@ -41,12 +35,6 @@ BuildRequires:	ncurses-devel readline-devel glibc-devel
 BuildRequires:	autoconf pgdg-srpm-macros
 
 Requires:		%{name}-libs = %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 # Ensure updates from pre-split work on multi-lib systems
 Obsoletes:		%{name} < 3.11.0-1
@@ -126,12 +114,6 @@ export CFLAGS="$RPM_OPT_FLAGS $RPM_LD_FLAGS -DSQLITE_ENABLE_COLUMN_METADATA=1 \
 		-DSQLITE_ENABLE_FTS3_PARENTHESIS=1 -DSQLITE_ENABLE_JSON1=1 \
 		-DSQLITE=THREADSAFE=2 -Wall -fno-strict-aliasing"
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 ./configure --disable-tcl \
 	--prefix=%{sqlite33instdir} \
 	--libdir=%{sqlite33instdir}/lib \
@@ -162,22 +144,10 @@ echo "%{sqlite33instdir}/lib/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 
 
 %post libs
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	%{atpath}/sbin/ldconfig
-%endif
-%else
-	/sbin/ldconfig
-%endif
+/sbin/ldconfig
 
 %postun libs
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	%{atpath}/sbin/ldconfig
-%endif
-%else
-	/sbin/ldconfig
-%endif
+/sbin/ldconfig
 
 %files
 %{sqlite33instdir}/bin/sqlite3
@@ -205,6 +175,9 @@ echo "%{sqlite33instdir}/lib/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-7
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Fri Apr 9 2021 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-6
 - Add linker config file, per #6373
 

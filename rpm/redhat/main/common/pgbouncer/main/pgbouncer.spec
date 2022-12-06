@@ -1,12 +1,6 @@
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Name:		pgbouncer
 Version:	1.17.0
-Release:	10%{?dist}
+Release:	11%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -55,12 +49,6 @@ Requires(postun):	systemd
 
 Requires:	/usr/sbin/useradd
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 %description
 pgbouncer is a lightweight connection pooler for PostgreSQL.
 pgbouncer uses libevent for low-level socket handling.
@@ -74,12 +62,6 @@ sed -i.fedora \
  -e 's|-fomit-frame-pointer||' \
  -e '/BININSTALL/s|-s||' \
  configure
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # c-ares >= 1.16 is needed for proper c-ares support. Currently only RHEL 9
 # and Fedora has it. Use libevent on the remaining ones.
@@ -182,6 +164,9 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.17.0-11
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Fri Mar 25 2022 Devrim Gündüz <devrim@gunduz.org> - 1.17.0-10
 - Update to 1.17.0, per changes described at:
   https://www.pgbouncer.org/changelog.html#pgbouncer-117x

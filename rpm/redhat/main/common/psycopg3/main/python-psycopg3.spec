@@ -2,12 +2,6 @@ BuildArch:	noarch
 %global sname psycopg3
 %global pname python-%{sname}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %{!?with_docs:%global with_docs 0}
 
 %if 0%{?fedora} >= 35
@@ -21,7 +15,7 @@ BuildArch:	noarch
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.1.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -31,12 +25,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
 Requires:	libpq5 >= 10.0
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 Psycopg is the most popular PostgreSQL adapter for the Python
@@ -70,12 +58,6 @@ database adapter.
 %setup -q -n psycopg-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
-
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
 %{__python3} setup.py build
@@ -141,6 +123,9 @@ popd
 %endif
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.4-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Nov 1 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.4-1
 - Update to 3.1.4
 

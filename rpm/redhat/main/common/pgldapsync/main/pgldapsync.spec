@@ -1,12 +1,6 @@
 %global debug_package %{nil}
 %global sname pgldapsync
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 %if 0%{?fedora} >= 35
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
@@ -17,7 +11,7 @@
 Summary:	A tool for syncing LDAP users to Postgres Roles
 Name:		%{sname}
 Version:	1.0.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/enterprisedb/pgldapsync
 Source0:	https://github.com/EnterpriseDB/pgldapsync/archive/refs/tags/pgldapsync-%{version}.tar.gz
@@ -25,12 +19,6 @@ Source0:	https://github.com/EnterpriseDB/pgldapsync/archive/refs/tags/pgldapsync
 BuildRequires:	python3-devel >= 3.5 pgdg-srpm-macros >= 1.0.17
 
 Requires:	libpq5 >= 10.0
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 %description
 This Python module allows you to synchronise Postgres login roles with users
@@ -42,11 +30,6 @@ pgldapsync requires Python 3.5 or later.
 %setup -q -n %{sname}-%{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # Change /usr/bin/python to /usr/bin/python3 in the scripts:
 for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" $i; done
@@ -74,6 +57,9 @@ for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\
 %{python3_sitelib}/%{sname}/pgutils/__pycache__/*.py*
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-3
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-2
 - Add Fedora 35 support
 

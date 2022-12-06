@@ -14,16 +14,10 @@
 %{!?selinux:%global selinux 1}
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.1
-Release:	42PGDG%{?dist}
+Release:	42.1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -60,10 +54,6 @@ BuildRequires:	openldap-devel
 
 BuildRequires:	gettext >= 0.10.35
 
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-
 %if %selinux
 # All supported distros have libselinux-devel package:
 BuildRequires:	libselinux-devel >= 2.0.93
@@ -79,20 +69,13 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
 %endif
 %endif
-%endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
 %else
@@ -100,7 +83,6 @@ Requires:	libopenssl1_0_0
 Requires:	libopenssl1_1
 %else
 Requires:	openssl-libs >= 1.0.2k
-%endif
 %endif
 %endif
 
@@ -132,15 +114,7 @@ package or any clients that need to connect to a PostgreSQL server.
 
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
-
 
 %prep
 %setup -q -n postgresql-%{version}
@@ -149,19 +123,10 @@ Requires:	advance-toolchain-%{atstring}-runtime
 
 %build
 CFLAGS="${CFLAGS:-%optflags}"
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%else
-	# Strip out -ffast-math from CFLAGS....
-	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-	%if 0%{?rhel}
+# Strip out -ffast-math from CFLAGS....
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
+%if 0%{?rhel}
 	LDFLAGS="-Wl,--as-needed"; export LDFLAGS
-	%endif
 %endif
 
 export CFLAGS
@@ -184,10 +149,6 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %{systemd_enabled}
 	--with-systemd \
-%endif
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo
 
@@ -251,6 +212,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 15.1-42.1-1
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Sat Nov 12 2022 Devrim Gündüz <devrim@gunduz.org> - 15.1-42-1PGDG
 - Update to 15.1
 

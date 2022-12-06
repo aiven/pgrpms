@@ -1,16 +1,10 @@
 %global pgpoolinstdir /usr
 %global sname pgpool-II
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}
 Version:		4.3.3
-Release:		1%{?dist}
+Release:		2%{?dist}
 License:		BSD
 URL:			http://pgpool.net
 Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -35,12 +29,6 @@ Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 
 # The path to the config files is different in older
 # versions of pgpool.  Let's conflict so that an upgrade
@@ -85,11 +73,6 @@ multiple Pgpool installations.
 %patch1 -p0
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	%pgdg_set_ppc64le_compiler_flags
-%endif
-%endif
 
 # We need this flag on SLES so that pgpool can find libmemched.
 # Otherwise, we get "libmemcached.so: undefined reference to `pthread_once'" error.
@@ -176,11 +159,6 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%{atpath}/sbin/ldconfig
-%endif
-%endif
 
 %systemd_postun_with_restart %{sname}.service
 
@@ -239,6 +217,9 @@ fi
 %{_libdir}/libpcp.so*
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 4.3.3-2
+- Remove Advance Toolchain support from RHEL 7 - ppc64le.
+
 * Fri Sep 9 2022 Devrim Gündüz <devrim@gunduz.org> - 4.3.3-1
 - Update to 4.3.3
 - Build with --with-ldap, per #7687 .
