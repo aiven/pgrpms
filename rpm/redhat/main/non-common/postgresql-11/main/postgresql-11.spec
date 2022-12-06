@@ -617,19 +617,10 @@ benchmarks.
 %endif
 
 CFLAGS="${CFLAGS:-%optflags}"
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%else
-	# Strip out -ffast-math from CFLAGS....
-	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-	%if 0%{?rhel}
-	LDFLAGS="-Wl,--as-needed"; export LDFLAGS
-	%endif
+# Strip out -ffast-math from CFLAGS....
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
+%if 0%{?rhel}
+LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 %endif
 
 export CFLAGS
@@ -728,12 +719,6 @@ export PYTHON=/usr/bin/python3
 %endif
 %if %{systemd_enabled}
 	--with-systemd \
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
-%endif
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -856,12 +841,6 @@ export PYTHON=/usr/bin/python2
 %endif
 %if %{systemd_enabled}
 	--with-systemd \
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
-%endif
 %endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
