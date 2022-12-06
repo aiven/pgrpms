@@ -62,12 +62,6 @@
 %global __requires_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
 %global __provides_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib)
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL client programs and libraries for Red Hat's UBI image
 Name:		%{sname}%{pgmajorversion}
 Version:	14.1
@@ -109,11 +103,6 @@ Requires:	lz4
 BuildRequires:	perl-generators
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
-%endif
 Requires:	/sbin/ldconfig
 
 %if %icu
@@ -204,14 +193,10 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-# We depend un the SSL libraries provided by Advance Toolchain on PPC,
-# so use openssl-devel only on other platforms:
-%ifnarch ppc64 ppc64le
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
-%endif
 %endif
 %endif
 
@@ -270,7 +255,6 @@ Requires:	openssl-libs >= 1.0.2k
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -294,7 +278,6 @@ Provides:	postgresql-server >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -325,7 +308,6 @@ Provides:	postgresql-contrib >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -385,7 +367,6 @@ Obsoletes:	libpq-devel <= 42.0
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -422,7 +403,6 @@ Provides:	postgresql-llvmjit >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -447,7 +427,6 @@ Provides:	postgresql-plperl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -475,7 +454,6 @@ Requires:	python3-libs
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -498,7 +476,6 @@ Provides:	postgresql-pltcl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -518,7 +495,6 @@ Provides:	postgresql-test >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
@@ -551,20 +527,10 @@ benchmarks.
 %endif
 
 CFLAGS="${CFLAGS:-%optflags}"
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	CFLAGS="${CFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	CXXFLAGS="${CXXFLAGS} $(echo %{__global_cflags} | sed 's/-O2/-O3/g') -m64 -mcpu=power8 -mtune=power8 -I%{atpath}/include"
-	LDFLAGS="-L%{atpath}/%{_lib}"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%else
-	# Strip out -ffast-math from CFLAGS....
-	CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
-	%if 0%{?rhel}
-	LDFLAGS="-Wl,--as-needed"; export LDFLAGS
-	%endif
-%endif
+# Strip out -ffast-math from CFLAGS....
+CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
+%if 0%{?rhel}
+LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
@@ -648,12 +614,6 @@ export PYTHON=/usr/bin/python3
 	--with-selinux \
 %endif
 	--without-systemd \
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-	--with-includes=%{atpath}/include \
-	--with-libraries=%{atpath}/lib64 \
-%endif
-%endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
