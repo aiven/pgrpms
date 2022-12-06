@@ -487,7 +487,6 @@ Provides:	postgresql-plperl >= %{version}-%{release}
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch ppc64 ppc64le
 AutoReq:	0
-Requires:	advance-toolchain-%{atstring}-runtime
 %endif
 %endif
 
