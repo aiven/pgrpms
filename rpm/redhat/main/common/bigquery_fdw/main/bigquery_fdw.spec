@@ -12,8 +12,8 @@
 
 Summary:	BigQuery Foreign Data Wrapper for PostgreSQL
 Name:		bigquery_fdw
-Version:	1.6
-Release:	3%{?dist}
+Version:	2.0
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
@@ -54,6 +54,9 @@ python3 setup.py install --no-compile --root %{buildroot}
 %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
 
 %changelog
+* Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
+- Update to 2.0
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6-3
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
