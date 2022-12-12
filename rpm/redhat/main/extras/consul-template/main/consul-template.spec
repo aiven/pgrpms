@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.29.5
+%global		_verstr	0.29.6
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -116,6 +116,10 @@ fi
 
 
 %changelog
+
+* Mon Dec 12 2022 Devrim Gündüz <devrim@gunduz.org> 0.29.6-1
+- Update to 0.29.6
+
 * Wed Nov 16 2022 Devrim Gündüz <devrim@gunduz.org> 0.29.5-2
 - Enable builds on aarch64, and make sure that the package is
   not built on ppc64le.
