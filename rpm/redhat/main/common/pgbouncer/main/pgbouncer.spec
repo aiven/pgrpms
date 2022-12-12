@@ -1,5 +1,5 @@
 Name:		pgbouncer
-Version:	1.17.0
+Version:	1.18.0
 Release:	11%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -164,6 +164,12 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Mon Dec 12 2022 Devrim Gündüz <devrim@gunduz.org> - 1.18.0-11
+- Update to 1.18.0, per changes described at:
+  https://www.pgbouncer.org/changelog.html#pgbouncer-118x
+- Clean up pgbouncer service file after un-daemoninizing, per report
+  from Jelte Fennema: https://redmine.postgresql.org/issues/7559
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.17.0-11
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
