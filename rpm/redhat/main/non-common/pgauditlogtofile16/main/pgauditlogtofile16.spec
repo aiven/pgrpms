@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.6
-Release:	2%{?dist}
+Version:	1.5.10
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/fmbiete/%{sname}
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Dec 13 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.10-1
+- Update to 1.5.10
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.5.6-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
