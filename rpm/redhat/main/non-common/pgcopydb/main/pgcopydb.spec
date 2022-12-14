@@ -3,8 +3,8 @@
 
 Summary:	Automate pg_dump | pg_restore between two running Postgres servers
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9
-Release:	2%{?dist}
+Version:	0.10
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/dimitri/pgcopydb/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/dimitri/pgcopydb
@@ -38,6 +38,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/pgcopydb
 
 %changelog
+* Wed Dec 14 2022 Devrim Gündüz <devrim@gunduz.org> - 0.10-1
+- Update to 0.10
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.9-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
