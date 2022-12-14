@@ -13,8 +13,8 @@
 Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
-Release:	3%{?dist}
+Version:	1.2.2
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
@@ -84,6 +84,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Dec 14 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
+- Update to 1.2.2
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
