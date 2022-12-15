@@ -7,14 +7,14 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	2.6.6
+Version:	2.7.0
 Release:	1%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
 
 URL:		https://www.haproxy.org/
-Source0:	https://www.haproxy.org/download/2.6/src/%{name}-%{version}.tar.gz
+Source0:	https://www.haproxy.org/download/2.7/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
@@ -126,6 +126,12 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Thu Dec 15 2022 - Devrim Gündüz <devrim@gunduz.org> 2.7.0-1
+- Update to 2.7.0
+
+* Thu Dec 15 2022 - Devrim Gündüz <devrim@gunduz.org> 2.6.7-1
+- Update to 2.6.7
+
 * Fri Sep 23 2022 - Devrim Gündüz <devrim@gunduz.org> 2.6.6-1
 - Update to 2.6.6
 
