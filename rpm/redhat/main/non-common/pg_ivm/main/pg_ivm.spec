@@ -13,8 +13,8 @@
 
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3
-Release:	2%{?dist}
+Version:	1.4
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
 Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Tue Dec 20 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4-1
+- Update to 1.4
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
