@@ -1,6 +1,6 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
-%global mysqlfdwmidver 8
+%global mysqlfdwmidver 9
 %global mysqlfdwminver 0
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -16,7 +16,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	3%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -88,12 +88,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+%{pginstdir}/share/extension/%{sname}_pushdown.config
+
 %if %llvm
  %{pginstdir}/lib/bitcode/%{sname}*.bc
  %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
 %changelog
+* Wed Dec 21 2022 John Harvey <john.harvey@crunchydata.com> - 2.9.0-1
+- Update to 2.9.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
