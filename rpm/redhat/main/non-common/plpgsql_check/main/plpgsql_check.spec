@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.5
-Release:	2%{?dist}
+Version:	2.2.6
+Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Dec 22 2022 Devrim Gündüz <devrim@gunduz.org> 2.2.6-1
+- Update to 2.2.6
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.5-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
