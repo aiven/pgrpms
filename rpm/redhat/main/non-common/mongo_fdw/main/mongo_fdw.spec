@@ -13,8 +13,8 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.4.0
-Release:	2%{?dist}
+Version:	5.5.0
+Release:	1%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
@@ -150,6 +150,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Thu Dec 22 2022 Devrim Gündüz <devrim@gunduz.org> - 5.5.0-1
+- Update to 5.5.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 5.4.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
