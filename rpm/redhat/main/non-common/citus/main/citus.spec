@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	11.1.4
-Release:	2%{dist}
+Version:	11.1.5
+Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -127,6 +127,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Thu Dec 22 2022 Devrim Gündüz <devrim@gunduz.org> 11.1.5-1
+- Update to 11.1.5
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 11.1.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
