@@ -1,15 +1,15 @@
---- src/sample/pgpool.conf.sample.old	2021-12-07 08:27:10.334371396 +0000
-+++ src/sample/pgpool.conf.sample	2021-12-07 08:28:13.003465732 +0000
-@@ -39,7 +39,7 @@
+--- src/sample/pgpool.conf.sample.old	2022-12-20 13:21:03.390307109 +0000
++++ src/sample/pgpool.conf.sample	2022-12-20 13:21:31.997352399 +0000
+@@ -40,7 +40,7 @@
  #port = 9999
                                     # Port number
                                     # (change requires restart)
--#socket_dir = '/tmp'
-+socket_dir = '/run/pgpool-II'
-                                    # Unix domain socket path
+-#unix_socket_directories = '/tmp'
++unix_socket_directories = '/run/pgpool-II'
+                                    # Unix domain socket path(s)
                                     # The Debian package defaults to
                                     # /var/run/postgresql
-@@ -292,7 +292,7 @@
+@@ -341,7 +341,7 @@
  # FILE LOCATIONS
  #------------------------------------------------------------------------------
  
