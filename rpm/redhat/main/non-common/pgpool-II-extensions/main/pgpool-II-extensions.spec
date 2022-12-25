@@ -3,8 +3,8 @@
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.3.3
-Release:	2%{?dist}
+Version:	4.4.1
+Release:	1%{?dist}
 License:	BSD
 URL:		http://pgpool.net
 Source0:	http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -83,6 +83,9 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Sun Dec 25 2022 Devrim Gündüz <devrim@gunduz.org> - 4.4.1-1
+- Update to 4.4.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.3.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
