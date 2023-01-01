@@ -16,7 +16,7 @@ Version:	1.4.2
 Release:	1%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
-Source0:	https://github.com/eradman/pg-safeupdate/archive/%{version}.tar.gz
+Source0:	https://api.pgxn.org/dist/safeupdate/%{version}/safeupdate-%{version}.zip
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -39,11 +39,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -55,14 +55,16 @@ This packages provides JIT support for safeupdate
 %endif
 
 %prep
-%setup -q -n pg-%{sname}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
-
 %install
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+
+%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
+%{__install} -m 644 %{sname}.control %{buildroot}%{pginstdir}/share/extension
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -72,6 +74,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %doc README.md
 %license LICENSE
 %{pginstdir}/lib/%{sname}.so
+%{pginstdir}/share/extension/%{sname}.control
 
 %if %llvm
 %files llvmjit
