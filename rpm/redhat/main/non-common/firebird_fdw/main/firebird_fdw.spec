@@ -14,7 +14,7 @@ Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.0
 Release:	1%{dist}
-		https://github.com/ibarwick/%{sname}/archive/refs/tags/%{version}.tar.gz
+Source0:	https://github.com/ibarwick/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
 Group:		Productivity/Databases/Tools
