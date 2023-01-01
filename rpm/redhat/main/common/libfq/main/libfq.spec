@@ -1,7 +1,7 @@
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
-Version:	0.4.3
-Release:	3%{dist}
+Version:	0.5.0
+Release:	1%{dist}
 Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
@@ -46,6 +46,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Sun Jan 1 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1
+- Update to 0.5.0
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.3-3
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
