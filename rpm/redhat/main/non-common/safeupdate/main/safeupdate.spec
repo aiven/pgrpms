@@ -12,8 +12,8 @@
 
 Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and DELETE
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4
-Release:	2%{?dist}
+Version:	1.4.2
+Release:	1%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
 Source0:	https://github.com/eradman/pg-safeupdate/archive/%{version}.tar.gz
@@ -80,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sat Dec 31 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1
+- Update to 1.4.2
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
