@@ -19,7 +19,7 @@ URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
 Group:		Productivity/Databases/Tools
 BuildRequires:	postgresql%{pgmajorversion}-devel firebird-devel
-BuildRequires:	libfq pgdg-srpm-macros
+BuildRequires:	libfq >= 0.5.0 pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
 %if %llvm
