@@ -34,11 +34,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
