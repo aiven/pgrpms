@@ -103,7 +103,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.13
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1595,6 +1595,10 @@ fi
 %endif
 
 %changelog
+* Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> - 12.13-4PGDG
+- Use network-online.target instead of network.target in unit file.
+  Per https://www.postgresql.org/message-id/e6d2c602-db46-0709-6519-ade189fa5203%40comcast.net
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 12.13-3PGDG
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

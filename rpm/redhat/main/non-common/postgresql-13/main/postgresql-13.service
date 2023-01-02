@@ -14,7 +14,7 @@
 Description=PostgreSQL 13 database server
 Documentation=https://www.postgresql.org/docs/13/static/
 After=syslog.target
-After=network.target
+After=network-online.target
 
 [Service]
 Type=notify

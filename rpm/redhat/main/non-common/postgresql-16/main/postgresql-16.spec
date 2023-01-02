@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %undefine _package_note_file
 
 # These are macros to be used with find_lang and other stuff
@@ -78,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}.1
+Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -831,8 +832,8 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
-	%{__install} -m 0755 contrib/spi/refint.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
-	%{__install} -m 0755 contrib/spi/autoinc.so %{buildroot}%{pgbaseinstdir}/lib/test/regress
+	%{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/test/regress/refint.so
+	%{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/test/regress/autoinc.so
 	# pg_regress binary should be only in one subpackage,
 	# there will be a symlink from -test to -devel
 	%{__rm} -f %{buildroot}%{pgbaseinstdir}/lib/test/regress/pg_regress
