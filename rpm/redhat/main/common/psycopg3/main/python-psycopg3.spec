@@ -14,8 +14,8 @@ BuildArch:	noarch
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.1.4
-Release:	2%{?dist}
+Version:	3.1.7
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -123,6 +123,9 @@ popd
 %endif
 
 %changelog
+* Tue Jan 3 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.7-1
+- Update to 3.1.7
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.4-2
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
