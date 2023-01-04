@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL extension for high level cryptographic algorithms
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1.4
+Version:	3.1.5
 Release:	1%{dist}
 License:	BSD
 URL:		https://github.com/michelp/%{sname}/
@@ -96,6 +96,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.5-1
+- Update to 3.1.5
+
 * Wed Dec 14 2022 Devrim Gündüz <devrim@gunduz.org> - 3.1.4-1
 - Update to 3.1.4
 
