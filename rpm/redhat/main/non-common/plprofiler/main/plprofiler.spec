@@ -1,5 +1,6 @@
 %global sname	plprofiler
 %global git_tag	REL4_2
+%global ppmajorver 4.2
 
 %global __ospython %{_bindir}/python3
 %if 0%{?fedora} >= 35
@@ -20,8 +21,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2
-Release:	2%{dist}
+Version:	%{ppmajorver}.1
+Release:	1%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
 URL:		https://github.com/bigsql/%{sname}
@@ -115,7 +116,7 @@ cd ..
 %files client
 %{_bindir}/%{sname}
 %{python3_sitelib}/%{sname}/*
-%{python3_sitelib}/%{sname}_client-%{version}-*/*
+%{python3_sitelib}/%{sname}_client-%{ppmajorver}-*/*
 
 %if %llvm
 %files llvmjit
@@ -124,6 +125,9 @@ cd ..
 %endif
 
 %changelog
+* Wed Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1
+- Update to 4.2.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
