@@ -16,7 +16,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -24,13 +24,8 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?suse_version} <= 1399
-BuildRequires:	libmysqlclient-devel
-%else
 BuildRequires:	mariadb-devel
-%endif
-
-Requires:	mariadb
+Requires:	mariadb-devel
 
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
@@ -101,10 +96,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Wed Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.0-2
-- Add SLES 12 BR
-- Fix Requires for all distros.
-
 * Wed Dec 21 2022 John Harvey <john.harvey@crunchydata.com> - 2.9.0-1
 - Update to 2.9.0
 
