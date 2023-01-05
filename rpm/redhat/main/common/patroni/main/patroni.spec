@@ -54,7 +54,17 @@ caveats. Use wisely.
 %package -n %{name}-consul
 Summary:	Related components to use patroni with Consul
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	python3-consul >= 0.7.1 consul python3-requests
+Requires:	consul python3-requests
+
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
+Requires:	python3-consul >= 0.7.1
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1499
+Requires:	python3-python-consul
+%endif
+%endif
 
 %description -n  %{name}-consul
 Meta package to pull consul related dependencies for patroni
@@ -63,10 +73,19 @@ Meta package to pull consul related dependencies for patroni
 Summary:	Related components to use patroni with etcd
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	python3-etcd >= 0.4.3
+
 %if 0%{?rhel} == 7
 Requires:	python36-dns python36-urllib3 python36-certifi
-%else
+%endif
+
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 Requires:	python3-dns python3-urllib3 python3-certifi
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1499
+Requires:	python3-dnspython
+%endif
 %endif
 
 %description -n  %{name}-etcd
