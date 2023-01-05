@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	2.1.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -24,10 +24,19 @@ Requires:	python3-ydiff >= 1.2
 Requires:	python36-click >= 4.1 python36-six >= 1.7
 Requires:	python36-dateutil python36-prettytable >= 0.7
 Requires:	python36-PyYAML
-%else
+%endif
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 Requires:	python3-click >= 4.1 python3-six >= 1.7
 Requires:	python3-dateutil python3-prettytable >= 0.7
 Requires:	python3-pyyaml
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1499
+Requires:	python3-click >= 7.0 python3-six >= 1.7
+Requires:	python3-PrettyTable >= 0.7 python3-PyYAML
+Requires:	python3-python-dateutil
+%endif
 %endif
 
 %description
@@ -155,6 +164,9 @@ fi
 
 
 %changelog
+* Thu Jan 5 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1.7-2
+- Add SLES 15 support
+
 * Wed Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1.7-1
 - Update to 2.1.7, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-217
