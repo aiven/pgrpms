@@ -13,7 +13,7 @@
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	30
 
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%if 0%{?rhel} == 7 || 0%{?suse_version} <= 1400
 %global	libspatialitemajorversion	43
 %else
 %global	libspatialitemajorversion	50
@@ -78,7 +78,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	5%{?dist}
+Release:	7%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -725,6 +725,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Sun Jan 8 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-7
+- Use libspatialite50 on SLES 15. This is a followup commit
+  to fix PostGIS issues on SLES 15, and 7ae8e6b9ba8.
+
 * Sun Nov 13 2022 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-6
 - RHEL 8 includes poppler-devel, so no need for our version.
 
