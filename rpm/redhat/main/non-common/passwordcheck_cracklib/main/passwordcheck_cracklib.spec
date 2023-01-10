@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.0
-Release:	2%{?dist}
+Version:	2.0.1
+Release:	1%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
@@ -77,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Jan 10 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1
+- Update to 2.0.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
