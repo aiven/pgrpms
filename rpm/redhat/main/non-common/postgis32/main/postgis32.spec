@@ -26,7 +26,7 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%if 0%{?rhel} == 7 || 0%{?suse_version} <= 1400
 %global libspatialitemajorversion	43
 %else
 %global libspatialitemajorversion	50
@@ -68,7 +68,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -104,7 +104,7 @@ Requires:	SFCGAL
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 BuildRequires:	protobuf-c-devel >= 1.1.0
 %endif
 
@@ -120,13 +120,13 @@ Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c5
-Requires:	libxerces-c-3_1
+Requires:	libxerces-c-3_2
 %else
 Requires:	json-c xerces-c
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
 
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 Requires:	protobuf-c >= 1.1.0
 %endif
 
@@ -252,7 +252,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -389,6 +389,10 @@ fi
 %endif
 
 %changelog
+* Tue Jan 10 2023 Devrim Gündüz <devrim@gunduz.org> - 3.2.4-3
+- Fix SLES 15 dependency, per report from Muralikrishna Bandaru.
+- Sync libspatialite dependency with GDAL34 package on SLES 15.
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.2.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
