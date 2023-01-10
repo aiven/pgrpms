@@ -4,7 +4,7 @@
 %global postgiscurrmajorversion %(echo %{postgismajorversion}|tr -d '.')
 %global sname	postgis
 
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%if 0%{?rhel} == 7 || 0%{?suse_version} <= 1400
 %global libspatialitemajorversion	43
 %else
 %global libspatialitemajorversion	50
@@ -60,7 +60,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Tue Jan 10 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-4
+- Match libspatialite dependency with GDAL34 package on SLES 15.
+
 * Fri Jan 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-3
 - Fix SLES 15 dependency, per report from Muralikrishna Bandaru.
 
