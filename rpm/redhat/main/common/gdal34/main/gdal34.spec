@@ -39,7 +39,7 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
 %global g2clib_enabled 0
@@ -144,7 +144,6 @@ BuildRequires:	libkml-devel
 BuildRequires:	libspatialite%{libspatialitemajorversion}-devel
 
 BuildRequires:	libtiff-devel
-# No libwebp in EL 5 and 6
 BuildRequires:	libwebp-devel
 BuildRequires:	libtool
 BuildRequires:	giflib-devel
@@ -275,11 +274,13 @@ Requires:	libgeotiff%{libgeotiffmajorversion}-devel
 Requires:	libspatialite%{libspatialitemajorversion}-devel
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} <= 1499
-Requires:	libarmadillo10
+%if 0%{?suse_version} >= 1400
+# These packages come from science repo:
+# https://download.opensuse.org/repositories/science
+Requires:	libarmadillo11 libnetcdf19
 %endif
 %endif
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 Requires:	armadillo
 %endif
 
@@ -429,7 +430,7 @@ pushd gdal
 	--with-armadillo	\
 	--with-curl		\
 	--with-cfitsio=%{_prefix}	\
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 	--with-dods-root=%{_prefix}	\
 	LIBS="-l%{g2clib} -ltirpc" \
 %endif
