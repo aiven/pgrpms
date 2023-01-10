@@ -17,7 +17,7 @@ Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
-Requires:	postgresql%{pgmajorversion} cracklib
+Requires:	postgresql%{pgmajorversion} cracklib cracklib-dicts
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.2-3
 
