@@ -78,7 +78,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	7%{?dist}
+Release:	8%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -725,6 +725,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Tue Jan 10 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8
+- Rebuild against libnetcdf19 on SLES 15.
+
 * Sun Jan 8 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-7
 - Use libspatialite50 on SLES 15. This is a followup commit
   to fix PostGIS issues on SLES 15, and 7ae8e6b9ba8.
