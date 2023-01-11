@@ -8,7 +8,7 @@ Source0:	https://github.com/agroal/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake make python3-docutils
 BuildRequires:	libev libev-devel openssl openssl-devel
-BuildRequires:	systemd systemd-devel chrpath
+BuildRequires:	systemd systemd-devel chrpath libatomic
 Requires:	libev openssl systemd
 
 %description
