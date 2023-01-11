@@ -13,8 +13,8 @@
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.1
-Release:	2%{?dist}
-License:	BSD
+Release:	3%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 URL:		https://github.com/HypoPG/%{sname}
 BuildRequires:  postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -82,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Jan 11 2023 John Harvey <john.harvey@crunchydata.com> - 1.3.1-3
+- Update license type
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
