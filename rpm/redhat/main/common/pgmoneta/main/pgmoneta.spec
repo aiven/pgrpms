@@ -1,5 +1,5 @@
 Name:		pgmoneta
-Version:	0.6.0
+Version:	0.6.1
 Release:	1%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -112,6 +112,9 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Thu Jan 12 2023 Devrim Gündüz <devrim@gunduz.org> 0.6.1-1
+- Update to 0.6.1
+
 * Fri Sep 23 2022 Devrim Gündüz <devrim@gunduz.org> 0.6.0-1
 - Update to 0.6.0
 
