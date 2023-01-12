@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.29.6
+%global		_verstr	0.30.0
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -30,7 +30,7 @@ Source3:	%{name}.init
 Source4:	%{name}.json
 Source5:	%{name}.logrotate
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 BuildRequires:	systemd-units
 Requires:	systemd
 %else
@@ -58,7 +58,7 @@ unless the -once flag is specified.
 %{__cp} %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 %{__mkdir} -p %{buildroot}/%{_sharedstatedir}/%{name}
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %{__mkdir} -p %{buildroot}/%{_unitdir}
 %{__cp} %{SOURCE2} %{buildroot}/%{_unitdir}/
 %else
@@ -75,7 +75,7 @@ getent passwd consul-template >/dev/null || \
     -c "consul-template user" consul-template
 exit 0
 
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %post
 %systemd_post %{name}.service
 
@@ -104,7 +104,7 @@ fi
 %attr(640, root, consul-template) %{_sysconfdir}/%{name}.d/consul-template.json-dist
 %dir %attr(750, consul-template, consul-template) %{_sharedstatedir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%if 0%{?fedora} >= 29 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %{_unitdir}/%{name}.service
 %else
 %{_initrddir}/%{name}
@@ -116,6 +116,9 @@ fi
 
 
 %changelog
+
+* Thu Jan 12 2023 Devrim Gündüz <devrim@gunduz.org> 0.30.0-1
+- Update to 0.30.0
 
 * Mon Dec 12 2022 Devrim Gündüz <devrim@gunduz.org> 0.29.6-1
 - Update to 0.29.6
