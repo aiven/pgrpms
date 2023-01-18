@@ -3,14 +3,13 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
-Version:	0.48.3
-Release:	2%{dist}
+Version:	0.48.7
+Release:	1%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
 Patch0:		%{sname}-cmakelists-rpm.patch
 Patch1:		%{sname}-profile.patch
-Patch2:		%{sname}-pgsql-db-stat-mkdir.patch
 
 BuildRequires:	gcc-c++ openssl-devel curl-devel expat-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -20,6 +19,7 @@ BuildRequires:	cmake => 3.2.0
 %endif
 
 BuildRequires:	libpq5-devel
+Requires:	R
 
 %description
 The Open Source Development Lab's Database Test 2 (DBT-2) test kit.
@@ -35,7 +35,6 @@ This package includes binaries to run the test.
 %setup -q -n %{sname}-%{version}
 %patch0 -p0
 %patch1 -p0
-%patch2 -p0
 
 %build
 
@@ -77,6 +76,10 @@ popd
 %attr (755,root,root) %{_bindir}/%{sname}-*
 
 %changelog
+* Wed Jan 18 2023 Devrim Gündüz <devrim@gunduz.org> - 0.48.7-1
+- Update to 0.48.7
+- Remove Patch2, already in upstream.
+
 * Sun Aug 28 2022 Devrim Gündüz <devrim@gunduz.org> - 0.48.3-2
 - Add config file, and docs.
 
