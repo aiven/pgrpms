@@ -15,8 +15,8 @@
 
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.0
-Release:	2%{?dist}
+Version:	2.3.0
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
@@ -94,6 +94,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Jan 20 2023 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1
+- Update to 2.3.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
