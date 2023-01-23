@@ -12,7 +12,7 @@ Source1:		%{sname}.service
 Source2:		%{sname}.sysconfig
 Patch1:			%{sname}-conf.sample.patch
 
-BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel openldap-devel
+BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel openssl-devel pgdg-srpm-macros
 
 Requires:		libmemcached
@@ -22,8 +22,10 @@ BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version} && 0%{?suse_version} >= 1315
+BuildRequires:		openldap2-devel
 Requires(post):		systemd-sysvinit
 %else
+BuildRequires:		openldap-devel
 Requires(post):		systemd-sysv
 %endif
 Requires(post):		systemd
