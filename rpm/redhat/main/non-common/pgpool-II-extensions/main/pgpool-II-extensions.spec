@@ -12,6 +12,11 @@ Requires:	postgresql%{pgmajorversion}-server %{sname}-pcp
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:	libmemcached-devel openssl-devel pgdg-srpm-macros >= 1.0.21
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+BuildRequires:	openldap2-devel
+%else
+Requires(post):	systemd-sysv
+%endif
 
 Requires:	libmemcached
 Requires:	%{sname}
