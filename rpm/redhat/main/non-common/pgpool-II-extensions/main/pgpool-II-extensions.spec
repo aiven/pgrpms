@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.4.1
+Version:	4.4.2
 Release:	1%{?dist}
 License:	BSD
 URL:		http://pgpool.net
@@ -83,6 +83,9 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 4.4.2-1
+- Update to 4.4.2
+
 * Sun Dec 25 2022 Devrim Gündüz <devrim@gunduz.org> - 4.4.1-1
 - Update to 4.4.1
 
