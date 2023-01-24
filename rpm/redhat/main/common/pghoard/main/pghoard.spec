@@ -2,15 +2,15 @@
 
 Summary:	PostgreSQL backup daemon and restore tooling for cloud object storage
 Name:		pghoard
-Version:	2.2.1
-Release:	2%{?dist}
+Version:	2.2.2a
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{name}/archive/%{version}.tar.gz
-Patch0:		pghoard-makefile.patch
 URL:		https://github.com/ohmu/%{name}
 BuildArch:	noarch
 BuildRequires:	python3-devel
 Requires:	python3-snappy python3-cryptography python3-boto
+Requires:	python3-rohmu
 
 %description
 pghoard is a PostgreSQL backup daemon and restore tooling for cloud
@@ -55,6 +55,9 @@ sed -e "s@#!/bin/python@#!%{_bindir}/python@" -i %{buildroot}%{_bindir}/*
 %license LICENSE
 
 %changelog
+* Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.2a-1
+- Update to 2.2.2a
+
 * Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-2
 - Remove deb-specific part.
 
