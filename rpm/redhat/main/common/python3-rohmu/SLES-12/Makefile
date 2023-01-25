@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.".sles12"
+DIST=".sles12"
 SPECFILE="python3-rohmu.spec"
 
 # Now, include global Makefile
