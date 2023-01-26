@@ -34,6 +34,7 @@ Features:
 %setup -q
 
 %build
+%{__make}
 
 %install
 %{__rm} -rf %{buildroot}
