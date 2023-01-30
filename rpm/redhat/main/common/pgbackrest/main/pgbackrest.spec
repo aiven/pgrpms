@@ -1,7 +1,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.43
-Release:	2%{?dist}
+Version:	2.44
+Release:	1%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -152,6 +152,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Jan 30 2023 Devrim Gündüz <devrim@gunduz.org> - 2.44-1
+- Update to 2.43, per changes described at:
+  https://pgbackrest.org/release.html#2.44
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.43-2
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
