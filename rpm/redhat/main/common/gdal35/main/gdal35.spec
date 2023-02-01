@@ -109,7 +109,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	gcc-c++ pgdg-srpm-macros >= 1.0.27
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.27
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -352,17 +352,15 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
-%cmake3 \
-  -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
-  -DCMAKE_INSTALL_INCLUDEDIR=include \
-  -DCMAKE_INSTALL_LIBDIR=lib \
-%if %{with_python3}
-  -DBUILD_PYTHON_BINDINGS=ON \
-%else
-  -DBUILD_PYTHON_BINDINGS=OFF \
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+ %{__install} -d build
+ pushd build
+ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
 %endif
-  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
-  -DGDAL_USE_JPEG12_INTERNAL=OFF
+%else
+ %cmake3 -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
+%endif
 %cmake_build
 
 %install
