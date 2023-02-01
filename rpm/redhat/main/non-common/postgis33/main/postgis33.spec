@@ -49,7 +49,7 @@
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?suse_version} >= 1315
-%{!?raster:%global     raster 0}
+%{!?raster:%global     raster 1}
 %else
 %{!?raster:%global     raster 1}
 %endif
@@ -68,7 +68,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -394,6 +394,10 @@ fi
 %endif
 
 %changelog
+* Wed Feb 1 2023 Devrim Gündüz <devrim@gunduz.org>-  3.3.2-3
+- Enable raster on SLES 15. We now have all BR and Requires on
+  this platform.
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org>-  3.3.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
