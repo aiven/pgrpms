@@ -818,7 +818,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 # backups of data go here...
 %{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/backups
 
-# Create the multiple postmaster startup directory
+# Create the multiple PostgreSQL version startup directory
 %{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/%{pgmajorversion}
 
 # Install linker conf file under postgresql installation directory.
@@ -1276,7 +1276,6 @@ fi
 %{pgbaseinstdir}/bin/pg_upgrade
 %{pgbaseinstdir}/bin/pg_verifybackup
 %{pgbaseinstdir}/bin/postgres
-%{pgbaseinstdir}/bin/postmaster
 %{pgbaseinstdir}/share/man/man1/initdb.*
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_checksums.*
@@ -1291,7 +1290,6 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_verifybackup.*
 %{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/postgres.*
-%{pgbaseinstdir}/share/man/man1/postmaster.*
 %{pgbaseinstdir}/share/postgres.bki
 %{pgbaseinstdir}/share/system_constraints.sql
 %{pgbaseinstdir}/share/system_functions.sql

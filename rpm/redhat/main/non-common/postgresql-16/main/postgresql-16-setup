@@ -7,14 +7,14 @@
 PGVERSION=xxx
 # PGMAJORVERSION is major version, e.g., 16 (this should match PG_VERSION)
 PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
-# PGENGINE is the directory containing the postmaster executable
+# PGENGINE is the directory containing the postgres executable file.
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
 # PREVMAJORVERSION is the previous major version, e.g., 15, for upgrades
 PREVMAJORVERSION=xxx
-# PREVPGENGINE is the directory containing the previous postmaster executable
+# PREVPGENGINE is the directory containing the previous PostgreSQL version executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
-# PREVDATADIR is the directory containing the previous postmaster executable
+# PREVDATADIR is the directory containing the previous PostgreSQL version data
 PREVDATADIR=/var/lib/pgsql/$PREVMAJORVERSION/data
 
 # TODO: Provide a conf file that can override these settings
@@ -147,7 +147,7 @@ perform_initdb(){
 	   exit 1
         fi
 
-    # Create directory for postmaster log files
+    # Create directory for PostgreSQL log files
     mkdir "$PGDATA/log"
     chown postgres:postgres "$PGDATA/log"
     chmod go-rwx "$PGDATA/log"

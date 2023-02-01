@@ -33,19 +33,19 @@ Environment=PGDATA=/var/lib/pgsql/16/data/
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 
-# Disable OOM kill on the postmaster
+# Disable OOM kill on postgres main process
 OOMScoreAdjust=-1000
 Environment=PG_OOM_ADJUST_FILE=/proc/self/oom_score_adj
 Environment=PG_OOM_ADJUST_VALUE=0
 
 ExecStartPre=/usr/pgsql-16/bin/postgresql-16-check-db-dir ${PGDATA}
-ExecStart=/usr/pgsql-16/bin/postmaster -D ${PGDATA}
+ExecStart=/usr/pgsql-16/bin/postgres -D ${PGDATA}
 ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
  
-# Do not set any timeout value, so that systemd will not kill postmaster
-# during crash recovery.
+# Do not set any timeout value, so that systemd will not kill postgres 
+# main process during crash recovery.
 TimeoutSec=0
 
 # 0 is the same as infinity, but "infinity" needs systemd 229
