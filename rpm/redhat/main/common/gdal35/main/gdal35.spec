@@ -361,6 +361,16 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %else
  %cmake3 -DCMAKE_INSTALL_PREFIX:PATH=%{gdalinstdir} \
 %endif
+ -DCMAKE_INSTALL_INCLUDEDIR=include \
+ -DCMAKE_INSTALL_LIBDIR=lib \
+%if %{with_python3}
+ -DBUILD_PYTHON_BINDINGS=ON
+%else
+ -DBUILD_PYTHON_BINDINGS=OFF \
+ %endif
+ -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
+ -DGDAL_USE_JPEG12_INTERNAL=OFF
+
 %cmake_build
 
 %install
