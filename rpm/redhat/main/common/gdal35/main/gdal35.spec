@@ -27,13 +27,13 @@
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
-%global sqlitepname     sqlite33
-%global sqlitelibdir    /usr/sqlite330/lib
+%global sqlitepname	sqlite33
+%global sqlitelibdir	/usr/sqlite330/lib
 # Major digit of the proj so version
 %global proj_somaj 19
 %else
-%global sqlitepname     sqlite
-%global sqlitelibdir    %{_libdir}
+%global sqlitepname	sqlite
+%global sqlitelibdir	%{_libdir}
 # Major digit of the proj so version
 %global proj_somaj 22
 %endif
@@ -69,135 +69,159 @@
 %{!?with_python3:%global with_python3 0}
 %endif
 
-Name:          %{sname}35
-Version:       3.5.3
-Release:       2%{?pre:%pre}%{?dist}
-Summary:       GIS file format library
-License:       MIT
-URL:           http://www.gdal.org
+Name:		%{sname}35
+Version:	3.5.3
+Release:	3%{?pre:%pre}%{?dist}
+Summary:	GIS file format library
+License:	MIT
+URL:		https://www.gdal.org
 # Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
-Source0:       %{sname}-%{version}%{?pre:%pre}-fedora.tar.xz
-Source4:       PROVENANCE.TXT-fedora
+Source0:	%{sname}-%{version}%{?pre:%pre}-fedora.tar.xz
+Source4:	PROVENANCE.TXT-fedora
 
 # Cleaner script for the tarball
-Source5:       %{sname}-cleaner.sh
+Source5:	%{sname}-cleaner.sh
 
-Source6:        %{name}-pgdg-libs.conf
+Source6:	%{name}-pgdg-libs.conf
 
 %if 0%{?suse_version} >= 1315
-Patch8:         %{sname}-3.2.1-java-sles.patch
+Patch8:		%{sname}-3.2.1-java-sles.patch
 %else
 # Fedora uses Alternatives for Java
-Patch8:         %{sname}-3.1.2-java.patch
+Patch8:		%{sname}-3.1.2-java.patch
 %endif
 
 # PGDG patches
-Patch12:        %{name}-gdalconfig-pgdg-path.patch
-Patch13:        gdal35-configure-ogdi%{ogdimajorversion}.patch
+Patch12:	%{name}-gdalconfig-pgdg-path.patch
+Patch13:	gdal35-configure-ogdi%{ogdimajorversion}.patch
 
-Patch16:        gdal-3.3.1-sfcgal-linker.patch
+Patch16:	gdal-3.3.1-sfcgal-linker.patch
 
 # lz4 dependency
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  liblz4-devel
+BuildRequires:	liblz4-devel
 Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
-BuildRequires:  lz4-devel
+BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires: gcc-c++
+BuildRequires:	gcc-c++ pgdg-srpm-macros >= 1.0.27
 
-BuildRequires: armadillo-devel
-BuildRequires: cfitsio-devel
-BuildRequires: CharLS-devel
-BuildRequires: curl-devel
-BuildRequires: expat-devel
-BuildRequires: freexl-devel
-BuildRequires: geos%{geosmajorversion}-devel >= 3.10.2
-BuildRequires: giflib-devel
-BuildRequires: json-c-devel
-BuildRequires: libdap-devel
-BuildRequires: libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires: libgta-devel
-BuildRequires: libjpeg-devel
-BuildRequires: libpng-devel
-BuildRequires: libpq5-devel
-BuildRequires: librx-devel
-BuildRequires: libspatialite%{libspatialitemajorversion}-devel
-BuildRequires: libtiff-devel
-BuildRequires: libtirpc-devel
-BuildRequires: libwebp-devel
-%if 0%{?with_mysql}
-BuildRequires: mariadb-connector-c-devel
+BuildRequires:	ant
+BuildRequires:	armadillo-devel
+BuildRequires:	cfitsio-devel
+BuildRequires:	chrpath
+BuildRequires:	curl-devel
+BuildRequires:	doxygen
+BuildRequires:	fontconfig-devel
+BuildRequires:	freexl-devel
+%if 0%{?g2clib_enabled}
+BuildRequires:	g2clib-devel
 %endif
-BuildRequires: netcdf-devel
-BuildRequires: ogdi%{ogdimajorversion}-devel
-BuildRequires: openexr-devel
-BuildRequires: openjpeg2-devel
-BuildRequires: pcre2-devel
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
+BuildRequires:	ghostscript
+BuildRequires:	jpackage-utils
+# For 'mvn_artifact' and 'mvn_install'
+BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
+BuildRequires:	libjpeg-devel
+BuildRequires:	libpng-devel
+%if 0%{?fedora}
+BuildRequires:	libkml-devel
+%endif
+BuildRequires:	libspatialite%{libspatialitemajorversion}-devel
+
+BuildRequires:	libtiff-devel
+BuildRequires:	libwebp-devel
+BuildRequires:	libtool
+BuildRequires:	giflib-devel
+BuildRequires:	netcdf-devel
+%if 0%{?rhel}
+BuildRequires:	mariadb-devel
+%endif
+%if 0%{?fedora}
+BuildRequires:	mariadb-connector-c-devel
+%endif
+BuildRequires:	libpq5-devel
+BuildRequires:	pcre2-devel
+BuildRequires:	ogdi%{ogdimajorversion}-devel
+BuildRequires:	openjpeg2-devel
+BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?suse_version} >= 1500
-BuildRequires:  libpoppler-devel
+BuildRequires:	libpoppler-devel
 %else
-BuildRequires:  poppler-devel
+BuildRequires:	poppler-devel
 %endif
+BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+
 %if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:  %{sqlitepname}-devel
+BuildRequires:	%{sqlitepname}-devel
 %else
-BuildRequires:  sqlite-devel
+BuildRequires:	sqlite-devel
 %endif
-
-BuildRequires:  proj%{projmajorversion}-devel >= %{projfullversion}
-
-BuildRequires: qhull-devel
-BuildRequires: sqlite-devel
-BuildRequires: swig
-BuildRequires: unixODBC-devel
-BuildRequires: xerces-c-devel
-BuildRequires: xz-devel
-BuildRequires: zlib-devel
-
-# Python
-%if %{with_python3}
-BuildRequires: python3-devel
-BuildRequires: python3-setuptools
-BuildRequires: python3-pytest >= 3.4
-BuildRequires: python3-lxml >= 4.2.3
+BuildRequires:	swig
+%if %{build_refman}
+BuildRequires:	texlive-collection-fontsrecommended
+%if 0%{?fedora}
+BuildRequires:	texlive-collection-langcyrillic
+BuildRequires:	texlive-collection-langportuguese
+BuildRequires:	texlive-newunicodechar
 %endif
+BuildRequires:	texlive-epstopdf
+BuildRequires:	tex(multirow.sty)
+BuildRequires:	tex(sectsty.sty)
+BuildRequires:	tex(tocloft.sty)
+BuildRequires:	tex(xtab.sty)
+%endif
+BuildRequires:	unixODBC-devel
 
-# Java
 %if 0%{?suse_version}
 %if 0%{?suse_version} <= 1315
-BuildRequires:  java-1_8_0-openjdk-devel
+BuildRequires:	java-1_8_0-openjdk-devel
 %else
-BuildRequires:  java-11-openjdk-devel
+BuildRequires:	java-11-openjdk-devel
 %endif
 %endif
 
 %if 0%{?suse_version} >= 1315
-BuildRequires:  hdf hdf-devel hdf-devel-static
-BuildRequires:  hdf5 hdf5-devel hdf5-devel-static
-BuildRequires:  libexpat-devel libjson-c-devel
-BuildRequires:  libjasper-devel cmake
-BuildRequires:  libxerces-c-devel
-BuildRequires:  python3-numpy-devel
+BuildRequires:	hdf hdf-devel hdf-devel-static
+BuildRequires:	hdf5 hdf5-devel hdf5-devel-static
+BuildRequires:	libexpat-devel libjson-c-devel
+BuildRequires:	libjasper-devel
+BuildRequires:	libxerces-c-devel
+BuildRequires:	python3-numpy-devel
 %else
-BuildRequires:  g2clib-static cmake3
-BuildRequires:  libdap-devel
-BuildRequires:  expat-devel
-BuildRequires:  hdf-devel hdf-static hdf5-devel
-BuildRequires:  jasper-devel
-BuildRequires:  java-devel >= 1:1.6.0
-BuildRequires:  json-c-devel
-BuildRequires:  libdap-devel libgta-devel
-BuildRequires:  librx-devel
-BuildRequires:  perl-devel
-BuildRequires:  perl-generators
-BuildRequires:  xerces-c-devel
+BuildRequires:	g2clib-static
+BuildRequires:	libdap-devel
+BuildRequires:	expat-devel
+BuildRequires:	hdf-devel hdf-static hdf5-devel
+BuildRequires:	jasper-devel
+BuildRequires:	java-devel >= 1:1.6.0
+BuildRequires:	json-c-devel
+BuildRequires:	libdap-devel libgta-devel
+BuildRequires:	librx-devel
+BuildRequires:	perl-devel
+BuildRequires:	perl-generators
+BuildRequires:	xerces-c-devel
 %endif
+BuildRequires:	xz-devel
+BuildRequires:	zlib-devel
+BuildRequires:	libtirpc-devel
+
+BuildRequires:	python3-devel
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	python36-numpy
+%else
+BuildRequires:	python3-numpy
+%endif
+BuildRequires:	python3-setuptools
+
+BuildRequires:	qhull-devel
 
 # Run time dependency for gpsbabel driver
 Requires:      gpsbabel
@@ -247,18 +271,18 @@ This package contains the GDAL file format library.
 
 # No complete java yet in EL8
 %package java
-Summary:        Java modules for the GDAL file format library
-Requires:       jpackage-utils
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Summary:	Java modules for the GDAL file format library
+Requires:	jpackage-utils
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description java
 The GDAL Java modules provide support to handle multiple GIS file formats.
 
 
 %package javadoc
-Summary:        Javadocs for %{name}
-Requires:       jpackage-utils
-BuildArch:      noarch
+Summary:	Javadocs for %{name}
+Requires:	jpackage-utils
+BuildArch:	noarch
 
 %description javadoc
 This package contains the API documentation for %{name}.
@@ -266,17 +290,17 @@ This package contains the API documentation for %{name}.
 %if %{with_python3}
 %package python3
 %{?python_provide:%python_provide python3-gdal}
-Summary:        Python modules for the GDAL file format library
-Requires:       python3-numpy
-Requires:       %{name}-libs%{?_isa} = %{version}-%{release}
+Summary:	Python modules for the GDAL file format library
+Requires:	python3-numpy
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description python3
 The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 
 %package python-tools
-Summary:        Python tools for the GDAL file format library
-Requires:       python3-gdal
+Summary:	Python tools for the GDAL file format library
+Requires:	python3-gdal
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
@@ -457,6 +481,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Wed Feb 1 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-3
+- Copy/fix SLES dependencies from GDAL 3.4 spec file.
+- Fix a bunch of rpmlint warnings.
+
 * Sat Nov 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-2
 - RHEL 8 includes poppler-devel, so no need for our version.
 
