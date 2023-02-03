@@ -14,7 +14,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 URL:		http://laurenz.github.io/%{sname}
 Source0:	https://github.com/laurenz/%{sname}/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
@@ -26,9 +26,9 @@ Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-BuildRequires:	oracle-instantclient-basic >= 21.8.0.0.0
-BuildRequires:	oracle-instantclient-devel >= 21.8.0.0.0
-Requires:	oracle-instantclient-basic >= 21.8.0.0.0
+BuildRequires:	oracle-instantclient-basic >= 21.9.0.0.0
+BuildRequires:	oracle-instantclient-devel >= 21.9.0.0.0
+Requires:	oracle-instantclient-basic >= 21.9.0.0.0
 
 %description
 Provides a Foreign Data Wrapper for easy and efficient read access from
@@ -62,6 +62,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Fri Feb 3 2023 Devrim Gündüz <devrim@gunduz.org> 2.5.0-2
+- Rebuild against OIC 21.9
+
 * Fri Oct 28 2022 Devrim Gündüz <devrim@gunduz.org> 2.5.0-1
 - Update to 2.5.0
 - Rebuild against OIC 21.8
