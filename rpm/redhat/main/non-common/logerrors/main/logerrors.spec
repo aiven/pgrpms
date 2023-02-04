@@ -12,8 +12,8 @@
 
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0
-Release:	2%{?dist}
+Version:	2.1
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/munakoiso/%{sname}
@@ -80,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Sat Feb 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1-1
+- Update to 2.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
