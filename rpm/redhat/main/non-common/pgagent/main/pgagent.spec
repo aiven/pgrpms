@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.2
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -50,7 +50,7 @@ fi
 
 %build
 CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread"
+CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread -std=c++11"
 export CFLAGS
 export CXXFLAGS
 
@@ -142,6 +142,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Sat Feb 4 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-3
+- Switch on C++11 support on older GCC versions (in this case,
+  RHEL 7).
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
