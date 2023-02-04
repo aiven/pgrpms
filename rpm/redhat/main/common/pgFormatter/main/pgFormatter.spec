@@ -1,6 +1,6 @@
 Summary:	A PostgreSQL SQL syntax beautifier
 Name:		pgFormatter
-Version:	5.4
+Version:	5.5
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -41,6 +41,9 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{perl_vendorlib}/%{name}/*.pm
 
 %changelog
+* Sat Feb 4 2023 - Devrim Gündüz <devrim@gunduz.org> 5.5-1
+- Update to 5.5
+
 * Wed Jan 11 2023 - Devrim Gündüz <devrim@gunduz.org> 5.4-1
 - Update to 5.4
 
