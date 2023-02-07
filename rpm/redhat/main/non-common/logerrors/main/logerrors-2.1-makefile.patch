@@ -1,0 +1,10 @@
+--- Makefile.old	2023-02-07 16:08:07.162738095 +0000
++++ Makefile	2023-02-07 16:08:16.318784880 +0000
+@@ -1,6 +1,6 @@
+ EXTENSION = logerrors
+ MODULE_big	= logerrors
+-DATA = logerrors--1.0.sql logerrors--1.0--1.1.sql logerrors--1.1--2.0.sql
++DATA = logerrors--1.0.sql logerrors--1.0--1.1.sql logerrors--1.1--2.0.sql logerrors--2.0--2.1.sql
+ OBJS = logerrors.o
+ PG_CONFIG = pg_config
+ PGXS := $(shell $(PG_CONFIG) --pgxs)
