@@ -14,7 +14,7 @@
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?rhel} || 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.7
-Release:	1PGDG%{?dist}
+Version:	14.6
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -402,7 +402,7 @@ Requires:	libicu-devel
 Requires:	perl-IPC-Run
 BuildRequires:	perl-IPC-Run
 %endif
-%if 0%{?rhel}
+%if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	perl-Test-Simple
 BuildRequires:	perl-Test-Simple
 %endif
@@ -1374,12 +1374,6 @@ fi
 %endif
 
 %changelog
-* Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 14.7-1PGDG
-- Update to 14.7, per changes described at
-  https://www.postgresql.org/docs/release/14.7/
-- Enable TAP tests on all RHEL versions, per report from Bill Smith.
-  Commit a08ef0ec6fe4a557 is now obsolete, it seems.
-
 * Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> - 14.6-4PGDG
 - Use network-online.target instead of network.target in unit file.
   Per https://www.postgresql.org/message-id/e6d2c602-db46-0709-6519-ade189fa5203%40comcast.net
