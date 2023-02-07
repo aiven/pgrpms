@@ -14,7 +14,7 @@
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 
-%if 0%{?rhel} || 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -412,7 +412,7 @@ Requires:	libicu-devel
 Requires:	perl-IPC-Run
 BuildRequires:	perl-IPC-Run
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel}
 Requires:	perl-Test-Simple
 BuildRequires:	perl-Test-Simple
 %endif
