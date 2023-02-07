@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.1
-Release:	4PGDG%{?dist}
+Version:	15.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1382,6 +1382,12 @@ fi
 %endif
 
 %changelog
+* Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 15.2-1PGDG
+- Update to 15.2, per changes described at
+  https://www.postgresql.org/docs/release/15.2/
+- Enable TAP tests on all RHEL versions, per report from Bill Smith.
+  Commit a08ef0ec6fe4a557 is now obsolete, it seems.
+
 * Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> - 15.1-4PGDG
 - Use network-online.target instead of network.target in unit file.
   Per https://www.postgresql.org/message-id/e6d2c602-db46-0709-6519-ade189fa5203%40comcast.net
