@@ -13,10 +13,11 @@
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/munakoiso/%{sname}
+Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
+Patch0:		%{sname}-2.1-makefile.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -53,6 +54,7 @@ This packages provides JIT support for logerrors
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch0 -p0
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -80,6 +82,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Tue Feb 7 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1-2
+- Add a temp patch to install missing .sql file which breaks
+  upgrade path to 2.1. Per report from Matej Klonfar.
+  https://redmine.postgresql.org/issues/7770#note-4
+
 * Sat Feb 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1-1
 - Update to 2.1
 
