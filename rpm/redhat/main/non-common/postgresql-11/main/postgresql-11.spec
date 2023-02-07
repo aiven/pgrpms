@@ -1619,7 +1619,7 @@ fi
 - Update to 11.19, per changes described at
   https://www.postgresql.org/docs/release/11.19/
 - Enable TAP tests on all RHEL versions, per report from Bill Smith.
-  Commit a08ef0ec6fe4a557 is now obsolete, it seems.
+  Commit 4f08cb8d41b8 is now obsolete, it seems.
 
 * Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> - 11.18-4PGDG
 - Use network-online.target instead of network.target in unit file.

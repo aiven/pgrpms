@@ -1384,7 +1384,7 @@ fi
 %changelog
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 16-alpha_20230208_PGDG.1
 - Enable TAP tests on all RHEL versions, per report from Bill Smith.
-  Commit a08ef0ec6fe4a557 is now obsolete, it seems.
+  Commit 4f08cb8d41b8 is now obsolete, it seems.
 
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 16-alpha_20221205_PGDG.1
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
