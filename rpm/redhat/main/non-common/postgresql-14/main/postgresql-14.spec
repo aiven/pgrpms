@@ -404,7 +404,7 @@ BuildRequires:	perl-IPC-Run
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	perl-Test-Simple
-BuildRequires:	perl-Test-Simple
+BuildRequires:	perl-Test-Simple perl-IPC-Run
 %endif
 %if 0%{?fedora}
 Requires:	perl-IPC-Run
