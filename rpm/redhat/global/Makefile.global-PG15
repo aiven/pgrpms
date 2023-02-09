@@ -48,6 +48,13 @@ bfsrpm15: prep15
 	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15"  --define "pgpackageversion 15" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
+bfnoprepsrpm15:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm15/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm15/BUILDROOT" \
+	--define "pgmajorversion 15" --define "pginstdir /usr/pgsql-15"  --define "pgpackageversion 15" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
 bfnosignsrpm15: prep15
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm15/BUILDROOT" \

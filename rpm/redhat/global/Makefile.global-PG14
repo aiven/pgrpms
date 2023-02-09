@@ -48,6 +48,13 @@ bfsrpm14: prep14
 	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14"  --define "pgpackageversion 14" \
 	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
 
+bfnoprepsrpm14:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm14/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm14/BUILDROOT" \
+	--define "pgmajorversion 14" --define "pginstdir /usr/pgsql-14"  --define "pgpackageversion 14" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
 bfnosignsrpm14: prep14
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm14/BUILDROOT" \
