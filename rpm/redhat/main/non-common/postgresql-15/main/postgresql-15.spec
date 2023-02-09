@@ -414,11 +414,11 @@ BuildRequires:	perl-IPC-Run
 %endif
 %if 0%{?rhel}
 Requires:	perl-Test-Simple
-BuildRequires:	perl-Test-Simple perl-IPC-Run
+BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 %endif
 %if 0%{?fedora}
 Requires:	perl-IPC-Run
-BuildRequires:	perl-IPC-Run
+BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 %endif
 %endif
 

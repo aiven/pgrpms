@@ -419,16 +419,17 @@ Requires:	libicu-devel
 
 %if %enabletaptests
 %if 0%{?suse_version} && 0%{?suse_version} >= 1315
+# In SLES 15 and 12, perl package provides Time-HiRes
 Requires:	perl-IPC-Run
 BuildRequires:	perl-IPC-Run
 %endif
 %if 0%{?rhel}
 Requires:	perl-Test-Simple
-BuildRequires:	perl-Test-Simple perl-IPC-Run
+BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 %endif
 %if 0%{?fedora}
 Requires:	perl-IPC-Run
-BuildRequires:	perl-IPC-Run
+BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 %endif
 %endif
 
