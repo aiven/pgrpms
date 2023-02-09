@@ -16,7 +16,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.1
+Version:	%{pgmajorversion}.2
 Release:	42.1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -212,6 +212,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Feb 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.2-42-1PGDG
+- Update to 15.2
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 15.1-42.1-1
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
