@@ -14,7 +14,7 @@
 %{!?kerbdir:%global kerbdir "/usr"}
 %{!?disablepgfts:%global disablepgfts 0}
 
-%if 0%{?rhel} || 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
 %{!?enabletaptests:%global enabletaptests 1}
@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -402,7 +402,7 @@ Requires:	libicu-devel
 Requires:	perl-IPC-Run
 BuildRequires:	perl-IPC-Run
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
+%if 0%{?rhel}
 Requires:	perl-Test-Simple
 BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 %endif
@@ -1374,6 +1374,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 13 2023 John Harvey <john.harvey@crunchydata.com> - 14.7-2PGDG
+- Fix enabling of TAP tests on RHEL
+
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 14.7-1PGDG
 - Update to 14.7, per changes described at
   https://www.postgresql.org/docs/release/14.7/
