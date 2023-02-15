@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f35
+DIST=.f37
 SPECFILE="consul.spec"
 
 # Now, include global Makefile
