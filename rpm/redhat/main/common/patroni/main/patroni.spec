@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	3.0.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -129,9 +129,9 @@ Meta package to pull zookeeper related dependencies for patroni
 %{__rm} -f %{buildroot}%{_bindir}/patroni_wale_restore
 
 %post
-%{__mkdir} -p %{_logdir}/%{name}
-%{__mkdir} -p %{_sysconfigdir}/%{name}/callbacks
-touch %{_sysconfigdir}/%{name}/callbacks/callbacks.sh
+%{__mkdir} -p /var/log/patroni
+%{__mkdir} -p /etc/patroni/callbacks
+touch /etc/patroni/callbacks/callbacks.sh
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
@@ -183,6 +183,9 @@ fi
 
 
 %changelog
+* Wed Feb 15 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-2
+- Fix post section, use actual directory names.
+
 * Thu Feb 9 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-1
 - Update to 3.0.0, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-300
