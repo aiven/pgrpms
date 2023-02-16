@@ -1,1 +1,0 @@
-../main/proj80.spec

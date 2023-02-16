@@ -1,1 +1,0 @@
-../main/gdal32.spec

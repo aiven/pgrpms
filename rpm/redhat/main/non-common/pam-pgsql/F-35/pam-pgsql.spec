@@ -1,1 +1,0 @@
-../main/../main/pam-pgsql.spec
