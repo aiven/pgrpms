@@ -123,7 +123,7 @@ popd
 %endif
 
 %changelog
-* Tye Feb 21 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-1
+* Tue Feb 21 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-1
 - Update to 3.1.8
 
 * Tue Jan 3 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.7-1
