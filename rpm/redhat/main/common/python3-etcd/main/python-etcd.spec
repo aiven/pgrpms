@@ -16,7 +16,7 @@ BuildArch:	noarch
 
 # See https://bugzilla.redhat.com/1393497
 # Also https://fedoraproject.org/wiki/Packaging:Guidelines#Noarch_with_Unported_Dependencies
-ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x
+ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x powerpc64le
 
 %if 0%{?rhel} == 7
 Requires:	python36-urllib3 >= 1.7.1
