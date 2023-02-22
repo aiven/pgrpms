@@ -90,8 +90,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 
 %if %llvm
 %files llvmjit
-    %{pginstdir}/lib/bitcode/%{sname}*.bc
-    %{pginstdir}/lib/bitcode/%{sname}/*.bc
+    %{pginstdir}/lib/bitcode/src/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/src/%{sname}/src/%{sname}.bc
 %endif
 
 %changelog
