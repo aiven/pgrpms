@@ -2,7 +2,7 @@
 
 %global setusermajver 4
 %global setusermidver 0
-%global setuserminver 0
+%global setuserminver 1
 
 %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
  %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Feb 22 2023 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1
+- Update to 4.0.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
