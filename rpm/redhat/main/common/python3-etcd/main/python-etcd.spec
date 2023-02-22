@@ -26,9 +26,6 @@ Requires:	python3-urllib3 >= 1.7.1
 Requires:	python3-dnspython >= 1.13.0
 %endif
 
-    'urllib3>=1.7.1',
-    'dnspython>=1.13.0'
-
 %description
 Client library for interacting with an etcd service, providing Python
 access to the full etcd REST API. Includes authentication, accessing
