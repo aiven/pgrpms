@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.9
-Release:	2%{?dist}
+Version:	2.10
+Release:	1%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/darold/%{sname}
@@ -87,6 +87,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
+- Update to 2.10
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
