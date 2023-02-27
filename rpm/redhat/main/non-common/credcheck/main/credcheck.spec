@@ -86,7 +86,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
 * Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
-- Initial packaging for PostgreSQL YUM repository.
+- Update to 0.2.0
 
 * Fri Jan 8 2021 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-2
 - Initial packaging for PostgreSQL YUM repository.
