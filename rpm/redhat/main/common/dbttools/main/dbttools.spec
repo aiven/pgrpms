@@ -1,10 +1,10 @@
 Summary:	Shared tools for dbt2 tests
 Name:		dbttools
-Version:	0.3.1
+Version:	0.3.2
 Release:	1%{dist}
 License:	GPLv2+
-Source0:	https://github.com/osdldbt/dbttools/archive/refs/tags/v0.3.1.tar.gz
-URL:		https://github.com/osdldbt/dbttools
+Source0:	https://github.com/osdldbt/%{name}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/osdldbt/%{name}
 
 BuildArch:	noarch
 Requires:	R-core >= 2.9.2 pandoc
@@ -39,5 +39,8 @@ These scripts currently depend on R.
 
 
 %changelog
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 0.3.2-1
+- Update to 0.3.2
+
 * Mon Oct 3 2022 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-1
 - Initial packaging
