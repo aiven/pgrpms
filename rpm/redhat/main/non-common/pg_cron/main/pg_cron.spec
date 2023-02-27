@@ -12,11 +12,10 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.2
-Release:	2%{dist}
+Version:	1.5.1
+Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-1.4.2-makefile.patch
 URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -82,7 +81,6 @@ This packages provides JIT support for pg_cron
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
 
 %build
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -112,6 +110,12 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
+- Update to 1.5.1, per changes described at:
+  https://github.com/citusdata/pg_cron/releases/tag/v1.5.0
+  and
+  https://github.com/citusdata/pg_cron/releases/tag/v1.5.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
