@@ -8,7 +8,11 @@ License:	MIT
 Source0:	https://github.com/fvannee/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 URL:		https://github.com/fvannee/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildRequires:	cmake3
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	cmake3 >= 3.17
+%else
+BuildRequires:	cmake >= 3.17
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
