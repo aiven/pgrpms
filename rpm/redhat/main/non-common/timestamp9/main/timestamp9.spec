@@ -25,7 +25,13 @@ for PostgreSQL.
 %build
 %{__mkdir} build
 pushd build
-PATH=%{pginstdir}/bin/:$PATH cmake3 ..
+export PATH=%{pginstdir}/bin/:$PATH
+%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+cmake ..
+%else
+cmake3 ..
+%endif
+
 popd
 
 %install
