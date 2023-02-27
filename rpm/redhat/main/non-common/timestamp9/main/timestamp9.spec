@@ -2,8 +2,8 @@
 
 Summary:	An efficient nanosecond precision timestamp type for Postgres
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
-Release:	2%{?dist}
+Version:	1.3.0
+Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/fvannee/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 URL:		https://github.com/fvannee/%{sname}
@@ -37,6 +37,9 @@ popd
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
+- Update to 1.3.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
