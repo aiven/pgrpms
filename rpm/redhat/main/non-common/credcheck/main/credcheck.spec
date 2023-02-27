@@ -12,13 +12,13 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.2.0
-Release:	2%{?dist}
-Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
+Release:	3%{?dist}
+Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
-Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v0.2.0.tar.gz
+Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.15
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.27
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -82,7 +82,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-3
+- Fix summary of the package, per report from Didier Ros.
+
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
 * Mon Sep 20 2021 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-1
