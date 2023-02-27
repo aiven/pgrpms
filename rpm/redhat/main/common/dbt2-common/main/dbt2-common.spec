@@ -72,7 +72,7 @@ popd
 %defattr(644,root,root,755)
 %license LICENSE
 %config %{_sysconfdir}/dbt2_profile.conf
-%doc README doc/dbt2-architecture.txt  doc/dbt2-tpc.txt  doc/dbt2-user-guide.txt
+%doc README
 %attr (755,root,root) %{_bindir}/%{sname}-*
 
 %changelog
