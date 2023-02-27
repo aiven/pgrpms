@@ -3,7 +3,7 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
-Version:	0.48.7
+Version:	0.49.1
 Release:	1%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -76,6 +76,9 @@ popd
 %attr (755,root,root) %{_bindir}/%{sname}-*
 
 %changelog
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 0.49.1-1
+- Update to 0.49.1
+
 * Wed Jan 18 2023 Devrim Gündüz <devrim@gunduz.org> - 0.48.7-1
 - Update to 0.48.7
 - Remove Patch2, already in upstream.
