@@ -16,7 +16,7 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	3.0.1
+Version:	3.1.1
 Release:	1%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
@@ -29,7 +29,7 @@ Requires:	python39
 Requires:	python3 >= 3.9
 %endif
 
-Requires:	python3-psycopg2 >= 2.8.3
+Requires:	python3-psycopg3 >= 3.1.8
 Requires:	python3-psutil python3-humanize >= 2.6.0
 Requires:	python3-blessed python3-attrs >= 18.1
 Requires:	python3-six
@@ -64,6 +64,13 @@ top like application for PostgreSQL server activity monitoring.
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon Mar 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1
+- Update to 3.1.1
+
+* Thu Mar 2 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1
+- Update to 3.1.0
+- Switch to psycopg3
+
 * Fri Nov 11 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
 - Update to 3.0.1
 
