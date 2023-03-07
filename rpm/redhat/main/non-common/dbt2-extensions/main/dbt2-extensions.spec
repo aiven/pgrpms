@@ -14,7 +14,7 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.49.1
+Version:	0.50.1
 Release:	1%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -140,6 +140,9 @@ popd
 %endif
 
 %changelog
+* Tue Mar 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.50.1-1
+- Update to 0.50.1
+
 * Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 0.49.1-1
 - Update to 0.49.1
 
