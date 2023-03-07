@@ -13,7 +13,7 @@ Requires:	R-core >= 2.9.2 pandoc
 The purpose of this package is to provide tools that are shared between
 all kits in the database test projects.
 
-These scripts currently depend on R.
+These scripts currently depend on R or Julia to generate charts.
 
 %prep
 %setup -q -n %{name}-%{version}
