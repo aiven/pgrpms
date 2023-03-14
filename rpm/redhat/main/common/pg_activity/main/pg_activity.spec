@@ -25,15 +25,16 @@ BuildArch:	noarch
 
 %if 0%{?rhel} == 8
 Requires:	python39
+Requires:	python39-six python39-psutil
 %else
 Requires:	python3 >= 3.9
+Requires:	python3-six python3-psutil
 %endif
 
 Requires:	python3-psycopg3 >= 3.1.8
-Requires:	python3-psutil python3-humanize >= 2.6.0
+Requires:	python3-humanize >= 2.6.0
 Requires:	python3-blessed python3-attrs >= 18.1
-Requires:	python3-six
-
+Requires:	python3-wcwidth
 BuildRequires:	python3-setuptools >= 0.6.10
 
 %description
