@@ -6,17 +6,17 @@
 %global macros_dir %{_sysconfdir}/rpm
 %endif
 
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.29
+Version:	1.0.30
 Release:	1%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
 License:	PostgreSQL
-URL:		https://yum.PostgreSQL.org/pgdg-srpm-macros
+URL:		https://yum.PostgreSQL.org
 Source0:	macros.pgdg-postgresql
 Source1:	COPYRIGHT
 Source2:	AUTHORS
@@ -41,6 +41,10 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Wed Mar 15 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.30-1
+- Add Proj 9.2.0
+- Update GDAL36 to 3.6.3
+
 * Mon Dec 5 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.29-1
 - Remove AT support from RHEL 7 - ppc64le
 - Update Proj to 9.1.1
