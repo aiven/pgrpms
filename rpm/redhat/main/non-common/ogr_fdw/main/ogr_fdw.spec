@@ -1,3 +1,5 @@
+%global _build_id_links none
+
 %global sname ogr_fdw
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -15,7 +17,7 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -95,6 +97,9 @@ PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mf
 %endif
 
 %changelog
+* Thu Mar 16 2023 John Harvey <john.harvey@crunchydata.com> - 1.1.3-4
+- Add _build_id_links macro to stop mult. install conflicts
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
