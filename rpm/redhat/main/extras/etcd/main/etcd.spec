@@ -14,7 +14,7 @@
 
 Name:		etcd
 Version:	3.5.7
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
@@ -23,7 +23,11 @@ Source1:        %{name}.service
 Source2:        %{name}.conf
 
 BuildRequires:	python3-devel
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	systemd
+%else
 BuildRequires:	systemd-rpm-macros
+%endif
 Requires(pre):	shadow-utils
 
 %description
@@ -80,6 +84,9 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Fri Mar 17 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.7-2
+- Enable builds on RHEL 7
+
 * Mon Jan 30 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.7-1
 - Update to 3.5.7, per changes described at:
   https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md#v357-2023-01-20
