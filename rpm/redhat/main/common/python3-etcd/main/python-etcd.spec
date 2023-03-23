@@ -3,7 +3,7 @@
 
 Name:		python3-%{modname}
 Version:	0.4.5
-Release:	42%{?dist}
+Release:	43%{?dist}
 Summary:	A python client library for etcd
 
 License:	MIT
@@ -20,10 +20,10 @@ ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x powerpc64le
 
 %if 0%{?rhel} == 7
 Requires:	python36-urllib3 >= 1.7.1
-Requires:	python36-dnspython >= 1.13.0
+Requires:	python36-dns >= 1.13.0
 %else
 Requires:	python3-urllib3 >= 1.7.1
-Requires:	python3-dnspython >= 1.13.0
+Requires:	python3-dns >= 1.13.0
 %endif
 
 %description
@@ -47,6 +47,9 @@ election.
 %{python3_sitelib}/*
 
 %changelog
+* Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-43
+- Fix a dependency name
+
 * Wed Sep 21 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-42
 - Fix dependencies. The previous one was for tests. Now we specify
   runtime dependencies.
