@@ -489,7 +489,7 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
-* Thu Nar 23 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-4
+* Thu Mar 23 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-4
 - Rebuild against GDAL 3.11.2
 
 * Wed Feb 1 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-3
