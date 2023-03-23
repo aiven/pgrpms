@@ -6,8 +6,8 @@
 %global		_geoslibdir lib64
 
 Name:		%{sname}%{_geosversion}
-Version:	3.11.1
-Release:	2%{?dist}
+Version:	3.11.2
+Release:	1%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -103,6 +103,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.11.2-1
+- Update to 3.11.2
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.11.1-1
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
