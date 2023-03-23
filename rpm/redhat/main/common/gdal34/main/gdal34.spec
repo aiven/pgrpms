@@ -13,10 +13,10 @@
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	30
 
-%if 0%{?rhel} == 7 || 0%{?suse_version} <= 1400
-%global	libspatialitemajorversion	43
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+%global libspatialitemajorversion	43
 %else
-%global	libspatialitemajorversion	50
+%global libspatialitemajorversion	50
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
