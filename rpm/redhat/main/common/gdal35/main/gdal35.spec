@@ -71,7 +71,7 @@
 
 Name:		%{sname}35
 Version:	3.5.3
-Release:	3%{?pre:%pre}%{?dist}
+Release:	4%{?pre:%pre}%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -109,7 +109,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.27
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.31
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -489,6 +489,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Thu Nar 23 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-4
+- Rebuild against GDAL 3.11.2
+
 * Wed Feb 1 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-3
 - Copy/fix SLES dependencies from GDAL 3.4 spec file.
 - Fix a bunch of rpmlint warnings.
