@@ -60,7 +60,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +387,9 @@ fi
 %endif
 
 %changelog
+* Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-5
+- Rebuild against GeOS 3.11.2
+
 * Tue Jan 10 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-4
 - Match libspatialite dependency with GDAL34 package on SLES 15.
 

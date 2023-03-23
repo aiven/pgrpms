@@ -68,7 +68,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	3%{?dist}
+Release:	4%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -394,6 +394,9 @@ fi
 %endif
 
 %changelog
+* Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-4
+- Rebuild against GeOS 3.11.2
+
 * Wed Feb 1 2023 Devrim Gündüz <devrim@gunduz.org>-  3.3.2-3
 - Enable raster on SLES 15. We now have all BR and Requires on
   this platform.
