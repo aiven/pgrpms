@@ -9,13 +9,6 @@
 
 %global with_python3 1
 
-%if  0%{?rhel} && 0%{?rhel} <= 8 || 0%{?fedora} < 31
-%global with_python2 1
-%endif
-%if  0%{?rhel} && 0%{?rhel} >= 9 || 0%{?fedora} >= 31 || 0%{?suse_version} >= 1315
-%global with_python2 0
-%endif
-
 %global	python3_runtimes python3
 
 %if 0%{?fedora} >= 35
@@ -25,23 +18,10 @@
 %endif
 %global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-%if 0%{?with_python2}
- %global python2_runtimes python2
-%endif
-
-%if 0%{?with_python2}
- %{expand: %%global pyver %(python2 -c 'import sys;print(sys.version[0:3])')}
- # The python2_sitearch is already defined on RHEL 8 and Fedora, so set this on RHEL 6 and 7:
- %if  0%{?rhel} && 0%{?rhel} <= 7
-  # Python major version.
-  %{!?python2_sitearch: %global python2_sitearch %(python2 -c "from distutils.sysconfig import get_python_lib; print get_python_lib(1)")}
- %endif
-%endif
-
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	2%{?dist}
+Release:	3%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
@@ -49,10 +29,6 @@ Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}_%{p
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
-
-%if 0%{?with_python2}
-BuildRequires:	python2-devel
-%endif
 
 Requires:	libpq5 >= 10.0
 
@@ -70,30 +46,6 @@ Requires:	python3-%sname = %version-%release
 
 %description -n python3-%{sname}-tests
 This sub-package delivers set of tests for the adapter.
-
-%if 0%{?with_python2}
-%package -n python2-%{sname}
-Summary:	A PostgreSQL database adapter for Python 2
-Provides:	python-%{sname} = %{version}-%{release}
-Requires:	postgresql-libs
-
-%description -n python2-%{sname}
-Psycopg is the most popular PostgreSQL adapter for the Python
-programming language. At its core it fully implements the Python DB
-API 2.0 specifications. Several extensions allow access to many of the
-features offered by PostgreSQL.
-
-This is a build of the psycopg PostgreSQL database adapter for Python 2.
-
-%package -n python2-%{sname}-tests
-Summary:	A testsuite for Python 2
-Requires:	%{name} = %{version}-%{release}
-Provides:	python-%{sname}-tests = %{version}-%{release}
-Obsoletes:	python-%{sname}-tests <= 2.0.0
-
-%description -n python2-%{sname}-tests
-This sub-package delivers set of tests for the adapter.
-%endif
 
 %if %with_docs
 %package doc
@@ -113,18 +65,11 @@ database adapter.
 %build
 
 export PATH=%{pginstdir}/bin:$PATH
-# Change /usr/bin/python to /usr/bin/python2 in the scripts:
-for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python2/g" $i; done
 
 for python in %{python3_runtimes} ; do
   $python setup.py build
 
 done
-%if 0%{?with_python2}
-for python in %{python2_runtimes} ; do
-  $python setup.py build
-done
-%endif
 
 %if %with_docs
 # Fix for wrong-file-end-of-line-encoding problem; upstream also must fix this.
@@ -140,21 +85,12 @@ export PATH=%{pginstdir}/bin:$PATH
 for python in %{python3_runtimes} ; do
   $python setup.py install --no-compile --root %{buildroot}
 done
-%if 0%{?with_python2}
-for python in %{python2_runtimes} ; do
-  $python setup.py install --no-compile --root %{buildroot}
-done
-%endif
 
 # Copy tests directory:
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
-%if 0%{?with_python2}
-%{__mkdir} -p %{buildroot}%{python2_sitearch}/%{sname}/
-%{__cp} -rp tests %{buildroot}%{python2_sitearch}/%{sname}/tests
-%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -174,23 +110,6 @@ done
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 
-%if 0%{?with_python2}
-%files -n python2-%{sname}
-%defattr(-,root,root)
-%doc AUTHORS LICENSE NEWS README.rst
-%dir %{python2_sitearch}/%{sname}
-%{python2_sitearch}/%{sname}/*.py
- %{python2_sitearch}/%{sname}/_psycopg.so
-%if ! 0%{?suse_version}
-%{python2_sitearch}/%{sname}/*.pyc
-%{python2_sitearch}/%{sname}/*.pyo
-%endif
-%{python2_sitearch}/%{sname}-%{version}-py%{pyver}.egg-info
-
-%files -n python2-%{sname}-tests
-%{python2_sitearch}/%{sname}/tests
-%endif
-
 %if %with_docs
 %files doc
 %defattr(-,root,root)
@@ -198,6 +117,10 @@ done
 %endif
 
 %changelog
+* Fri Mar 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-3
+- Remove Python2 portions of the spec file. Psycopg2 dropped
+  support for Python 2.7 (and 3.4 and 3.5) as of 2.9.
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-2
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
