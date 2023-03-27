@@ -7,7 +7,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	3.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -23,19 +23,19 @@ Requires:	python3-ydiff >= 1.2
 %if 0%{?rhel} == 7
 Requires:	python36-click >= 4.1 python36-six >= 1.7
 Requires:	python36-dateutil python36-prettytable >= 0.7
-Requires:	python36-PyYAML
+Requires:	python36-PyYAML python36-urllib3 >= 1.19.1
 %endif
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
 Requires:	python3-click >= 4.1 python3-six >= 1.7
 Requires:	python3-dateutil python3-prettytable >= 0.7
-Requires:	python3-pyyaml
+Requires:	python3-pyyaml python3-urllib3 >= 1.19.1
 %endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1499
 Requires:	python3-click >= 7.0 python3-six >= 1.7
 Requires:	python3-PrettyTable >= 0.7 python3-PyYAML
-Requires:	python3-python-dateutil
+Requires:	python3-python-dateutil python3-urllib3 >= 1.19.1
 %endif
 %endif
 
@@ -75,11 +75,11 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	python3-etcd >= 0.4.3
 
 %if 0%{?rhel} == 7
-Requires:	python36-dns python36-urllib3 python36-certifi
+Requires:	python36-dns python36-certifi
 %endif
 
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
-Requires:	python3-dns python3-urllib3 python3-certifi
+Requires:	python3-dns python3-certifi
 %endif
 
 %if 0%{?suse_version}
@@ -181,8 +181,11 @@ fi
 
 %files -n %{name}-zookeeper
 
-
 %changelog
+* Fri Mar 24 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-2
+- Move urllib3 dependency to main package, per report from Matt Baker.
+  Fixes https://redmine.postgresql.org/issues/7782 .
+
 * Tue Feb 28 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1
 - Update to 3.0.1, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-301
