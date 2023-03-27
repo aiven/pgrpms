@@ -27,7 +27,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	13%{?dist}
+Release:	14%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -88,7 +88,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Development headers and libraries for SFCGAL.
 
 %prep
-%setup -q -n SFCGAL-v%{version}
+%setup -q -n SFCGAL-2d6a1a89552f14fe2926038b7237686bb9e5472e
 
 %if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
 %patch0 -p0
@@ -144,6 +144,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Mon Mar 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-14
+- Update download URL
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-13
 - Remove AT support from RHEL 7 - ppc64le.
 
