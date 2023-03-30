@@ -1,50 +1,19 @@
-%if 0%{?fedora} && 0%{?fedora} > 33
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%global __python_ver python3
+
 BuildRequires:	python3-devel
 Requires:	python3
-%endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{!?with_python3:%global with_python3 0}
-%global	__ospython %{_bindir}/python2
-%global	__python_ver python
-BuildRequires:	python2-devel
-Requires:	python2
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} > 7
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%global __python_ver python3
-BuildRequires:	python3-devel
-Requires:	python3
-%endif
-
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-%{!?with_python3:%global with_python3 0}
-%global __ospython %{_bindir}/python2
-%global __python_ver python2
-%endif
-
-%if 0%{?suse_version} >= 1500
-%{!?with_python3:%global with_python3 1}
-%global __ospython %{_bindir}/python3
-%global __python_ver python3
-%endif
 
 %if 0%{?fedora} >= 35
-%{expand: %%global pybasever %(echo `%{__python_ver} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
-%{expand: %%global pybasever %(echo `%{__python_ver} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global python_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python_sitearch %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	3.4.0
+Version:	3.5.0
 Release:	1%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
@@ -52,9 +21,9 @@ Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{ver
 Source1:	%{name}.logrotate
 Source2:	%{name}.cron
 BuildArch:	noarch
-BuildRequires:	%{__python_ver}-setuptools
+BuildRequires:	python3-setuptools
 Requires:	/usr/sbin/useradd rsync >= 3.0.4
-Requires:	%{__python_ver}-barman = %{version}
+Requires:	python3-barman = %{version}
 
 %description
 Barman (Backup and Recovery Manager) is an open-source administration tool for
@@ -66,38 +35,38 @@ Barman is distributed under GNU GPL 3 and maintained by EnterpriseDB.
 
 %package -n barman-cli
 Summary:	Client Utilities for Barman, Backup and Recovery Manager for PostgreSQL
-Requires:	%{__python_ver}-barman = %{version}
+Requires:	python3-barman = %{version}
 %description -n barman-cli
 Client utilities for the integration of Barman in PostgreSQL clusters.
 
-%package -n %{__python_ver}-barman
+%package -n python3-barman
 Summary:	The shared libraries required for Barman family components
-Requires:	%{__python_ver}-setuptools %{__python_ver}-psycopg2 >= 2.4.2
+Requires:	python3-setuptools python3-psycopg2 >= 3.1.8
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	python-dateutil
 %endif
 
 %if 0%{?suse_version} >= 1500
-Requires:	%{__python_ver}-argcomplete
-Requires:	%{__python_ver}-python-dateutil
+Requires:	python3-argcomplete
+Requires:	python3-python-dateutil
 %endif
 
 %if 0%{?rhel} || 0%{?fedora}
-Requires:	%{__python_ver}-argcomplete
-Requires:	%{__python_ver}-dateutil
+Requires:	python3-argcomplete
+Requires:	python3-dateutil
 %endif
 
-%description -n %{__python_ver}-barman
+%description -n python3-barman
 Python libraries used by Barman.
 
 %prep
 %setup -q -n barman-release-%{version}
 
 %build
-%{__ospython} setup.py build
+%{__python3} setup.py build
 
 %install
-%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/bash_completion.d
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/cron.d/
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/logrotate.d/
@@ -151,13 +120,19 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %doc %{_mandir}/man1/barman-cloud*
 %doc %{_mandir}/man1/barman-wal*
 
-%files -n %{__python_ver}-barman
+%files -n python3-barman
 %defattr(-,root,root)
 %doc NEWS README.rst
 %{python_sitelib}/%{name}-%{version}%{?extra_version:%{extra_version}}-py%{pybasever}.egg-info
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu Mar 30 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
+- Update to 3.5.0, per changes described at:
+  https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.5.0
+- Remove Python2 support from the spec file. Upstream now supports
+  Python 3.6+.
+
 * Fri Jan 27 2023 Devrim Gündüz <devrim@gunduz.org> - 3.4.0-1
 - Update to 3.4.0, per changes described at:
   https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.4.0
