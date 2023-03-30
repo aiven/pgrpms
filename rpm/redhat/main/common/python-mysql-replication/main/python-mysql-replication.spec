@@ -8,7 +8,7 @@
 %endif
 
 Name:		python3-%{sname}
-Version:	0.26
+Version:	0.31
 Release:	1%{?dist}
 Summary:	Pure Python Implementation of MySQL replication protocol build on top of PyMYSQL
 License:	Apache-2.0
@@ -53,6 +53,9 @@ their datas and raw SQL queries.
 %{python3_sitelib}/pymysqlreplication/tests/__pycache__/*.py*
 
 %changelog
+* Thu Mar 30 2023 - Devrim Gündüz <devrim@gunduz.org> 0.31-1
+- Update to 0.31
+
 * Mon Feb 7 2022 - Devrim Gündüz <devrim@gunduz.org> 0.26-1
 - Update to 0.26
 - Add Python 3.10 fixes to spec file
