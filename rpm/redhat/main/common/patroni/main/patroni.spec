@@ -6,8 +6,8 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	3.0.1
-Release:	2%{?dist}
+Version:	3.0.2
+Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -182,6 +182,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Fri Mar 31 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-1
+- Update to 3.0.2, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-302
+
 * Fri Mar 24 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-2
 - Move urllib3 dependency to main package, per report from Matt Baker.
   Fixes https://redmine.postgresql.org/issues/7782 .
