@@ -3,8 +3,8 @@
 %global pname emaj
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.1.0
-Release:	2%{?dist}
+Version:	4.2.0
+Release:	1%{?dist}
 Summary:	A table update logger for PostgreSQL
 License:	GPLv2
 URL:		https://github.com/dalibo/%{sname}/
@@ -38,6 +38,9 @@ in time.
 %{pginstdir}/share/extension/%{pname}*.sql
 
 %changelog
+* Mon Apr 3 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
+- Update to 4.2.0
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
