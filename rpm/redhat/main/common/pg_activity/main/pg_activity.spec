@@ -28,14 +28,15 @@ Requires:	python39 python39-attrs
 Requires:	python39-six python39-psutil
 Requires:	python39-psycopg2 >= 2.8.6
 Requires:	python39-humanize >= 3.13.1
+Requires:	python39-blessed
 %else
+Requires:	python3-blessed
 Requires:	python3 >= 3.9 python3-attrs
 Requires:	python3-six python3-psutil
 Requires:	python3-psycopg3 >= 3.1.8
 Requires:	python3-humanize >= 2.6.0
 %endif
 
-Requires:	python3-blessed
 Requires:	python3-wcwidth
 BuildRequires:	python3-setuptools >= 0.6.10
 
