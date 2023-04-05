@@ -27,13 +27,14 @@ BuildArch:	noarch
 Requires:	python39 python39-attrs
 Requires:	python39-six python39-psutil
 Requires:	python39-psycopg2 >= 2.9.6
+Requires:	python39-humanize >= 3.13.1
 %else
 Requires:	python3 >= 3.9 python3-attrs
 Requires:	python3-six python3-psutil
 Requires:	python3-psycopg3 >= 3.1.8
+Requires:	python3-humanize >= 2.6.0
 %endif
 
-Requires:	python3-humanize >= 2.6.0
 Requires:	python3-blessed
 Requires:	python3-wcwidth
 BuildRequires:	python3-setuptools >= 0.6.10
@@ -68,6 +69,7 @@ top like application for PostgreSQL server activity monitoring.
 %changelog
 * Wed Apr 5 2023 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1
 - Update to 3.3.0
+- Adjust RHEL 8 dependencies for Python 3.9
 
 * Mon Mar 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-1
 - Update to 3.1.1
