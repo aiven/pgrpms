@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
-SPECFILE="python3-humanize.spec"
+DIST=.rhel8
+SPECFILE="python39-humanize.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
