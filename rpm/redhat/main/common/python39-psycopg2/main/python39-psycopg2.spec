@@ -35,7 +35,7 @@ Requires:	python39-%sname = %version-%release
 This sub-package delivers set of tests for the adapter.
 
 %prep
-%setup -q -n %{sname}-%{ppg2majver}_%{ppg2midver}_%{ppg2minver}
+%setup -q -n %{sname}-%{version}
 
 %build
 
