@@ -1,0 +1,1 @@
+../main/python39-blessed.spec

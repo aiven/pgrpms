@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f42
-SPECFILE="python3-blessed.spec"
+SPECFILE="python39-blessed.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
