@@ -25,10 +25,10 @@ printable width of a string on a Terminal.
 %setup -q -n %{sname}-%{version}
 
 %build
-%py3_build
+%{__ospython} setup.py build
 
 %install
-%py3_install
+%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 
 %files -n python39-%{sname}
 %doc README.rst
