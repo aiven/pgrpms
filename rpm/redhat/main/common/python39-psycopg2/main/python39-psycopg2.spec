@@ -1,10 +1,6 @@
 %global sname psycopg2
 %global pname python39-%{sname}
 
-%global ppg2majver 2
-%global ppg2midver 9
-%global ppg2minver 6
-
 %global __ospython %{_bindir}/python3.9
 
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -13,12 +9,12 @@
 
 Summary:	A PostgreSQL database adapter for Python 3.9
 Name:		python39-%{sname}
-Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	3%{?dist}
+Version:	2.9.6
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
-Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}_%{ppg2midver}_%{ppg2minver}.tar.gz
+Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{version}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python39-devel python39-setuptools
@@ -32,7 +28,7 @@ API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
 %package -n python39-%{sname}-tests
-Summary:	A testsuite for Python 3
+Summary:	A testsuite for Python 3.9
 Requires:	python39-%sname = %version-%release
 
 %description -n python39-%{sname}-tests
