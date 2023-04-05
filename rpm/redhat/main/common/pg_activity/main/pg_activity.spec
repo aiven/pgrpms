@@ -26,7 +26,7 @@ BuildArch:	noarch
 %if 0%{?rhel} == 8
 Requires:	python39 python39-attrs
 Requires:	python39-six python39-psutil
-Requires:	python39-psycopg2 >= 2.9.6
+Requires:	python39-psycopg2 >= 2.8.6
 Requires:	python39-humanize >= 3.13.1
 %else
 Requires:	python3 >= 3.9 python3-attrs
