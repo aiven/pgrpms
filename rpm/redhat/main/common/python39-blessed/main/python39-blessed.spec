@@ -2,7 +2,11 @@
 %global	pypi_version 1.19.1
 
 %global __ospython %{_bindir}/python3.9
+%if 0%{?fedora} >= 35
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Name:		python39-%{pypi_name}
@@ -15,9 +19,9 @@ URL:		https://github.com/jquast/blessed
 Source0:	%{pypi_source}
 BuildArch:	noarch
 
-BuildRequires:	python39-devel
-BuildRequires:	python39setuptools)
-BuildRequires:	python3(six) >= 1.9
+BuildRequires:	python3-devel
+BuildRequires:	python3dist(setuptools)
+BuildRequires:	python3dist(six) >= 1.9
 BuildRequires:	python3dist(wcwidth) >= 0.1.4
 BuildRequires:	python3dist(sphinx)
 
@@ -43,7 +47,7 @@ rm -rf %{pypi_name}.egg-info
 %license LICENSE
 %doc README.rst
 %{python3_sitelib}/%{pypi_name}
-%{python3_sitelib}/%{pypi_name}-%{pypi_version}-py%{pyver}.egg-info
+%{python3_sitelib}/%{pypi_name}-%{pypi_version}-py%{python3_version}.egg-info
 
 %changelog
 * Mon Sep 26 2022 Devrim Gündüz <devrim@gunduz.org> - 1.19.1-1
