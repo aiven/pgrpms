@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel8
-SPECFILE="python3-attrs.spec"
+SPECFILE="python39-attrs.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
