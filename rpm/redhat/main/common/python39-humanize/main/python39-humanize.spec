@@ -28,14 +28,6 @@ readable size or throughput.\
 
 %description %_description
 
-%package -n python39-humanize
-Summary: %summary
-
-%description -n python39-humanize
-This modest package contains various common humanization utilities, like turning
-a number into a fuzzy human readable duration ('3 minutes ago') or into a human
-readable size or throughput.
-
 %prep
 %autosetup -n humanize-%{version}
 
