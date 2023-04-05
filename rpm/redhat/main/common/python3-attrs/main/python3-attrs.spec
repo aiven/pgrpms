@@ -2,14 +2,10 @@
 %global sname attr
 
 %global __ospython %{_bindir}/python3.9
-%if 0%{?fedora} >= 35
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-Name:           python3-attrs
+Name:           python39-attrs
 Version:        22.1.0
 Release:        1%{?dist}
 Summary:        Python attributes without boilerplate
@@ -48,6 +44,6 @@ object protocols.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{pyver}.egg-info
 
 %changelog
-* Sun Sep 18 2022 Devrim Gunduz <devrim@gunduz.org>  - 22.1.0-1
+* Wed Apr 5 2023 Devrim Gunduz <devrim@gunduz.org>  - 22.1.0-1
 - Initial packaging for the PostgreSQL RPM repository to satisfy
   pg_activity dependency. Package is for RHEL 8 only.
