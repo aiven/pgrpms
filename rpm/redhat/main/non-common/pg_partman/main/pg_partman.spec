@@ -110,7 +110,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Thu Apr 6 2022 Devrim Gündüz <devrim@gunduz.org> - 4.7.3-1
+* Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.3-1
 - Update to 4.7.3
 
 * Wed Dec 21 2022 John Harvey <john.harvey@crunchydata.com> - 4.7.2-1
