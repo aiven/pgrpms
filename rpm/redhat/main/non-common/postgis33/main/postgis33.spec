@@ -30,6 +30,13 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
+# Use latest PROJ on Fedora 38+
+%if 0%{?fedora} >= 38
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%endif
+
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
 %global libspatialitemajorversion	43
 %else
@@ -68,7 +75,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -79,7 +86,7 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.25 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.32 pcre-devel gmp-devel
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
@@ -394,6 +401,9 @@ fi
 %endif
 
 %changelog
+* Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-5
+- Use Proj 9.2.X on Fedora 38+
+
 * Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-4
 - Rebuild against GeOS 3.11.2
 
