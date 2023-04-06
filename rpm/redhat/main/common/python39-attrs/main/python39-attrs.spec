@@ -7,7 +7,7 @@
 
 Name:           python39-attrs
 Version:        22.1.0
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Python attributes without boilerplate
 
 License:        MIT
@@ -17,6 +17,8 @@ Source0:        https://github.com/hynek/%{pypi_name}/archive/%{version}/%{pypi_
 
 BuildRequires:  python39-devel
 BuildRequires:  python39-setuptools
+
+Obsoletes:	python3-attrs
 
 %description
 attrs is an MIT-licensed Python package with class decorators that
@@ -44,6 +46,9 @@ object protocols.
 %{python3_sitelib}/%{pypi_name}-%{version}-py%{pyver}.egg-info
 
 %changelog
+* Thu Apr 6 2023 Devrim Gunduz <devrim@gunduz.org>  - 22.1.0-2
+- Obsolete old python3-attrs dependency which also came from our repo.
+
 * Wed Apr 5 2023 Devrim Gunduz <devrim@gunduz.org>  - 22.1.0-1
 - Initial packaging for the PostgreSQL RPM repository to satisfy
   pg_activity dependency. Package is for RHEL 8 only.
