@@ -3,10 +3,10 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables:
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
+# Override PROJ:
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -16,9 +16,10 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
+
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
@@ -147,6 +148,9 @@ EOF
 
 
 %changelog
+* Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-2
+- Use Proj 9.2.X
+
 * Wed Mar 23 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1
 - Update to 1.7.1
 
