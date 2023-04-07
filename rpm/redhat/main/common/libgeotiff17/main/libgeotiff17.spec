@@ -1,3 +1,4 @@
+%global _vpath_builddir .
 %global	sname libgeotiff
 %global	libgeotiffversion 17
 
@@ -26,7 +27,7 @@ URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.17
+BuildRequires:	pgdg-srpm-macros >= 1.0.32 cmake3
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -67,34 +68,26 @@ find . -name ".cvsignore" -exec rm -rf '{}' \;
 
 %build
 
-# disable -g flag removal
-sed -i 's| \| sed \"s\/-g \/\/\"||g' configure
+%{__install} -d build
+pushd build
+cmake .. -DCMAKE_C_COMPILER_LAUNCHER=ccache -DPROJ_LIBRARY=%{projinstdir}/lib64 \
+	-DPROJ_INCLUDE_DIR=%{projinstdir}/include \
+	-DGEOTIFF_BIN_DIR=%{libgeotiff17instdir}/bin -DGEOTIFF_LIB_DIR=%{libgeotiff17instdir}/lib \
+	-DGEOTIFF_BIN_SUBDIR=%{libgeotiff17instdir}/bin -DGEOTIFF_MAN_PAGES=%{libgeotiff17instdir}/man \
+	-DGEOTIFF_INCLUDE_SUBDIR=%{libgeotiff17instdir}/include
 
-# use gcc -shared instead of ld -shared to build with -fstack-protector
-sed -i 's|LD_SHARED=@LD_SHARED@|LD_SHARED=@CC@ -shared|' Makefile.in
-
-./configure \
-	--prefix=%{libgeotiff17instdir}	\
-	--includedir=%{libgeotiff17instdir}/include/ \
-	--mandir=%{libgeotiff17instdir}/man	\
-	--libdir=%{libgeotiff17instdir}/lib	\
-	--with-proj=%{projinstdir}	\
-	--with-tiff		\
-	--with-jpeg		\
-	--with-zip
-# WARNING
-# disable %{?_smp_mflags}
-# it breaks compile
-
-%{__make}
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
+popd
 
 %install
 # install libgeotiff
-%{__make} install DESTDIR=%{buildroot} INSTALL="%{__install} -p"
+pushd build
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# install manualy some file
+# install manually some files
 %{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/bin
 %{__install} -p -m 755 bin/makegeo %{buildroot}%{libgeotiff17instdir}/bin
+popd
 
 # install pkgconfig file
 cat > %{name}.pc <<EOF
@@ -133,17 +126,16 @@ EOF
 %{libgeotiff17instdir}/bin/geotifcp
 %{libgeotiff17instdir}/bin/listgeo
 %{libgeotiff17instdir}/bin/makegeo
-%{libgeotiff17instdir}/lib/libgeotiff.so.*
-%{libgeotiff17instdir}/man/man1/listgeo.1
-%{libgeotiff17instdir}/man/man1/geotifcp.1
-%{libgeotiff17instdir}/man/man1/applygeo.1
+#{libgeotiff17instdir}/lib/libgeotiff.so.*
+#{libgeotiff17instdir}/man/man1/listgeo.1
+#{libgeotiff17instdir}/man/man1/geotifcp.1
+#{libgeotiff17instdir}/man/man1/applygeo.1
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
 %dir %{libgeotiff17instdir}/include
 %attr(0644,root,root) %{libgeotiff17instdir}/include/*.h
 %attr(0644,root,root) %{libgeotiff17instdir}/include/*.inc
-%{libgeotiff17instdir}/lib/libgeotiff.so
 %{libgeotiff17instdir}/lib/pkgconfig/%{name}.pc
 
 
