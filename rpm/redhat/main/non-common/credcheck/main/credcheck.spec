@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.2.0
-Release:	3%{?dist}
+Version:	1.0
+Release:	1%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
@@ -82,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Fri Apr 7 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
+- Update to 1.0
+
 * Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-3
 - Fix summary of the package, per report from Didier Ros.
 
