@@ -7,7 +7,7 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	2.7.5
+Version:	2.7.6
 Release:	1%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
@@ -126,6 +126,9 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Mon Apr 10 2023 - Devrim Gündüz <devrim@gunduz.org> 2.7.6-1
+- Update to 2.7.6
+
 * Tue Mar 21 2023 - Devrim Gündüz <devrim@gunduz.org> 2.7.5-1
 - Update to 2.7.5
 
