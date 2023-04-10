@@ -12,7 +12,7 @@
 
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.1
+Version:	1.5.2
 Release:	1%{dist}
 License:	AGPLv3
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -110,6 +110,10 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Apr 10 2023 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1
+- Update to 1.5.2, per changes described at:
+  https://github.com/citusdata/pg_cron/releases/tag/v1.5.2
+
 * Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1
 - Update to 1.5.1, per changes described at:
   https://github.com/citusdata/pg_cron/releases/tag/v1.5.0
