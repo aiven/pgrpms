@@ -1,6 +1,6 @@
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
-Version:	1.12
+Version:	1.13
 Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/mla/pg_sample/archive/v%{version}.tar.gz
@@ -33,6 +33,9 @@ maintains referential integrity, and supports circular dependencies.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 1.13-1
+- Update to 1.13
+
 * Wed Sep 22 2021 Devrim Gündüz <devrim@gunduz.org> - 1.12-1
 - Update to 1.12
 
