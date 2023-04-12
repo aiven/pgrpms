@@ -1,10 +1,11 @@
+%global debug_package %{nil}
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
 Version:	1.13
 Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/mla/pg_sample/archive/v%{version}.tar.gz
-URL:		https://github.com/mla/pg_sample
+Source0:	https://github.com/mla/%{name}/archive/refs/tags/%{version}.tar.gz
+URL:		https://github.com/mla/%{name}
 Requires:	postgresql, perl-DBI, perl-DBD-Pg >= 2.0
 
 %description
@@ -25,7 +26,7 @@ maintains referential integrity, and supports circular dependencies.
 %{__rm} -rf %{buildroot}
 %{__install} -d %{buildroot}%{_bindir}
 %{__install} -d %{buildroot}%{_docdir}/%{name}
-%{__install} -m 755 pg_sample %{buildroot}%{_bindir}/%{name}
+%{__install} -m 755 %{name} %{buildroot}%{_bindir}/%{name}
 %{__install} -m 644 README.md %{buildroot}%{_docdir}/%{name}
 
 %files
