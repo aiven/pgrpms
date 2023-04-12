@@ -1,0 +1,10 @@
+--- Makefile.old	2023-04-12 09:39:27.452491948 +0100
++++ Makefile	2023-04-12 09:39:35.452503463 +0100
+@@ -28,7 +28,6 @@
+ 	$(srcdir)/preflight-check.sh
+ 
+ python_code: setup.py
+-	pip${python_version} install .
+ 
+ release-zip: all
+ 	git archive --format zip --prefix=multicorn-$(EXTVERSION)/ --output ./multicorn-$(EXTVERSION).zip HEAD

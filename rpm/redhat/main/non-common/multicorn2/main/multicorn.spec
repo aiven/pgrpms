@@ -19,11 +19,11 @@
 
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3
-Release:	2%{?dist}
+Version:	2.4
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
-Patch0:		%{sname}-python-destdir.patch
+Patch0:		%{sname}-Makefile-removepip.patch
 URL:		https://github.com/pgsql-io/%{version}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -58,11 +58,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -92,14 +92,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%dir %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
-%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info/*
-%{python3_sitearch}/%{pname}/__pycache__/*.pyc
-%{python3_sitearch}/%{pname}/_*.so
-%{python3_sitearch}/%{pname}/fsfdw/*.py
-%{python3_sitearch}/%{pname}/fsfdw/__pycache__/*.pyc
-%{python3_sitearch}/%{pname}/*.py
-%{pginstdir}/doc/extension/%{pname}.md
+%doc %{pginstdir}/doc/extension/%{pname}.md
 %{pginstdir}/lib/%{pname}.so
 %{pginstdir}/share/extension/%{pname}*.sql
 %{pginstdir}/share/extension/%{pname}.control
@@ -111,6 +104,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4-1
+- Update to 2.4
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
