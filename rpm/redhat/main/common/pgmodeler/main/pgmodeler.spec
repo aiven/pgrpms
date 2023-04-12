@@ -13,8 +13,8 @@ Source2:	%{name}.desktop
 Source3:	%{name}-mime-dbm.xml
 
 Requires:	hicolor-icon-theme shared-mime-info libpq5
-BuildRequires:	qt5-qtbase-devel libxml2-devel libpq5-devel
-BuildRequires:	desktop-file-utils gettext qt5-qtsvg-devel
+BuildRequires:	qt6-qtbase-devel qt6-qtsvg-devel qt6-rpm-macros
+BuildRequires:	desktop-file-utils gettext libxml2-devel libpq5-devel
 # for converting 300x300 logo file to 256x256
 BuildRequires:	ImageMagick moreutils
 
@@ -39,7 +39,7 @@ by the user to SQL code and apply them onto database clusters (Version
 # CONFDIR=%%{_sysconfdir}/%%{name} \
 # LANGDIR=%%{_datadir}/locale \
 # SCHEMASDIR=%%{_sysconfdir}/%%{name} \
-%qmake_qt5 \
+%qmake_qt6 \
  PREFIX=%{_prefix} \
  BINDIR=%{_bindir} \
  PRIVATEBINDIR=%{_libexecdir} \
@@ -56,9 +56,8 @@ by the user to SQL code and apply them onto database clusters (Version
 
 desktop-file-install --mode 644 --dir %{buildroot}%{_datadir}/applications/ %{SOURCE2}
 # icon, mime and menu-entry
-convert -resize 256x256 pgmodeler_logo.png - | sponge pgmodeler_logo.png
 %{__install} -p -dm 755 %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/ %{buildroot}%{_datadir}/mime/packages/
-%{__install} -p -m 644 conf/%{name}_logo.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/
+%{__install} -p -m 644 libs/libgui/res/icons/%{name}_logo.png %{buildroot}%{_datadir}/icons/hicolor/256x256/apps/
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_datadir}/mime/packages/%{name}.xml
 # https://github.com/pgmodeler/pgmodeler/issues/783
 %{__mkdir} -p %{buildroot}%{_libdir}/%{name}/plugins
@@ -69,18 +68,15 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 # License installed separately
 %{__rm} -f %{buildroot}/%{_docdir}/%{name}/LICENSE
 
-%find_lang %{name} --with-qt --all-name
-
-%files -f %{name}.lang
+%files
 %doc CHANGELOG.md README.md RELEASENOTES.md
 %license LICENSE
 %{_bindir}/%{name}
 %{_bindir}/%{name}-cli
-%{_libexecdir}/%{name}-ch
+%{_libexecdir}/%{name}-*
 # %%{_libdir}/%%{name}/lib*.so are not devel files! All in subdirectory and needs to load plugins only
 %{_libdir}/%{name}
 %{_datarootdir}/%{name}
-%exclude %{_datarootdir}/%{name}/lang/*
 %{_datadir}/icons/hicolor/256x256/apps/pgmodeler_logo.png
 %{_datadir}/mime/packages/%{name}.xml
 %{_datadir}/applications/%{name}.desktop
@@ -89,6 +85,7 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %changelog
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
+- Build with QT6, as this new version require it.
 
 * Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> 0.9.4-1
 - Update to 0.9.4
