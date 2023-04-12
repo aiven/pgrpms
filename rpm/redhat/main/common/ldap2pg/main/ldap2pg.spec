@@ -11,8 +11,8 @@
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
-Version:	5.8
-Release:	2%{?dist}
+Version:	5.9
+Release:	1%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
@@ -103,6 +103,9 @@ done
 %doc docs/
 
 %changelog
+* Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 5.9-1
+- Update to 5.9
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 5.8-2
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
