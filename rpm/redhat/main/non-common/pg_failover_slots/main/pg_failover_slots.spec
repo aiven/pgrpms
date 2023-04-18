@@ -18,8 +18,6 @@ License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/refs/tags/v%{version}.tar.gz
 
-Source1:	%{sname}-config.h
-
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 
 
