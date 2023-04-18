@@ -12,7 +12,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.3
+Version:	2.3.4
 Release:	1%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Tue Apr 18 2023 Devrim Gündüz <devrim@gunduz.org> 2.3.4-1
+- Update to 2.3.4
+
 * Sun Mar 12 2023 Devrim Gündüz <devrim@gunduz.org> 2.3.3-1
 - Update to 2.3.3
 
