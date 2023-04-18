@@ -4,7 +4,7 @@
 
 Name:		pgmodeler
 Version:	1.0.2
-Release:	1%{?dist}
+Release:	2%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
 URL:		http://pgmodeler.io/
@@ -13,13 +13,13 @@ Source2:	%{name}.desktop
 Source3:	%{name}-mime-dbm.xml
 
 Requires:	hicolor-icon-theme shared-mime-info libpq5
-BuildRequires:	qt6-qtbase-devel qt6-qtsvg-devel qt6-rpm-macros
 BuildRequires:	desktop-file-utils gettext libxml2-devel libpq5-devel
-# for converting 300x300 logo file to 256x256
-BuildRequires:	ImageMagick moreutils
 
-# https://fedoraproject.org/wiki/Packaging:AppData
-BuildRequires:	libappstream-glib
+%if 0%{?suse_version} && 0%{?suse_version} >= 1400
+BuildRequires:	libappstream-glib8 qt6-base-devel qt6-svg-devel qt6-macros
+%else
+BuildRequires:	qt6-qtbase-devel qt6-qtsvg-devel qt6-rpm-macros libappstream-glib
+%endif
 
 %description
 PostgreSQL Database Modeler, or simply, pgModeler is an
@@ -83,6 +83,10 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Tue Apr 18 2023 Devrim Gündüz <devrim@gunduz.org> 1.0.2-2
+- Add SLES 15 support
+- Remove no longer needed dependencies.
+
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
 - Update to 1.0.2
 - Build with QT6, as this new version require it.
