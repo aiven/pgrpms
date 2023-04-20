@@ -13,6 +13,13 @@
 %global projfullversion %proj82fullversion
 %global projinstdir %proj82instdir
 
+# Use latest PROJ on Fedora 38+
+%if 0%{?fedora} >= 38
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%endif
+
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
 # Disabled due to a circular dependency issue with PostGIS
@@ -32,7 +39,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.0.1
-Release:	6%{?dist}
+Release:	7%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -138,6 +145,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Thu Apr 20 2023 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-6
+- Use Proj 9.2.X on Fedora 38+
+
 * Thu Mar 23 2023 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-5
 - Rebuild against GeOS 3.11.2
 
