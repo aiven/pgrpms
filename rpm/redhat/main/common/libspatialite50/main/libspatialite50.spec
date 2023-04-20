@@ -77,7 +77,13 @@ developing applications that use %{name}.
 CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
 CFLAGS="$CFLAGS -I%{geosinstdir}/include"; export CFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; export SHLIB_LINK
+
+%if 0%{?fedora} >= 38
+# PROJ 9x uses lib64 as the library path.
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
+%else
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
+%endif
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
 %if 0%{?rhel} == 7
