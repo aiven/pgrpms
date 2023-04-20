@@ -17,6 +17,14 @@
 %global projfullversion %proj90fullversion
 %global projinstdir %proj90instdir
 
+# Use latest PROJ on Fedora 38+
+%if 0%{?fedora} >= 38
+%global	projmajorversion %proj92majorversion
+%global	projfullversion %proj92fullversion
+%global	projinstdir %proj92instdir
+%global	libgeotiffmajorversion 17
+%endif
+
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	30
 
@@ -71,7 +79,7 @@
 
 Name:		%{sname}35
 Version:	3.5.3
-Release:	4%{?pre:%pre}%{?dist}
+Release:	5%{?pre:%pre}%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -489,6 +497,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Thu Apr 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-5
+- Use latest versions of proj and libspatialite on Fedora 38+
+
 * Thu Mar 23 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-4
 - Rebuild against GDAL 3.11.2
 
