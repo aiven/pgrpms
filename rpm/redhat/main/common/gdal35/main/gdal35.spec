@@ -372,7 +372,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DCMAKE_INSTALL_INCLUDEDIR=include \
  -DCMAKE_INSTALL_LIBDIR=lib \
 %if %{with_python3}
- -DBUILD_PYTHON_BINDINGS=ON
+ -DBUILD_PYTHON_BINDINGS=ON \
 %else
  -DBUILD_PYTHON_BINDINGS=OFF \
  %endif
