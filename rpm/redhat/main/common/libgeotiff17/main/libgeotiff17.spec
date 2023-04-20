@@ -63,9 +63,6 @@ for f in `find . -type f` ; do
 done
 set -x
 
-# remove junks
-find . -name ".cvsignore" -exec rm -rf '{}' \;
-
 %build
 
 %{__install} -d build
@@ -114,6 +111,15 @@ EOF
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
+# Do some manual installation:
+%{__mkdir} -p %{buildroot}/%{_docdir}/%{name}
+%{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/lib
+%{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/man/man1
+%{__mv} %{buildroot}/usr/local/doc/* %{buildroot}%{_docdir}/%{name}
+%{__mv} %{buildroot}/usr/local/lib/libgeotiff.a %{buildroot}/%{libgeotiff17instdir}/lib
+%{__rm} -f %{buildroot}/usr/local/share/cmake/GeoTIFF/*cmake
+%{__mv} %{buildroot}/usr/local/share/man/man1/*  %{buildroot}%{libgeotiff17instdir}/man/man1
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -121,15 +127,16 @@ EOF
 %postun -p /sbin/ldconfig
 
 %files
-%doc ChangeLog LICENSE README
+%doc ChangeLog LICENSE README AUTHORS COPYING INSTALL README*
 %{libgeotiff17instdir}/bin/applygeo
 %{libgeotiff17instdir}/bin/geotifcp
 %{libgeotiff17instdir}/bin/listgeo
 %{libgeotiff17instdir}/bin/makegeo
-#{libgeotiff17instdir}/lib/libgeotiff.so.*
-#{libgeotiff17instdir}/man/man1/listgeo.1
-#{libgeotiff17instdir}/man/man1/geotifcp.1
-#{libgeotiff17instdir}/man/man1/applygeo.1
+%{libgeotiff17instdir}/lib/*.a
+%{libgeotiff17instdir}/man/man1/listgeo.1
+%{libgeotiff17instdir}/man/man1/geotifcp.1
+%{libgeotiff17instdir}/man/man1/applygeo.1
+
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
