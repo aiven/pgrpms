@@ -23,6 +23,7 @@
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
 %global	libgeotiffmajorversion 17
+%global	libgeotiffinstdir %libgeotiff17instdir
 %endif
 
 %global gdalinstdir /usr/%{name}
