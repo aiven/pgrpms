@@ -30,7 +30,7 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
-# Use latest PROJ on Fedora 38+
+# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
 %if 0%{?fedora} >= 38
 %global projmajorversion %proj92majorversion
 %global projfullversion %proj92fullversion
