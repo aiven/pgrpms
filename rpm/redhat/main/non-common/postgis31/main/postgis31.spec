@@ -38,7 +38,7 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
-# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
+# Use latest PROJ, GDAL, GeOS and libgeotiff on Fedora 38+
 %if 0%{?fedora} >= 38
 %global projmajorversion %proj92majorversion
 %global projfullversion %proj92fullversion
@@ -48,6 +48,9 @@
 %global gdalinstdir %gdal36instdir
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
+%global geosfullversion %geos311fullversion
+%global geosmajorversion %geos311majorversion
+%global geosinstdir %geos311instdir
 %endif
 
 %{!?utils:%global	utils 1}
@@ -400,7 +403,7 @@ fi
 
 %changelog
 * Fri Apr 21 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-6
-- Use Proj 9.2.X, GDAL 3.6 and libgeotiff 1.7 on Fedora 38+
+- Use Proj 9.2.X, GeOS 3.11, GDAL 3.6 and libgeotiff 1.7 on Fedora 38+
 
 * Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-5
 - Rebuild against GeOS 3.11.2
