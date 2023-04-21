@@ -38,6 +38,18 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
+# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
+%if 0%{?fedora} >= 38
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%global libgeotiffmajorversion 17
+%global libgeotiffinstdir %libgeotiff17instdir
+%endif
+
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?suse_version} < 1499
@@ -60,7 +72,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	5%{?dist}
+Release:	6%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -387,6 +399,9 @@ fi
 %endif
 
 %changelog
+* Fri Apr 21 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-6
+- Use Proj 9.2.X, GDAL 3.6 and libgeotiff 1.7 on Fedora 38+
+
 * Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-5
 - Rebuild against GeOS 3.11.2
 
