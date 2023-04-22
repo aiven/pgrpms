@@ -72,7 +72,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 
 %files
 %defattr(644,root,root,755)
-#%%doc %{pginstdir}/doc/%{sname}/*.rst
 %doc README.rst
 %license COPYING
 %{pginstdir}/lib/%{sname}.so
