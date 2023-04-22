@@ -14,16 +14,28 @@
 
 %pgdg_set_gis_variables
 
+# Use GDAL 3.5 on almost all of the platforms:
+%global gdalfullversion %gdal35fullversion
+%global gdalmajorversion %gdal35majorversion
+%global gdalinstdir %gdal35instdir
+
+# Use latest GDAL on Fedora 38+
+%if 0%{?fedora} >= 38
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%endif
+
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.3
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
-BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdal35majorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.25
-Requires:	postgresql%{pgmajorversion}-server gdal%{gdal35majorversion}-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.32
+Requires:	postgresql%{pgmajorversion}-server gdal%{gdalmajorversion}-libs
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 
@@ -62,7 +74,7 @@ This packages provides JIT support for ogr_fdw.
 %setup -q -n pgsql-ogr-fdw-%{version}
 
 %build
-PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
+PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -70,7 +82,7 @@ PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mf
 %{__install} -d %{buildroot}%{pginstdir}/
 %{__install} -d %{buildroot}%{pginstdir}/bin/
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
@@ -97,6 +109,9 @@ PATH=%{pginstdir}/bin:%{gdal35instdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mf
 %endif
 
 %changelog
+* Sat Apt 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-5
+- Explicity specify GDAL versions, and use GDAL 3.6 on Fedora 38+
+
 * Thu Mar 16 2023 John Harvey <john.harvey@crunchydata.com> - 1.1.3-4
 - Add _build_id_links macro to stop mult. install conflicts
 
