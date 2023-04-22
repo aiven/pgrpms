@@ -1,9 +1,9 @@
---- GNUmakefile.old	2017-05-16 23:47:15.343650600 +0300
-+++ GNUmakefile	2017-05-16 23:47:30.693529336 +0300
+--- GNUmakefile.old	2023-04-22 18:03:01.143099201 +0100
++++ GNUmakefile	2023-04-22 18:04:31.811249081 +0100
 @@ -1,21 +1,25 @@
-+libdir.x86_64=	/usr/lib64
-+libdir.i686=	/usr/lib
-+MACHINE :=	$(shell uname -m)
++libdir.x86_64= /usr/lib64
++libdir.i686=   /usr/lib
++MACHINE :=     $(shell uname -m)
 +
  SRCS=		luapgsql.c
  LIB=		pgsql
@@ -24,7 +24,7 @@
  ${LIB}.so:	${SRCS:.c=.o} luapgsql.h
 -		cc -shared -o ${LIB}.so ${CFLAGS} ${SRCS:.c=.o} ${LDADD}
 +		gcc -shared -o ${LIB}.so ${CFLAGS} ${SRCS:.c=.o} ${LDADD}
-
+ 
  clean:
  		rm -f *.o *.so
  install:

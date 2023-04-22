@@ -12,10 +12,10 @@
  
  CFLAGS+=	-O3 -Wall -fPIC -I/usr/include -I/usr/include/lua${LUAVER} \
 -		-I/usr/include/postgresql
-+		-I$(shell /usr/pgsql-11/bin/pg_config --includedir)
++		-I$(shell /usr/pgsql-14/bin/pg_config --includedir)
  
 -LDADD+=		-L/usr/lib -lpq
-+LDADD+=		-L$(shell /usr/pgsql-11/bin/pg_config --libdir) -lpq
++LDADD+=		-L$(shell /usr/pgsql-14/bin/pg_config --libdir) -lpq
  
  LIBDIR=		/usr/lib
 -LUADIR=		/usr/lib/lua/${LUAVER}
