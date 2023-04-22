@@ -109,7 +109,7 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
-* Sat Apt 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-5
+* Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-5
 - Explicity specify GDAL versions, and use GDAL 3.6 on Fedora 38+
 
 * Thu Mar 16 2023 John Harvey <john.harvey@crunchydata.com> - 1.1.3-4
