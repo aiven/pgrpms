@@ -3,12 +3,12 @@
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.3.2
-Release:	3%{dist}
+Release:	4%{dist}
 Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
 URL:		https://github.com/%{sname}/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel libgcrypt-devel
 BuildRequires:	mhash-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
@@ -41,23 +41,23 @@ sh autogen.sh
 
 %post
 # Create alternatives entries for lib files
-%{_sbindir}/update-alternatives --install %{_libdir}/security/pam_pgsql.la %{sname}-la %{pginstdir}/lib/security/pam_pgsql.la %{pgmajorversion}0
 %{_sbindir}/update-alternatives --install %{_libdir}/security/pam_pgsql.so %{sname}-so %{pginstdir}/lib/security/pam_pgsql.so %{pgmajorversion}0
 libtool --finish %{pginstdir}/lib/security
 
 %preun
 # Drop alternatives entries for lib files
 %{_sbindir}/update-alternatives --remove %{sname}-so %{pginstdir}/lib/security/pam_pgsql.so
-%{_sbindir}/update-alternatives --remove %{sname}-la %{pginstdir}/lib/security/pam_pgsql.la
 
 %files
 %defattr(-,root,root)
 %doc %{pginstdir}/share/doc/pam-pgsql/*
 %dir %{pginstdir}/lib/security
-%{pginstdir}/lib/security/pam_pgsql.la
 %{pginstdir}/lib/security/pam_pgsql.so
 
 %changelog
+* Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.7.3.2-4
+- Add missing BR, and also remove .la file
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.7.3.2-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
