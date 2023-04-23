@@ -12,10 +12,10 @@
 
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
-Release:	2%{?dist}
+Version:	1.1
+Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v1.0.tar.gz
+Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
@@ -82,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sun Apr 23 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1-1
+- Update to 1.1
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
