@@ -13,7 +13,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.3
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -180,7 +180,6 @@ fi
 %{pginstdir}/lib/repmgr.so
 %{pginstdir}/share/extension/repmgr.control
 %{pginstdir}/share/extension/repmgr*sql
-%ghost %{_rundir}/%{sname}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{unitname}.service
 
@@ -194,6 +193,9 @@ fi
 %endif
 
 %changelog
+* Sun Apr 23 2023 Devrim Gündüz <devrim@gunduz.org> - 5.3.3-3
+- Fix rpm build warning, remove duplicate file.
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 5.3.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
