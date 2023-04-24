@@ -41,9 +41,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %clean
 %{__rm} -rf %{buildroot}
 
-%post -p /sbin/ldconfig
-%postun -p /sbin/ldconfig
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
