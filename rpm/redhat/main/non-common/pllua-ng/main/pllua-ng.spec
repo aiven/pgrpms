@@ -5,18 +5,14 @@
 %global plluangmidver 0
 %global plluangminver 10
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	Procedural language interface between PostgreSQL and Lua
@@ -53,11 +49,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -95,7 +91,6 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %{pginstdir}/share/extension/%{sname}u*.sql
 %{pginstdir}/share/extension/%{sname}u.control
 
-%if %llvm
 %files devel
 %dir %{pginstdir}/include/server/extension/%{sname}
 %{pginstdir}/include/server/extension/%{sname}/*
@@ -106,7 +101,6 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
     %dir %{pginstdir}/lib/bitcode/%{sname}
     %{pginstdir}/lib/bitcode/%{sname}/*
 %endif
-
 
 %changelog
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.10-2
