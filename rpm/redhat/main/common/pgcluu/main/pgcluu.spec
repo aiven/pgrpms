@@ -4,7 +4,7 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	3.4
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -24,7 +24,7 @@ of the PostgreSQL cluster and the system utilization
 
 %prep
 %setup -q
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 %{__perl} Makefile.PL INSTALLDIRS=vendor
@@ -73,6 +73,9 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-1
 - Update to 3.4
 

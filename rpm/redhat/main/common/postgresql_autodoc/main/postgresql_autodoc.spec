@@ -1,6 +1,6 @@
 Name:		postgresql_autodoc
 Version:	1.41.1
-Release:	1%{?dist}.1
+Release:	1%{?dist}.2
 Summary:	PostgreSQL AutoDoc Utility
 License:	BSD
 # I forked this for YUM repo, because old code base was not available anymore
@@ -24,7 +24,7 @@ describes the database.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 # Temp fix.
@@ -45,6 +45,9 @@ DESTDIR=%{buildroot} PREFIX=%{_usr} make install %{?_smp_mflags}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.41.1-1.2
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.41.1-1.1
 - Rebuild against PostgreSQL 11.0
 

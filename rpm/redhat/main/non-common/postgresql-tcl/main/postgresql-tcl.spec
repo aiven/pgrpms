@@ -6,7 +6,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -30,7 +30,7 @@ to a PostgreSQL server.
 
 %prep
 %setup -q -n Pgtcl-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 autoconf
 
@@ -69,6 +69,9 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-2.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.7
-Release:	2PGDG%{?dist}
+Release:	2PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -558,10 +558,10 @@ benchmarks.
 %prep
 %setup -q -n %{sname}-%{version}
 
-%patch1 -p0
-%patch3 -p0
-%patch5 -p0
-%patch6 -p0
+%patch -P 1 -p0
+%patch -P 3 -p0
+%patch -P 5 -p0
+%patch -P 6 -p0
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1374,6 +1374,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 14.7-2PGDG.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Feb 13 2023 John Harvey <john.harvey@crunchydata.com> - 14.7-2PGDG
 - Fix enabling of TAP tests on RHEL
 

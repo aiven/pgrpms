@@ -1,6 +1,6 @@
 Name:		MigrationWizard
 Version:        1.1
-Release:        3%{?dist}.1
+Release:        3%{?dist}.2
 Summary:	MySQL to PostgreSQL Migration Wizard
 
 License:	BSD
@@ -18,7 +18,7 @@ This is MySQL to PostgreSQL Migration Wizard by EnterpriseDB.
 
 %prep
 %setup -q -n wizard
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 ant compile
@@ -41,6 +41,9 @@ ant dist
 %{_datadir}/%{name}/lib/*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1-3.2
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.1-3.1
 - Rebuild against PostgreSQL 11.0
 

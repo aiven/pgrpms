@@ -1,6 +1,6 @@
 Name:           pitrery
 Version:        3.4
-Release:        1%{?dist}
+Release:        1%{?dist}.1
 Summary:        Point-In-Time Recovery tools for PostgreSQL
 License:        BSD
 URL:            https://github.com/dalibo/%{name}
@@ -21,7 +21,7 @@ restores for PostgreSQL.
 
 %prep
 %setup -q
-%patch1 -p1
+%patch -P 1 -p1
 
 %build
 %{__make} %{?_smp_mflags}
@@ -48,6 +48,9 @@ restores for PostgreSQL.
 %doc %{_mandir}/man1/restore_wal.1.gz
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Feb 8 2022 Devrim Gündüz <devrim@gunduz.org> - 3.4-1
 - Update to 3.4
 - This software is now deprecated.

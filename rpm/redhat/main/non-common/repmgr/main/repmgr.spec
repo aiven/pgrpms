@@ -13,7 +13,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.3.3
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://www.repmgr.org
@@ -115,8 +115,8 @@ This packages provides JIT support for repmgr
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
-%patch1 -p1
+%patch -P 0 -p0
+%patch -P 1 -p1
 
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %configure
@@ -193,6 +193,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 5.3.3-3.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Sun Apr 23 2023 Devrim Gündüz <devrim@gunduz.org> - 5.3.3-3
 - Fix rpm build warning, remove duplicate file.
 

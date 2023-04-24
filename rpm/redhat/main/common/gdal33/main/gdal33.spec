@@ -74,7 +74,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -316,11 +316,11 @@ manipulating GDAL file format library
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
-%patch8 -p0 -b .java~
-%patch12 -p0
-%patch13 -p0
+%patch -P 8 -p0 -b .java~
+%patch -P 12 -p0
+%patch -P 13 -p0
 
-%patch16 -p0
+%patch -P 16 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE2 .
@@ -735,6 +735,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-5.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Sun Jun 12 2022 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-5
 - Rebuild against new armadillo on RHEL 8
 

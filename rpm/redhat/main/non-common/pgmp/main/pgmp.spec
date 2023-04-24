@@ -13,7 +13,7 @@
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.4
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	LGPL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 # Make sure that we use Python 3.
@@ -57,7 +57,7 @@ This packages provides JIT support for pgmp
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch1 -p0
+%patch -P 1 -p0
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -85,6 +85,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.4-5.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.4-5
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

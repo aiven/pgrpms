@@ -27,7 +27,7 @@ import remote data and more.
 
 %prep
 %setup -q -n %{sname}-REL%{ifxfdwmajver}_%{ifxfdwmidver}_%{ifxfdwminver}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 PATH=/opt/IBM/informix/bin:$PATH INFORMIXDIR=/opt/IBM/informix USE_PGXS=1 %{__make} %{?_smp_mflags}

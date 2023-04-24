@@ -80,7 +80,7 @@
 
 Name:		%{sname}35
 Version:	3.5.3
-Release:	5%{?pre:%pre}%{?dist}
+Release:	5%{?pre:%pre}%{?dist}.1
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -337,11 +337,11 @@ rm -rf mrf/LERCV1
 # For patch16:
 autoreconf
 
-%patch8 -p0 -b .java~
-%patch12 -p0
-%patch13 -p0
+%patch -P 8 -p0 -b .java~
+%patch -P 12 -p0
+%patch -P 13 -p0
 
-%patch16 -p0
+%patch -P 16 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -a %{SOURCE4} .
@@ -498,6 +498,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-5.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Apr 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-5
 - Use latest versions of proj and libspatialite on Fedora 38+
 

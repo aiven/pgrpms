@@ -2,7 +2,7 @@
 
 Name:		gpsbabel
 Version:	1.8.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	A tool to convert between various formats used by GPS devices
 
 License:	GPLv2+
@@ -53,7 +53,7 @@ Qt GUI interface for GPSBabel
 %prep
 %setup -q -n %{name}-%{name}_%{tarballversion}
 
-%patch2 -p1
+%patch -P 2 -p1
 
 %build
 %cmake \
@@ -109,6 +109,9 @@ install -m 0644 -p %{SOURCE2} %{buildroot}%{_datadir}/icons/hicolor/256x256/apps
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.8.0-2.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Jul 21 2022 Devrim Gunduz <devrim@gunduz.org> - 1.8.0-2
 - Add SLES 12 support
 

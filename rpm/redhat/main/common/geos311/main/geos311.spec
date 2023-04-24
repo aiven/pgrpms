@@ -7,7 +7,7 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.11.2
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -53,10 +53,10 @@ use GEOS
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch 0 -p0
+%patch -P  0 -p0
 
 %if 0%{?fedora} >= 38
-%patch 1 -p1
+%patch -P  1 -p1
 %endif
 
 %build
@@ -112,6 +112,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.11.2-2.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 3.11.2-1
 - Add a temp patch to fix builds on Fedora 38. Per
   https://github.com/libgeos/geos/issues/860

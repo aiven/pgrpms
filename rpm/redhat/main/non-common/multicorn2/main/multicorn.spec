@@ -20,7 +20,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
@@ -75,7 +75,7 @@ This packages provides JIT support for multicorn2
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 export PYTHON_OVERRIDE="python%{pyver}"
@@ -104,6 +104,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4-1
 - Update to 2.4
 

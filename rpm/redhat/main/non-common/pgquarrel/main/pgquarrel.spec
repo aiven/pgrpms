@@ -4,7 +4,7 @@
 Summary:	Compares PostgreSQL database schemas (DDL)
 Name:		%{sname}
 Version:	0.7.0
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{sversion}.tar.gz
 Patch0:		pgquarrel-libminipath.patch
@@ -28,7 +28,7 @@ database.
 
 %prep
 %setup -q -n %{sname}-%{sname}_%{sversion}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
@@ -49,6 +49,9 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %{_libdir}/libmini.so
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.0-2.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

@@ -3,7 +3,7 @@
 Summary:	PgpoolAdmin - web-based pgpool administration
 Name:		pgpoolAdmin
 Version:	4.2.0
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	BSD
 URL:		https://pgpool.net
 
@@ -32,7 +32,7 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 
 %prep
 %setup -q
-%patch1 -p0
+%patch -P 1 -p0
 %build
 
 %install
@@ -80,6 +80,9 @@ possible to monitor, start, stop pgpool and change settings of pgpool-II.
 %{_pgpoolAdmindir}/screen.css
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.0-3.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Feb 22 2022 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-3
 - Fix directory names to chown/chgrp.
 

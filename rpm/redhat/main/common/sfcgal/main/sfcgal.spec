@@ -27,7 +27,7 @@ Version:	1.3.1
 Requires:	CGAL => 4.7
 BuildRequires:	CGAL-devel >= 4.7
 %endif
-Release:	14%{?dist}
+Release:	14%{?dist}.1
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 # Adding patches for CGAL 5.x. Grabbed them from Debian folks
@@ -91,8 +91,8 @@ Development headers and libraries for SFCGAL.
 %setup -q -n SFCGAL-2d6a1a89552f14fe2926038b7237686bb9e5472e
 
 %if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
-%patch0 -p0
-%patch1 -p0
+%patch -P 0 -p0
+%patch -P 1 -p0
 %endif
 
 %build
@@ -144,6 +144,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-14.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Mar 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-14
 - Update download URL
 

@@ -10,7 +10,7 @@
 Summary:	Lua binding for PostgreSQL
 Name:		%{sname}
 Version:	1.6.7
-Release:	4%{?dist}
+Release:	4%{?dist}.1
 License:	BSD
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -31,7 +31,7 @@ A Lua Binding for PostgreSQL.
 
 %prep
 %setup -q -n %{sname}-pgsql-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 %{__make} %{?_smp_mflags}
@@ -48,6 +48,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-4.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-4
 - Update patch and also add patches for PostgreSQL 13+.
 

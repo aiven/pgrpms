@@ -4,7 +4,7 @@
 
 Name:           memcached
 Version:        1.4.39
-Release:        1%{?dist}.1
+Release:        1%{?dist}.2
 Epoch:          0
 Summary:        High Performance, Distributed Memory Object Cache
 
@@ -38,7 +38,7 @@ access to the memcached binary include files.
 
 %prep
 %setup -q
-%patch1 -p1 -b .unit
+%patch -P 1 -p1 -b .unit
 
 %build
 # compile with full RELRO
@@ -117,6 +117,9 @@ exit 0
 %{_includedir}/memcached/*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0:1.4.39-1.2
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0:1.4.39-1.1
 - Rebuild against PostgreSQL 11.0
 

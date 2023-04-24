@@ -89,7 +89,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{oname}%{packageversion}
 Version:	9.5.25
-Release:	2PGDG%{?dist}
+Release:	2PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		http://www.postgresql.org/
 
@@ -473,12 +473,12 @@ benchmarks.
 
 %prep
 %setup -q -n %{oname}-%{version}
-%patch1 -p1
-%patch3 -p1
-%patch5 -p1
-%patch6 -p1
+%patch -P 1 -p1
+%patch -P 3 -p1
+%patch -P 5 -p1
+%patch -P 6 -p1
 %if 0%{?rhel} && 0%{?rhel} <= 5
-%patch7 -p1
+%patch -P 7 -p1
 %endif
 
 %{__cp} -p %{SOURCE12} .
@@ -1426,6 +1426,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 9.5.25-2PGDG.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 9.5.25-2PGDG
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

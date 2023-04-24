@@ -78,7 +78,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	8%{?dist}
+Release:	8%{?dist}.1
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -334,11 +334,11 @@ pushd gdal
 # For patch16:
 autoreconf
 
-%patch8 -p0 -b .java~
-%patch12 -p0
-%patch13 -p0
+%patch -P 8 -p0 -b .java~
+%patch -P 12 -p0
+%patch -P 13 -p0
 
-%patch16 -p0
+%patch -P 16 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE2 .
@@ -726,6 +726,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Jan 10 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8
 - Rebuild against libnetcdf19 on SLES 15.
 

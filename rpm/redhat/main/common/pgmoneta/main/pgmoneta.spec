@@ -1,6 +1,6 @@
 Name:		pgmoneta
 Version:	0.6.1
-Release:	1%{dist}
+Release:	1%{dist}.1
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{name}/%{name}
@@ -37,7 +37,7 @@ pgmoneta is a backup / restore solution for PostgreSQL.
 
 %prep
 %setup -q -n %{name}-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -112,6 +112,9 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.6.1-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Jan 12 2023 Devrim Gündüz <devrim@gunduz.org> 0.6.1-1
 - Update to 0.6.1
 

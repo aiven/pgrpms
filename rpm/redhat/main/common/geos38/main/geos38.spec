@@ -11,7 +11,7 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.8.1
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -50,7 +50,7 @@ use GEOS
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -108,6 +108,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/include/*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.8.1-3.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.8.1-3
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 

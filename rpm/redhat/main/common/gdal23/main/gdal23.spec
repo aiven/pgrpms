@@ -65,7 +65,7 @@
 
 Name:		%{sname}23
 Version:	2.3.2
-Release:	9%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}
+Release:	9%{?dist}%{?bootstrap:.%{bootstrap}.bootstrap}.1
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -260,14 +260,14 @@ This package contains HTML and PDF documentation for GDAL.
     frmts/gtiff/libtiff
 #rm -r frmts/grib/degrib/g2clib
 
-%patch3 -p1 -b .completion~
-%patch8 -p1 -b .java~
-%patch9 -p1 -b .zlib~
-%patch10 -p1 -b .perl-build~
+%patch -P 3 -p1 -b .completion~
+%patch -P 8 -p1 -b .java~
+%patch -P 9 -p1 -b .zlib~
+%patch -P 10 -p1 -b .perl-build~
 %if 0%{?fedora} >= 30
-%patch11 -p1 -b .poppler-0.73.0
+%patch -P 11 -p1 -b .poppler-0.73.0
 %endif
-%patch12 -p0
+%patch -P 12 -p0
 
 # Copy in PROVENANCE.TXT-fedora
 cp -p %SOURCE4 .
@@ -657,6 +657,9 @@ done
 #Or as before, using ldconfig
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.3.2-9.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Sep 2 2019 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-9
 - Use our own libgeotiff15 package
 - Update Proj to 6.2.0

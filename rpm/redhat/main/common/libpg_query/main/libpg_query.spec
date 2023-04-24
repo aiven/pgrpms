@@ -1,7 +1,7 @@
 Summary:	C library for accessing the PostgreSQL parser outside of the server
 Name:		libpg_query
 Version:	4.2.0
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 URL:		https://github.com/pganalyze/%{name}
 Source0:	https://github.com/pganalyze/libpg_query/archive/refs/tags/15-%{version}.tar.gz
@@ -17,7 +17,7 @@ pg_query.go (Go), pgsql-parser (Node), psqlparse (Python) and pglast
 
 %prep
 %setup -q -n %{name}-15-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -38,6 +38,9 @@ pg_query.go (Go), pgsql-parser (Node), psqlparse (Python) and pglast
 %{_libdir}/libpg_query.so*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.0-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Apr 10 2023 - Devrim Gündüz <devrim@gunduz.org> 4.2.0-1
 - Update to 4.2.0
 

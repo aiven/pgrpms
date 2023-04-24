@@ -4,7 +4,7 @@
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
 Version:	0.50.1
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -33,8 +33,8 @@ This package includes binaries to run the test.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
-%patch1 -p0
+%patch -P 0 -p0
+%patch -P 1 -p0
 
 %build
 
@@ -76,6 +76,9 @@ popd
 %attr (755,root,root) %{_bindir}/%{sname}-*
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.50.1-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Mar 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.50.1-1
 - Update to 0.50.1
 

@@ -36,7 +36,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	4.3.0a
-Release:	17%{?dist}
+Release:	17%{?dist}.1
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/%{sname}
@@ -71,8 +71,8 @@ developing applications that use %{name}.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
-%patch1 -p0
+%patch -P 0 -p0
+%patch -P 1 -p0
 autoconf
 
 %build
@@ -132,6 +132,9 @@ find %{buildroot} -type f -name "*.la" -delete
 
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-17.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Nov 14 2022 Devrim Gunduz <devrim@gunduz.org> - 4.3.0a-17
 - Use PROJ 7.2 on RHEL 7.
 

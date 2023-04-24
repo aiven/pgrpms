@@ -53,7 +53,7 @@ This packages includes development portions of timescaledb-tsl.
 %prep
 %setup -q -n %{sname}-%{version}
 %if 0%{?rhel} && 0%{?rhel} == 7
-%patch1 -p0
+%patch -P 1 -p0
 %endif
 
 # Disable telemetry, so that we can distribute it via PGDG repos:

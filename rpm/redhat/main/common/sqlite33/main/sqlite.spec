@@ -8,7 +8,7 @@
 Summary:	Library that implements an embeddable SQL database engine
 Name:		%{sname}33
 Version:	%{rpmver}
-Release:	7%{?dist}
+Release:	7%{?dist}.1
 License:	Public Domain
 URL:		https://www.sqlite.org/
 
@@ -94,12 +94,12 @@ embedded controllers.
 
 %prep
 %setup -q -a1 -n sqlite-src-%{realver}
-%patch1 -p1
-%patch2 -p1
-%patch3 -p1
-%patch4 -p1
-%patch5 -p1
-%patch6 -p0
+%patch -P 1 -p1
+%patch -P 2 -p1
+%patch -P 3 -p1
+%patch -P 4 -p1
+%patch -P 5 -p1
+%patch -P 6 -p0
 
 # Remove backup-file
 %{__rm} -f %{sname}-doc-%{docver}/sqlite.css~ || :
@@ -175,6 +175,9 @@ echo "%{sqlite33instdir}/lib/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}
 %{sqlite33instdir}/data/lemon
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.30.1-7.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 3.30-1-7
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 

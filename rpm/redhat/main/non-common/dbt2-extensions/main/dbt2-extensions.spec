@@ -15,7 +15,7 @@
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
 Version:	0.50.1
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -68,7 +68,7 @@ This packages provides JIT support for dbt2-extensions
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 
@@ -140,6 +140,9 @@ popd
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.50.1-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Mar 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.50.1-1
 - Update to 0.50.1
 

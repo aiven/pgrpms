@@ -30,7 +30,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	GPLv2+
 Source0:	http://download.osgeo.org/%{sname}/source/%{sname}-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -137,7 +137,7 @@ The postgis-utils package provides the utilities for PostGIS.
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 LDFLAGS="$LDFLAGS -L/usr/geos36/lib -L/usr/proj49/lib"; export LDFLAGS
@@ -269,6 +269,9 @@ fi
 %doc %{sname}-%{version}.pdf
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.7-3.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.7-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

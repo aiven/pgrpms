@@ -102,7 +102,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.19
-Release:	1PGDG%{?dist}
+Release:	1PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -595,12 +595,12 @@ benchmarks.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch1 -p0
-%patch3 -p0
-%patch5 -p0
-%patch6 -p0
+%patch -P 1 -p0
+%patch -P 3 -p0
+%patch -P 5 -p0
+%patch -P 6 -p0
 %if 0%{?rhel} && 0%{?rhel} == 6
-%patch7 -p0
+%patch -P 7 -p0
 %endif
 
 %{__cp} -p %{SOURCE12} .
@@ -1616,6 +1616,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 11.19-1PGDG.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 11.19-1PGDG
 - Update to 11.19, per changes described at
   https://www.postgresql.org/docs/release/11.19/

@@ -17,7 +17,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.2
-Release:	42.1PGDG%{?dist}
+Release:	42.1PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -118,8 +118,8 @@ AutoReq:	0
 
 %prep
 %setup -q -n postgresql-%{version}
-%patch1 -p0
-%patch5 -p0
+%patch -P 1 -p0
+%patch -P 5 -p0
 
 %build
 CFLAGS="${CFLAGS:-%optflags}"
@@ -212,6 +212,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 15.2-42.1PGDG.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Feb 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.2-42-1PGDG
 - Update to 15.2
 

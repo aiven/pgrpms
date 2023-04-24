@@ -1,6 +1,6 @@
 Name:		pgbouncer
 Version:	1.18.0
-Release:	11%{?dist}
+Release:	11%{?dist}.1
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -55,7 +55,7 @@ pgbouncer uses libevent for low-level socket handling.
 
 %prep
 %setup -q
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 sed -i.fedora \
@@ -164,6 +164,9 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.18.0-11.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Mon Dec 12 2022 Devrim Gündüz <devrim@gunduz.org> - 1.18.0-11
 - Update to 1.18.0, per changes described at:
   https://www.pgbouncer.org/changelog.html#pgbouncer-118x

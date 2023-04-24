@@ -4,7 +4,7 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.10.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -30,7 +30,7 @@ support.
 %prep
 %setup -q -n %{sname}-%{version}
 %if 0%{?rhel} && 0%{?rhel} == 7
-%patch1 -p0
+%patch -P 1 -p0
 %endif
 
 # Build only the portions that have Apache Licence, and disable telemetry:
@@ -74,6 +74,9 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.10.2-1.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Fri Apr 21 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10.2-1
 - Update to 2.10.2, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.10.2

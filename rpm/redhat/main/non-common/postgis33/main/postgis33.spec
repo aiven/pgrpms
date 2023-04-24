@@ -80,7 +80,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -241,7 +241,7 @@ This packages provides JIT support for postgis33
 %setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} .
-%patch0 -p0
+%patch -P 0 -p0
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -406,6 +406,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.2-5.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-5
 - Use Proj 9.2.X, GDAL 3.6 and libgeotiff 1.7 on Fedora 38+
 

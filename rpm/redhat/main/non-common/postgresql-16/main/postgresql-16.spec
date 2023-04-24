@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -567,10 +567,10 @@ benchmarks.
 %prep
 %setup -q -n %{sname}-%{pgpackageversion}devel
 
-%patch1 -p0
-%patch3 -p0
-%patch5 -p0
-%patch6 -p0
+%patch -P 1 -p0
+%patch -P 3 -p0
+%patch -P 5 -p0
+%patch -P 6 -p0
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1382,6 +1382,9 @@ fi
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 16-alpha_20230424_PGDG.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 16-alpha_20230208_PGDG.1
 - Enable TAP tests on all RHEL versions, per report from Bill Smith.
   Commit 4f08cb8d41b8 is now obsolete, it seems.

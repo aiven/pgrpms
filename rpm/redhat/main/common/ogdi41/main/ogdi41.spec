@@ -5,7 +5,7 @@
 
 Name:		ogdi%{ogdimajorver}
 Version:	4.1.0
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 Summary:	Open Geographic Datastore Interface
 License:	BSD
 URL:		http://ogdi.sourceforge.net/
@@ -62,8 +62,8 @@ ODBC driver for OGDI.
 
 %prep
 %setup -q -n %{sname}-%{sname}_%{gittag}
-%patch0 -p1
-%patch1 -p0
+%patch -P 0 -p1
+%patch -P 1 -p0
 
 # include documentation
 %{__cp} -p %{SOURCE1} .
@@ -172,6 +172,9 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %{ogdi41instdir}/lib/%{sname}/liblodbc.so
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.1.0-3.1
+- Modernise %patch usage, which has been deprecated in Fedora 38
+
 * Sat Feb 15 2020 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-3
 * Remove tcl subpackage We don't need it (and also SLES is throwing build
   errors)
