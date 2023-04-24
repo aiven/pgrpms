@@ -12,9 +12,9 @@ Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cuda >= 11
+BuildRequires:	cuda-12-0 >= 12
 Requires:	nvidia-kmod
-Requires:	cuda >= 11
+Requires:	cuda-12-0 >= 12
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
@@ -65,14 +65,9 @@ This package provides test tools and scripts related to PG-Strom
 %{pginstdir}/share/%{sname}/*
 %config %{__systemd_conf}
 %ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+%else
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
-  %endif
- %endif
 %endif
 
 %files test
