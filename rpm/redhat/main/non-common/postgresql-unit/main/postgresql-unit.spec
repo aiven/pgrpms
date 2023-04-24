@@ -12,8 +12,8 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	7.4
-Release:	2%{?dist}
+Version:	7.7
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ChristophBerg/%{sname}
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags} install DESTD
 %endif
 
 %changelog
+* Mon Apr 24 2023 Devrim Gündüz <devrim@gunduz.org> - 7.7-1
+- Update to 7.7
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org>- 7.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
