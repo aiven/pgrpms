@@ -2,8 +2,8 @@
 %global _vpath_builddir .
 
 Name:           %{sname}_%{pgmajorversion}
-Version:	0.2.0
-Release:	2%{dist}
+Version:	0.2.2
+Release:	1%{dist}
 Summary:	PostgreSQL extension to provide additional Prometheus metrics for pgexporter.
 License:	BSD
 URL:		https://github.com/pgexporter/%{sname}
@@ -40,6 +40,9 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Apr 24 2023 - Devrim Gündüz <devrim@gunduz.org> 0.2.2-1
+- Update to 0.2.2
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.2.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
