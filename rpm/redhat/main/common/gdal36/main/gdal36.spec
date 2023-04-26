@@ -79,7 +79,7 @@
 %endif
 
 Name:		%{sname}36
-Version:	3.6.3
+Version:	3.6.4
 Release:	1%{?pre:%pre}%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -478,5 +478,8 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Apr 25 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-1
+- Update to 3.6.4
+
 * Thu Apr 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.3-1
 - Final version of the spec file for 3.6.3
