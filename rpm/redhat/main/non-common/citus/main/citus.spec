@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	11.2.0
+Version:	11.2.1
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
@@ -127,6 +127,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Wed Apr 26 2023 Devrim Gündüz <devrim@gunduz.org> 11.2.1-1
+- Update to 11.2.1
+
 * Sat Feb 4 2023 Devrim Gündüz <devrim@gunduz.org> 11.2.0-1
 - Update to 11.2.0
 
