@@ -79,7 +79,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}.1
+Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
