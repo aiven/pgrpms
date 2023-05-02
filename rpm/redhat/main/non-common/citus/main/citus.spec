@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	11.2.1
+Version:	11.3.0
 Release:	1%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
@@ -106,6 +106,11 @@ make %{?_smp_mflags}
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/lib/%{sname}_columnar.so
+%{pginstdir}/lib/%{sname}_pgoutput.so
+%{pginstdir}/lib/%{sname}_wal2json.so
+%dir %{pginstdir}/lib/%{sname}_decoders/
+%{pginstdir}/lib/%{sname}_decoders/pgoutput.so
+%{pginstdir}/lib/%{sname}_decoders/wal2json.so
 %{pginstdir}/bin/pg_send_cancellation
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -124,9 +129,14 @@ make %{?_smp_mflags}
     %{pginstdir}/lib/bitcode/%{sname}/*.bc
     %{pginstdir}/lib/bitcode/%{sname}/*/*.bc
     %{pginstdir}/lib/bitcode/%{sname}_columnar/*
+    %{pginstdir}/lib/bitcode/%{sname}_pgoutput/*
+    %{pginstdir}/lib/bitcode/%{sname}_wal2json/*
 %endif
 
 %changelog
+* Tue May 2 2023 Devrim Gündüz <devrim@gunduz.org> 11.3.0-1
+- Update to 11.3.0
+
 * Wed Apr 26 2023 Devrim Gündüz <devrim@gunduz.org> 11.2.1-1
 - Update to 11.2.1
 
