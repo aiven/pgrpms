@@ -6,7 +6,7 @@
 %global powamidversion 1
 %global powaminorversion 4
 # powa-web version
-%global powawebversion 4.1.3
+%global powawebversion 4.1.4
 
 %global	powawebdir  %{_datadir}/%{name}
 
@@ -31,7 +31,7 @@
 Summary:	PostgreSQL Workload Analyzer
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 Source1:	https://github.com/powa-team/powa-web/archive/refs/tags/%{powawebversion}.tar.gz
@@ -162,6 +162,9 @@ popd
 %{_unitdir}/%{swebname}-%{pgpackageversion}.service
 
 %changelog
+* Wed May 3 2023 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-3
+- Update powa-web to 4.1.4
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
