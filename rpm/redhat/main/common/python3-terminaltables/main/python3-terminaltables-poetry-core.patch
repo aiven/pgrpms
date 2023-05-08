@@ -1,0 +1,32 @@
+diff --git a/pyproject-whl.toml b/pyproject-whl.toml
+index 3c186b7..3113f4d 100644
+--- a/pyproject-whl.toml
++++ b/pyproject-whl.toml
+@@ -62,5 +62,5 @@ python = ">=2.6 || >=3.0"
+ pytest = "==6.0.1"
+ 
+ [build-system]
+-requires = ["poetry>=0.12"]
+-build-backend = "poetry.masonry.api"
++requires = ["poetry-core>=1.0.0"]
++build-backend = "poetry.core.masonry.api"
+diff --git a/pyproject.toml b/pyproject.toml
+index bdcd0ce..ff4b190 100644
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -1,6 +1,6 @@
+ [tool.poetry]
+ name = "terminaltables"
+-version = "3.1.10"
++version = "3.1.9"
+ description = "Generate simple tables in terminals from a nested list of strings."
+ authors = [
+     "Robpol86 <robpol86@gmail.com>",
+@@ -62,5 +62,5 @@ python = ">=2.6 || >=3.0"
+ pytest = "==6.0.1"
+ 
+ [build-system]
+-requires = ["poetry>=0.12"]
+-build-backend = "poetry.masonry.api"
++requires = ["poetry-core>=1.0.0"]
++build-backend = "poetry.core.masonry.api"
