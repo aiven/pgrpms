@@ -10,7 +10,7 @@ Source0:	https://github.com/dbcli/cli_helpers/archive/refs/tags/v%{version}.tar.
 BuildArch:	noarch
 
 BuildRequires:	python3-configobj python3-devel python3-mock
-BuildRequires:	python3-pytest python3-setuptools python3-tabulate
+BuildRequires:	python3-setuptools python3-tabulate
 BuildRequires:  python3-terminaltables python3-wcwidth
 
 Requires:	python3-configobj >= 5.0.5 python3-pygments >= 1.6
