@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f42
-SPECFILE="python-faker.spec"
+SPECFILE="python3-faker.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
