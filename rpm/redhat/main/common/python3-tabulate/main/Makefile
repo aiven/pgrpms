@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f42
-SPECFILE="python-tabulate.spec"
+SPECFILE="python3-tabulate.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
