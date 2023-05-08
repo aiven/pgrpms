@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
-SPECFILE="python_rollbar.spec"
+DIST=".sles12"
+SPECFILE="python3_rollbar.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
