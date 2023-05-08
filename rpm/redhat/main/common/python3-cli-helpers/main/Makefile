@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f36
-SPECFILE="python-cli-helpers.spec"
+DIST=.f42
+SPECFILE="python3-cli-helpers.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
