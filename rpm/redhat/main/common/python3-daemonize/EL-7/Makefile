@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
-SPECFILE="python-daemonize.spec"
+DIST=.rhel7
+SPECFILE="python3-daemonize.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
