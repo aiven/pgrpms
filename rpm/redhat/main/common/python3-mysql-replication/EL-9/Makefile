@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f36
-SPECFILE="python-mysql-replication.spec"
+DIST=.rhel9
+SPECFILE="python3-mysql-replication.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
