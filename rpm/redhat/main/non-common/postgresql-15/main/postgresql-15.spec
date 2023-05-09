@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.2
-Release:	1PGDG%{?dist}.1
+Version:	15.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1382,6 +1382,10 @@ fi
 %endif
 
 %changelog
+* Tue May 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.3-1PGDG
+- Update to 15.3, per changes described at
+  https://www.postgresql.org/docs/release/15.3/
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 15.2-1PGDG.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
