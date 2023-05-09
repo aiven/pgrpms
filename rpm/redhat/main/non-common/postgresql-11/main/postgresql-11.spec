@@ -101,8 +101,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.19
-Release:	1PGDG%{?dist}.1
+Version:	11.20
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1616,6 +1616,10 @@ fi
 %endif
 
 %changelog
+* Tue May 9 2023 Devrim Gündüz <devrim@gunduz.org> - 11.20-1PGDG
+- Update to 11.20, per changes described at
+  https://www.postgresql.org/docs/release/11.20/
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 11.19-1PGDG.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
