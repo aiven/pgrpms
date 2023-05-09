@@ -483,10 +483,10 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
 %if 0%{?suse_version} >= 1315
-Requires:       python3-base
+Requires:	python3-base
 %else
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7.
-Requires:       python3-libs
+Requires:	python3-libs
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -1347,7 +1347,7 @@ fi
   https://www.postgresql.org/docs/release/13.11/
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 13.10-1PGDG.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 13.10-1PGDG
 - Update to 13.10, per changes described at
