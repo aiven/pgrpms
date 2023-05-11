@@ -3,7 +3,7 @@
 
 %global plluangmajver 2
 %global plluangmidver 0
-%global plluangminver 10
+%global plluangminver 11
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -18,7 +18,7 @@
 Summary:	Procedural language interface between PostgreSQL and Lua
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{plluangmajver}.%{plluangmidver}.%{plluangminver}
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/RhodiumToad/%{pname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
 URL:		https://github.com/RhodiumToad/%{pname}
@@ -103,6 +103,9 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %endif
 
 %changelog
+* Thu May 11 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.11-1
+- Update to 2.0.11
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0.10-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
