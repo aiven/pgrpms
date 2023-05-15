@@ -13,7 +13,7 @@
 %endif
 
 Name:		etcd
-Version:	3.5.8
+Version:	3.5.9
 Release:	1%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
@@ -84,6 +84,10 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Mon May 15 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-1
+- Update to 3.5.9, per changes described at:
+  https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md#v359-2023-05-11
+
 * Thu May 4 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.8-1
 - Update to 3.5.8, per changes described at:
   https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md#v358-2023-04-13
