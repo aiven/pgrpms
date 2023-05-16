@@ -3,8 +3,8 @@
 
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.0
-Release:	2%{?dist}
+Version:	2.1.2
+Release:	1%{?dist}
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/rjuju/%{sname}
@@ -57,6 +57,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue May 16 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1
+- Update to 4.1.2
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
