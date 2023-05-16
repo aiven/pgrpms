@@ -11,7 +11,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
+Version:	1.2
 Release:	1%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
@@ -82,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue May 16 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2-1
+- Update to 1.2
+
 * Fri Apr 7 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0-1
 - Update to 1.0
 
