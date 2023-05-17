@@ -102,7 +102,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	11.20
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1616,6 +1616,9 @@ fi
 %endif
 
 %changelog
+* Wed May 17 2023 Devrim Gündüz <devrim@gunduz.org> - 11.20-2PGDG
+- Rebuild against new LLVM on RHEL 8.8
+
 * Tue May 9 2023 Devrim Gündüz <devrim@gunduz.org> - 11.20-1PGDG
 - Update to 11.20, per changes described at
   https://www.postgresql.org/docs/release/11.20/
