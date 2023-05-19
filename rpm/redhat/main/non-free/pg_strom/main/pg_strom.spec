@@ -2,13 +2,23 @@
 %global __cuda_path	/usr/local/cuda
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.5
-Release:	1%{?dist}
+Version:	5.0
+Release:	alpha1_1%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
-Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
+Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}_alpha1.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -28,26 +38,47 @@ Obsoletes:	%{sname}-%{pgmajorversion} < 2.3-2
 PG-Strom is an extension for PostgreSQL, to accelerate analytic queries
 towards large data set using the capability of GPU devices.
 
-%package test
-Summary:	PG-Strom related test tools and scripts
-Requires:	%{sname}-%{pgmajorversion}
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for XXX
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm13-devel clang13-devel
+Requires:	llvm13
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
 
-%description test
-This package provides test tools and scripts related to PG-Strom
+%description llvmjit
+This packages provides JIT support for XXX
+%endif
 
 %prep
-%setup -q -n pg-strom-%{version}
+%setup -q -n pg-strom-%{version}_alpha1
 
 %build
+pushd src
 %{__make} -j 8 CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config
+popd
 
 %install
 %{__rm} -rf %{buildroot}
+pushd src
 %{__make} CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config DESTDIR=%{buildroot} install
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}/%{__systemd_conf}
-
-%clean
-%{__rm} -rf %{buildroot}
+popd
 
 %post
 /sbin/ldconfig
@@ -60,20 +91,21 @@ This package provides test tools and scripts related to PG-Strom
 %doc LICENSE README.md
 
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/bin/gpuinfo
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/*
 %config %{__systemd_conf}
-%ifarch ppc64 ppc64le
-%else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/src/*.bc
+   %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
-%files test
-%{pginstdir}/bin/dbgen-ssbm
-
 %changelog
+* Fri May 19 2023 Devrim Gündüz <devrim@gunduz.org> - 5.0_alpha1-1
+- Update to 5.0 alpha1
+- Split llvmjit subpackage
+
 * Mon Apr 24 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5-1
 - Update to 3.5
 
