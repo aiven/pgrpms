@@ -20,7 +20,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
@@ -86,6 +86,13 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 export PYTHON_OVERRIDE="python%{pyver}"
 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
+# Install Python portions manually:
+%{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+%{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}
+%{__cp} -r python/%{pname}/* %{buildroot}%{python3_sitearch}/%{pname}
+%{__cp} -r python/multicorn.egg-info/* %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+%{__cp} build/lib.linux-%{_arch}-cpython-*/%{pname}/_*.so %{buildroot}%{python3_sitearch}/%{pname}/
+
 %clean
 %{__rm} -rf %{buildroot}
 
@@ -93,6 +100,13 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %defattr(644,root,root,755)
 %doc README.md
 %doc %{pginstdir}/doc/extension/%{pname}.md
+%dir %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info/*
+%{python3_sitearch}/%{pname}/__pycache__/*.pyc
+%{python3_sitearch}/%{pname}/_*.so
+%{python3_sitearch}/%{pname}/fsfdw/*.py
+%{python3_sitearch}/%{pname}/fsfdw/__pycache__/*.pyc
+%{python3_sitearch}/%{pname}/*.py
 %{pginstdir}/lib/%{pname}.so
 %{pginstdir}/share/extension/%{pname}*.sql
 %{pginstdir}/share/extension/%{pname}.control
@@ -104,6 +118,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Mon May 22 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-2
+- Install Python portions, per
+  https://redmine.postgresql.org/issues/7811
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-1.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
