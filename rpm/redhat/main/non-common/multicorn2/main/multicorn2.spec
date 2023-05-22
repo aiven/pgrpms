@@ -1,10 +1,12 @@
 %global sname multicorn2
 %global pname multicorn
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 37
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%global eggbuild 1
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global eggbuild 0
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -87,11 +89,13 @@ export PYTHON_OVERRIDE="python%{pyver}"
 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 # Install Python portions manually:
-%{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}
+%if %eggbuild
+ %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+ %{__cp} -r python/multicorn.egg-info/* %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+ %{__cp} build/lib.linux-%{_arch}-cpython-*/%{pname}/_*.so %{buildroot}%{python3_sitearch}/%{pname}/
+%endif
 %{__cp} -r python/%{pname}/* %{buildroot}%{python3_sitearch}/%{pname}
-%{__cp} -r python/multicorn.egg-info/* %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
-%{__cp} build/lib.linux-%{_arch}-cpython-*/%{pname}/_*.so %{buildroot}%{python3_sitearch}/%{pname}/
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -100,10 +104,12 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %defattr(644,root,root,755)
 %doc README.md
 %doc %{pginstdir}/doc/extension/%{pname}.md
-%dir %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
-%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info/*
+%if %eggbuild
+ %dir %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
+ %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info/*
+ %{python3_sitearch}/%{pname}/_*.so
+%endif
 %{python3_sitearch}/%{pname}/__pycache__/*.pyc
-%{python3_sitearch}/%{pname}/_*.so
 %{python3_sitearch}/%{pname}/fsfdw/*.py
 %{python3_sitearch}/%{pname}/fsfdw/__pycache__/*.pyc
 %{python3_sitearch}/%{pname}/*.py
