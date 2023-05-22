@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.f37
-SPECFILE="multicorn.spec"
+SPECFILE="multicorn2.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
