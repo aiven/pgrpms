@@ -12,18 +12,18 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.3.3
-Release:	3%{?dist}.1
+Version:	5.4.0
+Release:	1%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
-URL:		https://www.repmgr.org
-Source0:	https://repmgr.org/download/%{sname}-%{version}.tar.gz
+URL:		https://github.com/enterpriseDB/%{sname}
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Source1:	repmgr-pg%{pgmajorversion}.service
 Source3:	repmgr-pg%{pgmajorversion}.sysconfig
 Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 Patch1:		repmgr-pg%{pgmajorversion}-config-file-location.patch
 
-BuildRequires:          systemd, systemd-devel
+BuildRequires:	systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
@@ -98,11 +98,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -193,8 +193,12 @@ fi
 %endif
 
 %changelog
+* Tue May 23 2023 - Devrim Gündüz <devrim@gunduz.org> - 5.4.0-1
+- Update to 5.4.0, per changes described at:
+  https://repmgr.org/docs/current/release-5.4.0.html
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 5.3.3-3.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Sun Apr 23 2023 Devrim Gündüz <devrim@gunduz.org> - 5.3.3-3
 - Fix rpm build warning, remove duplicate file.
