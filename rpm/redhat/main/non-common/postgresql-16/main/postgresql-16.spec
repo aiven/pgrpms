@@ -12,7 +12,6 @@
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
-%{!?disablepgfts:%global disablepgfts 0}
 
 %if 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
@@ -26,18 +25,6 @@
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
 
-# All Fedora releases now use Python3
-# Support Python3 on RHEL 7.7+ natively
-# RHEL 8+ use Python3
-%{!?plpython3:%global plpython3 1}
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-# Disable PL/Python 3 on SLES 12
-%{!?plpython3:%global plpython3 0}
-%endif
-%endif
-
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
@@ -45,8 +32,6 @@
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
-
-%{!?systemd_enabled:%global systemd_enabled 1}
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
 %{!?sdt:%global sdt 0}
@@ -77,7 +62,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	beta1_PGDG%{?dist}
+Release:	beta1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -94,11 +79,9 @@ Source14:	%{sname}-%{pgmajorversion}.pam.suse
 Source14:	%{sname}-%{pgmajorversion}.pam
 %endif
 Source17:	%{sname}-%{pgmajorversion}-setup
-%if %{systemd_enabled}
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
 Source18:	%{sname}-%{pgmajorversion}.service
 Source19:	%{sname}-%{pgmajorversion}-tmpfiles.d
-%endif
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
@@ -198,9 +181,7 @@ BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
 
-%if %plpython3
 BuildRequires:	python3-devel
-%endif
 
 %if %pltcl
 BuildRequires:	tcl-devel
@@ -246,7 +227,6 @@ BuildRequires:	libuuid-devel
 BuildRequires:	libxml2-devel libxslt-devel
 %endif
 
-%if %{systemd_enabled}
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
@@ -259,7 +239,6 @@ Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 %endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
@@ -321,7 +300,6 @@ Requires:	util-linux
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
-%if %{systemd_enabled}
 # pre/post stuff needs systemd too
 
 %if 0%{?suse_version}
@@ -333,7 +311,7 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-%endif
+
 Provides:	postgresql-server >= %{version}-%{release}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -497,7 +475,6 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
-%if %plpython3
 %package plpython3
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
@@ -520,8 +497,6 @@ AutoReq:	0
 The postgresql%{pgmajorversion}-plpython3 package contains the PL/Python3 procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Python 3.
-
-%endif
 
 %if %pltcl
 %package pltcl
@@ -593,10 +568,6 @@ LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
-%if %plpython3
-export PYTHON=/usr/bin/python3
-%endif
-
 %if 0%{?rhel} && 0%{?rhel} == 7
 %ifarch aarch64
 	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
@@ -635,9 +606,7 @@ export PYTHON=/usr/bin/python3
 %if %plperl
 	--with-perl \
 %endif
-%if %plpython3
 	--with-python \
-%endif
 %if %pltcl
 	--with-tcl \
 	--with-tclconfig=%{_libdir} \
@@ -659,9 +628,6 @@ export PYTHON=/usr/bin/python3
 %if %sdt
 	--enable-dtrace \
 %endif
-%if %disablepgfts
-	--disable-thread-safety \
-%endif
 %if %uuid
 	--with-uuid=e2fs \
 %endif
@@ -675,11 +641,7 @@ export PYTHON=/usr/bin/python3
 %if %selinux
 	--with-selinux \
 %endif
-%if %{systemd_enabled}
 	--with-systemd \
-%else
-	--with-systemd \
-%endif
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
 	--docdir=%{pgbaseinstdir}/doc \
@@ -727,9 +689,7 @@ run_testsuite()
 	run_testsuite "src/test/regress"
 	%{__make} clean -C "src/test/regress"
 	run_testsuite "src/pl"
-%if %plpython3
 	run_testsuite "src/pl/plpython"
-%endif
 	run_testsuite "contrib"
 %endif
 
@@ -744,13 +704,10 @@ run_testsuite()
 
 %{__make} DESTDIR=%{buildroot} install
 
-%if %plpython3
 	# Install PL/Python3
 	pushd src/pl/plpython
 	%{__make} DESTDIR=%{buildroot} install
 	popd
-
-%endif
 
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
 %{__make} -C contrib DESTDIR=%{buildroot} install
@@ -774,7 +731,6 @@ case `uname -i` in
 esac
 
 # This is only for systemd supported distros:
-%if %{systemd_enabled}
 # prep the setup script, including insertion of some values it needs
 sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
@@ -795,7 +751,6 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE18} %{buildroot}%{_unitdir}/%{sname}-%{pgmajorversion}.service
-%endif
 
 %if %pam
 %{__install} -d %{buildroot}/etc/pam.d
@@ -804,11 +759,9 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 # Create the directory for sockets.
 %{__install} -d -m 755 %{buildroot}/var/run/%{sname}
-%if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE19} %{buildroot}/%{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
-%endif
 
 # PGDATA needs removal of group and world permissions due to pg_pwd hole.
 %{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/data
@@ -900,11 +853,9 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{pgmajorversion}
-%if %plpython3
 # plpython3 shares message files with plpython
 %find_lang plpython-%{pgmajorversion}
 cat plpython-%{pgmajorversion}.lang >> pg_plpython3.lst
-%endif
 
 %if %pltcl
 %find_lang pltcl-%{pgmajorversion}
@@ -928,7 +879,6 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 %post server
 /sbin/ldconfig
 if [ $1 -eq 1 ] ; then
- %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
@@ -937,7 +887,6 @@ if [ $1 -eq 1 ] ; then
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
    %endif
-  %endif
 fi
 
 # postgres' .bash_profile.
@@ -955,23 +904,17 @@ chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
 if [ $1 -eq 0 ] ; then
-%if %{systemd_enabled}
 	# Package removal, not upgrade
 	/bin/systemctl --no-reload disable %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
 	/bin/systemctl stop %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
-%endif
 fi
 
 %postun server
 /sbin/ldconfig
-%if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-%endif
 if [ $1 -ge 1 ] ; then
- %if %{systemd_enabled}
 	# Package upgrade, not uninstall
 	/bin/systemctl try-restart %{sname}-%{pgmajorversion}.service >/dev/null 2>&1 || :
- %endif
 fi
 
 # Create alternatives entries for common binaries and man files
@@ -1130,11 +1073,9 @@ fi
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.sql
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.control
 %endif
-%if %plpython3
 %{pgbaseinstdir}/lib/hstore_plpython3.so
 %{pgbaseinstdir}/lib/jsonb_plpython3.so
 %{pgbaseinstdir}/lib/ltree_plpython3.so
-%endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
 %{pgbaseinstdir}/lib/moddatetime.so
@@ -1251,13 +1192,11 @@ fi
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
-%if %{systemd_enabled}
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
 %{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
-%endif
 %if %pam
 %config(noreplace) /etc/pam.d/%{sname}
 %endif
@@ -1365,12 +1304,10 @@ fi
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
-%if %plpython3
 %files plpython3 -f pg_plpython3.lst
 %{pgbaseinstdir}/share/extension/plpython3*
 %{pgbaseinstdir}/lib/plpython3.so
 %{pgbaseinstdir}/share/extension/*_plpython3u*
-%endif
 
 %if %test
 %files test
@@ -1382,6 +1319,8 @@ fi
 %changelog
 * Tue May 23 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-beta1-1
 - Update to v16 beta1
+- Remove a few configure parameters: plpython3 and systemd_enabled are no longer
+  needed, as they are supported on all distros. Also remove %%disablepgfts macro.
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 16-alpha_20230424_PGDG.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
