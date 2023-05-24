@@ -1,7 +1,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.46
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -16,7 +16,7 @@ Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 %endif
 
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
-BuildRequires:	libzstd-devel libxml2-devel libyaml-devel
+BuildRequires:	libzstd-devel libxml2-devel libyaml-devel libssh2-devel
 
 %if 0%{?fedora} >= 35 || 0%{?rhel} >= 8
 Requires:	lz4-libs libzstd
@@ -35,7 +35,7 @@ Requires:	liblz4-1 libzstd1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 
-Requires:	postgresql-libs
+Requires:	postgresql-libs libssh2
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
 BuildRequires:		systemd, systemd-devel
@@ -152,6 +152,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Wed May 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-2
+- Add libssh2 dependency to fix sftp support. Per report from
+  David Steele and Stefan Fercot.
+
 * Mon May 22 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-1
 - Update to 2.45, per changes described at:
   https://pgbackrest.org/release.html#2.46
