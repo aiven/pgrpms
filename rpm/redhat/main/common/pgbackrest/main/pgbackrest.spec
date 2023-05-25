@@ -1,7 +1,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.46
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -18,24 +18,24 @@ Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel libyaml-devel libssh2-devel
 
-%if 0%{?fedora} >= 35 || 0%{?rhel} >= 8
-Requires:	lz4-libs libzstd
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+Requires:	lz4-libs libzstd libssh2
 BuildRequires:	lz4-devel bzip2-devel
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
-Requires:	lz4 libzstd
+Requires:	lz4 libzstd libssh2
 BuildRequires:	lz4-devel bzip2-devel
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} <= 1499
-Requires:	liblz4-1_7 libzstd1
+Requires:	liblz4-1_7 libzstd1 libssh2-1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
-Requires:	liblz4-1 libzstd1
+Requires:	liblz4-1 libzstd1 libssh2-1
 BuildRequires:	liblz4-devel libbz2-devel
 %endif
 
-Requires:	postgresql-libs libssh2
+Requires:	postgresql-libs
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
 BuildRequires:		systemd, systemd-devel
@@ -152,6 +152,9 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Thy May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-3
+- Fix libssh2 dependency name on SLES.
+
 * Wed May 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-2
 - Add libssh2 dependency to fix sftp support. Per report from
   David Steele and Stefan Fercot.
