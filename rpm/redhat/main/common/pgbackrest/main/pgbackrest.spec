@@ -152,7 +152,7 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Thy May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-3
+* Thu May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-3
 - Fix libssh2 dependency name on SLES.
 
 * Wed May 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-2
