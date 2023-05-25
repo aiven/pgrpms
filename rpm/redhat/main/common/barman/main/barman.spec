@@ -14,7 +14,7 @@ Requires:	python3
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
 Version:	3.5.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -51,9 +51,14 @@ Requires:	python3-argcomplete
 Requires:	python3-python-dateutil
 %endif
 
-%if 0%{?rhel} || 0%{?fedora}
+%if 0%{?rhel} >= 8 || 0%{?fedora}
 Requires:	python3-argcomplete
 Requires:	python3-dateutil
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} == 7
+Requires:	python36-argcomplete
+Requires:	python36-dateutil
 %endif
 
 %description -n python3-barman
@@ -127,6 +132,9 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Thu May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-3
+- Fix RHEL 7 dependency
+
 * Fri Mar 31 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-2
 - Fix psycopg2 dependency version.
 
