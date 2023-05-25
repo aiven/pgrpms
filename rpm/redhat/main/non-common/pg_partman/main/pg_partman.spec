@@ -1,9 +1,5 @@
 %global sname pg_partman
 
-%if 0%{?fedora} > 32 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1500
-%{!?with_python3:%global with_python3 1}
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -17,7 +13,7 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
@@ -64,11 +60,7 @@ This packages provides JIT support for pg_partman
 
 %build
 # Change Python path in the scripts:
-%if 0%{?with_python3}
 find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/g" {} \;
-%else
-find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python2/g" {} \;
-%endif
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
@@ -110,6 +102,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.3-2
+- Remove Python 2 related portions.
+
 * Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.3-1
 - Update to 4.7.3
 
