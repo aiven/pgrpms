@@ -45,7 +45,8 @@ pg_restorebinary.
 
 %changelog
 * Fri May 26 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11-1
-- Update to 2.11
+- Update to 2.11, per changes described at:
+  https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.11
 
 * Thu Mar 30 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
 - Update to 2.10
