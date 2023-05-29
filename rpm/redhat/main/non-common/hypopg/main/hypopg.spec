@@ -12,8 +12,8 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.1
-Release:	3%{?dist}
+Version:	1.4.0
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 URL:		https://github.com/HypoPG/%{sname}
@@ -71,7 +71,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}--%{version}.sql
+%{pginstdir}/share/extension/*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %if %llvm
@@ -82,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon May 29 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0
+
 * Wed Jan 11 2023 John Harvey <john.harvey@crunchydata.com> - 1.3.1-3
 - Update license type
 
