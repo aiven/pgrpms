@@ -1,24 +1,20 @@
 %global sname pglogical
-%global tag 2_4_2
+%global tag 2_4_3
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.2
-Release:	2%{dist}
+Version:	2.4.3
+Release:	1%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -48,11 +44,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -103,6 +99,9 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Tue May 30 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.4.3-1
+- Update to 2.4.3
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
