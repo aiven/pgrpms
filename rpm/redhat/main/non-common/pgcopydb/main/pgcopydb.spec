@@ -2,12 +2,12 @@
 %global sname pgcopydb
 
 Summary:	Automate pg_dump | pg_restore between two running Postgres servers
-Name:		%{sname}_%{pgmajorversion}
-Version:	0.10
+Name:		%{sname}
+Version:	0.11
 Release:	1%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/dimitri/pgcopydb/archive/refs/tags/v%{version}.tar.gz
-URL:		https://github.com/dimitri/pgcopydb
+Source0:	https://github.com/dimitri/%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/dimitri/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
 BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
@@ -38,6 +38,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/pgcopydb
 
 %changelog
+* Mon May 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.11-1
+- Update to 0.11
+
 * Wed Dec 14 2022 Devrim Gündüz <devrim@gunduz.org> - 0.10-1
 - Update to 0.10
 
