@@ -1,15 +1,9 @@
 %global debug_package %{nil}
 %global sname	timescaledb
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_compiler_at10
-%endif
-%endif
-
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
-Version:	2.10.3
+Version:	2.11.0
 Release:	1%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -23,12 +17,6 @@ BuildRequires:	openssl-devel
 BuildRequires:	cmake3
 %else
 BuildRequires:	cmake >= 3.4
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-%pgdg_set_ppc64le_min_requires
-%endif
 %endif
 
 Requires:	postgresql%{pgmajorversion}-server
@@ -61,17 +49,10 @@ export PATH=%{pginstdir}/bin:$PATH
 
 %build
 export PATH=%{pginstdir}/bin:$PATH
-%ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
-	CC=%{atpath}/bin/gcc; export CC
-%endif
-%else
-	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
-	export CFLAGS
-	export CXXFLAGS
-%endif
+CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
+export CFLAGS
+export CXXFLAGS
 
 cd build; %{__make}
 
@@ -96,6 +77,11 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/pgxs/src/test/perl/TimescaleNode.pm
 
 %changelog
+* Tue May 30 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11.0-1
+- Update to 2.11.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.11.0
+- Remove RHEL 7 AT specific portions.
+
 * Mon May 8 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10.3-1
 - Update to 2.10.3, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.10.3
