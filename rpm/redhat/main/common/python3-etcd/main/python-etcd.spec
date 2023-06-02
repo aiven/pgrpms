@@ -3,7 +3,7 @@
 
 Name:		python3-%{modname}
 Version:	0.4.5
-Release:	43%{?dist}
+Release:	44%{?dist}
 Summary:	A python client library for etcd
 
 License:	MIT
@@ -21,9 +21,16 @@ ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x powerpc64le
 %if 0%{?rhel} == 7
 Requires:	python36-urllib3 >= 1.7.1
 Requires:	python36-dns >= 1.13.0
-%else
+%endif
+%if 0%{?fedora}
 Requires:	python3-urllib3 >= 1.7.1
 Requires:	python3-dns >= 1.13.0
+%endif
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires:	python3-urllib3 >= 1.7.1
+Requires:	python3-dnspython >= 1.13.0
+%endif
 %endif
 
 %description
@@ -47,6 +54,9 @@ election.
 %{python3_sitelib}/*
 
 %changelog
+* Fri Jun 2 2023 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-44
+- Add SLES 15 support.
+
 * Thu Mar 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-43
 - Fix a dependency name
 
