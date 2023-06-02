@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel9
-SPECFILE="python-etcd.spec"
+SPECFILE="python3-etcd.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
