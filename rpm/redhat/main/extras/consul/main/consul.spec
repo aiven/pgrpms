@@ -24,7 +24,7 @@ Source2:	%{name}.service
 Source4:	%{name}.json
 Source5:	%{name}.logrotate
 
-BuildRequires:	systemd-units
+BuildRequires:	systemd
 Requires:	systemd
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires(pre):	shadow-utils
