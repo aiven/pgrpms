@@ -26,8 +26,12 @@ Source5:	%{name}.logrotate
 
 BuildRequires:	systemd-units
 Requires:	systemd
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires(pre):	shadow-utils
-
+%endif
+%if 0%{?suse_version} >= 1315
+Requires(pre):	shadow
+%endif
 
 %description
 Consul is a tool for service discovery and configuration. Consul is
@@ -97,6 +101,7 @@ exit 0
 * Fri Jun 2 2023 Devrim Gündüz <devrim@gunduz.org> 1.15.3-1
 - Update to 1.15.3, per changes described at:
   https://github.com/hashicorp/consul/releases/tag/v1.15.3
+- Add SLES 15 support.
 
 * Mon Apr 10 2023 Devrim Gündüz <devrim@gunduz.org> 1.15.2-1
 - Update to 1.15.2, per changes described at:
