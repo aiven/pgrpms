@@ -3,7 +3,7 @@
 
 %global ppg2majver 2
 %global ppg2midver 9
-%global ppg2minver 5
+%global ppg2minver 6
 
 %{!?with_docs:%global with_docs 0}
 
@@ -21,7 +21,7 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	3%{?dist}
+Release:	1%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
@@ -117,6 +117,9 @@ done
 %endif
 
 %changelog
+* Fri Jun 2 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.6-1
+- Update to 2.9.6
+
 * Fri Mar 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.5-3
 - Remove Python2 portions of the spec file. Psycopg2 dropped
   support for Python 2.7 (and 3.4 and 3.5) as of 2.9.
