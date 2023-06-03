@@ -5,33 +5,21 @@
 %global slonymajorversion 22
 %{!?docs:%global docs 0}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%global systemd_enabled 0
-%else
-%global systemd_enabled 1
-%endif
-
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.10
-Release:	2%{?dist}
+Version:	2.2.11
+Release:	1%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
 Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
-%if ! %{systemd_enabled}
-Source3:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.init
-Source4:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.sysconfig
-%else
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
 Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
-%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}-server
 BuildRequires:	flex pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server perl-DBD-Pg
 Conflicts:	slony1
 
-%if %{systemd_enabled}
 BuildRequires:		systemd systemd-devel
 Requires:		systemd
 %if 0%{?suse_version}
@@ -43,13 +31,6 @@ Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
-%else
-Requires(post):		chkconfig
-Requires(preun):	chkconfig
-# This is for /sbin/service
-Requires(preun):	initscripts
-Requires(postun):	initscripts
 %endif
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 2.2.8-3
@@ -135,7 +116,6 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 %{__chmod} 644 COPYRIGHT UPGRADING SAMPLE RELEASE
 
 
-%if %{systemd_enabled}
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/
@@ -143,14 +123,6 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 %{__install} -d -m 755 %{buildroot}/%{_rundir}/%{name}
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 %{__install} -m 0644 %{SOURCE6} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
-%else
-# install init script
-%{__install} -d %{buildroot}%{_initrddir}
-%{__install} -m 755 %{SOURCE3} %{buildroot}/%{_initrddir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}
-# Install default sysconfig file
-%{__install} -d %{buildroot}%{_sysconfdir}/sysconfig
-%{__install} -m 0644 %{SOURCE4} %{buildroot}%{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
-%endif
 
 cd tools
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
@@ -170,7 +142,6 @@ cd tools
 
 %post
 if [ $1 -eq 1 ] ; then
- %if %{systemd_enabled}
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1315
@@ -179,9 +150,6 @@ if [ $1 -eq 1 ] ; then
    %else
    %systemd_post %{sname}-%{slonymajorversion}-%{pgmajorversion}.service
    %endif
-   %else
-   chkconfig --add %{sname}-%{slonymajorversion}-%{pgmajorversion}
-  %endif
 fi
 if [ ! -e "/var/log/slony1-%{pgmajorversion}" -a ! -h "/var/log/slony1-%{pgmajorversion}" ]
 then
@@ -196,30 +164,17 @@ fi
 
 %preun
 if [ $1 -eq 0 ] ; then
-%if %{systemd_enabled}
 	# Package removal, not upgrade
 	/bin/systemctl --no-reload disable %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
 	/bin/systemctl stop %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
-%else
-	/sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condstop >/dev/null 2>&1
-	chkconfig --del %{sname}-%{slonymajorversion}-%{pgmajorversion}
-%endif
 fi
 
 
 %postun
-%if %{systemd_enabled}
  /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-%else
- /sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condrestart >/dev/null 2>&1
-%endif
 if [ $1 -ge 1 ] ; then
- %if %{systemd_enabled}
-	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
- %else
-	/sbin/service %{sname}-%{slonymajorversion}-%{pgmajorversion} condrestart >/dev/null 2>&1
- %endif
+# Package upgrade, not uninstall
+/bin/systemctl try-restart %{sname}-%{slonymajorversion}-%{pgmajorversion} >/dev/null 2>&1 || :
 fi
 
 %files
@@ -231,14 +186,9 @@ fi
 %{_datadir}/%{name}/*.sh
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon.conf
 %config(noreplace) %{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf
-%if %{systemd_enabled}
 %ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
 %attr (644, root, root) %{_unitdir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
-%else
-%{_initrddir}/%{sname}-%{slonymajorversion}-%{pgmajorversion}
-%config(noreplace) %attr (600,root,root) %{_sysconfdir}/sysconfig/slony1-%{pgmajorversion}
-%endif
 
 %if %docs
 %files docs
@@ -246,6 +196,10 @@ fi
 %endif
 
 %changelog
+* Sat Jun 3 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.11-1
+- Update to 2.2.11
+- Remove RHEL 6 bits.
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.10-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
