@@ -139,7 +139,7 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
+BuildRequires:	llvm15-devel clang15-devel
 %endif
 %endif
 
@@ -377,7 +377,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm13-devel clang13-devel
+Requires:	llvm15-devel clang15-devel
 %endif
 %endif
 %if %icu
@@ -430,7 +430,7 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	libLLVM13
+Requires:	libLLVM15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
