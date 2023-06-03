@@ -62,7 +62,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	beta1_1PGDG%{?dist}
+Release:	beta1_2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -145,7 +145,8 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %endif
 
@@ -378,7 +379,7 @@ Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm13-devel clang13-devel
+Requires:	llvm15-devel clang15-devel
 %endif
 %endif
 %if %icu
@@ -431,7 +432,7 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	libLLVM13
+Requires:	libLLVM15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -1317,6 +1318,9 @@ fi
 %endif
 
 %changelog
+* Sun Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-beta1-2
+- Rebuild against LLVM 15 on SLES 15
+
 * Tue May 23 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-beta1-1
 - Update to v16 beta1
 - Remove a few configure parameters: plpython3 and systemd_enabled are no longer
