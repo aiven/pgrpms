@@ -1318,7 +1318,7 @@ fi
 %endif
 
 %changelog
-* Sun Jan 4 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-beta1-2
+* Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-beta1-2
 - Rebuild against LLVM 15 on SLES 15
 
 * Tue May 23 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-beta1-1
