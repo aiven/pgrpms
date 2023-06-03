@@ -53,7 +53,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.8
-Release:	2%{?dist}.1
+Release:	2%{?dist}.2
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -201,8 +201,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -385,6 +385,9 @@ fi
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.8-2.2
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.8-2.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 

@@ -17,7 +17,7 @@
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	PostgreSQL
 URL:		https://github.com/powa-team/%{sname}
 Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
@@ -49,8 +49,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -95,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.1-3.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

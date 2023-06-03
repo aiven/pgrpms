@@ -4,24 +4,20 @@
 %global setusermidver 0
 %global setuserminver 1
 
-%if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
- %ifarch ppc64 ppc64le s390 s390x armv7hl
+%ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
- %{!?llvm:%global llvm 0}
+  %{!?llvm:%global llvm 0}
  %else
- %{!?llvm:%global llvm 1}
- %endif
- %else
- %{!?llvm:%global llvm 1}
+  %{!?llvm:%global llvm 1}
  %endif
 %else
- %{!?llvm:%global llvm 0}
+ %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	PostgreSQL extension allowing privilege escalation with enhanced logging and control
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{setusermajver}.%{setusermidver}.%{setuserminver}
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 URL:		https://github.com/pgaudit/%{sname}
 Source0:	https://github.com/pgaudit/%{sname}/archive/refs/tags/REL%{setusermajver}_%{setusermidver}_%{setuserminver}.tar.gz
@@ -46,12 +42,12 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -95,6 +91,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org>
+- Rebuild against LLVM 15 on SLES 15
+
 * Wed Feb 22 2023 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1
 - Update to 4.0.1
 

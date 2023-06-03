@@ -16,7 +16,7 @@
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
@@ -49,8 +49,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -89,6 +89,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.6-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Tue May 2 2023 Devrim Gündüz <devrim@gunduz.org> 4.2.6-1
 - Update to 4.2.6
 

@@ -80,7 +80,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.3
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -225,8 +225,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -406,6 +406,9 @@ fi
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Tue May 30 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1
 - Update to 3.3.3, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.3.3/NEWS

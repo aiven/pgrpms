@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.3
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
@@ -44,8 +44,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -87,13 +87,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
-# Some python scripts were moved to procedures in PG11:
-%if %{pgmajorversion} >= 90 || %{pgmajorversion} == 10
 %attr(755, root, -) %{pginstdir}/bin/partition_data.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
 %attr(755, root, -) %{pginstdir}/bin/undo_partition.py
-%endif
 
 %if %llvm
 %files llvmjit
@@ -102,6 +99,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org>
+- Rebuild against LLVM 15 on SLES 15
+
 * Thu May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.3-2
 - Remove Python 2 related portions.
 

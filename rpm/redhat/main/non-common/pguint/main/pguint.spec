@@ -13,7 +13,7 @@
 Summary:	Unsigned and other extra integer types for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20220601
-Release:	3%{?dist}
+Release:	3%{?dist}.1
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
@@ -47,8 +47,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -88,6 +88,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20220601-3.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.20220601-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

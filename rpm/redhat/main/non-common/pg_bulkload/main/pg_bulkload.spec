@@ -16,7 +16,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.20
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
@@ -53,8 +53,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -105,6 +105,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.20-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Jan 16 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.20-1
 - Update to 3.1.20
 

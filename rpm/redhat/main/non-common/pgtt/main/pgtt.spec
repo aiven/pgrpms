@@ -13,7 +13,7 @@
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.10
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/darold/%{sname}
@@ -48,8 +48,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -87,6 +87,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.10-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
 - Update to 2.10
 

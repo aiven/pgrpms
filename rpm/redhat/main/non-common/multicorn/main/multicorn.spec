@@ -20,7 +20,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.0
-Release:	5%{?dist}.1
+Release:	5%{?dist}.2
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 Patch0:		%{sname}-python-destdir.patch
@@ -55,8 +55,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -102,6 +102,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.0-5.2
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.0-5.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 

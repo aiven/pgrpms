@@ -13,7 +13,7 @@
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
 Version:	11.3.0
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -72,7 +72,8 @@ BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 
 %description llvmjit
@@ -134,6 +135,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 11.3.0-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Tue May 2 2023 Devrim Gündüz <devrim@gunduz.org> 11.3.0-1
 - Update to 11.3.0
 

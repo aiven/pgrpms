@@ -13,7 +13,7 @@
 Summary:	PostgreSQL extension which allows to set all cluster databases read only.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.3
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/pierreforstmann/%{sname}
@@ -45,8 +45,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.3-2.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

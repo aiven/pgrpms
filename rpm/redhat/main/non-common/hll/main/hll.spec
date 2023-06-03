@@ -13,7 +13,7 @@
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.17
-Release:	2%{dist}
+Release:	2%{dist}.1
 License:	Apache
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
@@ -45,8 +45,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -86,6 +86,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.17-2.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 2.17-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 

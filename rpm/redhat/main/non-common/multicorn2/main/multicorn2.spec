@@ -22,7 +22,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4
-Release:	2%{?dist}
+Release:	2%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
@@ -64,8 +64,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -124,6 +124,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-2.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon May 22 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-2
 - Install Python portions, per
   https://redmine.postgresql.org/issues/7811

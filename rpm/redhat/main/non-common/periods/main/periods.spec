@@ -14,7 +14,7 @@ Summary:	PERIODs and SYSTEM VERSIONING for PostgreSQL
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.2
-Release:	1%{?dist}
+Release:	1%{?dist}.1
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.zip
@@ -45,8 +45,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -84,6 +84,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.2.2-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Wed Dec 14 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1
 - Update to 1.2.2
 

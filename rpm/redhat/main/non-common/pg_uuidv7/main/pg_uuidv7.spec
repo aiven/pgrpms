@@ -13,7 +13,7 @@
 Summary:	v7 UUIDs data type in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.1
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	MPLv2.0
 Source0:	https://github.com/fboulnois/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/fboulnois/%{sname}
@@ -42,8 +42,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -81,5 +81,8 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.1-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Fri May 19 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-1
 - Initial RPM packaging for the PostgreSQL RPM Repository,

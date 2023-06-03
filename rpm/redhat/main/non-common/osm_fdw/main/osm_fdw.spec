@@ -14,7 +14,7 @@
 Summary:	PostgreSQL foreign data wrapper OSM PBF
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.1.2
-Release:	2%{?dist}.1
+Release:	2%{?dist}.2
 License:	BSD
 Source0:	https://api.pgxn.org/dist/osm_fdw/%{version}/osm_fdw-%{version}.zip
 Patch1:		%{sname}-missinginclude.patch
@@ -49,8 +49,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -101,6 +101,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 4.1.2-2.2
+- Rebuild against LLVM 15 on SLES 15
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.1.2-2.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 

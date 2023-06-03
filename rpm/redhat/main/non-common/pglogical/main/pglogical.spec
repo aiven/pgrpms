@@ -14,7 +14,7 @@
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.3
-Release:	1%{dist}
+Release:	1%{dist}.1
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -48,8 +48,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -99,6 +99,9 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4.3-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Tue May 30 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.4.3-1
 - Update to 2.4.3
 

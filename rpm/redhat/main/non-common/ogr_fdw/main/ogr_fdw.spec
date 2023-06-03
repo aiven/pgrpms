@@ -29,7 +29,7 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.3
-Release:	5%{?dist}
+Release:	5%{?dist}.1
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -59,8 +59,8 @@ BuildRequires:  llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:  llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 5.0
@@ -109,6 +109,9 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1.3-5.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.3-5
 - Explicity specify GDAL versions, and use GDAL 3.6 on Fedora 38+
 

@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.0
-Release:	1%{dist}
+Release:	1%{dist}.1
 Source0:	https://github.com/ibarwick/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
@@ -38,8 +38,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -84,6 +84,9 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3.0-1.1
+- Rebuild against LLVM 15 on SLES 15
+
 * Sat Dec 31 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
 - Update to 1.3.0
 
