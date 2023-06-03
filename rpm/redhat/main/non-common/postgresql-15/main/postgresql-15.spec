@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	15.3
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -155,14 +155,17 @@ BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 # Packages come from Appstream:
 BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-%endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm13-devel clang13-devel
+%endif
+%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0
+%endif
+%if 0%{?fedora} == 38
+BuildRequires:	llvm15-devel >= 15.0
 %endif
 %endif
 
@@ -393,15 +396,19 @@ Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 # Packages come from Appstream:
 Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
 %endif
-%if 0%{?fedora}
-Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
 Requires:	llvm13-devel clang13-devel
 %endif
+%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
+Requires:	llvm-devel >= 13.0 clang-devel >= 13.0
+%endif
+%if 0%{?fedora} == 38
+Requires:	llvm15-devel >= 15.0 clang15-devel >= 15.0
+%endif
+
 %endif
 %if %icu
 Requires:	libicu-devel
@@ -455,8 +462,11 @@ Requires:	llvm
 %if 0%{?suse_version} >= 1500
 Requires:	libLLVM13
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
+Requires:	llvm >= 13.0
+%endif
+%if 0%{?fedora} == 38
+Requires:	llvm15 >= 15.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -606,6 +616,9 @@ export PYTHON=/usr/bin/python3
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+%if 0%{?fedora} == 38
+	export CLANG=%{_bindir}/clang export LLVM_CONFIG=%{_libdir}/llvm15/bin/llvm-config
 %endif
 
 # These configure options must match main build
@@ -1382,6 +1395,9 @@ fi
 %endif
 
 %changelog
+* Sat Jun 3 2023 Devrim Gündüz <devrim@gunduz.org> - 15.3-3PGDG
+- Rebuild against LLVM 15 on SLES 15
+
 * Wed May 17 2023 Devrim Gündüz <devrim@gunduz.org> - 15.3-2PGDG
 - Rebuild against new LLVM on RHEL 8.8
 
