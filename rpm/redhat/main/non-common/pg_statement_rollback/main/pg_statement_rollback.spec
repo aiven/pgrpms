@@ -65,9 +65,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} %{buildroot}%{pginstdir}/doc/contrib/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %{pginstdir}/lib/%{sname}.so
