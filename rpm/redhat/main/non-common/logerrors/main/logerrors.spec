@@ -12,12 +12,11 @@
 
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1
-Release:	2%{?dist}.2
+Version:	2.1.2
+Release:	1%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/munakoiso/%{sname}
 Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-2.1-makefile.patch
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
@@ -37,11 +36,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -54,7 +53,6 @@ This packages provides JIT support for logerrors
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch -P 0 -p0
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -69,7 +67,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %post -p /sbin/ldconfig
 
 %files
-#%license LICENSE
+%license LICENSE
 %doc %{pginstdir}/share/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
@@ -82,11 +80,15 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Sun Jun 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1
+- Update to 2.1.2
+- Remove patch0, no longer needed.
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.1-2.2
 - Rebuild against LLVM 15 on SLES 15
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.1-2.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Feb 7 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1-2
 - Add a temp patch to install missing .sql file which breaks
