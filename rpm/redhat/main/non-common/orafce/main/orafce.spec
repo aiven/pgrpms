@@ -1,7 +1,4 @@
 %global sname orafce
-%global orafcemajver 4
-%global orafcemidver 2
-%global orafceminver 6
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -15,10 +12,10 @@
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	1%{?dist}.1
+Version:	4.3.0
+Release:	1%{?dist}
 License:	BSD
-Source0:	https://github.com/%{sname}/%{sname}/archive/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
+Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{version}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
@@ -61,7 +58,7 @@ This packages provides JIT support for XXX
 %endif
 
 %prep
-%setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
+%setup -q -n %{sname}-VERSION_%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
@@ -89,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
+- Update to 4.3.0
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.6-1.1
 - Rebuild against LLVM 15 on SLES 15
 
