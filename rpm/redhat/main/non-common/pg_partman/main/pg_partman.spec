@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.3
-Release:	2%{?dist}.1
+Release:	3%{?dist}.1
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
@@ -87,10 +87,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
 %attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
-%attr(755, root, -) %{pginstdir}/bin/partition_data.py
-%attr(755, root, -) %{pginstdir}/bin/reapply_constraints.py
-%attr(755, root, -) %{pginstdir}/bin/reapply_foreign_keys.py
-%attr(755, root, -) %{pginstdir}/bin/undo_partition.py
 
 %if %llvm
 %files llvmjit
@@ -99,6 +95,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Jun 05 2023 John Harvey <john.harvey@crunchydata.com> - 4.7.3-3
+- Fix deprecated python script issue from f7312222dd
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org>
 - Rebuild against LLVM 15 on SLES 15
 
