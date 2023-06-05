@@ -12,7 +12,7 @@
 
 Name:		%{sname}90
 Version:	9.0.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -120,6 +120,10 @@ popd
 %{proj90instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Mon Jun 5 2023 Devrim Gündüz <devrim@gunduz.org> - 0:9.0.2-1
+- Rebuild on RHEL 8 (x86_64 only) to fix debuginfo CRC issues,
+  per https://www.postgresql.org/message-id/17956-7e1dd82e5a849ee0@postgresql.org
+
 * Sun Jul 10 2022 Devrim Gündüz <devrim@gunduz.org> - 0:9.0.1-1
 - Update to 9.0.1
 
