@@ -1,6 +1,6 @@
 Name:		pgbouncer
 Version:	1.19.1
-Release:	42%{?dist}
+Release:	42%{?dist}.1
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -12,25 +12,16 @@ Source5:	%{name}.service.rhel7
 Patch0:		%{name}-ini.patch
 
 BuildRequires:	pgdg-srpm-macros
-Requires:	python3
+Requires:	python3 python3-psycopg2
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	libevent-devel
-Requires:	libevent-devel
-%endif
-%endif
-
-Requires:	python3-psycopg2
+BuildRequires:	libevent-devel >= 2.0
+Requires:	libevent >= 2.0
 
 BuildRequires:	openssl-devel pam-devel
 
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 9
 BuildRequires:	c-ares-devel >= 1.13
 Requires:	c-ares >= 1.13
-%else
-BuildRequires:	libevent-devel >= 2.0
-Requires:	libevent >= 2.0
 %endif
 
 BuildRequires:		systemd
@@ -65,19 +56,19 @@ sed -i.fedora \
 
 # c-ares >= 1.16 is needed for proper c-ares support. Currently only RHEL 9
 # and Fedora has it. Use libevent on the remaining ones.
-# Per https://redmine.postgresql.org/issues/6315https://redmine.postgresql.org/issues/6315 .
+# Per https://redmine.postgresql.org/issues/6315
 #
 # Building with systemd flag tries to enable notify support which is not
 # available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
 
 %configure \
 	--datadir=%{_datadir} \
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 9
 	--with-cares --disable-evdns \
 %else
 	--without-cares \
 %endif
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-systemd \
 %endif
 	--with-pam
@@ -164,6 +155,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Tue Jun 6 2023 Devrim Gündüz <devrim@gunduz.org> - 1.19.1-42.1
+- Add libevent dependency to all platforms, per
+  https://github.com/pgbouncer/pgbouncer/issues/861
+
 * Wed May 31 2023 Devrim Gündüz <devrim@gunduz.org> - 1.19.1-42
 - Update to 1.19.1, per changes described at:
   https://www.pgbouncer.org/changelog.html#pgbouncer-119x
