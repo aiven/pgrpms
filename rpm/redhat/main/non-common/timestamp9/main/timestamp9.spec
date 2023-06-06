@@ -2,7 +2,7 @@
 
 Summary:	An efficient nanosecond precision timestamp type for Postgres
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
+Version:	1.4.0
 Release:	1%{?dist}
 License:	MIT
 Source0:	https://github.com/fvannee/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
@@ -47,7 +47,10 @@ popd
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
+* Tue Jun 6 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1
+- Update to 1.4.0
+
+* Mon Feb 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1
 - Update to 1.3.0
 
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
