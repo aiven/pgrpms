@@ -13,7 +13,7 @@
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.7.3
-Release:	3%{?dist}.1
+Release:	3%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
