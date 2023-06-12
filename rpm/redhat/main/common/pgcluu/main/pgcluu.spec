@@ -4,7 +4,7 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	3.4
-Release:	1%{?dist}.1
+Release:	2%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -14,7 +14,7 @@ Source4:	%{name}-httpd.conf
 Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/
 BuildArch:	noarch
-Requires:	httpd
+Recommends:	httpd sysstat
 
 %description
 pgCluu is a PostgreSQL performances monitoring and auditing tool.
@@ -73,6 +73,10 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
+* Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-2
+- Add httpd (and systat) as weak dependency, per Christophe Courtois :
+  https://www.postgresql.org/message-id/ba11dfd1-ded7-c7f2-5cd2-c878dada808f%40dalibo.com
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4-1.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
