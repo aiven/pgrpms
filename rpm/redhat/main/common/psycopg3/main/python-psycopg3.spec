@@ -15,7 +15,7 @@ BuildArch:	noarch
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.1.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -25,6 +25,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
 Requires:	libpq5 >= 10.0
+Provides:	python3dist(psycopg)
 
 %description
 Psycopg is the most popular PostgreSQL adapter for the Python
