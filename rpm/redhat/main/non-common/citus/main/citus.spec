@@ -1,3 +1,7 @@
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global	debug_package %{nil}
+%endif
+
 %global _build_id_links none
 %global sname citus
 
@@ -139,6 +143,8 @@ make %{?_smp_mflags}
 * Wed Jun 14 2023 Devrim Gunduz <devrim@gunduz.org> - 11.3.0-2
 - Use _build_id_links macro to get rid of rpm build warnings, per:
   https://redmine.postgresql.org/issues/7815#note-5
+- Disable debuginfo packaging on RHEL 7, to fix
+  "canonicalization unexpectedly shrank by one character" issue.
 
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 11.3.0-1.1
 - Rebuild against LLVM 15 on SLES 15
