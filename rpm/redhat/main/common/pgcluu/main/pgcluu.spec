@@ -14,7 +14,11 @@ Source4:	%{name}-httpd.conf
 Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/
 BuildArch:	noarch
+%if 0%{?rhel} && 0%{?rhel} == 7
+:
+%else
 Recommends:	httpd sysstat
+%endif
 
 %description
 pgCluu is a PostgreSQL performances monitoring and auditing tool.
