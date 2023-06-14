@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global sname ldap2pg
+%global	sname ldap2pg
 
 %if 0%{?fedora} >= 35
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
@@ -7,12 +7,12 @@
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
-%global	python_runtimes python3
+%global python_sitearch %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
 Version:	5.9
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
@@ -60,28 +60,20 @@ Documentation and example files for the ldap2pg package.
 %setup -q -n %{sname}-%{version}
 
 %build
-for python in %{python_runtimes} ; do
-  $python setup.py build
-done
+%{__python3} setup.py build
 
 %install
-
-DoInstall() {
-  PythonBinary=$1
-
-  Python_SiteArch=$($PythonBinary -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
-
-  %{__mkdir} -p %{buildroot}$Python_SiteArch/%{sname}
-  $PythonBinary setup.py install --no-compile --root %{buildroot}
-
-  # We're not currently interested in packaging the test suite.
-  %{__rm} -rf %{buildroot}$Python_SiteArch/%{sname}/tests
-}
-
 %{__rm} -rf %{buildroot}
-for python in %{python_runtimes} ; do
-  DoInstall $python
-done
+
+%{__mkdir} -p %{buildroot}%{python_sitearch}
+%{__python3} setup.py install --no-compile --root %{buildroot}
+
+# Install sample config file:
+%{__mkdir} -p %{buildroot}%{_sysconfdir}
+%{__cp} %{sname}.yml %{buildroot}%{_sysconfdir}
+
+# We're not currently interested in packaging the test suite.
+%{__rm} -rf %{buildroot}%{python_sitearch}/%{sname}/tests
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -89,6 +81,7 @@ done
 %files
 %defattr(-,root,root)
 %doc README.rst LICENSE
+%config %{_sysconfdir}/%{sname}.yml
 %{_bindir}/%{sname}
 %dir %{python3_sitelib}/%{sname}
 %{python3_sitelib}/%{sname}/*.py
@@ -103,6 +96,11 @@ done
 %doc docs/
 
 %changelog
+* Wed Jun 14 2023 Devrim Gündüz <devrim@gunduz.org> - 5.9-2
+- Install sample config file
+- Simplify install section, no need to use a function as we
+  support only one Python version.
+
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 5.9-1
 - Update to 5.9
 
