@@ -15,7 +15,6 @@ Patch0:		%{name}-systemd-rpm-paths.patch
 URL:		http://%{name}.darold.net/
 BuildArch:	noarch
 %if 0%{?rhel} && 0%{?rhel} == 7
-:
 %else
 Recommends:	httpd sysstat
 %endif
