@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.4.2
-Release:	1%{?dist}.1
+Version:	0.4.4
+Release:	1%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -79,6 +79,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Jun 13 2023 Devrim Gündüz <devrim@gunduz.org> - 0.4.4-1
+- Update to 0.4.4
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 0.4.2-1.1
 - Rebuild against LLVM 15 on SLES 15
 
