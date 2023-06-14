@@ -73,12 +73,12 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
-* Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-2
+* Mon Jun 12 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-2
 - Add httpd (and systat) as weak dependency, per Christophe Courtois :
   https://www.postgresql.org/message-id/ba11dfd1-ded7-c7f2-5cd2-c878dada808f%40dalibo.com
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Jan 2 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-1
 - Update to 3.4
