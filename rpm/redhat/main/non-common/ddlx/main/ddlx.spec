@@ -3,8 +3,8 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.22
-Release:	2%{?dist}
+Version:	0.23
+Release:	1%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
 URL:		https://github.com/lacanoid/%{pname}
@@ -45,6 +45,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Tue Jun 6 2023 Devrim Gündüz <devrim@gunduz.org> - 0.23-1
+- Update to 0.23
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.22-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
