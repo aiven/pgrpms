@@ -1,3 +1,4 @@
+%global _build_id_links none
 %global sname citus
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -13,7 +14,7 @@
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
 Version:	11.3.0
-Release:	1%{dist}.1
+Release:	2%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -135,6 +136,10 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Wed Jun 14 2023 Devrim Gunduz <devrim@gunduz.org> - 11.3.0-2
+- Use _build_id_links macro to get rid of rpm build warnings, per:
+  https://redmine.postgresql.org/issues/7815#note-5
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 11.3.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
