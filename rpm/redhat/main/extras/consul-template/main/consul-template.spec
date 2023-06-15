@@ -7,7 +7,7 @@
 %endif
 
 # Consul does not provide tarballs for ppc64le:
-ExcludeArch:    ppc64le
+ExcludeArch:	ppc64le
 
 %ifarch x86_64
 %global		tarballarch amd64
@@ -18,7 +18,7 @@ ExcludeArch:    ppc64le
 
 Name:		consul-template
 Version:	%{_verstr}
-Release:	2%{?dist}
+Release:	3%{?dist}
 Summary:	consul-template watches a series of templates on the file system, writing new changes when Consul is updated. It runs until an interrupt is received unless the -once flag is specified.
 
 License:	MPLv2.0
@@ -26,16 +26,11 @@ URL:		http://www.consul.io
 Source0:	https://releases.hashicorp.com/%{name}/%{version}/%{name}_%{version}_linux_%{tarballarch}.zip
 Source1:	%{name}.sysconfig
 Source2:	%{name}.service
-Source3:	%{name}.init
 Source4:	%{name}.json
-Source5:	%{name}.logrotate
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 BuildRequires:	systemd-units
 Requires:	systemd
-%else
-Requires:	logrotate
-%endif
+
 Requires(pre):	shadow-utils
 
 %description
@@ -58,15 +53,8 @@ unless the -once flag is specified.
 %{__cp} %{SOURCE1} %{buildroot}/%{_sysconfdir}/sysconfig/%{name}
 %{__mkdir} -p %{buildroot}/%{_sharedstatedir}/%{name}
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %{__mkdir} -p %{buildroot}/%{_unitdir}
 %{__cp} %{SOURCE2} %{buildroot}/%{_unitdir}/
-%else
-%{__mkdir} -p %{buildroot}/%{_initrddir}
-%{__mkdir} -p %{buildroot}/%{_sysconfdir}/logrotate.d
-%{__cp} %{SOURCE3} %{buildroot}/%{_initrddir}/consul-template
-%{__cp} %{SOURCE5} %{buildroot}/%{_sysconfdir}/logrotate.d/%{name}
-%endif
 
 %pre
 getent group consul-template >/dev/null || groupadd -r consul-template
@@ -75,7 +63,6 @@ getent passwd consul-template >/dev/null || \
     -c "consul-template user" consul-template
 exit 0
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %post
 %systemd_post %{name}.service
 
@@ -84,16 +71,6 @@ exit 0
 
 %postun
 %systemd_postun_with_restart %{name}.service
-%else
-%post
-/sbin/chkconfig --add %{name}
-
-%preun
-if [ "$1" = 0 ] ; then
-    /sbin/service %{name} stop >/dev/null 2>&1
-    /sbin/chkconfig --del %{name}
-fi
-%endif
 
 %clean
 %{__rm} -rf %{buildroot}
@@ -104,18 +81,16 @@ fi
 %attr(640, root, consul-template) %{_sysconfdir}/%{name}.d/consul-template.json-dist
 %dir %attr(750, consul-template, consul-template) %{_sharedstatedir}/%{name}
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
 %{_unitdir}/%{name}.service
-%else
-%{_initrddir}/%{name}
-%{_sysconfdir}/logrotate.d/%{name}
-%endif
 %attr(755, root, root) %{_bindir}/consul-template
 
 %doc
 
 
 %changelog
+
+* Thu Jun 15 2023 Devrim Gündüz <devrim@gunduz.org> 0.32.0-3
+- Remove support for old distros.
 
 * Tue May 23 2023 Devrim Gündüz <devrim@gunduz.org> 0.32.0-1
 - Update to 0.32.0
