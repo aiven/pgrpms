@@ -48,11 +48,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -98,7 +98,7 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Mon Sep 19 2022 - Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
+* Tue Jun 20 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
 - Update to 2.0.1
 - Add PGDG suffix to the package.
 
