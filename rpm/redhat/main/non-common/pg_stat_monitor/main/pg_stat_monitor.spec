@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
-Release:	2%{?dist}.1
+Version:	2.0.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
 Source0:	https://github.com/percona/%{sname}/archive/refs/tags/%{version}.tar.gz
@@ -98,6 +98,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Sep 19 2022 - Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
+- Update to 2.0.1
+- Add PGDG suffix to the package.
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1.0-2.1
 - Rebuild against LLVM 15 on SLES 15
 
