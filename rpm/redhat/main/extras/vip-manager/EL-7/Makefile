@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.rhel7
 SPECFILE="vip-manager.spec"
 
 # Now, include global Makefile
