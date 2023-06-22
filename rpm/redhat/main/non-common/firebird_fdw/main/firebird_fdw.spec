@@ -12,8 +12,8 @@
 
 Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
-Release:	1%{dist}.1
+Version:	1.3.1
+Release:	1PGDG%{dist}
 Source0:	https://github.com/ibarwick/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
@@ -69,9 +69,6 @@ PG_CPPFLAGS="-I%{_includedir}/firebird" USE_PGXS=1 %{__make} %{?_smp_mflags}
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-, root, root)
 %{pginstdir}/lib/%{sname}.so
@@ -84,6 +81,10 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Jun 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1
+- Update to 1.3.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
