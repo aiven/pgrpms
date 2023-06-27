@@ -13,11 +13,11 @@ Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
 URL:		https://github.com/zalando/%{name}
 
-BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
+BuildRequires:	python3-setuptools python3-psycopg3 >= 3.1.8
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0
-Requires:	python3-psycopg2 >= 2.5.4
-Requires:	python3-psutil >= 2.0.0 python3-psycopg2 >= 2.5.4
+Requires:	python3-psycopg3 >= 3.1.8
+Requires:	python3-psutil >= 2.0.0
 Requires:	python3-ydiff >= 1.2
 
 %if 0%{?rhel} == 7
@@ -185,6 +185,7 @@ fi
 * Tue Jun 27 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.3-1PGDG
 - Update to 3.0.3, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-303
+- Switch to psycopg3
 - Add PGDG branding
 
 * Fri Mar 31 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.2-1
