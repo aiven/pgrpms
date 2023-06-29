@@ -62,11 +62,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	beta1_2PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v16beta1/postgresql-%{pgpackageversion}beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v16beta2/postgresql-%{pgpackageversion}beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -539,7 +539,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta1
+%setup -q -n %{sname}-%{pgpackageversion}beta2
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1318,6 +1318,9 @@ fi
 %endif
 
 %changelog
+* Thu Jun 29 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-beta2-1
+- Update to v16 beta2
+
 * Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-beta1-2
 - Rebuild against LLVM 15 on SLES 15
 
