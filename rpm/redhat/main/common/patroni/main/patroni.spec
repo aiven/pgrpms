@@ -7,16 +7,16 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	3.0.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
 URL:		https://github.com/zalando/%{name}
 
-BuildRequires:	python3-setuptools python3-psycopg3 >= 3.1.8
+BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
 Requires:	python3-cdiff python3-psutil >= 2.0.0
-Requires:	python3-psycopg3 >= 3.1.8
+Requires:	python3-psycopg2 >= 2.5.4
 Requires:	python3-psutil >= 2.0.0
 Requires:	python3-ydiff >= 1.2
 
@@ -182,6 +182,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Fri Jun 30 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.3-2PGDG
+- Go back to psycopg2. There are some issues with psycopg3 (could be
+  our package). Per report from Magnus Hagander.
+
 * Tue Jun 27 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.3-1PGDG
 - Update to 3.0.3, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-303
