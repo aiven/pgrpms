@@ -88,6 +88,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %changelog
 * Wed Jul 5 2023 Devrim Gündüz <devrim@gunduz.org> 4.4.0-1PGDG
 - Update to 4.4.0
+- Add PGDG branding
 
 * Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
 - Update to 4.3.0
