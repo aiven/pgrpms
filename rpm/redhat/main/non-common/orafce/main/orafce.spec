@@ -1,4 +1,7 @@
 %global sname orafce
+%global orafcemajver 4
+%global orafcemidver 4
+%global orafceminver 0
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -12,10 +15,10 @@
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.3.0
-Release:	1%{?dist}
+Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
+Release:	1PGDG%{?dist}
 License:	BSD
-Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{version}.tar.gz
+Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
@@ -42,11 +45,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -58,7 +61,7 @@ This packages provides JIT support for XXX
 %endif
 
 %prep
-%setup -q -n %{sname}-VERSION_%{version}
+%setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
@@ -66,9 +69,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %install
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
@@ -86,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Wed Jul 5 2023 Devrim Gündüz <devrim@gunduz.org> 4.4.0-1PGDG
+- Update to 4.4.0
+
 * Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> 4.3.0-1
 - Update to 4.3.0
 
