@@ -1,0 +1,1 @@
+../main/pgdg-pyproject-rpm-macros.spec
