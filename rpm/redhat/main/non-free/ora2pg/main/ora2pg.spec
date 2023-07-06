@@ -1,7 +1,7 @@
-Summary:	Oracle to PostgreSQL database schema converter
+Summary:	Oracle, MySQL and SQL Server to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	23.2
-Release:	1%{?dist}
+Version:	24.0
+Release:	1PGDG%{?dist}
 License:	GPLv3
 URL:		http://ora2pg.darold.net/
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -12,9 +12,9 @@ Requires:	perl(DBD::Oracle) perl-DBD-Pg
 Requires:	perl-DBD-MySQL perl(DBI) perl(String::Random) perl(IO::Compress::Base)
 
 %description
-This package contains a Perl module and a companion script to convert an
-Oracle database schema to PostgreSQL and to migrate the data from an
-Oracle database to a PostgreSQL database.
+This package contains a Perl module and a companion scripts to convert an Oracle, MySQL
+and SQL Server databases schema to PostgreSQL and to migrate the data from these databases
+to a PostgreSQL database.
 
 %prep
 %setup -q
@@ -54,6 +54,7 @@ Oracle database to a PostgreSQL database.
 %attr(0755,root,root) %{_bindir}/%{name}_scanner
 %attr(0644,root,root) %{_mandir}/man3/%{name}.3.gz
 %config(noreplace) %{_sysconfdir}/%{name}.conf.dist
+%{perl_vendorlib}/Ora2Pg/MSSQL.pm
 %{perl_vendorlib}/Ora2Pg/MySQL.pm
 %{perl_vendorlib}/Ora2Pg/Oracle.pm
 %{perl_vendorlib}/Ora2Pg/PLSQL.pm
@@ -62,6 +63,10 @@ Oracle database to a PostgreSQL database.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Thu Jul 6 2023 Devrim Gündüz <devrim@gunduz.org> 24.0-1PGDG
+- Update to 24.0
+- Add PGDG branding
+
 * Mon Oct 10 2022 Devrim Gündüz <devrim@gunduz.org> 23.2-1
 - Update to 23.2
 
