@@ -74,7 +74,7 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Thu Jull 6 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11.1-1PGDG
+* Thu Jul 6 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11.1-1PGDG
 - Update to 2.11.1, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.11.1
 - Add PGDG branding
