@@ -3,8 +3,8 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
-Version:	2.11.0
-Release:	1%{?dist}
+Version:	2.11.1
+Release:	1PGDG%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -77,6 +77,11 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/lib/pgxs/src/test/perl/TimescaleNode.pm
 
 %changelog
+* Thu Jul 6 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11.1-1PGDG
+- Update to 2.11.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.11.1
+- Add PGDG branding
+
 * Tue May 30 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11.0-1
 - Update to 2.11.0, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.11.0
