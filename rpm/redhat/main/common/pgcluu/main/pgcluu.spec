@@ -3,8 +3,8 @@
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	3.4
-Release:	2%{?dist}
+Version:	3.5
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -76,6 +76,10 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
+* Thu Jul 13 2023 Devrim Gündüz <devrim@gunduz.org> 3.5-1
+- Update to 3.5
+- Add PGDG branding
+
 * Mon Jun 12 2023 Devrim Gündüz <devrim@gunduz.org> 3.4-2
 - Add httpd (and systat) as weak dependency, per Christophe Courtois :
   https://www.postgresql.org/message-id/ba11dfd1-ded7-c7f2-5cd2-c878dada808f%40dalibo.com
