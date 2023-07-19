@@ -28,8 +28,8 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.3
-Release:	5%{?dist}.1
+Version:	1.1.4
+Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -109,6 +109,10 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Wed Jul 19 2023 Devrim Gündüz <devrim@gunduz.org> 1.1.4-1
+- Update to 1.1.4
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1.3-5.1
 - Rebuild against LLVM 15 on SLES 15
 
