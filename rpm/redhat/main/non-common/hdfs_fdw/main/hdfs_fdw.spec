@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.0
-Release:	1%{?dist}.1
+Version:	2.3.1
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -112,6 +112,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Thu Jul 20 2023 Devrim Gunduz <devrim@gunduz.org> - 2.3.1-1PGDG
+- Update to 2.3.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.3.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
