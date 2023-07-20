@@ -1,7 +1,7 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
 %global mysqlfdwmidver 9
-%global mysqlfdwminver 0
+%global mysqlfdwminver 1
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -16,7 +16,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	1%{?dist}.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -96,6 +96,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Jul 20 2023 Devrim Gunduz <devrim@gunduz.org> - 2.9.1-1PGDG
+- Update to 2.9.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.9.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
