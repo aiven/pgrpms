@@ -1,5 +1,5 @@
 %global sname mongo_fdw
-%global relver 5_4_0
+%global relver 5_5_1
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,8 +13,8 @@
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.5.0
-Release:	1%{?dist}.1
+Version:	5.5.1
+Release:	1PGDG%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
@@ -65,11 +65,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -128,9 +128,6 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -150,6 +147,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Thu Jul 20 2023 Devrim Gündüz <devrim@gunduz.org> - 5.5.1-1PGDG
+- Update to 5.5.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 5.5.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
