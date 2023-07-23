@@ -73,7 +73,8 @@ popd
 %license LICENSE
 %config %{_sysconfdir}/dbt2_profile.conf
 %doc README
-%attr (755,root,root) %{_bindir}/%{sname}-*
+%attr (755,root,root) %{_bindir}/%{sname}*
+%{_mandir}/man1/dbt2*
 
 %changelog
 * Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.4-1PGDG
