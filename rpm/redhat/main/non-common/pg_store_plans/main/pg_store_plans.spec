@@ -12,8 +12,8 @@
 
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.1
-Release:	2%{?dist}.1
+Version:	1.7.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
 Source1:	README-%{sname}.txt
@@ -44,11 +44,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -90,6 +90,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1PGDG
+- Update to 1.7.0
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.1-2.1
 - Rebuild against LLVM 15 on SLES 15
 
