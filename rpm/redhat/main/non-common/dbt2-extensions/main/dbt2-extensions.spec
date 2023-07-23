@@ -14,8 +14,8 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.50.1
-Release:	1%{dist}.1
+Version:	0.53.4
+Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -140,6 +140,10 @@ popd
 %endif
 
 %changelog
+* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.4-1
+- Update to 0.53.4
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.50.1-1.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
