@@ -6,7 +6,7 @@ Version:	0.10.1
 Release:	2%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-URL:		http://pgxn.org/dist/%{sname}
+URL:		https://gitlab.com/sjstoelting/pgsql-tweaks
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
