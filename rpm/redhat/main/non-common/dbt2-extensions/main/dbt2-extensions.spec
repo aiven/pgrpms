@@ -114,6 +114,9 @@ popd
 # Remove binaries, they are installed with the common package.
 %{__rm} -f %{buildroot}/%{_bindir}/*
 
+# Remove man files, they are installed with the common package.
+%{__rm} -f %{buildroot}/%{_mandir}/man1/dbt2*
+
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
