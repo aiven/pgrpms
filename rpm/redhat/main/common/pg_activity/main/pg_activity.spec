@@ -16,8 +16,8 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	3.4.1
-Release:	1%{?dist}
+Version:	3.4.2
+Release:	1PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
@@ -55,7 +55,6 @@ top like application for PostgreSQL server activity monitoring.
 %{__mkdir} -p %{buildroot}%{_mandir}/man1/
 
 # Workarounds:
-%{__mv} %{buildroot}/%{python_sitelib}/docs/man/%{name}.1 %{buildroot}%{_mandir}/man1/
 %{__rm} -f %{buildroot}/%{python_sitelib}/docs/man/*
 %{__rm} -rf %{buildroot}/%{python_sitelib}/tests
 %{__rm} -rf %{buildroot}/%{python_sitelib}/docs
@@ -67,7 +66,6 @@ top like application for PostgreSQL server activity monitoring.
 %defattr(-,root,root)
 %{_bindir}/%{name}
 %dir %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/
-%{_mandir}/man1/%{name}.1.gz
 %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
 %{python_sitelib}/pgactivity/*.py*
 %{python_sitelib}/pgactivity/__pycache__/*.pyc
@@ -76,6 +74,10 @@ top like application for PostgreSQL server activity monitoring.
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-1PGDG
+- Update to 3.4.2
+- Add PGDG branding
+
 * Thu Jun 1 2023 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1
 - Update to 3.4.1
 
