@@ -54,14 +54,6 @@ top like application for PostgreSQL server activity monitoring.
 %{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
 %{__mkdir} -p %{buildroot}%{_mandir}/man1/
 
-# Workarounds:
-%{__rm} -f %{buildroot}/%{python_sitelib}/docs/man/*
-%{__rm} -rf %{buildroot}/%{python_sitelib}/tests
-%{__rm} -rf %{buildroot}/%{python_sitelib}/docs
-
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %{_bindir}/%{name}
