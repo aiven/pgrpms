@@ -1,7 +1,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.46
-Release:	3%{?dist}
+Version:	2.47
+Release:	1PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -152,6 +152,11 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.47-1
+- Update to 2.47, per changes described at:
+  https://pgbackrest.org/release.html#2.47
+- Add PGDG branding
+
 * Thu May 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-3
 - Fix libssh2 dependency name on SLES.
 
@@ -160,7 +165,7 @@ fi
   David Steele and Stefan Fercot.
 
 * Mon May 22 2023 Devrim Gündüz <devrim@gunduz.org> - 2.46-1
-- Update to 2.45, per changes described at:
+- Update to 2.46, per changes described at:
   https://pgbackrest.org/release.html#2.46
 
 * Tue Mar 21 2023 Devrim Gündüz <devrim@gunduz.org> - 2.45-1
