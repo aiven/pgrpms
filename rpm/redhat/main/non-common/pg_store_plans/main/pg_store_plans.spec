@@ -12,7 +12,7 @@
 
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.7.0
+Version:	1.7
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
@@ -90,8 +90,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
-* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1PGDG
-- Update to 1.7.0
+* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7-1PGDG
+- Update to 1.7
 - Add PGDG branding
 
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.1-2.1
