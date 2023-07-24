@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0
-Release:	1%{?dist}
+Version:	2.1
+Release:	1PGDG%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
@@ -82,6 +82,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1-1PGDG
+- Update to 2.1, per changes described at:
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v2.1
+- Add PGDG branding
+
 * Mon Jun 12 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
 - Update to 2.0, per changes described at:
   https://github.com/MigOpsRepos/credcheck/releases/tag/v2.0
