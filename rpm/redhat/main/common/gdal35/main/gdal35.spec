@@ -80,7 +80,7 @@
 
 Name:		%{sname}35
 Version:	3.5.3
-Release:	5%{?pre:%pre}%{?dist}.1
+Release:	6PGDG%{?pre:%pre}%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -378,6 +378,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DBUILD_PYTHON_BINDINGS=OFF \
  %endif
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
+ -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF
 
 %cmake_build
@@ -498,6 +499,12 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-6PGDG
+- Properly build with GEOS and libgeotiff support, per report and
+  patch from Andris Pavenis:
+  https://redmine.postgresql.org/issues/7834?issue_count=26&issue_position=4&next_issue_id=7833&prev_issue_id=7835
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-5.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
