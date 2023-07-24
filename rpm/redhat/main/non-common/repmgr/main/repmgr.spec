@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.4.0
-Release:	1%{?dist}.1
+Version:	5.4.1
+Release:	1PGDG%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://github.com/enterpriseDB/%{sname}
@@ -193,6 +193,11 @@ fi
 %endif
 
 %changelog
+* Mon Jul 24 2023 - Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1
+- Update to 5.4.1, per changes described at:
+  https://repmgr.org/docs/current/release-5.4.1.html
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 5.4.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
