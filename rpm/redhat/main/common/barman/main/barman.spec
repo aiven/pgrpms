@@ -13,8 +13,8 @@ Requires:	python3
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	3.6.0
-Release:	1%{?dist}
+Version:	3.7.0
+Release:	1PGDG%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
 Source0:	https://github.com/EnterpriseDB/%{name}/archive/refs/tags/release/%{version}.tar.gz
@@ -132,6 +132,11 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Wed Jul 26 2023 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1PGDG
+- Update to 3.7.0, per changes described at:
+  https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.7.0
+- Add PGDG branding
+
 * Thu Jun 15 2023 Devrim Gündüz <devrim@gunduz.org> - 3.6.0-1
 - Update to 3.6.0, per changes described at:
   https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.6.0
