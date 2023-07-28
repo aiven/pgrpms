@@ -3,7 +3,7 @@
 Summary:	Import tool for OpenStreetMap data to pgRouting database
 Name:		%{sname}
 Version:	2.3.8
-Release:	3PGDG%{dist}
+Release:	4PGDG%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
@@ -68,6 +68,9 @@ cd build/
 %{_datadir}/%{sname}/mapconfig_for_pedestrian.xml
 
 %changelog
+* Fri Jul 28 2023 Devrim Gündüz <devrim@gunduz.org> - 2.3.8-4PGDG
+- Rebuild against new libpqxx
+
 * Wed Jul 26 2023 Devrim Gündüz <devrim@gunduz.org> - 2.3.8-3PGDG
 - Depend on common libpq5, not a particular PostgreSQL version.
 - Add PGDG branding
