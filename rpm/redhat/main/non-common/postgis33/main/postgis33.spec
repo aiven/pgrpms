@@ -79,8 +79,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.3
-Release:	1%{?dist}.1
+Version:	%{postgismajorversion}.4
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -406,6 +406,11 @@ fi
 %endif
 
 %changelog
+* Sat Jul 29 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.4-1PGDG
+- Update to 3.3.4, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.3.4/NEWS
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-1.1
 - Rebuild against LLVM 15 on SLES 15
 
