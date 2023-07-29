@@ -47,6 +47,11 @@
 %global proj_somaj 22
 %endif
 
+%if 0%{?rhel} == 8
+# gdal-3.5 cmake build does not work in source directory
+%undefine __cmake_in_source_build
+%endif
+
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -72,7 +77,7 @@
 %global poppler --with-poppler
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
-%if 0%{?rhel} >= 9 || 0%{?fedora} >= 35
+%if 0%{?rhel} >= 8 || 0%{?fedora} >= 35
 %{!?with_python3:%global with_python3 1}
 %else
 %{!?with_python3:%global with_python3 0}
@@ -309,7 +314,7 @@ The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 %package python-tools
 Summary:	Python tools for the GDAL file format library
-Requires:	python3-gdal
+Requires:	%{name}-python3%{?_isa} = %{version}-%{release}
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
@@ -502,7 +507,9 @@ done
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-6PGDG
 - Properly build with GEOS and libgeotiff support, per report and
   patch from Andris Pavenis:
-  https://redmine.postgresql.org/issues/7834?issue_count=26&issue_position=4&next_issue_id=7833&prev_issue_id=7835
+  https://redmine.postgresql.org/issues/7834
+- Fix Python builds on RHEL 8. Reported by Mikko Partio, patch from
+  Andris Pavenis https://redmine.postgresql.org/issues/7840
 - Add PGDG branding
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-5.1
