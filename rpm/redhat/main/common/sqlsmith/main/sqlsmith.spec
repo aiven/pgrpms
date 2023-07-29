@@ -1,6 +1,6 @@
 Name:		sqlsmith
 Version:	1.4
-Release:	1%{dist}
+Release:	2PGDG%{dist}
 Summary:	Random SQL generator
 License:	GPLv3
 URL:		https://github.com/anse1/%{name}
@@ -37,6 +37,10 @@ PKG_CONFIG_PATH=%{pginstdir}/lib/pkgconfig ./configure CXX='g++ -std=gnu++17' --
 %license COPYING
 
 %changelog
+* Sat Jul 29 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4-2PGDG
+- Rebuild against new libpqxx
+- Add PGDG branding
+
 * Sat Oct 22 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4-1
 - Update to 1.4
 
