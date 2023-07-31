@@ -1,1 +1,0 @@
-../main/../main/pgauditlogtofile13.spec
