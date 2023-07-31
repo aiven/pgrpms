@@ -12,9 +12,9 @@
 
 Summary:	Prefix Range module for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.9
-Release:	4%{?dist}.1
-License:	BSD
+Version:	1.2.10
+Release:	1PGDG%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/dimitri/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/dimitri/prefix
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -39,11 +39,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -83,6 +83,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Mon Jul 31 2023 Devrim Gunduz <devrim@gunduz.org> - 1.2.10-1PGDG
+- Update to 1.2.10
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.2.9-4.1
 - Rebuild against LLVM 15 on SLES 15
 
