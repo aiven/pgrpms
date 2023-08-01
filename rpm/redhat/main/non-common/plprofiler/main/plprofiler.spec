@@ -1,5 +1,5 @@
 %global sname	plprofiler
-%global git_tag	REL4_2
+%global git_tag	REL4_2_2
 %global ppmajorver 4.2
 
 %global __ospython %{_bindir}/python3
@@ -21,8 +21,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{ppmajorver}.1
-Release:	1%{dist}.1
+Version:	%{ppmajorver}.2
+Release:	1PGDG%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
 URL:		https://github.com/bigsql/%{sname}
@@ -73,11 +73,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -125,6 +125,10 @@ cd ..
 %endif
 
 %changelog
+* Tue Aug 1 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1PGDG
+- Update to 4.2.2
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.1-1.1
 - Rebuild against LLVM 15 on SLES 15
 
