@@ -13,11 +13,11 @@
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.0
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 URL:		https://github.com/HypoPG/%{sname}
-BuildRequires:  postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
@@ -35,11 +35,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -64,9 +64,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -82,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Aug 1 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.0-2PGDG
+- Cleanup rpmlint warnings
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
