@@ -1,4 +1,9 @@
+%global pgmajorversion 16
 %global sname	plr
+
+%global plrmajver 8
+%global plrmidver 4
+%global plrminver 6
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -12,10 +17,10 @@
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
-Version:	8.4.5
-Release:	2%{?dist}.1
+Version:	%{plrmajver}.%{plrmidver}.%{plrminver}
+Release:	1PGDG%{?dist}
 License:	BSD
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL8_4_5.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL%{plrmajver}_%{plrmidver}_%{plrminver}.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
@@ -54,7 +59,7 @@ This packages provides JIT support for plr
 %endif
 
 %prep
-%setup -q -n %{sname}-REL8_4_5
+%setup -q -n %{sname}-REL%{plrmajver}_%{plrmidver}_%{plrminver}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -84,6 +89,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Thu Aug 3 2023 Devrim Gunduz <devrim@gunduz.org> - 8.4.6-1PGDG
+- Update to 8.4.6
+- Add PGDG branding
+- Use macros for version numbers
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 8.4.5-2.1
 - Rebuild against LLVM 15 on SLES 15
 
