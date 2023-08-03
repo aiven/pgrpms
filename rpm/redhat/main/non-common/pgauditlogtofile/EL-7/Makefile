@@ -1,4 +1,4 @@
-#################################
+################################
 # RPM-specific Makefile		#
 # https://yum.postgresql.org	#
 #                         	#
@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel7
-SPECFILE="pgauditlogtofile17.spec"
+SPECFILE="pgauditlogtofile.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
