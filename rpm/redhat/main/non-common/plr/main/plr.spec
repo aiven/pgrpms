@@ -1,4 +1,3 @@
-%global pgmajorversion 16
 %global sname	plr
 
 %global plrmajver 8
