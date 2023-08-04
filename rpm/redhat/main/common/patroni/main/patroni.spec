@@ -6,12 +6,14 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	3.0.4
+Version:	3.1.0
 Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
 URL:		https://github.com/zalando/%{name}
+
+BuildArch:	noarch
 
 BuildRequires:	python3-setuptools python3-psycopg2 >= 2.5.4
 
@@ -53,7 +55,7 @@ caveats. Use wisely.
 
 %package -n %{name}-consul
 Summary:	Related components to use patroni with Consul
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	consul python3-requests
 
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
@@ -66,12 +68,12 @@ Requires:	python3-python-consul
 %endif
 %endif
 
-%description -n  %{name}-consul
+%description -n %{name}-consul
 Meta package to pull consul related dependencies for patroni
 
 %package -n %{name}-etcd
 Summary:	Related components to use patroni with etcd
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	python3-etcd >= 0.4.3
 
 %if 0%{?rhel} == 7
@@ -88,23 +90,23 @@ Requires:	python3-dnspython
 %endif
 %endif
 
-%description -n  %{name}-etcd
+%description -n %{name}-etcd
 Meta package to pull etcd related dependencies for patroni
 
 %package -n %{name}-aws
 Summary:	Related components to use patroni on AWS
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	python3-boto
 
-%description -n  %{name}-aws
+%description -n %{name}-aws
 Meta package to pull AWS related dependencies for patroni
 
 %package -n %{name}-zookeeper
 Summary:	Related components to use patroni with Zookeeper
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name} = %{version}-%{release}
 Requires:	python3-kazoo >= 1.3.1
 
-%description -n  %{name}-zookeeper
+%description -n %{name}-zookeeper
 Meta package to pull zookeeper related dependencies for patroni
 
 %prep
@@ -119,7 +121,6 @@ Meta package to pull zookeeper related dependencies for patroni
 # Install sample yml files:
 %{__mkdir} -p %{buildroot}%{docdir}/%{name}
 %{__cp} postgres0.yml postgres1.yml %{buildroot}%{docdir}/%{name}
-
 
 # Install unit file:
 %{__install} -d %{buildroot}%{_unitdir}
@@ -157,9 +158,6 @@ if [ $1 -ge 1 ] ; then
 	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %license LICENSE
@@ -182,6 +180,12 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Fri Aug 4 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-1PGDG
+- Update to 3.1.0, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-310
+- Build package as noarch, per request and patch from Matt Baker:
+  https://redmine.postgresql.org/issues/7833
+
 * Thu Jul 20 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0.4-1PGDG
 - Update to 3.0.4, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-304
