@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 4
-%global orafcemidver 4
+%global orafcemidver 5
 %global orafceminver 0
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -86,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Aug 7 2023 Devrim Gündüz <devrim@gunduz.org> 4.5.0-1PGDG
+- Update to 4.5.0
+
 * Wed Jul 5 2023 Devrim Gündüz <devrim@gunduz.org> 4.4.0-1PGDG
 - Update to 4.4.0
 - Add PGDG branding
