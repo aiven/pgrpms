@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.3
-Release:	3PGDG%{?dist}
+Version:	15.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1395,6 +1395,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 8 2023 Devrim Gündüz <devrim@gunduz.org> - 15.4-1PGDG
+- Update to 15.4, per changes described at
+  https://www.postgresql.org/docs/release/15.4/
+
 * Sat Jun 3 2023 Devrim Gündüz <devrim@gunduz.org> - 15.3-3PGDG
 - Rebuild against LLVM 15 on SLES 15
 
