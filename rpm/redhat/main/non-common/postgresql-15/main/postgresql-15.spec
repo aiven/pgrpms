@@ -617,9 +617,6 @@ export PYTHON=/usr/bin/python3
 %if 0%{?rhel} && 0%{?rhel} == 8
 	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
-%if 0%{?fedora} == 38
-	export CLANG=%{_bindir}/clang export LLVM_CONFIG=%{_libdir}/llvm15/bin/llvm-config
-%endif
 
 # These configure options must match main build
 ./configure --enable-rpath \
