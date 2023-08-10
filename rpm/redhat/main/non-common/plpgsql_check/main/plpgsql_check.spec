@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.4
-Release:	1%{?dist}.1
+Version:	2.4.0
+Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -88,6 +88,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1PGDG
+- Update to 2.4.0
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.3.4-1.1
 - Rebuild against LLVM 15 on SLES 15
 
