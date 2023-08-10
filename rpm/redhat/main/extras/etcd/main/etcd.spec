@@ -14,13 +14,13 @@
 
 Name:		etcd
 Version:	3.5.9
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
 Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-%{tarballarch}.tar.gz
-Source1:        %{name}.service
-Source2:        %{name}.conf
+Source1:	%{name}.service
+Source2:	%{name}.conf
 
 BuildRequires:	python3-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -28,7 +28,13 @@ BuildRequires:	systemd
 %else
 BuildRequires:	systemd-rpm-macros
 %endif
+
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires(pre):	shadow-utils
+%endif
+%if 0%{?suse_version} >= 1315
+Requires(pre):	shadow
+%endif
 
 %description
 etcd is a distributed reliable key-value store for the most critical data
@@ -69,9 +75,6 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %postun
 %systemd_postun %{name}.service
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc README*
@@ -84,6 +87,11 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-2PGDG
+- Fix dependency on SLES 15, per report from Matt Baker:
+  https://redmine.postgresql.org/issues/7847
+- Add PGDG branding
+
 * Mon May 15 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-1
 - Update to 3.5.9, per changes described at:
   https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md#v359-2023-05-11
