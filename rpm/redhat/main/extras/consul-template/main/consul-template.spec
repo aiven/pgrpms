@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.32.0
+%global		_verstr	0.33.0
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -18,7 +18,7 @@ ExcludeArch:	ppc64le
 
 Name:		consul-template
 Version:	%{_verstr}
-Release:	3%{?dist}
+Release:	1PGDG%{?dist}
 Summary:	consul-template watches a series of templates on the file system, writing new changes when Consul is updated. It runs until an interrupt is received unless the -once flag is specified.
 
 License:	MPLv2.0
@@ -88,6 +88,9 @@ exit 0
 
 
 %changelog
+* Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> 0.33.0-1PGDG
+- Update to 0.33.0
+- Add PGDG branding
 
 * Thu Jun 15 2023 Devrim Gündüz <devrim@gunduz.org> 0.32.0-3
 - Remove support for old distros.
