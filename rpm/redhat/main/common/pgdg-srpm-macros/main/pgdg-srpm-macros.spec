@@ -11,8 +11,8 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.32
-Release:	1%{?dist}
+Version:	1.0.33
+Release:	1PGDG%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
 License:	PostgreSQL
@@ -41,6 +41,11 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.33-1PGDG
+- Add GDAL 3.7 and GeOS 3.12.0
+- Update PROJ to 9.2.1
+- Add PGDG branding.
+
 * Mon Mar 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.32-1
 - Add libgeotiff16instdir macro, remove obsoleted llvm macro,
   update copyright year.
