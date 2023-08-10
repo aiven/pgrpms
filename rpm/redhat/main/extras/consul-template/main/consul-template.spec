@@ -28,7 +28,6 @@ Source1:	%{name}.sysconfig
 Source2:	%{name}.service
 Source4:	%{name}.json
 
-BuildRequires:	systemd-units
 Requires:	systemd
 
 Requires(pre):	shadow-utils
@@ -71,9 +70,6 @@ exit 0
 
 %postun
 %systemd_postun_with_restart %{name}.service
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
