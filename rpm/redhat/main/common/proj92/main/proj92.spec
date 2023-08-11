@@ -1,4 +1,4 @@
-%global         _vpath_builddir .
+%global	_vpath_builddir .
 %global sname proj
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
@@ -12,7 +12,7 @@
 
 Name:		%{sname}92
 Version:	9.2.1
-Release:	1%{?dist}
+Release:	1PGDG%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -71,7 +71,7 @@ cmake3 .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX:PATH=%{proj92instdir} \
 	-DCMAKE_C_FLAGS="${RPM_OPT_FLAGS}" \
-        -DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS}"
+	-DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS}"
 
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 popd
@@ -81,7 +81,6 @@ pushd build
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
 	DESTDIR=%{buildroot}
 popd
-#{__rm} -rf %{buildroot}
 
 %{__install} -d %{buildroot}%{proj92instdir}/share/%{sname}
 %{__install} -d %{buildroot}%{proj92instdir}/share/doc/
@@ -90,9 +89,6 @@ popd
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post
 /sbin/ldconfig
@@ -120,8 +116,9 @@ popd
 %{proj92instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
-* Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> - 0:9.2.1-1
+* Sun Jun 4 2023 Devrim Gündüz <devrim@gunduz.org> - 0:9.2.1-1PGDG
 - Update to 9.2.1
+- Add PGDG branding
 
 * Wed Mar 15 2023 Devrim Gündüz <devrim@gunduz.org> - 0:9.2.0-1
 - Initial 9.2 packaging for PostgreSQL RPM Repository.
