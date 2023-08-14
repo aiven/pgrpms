@@ -90,6 +90,14 @@ repo_gpgcheck = 1
 # PGDG RHEL / Rocky Updates Testing repositories. (These packages should not be used in production)
 # Available for 11 and above.
 
+[pgdg17-updates-testing]
+name=PostgreSQL 17 for RHEL / Rocky $releasever - $basearch - Updates testing
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/17/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
+
 [pgdg16-updates-testing]
 name=PostgreSQL 16 for RHEL / Rocky $releasever - $basearch - Updates testing
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/16/redhat/rhel-$releasever-$basearch
@@ -159,6 +167,14 @@ gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
 repo_gpgcheck = 1
 
 # PGDG Source RPMs (SRPM), and their testing repositories:
+
+[pgdg17-source-updates-testing]
+name=PostgreSQL 17 for RHEL / Rocky $releasever - $basearch - Source updates testing
+baseurl=https://download.postgresql.org/pub/repos/yum/srpms/testing/17/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdg16-source-updates-testing]
 name=PostgreSQL 16 for RHEL / Rocky $releasever - $basearch - Source updates testing
@@ -292,6 +308,14 @@ repo_gpgcheck = 1
 
 # Debuginfo/debugsource packages for testing repos
 # Available for 11 and above.
+
+[pgdg17-updates-testing-debuginfo]
+name=PostgreSQL 17 for RHEL / Rocky $releasever - $basearch - Debuginfo
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/17/redhat/rhel-$releasever-$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+repo_gpgcheck = 1
 
 [pgdg16-updates-testing-debuginfo]
 name=PostgreSQL 16 for RHEL / Rocky $releasever - $basearch - Debuginfo
