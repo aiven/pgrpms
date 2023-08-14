@@ -80,13 +80,11 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	beta1_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta1.tar.gz
-#Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta1.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
+#Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
-# Temp patch until 3.4.0 beta2 is out:
-Patch1:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}beta1-fixextensioninstall.patch
 
 URL:		https://www.postgis.net/
 
@@ -239,10 +237,9 @@ This packages provides JIT support for postgis33
 
 
 %prep
-%setup -q -n %{sname}-%{version}beta1
+%setup -q -n %{sname}-%{version}rc1
 # Copy .pdf file to top directory before installing.
 ###{__cp} -p %{SOURCE2} .
-%patch -P 1 -p0
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -318,7 +315,7 @@ fi
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
 %license LICENSE.TXT
 %{pginstdir}/bin/postgis
-%{pginstdir}/bin/postgis_restore.pl
+%{pginstdir}/bin/postgis_restore
 %{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
@@ -410,5 +407,8 @@ fi
 %endif
 
 %changelog
+* Mon Aug 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0rc1-1PGDG
+- Update to 3.4.0 RC1
+
 * Wed Jul 19 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0beta1-1
 - Initial cut for PostGIS 3.4.0 beta1
