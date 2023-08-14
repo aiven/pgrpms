@@ -1,23 +1,24 @@
-%global debug_package %{nil}
-
+%global sname pg_statviz
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
-Name:		pg_statviz
+Name:		%{sname}
 Version:	0.1
-Release:	1%{dist}
+Release:	1PGDG%{dist}
 License:	GPLv2+
-Source0:	https://github.com/vyruss/%{name}/archive/refs/tags/v%{version}.tar.gz
-URL:		https://github.com/vyruss/%{name}
+Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/vyruss/%{sname}
 
 Requires:	python3-plac python3-numpy python3-psycopg2 >= 2.9.5
 Requires:	python3-six python3-matplotlib python3-cycler
 Requires:	python3-cycler python3-fonttools python3-kiwisolver
 Requires:	python3-packaging python3-pillow python3-dateutils
+Requires:	python3-argh
 
+BuildArch:	noarch
 %description
 pg_statviz is a minimalist extension and utility pair for time series analysis
 and visualization of PostgreSQL internal statistics.
@@ -31,7 +32,7 @@ perform tuning or troubleshooting.
 Best served with pg_statviz extensions package, which includes the extension files.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 
@@ -39,15 +40,15 @@ Best served with pg_statviz extensions package, which includes the extension fil
 # Manual installation is needed:
 %{__install} -d %{buildroot}%{_bindir}
 %{__install} -d %{buildroot}%{python3_sitelib}
-%{__mv} src/run_%{name} %{buildroot}%{_bindir}/%{name}
-%{__mv} src/pg_statviz %{buildroot}%{python3_sitelib}
+%{__mv} src/run_%{sname} %{buildroot}%{_bindir}/%{sname}
+%{__mv} src/%{sname} %{buildroot}%{python3_sitelib}
 
 %files
 %defattr(644,root,root,755)
 %license LICENSE
-%attr(0755,root,root) %{_bindir}/%{name}
-%{python3_sitelib}/%{name}
+%attr(0755,root,root) %{_bindir}/%{sname}
+%{python3_sitelib}/%{sname}
 
 %changelog
-* Thu Apr 20 2023 Devrim Gündüz <devrim@gunduz.org> - 0.1-1
+* Thu Apr 20 2023 Devrim Gündüz <devrim@gunduz.org> - 0.1-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
