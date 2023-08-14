@@ -83,7 +83,7 @@ Version:	%{postgismajorversion}.0
 Release:	rc1_1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
-#Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1.pdf
+#Source2:	https://download.osgeo.org/postgis/docs/postgis-{version}rc1.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 
 URL:		https://www.postgis.net/
@@ -239,7 +239,7 @@ This packages provides JIT support for postgis33
 %prep
 %setup -q -n %{sname}-%{version}rc1
 # Copy .pdf file to top directory before installing.
-###{__cp} -p %{SOURCE2} .
+###{__cp} -p {SOURCE2} .
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
