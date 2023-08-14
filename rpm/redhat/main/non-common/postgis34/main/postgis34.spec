@@ -371,7 +371,7 @@ fi
 
 %files docs
 %defattr(-,root,root)
-#doc %{sname}-{version}.pdf
+#doc %{sname}-%{version}.pdf
 
 %if %shp2pgsqlgui
 %files gui
