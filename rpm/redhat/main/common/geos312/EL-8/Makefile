@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel8
-SPECFILE="geos311.spec"
+SPECFILE="geos312.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
