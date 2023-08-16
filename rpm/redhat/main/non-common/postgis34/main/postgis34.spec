@@ -7,37 +7,19 @@
 %pgdg_set_gis_variables
 
 # Override some variables. PostGIS 3.4 is best served with GeOS 3.12,
-# GDAL 3.6 and PROJ 9.0:
+# GDAL 3.6 and PROJ 9.2:
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
 %global gdalfullversion %gdal36fullversion
 %global gdalmajorversion %gdal36majorversion
 %global gdalinstdir %gdal36instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
-
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-# Also use GDAL 3.4
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global gdalfullversion %gdal34fullversion
-%global gdalmajorversion %gdal34majorversion
-%global gdalinstdir %gdal34instdir
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
 %global projmajorversion %proj92majorversion
 %global projfullversion %proj92fullversion
 %global projinstdir %proj92instdir
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
+
+# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
+%if 0%{?fedora} >= 38
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
 %endif
