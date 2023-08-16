@@ -6,12 +6,12 @@
 
 %pgdg_set_gis_variables
 # Override some variables.
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global projmajorversion %proj90majorversion
+%global projfullversion %proj90fullversion
+%global projinstdir %proj90instdir
 
 # Use latest PROJ on Fedora 38+
 %if 0%{?fedora} >= 38
@@ -38,8 +38,8 @@
 %endif
 
 Name:		%{sname}%{libspatialitemajorversion}
-Version:	5.0.1
-Release:	7%{?dist}
+Version:	5.1.0
+Release:	1PGDG%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -47,7 +47,7 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc librttopo-devel
-BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.31
+BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.33
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
@@ -151,6 +151,11 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Wed Aug 16 2023  Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
+- Update to 5.1.0
+- Build with GeOS 3.12 and Proj 9.0
+- Add PGDG branding
+
 * Thu Apr 20 2023 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-6
 - Use Proj 9.2.X on Fedora 38+
 
