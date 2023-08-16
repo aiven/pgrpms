@@ -6,14 +6,14 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables. PostGIS 3.4 is best served with GeOS 3.11,
-# GDAL 3.4 and PROJ 9.0:
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
-%global gdalfullversion %gdal35fullversion
-%global gdalmajorversion %gdal35majorversion
-%global gdalinstdir %gdal35instdir
+# Override some variables. PostGIS 3.4 is best served with GeOS 3.12,
+# GDAL 3.6 and PROJ 9.0:
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
 %global projmajorversion %proj90majorversion
 %global projfullversion %proj90fullversion
 %global projinstdir %proj90instdir
@@ -80,17 +80,17 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	rc1_1PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
-#Source2:	https://download.osgeo.org/postgis/docs/postgis-{version}rc1.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 
 URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.32 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.33 pcre-devel gmp-devel
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
@@ -237,9 +237,9 @@ This packages provides JIT support for postgis33
 
 
 %prep
-%setup -q -n %{sname}-%{version}rc1
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
-###{__cp} -p {SOURCE2} .
+%{__cp} -p %{SOURCE2} %{sname}-%{version}.pdf
 
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
@@ -355,6 +355,7 @@ fi
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
 %endif
+%{_mandir}/man1/%{sname}*
 
 %files client
 %defattr(644,root,root)
@@ -365,13 +366,16 @@ fi
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_export
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_import
+%{_mandir}/man1/pgsql2shp*
+%{_mandir}/man1/pgtopo_*
+%{_mandir}/man1/shp2pgsql*
 
 %files devel
 %defattr(644,root,root)
 
 %files docs
 %defattr(-,root,root)
-#doc {sname}-{version}.pdf
+%doc %{sname}-%{version}.pdf
 
 %if %shp2pgsqlgui
 %files gui
@@ -407,6 +411,10 @@ fi
 %endif
 
 %changelog
+* Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-1PGDG
+- Update to 3.4.0 Gold!
+- Use GeOS 3.12 and GDAL 3.6
+
 * Mon Aug 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0rc1-1PGDG
 - Update to 3.4.0 RC1
 
