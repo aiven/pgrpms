@@ -36,7 +36,7 @@
 
 %pgdg_set_gis_variables() %{expand: \
 %global geosmajorversion		39
-%global geos311majorversion		312
+%global geos312majorversion		312
 %global geos311majorversion		311
 %global geos310majorversion		310
 %global geos39majorversion		39
