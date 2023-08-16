@@ -137,8 +137,8 @@ find %{buildroot} -type f -name "*.la" -delete
 
 %files
 %doc COPYING AUTHORS
-%{libspatialiteinstdir}/lib/%{sname}.so.7*
-%{libspatialiteinstdir}/lib/mod_spatialite.so.7*
+%{libspatialiteinstdir}/lib/%{sname}.so.8*
+%{libspatialiteinstdir}/lib/mod_spatialite.so.8*
 # The symlink must be present to allow loading the extension
 # https://groups.google.com/forum/#!topic/spatialite-users/zkGP-gPByXk
 %{libspatialiteinstdir}/lib/mod_spatialite.so
