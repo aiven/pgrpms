@@ -54,7 +54,7 @@
 %if 0%{?rhel} >= 9 || 0%{?fedora} >= 37
 %{!?with_python3:%global with_python3 1}
 %else
-%{!?with_python3:%global with_python3 0}
+%{!?with_python3:%global with_python3 1}
 %endif
 
 Name:		%{sname}36
