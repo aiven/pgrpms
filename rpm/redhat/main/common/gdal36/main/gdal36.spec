@@ -22,15 +22,12 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
-
-# Use latest PROJ on Fedora 38+
-%if 0%{?fedora} >= 38
 %global	projmajorversion %proj92majorversion
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
+
+# Use latest PROJ on Fedora 38+
+%if 0%{?fedora} >= 38
 %global	libgeotiffmajorversion 17
 %global	libgeotiffinstdir %libgeotiff17instdir
 %endif
