@@ -9,16 +9,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
-
-# Use latest PROJ on Fedora 38+
-%if 0%{?fedora} >= 38
 %global projmajorversion %proj92majorversion
 %global projfullversion %proj92fullversion
 %global projinstdir %proj92instdir
-%endif
 
 # A new feature available in PostGIS 2.0
 #%%global _lwgeom "--enable-lwgeom=yes"
@@ -86,9 +79,6 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 %endif
 ./configure \
 	--prefix=%{libspatialiteinstdir} \
-%if 0%{?rhel} == 7
-	--enable-knn=no \
-%endif
 	--libdir=%{libspatialiteinstdir}/lib \
 	--disable-static \
 	--enable-freexl=no \
