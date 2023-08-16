@@ -47,7 +47,7 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc librttopo-devel
-BuildRequires:	freexl-devel minizip-devel pgdg-srpm-macros >= 1.0.33
+BuildRequires:	minizip-devel pgdg-srpm-macros >= 1.0.33
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
@@ -91,6 +91,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib"; export LDFLAGS
 %endif
 	--libdir=%{libspatialiteinstdir}/lib \
 	--disable-static \
+	--enable-freexl=no \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-lwgeom \
 %ifarch aarch64
