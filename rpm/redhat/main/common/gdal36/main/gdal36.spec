@@ -2,7 +2,7 @@
 
 %pgdg_set_gis_variables
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 37
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -28,35 +28,14 @@
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	32
-
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%global libspatialitemajorversion	43
-%else
 %global libspatialitemajorversion	50
-%endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global sqlitepname	sqlite33
-%global sqlitelibdir	/usr/sqlite330/lib
-# Major digit of the proj so version
-%global proj_somaj 19
-%else
 %global sqlitepname	sqlite
 %global sqlitelibdir	%{_libdir}
 # Major digit of the proj so version
 %global proj_somaj 22
-%endif
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
 %global g2clib_enabled 0
@@ -72,7 +51,7 @@
 %global poppler --with-poppler
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
-%if 0%{?rhel} >= 9 || 0%{?fedora} >= 35
+%if 0%{?rhel} >= 9 || 0%{?fedora} >= 37
 %{!?with_python3:%global with_python3 1}
 %else
 %{!?with_python3:%global with_python3 0}
@@ -80,14 +59,14 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	1%{?pre:%pre}%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
 # Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
-Source0:	%{sname}-%{version}%{?pre:%pre}-fedora.tar.xz
+Source0:	%{sname}-%{version}-fedora.tar.xz
 Source4:	PROVENANCE.TXT-fedora
 
 # Cleaner script for the tarball
@@ -154,11 +133,7 @@ BuildRequires:	poppler-devel
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	%{sqlitepname}-devel
-%else
 BuildRequires:	sqlite-devel
-%endif
 BuildRequires:	swig
 %if %{build_refman}
 BuildRequires:	texlive-collection-fontsrecommended
@@ -210,11 +185,7 @@ BuildRequires:	libtirpc-devel
 
 BuildRequires:	python3-devel
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	python36-numpy
-%else
 BuildRequires:	python3-numpy
-%endif
 BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
@@ -258,7 +229,7 @@ Requires:	libspatialite%{libspatialitemajorversion}-devel
 Requires:	libarmadillo10
 %endif
 %endif
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires:	armadillo
 %endif
 
@@ -411,7 +382,9 @@ done
 %{gdalinstdir}/bin/gnmanalyse
 %{gdalinstdir}/bin/gnmmanage
 %{gdalinstdir}/bin/nearblack
+%if %{with_python3}
 %{gdalinstdir}/bin/ogr_layer_algebra.py
+%endif
 %{gdalinstdir}/bin/ogr2ogr
 %{gdalinstdir}/bin/ogrinfo
 %{gdalinstdir}/bin/ogrlineref
@@ -478,6 +451,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-2PGDG
+- Remove RHEL 7 support.
+- Add PGDG branding
+,
 * Tue Apr 25 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-1
 - Update to 3.6.4
 
