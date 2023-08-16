@@ -1,3 +1,8 @@
+%if 0%{?rhel} == 8
+# gdal-3.6 cmake build does not work in source directory
+%undefine __cmake_in_source_build
+%endif
+
 %global sname gdal
 
 %pgdg_set_gis_variables
@@ -8,11 +13,15 @@
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
+%if 0%{?rhel} == 8
+%global pyver 3.9
+%endif
+
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
 %global projmajorversion %proj90majorversion
 %global projfullversion %proj90fullversion
 %global projinstdir %proj90instdir
@@ -51,12 +60,6 @@
 %global poppler --with-poppler
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
-%if 0%{?rhel} >= 9 || 0%{?fedora} >= 37
-%{!?with_python3:%global with_python3 1}
-%else
-%{!?with_python3:%global with_python3 1}
-%endif
-
 Name:		%{sname}36
 Version:	3.6.4
 Release:	2PGDG%{?dist}
@@ -84,7 +87,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.31
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.33
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -254,7 +257,6 @@ BuildArch:	noarch
 %description javadoc
 This package contains the API documentation for %{name}.
 
-%if %{with_python3}
 %package python3
 %{?python_provide:%python_provide python3-gdal}
 Summary:	Python modules for the GDAL file format library
@@ -276,7 +278,6 @@ manipulating GDAL file format library
 # We don't want to provide private Python extension libs
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\.so$
 %global __provides_exclude_from ^%{python3_sitearch}/.*\.so$
-%endif
 
 %prep
 %setup -q -n %{sname}-%{version}-fedora
@@ -321,12 +322,9 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %endif
  -DCMAKE_INSTALL_INCLUDEDIR=include \
  -DCMAKE_INSTALL_LIBDIR=lib \
-%if %{with_python3}
  -DBUILD_PYTHON_BINDINGS=ON \
-%else
- -DBUILD_PYTHON_BINDINGS=OFF \
- %endif
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
+ -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
  -DSWIG_REGENERATE_PYTHON=OFF
 
@@ -335,7 +333,6 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %install
 %cmake_install
 
-%if %{with_python3}
 # List of manpages for python scripts
 for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   if [ -f %{buildroot}%{gdalinstdir}/share/man/man1/`basename ${file/.py/.1*}` ]; then
@@ -348,18 +345,13 @@ done
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
-%endif
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE6} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 
-%if %{with_python3}
 %files -f gdal_python_manpages_excludes.txt
-%else
-%files
-%endif
 %{gdalinstdir}/bin/gdal_contour
 %{gdalinstdir}/bin/gdal_create
 %{gdalinstdir}/bin/gdal_grid
@@ -382,9 +374,7 @@ done
 %{gdalinstdir}/bin/gnmanalyse
 %{gdalinstdir}/bin/gnmmanage
 %{gdalinstdir}/bin/nearblack
-%if %{with_python3}
 %{gdalinstdir}/bin/ogr_layer_algebra.py
-%endif
 %{gdalinstdir}/bin/ogr2ogr
 %{gdalinstdir}/bin/ogrinfo
 %{gdalinstdir}/bin/ogrlineref
@@ -411,7 +401,6 @@ done
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
 
-%if %{with_python3}
 %files python3
 %doc swig/python/README.rst
 %{python3_sitearch}/GDAL-%{version}-py*.egg-info/
@@ -437,7 +426,6 @@ done
 %{gdalinstdir}/bin/pct2rgb.py
 %{gdalinstdir}/bin/rgb2pct.py
 %{gdalinstdir}/share/bash-completion/completions/*.py
-%endif
 
 %files java
 %{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
@@ -454,7 +442,9 @@ done
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-2PGDG
 - Remove RHEL 7 support.
 - Add PGDG branding
-,
+- Use GeOS 3.12 on all platforms.
+- Link properly with GeOS and libgeotiff.
+
 * Tue Apr 25 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-1
 - Update to 3.6.4
 
