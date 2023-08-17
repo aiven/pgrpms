@@ -78,10 +78,10 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	8%{?dist}.1
+Release:	9PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
-URL:		http://www.gdal.org
+URL:		https://gdal.org
 # Source0:	http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
@@ -726,6 +726,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-9-1PGDG
+- Rebuild against libspatialite50 5.1.0
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
