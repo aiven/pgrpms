@@ -74,10 +74,10 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	5%{?dist}.1
+Release:	6PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
-URL:		http://www.gdal.org
+URL:		https://gdal.org/
 # Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
@@ -105,7 +105,7 @@ Patch16:	gdal-3.3.1-sfcgal-linker.patch
 # To be removed in next update (hopefully:
 BuildRequires:	autoconf
 
-BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.18
+BuildRequires:	gcc gcc-c++ pgdg-srpm-macros >= 1.0.33
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
@@ -735,6 +735,10 @@ popd
 %_bindir/*.py
 
 %changelog
+* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-6-1PGDG
+- Rebuild against libspatialite50 5.1.0
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-5.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
