@@ -1,4 +1,5 @@
 %global sname pg_statviz
+
 %global __ospython %{_bindir}/python3
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
@@ -6,7 +7,7 @@
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
 Name:		%{sname}
-Version:	0.1
+Version:	0.3
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -19,6 +20,7 @@ Requires:	python3-packaging python3-pillow python3-dateutils
 Requires:	python3-argh
 
 BuildArch:	noarch
+
 %description
 pg_statviz is a minimalist extension and utility pair for time series analysis
 and visualization of PostgreSQL internal statistics.
@@ -41,7 +43,7 @@ Best served with pg_statviz extensions package, which includes the extension fil
 %{__install} -d %{buildroot}%{_bindir}
 %{__install} -d %{buildroot}%{python3_sitelib}
 %{__mv} src/run_%{sname} %{buildroot}%{_bindir}/%{sname}
-%{__mv} src/%{sname} %{buildroot}%{python3_sitelib}
+ %{__mv} src/%{sname} %{buildroot}%{python3_sitelib}
 
 %files
 %defattr(644,root,root,755)
@@ -50,5 +52,8 @@ Best served with pg_statviz extensions package, which includes the extension fil
 %{python3_sitelib}/%{sname}
 
 %changelog
+* Thu Aug 17 2023 Devrim Gündüz <devrim@gunduz.org> - 0.3-1PGDG
+- Update to 0.3
+
 * Thu Apr 20 2023 Devrim Gündüz <devrim@gunduz.org> - 0.1-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
