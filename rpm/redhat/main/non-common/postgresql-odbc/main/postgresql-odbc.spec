@@ -1,7 +1,7 @@
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	15.00.0000
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -28,12 +28,12 @@ PostgreSQL system via ODBC (Open Database Connectivity).
 sed -i "s:elf64ppc:elf64lppc:g" configure
 %endif
 
-# Some missing macros.  Courtesy Owen Taylor <otaylor@redhat.com>.
+# Some missing macros. Courtesy Owen Taylor <otaylor@redhat.com>.
 %{__cp} -p %{SOURCE1} .
 # Use build system's libtool.m4, not the one in the package.
 %{__rm} -f libtool.m4
 
-libtoolize --force  --copy
+libtoolize --force --copy
 aclocal -I .
 automake --add-missing --copy
 autoconf
@@ -53,14 +53,11 @@ chmod +x configure
 
 %{__install} -d -m 755 %{buildroot}%{pginstdir}/lib
 pushd %{buildroot}%{pginstdir}/lib
-	ln -s psqlodbcw.so psqlodbc.so
-	mv %{buildroot}%{_libdir}/psqlodbc*.so %{buildroot}%{pginstdir}/lib
-	rm %{buildroot}%{_libdir}/psqlodbcw.la
-	rm %{buildroot}%{_libdir}/psqlodbca.la
+	%{__ln_s} psqlodbcw.so psqlodbc.so
+	%{__mv} %{buildroot}%{_libdir}/psqlodbc*.so %{buildroot}%{pginstdir}/lib
+	%{__rm} %{buildroot}%{_libdir}/psqlodbcw.la
+	%{__rm} %{buildroot}%{_libdir}/psqlodbca.la
 popd
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -70,14 +67,14 @@ popd
 %attr(755,root,root) %{pginstdir}/lib/psqlodbcw.so
 %{pginstdir}/lib/psqlodbc.so
 %{pginstdir}/lib/psqlodbca.so
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc license.txt readme.txt
-%else
 %doc readme.txt
 %license license.txt
-%endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 15.00.0000-2PGDG
+- Remove RHEL 6 bits
+- Fix rpmlint warnings
+
 * Fri Jun 23 2023 Devrim Gündüz <devrim@gunduz.org> - 15.00.0000-1PGDG
 - Update to 15.00.0000
 
