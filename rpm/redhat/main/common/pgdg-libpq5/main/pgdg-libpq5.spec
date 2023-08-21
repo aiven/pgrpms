@@ -6,18 +6,10 @@
 
 %{!?ssl:%global ssl 1}
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%{!?systemd_enabled:%global systemd_enabled 0}
-%{!?selinux:%global selinux 0}
-%else
-%{!?systemd_enabled:%global systemd_enabled 1}
-%{!?selinux:%global selinux 1}
-%endif
-
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.4
-Release:	42PGDG%{?dist}
+Release:	42PGDG%{?dist}.1
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -54,7 +46,6 @@ BuildRequires:	openldap-devel
 
 BuildRequires:	gettext >= 0.10.35
 
-%if %selinux
 # All supported distros have libselinux-devel package:
 BuildRequires:	libselinux-devel >= 2.0.93
 # SLES: SLES 15 does not have selinux-policy package. Use
@@ -65,7 +56,6 @@ BuildRequires:	selinux-policy >= 3.9.13
 # RHEL/Fedora has selinux-policy:
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	selinux-policy >= 3.9.13
-%endif
 %endif
 
 %if %ssl
@@ -144,12 +134,8 @@ export PYTHON=/usr/bin/python3
 	--enable-nls \
 	--with-ldap \
 	--with-lz4 \
-%if %selinux
 	--with-selinux \
-%endif
-%if %{systemd_enabled}
 	--with-systemd \
-%endif
 	--with-system-tzdata=%{_datadir}/zoneinfo
 
 %global build_subdirs \\\
@@ -212,6 +198,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Wed Aug 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.4-42.1-1PGDG
+- Remove RHEL 6 bits
+
 * Wed Aug 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.4-42-1PGDG
 - Update to 15.4
 
