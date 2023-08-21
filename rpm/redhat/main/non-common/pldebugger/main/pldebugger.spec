@@ -12,9 +12,9 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 Summary:	PL/pgSQL debugger server-side code
-License:	Artistic  2.0
+License:	Artistic 2.0
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Source1:	%{sname}.LICENSE
@@ -43,11 +43,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -74,17 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__install} -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{sname}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc %{pginstdir}/doc/extension/README.%{sname}
-%doc LICENSE
-%else
 %doc %{pginstdir}/doc/extension/README.%{sname}
 %license LICENSE
-%endif
 %{pginstdir}/lib/plugin_debugger.so
 %{pginstdir}/share/extension/pldbgapi*.sql
 %{pginstdir}/share/extension/pldbgapi*.control
@@ -96,6 +88,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5-3PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5-2.1
 - Rebuild against LLVM 15 on SLES 15
 
