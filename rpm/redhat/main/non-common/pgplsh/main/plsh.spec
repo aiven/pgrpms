@@ -13,7 +13,7 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20220917
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
@@ -75,11 +75,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 
 %{pginstdir}/lib/%{sname}.so
 %doc NEWS COPYING README.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYING
-%else
 %license COPYING
-%endif
 %{pginstdir}/share/extension/%{sname}--1--2.sql
 %{pginstdir}/share/extension/%{sname}--2.sql
 %{pginstdir}/share/extension/%{sname}--unpackaged--1.sql
@@ -92,6 +88,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20220917-4PGDG
+- Remove RHEL 6 bits
+
 * Sun Jul 23 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20220917-3PGDG
 - Cleanup rpmlint warnings
 - Add PGDG branding.
@@ -107,7 +106,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 - Update llvm code
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200522-3
-- Remove pgxs patches, and  export PATH instead.
+- Remove pgxs patches, and export PATH instead.
 
 * Tue Oct 27 2020 Devrim Gündüz <devrim@gunduz.org> - 1.20200522-2
 - Use underscore before PostgreSQL version number for consistency, per:
