@@ -18,10 +18,6 @@
 %python3_build_list hstore_plpython jsonb_plpython ltree_plpython
 
 %pgdg_plpython_version\
-%if 0%{?rhel} && 0%{?rhel} <= 6\
-# RHEL 6 does not have Python 3\
-%{!?plpython3:%global plpython3 0}\
-%endif\
 %if 0%{?fedora} && 0%{?fedora} > 27\
 # All Fedora releases use Python3\
 %{!?plpython3:%global plpython3 1}\
