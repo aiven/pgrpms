@@ -18,7 +18,7 @@
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
 Version:	12.0.0
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
@@ -98,17 +98,10 @@ make %{?_smp_mflags}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/lib/%{sname}_columnar.so
@@ -140,6 +133,10 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 12.0.0-2PGDG
+- Remove RHEL 6 bits
+- Remove rpmlint warning
+
 * Wed Jul 19 2023 Devrim Gunduz <devrim@gunduz.org> - 12.0.0-1PGDG
 - Update to 12.0.0
 - Add PGDG branding
