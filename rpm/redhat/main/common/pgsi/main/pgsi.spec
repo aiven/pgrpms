@@ -1,7 +1,7 @@
 Summary:	PostgreSQL Log Analyzer Script
 Name:		pgsi
 Version:	1.7.1
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	http://bucardo.org/downloads/%{name}-%{version}.tar.gz
 URL:		http://bucardo.org/pgsi
@@ -30,24 +30,24 @@ produce wiki-ready system impact reports.
 %{__install} -d %{buildroot}%{_docdir}/%{name}-%{version}
 %{__install} -m 755 pgsi.pl %{buildroot}%{_bindir}/
 %{__install} -m 644 blib/man1/pgsi.pl.1 %{buildroot}%{_mandir}/man1
-%{__install} -m 644 pgsi.html  %{buildroot}%{_docdir}/%{name}-%{version}/
+%{__install} -m 644 pgsi.html %{buildroot}%{_docdir}/%{name}-%{version}/
 
 %clean
 %{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{_bindir}/%{name}.pl
 %{_mandir}/man1/*
 %dir %{_docdir}/%{name}-%{version}
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-2PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-1.1
 - Rebuild against PostgreSQL 11.0
 
