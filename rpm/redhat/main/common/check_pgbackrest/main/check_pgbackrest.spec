@@ -4,7 +4,7 @@
 
 Name:		nagios-plugins-pgbackrest
 Version:	2.3
-Release:	1%{dist}
+Release:	2PGDG%{dist}
 Summary:	pgBackRest backup check plugin for Nagios
 License:	PostgreSQL
 Url:		https://github.com/pgstef/%{sname}
@@ -36,14 +36,14 @@ check_pgbackrest is designed to monitor pgBackRest backups from Nagios.
 %files
 %defattr(-,root,root,0755)
 %{_libdir}/nagios/plugins/%{sname}
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README LICENSE
-%else
 %doc README
 %license LICENSE
-%endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 2.3-2PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Tue May 31 2022 Devrim Gündüz <devrim@gunduz.org> - 2.3-1
 - Update to 2.3
 
