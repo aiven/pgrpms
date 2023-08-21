@@ -1,5 +1,5 @@
 %global sname	pljava
-%global relver	1_6_4
+%global relver	1_6_5
 
 %global debug_package %{nil}
 
@@ -11,8 +11,8 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.4
-Release:	2%{?dist}
+Version:	1.6.5
+Release:	1PGDG%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 
@@ -68,7 +68,7 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__rm} -rf %{buildroot}
 
 %{__install} -d %{buildroot}%{pginstdir}/lib
-%{__cp} -f ./pljava-so/target/pljava-pgxs/libpljava-so-%{version}.so  %{buildroot}%{pginstdir}/lib
+%{__cp} -f ./pljava-so/target/pljava-pgxs/libpljava-so-%{version}.so %{buildroot}%{pginstdir}/lib
 
 %{__install} -d %{buildroot}%{pginstdir}/share/%{sname}
 %{__cp} -f %{sname}/target/%{sname}-%{version}.jar %{buildroot}%{pginstdir}/share/%{sname}/
@@ -80,16 +80,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.control %{buildroot}%{pginstdir}/share/extension
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYRIGHT README.md
-%else
 %doc README.md
 %license COPYRIGHT
-%endif
 %{pginstdir}/lib/libpljava-so-%{version}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/%{sname}--1*.sql
@@ -99,6 +92,11 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Mon Aug 21 2023 - Devrim Gündüz <devrim@gunduz.org> - 1.6.5-1PGDG
+- Update to 1.6.5
+- Add PGDG branding
+- Fix rpmlint warning
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
