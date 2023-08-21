@@ -4,7 +4,7 @@
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.23
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
 URL:		https://github.com/lacanoid/%{pname}
@@ -22,7 +22,7 @@ system catalogs to nicely formatted snippets of SQL DDL, such as CREATE TABLE.
 %setup -q -n %{pname}-%{version}
 
 %build
-USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
@@ -30,21 +30,19 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.md
-%else
 %license LICENSE.md
-%endif
 %defattr(644,root,root,755)
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 0.23-2PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+- Fix rpmlint warning
+
 * Tue Jun 6 2023 Devrim Gündüz <devrim@gunduz.org> - 0.23-1
 - Update to 0.23
 
