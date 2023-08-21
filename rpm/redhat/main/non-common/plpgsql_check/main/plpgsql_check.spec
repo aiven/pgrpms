@@ -13,7 +13,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 
 License:	BSD
@@ -41,11 +41,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -66,17 +66,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc README.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -88,6 +81,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2PGDG
+- Remove RHEL 6 bits
+- Fix rpmlint warnings
+
 * Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> 2.4.0-1PGDG
 - Update to 2.4.0
 - Add PGDG branding
