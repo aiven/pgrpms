@@ -37,12 +37,8 @@ compressed file.
 %{__rm} -f %{buildroot}/%perl_vendorarch/auto/pgBadger/.packlist
 
 %files
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README LICENSE
-%else
 %doc README
 %license LICENSE
-%endif
 %attr(755,root,root) %{_bindir}/%{name}
 %{_mandir}/man1/%{name}.1p.gz
 
@@ -51,6 +47,7 @@ compressed file.
 - Update to 12.2, per changes described at:
   https://github.com/darold/pgbadger/releases/tag/v12.2
 - Add PGDG branding
+- Remove RHEL 6 bits
 
 * Tue Mar 21 2023 - Devrim Gündüz <devrim@gunduz.org> 12.1-1
 - Update to 12.1, per changes described at:
