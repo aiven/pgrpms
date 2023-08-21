@@ -4,7 +4,7 @@
 Summary:	top-like console for Pgbouncer - PostgreSQL connection pooler
 Name:		pgbconsole
 Version:	0.1.1
-Release:	3%{?dist}
+Release:	4PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/lesovsky/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/lesovsky/%{sname}
@@ -43,16 +43,16 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %files
 %defattr(-,root,root,-)
 %{_mandir}/man1/pgbconsole.1.gz
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md COPYRIGHT
-%else
 %doc README.md
 %license COPYRIGHT
-%endif
 
 %{_bindir}/%{sname}
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 0.1.1-4PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 0.1.1-3
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
