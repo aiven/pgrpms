@@ -3,7 +3,7 @@
 Summary:	command line utility for exporting XML, JSON, BYTEA document from PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.1.4
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/okbob/%{sname}
@@ -28,20 +28,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__install} -d %{buildroot}%{_bindir}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc README.md LICENSE
-%else
 %doc README.md
 %license LICENSE
-%endif
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-3PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
