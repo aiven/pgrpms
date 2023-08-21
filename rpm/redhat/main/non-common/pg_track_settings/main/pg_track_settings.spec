@@ -4,7 +4,7 @@
 Summary:	PostgreSQL extension to keep track of settings modification
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.1.2
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/rjuju/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/rjuju/%{sname}
@@ -39,24 +39,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 #Avoid conflict with some other README file:
 %{__mv} %{buildroot}%{pginstdir}/doc/extension/README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-2PGDG
+- Remove RHEL 6 bits
+- Fix rpmlint warnings
+- Add PGDG branding
+
 * Tue May 16 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1
 - Update to 4.1.2
 
