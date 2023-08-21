@@ -131,17 +131,9 @@ if [ $1 -ge 1 ] ; then
 	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
 fi
 
-
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{_bindir}/%{name}
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
@@ -152,7 +144,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.47-1
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 2.47-2PGDG
+- Remove RHEL 6 bits
+
+* Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.47-1PGDG
 - Update to 2.47, per changes described at:
   https://pgbackrest.org/release.html#2.47
 - Add PGDG branding
