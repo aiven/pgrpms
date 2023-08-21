@@ -11,7 +11,7 @@
 Summary:	Command line tool designed to interact with the PostgreSQL Extension Network
 Name:		pgxnclient
 Version:	1.3.2
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 Source0:	https://pypi.python.org/packages/source/p/%{name}/%{name}-%{version}.tar.gz
 License:	BSD
 Url:		https://github.com/pgxn/pgxnclient
@@ -32,17 +32,10 @@ removing extensions in a PostgreSQL installation or database.
 %{__rm} -rf %{buildroot}
 %{__ospython} setup.py install --root %{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc docs/
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc COPYING
-%else
 %license COPYING
-%endif
 %dir %{python3_sitelib}/
 %dir %{python3_sitelib}/%{name}
 %{_bindir}/pgxn
@@ -57,6 +50,10 @@ removing extensions in a PostgreSQL installation or database.
 %{python3_sitelib}/%{name}/utils/__pycache__/*.p*
 
 %changelog
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 1.3.2-3PGDG
+- Remove RHEL 6 bits
+- Add PGDG branding
+
 * Sun Mar 6 2022 Devrim Gündüz <devrim@gunduz.org> 1.3.2-2
 - Fix builds with Fedora 35, and also use the standard macros.
 
