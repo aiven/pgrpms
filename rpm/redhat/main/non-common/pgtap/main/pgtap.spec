@@ -1,22 +1,20 @@
 %global sname	pgtap
+%global tapparserversion	3.36
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.0
-Release:	2%{?dist}
+Version:	1.3.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
 Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
 # Use this source for pg_prove and pg_tapgen
-Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-3.33.tar.gz
+Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-%{tapparserversion}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	perl-Test-Pod perl-Test-Pod-Coverage perl-Module-Build
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.1.0-2
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	perl-Module-Build
-%endif
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
 
 BuildArch:	noarch
@@ -35,25 +33,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} TAPSCHEMA=pgtap %{?_smp_mflags
 
 # Build pg_prove and pg_tapgen
 tar zxf %{SOURCE1}
-pushd TAP-Parser-SourceHandler-pgTAP-3.33
+pushd TAP-Parser-SourceHandler-pgTAP-%{tapparserversion}
 perl Build.PL
 ./Build
 popd
 
 %install
-%{__rm} -rf  %{buildroot}
+%{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} install DESTDIR=%{buildroot} %{?_smp_mflags}
 
 # Install pg_prove and pg_tapgen
-pushd TAP-Parser-SourceHandler-pgTAP-3.33
-%{__mkdir} -p  %{buildroot}%{_bindir}
+pushd TAP-Parser-SourceHandler-pgTAP-%{tapparserversion}
+%{__mkdir} -p %{buildroot}%{_bindir}
 %{__install} -m 755 bin/* %{buildroot}%{_bindir}
-%{__mkdir} -p  %{buildroot}%{perl_privlib}/TAP/Parser/SourceHandler/
+%{__mkdir} -p %{buildroot}%{perl_privlib}/TAP/Parser/SourceHandler/
 %{__install} lib/TAP/Parser/SourceHandler/pgTAP.pm %{buildroot}%{perl_privlib}/TAP/Parser/SourceHandler/
 popd
-
-%clean
-%{__rm} -rf  %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -65,6 +60,10 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-2
+- Update to 1.3.0
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
