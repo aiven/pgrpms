@@ -13,7 +13,7 @@
 Summary:	A hash-table based alternative to COUNT(DISTINCT ...) aggregate in PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.1
-Release:	4%{?dist}.1
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/tvondra/%{sname}
@@ -38,11 +38,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -65,17 +65,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{__mkdir} -p %{buildroot}/%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}/%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %{pginstdir}/lib/count_distinct.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -86,6 +79,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4.1
+- Remove RHEL 6 bits
+- Add PGDG branding
+- Fix rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-4.1
 - Rebuild against LLVM 15 on SLES 15
 
