@@ -5,7 +5,7 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
-Name:		%{sname}_%{pgmajorversion}_extension
+Name:		%{sname}_extension_%{pgmajorversion}
 Version:	0.4
 Release:	1PGDG%{dist}
 License:	GPLv2+
