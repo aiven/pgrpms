@@ -5,7 +5,7 @@
 %global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
-Name:		%{sname}_%{pgmajorversion}_extensions
+Name:		%{sname}_%{pgmajorversion}_extension
 Version:	0.4
 Release:	1PGDG%{dist}
 License:	GPLv2+
@@ -31,7 +31,8 @@ visualizations for selected time ranges on the stored stats snapshots,
 enabling the user to track PostgreSQL performance over time and potentially
 perform tuning or troubleshooting.
 
-Best served with pg_statviz extensions package, which includes the extension files.
+Best served with pg_statviz extension package, which includes the extension
+files.
 
 %prep
 %setup -q -n %{sname}-%{version}
