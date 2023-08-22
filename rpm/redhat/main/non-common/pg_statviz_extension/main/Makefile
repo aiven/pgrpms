@@ -10,8 +10,8 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel8
-SPECFILE="pg_statviz_extensions.spec"
+DIST=.f42
+SPECFILE="pg_statviz_extension.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
