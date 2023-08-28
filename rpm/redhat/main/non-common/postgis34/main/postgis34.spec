@@ -24,12 +24,6 @@
 %global libgeotiffinstdir %libgeotiff17instdir
 %endif
 
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%global libspatialitemajorversion	43
-%else
-%global libspatialitemajorversion	50
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -42,11 +36,7 @@
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
-%if 0%{?suse_version} >= 1315
 %{!?raster:%global     raster 1}
-%else
-%{!?raster:%global     raster 1}
-%endif
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
@@ -226,7 +216,6 @@ This packages provides JIT support for postgis33
 %build
 LDFLAGS="-Wl,-rpath,%{geosinstdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 LDFLAGS="-Wl,-rpath,%{projinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
-LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 
@@ -396,6 +385,7 @@ fi
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-1PGDG
 - Update to 3.4.0 Gold!
 - Use GeOS 3.12 and GDAL 3.6
+- Remove unneeded references to libspatialite.
 
 * Mon Aug 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0rc1-1PGDG
 - Update to 3.4.0 RC1
