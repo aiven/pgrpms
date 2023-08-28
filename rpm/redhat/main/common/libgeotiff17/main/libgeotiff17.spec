@@ -9,25 +9,16 @@
 %global projfullversion %proj92fullversion
 %global projinstdir %proj92instdir
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.32 cmake3
+BuildRequires:	pgdg-srpm-macros >= 1.0.33 cmake3
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -118,16 +109,13 @@ EOF
 %{__mv} %{buildroot}/usr/local/doc/* %{buildroot}%{_docdir}/%{name}
 %{__mv} %{buildroot}/usr/local/lib/libgeotiff.a %{buildroot}/%{libgeotiff17instdir}/lib
 %{__rm} -f %{buildroot}/usr/local/share/cmake/GeoTIFF/*cmake
-%{__mv} %{buildroot}/usr/local/share/man/man1/*  %{buildroot}%{libgeotiff17instdir}/man/man1
-
-%clean
-%{__rm} -rf %{buildroot}
+%{__mv} %{buildroot}/usr/local/share/man/man1/* %{buildroot}%{libgeotiff17instdir}/man/man1
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
-%doc ChangeLog LICENSE README AUTHORS COPYING INSTALL README*
+%doc ChangeLog LICENSE AUTHORS COPYING INSTALL README*
 %{libgeotiff17instdir}/bin/applygeo
 %{libgeotiff17instdir}/bin/geotifcp
 %{libgeotiff17instdir}/bin/listgeo
@@ -147,6 +135,11 @@ EOF
 
 
 %changelog
+* Mon Aug 28 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-3PGDG
+- Remove RHEL 7 bits
+- Add PGDG branding
+- Fix rpmlint and build warnings
+
 * Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-2
 - Use Proj 9.2.X
 
