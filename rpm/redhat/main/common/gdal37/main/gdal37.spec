@@ -1,62 +1,45 @@
+%if 0%{?rhel} == 8
+# gdal-3.7 cmake build does not work in source directory
+%undefine __cmake_in_source_build
+%endif
+
 %global sname gdal
 
 %pgdg_set_gis_variables
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 37
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
+%if 0%{?rhel} == 8
+%global pyver 3.9
+%endif
+
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
-
-# Use latest PROJ on Fedora 38+
-%if 0%{?fedora} >= 38
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
 %global	projmajorversion %proj92majorversion
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
+
+# Use latest libgeotiff on Fedora 38+
+%if 0%{?fedora} >= 38
 %global	libgeotiffmajorversion 17
 %global	libgeotiffinstdir %libgeotiff17instdir
 %endif
 
 %global gdalinstdir /usr/%{name}
-%global gdalsomajorversion	33
-
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%global libspatialitemajorversion	43
-%else
+%global gdalsomajorversion	32
 %global libspatialitemajorversion	50
-%endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global sqlitepname	sqlite33
-%global sqlitelibdir	/usr/sqlite330/lib
-# Major digit of the proj so version
-%global proj_somaj 19
-%else
 %global sqlitepname	sqlite
 %global sqlitelibdir	%{_libdir}
-# Major digit of the proj so version
-%global proj_somaj 22
-%endif
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
 %global g2clib_enabled 0
@@ -65,23 +48,23 @@
 # Enable/disable generating refmans
 # texlive currently broken deps and FTBFS in rawhide
 %global build_refman 0
+# https://bugzilla.redhat.com/show_bug.cgi?id=1490492
+%global mysql --with-mysql
+# https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
-%if 0%{?rhel} >= 9 || 0%{?fedora} >= 35
-%{!?with_python3:%global with_python3 0}
-%else
-%{!?with_python3:%global with_python3 0}
-%endif
+%global poppler --with-poppler
+%global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}37
-Version:	3.7.0
-Release:	1%{?pre:%pre}%{?dist}
+Version:	3.7.1
+Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
 # Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
-Source0:	%{sname}-%{version}%{?pre:%pre}-fedora.tar.xz
+Source0:	%{sname}-%{version}-fedora.tar.xz
 Source4:	PROVENANCE.TXT-fedora
 
 # Cleaner script for the tarball
@@ -99,7 +82,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.31
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.33
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -148,11 +131,7 @@ BuildRequires:	poppler-devel
 %endif
 BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	%{sqlitepname}-devel
-%else
 BuildRequires:	sqlite-devel
-%endif
 BuildRequires:	swig
 %if %{build_refman}
 BuildRequires:	texlive-collection-fontsrecommended
@@ -204,11 +183,7 @@ BuildRequires:	libtirpc-devel
 
 BuildRequires:	python3-devel
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	python36-numpy
-%else
 BuildRequires:	python3-numpy
-%endif
 BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
@@ -252,7 +227,7 @@ Requires:	libspatialite%{libspatialitemajorversion}-devel
 Requires:	libarmadillo10
 %endif
 %endif
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires:	armadillo
 %endif
 
@@ -277,7 +252,6 @@ BuildArch:	noarch
 %description javadoc
 This package contains the API documentation for %{name}.
 
-%if %{with_python3}
 %package python3
 %{?python_provide:%python_provide python3-gdal}
 Summary:	Python modules for the GDAL file format library
@@ -299,7 +273,6 @@ manipulating GDAL file format library
 # We don't want to provide private Python extension libs
 %global __provides_exclude_from ^(%{python2_sitearch}|%{python3_sitearch})/.*\.so$
 %global __provides_exclude_from ^%{python3_sitearch}/.*\.so$
-%endif
 
 %prep
 %setup -q -n %{sname}-%{version}-fedora
@@ -341,28 +314,21 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 %endif
  -DCMAKE_INSTALL_INCLUDEDIR=include \
  -DCMAKE_INSTALL_LIBDIR=lib \
- -DOGDI_INCLUDE_DIRS=%{ogdiinstdir}/include \
-%if %{with_python3}
  -DBUILD_PYTHON_BINDINGS=ON \
- -DPython_LIBRARY=%{_libdir} \
- -DSWIG_PYTHON=ON \
- -DSWIG_REGENERATE_PYTHON=ON \
-%else
- -DBUILD_PYTHON_BINDINGS=OFF \
- %endif
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
+ -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
- -DSPATIALITE_INCLUDE_DIR=%{libspatialiteinstdir}/include \
- -DGEOS_DIR=%{geosinstdir} \
- -DGEOS_INCLUDE_DIR=%{geosinstdir}/include \
- -DGEOTIFF_INCLUDE_DIR=%{libgeotiffinstdir}/include
+ -DSWIG_REGENERATE_PYTHON=OFF \
+ -DPROJ_LIBRARY_RELEASE=%{projinstdir}/lib64 \
+ -DPROJ_INCLUDE_DIR=%{projinstdir}/include \
+ -DGEOS_LIBRARY=%{geosinstdir}/lib64/libgeos.so \
+ -DGEOS_INCLUDE_DIR=%{geosinstdir}/include
 
 %cmake_build
 
 %install
 %cmake_install
 
-%if %{with_python3}
 # List of manpages for python scripts
 for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   if [ -f %{buildroot}%{gdalinstdir}/share/man/man1/`basename ${file/.py/.1*}` ]; then
@@ -371,23 +337,17 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
   fi
 done
 
-#{__mkdir} -p %{buildroot}/%{python3_sitearch}/
-#{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
-#{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
-#{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
-%endif
+%{__mkdir} -p %{buildroot}/%{python3_sitearch}/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE6} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 
-%if %{with_python3}
-%files
-# -f gdal_python_manpages_excludes.txt
-%else
-%files
-%endif
+%files -f gdal_python_manpages_excludes.txt
 %{gdalinstdir}/bin/gdal_contour
 %{gdalinstdir}/bin/gdal_create
 %{gdalinstdir}/bin/gdal_grid
@@ -410,11 +370,11 @@ done
 %{gdalinstdir}/bin/gnmanalyse
 %{gdalinstdir}/bin/gnmmanage
 %{gdalinstdir}/bin/nearblack
+%{gdalinstdir}/bin/ogr_layer_algebra.py
 %{gdalinstdir}/bin/ogr2ogr
 %{gdalinstdir}/bin/ogrinfo
 %{gdalinstdir}/bin/ogrlineref
 %{gdalinstdir}/bin/ogrtindex
-%{gdalinstdir}/bin/sozip
 %{gdalinstdir}/share/bash-completion/completions/*
 %exclude %{gdalinstdir}/share/bash-completion/completions/*.py
 %{gdalinstdir}/share/man/man1/*
@@ -437,15 +397,13 @@ done
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
 
-%if %{with_python3}
 %files python3
 %doc swig/python/README.rst
-#{python3_sitearch}/GDAL-%{version}-py*.egg-info/
-#{python3_sitearch}/osgeo/
-#{python3_sitearch}/osgeo_utils/
+%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+%{python3_sitearch}/osgeo/
+%{python3_sitearch}/osgeo_utils/
 
-%files python-tools 
-####-f gdal_python_manpages.txt
+%files python-tools -f gdal_python_manpages.txt
 %{gdalinstdir}/bin/gdal_calc.py
 %{gdalinstdir}/bin/gdal_edit.py
 %{gdalinstdir}/bin/gdal_fillnodata.py
@@ -464,7 +422,6 @@ done
 %{gdalinstdir}/bin/pct2rgb.py
 %{gdalinstdir}/bin/rgb2pct.py
 %{gdalinstdir}/share/bash-completion/completions/*.py
-%endif
 
 %files java
 %{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
@@ -478,5 +435,12 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Aug 29 2023 Devrim Gunduz <devrim@gunduz.org> - 3.7.1-1PGDG
+- Update to 3.7.1
+- Remove RHEL 7 support.
+- Add PGDG branding
+- Use GeOS 3.12 on all platforms.
+- Link properly with GeOS and libgeotiff.
+
 * Sun Jun 4 2023 Devrim Gunduz <devrim@gunduz.org> - 3.7.0-1
 - Initial 3.7.x packaging.
