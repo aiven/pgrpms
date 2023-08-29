@@ -26,7 +26,7 @@
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
 
-# Use latest PROJ on Fedora 38+
+# Use latest libgeotiff on Fedora 38+
 %if 0%{?fedora} >= 38
 %global	libgeotiffmajorversion 17
 %global	libgeotiffinstdir %libgeotiff17instdir
@@ -38,8 +38,6 @@
 
 %global sqlitepname	sqlite
 %global sqlitelibdir	%{_libdir}
-# Major digit of the proj so version
-%global proj_somaj 22
 
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
