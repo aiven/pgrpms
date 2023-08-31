@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.4.4
-Release:	1%{?dist}
+Version:	0.5.0
+Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -38,11 +38,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -63,8 +63,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
+#Remove header file, we don't need it right now:
+%{__rm} %{buildroot}%{pginstdir}/include/server/extension/%{pname}/%{pname}.h
 
 %files
 %doc README.md
@@ -79,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Aug 31 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1PGDG
+- Update to 0.5.0
+- Add PGDG branding
+
 * Tue Jun 13 2023 Devrim Gündüz <devrim@gunduz.org> - 0.4.4-1
 - Update to 0.4.4
 
