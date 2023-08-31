@@ -7,7 +7,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -62,11 +62,11 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16
-Release:	beta3_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v16beta3/postgresql-%{pgpackageversion}beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v16rc1/postgresql-%{pgpackageversion}rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -146,7 +146,6 @@ BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
 %endif
 %endif
 
@@ -539,7 +538,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{pgpackageversion}rc1
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1318,6 +1317,11 @@ fi
 %endif
 
 %changelog
+* Tue Aug 29 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-rc1-1PGDG
+- Update to v16 RC 1
+- Remove LLVM dependency in the main package on SLES 15. Per bug report
+  from Muralikrishna Bandaru.
+
 * Tue Aug 8 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-beta3-1
 - Update to v16 beta3
 
