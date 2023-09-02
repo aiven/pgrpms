@@ -4,8 +4,8 @@
 %global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Name:		PyGreSQL
-Version:	5.2.3
-Release:	2%{?dist}
+Version:	5.2.5
+Release:	1PGDG%{?dist}
 Summary:	A Python client library for PostgreSQL
 
 URL:		http://www.PyGreSQL.org/
@@ -60,6 +60,10 @@ find -type f -exec chmod 644 {} +
 %endif
 
 %changelog
+* Sat Sep 2 2023 Devrim Gündüz <devrim@gunduz.org> - 5.2.5-1
+- Update to 5.2.5
+- Add PGDG branding
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 5.2.3-2
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
