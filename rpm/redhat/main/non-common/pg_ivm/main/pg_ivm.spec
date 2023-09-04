@@ -13,8 +13,8 @@
 
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.1
-Release:	1%{?dist}.1
+Version:	1.6
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
 Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -38,11 +38,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -63,9 +63,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=%{buildroot} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %{pginstdir}/lib/%{sname}.so
@@ -78,6 +75,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Mon Sep 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6-1
+- Update to 1.6
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.1-1.1
 - Rebuild against LLVM 15 on SLES 15
 
