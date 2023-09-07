@@ -12,8 +12,8 @@
 
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
-Release:	1%{?dist}.1
+Version:	1.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
@@ -82,6 +82,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2-1PGDG
+- Update to 1.2
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1-1.1
 - Rebuild against LLVM 15 on SLES 15
 
