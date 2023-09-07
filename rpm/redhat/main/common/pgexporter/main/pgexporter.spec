@@ -1,6 +1,6 @@
 Name:		pgexporter
-Version:	0.3.2
-Release:	1%{dist}
+Version:	0.4.0
+Release:	1PGDG%{dist}
 Summary:	Prometheus exporter for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{name}/%{name}
@@ -88,6 +88,10 @@ cd %{buildroot}%{_libdir}/
 %{_libdir}/libpgexporter.so.%{version}
 
 %changelog
+* Thu Sep 7 2023 - Devrim Gündüz <devrim@gunduz.org> 0.4.0-1PGDG
+- Update to 0.4.0
+- Add PGDG branding
+
 * Thu Jan 12 2023 - Devrim Gündüz <devrim@gunduz.org> 0.3.2-1
 - Update to 0.3.2
 
@@ -106,7 +110,6 @@ cd %{buildroot}%{_libdir}/
 * Mon Mar 21 2022 - Devrim Gündüz <devrim@gunduz.org> 0.2.1-1
 - Update to 0.2.1
 
-  spec file.
 * Fri Oct 22 2021 - Devrim Gündüz <devrim@gunduz.org> 0.2.0-1
 - Initial packaging for PostgreSQL RPM repository. Used upstream's
   spec file.
