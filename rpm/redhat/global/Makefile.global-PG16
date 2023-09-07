@@ -1,0 +1,116 @@
+#################################
+# Makefile for PostgreSQL 16	#
+# packaging	  	 	#
+# https://yum.postgresql.org	#
+#			   	#
+# Devrim Gunduz		   	#
+# devrim@gunduz.org	   	#
+#################################
+#			 	#
+#				#
+# build target is for      	#
+# RPM buildfarm		   	#
+#			   	#
+#			   	#
+#################################
+
+
+## PostgreSQL 16
+
+prep16:
+	if [ -f dead.package ]; then echo "This package is marked as dead. Build won't continue"; exit 1; fi
+	# Update spec file, patches, etc, before running spectool:
+	git pull
+	# Use spectool to download source files, especially tarballs.
+	spectool -g -S --define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" $(SPECFILE)
+
+build16: bfsrpm16
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_builddir $(HOME)/rpm16/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm16/RPMS/" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+srpm16: prep16
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16"  --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfsrpm16: prep16
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16"  --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfnoprepsrpm16:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16"  --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+bfnosignsrpm16: prep16
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16"  --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+rpm16: prep16
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nosignbuild16: bfnosignsrpm16
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm16/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm16/RPMS/" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+noprepbuild16:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpm16/BUILD" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpm16/SRPMS" \
+	--define "_rpmdir $(HOME)/rpm16/RPMS/" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+nopreprpm16:
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+noprepsrpm16:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpm16/BUILDROOT" \
+	--define "pgmajorversion 16" --define "pginstdir /usr/pgsql-16" --define "pgpackageversion 16" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
