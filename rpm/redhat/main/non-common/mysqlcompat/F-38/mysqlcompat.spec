@@ -1,1 +1,0 @@
-../main/../main/mysqlcompat.spec
