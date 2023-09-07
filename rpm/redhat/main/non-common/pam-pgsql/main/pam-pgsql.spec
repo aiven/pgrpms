@@ -3,7 +3,7 @@
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.3.2
-Release:	4%{dist}.1
+Release:	5PGDG%{dist}
 Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
@@ -33,11 +33,8 @@ sh autogen.sh
 %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf  %{buildroot}
+%{__rm} -rf %{buildroot}
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
-
-%clean
-%{__rm} -rf  %{buildroot}
 
 %post
 # Create alternatives entries for lib files
@@ -55,8 +52,12 @@ libtool --finish %{pginstdir}/lib/security
 %{pginstdir}/lib/security/pam_pgsql.so
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.3.2-5PGDG
+- Cleanup rpmlint warnings
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.3.2-4.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.7.3.2-4
 - Add missing BR, and also remove .la file
