@@ -7,7 +7,7 @@
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
 Name:		%{sname}
-Version:	0.5
+Version:	0.6
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -52,6 +52,9 @@ Best served with pg_statviz extensions package, which includes the extension fil
 %{python3_sitelib}/%{sname}
 
 %changelog
+* Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.6-1PGDG
+- Update to 0.6
+
 * Thu Aug 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5-1PGDG
 - Update to 0.5
 
