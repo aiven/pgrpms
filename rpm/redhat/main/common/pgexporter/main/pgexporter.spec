@@ -31,6 +31,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/etc
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/shell_comp
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/tutorial
+%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/yaml
 %{__mkdir} -p %{buildroot}%{_mandir}/man1
 %{__mkdir} -p %{buildroot}%{_mandir}/man5
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
@@ -46,6 +47,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/YAML.md %{buildroot}%{_docdir}/%{name}/YAML.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.service %{buildroot}%{_docdir}/%{name}/etc/%{name}.service
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgexporter_comp.* %{buildroot}%{_docdir}/%{name}/shell_comp/
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/yaml/postgresql-*.yaml %{buildroot}%{_docdir}/%{name}/yaml/
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/*.md %{buildroot}%{_docdir}/%{name}/tutorial/
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
@@ -74,6 +76,7 @@ cd %{buildroot}%{_libdir}/
 %{_docdir}/%{name}/*.md
 %{_docdir}/%{name}/etc/%{name}.service
 %{_docdir}/%{name}/shell_comp/*
+%{_docdir}/%{name}/yaml/postgresql-*.yaml
 %{_docdir}/%{name}/tutorial/*.md
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
