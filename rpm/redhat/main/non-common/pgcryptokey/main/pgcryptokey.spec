@@ -13,7 +13,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.85
-Release:	4%{?dist}.1
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	http://momjian.us/download/%{sname}/%{sname}-%{version}.tar.gz
 URL:		http://momjian.us/download/%{sname}/
@@ -40,11 +40,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -65,9 +65,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc README
@@ -85,6 +82,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Fri Sep 8 2023 Devrim Gunduz <devrim@gunduz.org> - 0.85-5PGDG
+- Cleanup rpmlint warnings
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 0.85-4.1
 - Rebuild against LLVM 15 on SLES 15
 
