@@ -3,7 +3,7 @@
 
 Summary:	Automate pg_dump | pg_restore between two running Postgres servers
 Name:		%{sname}
-Version:	0.12
+Version:	0.13
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/dimitri/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -28,9 +28,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %license LICENSE
@@ -38,6 +35,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/pgcopydb
 
 %changelog
+* Fri Sep 8 2023 Devrim Gündüz <devrim@gunduz.org> - 0.13-1PGDG
+- Update to 0.13
+
 * Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.12-1PGDG
 - Update to 0.12
 - Add PGDG branding
