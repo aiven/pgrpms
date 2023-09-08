@@ -3,7 +3,7 @@
 Summary:	Activate/deactivate/verify checksums in offline Postgres clusters
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/credativ/%{sname}
 Source0:	https://github.com/credativ/%{sname}/archive/%{version}.tar.gz
@@ -39,16 +39,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 %license COPYRIGHT
-%{pginstdir}/bin/%{sname}_ext
+%attr (755,root,root) %{pginstdir}/bin/%{sname}_ext
 
 %changelog
+* Fri Sep 8 2023 Devrim Gündüz <devrim@gunduz.org> 1.1-3PGDGG
+- Mark binary file as executable
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
