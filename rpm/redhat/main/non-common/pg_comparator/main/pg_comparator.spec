@@ -13,7 +13,7 @@
 Summary:	Efficient table content comparison and synchronization for PostgreSQL and MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.5
-Release:	5%{?dist}.1
+Release:	6PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/koordinates/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/koordinates/%{sname}
@@ -40,11 +40,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -74,9 +74,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 # Drop alternatives entries for common binaries and man files
 %{_sbindir}/update-alternatives --remove pgcomparator %{pginstdir}/bin/%{sname}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/contrib/README.%{sname}
@@ -97,6 +94,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Sep 8 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.5-6PGDG
+- Cleanup rpmlint warnings
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.5-5.1
 - Rebuild against LLVM 15 on SLES 15
 
