@@ -13,8 +13,8 @@
 
 Summary:	Generic Queue for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.5
-Release:	2%{?dist}.1
+Version:	3.5.1
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}/
@@ -42,11 +42,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -70,9 +70,6 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 export PG_CONFIG=%{pginstdir}/bin/pg_config
 %{__make} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -90,6 +87,11 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Fri Sep 8 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-1PGDG
+- Update to 3.5.1
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5-2.1
 - Rebuild against LLVM 15 on SLES 15
 
