@@ -12,8 +12,8 @@
 
 Summary:	Makes PostgreSQL logical replication slots practically usable across physical failover.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.0
-Release:	1%{?dist}.1
+Version:	1.0.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -78,9 +78,6 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -97,6 +94,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Fri Sep 8 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.1-1PGDG
+- Update to 1.0.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
