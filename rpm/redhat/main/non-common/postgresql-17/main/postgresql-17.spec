@@ -1081,7 +1081,6 @@ fi
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
 %{pgbaseinstdir}/lib/moddatetime.so
-%{pgbaseinstdir}/lib/old_snapshot.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
 %{pgbaseinstdir}/lib/pgcrypto.so
@@ -1144,7 +1143,6 @@ fi
 %{pgbaseinstdir}/share/extension/ltree.control
 %{pgbaseinstdir}/share/extension/ltree--*.sql
 %{pgbaseinstdir}/share/extension/moddatetime*
-%{pgbaseinstdir}/share/extension/old_snapshot*
 %{pgbaseinstdir}/share/extension/pageinspect*
 %{pgbaseinstdir}/share/extension/pg_buffercache*
 %{pgbaseinstdir}/share/extension/pg_freespacemap*
