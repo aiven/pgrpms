@@ -4,7 +4,7 @@
 Summary:	PostgreSQL extension to schedules and manages jobs in a job queue similar to Oracle DBMS_JOB package
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/MigOpsRepos/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-makefile.patch
@@ -29,9 +29,6 @@ command, plpgsql code or an existing stored procedure.
 %{__rm} -rf %{buildroot}
 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=%{buildroot} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %{_sysconfdir}/%{sname}/%{sname}.conf.dist
@@ -41,6 +38,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=%{buildroot
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Sep 8 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5-3PGDG
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5-2.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
