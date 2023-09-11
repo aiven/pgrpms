@@ -1,0 +1,20 @@
+--- src/quarrel.h.old	2023-09-11 11:47:37.194711919 +0100
++++ src/quarrel.h	2023-09-11 11:47:50.868750125 +0100
+@@ -9,6 +9,8 @@
+ #ifndef PG_QUARREL_H
+ #define PG_QUARREL_H
+ 
++#include "common.h"
++
+ #include <errno.h>
+ #include "getopt_long.h"
+ #include <sys/types.h>
+@@ -17,8 +19,6 @@
+ #include <pg_config.h>			/* PG_VERSION_NUM */
+ #include <pg_config_manual.h>	/* NAMEDATALEN */
+ 
+-#include "common.h"
+-
+ #include <port.h>				/* simple_prompt */
+ 
+ #define PGQ_NAME			"pgquarrel"

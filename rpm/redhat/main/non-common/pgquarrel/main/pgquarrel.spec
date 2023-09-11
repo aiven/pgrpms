@@ -4,10 +4,11 @@
 Summary:	Compares PostgreSQL database schemas (DDL)
 Name:		%{sname}
 Version:	0.7.0
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{sversion}.tar.gz
-Patch0:		pgquarrel-libminipath.patch
+Patch0:		%{sname}-libminipath.patch
+Patch1:		%{sname}-inccommon.patch
 URL:		https://github.com/eulerto/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake pgdg-srpm-macros
 Requires:	postgresql-libs
@@ -29,6 +30,7 @@ database.
 %prep
 %setup -q -n %{sname}-%{sname}_%{sversion}
 %patch -P 0 -p0
+%patch -P 1 -p0
 
 %build
 cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
@@ -38,9 +40,6 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %{__rm} -rf %{buildroot}
 %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc README.md
@@ -49,8 +48,14 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %{_libdir}/libmini.so
 
 %changelog
+* Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.0-3PGDG
+- Add patch to fix builds against PostgreSQL 15 and 16, per
+  https://github.com/eulerto/pgquarrel/issues/105 and
+  https://github.com/eulerto/pgquarrel/commit/dac0a5527bd1ae48b5926a2b04fed5c01fb2c2c6
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.0-2.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
