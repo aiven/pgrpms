@@ -2,8 +2,8 @@
 %global _vpath_builddir .
 
 Name:           %{sname}_%{pgmajorversion}
-Version:	0.2.2
-Release:	1%{dist}
+Version:	0.2.3
+Release:	1PGDG%{dist}
 Summary:	PostgreSQL extension to provide additional Prometheus metrics for pgexporter.
 License:	BSD
 URL:		https://github.com/pgexporter/%{sname}
@@ -40,6 +40,10 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Sep 11 2023 - Devrim Gündüz <devrim@gunduz.org> 0.2.3-1PGDG
+- Update to 0.2.3
+- Add PGDG branding
+
 * Mon Apr 24 2023 - Devrim Gündüz <devrim@gunduz.org> 0.2.2-1
 - Update to 0.2.2
 
