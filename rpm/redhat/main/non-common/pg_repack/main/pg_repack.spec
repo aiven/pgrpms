@@ -14,10 +14,10 @@
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.8
-Release:	3%{?dist}.1
+Release:	4PGDG%{?dist}
 License:	BSD
-Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-URL:		https://pgxn.org/dist/pg_repack/
+Source0:	https://github.com/reorg/%{sname}/archive/refs/tags/ver_%{version}.tar.gz
+URL:		https://github.com/reorg/%{sname}/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
 BuildRequires:	pgdg-srpm-macros
@@ -42,11 +42,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -69,9 +69,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 
 %files
 %defattr(644,root,root)
-%doc COPYRIGHT doc/pg_repack.rst
-%attr (755,root,root) %{pginstdir}/bin/pg_repack
-%attr (755,root,root) %{pginstdir}/lib/pg_repack.so
+%doc COPYRIGHT doc/%{sname}.rst
+%attr (755,root,root) %{pginstdir}/bin/%{sname}
+%attr (755,root,root) %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
@@ -82,10 +82,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
    %{pginstdir}/lib/bitcode/%{sname}/pgut/*.bc
 %endif
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %changelog
+* Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.8-4PGDG
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.8-3.1
 - Rebuild against LLVM 15 on SLES 15
 
