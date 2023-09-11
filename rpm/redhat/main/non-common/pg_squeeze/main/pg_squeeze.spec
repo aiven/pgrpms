@@ -1,5 +1,5 @@
 %global sname pg_squeeze
-%global pgsqueezerelversion 1_5_0
+%global pgsqueezerelversion 1_6_1
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,8 +13,8 @@
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.0
-Release:	2%{?dist}.1
+Version:	1.6.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
@@ -40,11 +40,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -67,16 +67,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
+%{__rm} -f %{buildroot}%{pginstdir}/doc/extension/%{sname}.md
 
 %files
 %license LICENSE
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %defattr(644,root,root,755)
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
-%doc %{pginstdir}/doc/extension/README-%{sname}.md
+
 
 %if %llvm
 %files llvmjit
@@ -85,6 +85,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.1-1PGDG
+- Update to 1.6.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-2.1
 - Rebuild against LLVM 15 on SLES 15
 
