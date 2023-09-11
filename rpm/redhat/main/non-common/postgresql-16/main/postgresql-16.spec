@@ -61,12 +61,12 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	16
-Release:	rc1_1PGDG%{?dist}
+Version:	16.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v16rc1/postgresql-%{pgpackageversion}rc1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -538,7 +538,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}rc1
+%setup -q -n %{sname}-%{version}
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1317,6 +1317,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-1PGDG
+- Update to v16.0 Gold!
+
 * Tue Aug 29 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-rc1-1PGDG
 - Update to v16 RC 1
 - Remove LLVM dependency in the main package on SLES 15. Per bug report
