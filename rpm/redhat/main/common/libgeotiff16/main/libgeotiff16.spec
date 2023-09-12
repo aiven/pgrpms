@@ -4,28 +4,20 @@
 %pgdg_set_gis_variables
 
 # Override some variables.
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
-
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.6.0
-Release:	6%{?dist}
+Release:	7PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.14
+BuildRequires:	pgdg-srpm-macros >= 1.0.33
 
 Obsoletes:	%{sname}15 >= 1.5.0
 
@@ -124,9 +116,6 @@ EOF
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -151,6 +140,11 @@ EOF
 
 
 %changelog
+* Tue Sep 12 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-7PGDG
+- Rebuild against Proj 9.2.x
+- Remove RHEL 7 support
+- Add PGDG branding
+
 * Sat Jan 8 2022 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-6
 - Rebuild against Proj 8.2.x
 
