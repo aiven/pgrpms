@@ -57,7 +57,7 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -434,6 +434,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Sep 12 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-3PGDG
+- Rebuild
+
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-2PGDG
 - Remove RHEL 7 support.
 - Add PGDG branding
