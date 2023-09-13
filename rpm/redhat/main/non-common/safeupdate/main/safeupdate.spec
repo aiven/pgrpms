@@ -13,7 +13,7 @@
 Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and DELETE
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
 Source0:	https://api.pgxn.org/dist/safeupdate/%{version}/safeupdate-%{version}.zip
@@ -66,9 +66,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
 %{__install} -m 644 %{sname}.control %{buildroot}%{pginstdir}/share/extension
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc README.md
@@ -83,6 +80,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Sep 13 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.2-2PGDG
+- Add PGDG branding
+- Cleanup rpmlint warning
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.2-1.1
 - Rebuild against LLVM 15 on SLES 15
 
