@@ -1,5 +1,5 @@
 %global sname	plprofiler
-%global git_tag	REL4_2_2
+%global git_tag	REL4_2_4
 %global ppmajorver 4.2
 
 %global __ospython %{_bindir}/python3
@@ -21,7 +21,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{ppmajorver}.2
+Version:	%{ppmajorver}.4
 Release:	1PGDG%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
@@ -125,6 +125,9 @@ cd ..
 %endif
 
 %changelog
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.4-1PGDG
+- Update to 4.2.4
+
 * Tue Aug 1 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1PGDG
 - Update to 4.2.2
 - Add PGDG branding
