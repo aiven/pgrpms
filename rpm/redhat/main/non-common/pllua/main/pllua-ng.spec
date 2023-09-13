@@ -102,6 +102,7 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 * Mon Jul 31 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.12-1PGDG
 - Update to 2.0.12
 - Add PGDG branding
+- Switch to new repo
 
 * Thu May 11 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.11-1
 - Update to 2.0.11
