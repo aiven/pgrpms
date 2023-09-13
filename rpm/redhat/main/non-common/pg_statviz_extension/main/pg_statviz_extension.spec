@@ -12,13 +12,6 @@ License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vyruss/%{sname}
 
-Requires:	python3-plac python3-numpy python3-psycopg2 >= 2.9.5
-Requires:	python3-six python3-matplotlib python3-cycler
-Requires:	python3-cycler python3-fonttools python3-kiwisolver
-Requires:	python3-packaging python3-pillow python3-dateutils
-Requires:	python3-argh
-
-
 BuildArch:	noarch
 
 %description
