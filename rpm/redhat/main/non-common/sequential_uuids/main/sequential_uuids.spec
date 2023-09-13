@@ -14,7 +14,7 @@
 Summary:	Sequential UUID generators for PostgreSQL
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.2
-Release:	3%{?dist}.1
+Release:	4PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/tvondra/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/tvondra/%{sname}
@@ -33,11 +33,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -65,9 +65,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{__mkdir} -p %{buildroot}/%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}/%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -83,6 +80,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Sep 13 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.2-4PGDG
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.2-3.1
 - Rebuild against LLVM 15 on SLES 15
 
