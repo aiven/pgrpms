@@ -12,10 +12,9 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.0
-Release:	2PGDG%{?dist}
+Version:	2.5.0
+Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
-
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
 Source0:	https://github.com/okbob/%{sname}/archive/v%{version}.tar.gz
@@ -81,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> 2.5.0-1PGDG
+- Update to 2.5.0
+
 * Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 2.4.0-2PGDG
 - Remove RHEL 6 bits
 - Fix rpmlint warnings
