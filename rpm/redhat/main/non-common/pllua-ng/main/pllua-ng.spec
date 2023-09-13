@@ -1,5 +1,4 @@
 %global sname pllua
-%global pname pllua-ng
 
 %global plluangmajver 2
 %global plluangmidver 0
@@ -20,8 +19,8 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	%{plluangmajver}.%{plluangmidver}.%{plluangminver}
 Release:	1PGDG%{?dist}
 License:	MIT
-Source0:	https://github.com/RhodiumToad/%{pname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
-URL:		https://github.com/RhodiumToad/%{pname}
+Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
+URL:		https://github.com/%{sname}/%{sname}
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros lua-devel
 Requires:	postgresql%{pgmajorversion}-server lua-libs
@@ -65,7 +64,7 @@ This packages provides JIT support for PL/Lua
 %endif
 
 %prep
-%setup -q -n %{pname}-REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}
+%setup -q -n %{sname}-REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}
 
 %build
 LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
