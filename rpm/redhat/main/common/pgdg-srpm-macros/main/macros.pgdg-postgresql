@@ -45,11 +45,12 @@
 %global gdal32majorversion		32
 %global gdal31majorversion		31
 %global gdal30majorversion		30
-%global libgeotiffmajorversion		16
+%global libgeotiffmajorversion		17
 %global libgeotiff17majorversion	17
 %global libgeotiff16majorversion	16
 %global ogdimajorversion		41
 %global projmajorversion		82
+%global proj93majorversion		93
 %global proj92majorversion		92
 %global proj91majorversion		91
 %global proj90majorversion		90
@@ -78,6 +79,7 @@
 %global libspatialiteinstdir		/usr/libspatialite%{libspatialitemajorversion}
 %global ogdiinstdir			/usr/ogdi%{ogdimajorversion}
 %global projinstdir			/usr/proj%{projmajorversion}
+%global proj93instdir			/usr/proj%{proj93majorversion}
 %global proj92instdir			/usr/proj%{proj92majorversion}
 %global proj91instdir			/usr/proj%{proj91majorversion}
 %global proj90instdir			/usr/proj%{proj90majorversion}
@@ -93,13 +95,14 @@
 %global geos39fullversion		3.9.2
 %global geosfullversion			3.9.2
 %global projfullversion			8.1.1
+%global proj93fullversion		9.3.0
 %global proj92fullversion		9.2.1
 %global proj91fullversion		9.1.1
 %global proj90fullversion		9.0.1
 %global proj82fullversion		8.2.1
 %global proj72fullversion		7.2.1
 %global gdalfullversion			3.3.3
-%global gdal37fullversion		3.7.1
+%global gdal37fullversion		3.7.2
 %global gdal36fullversion		3.6.3
 %global gdal35fullversion		3.5.3
 %global gdal34fullversion		3.4.3
