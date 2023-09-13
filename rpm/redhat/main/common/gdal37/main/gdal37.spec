@@ -26,12 +26,6 @@
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
 
-# Use latest libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
-%global	libgeotiffmajorversion 17
-%global	libgeotiffinstdir %libgeotiff17instdir
-%endif
-
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	32
 %global libspatialitemajorversion	50
@@ -56,14 +50,11 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}37
-Version:	3.7.1
+Version:	3.7.2
 Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
-# Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
-# See PROVENANCE.TXT-fedora and the cleaner script for details!
-
 Source0:	%{sname}-%{version}-fedora.tar.xz
 Source4:	PROVENANCE.TXT-fedora
 
@@ -82,7 +73,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.33
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.34
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -189,8 +180,8 @@ BuildRequires:	python3-setuptools
 BuildRequires:	qhull-devel
 
 # Run time dependency for gpsbabel driver
-Requires:      gpsbabel
-Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	gpsbabel
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %description
@@ -205,15 +196,15 @@ GDAL/OGR is the most widely used geospatial data access library.
 
 
 %package devel
-Summary:       Development files for the GDAL file format library
-Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
+Summary:	Development files for the GDAL file format library
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains development files for GDAL.
 
 
 %package libs
-Summary:       GDAL file format library
+Summary:	GDAL file format library
 # See frmts/grib/degrib/README.TXT
 Provides:	bundled(g2lib) = 1.6.0
 Provides:	bundled(degrib) = 2.14
@@ -338,7 +329,7 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
 done
 
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
-%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/ %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 
@@ -435,6 +426,11 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Thu Sep 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.7.2-1PGDG
+- Update to 3.7.2, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.7.2/NEWS.md
+- Use libgeotiff17, instead of libgeotiff16.
+
 * Tue Aug 29 2023 Devrim Gunduz <devrim@gunduz.org> - 3.7.1-1PGDG
 - Update to 3.7.1
 - Remove RHEL 7 support.
