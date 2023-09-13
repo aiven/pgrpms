@@ -4,7 +4,7 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.10.3
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
 URL:		https://github.com/linz/postgresql-tableversion/
@@ -35,9 +35,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{__mv} %{buildroot}/usr/local/bin/table_version-loader %{buildroot}/%{pginstdir}/bin/
 %{__mv} %{buildroot}/usr/local/share/table_version/table_version-%{version}.sql.tpl %{buildroot}%{pginstdir}/share/extension/
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
@@ -47,6 +44,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/table_version.control
 
 %changelog
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-3PGDG
+- Add PGDG branding
+- Cleanup rpmlint warning
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
