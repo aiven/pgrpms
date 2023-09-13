@@ -3,16 +3,20 @@
 %if %{pgmajorversion} == 16
 %global pghintplanversion 1.6.0
 %global git_tag	1_6_0
-%elif %{pgmajorversion} == 15
+%endif
+%if %{pgmajorversion} == 15
 %global pghintplanversion 1.5.1
 %global git_tag	1_5_0
-%elif %{pgmajorversion} == 14
+%endif
+%if %{pgmajorversion} == 14
 %global pghintplanversion 1.4.2
 %global git_tag	1_4_2
-%elif %{pgmajorversion} == 13
+%endif
+%if %{pgmajorversion} == 13
 %global pghintplanversion 1.3.9
 %global git_tag	1_3_9
-%elif %{pgmajorversion} == 12
+%endif
+%if %{pgmajorversion} == 12
 %global pghintplanversion 1.3.9
 %global git_tag	1_3_9
 %endif
