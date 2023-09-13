@@ -1,8 +1,8 @@
 %global		name perl-DBD-Oracle
 %global		pkgname %(echo %{name}| sed 's/perl-//')
 %{!?version:%global version 1.90_5}
-%{!?oi_release:%global oi_release 21.10.0.0.0}
-%global		release %{oi_release}%{dist}
+%{!?oi_release:%global oi_release 21.11.0.0.0}
+%global		release %{oi_release}PGDG%{dist}
 %global		perl_vendorarch %(eval "$(%{__perl} -V:installvendorarch)"; echo $installvendorarch)
 %global		_use_internal_dependency_generator 0
 %global		custom_find_req %{_tmppath}/%{pkgname}-%{version}-find-requires
@@ -66,6 +66,9 @@ chmod 755 %{custom_find_req}
 %{_mandir}/man3/*
 
 %changelog
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.90_5-21.11.0.0.0
+- Update Oracle instant client version to 21.11.0.0.0
+
 * Mon Apr 24 2023 Devrim Gündüz <devrim@gunduz.org> - 1.90_5-21.10.0.0.0
 - Update to 1.90_5
 - Update Oracle instant client version to 21.10.0.0.0
