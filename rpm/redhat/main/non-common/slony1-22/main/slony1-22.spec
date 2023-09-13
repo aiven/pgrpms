@@ -8,7 +8,7 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.11
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
 Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
@@ -130,15 +130,12 @@ cd tools
 %{__mkdir} -p %{buildroot}%{_datadir}/%{name}
 %{__cp} check_slon.sh check_slony_cluster.sh configure-replication.sh duplicate-node.sh \
 	find-triggers-to-deactivate.sh generate_syncs.sh launch_clusters.sh mkslonconf.sh \
-	run_rep_tests.sh  search-logs.sh  slonikconfdump.sh  slony-cluster-analysis-mass.sh \
+	run_rep_tests.sh search-logs.sh slonikconfdump.sh slony-cluster-analysis-mass.sh \
 	slony-cluster-analysis.sh slony1_dump.sh slony1_extract_schema.sh %{buildroot}%{_datadir}/%{name}/
 # Perform some cleanup
 %{__rm} -f %{buildroot}%{_sysconfdir}/%{sname}-%{pgmajorversion}/slon_tools.conf-sample
 %{__rm} -f %{buildroot}%{_datadir}/pgsql/*.sql
 %{__rm} -f %{buildroot}%{_libdir}/slony1_funcs.so
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post
 if [ $1 -eq 1 ] ; then
@@ -192,10 +189,14 @@ fi
 
 %if %docs
 %files docs
-%attr(644,root,root) %doc doc/adminguide  doc/concept  doc/howto  doc/implementation  doc/support
+%attr(644,root,root) %doc doc/adminguide doc/concept doc/howto doc/implementation doc/support
 %endif
 
 %changelog
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.11-2PGDG
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Sat Jun 3 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.11-1
 - Update to 2.2.11
 - Remove RHEL 6 bits.
