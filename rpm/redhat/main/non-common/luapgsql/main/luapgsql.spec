@@ -10,20 +10,20 @@
 Summary:	Lua binding for PostgreSQL
 Name:		%{sname}
 Version:	1.6.7
-Release:	4%{?dist}.1
+Release:	5PGDG%{?dist}1
 License:	BSD
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
 URL:		https://github.com/arcapos/%{name}/
 BuildRequires:	lua-devel pgdg-srpm-macros
-BuildRequires: 	postgresql%{pgmajorversion}-devel lua-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel lua-devel
 Requires:	postgresql%{pgmajorversion}-server
 %if 0%{?fedora} || 0%{?rhel} >= 7
 Requires:	lua(abi) = %{luaver}
 %else
 %global luanext 5.2
 Requires:	lua >= %{luaver}
-Requires:	lua <  %{luanext}
+Requires:	lua < %{luanext}
 %endif
 
 %description
@@ -40,16 +40,17 @@ A Lua Binding for PostgreSQL.
 %{__rm} -rf %{buildroot}
 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %doc README.md
 %{lualibdir}/pgsql.so
 
 %changelog
+* Wed Sep 13 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-5PGDG
+- Add PGDG branding
+- Fix rpmlint warnings
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-4.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Sat Apr 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-4
 - Update patch and also add patches for PostgreSQL 13+.
