@@ -26,12 +26,6 @@
 %global	projfullversion %proj92fullversion
 %global	projinstdir %proj92instdir
 
-# Use latest libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
-%global	libgeotiffmajorversion 17
-%global	libgeotiffinstdir %libgeotiff17instdir
-%endif
-
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	32
 %global libspatialitemajorversion	50
@@ -82,7 +76,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.33
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.34
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -436,6 +430,7 @@ done
 %changelog
 * Tue Sep 12 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-3PGDG
 - Rebuild
+- Use libgeotiff17, instead of libgeotiff16.
 
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-2PGDG
 - Remove RHEL 7 support.
