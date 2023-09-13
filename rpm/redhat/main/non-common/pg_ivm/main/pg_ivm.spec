@@ -13,7 +13,7 @@
 
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6
+Version:	1.7
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
@@ -75,7 +75,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
-* Mon Sep 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6-1
+* Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7-1PGDG
+- Update to 1.7
+
+* Mon Sep 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6-1PGDG
 - Update to 1.6
 - Add PGDG branding
 
