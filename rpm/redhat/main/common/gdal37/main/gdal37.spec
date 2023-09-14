@@ -55,6 +55,9 @@ Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
+# Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
+# See PROVENANCE.TXT-fedora and the cleaner script for details!
+
 Source0:	%{sname}-%{version}-fedora.tar.xz
 Source4:	PROVENANCE.TXT-fedora
 
@@ -180,8 +183,8 @@ BuildRequires:	python3-setuptools
 BuildRequires:	qhull-devel
 
 # Run time dependency for gpsbabel driver
-Requires:	gpsbabel
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:      gpsbabel
+Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %description
@@ -196,15 +199,15 @@ GDAL/OGR is the most widely used geospatial data access library.
 
 
 %package devel
-Summary:	Development files for the GDAL file format library
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Summary:       Development files for the GDAL file format library
+Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains development files for GDAL.
 
 
 %package libs
-Summary:	GDAL file format library
+Summary:       GDAL file format library
 # See frmts/grib/degrib/README.TXT
 Provides:	bundled(g2lib) = 1.6.0
 Provides:	bundled(degrib) = 2.14
@@ -309,11 +312,7 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
- -DSWIG_REGENERATE_PYTHON=OFF \
- -DPROJ_LIBRARY_RELEASE=%{projinstdir}/lib64 \
- -DPROJ_INCLUDE_DIR=%{projinstdir}/include \
- -DGEOS_LIBRARY=%{geosinstdir}/lib64/libgeos.so \
- -DGEOS_INCLUDE_DIR=%{geosinstdir}/include
+ -DSWIG_REGENERATE_PYTHON=OFF
 
 %cmake_build
 
@@ -329,7 +328,7 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
 done
 
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
-%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/ %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 
