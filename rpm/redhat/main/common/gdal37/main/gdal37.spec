@@ -27,7 +27,7 @@
 %global	projinstdir %proj92instdir
 
 %global gdalinstdir /usr/%{name}
-%global gdalsomajorversion	32
+%global gdalsomajorversion	33
 %global libspatialitemajorversion	50
 
 %global sqlitepname	sqlite
