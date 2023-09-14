@@ -14,8 +14,8 @@ BuildArch:	noarch
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.1.9
-Release:	2%{?dist}
+Version:	3.1.10
+Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -89,12 +89,9 @@ popd
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
 %endif
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
-%doc  README.rst
+%doc README.rst
 %dir %{python3_sitearch}/%{sname}
 
 %{python3_sitelib}/psycopg-%{version}-py%{py3ver}.egg-info/*
@@ -124,6 +121,10 @@ popd
 %endif
 
 %changelog
+* Thu Sep 14 023 Devrim Gündüz <devrim@gunduz.org> - 3.1.10-1PGDG
+- Update to 3.1.10
+- Add PGDG branding
+
 * Thu May 4 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.9-1
 - Update to 3.1.9
 
