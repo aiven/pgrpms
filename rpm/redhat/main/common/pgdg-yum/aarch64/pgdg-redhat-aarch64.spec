@@ -56,7 +56,7 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Tue Sep 16 2023 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-34PGDG
+* Tue Sep 12 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-34PGDG
 - Add v16 repos
 - Remove v16 repos from RHEL 7
 

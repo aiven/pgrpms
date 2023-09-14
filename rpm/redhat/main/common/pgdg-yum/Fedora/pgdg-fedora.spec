@@ -35,7 +35,7 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Tue Sep 16 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-28PGDG
+* Tue Sep 12 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-28PGDG
 - Add v16 repos
 
 * Mon Aug 14 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-27PGDG
