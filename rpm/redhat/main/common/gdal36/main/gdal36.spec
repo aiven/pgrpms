@@ -14,7 +14,7 @@
 %endif
 
 %if 0%{?rhel} == 8
-%global pyver 3.9
+%global pyver 3.6
 %endif
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
