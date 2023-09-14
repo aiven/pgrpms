@@ -12,8 +12,8 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.7.3
-Release:	3%{?dist}
+Version:	4.7.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
@@ -40,11 +40,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -69,9 +69,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/%{sname}.md
@@ -95,6 +92,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.4-1PGDG
+- Update to 4.7.4
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Mon Jun 05 2023 John Harvey <john.harvey@crunchydata.com> - 4.7.3-3
 - Fix deprecated python script issue from f7312222dd
 
