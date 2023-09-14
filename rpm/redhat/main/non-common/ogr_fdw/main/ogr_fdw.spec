@@ -14,27 +14,20 @@
 
 %pgdg_set_gis_variables
 
-# Use GDAL 3.5 on almost all of the platforms:
-%global gdalfullversion %gdal35fullversion
-%global gdalmajorversion %gdal35majorversion
-%global gdalinstdir %gdal35instdir
-
-# Use latest GDAL on Fedora 38+
-%if 0%{?fedora} >= 38
+# Use GDAL 3.6 on all of the platforms:
 %global gdalfullversion %gdal36fullversion
 %global gdalmajorversion %gdal36majorversion
 %global gdalinstdir %gdal36instdir
-%endif
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.32
+BuildRequires:	pgdg-srpm-macros >= 1.0.34
 Requires:	postgresql%{pgmajorversion}-server gdal%{gdalmajorversion}-libs
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
@@ -55,11 +48,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -88,9 +81,6 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -109,6 +99,10 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> 1.1.4-2PGDG
+- Rebuild with GDAL 3.6
+- Cleanup rpmlint warnings
+
 * Wed Jul 19 2023 Devrim Gündüz <devrim@gunduz.org> 1.1.4-1
 - Update to 1.1.4
 - Add PGDG branding
