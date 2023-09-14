@@ -6,17 +6,18 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables. PostGIS 3.3 is best served with GeOS 3.11,
-# GDAL 3.4 and PROJ 9.0:
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
-%global gdalfullversion %gdal35fullversion
-%global gdalmajorversion %gdal35majorversion
-%global gdalinstdir %gdal35instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
+# Override some variables:
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%global libgeotiffmajorversion 17
+%global libgeotiffinstdir %libgeotiff17instdir
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -28,18 +29,6 @@
 %global projmajorversion 72
 %global projfullversion 7.2.1
 %global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
-%global libgeotiffmajorversion 17
-%global libgeotiffinstdir %libgeotiff17instdir
 %endif
 
 %if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
@@ -80,7 +69,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -406,6 +395,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.4-2PGDG
+- Rebuild against GeOS 3.12, Proj 9.2, and libgeotiff 1.7
+
 * Sat Jul 29 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.4-1PGDG
 - Update to 3.3.4, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.3.4/NEWS
