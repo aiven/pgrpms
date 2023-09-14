@@ -18,12 +18,6 @@
 %global projfullversion %proj92fullversion
 %global projinstdir %proj92instdir
 
-# Use latest PROJ, GDAL and libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
-%global libgeotiffmajorversion 17
-%global libgeotiffinstdir %libgeotiff17instdir
-%endif
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -62,7 +56,7 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.33 pcre-devel gmp-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.34 pcre-devel gmp-devel
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
