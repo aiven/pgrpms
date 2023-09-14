@@ -360,6 +360,7 @@ done
 %{gdalinstdir}/bin/gnmanalyse
 %{gdalinstdir}/bin/gnmmanage
 %{gdalinstdir}/bin/nearblack
+%{gdalinstdir}/bin/sozip
 %{gdalinstdir}/bin/ogr_layer_algebra.py
 %{gdalinstdir}/bin/ogr2ogr
 %{gdalinstdir}/bin/ogrinfo
