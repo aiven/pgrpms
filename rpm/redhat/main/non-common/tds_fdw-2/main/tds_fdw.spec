@@ -13,7 +13,7 @@
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.3
-Release:	3%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/tds-fdw/%{sname}
@@ -27,6 +27,7 @@ This library contains a single PostgreSQL extension, a foreign data wrapper
 called "tds_fdw". It can be used to communicate with Microsoft SQL
 Server and Sybase databases.
 
+
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for tds_fdw
@@ -39,12 +40,12 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -62,7 +63,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}  DESTDIR=%{buildroot} %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -74,9 +75,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}  DESTDIR=%{buildroot} %{?_smp_
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %{__rm} -f %{buildroot}/%{pginstdir}/doc/extension/README.%{sname}.md
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -95,6 +93,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make}  DESTDIR=%{buildroot} %{?_smp_
 %endif
 
 %changelog
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-4PGDG
+- Update LLVM dependency for SLES 15.
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Wed Jan 11 2023 John Harvey <john.harvey@crunchydata.com> - 2.0.3-3
 - Update license type
 
