@@ -3,8 +3,8 @@
 
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.4
-Release:	3%{?dist}
+Version:	1.0.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/CrunchyData/%{sname}
@@ -29,12 +29,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
@@ -44,6 +41,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} DESTDIR=%{buildroot} %{?_smp_
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> 1.0.1-1PGDG
+- Update to 1.0.1
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.4-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
