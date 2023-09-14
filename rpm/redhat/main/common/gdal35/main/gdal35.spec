@@ -10,21 +10,12 @@
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
-%global projmajorversion %proj90majorversion
-%global projfullversion %proj90fullversion
-%global projinstdir %proj90instdir
-
-# Use latest PROJ on Fedora 38+
-%if 0%{?fedora} >= 38
-%global	projmajorversion %proj92majorversion
-%global	projfullversion %proj92fullversion
-%global	projinstdir %proj92instdir
-%global	libgeotiffmajorversion 17
-%global	libgeotiffinstdir %libgeotiff17instdir
-%endif
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	30
@@ -60,7 +51,6 @@
 %global projinstdir /usr/proj%{projmajorversion}
 %endif
 
-
 %if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
@@ -85,7 +75,7 @@
 
 Name:		%{sname}35
 Version:	3.5.3
-Release:	6PGDG%{?pre:%pre}%{?dist}
+Release:	7PGDG%{?pre:%pre}%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -136,7 +126,7 @@ BuildRequires:	freexl-devel
 %if 0%{?g2clib_enabled}
 BuildRequires:	g2clib-devel
 %endif
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
+BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 # For 'mvn_artifact' and 'mvn_install'
@@ -170,7 +160,7 @@ BuildRequires:	libpoppler-devel
 %else
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
@@ -504,6 +494,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Thu Sep 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-7PGDG
+- Rebuild against GeOS 3.12 and Proj 9.2
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.5.3-6PGDG
 - Properly build with GEOS and libgeotiff support, per report and
   patch from Andris Pavenis:
