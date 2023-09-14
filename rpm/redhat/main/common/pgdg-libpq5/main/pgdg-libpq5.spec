@@ -1,5 +1,5 @@
 %global debug_package %{nil}
-%global pgmajorversion 15
+%global pgmajorversion 16
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -8,8 +8,8 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.4
-Release:	42PGDG%{?dist}.1
+Version:	%{pgmajorversion}.0
+Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -181,9 +181,6 @@ find_lang_bins %name-devel.lst	pg_config
 %postun
 /sbin/ldconfig
 
-%clean
-%{__rm} -rf %{buildroot}
-
 # FILES section.
 
 %files -f %name.lst
@@ -198,6 +195,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-42-1PGDG
+- Update to 16.0
+
 * Wed Aug 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.4-42.1-1PGDG
 - Remove RHEL 6 bits
 
@@ -208,7 +208,7 @@ find_lang_bins %name-devel.lst	pg_config
 - Update to 15.3
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 15.2-42.1PGDG.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Thu Feb 9 2023 Devrim Gündüz <devrim@gunduz.org> - 15.2-42-1PGDG
 - Update to 15.2
