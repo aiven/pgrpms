@@ -6,17 +6,18 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables. PostGIS 3.2 is best served with GeOS 3.10,
-# GDAL 3.4 and PROJ 8.2:
-%global geosfullversion %geos310fullversion
-%global geosmajorversion %geos310majorversion
-%global geosinstdir %geos310instdir
-%global gdalfullversion %gdal34fullversion
-%global gdalmajorversion %gdal34majorversion
-%global gdalinstdir %gdal34instdir
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
+# Override some variables:
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%global libgeotiffmajorversion 17
+%global libgeotiffinstdir %libgeotiff17instdir
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -30,21 +31,6 @@
 %global libspatialitemajorversion	43
 %else
 %global libspatialitemajorversion	50
-%endif
-
-# Use latest PROJ, GDAL, GeOS and libgeotiff on Fedora 38+
-%if 0%{?fedora} >= 38
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
-%global libgeotiffmajorversion 17
-%global libgeotiffinstdir %libgeotiff17instdir
-%global geosfullversion %geos311fullversion
-%global geosmajorversion %geos311majorversion
-%global geosinstdir %geos311instdir
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -63,27 +49,27 @@
 %{!?raster:%global     raster 1}
 %else
 %ifarch aarch64
-%{!?raster:%global     raster 0}
+%{!?raster:%global	raster 0}
 %else
-%{!?raster:%global     raster 1}
+%{!?raster:%global	raster 1}
 %endif
 %endif
 
 %if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
-%{!?sfcgal:%global     sfcgal 1}
+%{!?sfcgal:%global	sfcgal 1}
 %else
-%{!?sfcgal:%global     sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 %else
-%{!?sfcgal:%global    sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.5
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -223,11 +209,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -313,9 +299,6 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{_bindir}/bin/pgsql2shp
 	%{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{_bindir}/bin/shp2pgsql
 fi
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -411,6 +394,10 @@ fi
 %endif
 
 %changelog
+* Thu Sep 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.5-2PGDG
+- Rebuild against GeOS 3.12, Proj 9.2, and libgeotiff 1.7
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.5-1.1
 - Rebuild against LLVM 15 on SLES 15
 
