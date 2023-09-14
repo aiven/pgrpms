@@ -121,7 +121,7 @@ popd
 %endif
 
 %changelog
-* Thu Sep 14 023 Devrim Gündüz <devrim@gunduz.org> - 3.1.10-1PGDG
+* Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.10-1PGDG
 - Update to 3.1.10
 - Add PGDG branding
 
