@@ -8,11 +8,10 @@ Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/CrunchyData/%{sname}
+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
-Requires:	pgbouncer >= 1.16
-
-Obsoletes:	%{sname}%{pgmajorversion} < 0.2-2
+Requires:	pgbouncer >= 1.17
 
 %description
 pgbouncer_fdw provides a direct SQL interface to the pgbouncer SHOW commands.
