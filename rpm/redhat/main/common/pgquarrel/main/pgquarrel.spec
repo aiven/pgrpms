@@ -4,7 +4,7 @@
 Summary:	Compares PostgreSQL database schemas (DDL)
 Name:		%{sname}
 Version:	0.7.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{sversion}.tar.gz
 Patch0:		%{sname}-libminipath.patch
@@ -48,6 +48,9 @@ cmake -DPGCONFIG_PATH=/usr/pgsql-%{pgmajorversion}/bin/pg_config \
 %{_libdir}/libmini.so
 
 %changelog
+* Fri Sep 15 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.0-4PGDG
+- Bump up release number after to reflect non-common -> common move.
+
 * Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.0-3PGDG
 - Add patch to fix builds against PostgreSQL 15 and 16, per
   https://github.com/eulerto/pgquarrel/issues/105 and
