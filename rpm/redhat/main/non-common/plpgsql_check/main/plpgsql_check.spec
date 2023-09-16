@@ -12,7 +12,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.5.0
+Version:	2.5.1
 Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
@@ -80,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sat Sep 16 2023 Devrim Gündüz <devrim@gunduz.org> 2.5.1-1PGDG
+- Update to 2.5.1
+
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> 2.5.0-1PGDG
 - Update to 2.5.0
 
