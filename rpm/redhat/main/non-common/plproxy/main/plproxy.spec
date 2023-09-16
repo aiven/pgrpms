@@ -12,8 +12,8 @@
 
 Summary:	PL/Proxy is database partitioning system implemented as PL language.
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.10.0
-Release:	5PGDG%{?dist}
+Version:	2.11.0
+Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://plproxy.github.io
 Source0:	https://plproxy.github.io/downloads/files/%{version}/%{sname}-%{version}.tar.gz
@@ -78,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sat Sep 16 2023 Devrim Gunduz <devrim@gunduz.org> - 2.11.0-1PGDG
+- Update 2.11.0
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.10.0-4.1
 - Remove RHEL 6 bits
 - Add PGDG branding
