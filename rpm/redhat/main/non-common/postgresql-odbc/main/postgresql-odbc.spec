@@ -1,7 +1,7 @@
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	15.00.0000
-Release:	2PGDG%{?dist}
+Version:	16.00.0000
+Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -71,6 +71,9 @@ popd
 %license license.txt
 
 %changelog
+* Sun Sep 17 2023 Devrim Gündüz <devrim@gunduz.org> - 16.00.0000-1PGDG
+- Update to 16.00.0000
+
 * Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 15.00.0000-2PGDG
 - Remove RHEL 6 bits
 - Fix rpmlint warnings
