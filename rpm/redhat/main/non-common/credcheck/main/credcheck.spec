@@ -11,7 +11,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1
+Version:	2.2
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
@@ -41,11 +41,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -66,9 +66,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %doc README.md
 %license LICENSE
@@ -82,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Sun Sep 17 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2-1PGDG
+- Update to 2.2, per changes described at:
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v2.2
+
 * Mon Jul 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.1-1PGDG
 - Update to 2.1, per changes described at:
   https://github.com/MigOpsRepos/credcheck/releases/tag/v2.1
