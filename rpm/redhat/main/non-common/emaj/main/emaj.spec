@@ -3,8 +3,8 @@
 %global pname emaj
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2.0
-Release:	1%{?dist}
+Version:	4.3.0
+Release:	1PGDG%{?dist}
 Summary:	A table update logger for PostgreSQL
 License:	GPLv2
 URL:		https://github.com/dalibo/%{sname}/
@@ -27,9 +27,6 @@ in time.
 %{__cp} -r sql/* %{buildroot}%{pginstdir}/share/extension
 %{__cp} %{pname}.control %{buildroot}%{pginstdir}/share/extension
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %license LICENSE
@@ -38,6 +35,10 @@ in time.
 %{pginstdir}/share/extension/%{pname}*.sql
 
 %changelog
+* Mon Sep 18 2023 Devrim Gündüz <devrim@gunduz.org> - 4.3.0-1PGDG
+- Update to 4.3.0
+- Add PGDG branding
+
 * Mon Apr 3 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
 - Update to 4.2.0
 
