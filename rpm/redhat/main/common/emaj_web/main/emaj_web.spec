@@ -2,8 +2,8 @@
 
 Summary:	Web-based Emaj administration
 Name:		%{sname}
-Version:	4.2.0
-Release:	1%{?dist}
+Version:	4.3.0
+Release:	1PGDG%{?dist}
 License:	GPL
 URL:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -82,6 +82,10 @@ perform all E-Maj operations.
 %attr(644,root,root) %{_emajwebdir}/*.php
 
 %changelog
+* Mon Sep 18 2023 Devrim Gündüz <devrim@gunduz.org> - 4.3.0-1PGDG
+- Update to 4.3.0
+- Add PGDG branding
+
 * Mon Apr 10 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1
 - Update to 4.2.0
 
