@@ -28,6 +28,8 @@
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
+%{!?plpython3:%global plpython3 1}
+
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
@@ -477,6 +479,7 @@ Install this if you want to write database functions in Perl.
 
 %endif
 
+%if %plpython3
 %package plpython3
 Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
@@ -499,6 +502,7 @@ AutoReq:	0
 The postgresql%{pgmajorversion}-plpython3 package contains the PL/Python3 procedural language,
 which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Python 3.
+%endif
 
 %if %pltcl
 %package pltcl
@@ -691,7 +695,9 @@ run_testsuite()
 	run_testsuite "src/test/regress"
 	%{__make} clean -C "src/test/regress"
 	run_testsuite "src/pl"
+%if %plpython3
 	run_testsuite "src/pl/plpython"
+%endif
 	run_testsuite "contrib"
 %endif
 
@@ -706,10 +712,12 @@ run_testsuite()
 
 %{__make} DESTDIR=%{buildroot} install
 
+%if %plpython3
 	# Install PL/Python3
 	pushd src/pl/plpython
 	%{__make} DESTDIR=%{buildroot} install
 	popd
+%endif
 
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
 %{__make} -C contrib DESTDIR=%{buildroot} install
@@ -801,10 +809,12 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 %endif
 
+%if %plpython3
 # Quick hack:
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpython2u*
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*plpythonu-*
 %{__rm} -f %{buildroot}/%{pgbaseinstdir}/share/extension/*_plpythonu.control
+%endif
 
 # Fix some more documentation
 # gzip doc/internals.ps
@@ -855,10 +865,10 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 cat plperl-%{pgmajorversion}.lang > pg_plperl.lst
 %endif
 %find_lang plpgsql-%{pgmajorversion}
-# plpython3 shares message files with plpython
+%if %plpython3
 %find_lang plpython-%{pgmajorversion}
 cat plpython-%{pgmajorversion}.lang >> pg_plpython3.lst
-
+%endif
 %if %pltcl
 %find_lang pltcl-%{pgmajorversion}
 cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
@@ -1075,9 +1085,11 @@ fi
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.sql
 %{pgbaseinstdir}/share/extension/jsonb_plperl*.control
 %endif
+%if %plpython3
 %{pgbaseinstdir}/lib/hstore_plpython3.so
 %{pgbaseinstdir}/lib/jsonb_plpython3.so
 %{pgbaseinstdir}/lib/ltree_plpython3.so
+%endif
 %{pgbaseinstdir}/lib/lo.so
 %{pgbaseinstdir}/lib/ltree.so
 %{pgbaseinstdir}/lib/moddatetime.so
@@ -1304,10 +1316,12 @@ fi
 %{pgbaseinstdir}/share/extension/pltcl*
 %endif
 
+%if %plpython3
 %files plpython3 -f pg_plpython3.lst
 %{pgbaseinstdir}/share/extension/plpython3*
 %{pgbaseinstdir}/lib/plpython3.so
 %{pgbaseinstdir}/share/extension/*_plpython3u*
+%endif
 
 %if %test
 %files test
@@ -1317,6 +1331,10 @@ fi
 %endif
 
 %changelog
-* Mon Aug 14 2023 Devrim Gündüz <devrim@gunduz.org> - 16.0-alpha-PGDG
-- Initial cut for PostgreSQL 16.
+* Mon Aug 14 2023 Devrim Gündüz <devrim@gunduz.org> - 17.0-alpha-PGDG
+- Re-add plpython3 (was plpython) build macro for the users who don't
+  want to build with PL/Python (make it consistent with other PLs)
+
+* Mon Aug 14 2023 Devrim Gündüz <devrim@gunduz.org> - 17.0-alpha-PGDG
+- Initial cut for PostgreSQL 17
 
