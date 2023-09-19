@@ -612,7 +612,9 @@ export CFLAGS
 %if %plperl
 	--with-perl \
 %endif
+%if %plpython3
 	--with-python \
+%endif
 %if %pltcl
 	--with-tcl \
 	--with-tclconfig=%{_libdir} \
