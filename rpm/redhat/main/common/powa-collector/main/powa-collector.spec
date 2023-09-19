@@ -11,8 +11,8 @@
 
 
 Name:		powa-collector
-Version:	1.1.1
-Release:	2%{?dist}
+Version:	1.2.0
+Release:	1PGDG%{?dist}
 Summary:	POWA data collector daemon
 
 License:	BSD
@@ -58,9 +58,6 @@ database (in the powa_servers table).
 %systemd_post %{name}.service
 %endif
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc README.md
@@ -74,6 +71,10 @@ database (in the powa_servers table).
 %{python3_sitelib}/%{sname}/__pycache__/*.py*
 
 %changelog
+* Tue Sep 19 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1PGDG
+- Update to 1.2.0
+- Add PGDG branding
+
 * Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-2
 - Add Fedora 35 support
 
