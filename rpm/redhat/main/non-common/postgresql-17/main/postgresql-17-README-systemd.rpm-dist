@@ -44,7 +44,7 @@ QUICKSTART (note that this requires postgresql17-server installed)
 -----------------------------------------------------------------------------
 For a fresh installation, you will need to initialize the cluster first. Run:
 
-	/usr/pgsql-17/bin/postgresql-17-setup initdb
+	postgresql-17-setup initdb
 
 as root, and it will prepare a new database cluster for you. Then you will 
 need to start PostgreSQL. Again as root, run:
@@ -124,11 +124,11 @@ there are two solutions:
 
 
 RPMs also support in-place upgrade from the immediately previous major release.
-Currently, you can upgrade in-place from 15.x to 17.x.  Just run:
+Currently, you can upgrade in-place from 16.x to 17.x.  Just run:
 
 $ /usr/pgsql-17/bin/postgresql-17-setup upgrade
 
-Please note that 15 and 17 contrib RPMs need to be installed for this feature
+Please note that 16 and 17 contrib RPMs need to be installed for this feature
 to work. You can also upgrade from other major versions either by editing the
 setup script, or passing PostgreSQL major version as the 3rd argument to the
 setup script.
@@ -140,26 +140,26 @@ choose' what pieces are needed, and what dependencies are required.
 
 The RPMset is packaged in the following subpackages:
 
-postgresql17:           Key clients and libraries, and documentation
-postgresql17-server:    Server executables and data files
-postgresql17-devel:     Development libraries and include files
+postgresql17:		Key clients and libraries, and documentation
+postgresql17-contrib:	The contrib modules (extensions) included in PostgreSQL
+postgresql17-devel:	Development libraries and include files
+postgresql17-docs:	Documentation, including PDF file
+postgresql17-libs:	Client shared libraries
+postgresql17-llvmjit:	Just-in-time compilation support
 postgresql17-test:	The regression tests and associated files
-postgresql17-libs:      Client shared libraries
-postgresql17-docs:	Extra documentation, such as the tutorial files
-postgresql17-contrib:   The contrib source tree, as well as selected binaries
-postgresql17-plperl:    PL/Perl procedural language
-postgresql17-plpython:  PL/Python procedural language
-postgresql17-pltcl:     PL/Tcl procedural language
+postgresql17-plperl:	The Perl procedural language for PostgreSQL
+postgresql17-plpython:	The Python procedural language for PostgreSQL
+postgresql17-pltcl:	The Tcl procedural language for PostgreSQL
+postgresql17-test:	The test suite distributed with PostgreSQL
+postgresql17-server:	Server executables and data files
 
-postgresql17-jdbc, postgresql17-python, postgresql17-tcl and postgresql17-odbc have
-been splitted into  seperate (s)rpms.
+postgresql-jdbc (version independent) and postgresql17-odbc are seperate (s)rpms.
 
-You have to install postgresql and postgresql17-libs to do anything.
+You have to install postgresql17 and postgresql17-libs to do anything.
 postgresql17-server is needed unless you only plan to use the clients to work
 with a remote PostgreSQL server. The others are optional.
 
-postgresql17-python package includes PyGreSQL, and Pgtcl is distributed
-via postgresql17-tcl package.
+Pgtcl is distributed via postgresql17-tcl package.
 
 RPM FILE LOCATIONS.
 -----------------------------------------------------------------------------
@@ -173,10 +173,10 @@ Different distributions have different ideas of some of these file locations.
 In particular, the documentation directory can be /usr/doc, /usr/doc/packages,
 /usr/share/doc, /usr/share/doc/packages, or some other similar path.
 
-However, the Red Hat / Scientific Linux ( CentOS / Fedora RPM's install 
-the files like this:
+However, PGDG RPMS for the Red Hat / Rocky Linux / AlmaLinux / Fedora / SLES  RPM's
+install the files like this:
 
-Executables:		/usr/bin and /usr/pgsql-17/bin
+Executables:		/usr/pgsql-17/bin (and /usr/bin, as described above)
 Libraries:		/usr/pgsql-17/lib
 Documentation:		/usr/pgsql-17/doc
 Contrib documentation:	/usr/pgsql-17/doc
@@ -236,7 +236,7 @@ directory from the service file.
 
 REGRESSION TESTING
 -------------------------------------------------------------------------------
-If you install the postgresql-test RPM then you can run the PostgreSQL
+If you install the postgresql17-test RPM then you can run the PostgreSQL
 regression tests.  These tests stress your database installation and produce
 results that give you assurances that the installation is complete, and that
 your database machine is up to the task.
@@ -310,29 +310,25 @@ This release of the RPMset includes the ability to conditionally build
 sets of packages.  The parameters, their defaults, and the meanings are:
 
 beta		0	#build with cassert and do not strip the binaries
+icn		1	#build with ICU support
+kerberos	1	#use Kerberos 5 support.
+ldap		1	#build with LDAP support.
 llvm		1	#build with llvm support
-python		1	#build the postgresql-python package.
-tcl		1	#build the postgresql-tcl package.
-test		1	#build the postgresql-test package.
-plpython	1	#build the PL/Python procedural language package.
+nls		1	#build with national language support.
+pam		1	#build with PAM support.
 pltcl		1	#build the PL/Tcl procedural language package.
 plperl		1	#build the PL/Perl procedural language package.
 ssl		1	#use OpenSSL support.
-kerberos	1	#use Kerberos 5 support.
-nls		1	#build with national language support.
-ldap		1	#build with LDAP support.
-pam		1	#build with PAM support.
-runselftest	1	#do "make check" during the build.
-sdt		1	#build with SystemTap support.
-xml		1	#build with XML support
-pgfts		1	#build with --enable-thread-safety
+test		1	#build the postgresql17-test package.
+runselftest	0	#do "make check" during the build.
 uuid		1	#build contrib/uuid-ossp
+xml		1	#build with XML support
 
 To use these defines, invoke a rebuild like this:
-rpmbuild --rebuild --define 'python 0' --define 'tcl 0' \
-	--define 'test 0' --define 'runselftest 0' --define 'kerberos 0' \
-	postgresql17-17.3-1PGDG.rhel7.src.rpm
-This line would disable the python, tcl, and test subpackages, disable 
+rpmbuild --rebuild --define 'plpython 0' --define 'pltcl 0' \
+	--define 'test 0' --define 'runselftest 1' --define 'kerberos 0' \
+	postgresql17-17.0-1PGDG.rhel7.src.rpm
+This line would disable the plpython, pltcl, and test subpackages, enable
 the regression test run during build, and disable kerberos support.
 
 You might need to disable runselftest if there is an installed version of
@@ -341,7 +337,8 @@ build.  The self test tends to pick up the installed libpq.so shared library
 in place of the one being built :-(, so if that isn't compatible the test will
 fail. Also, you can't use runselftest when doing the build as root.
 
-More of these conditionals will be added in the future.
+More of these conditionals will be added in the future, and also some of them
+may be removed.
 
 CONTRIB FILES
 -------------------------------------------------------------------------------
