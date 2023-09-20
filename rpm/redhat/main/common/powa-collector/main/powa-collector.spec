@@ -1,8 +1,9 @@
-%global sname powa_collector
+%global sname powa-collector
+%global pname powa_collector
 
 %global __ospython %{_bindir}/python3
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 37
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -14,16 +15,29 @@ Name:		powa-collector
 Version:	1.2.0
 Release:	1PGDG%{?dist}
 Summary:	POWA data collector daemon
-
-License:	BSD
+License:	PostgreSQL
 URL:		https://github.com/powa-team/%{name}
 Source0:	https://github.com/powa-team/%{name}/archive/%{version}.tar.gz
 Source1:	%{name}.service
+Source2:	%{sname}-tmpfiles.d
 
 BuildRequires:	python3-devel python3-setuptools
-Requires:	python3-psycopg2
+Requires:	python3-psycopg2 systemd
 
 BuildArch:	noarch
+
+# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+Requires:		systemd
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+Requires(post):		systemd-sysvinit
+%endif
+%else
+Requires(post):		systemd-sysv
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
 
 %description
 This is a simple multi-threaded python program that performs the
@@ -48,6 +62,10 @@ database (in the powa_servers table).
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE1} %{buildroot}%{_unitdir}/
 
+# ... and make a tmpfiles script to recreate it at reboot.
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE2} %{buildroot}/%{_tmpfilesdir}/%{sname}.conf
+
 %post
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %if 0%{?suse_version}
@@ -65,24 +83,12 @@ database (in the powa_servers table).
 %{_bindir}/%{name}.py
 %{_sysconfdir}/%{name}.conf-dist
 %{_unitdir}/%{name}.service
-%dir %{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info
-%{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info/*
-%{python3_sitelib}/%{sname}/*.py
-%{python3_sitelib}/%{sname}/__pycache__/*.py*
+%{_tmpfilesdir}/%{sname}.conf
+%dir %{python3_sitelib}/%{pname}-%{version}-py%{pyver}.egg-info
+%{python3_sitelib}/%{pname}-%{version}-py%{pyver}.egg-info/*
+%{python3_sitelib}/%{pname}/*.py
+%{python3_sitelib}/%{pname}/__pycache__/*.py*
 
 %changelog
-* Tue Sep 19 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1PGDG
-- Update to 1.2.0
-- Add PGDG branding
-
-* Tue Nov 2 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-2
-- Add Fedora 35 support
-
-* Tue Jun 29 2021 Devrim Gündüz <devrim@gunduz.org> - 1.1.1-1
-- Update to 1.1.1
-
-* Tue Dec 22 2020 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1
-- Update to 1.1.0
-
-* Thu Oct 29 2020 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-1
-- Initial packaging for PostgreSQL RPM repository.
+* Wed Sep 20 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1PGDG
+- Initial packaging for the PostgreSQL RPM repository
