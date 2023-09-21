@@ -2,6 +2,13 @@
 
 %pgdg_set_gis_variables
 
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	29
 
@@ -74,7 +81,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	6PGDG%{?dist}
+Release:	7PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://gdal.org/
@@ -156,7 +163,7 @@ BuildRequires:	pgdg-poppler-devel
 BuildRequires:	poppler-devel
 %endif
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
@@ -735,6 +742,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-7-1PGDG
+- Rebuild against GeOS 3.12 and Proj 9.2
+
 * Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-6-1PGDG
 - Rebuild against libspatialite50 5.1.0
 - Add PGDG branding
