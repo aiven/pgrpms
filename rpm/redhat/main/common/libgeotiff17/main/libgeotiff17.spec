@@ -11,14 +11,14 @@
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.33 cmake3
+BuildRequires:	pgdg-srpm-macros >= 1.0.33 cmake
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -135,6 +135,9 @@ EOF
 
 
 %changelog
+* Thu Sep 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-4PGDG
+- Support SLES 15
+
 * Mon Aug 28 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-3PGDG
 - Remove RHEL 7 bits
 - Add PGDG branding
