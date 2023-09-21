@@ -1,0 +1,1 @@
+../main/../main/geoip.spec
