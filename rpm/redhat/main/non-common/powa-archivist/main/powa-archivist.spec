@@ -24,34 +24,25 @@
  %{!?llvm:%global llvm 1}
 %endif
 
-Summary:	PostgreSQL Workload Analyzer
+Summary:	PostgreSQL Workload Analyzer Archivist
 Name:		%{sname}-archivist_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
-Source2:	powa-%{pgpackageversion}.service
 URL:		https://powa.readthedocs.io/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-
-# We require this to be present for %%{_prefix}/lib/tmpfiles.d
-Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
-Requires(post):		systemd
-Requires(preun):	systemd
-Requires(postun):	systemd
-%endif
 
 %description
 PoWA is PostgreSQL Workload Analyzer that gathers performance stats and
 provides real-time charts and graphs to help monitor and tune your PostgreSQL
 servers.
+
 It is similar to Oracle AWR or SQL Server MDW.
+
+This is the core extension of the PoWA project, a PostgreSQL Workload Analyzer
+that gathers performance stats and provides real-time charts and graphs to help
+monitor and tune your PostgreSQL servers.
 
 %if %llvm
 %package llvmjit
@@ -93,10 +84,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/%{sname}
 %{__install} INSTALL.md LICENSE.md PL_funcs.md README.md %{buildroot}%{pginstdir}/doc/extension/%{sname}
 
-# Install unit file:
-%{__install} -d %{buildroot}%{_unitdir}
-%{__install} -m 644 %{SOURCE2} %{buildroot}%{_unitdir}/%{sname}_%{pgmajorversion}.service
-
 %files
 %defattr(-,root,root,-)
 %dir %{pginstdir}/doc/extension/%{sname}
@@ -107,7 +94,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%{_unitdir}/%{sname}_%{pgmajorversion}.service
 
 %if %llvm
 %files llvmjit
