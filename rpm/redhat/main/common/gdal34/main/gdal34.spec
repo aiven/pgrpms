@@ -2,13 +2,12 @@
 
 %pgdg_set_gis_variables
 
-%global geosfullversion %geos310fullversion
-%global geosmajorversion %geos310majorversion
-%global geosinstdir %geos310instdir
-%global projmajorversion %proj82majorversion
-%global projfullversion %proj82fullversion
-%global projinstdir %proj82instdir
-
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
 
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	30
@@ -78,7 +77,7 @@
 
 Name:		%{sname}34
 Version:	3.4.3
-Release:	9PGDG%{?dist}
+Release:	10PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://gdal.org
@@ -165,7 +164,7 @@ BuildRequires:	libpoppler-devel
 %else
 BuildRequires:	poppler-devel
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
@@ -726,11 +725,14 @@ popd
 %_bindir/*.py
 
 %changelog
-* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-9-1PGDG
+* Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-10PGDG
+- Rebuild against GeOS 3.12 and Proj 9.2
+
+* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-9-PGDG
 - Rebuild against libspatialite50 5.1.0
 - Add PGDG branding
 
-* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8.1
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-9
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
 * Tue Jan 10 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.3-8
