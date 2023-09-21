@@ -19,6 +19,7 @@ Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-web/archive/refs/tags/%{version}.tar.gz
 URL:		https://powa.readthedocs.io/
+Requires:	python3-tornado python3-sqlalchemy
 BuildRequires:	pgdg-srpm-macros
 BuildArch:	noarch
 
