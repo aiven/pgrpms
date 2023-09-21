@@ -17,7 +17,7 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	12.0.0
+Version:	12.1.0
 Release:	2PGDG%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
@@ -110,7 +110,6 @@ make %{?_smp_mflags}
 %dir %{pginstdir}/lib/%{sname}_decoders/
 %{pginstdir}/lib/%{sname}_decoders/pgoutput.so
 %{pginstdir}/lib/%{sname}_decoders/wal2json.so
-%{pginstdir}/bin/pg_send_cancellation
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/%{sname}_columnar-*.sql
@@ -133,6 +132,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 12.1.0-1PGDG
+- Update to 12.1.0
+
 * Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 12.0.0-2PGDG
 - Remove RHEL 6 bits
 - Remove rpmlint warning
