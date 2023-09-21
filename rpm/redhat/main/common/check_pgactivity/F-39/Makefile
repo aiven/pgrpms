@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f38
+DIST=.f39
 SPECFILE="check_pgactivity.spec"
 
 # Now, include global Makefile

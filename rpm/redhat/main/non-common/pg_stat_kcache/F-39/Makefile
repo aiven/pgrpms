@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f38
+DIST=.f39
 SPECFILE="pg_stat_kcache.spec"
 
 # Now, include global Makefile

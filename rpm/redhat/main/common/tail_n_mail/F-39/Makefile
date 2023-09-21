@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f38
+DIST=.f39
 SPECFILE="tail_n_mail.spec"
 
 # Now, include global Makefile

@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f38
+DIST=.f39
 SPECFILE="pgexporter_ext.spec"
 
 # Now, include global Makefile

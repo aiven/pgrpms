@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f38
+DIST=.f39
 SPECFILE="pljava.spec"
 
 # Now, include global Makefile
