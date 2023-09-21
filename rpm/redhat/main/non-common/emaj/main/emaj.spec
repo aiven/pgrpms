@@ -10,6 +10,8 @@ License:	GPLv2
 URL:		https://github.com/dalibo/%{sname}/
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 
+BuildArch:	noarch
+
 %description
 E-Maj is a set of PL/pgSQL functions allowing PostgreSQL Database
 Administrators to record updates applied on a set of tables, with
