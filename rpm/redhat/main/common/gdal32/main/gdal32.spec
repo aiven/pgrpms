@@ -2,6 +2,12 @@
 
 %pgdg_set_gis_variables
 
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
 %global gdalinstdir /usr/%{name}
 %global	gdalsomajorversion	28
 
@@ -68,7 +74,7 @@
 
 Name:		%{sname}32
 Version:	3.2.3
-Release:	6%{?dist}.1
+Release:	7PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		http://www.gdal.org
@@ -151,7 +157,7 @@ BuildRequires:	pgdg-poppler-devel
 BuildRequires:	poppler-devel
 %endif
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	%{sqlitepname}-devel
 %else
@@ -703,6 +709,9 @@ popd
 %_bindir/*.py
 
 %changelog
+* Fri Sep 22 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-7PGDG
+- Rebuild against GeOS 3.12 and Proj 9.2
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.3-6.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
