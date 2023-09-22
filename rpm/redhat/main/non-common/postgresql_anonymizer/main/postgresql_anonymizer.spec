@@ -89,7 +89,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 
 %changelog
 * Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-4PGDG
-- Fix LLVM dependency on SLES
+- Fix LLVM dependency on SLES 15
 
 * Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-3PGDG
 - Remove RHEL 6 bits
