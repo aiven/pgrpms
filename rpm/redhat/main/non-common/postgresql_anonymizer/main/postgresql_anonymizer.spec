@@ -13,7 +13,7 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -49,11 +49,11 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-4PGDG
+- Fix LLVM dependency on SLES
+
 * Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-3PGDG
 - Remove RHEL 6 bits
 - Add PGDG branding
