@@ -12,11 +12,11 @@
 
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0
-Release:	3%{dist}.1
+Version:	2.0
+Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
-Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v1.0.tar.gz
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -40,11 +40,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -68,9 +68,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/include/server/extension/%{sname}/%{sname}.h
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -87,6 +84,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Fri Sep 22 2023 Devrim Gunduz <devrim@gunduz.org> - 2.0-1PGDG
+- Update to 2.0
+- Add PGDG branding
+- Cleanup rpmlint warning
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0-3.1
 - Rebuild against LLVM 15 on SLES 15
 
