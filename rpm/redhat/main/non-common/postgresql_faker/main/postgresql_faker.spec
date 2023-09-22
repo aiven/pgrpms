@@ -14,7 +14,7 @@
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.3
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -55,8 +55,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -95,6 +95,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-4PGDG
+- Fix LLVM dependency on SLES 15
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-3PGDG
 - Add PGDG branding
 - Cleanup rpmlint warnings
