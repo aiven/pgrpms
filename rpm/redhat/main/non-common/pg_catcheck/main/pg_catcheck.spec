@@ -2,8 +2,8 @@
 
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
-Release:	2%{?dist}
+Version:	1.4.0
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -37,9 +37,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{__install} -d %{buildroot}%{pginstdir}/doc
 %{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -50,6 +47,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/doc/README-%{sname}.md
 
 %changelog
+* Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> 1.4.0-1PGDG
+- Update to 1.4.0
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
