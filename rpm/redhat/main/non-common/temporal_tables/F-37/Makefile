@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f37
 SPECFILE="temporal_tables.spec"
 
 # Now, include global Makefile
