@@ -43,14 +43,14 @@ cmake .. \
 %cmake3 .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-        -DCMAKE_BUILD_TYPE=Release \
+	-DCMAKE_BUILD_TYPE=Release \
 	-DPROJ_LIBRARY=%{projinstdir}/lib64/libproj.so \
 	-DPROJ6_INCLUDE_DIR=%{projinstdir}/include \
 	-DEXTERNAL_FMT=ON \
 	-DEXTERNAL_LIBOSMIUM=ON \
 	-DEXTERNAL_PROTOZERO=ON \
 %if "%{_lib}" == "lib64"
-        -DLIB_SUFFIX=64
+	-DLIB_SUFFIX=64
 %endif
 
 popd
@@ -60,7 +60,7 @@ popd
 %install
 %{__rm} -rf %{buildroot}
 %{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install \
-        DESTDIR=%{buildroot}
+	DESTDIR=%{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
