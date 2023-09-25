@@ -69,7 +69,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} inst
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} %{buildroot}%{pginstdir}/doc/extension/README.md
 
-
 %files
 %defattr(-, root, root)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
