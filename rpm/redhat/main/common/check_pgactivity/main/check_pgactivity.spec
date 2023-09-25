@@ -1,10 +1,10 @@
 %global sname check_pgactivity
 
-%global		_tag REL2_6
+%global		_tag REL2_7
 
 Name:		nagios-plugins-pgactivity
-Version:	2.6
-Release:	2PGDG%{dist}
+Version:	2.7
+Release:	1PGDG%{dist}
 Summary:	PostgreSQL monitoring plugin for Nagios
 License:	PostgreSQL
 Url:		http://opm.io
@@ -24,7 +24,7 @@ check_pgactivity is part of Open PostgreSQL Monitoring.
 %build
 
 %install
-install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
+%{__install} -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 
 %files
 %defattr(-,root,root,0755)
@@ -33,6 +33,9 @@ install -D -p -m 0755 %{sname} %{buildroot}/%{_libdir}/nagios/plugins/%{sname}
 %license LICENSE
 
 %changelog
+* Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> 2.7-1
+- Update to 2.7
+
 * Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> 2.6-2PGDG
 - Remove RHEL 6 bits
 - Add PGDG branding
