@@ -1,9 +1,19 @@
 %global sname	pgtap
 %global tapparserversion	3.36
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.0
+Version:	1.3.1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://pgxn.org/dist/pgtap/
@@ -17,7 +27,32 @@ Obsoletes:	%{sname}%{pgmajorversion} < 1.1.0-2
 
 Requires:	postgresql%{pgmajorversion}-server, perl-Test-Harness >= 3.0
 
-BuildArch:	noarch
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for pgtap
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for pgtap
+%endif
 
 %description
 pgTAP is a unit testing framework for PostgreSQL written in PL/pgSQL and
@@ -55,12 +90,22 @@ popd
 %doc %{pginstdir}/doc/extension/pgtap.mmd
 %{_bindir}/pg_prove
 %{_bindir}/pg_tapgen
+%{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/*pgtap*.sql
 %{pginstdir}/share/extension/pgtap.control
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
+%if %llvm
+%files llvmjit
+    %{pginstdir}/lib/bitcode/src/%{sname}*.bc
+    %{pginstdir}/lib/bitcode/src/%{sname}/src/*.bc
+%endif
+
 %changelog
-* Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-2
+* Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1PGDG
+- Update to 1.3.1
+
+* Mon Aug 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1PGDG
 - Update to 1.3.0
 - Add PGDG branding
 
