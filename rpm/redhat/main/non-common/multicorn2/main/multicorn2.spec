@@ -21,8 +21,8 @@
 
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4
-Release:	2%{?dist}.1
+Version:	2.5
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
@@ -97,9 +97,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 %{__cp} -r python/%{pname}/* %{buildroot}%{python3_sitearch}/%{pname}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc README.md
@@ -124,6 +121,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.5-1PGDG
+- Update to 2.5
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-2.1
 - Rebuild against LLVM 15 on SLES 15
 
