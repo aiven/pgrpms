@@ -2,10 +2,20 @@
 %global sname db2_fdw
 %global db2_home "/opt/ibm/db2/V11.5/"
 
+%ifarch ppc64 ppc64le s390 s390x armv7hl
+ %if 0%{?rhel} && 0%{?rhel} == 7
+  %{!?llvm:%global llvm 0}
+ %else
+  %{!?llvm:%global llvm 1}
+ %endif
+%else
+ %{!?llvm:%global llvm 1}
+%endif
+
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0.0
-Release:	1%{?dist}
+Version:	6.0.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/wolfgangbrandl/%{sname}
@@ -20,6 +30,33 @@ db2_fdw is a PostgreSQL extension that provides a Foreign Data Wrapper for
 easy and efficient access to DB2 databases, including pushdown of WHERE
 conditions and required columns as well as comprehensive EXPLAIN support.
 
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for db2_fdw
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Requires:	llvm-toolset-7.0-llvm >= 7.0.1
+%else
+Requires:	llvm5.0 >= 5.0
+%endif
+%endif
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+BuildRequires:	llvm6-devel clang6-devel
+Requires:	llvm6
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
+%endif
+
+%description llvmjit
+This packages provides JIT support for db2_fdw
+%endif
+
 %prep
 %setup -q -n %{sname}-%{version}
 
@@ -29,10 +66,7 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-PATH=%{pginstdir}/bin:$PATH %{__make}  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
-
-%clean
-%{__rm} -rf %{buildroot}
+PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mflags} install
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -43,18 +77,21 @@ PATH=%{pginstdir}/bin:$PATH %{__make}  DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/*%{sname}*.sql
 %{pginstdir}/lib/%{sname}.so
-%ifarch ppc64 ppc64le
- %else
- %if %{pgmajorversion} >= 11 && %{pgmajorversion} < 90
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-  %else
+
+%if %llvm
+%files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
    %{pginstdir}/lib/bitcode/%{sname}/*.bc
-  %endif
- %endif
 %endif
 
 %changelog
+
+* Fri Sep 29 2023 - Devrim Gündüz <devrim@gunduz.org> 6.0.0-1
+- Update to 6.0.0
+- Add PGDG branding
+- Modernise LLVM portion of the spec file
+- Cleanup rpmlint warnings
+
 * Thu Sep 8 2022 - Devrim Gündüz <devrim@gunduz.org> 5.0.0-1
 - Update to 5.0.0
 - Export PATH for pg_config, so get rid of patches.
