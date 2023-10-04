@@ -1,5 +1,5 @@
 %global sname pglogical
-%global tag 2_4_3
+%global tag 2_4_4
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,8 +13,8 @@
 
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.3
-Release:	2PGDG%{dist}
+Version:	2.4.4
+Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -92,6 +92,9 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Wed Oct 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.4.4-1
+- Update to 2.4.4
+
 * Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4.3-2PGDG
 - Remove RHEL 6 bits
 - Add PGDG branding
