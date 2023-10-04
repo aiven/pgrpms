@@ -41,15 +41,14 @@ pg_restorebinary.
 %{_mandir}/man1/pg_restorebinary.1p.gz
 
 %changelog
-* Fri May 26 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11-1
-- Update to 2.11, per changes described at:
-  https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.11
-
 * Wed Oct 4 2023 Devrim Gündüz <devrim@gunduz.org> - 2.13-1PGDG
 - Update to 2.13, per changes described at:
   https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.13
 - Add PGDG branding
 
+* Fri May 26 2023 Devrim Gündüz <devrim@gunduz.org> - 2.11-1
+- Update to 2.11, per changes described at:
+  https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.11
 
 * Thu Mar 30 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10-1
 - Update to 2.10
