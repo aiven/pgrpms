@@ -1,6 +1,6 @@
 Name:		pgmoneta
-Version:	0.6.1
-Release:	1%{dist}.1
+Version:	0.7.0
+Release:	1PGDG%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
 URL:		https://github.com/%{name}/%{name}
@@ -112,8 +112,12 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Fri Oct 6 2023 Devrim Gündüz <devrim@gunduz.org> 0.7.0-1PGDG
+- Update to 0.7.0
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.6.1-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Thu Jan 12 2023 Devrim Gündüz <devrim@gunduz.org> 0.6.1-1
 - Update to 0.6.1
