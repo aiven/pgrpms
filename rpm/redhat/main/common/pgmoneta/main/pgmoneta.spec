@@ -9,12 +9,13 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 
 Patch0:		%{name}-conf-rpm.patch
-Requires:	libev openssl systemd postgresql zlib
-Requires:	libzstd lz4 libssh
-BuildRequires:	gcc cmake make python3-docutils zlib-devel lz4-devel
-BuildRequires:	libev libev-devel openssl openssl-devel
-BuildRequires:	libssh-devel systemd-devel libzstd-devel
-BuildRequires:	libarchive-devel cjson-devel
+BuildRequires:	gcc cmake make python3-docutils zlib-devel
+BuildRequires:	libzstd-devel lz4-devel bzip2-devel
+BuildRequires:	libev-devel openssl-devel systemd-devel
+BuildRequires:	libssh-devel libarchive-devel cjson-devel
+Requires:	libev openssl systemd zlib libzstd lz4 bzip2 libssh
+Requires:	libarchive cjson
+
 
 # Systemd stuff
 BuildRequires:		systemd, systemd-devel
