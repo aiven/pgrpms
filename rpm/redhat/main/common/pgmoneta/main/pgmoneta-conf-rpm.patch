@@ -1,6 +1,6 @@
---- doc/etc/pgmoneta.conf.old	2021-09-01 10:58:47.170255404 +0100
-+++ doc/etc/pgmoneta.conf	2021-09-01 10:59:55.275324715 +0100
-@@ -10,10 +10,10 @@
+--- doc/etc/pgmoneta.conf.old	2023-10-06 19:47:06.421818526 +0100
++++ doc/etc/pgmoneta.conf	2023-10-06 19:47:37.658947759 +0100
+@@ -10,9 +10,9 @@
  
  log_type = console
  log_level = info
@@ -8,9 +8,7 @@
 +log_path = /var/log/pgmoneta
  
 -unix_socket_dir = /tmp/
--pgsql_dir = /usr/bin/
 +unix_socket_dir = /var/run/pgmoneta
-+pgsql_dir = /usr/pgsql-13/bin
  
  [primary]
  host = localhost
