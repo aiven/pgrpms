@@ -114,7 +114,8 @@ fi
 
 %changelog
 * Fri Oct 6 2023 Devrim Gündüz <devrim@gunduz.org> 0.7.0-1PGDG
-- Update to 0.7.0
+- Update to 0.7.0 per changes described at:
+  https://pgmoneta.github.io/release/announcement/2023/09/28/pgmoneta-0.7.0.html
 - Add PGDG branding
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.6.1-1.1
