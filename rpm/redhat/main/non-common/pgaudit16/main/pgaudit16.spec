@@ -76,9 +76,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -93,5 +90,5 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
-* Sat 7 Oct 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-1PGDG
+* Sat Oct 7 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-1PGDG
 - Initial packaging
