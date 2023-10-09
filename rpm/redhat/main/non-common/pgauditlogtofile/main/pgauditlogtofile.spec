@@ -2,13 +2,17 @@
 
 %if %{pgmajorversion} == 15
 %global pgauditversion 17
-%elif %{pgmajorversion} == 14
+%endif
+%if %{pgmajorversion} == 14
 %global pgauditversion 16
-%elif %{pgmajorversion} == 13
+%endif
+%if %{pgmajorversion} == 13
 %global pgauditversion 15
-%elif %{pgmajorversion} == 12
+%endif
+%if %{pgmajorversion} == 12
 %global pgauditversion 14
-%elif %{pgmajorversion} == 11
+%endif
+%if %{pgmajorversion} == 11
 %global pgauditversion 13
 %endif
 
@@ -25,7 +29,7 @@
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.12
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/fmbiete/%{sname}
@@ -104,6 +108,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Oct 9 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.12-2PGDG
+- Make conditionals also work on RHEL 8. Per
+  https://redmine.postgresql.org/issues/7883
+
 * Mon Jul 31 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.12-1PGDG
 - Update to 1.5.12
 - Add PGDG branding
