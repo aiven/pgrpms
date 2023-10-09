@@ -3,7 +3,7 @@
 
 %global ppg2majver 2
 %global ppg2midver 9
-%global ppg2minver 6
+%global ppg2minver 9
 
 %{!?with_docs:%global with_docs 0}
 
@@ -21,11 +21,11 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	1%{?dist}
+Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
-Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}_%{ppg2midver}_%{ppg2minver}.tar.gz
+Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}.%{ppg2midver}.%{ppg2minver}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -60,7 +60,7 @@ database adapter.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{ppg2majver}_%{ppg2midver}_%{ppg2minver}
+%setup -q -n %{sname}-%{version}
 
 %build
 
@@ -92,9 +92,6 @@ done
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc AUTHORS LICENSE NEWS README.rst
@@ -117,6 +114,10 @@ done
 %endif
 
 %changelog
+* Mon Oct 9 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.9-1PGDG
+- Update to 2.9.9
+- Add PGDG branding
+
 * Fri Jun 2 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.6-1
 - Update to 2.9.6
 
