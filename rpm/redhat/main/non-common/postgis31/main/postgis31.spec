@@ -12,13 +12,30 @@
 
 %pgdg_set_gis_variables
 
-# Override GDAL and GeOS versions:
+# Override some variables:
+%global geosfullversion %geos312fullversion
+%global geosmajorversion %geos312majorversion
+%global geosinstdir %geos312instdir
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%global projmajorversion %proj92majorversion
+%global projfullversion %proj92fullversion
+%global projinstdir %proj92instdir
+%global libgeotiffmajorversion 17
+%global libgeotiffinstdir %libgeotiff17instdir
+
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+# Also use GDAL 3.4
+%if 0%{?rhel} && 0%{?rhel} == 7
 %global gdalfullversion %gdal34fullversion
 %global gdalmajorversion %gdal34majorversion
 %global gdalinstdir %gdal34instdir
-%global	geosfullversion %geos310fullversion
-%global	geosmajorversion %geos310majorversion
-%global	geosinstdir %geos310instdir
+%global projmajorversion 72
+%global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
+%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -56,26 +73,26 @@
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?suse_version} < 1499
-%{!?raster:%global     raster 1}
+%{!?raster:%global	raster 1}
 %else
-%{!?raster:%global     raster 1}
+%{!?raster:%global	raster 1}
 %endif
 
 %if 0%{?fedora} >= 36 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
-%{!?sfcgal:%global     sfcgal 1}
+%{!?sfcgal:%global	sfcgal 1}
 %else
-%{!?sfcgal:%global     sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 %else
-%{!?sfcgal:%global    sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.9
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -220,11 +237,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -253,7 +270,7 @@ export PKG_CONFIG_PATH=$PKG_CONFIG_PATH:%{projinstdir}/lib/pkgconfig
 %endif
 LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
-SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64";  export SFCGAL_LDFLAGS
+SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
@@ -282,15 +299,15 @@ autoconf
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
-%{__make} %{?_smp_mflags}  -C extensions
+%{__make} %{?_smp_mflags} -C extensions
 
 %if %utils
- SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  -C utils
+ SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags} -C utils
 %endif
 
 %install
 %{__rm} -rf %{buildroot}
-SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags}  install DESTDIR=%{buildroot}
+SHLIB_LINK="$SHLIB_LINK" %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %if %utils
 %{__install} -d %{buildroot}%{_datadir}/%{name}
@@ -310,9 +327,6 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove postgis-pgsql2shp	%{_bindir}/bin/pgsql2shp
 	%{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{_bindir}/bin/shp2pgsql
 fi
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -408,6 +422,11 @@ fi
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.9-2PGDG
+- Rebuild against GeOS 3.12, Proj 9.2, and libgeotiff 1.7
+- Add PGDG branding
+- Cleanup rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.9-1.1
 - Rebuild against LLVM 15 on SLES 15
 
@@ -416,7 +435,7 @@ fi
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.9/NEWS
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.8-6.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Fri Apr 21 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-6
 - Use Proj 9.2.X, GeOS 3.11, GDAL 3.6 and libgeotiff 1.7 on Fedora 38+
