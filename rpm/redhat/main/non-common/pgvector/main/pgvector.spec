@@ -12,7 +12,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.5.0
+Version:	0.5.1
 Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
@@ -79,6 +79,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Wed Oct 11 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-1PGDG
+- Update to 0.5.1
+
 * Thu Aug 31 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-1PGDG
 - Update to 0.5.0
 - Add PGDG branding
