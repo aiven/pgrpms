@@ -51,11 +51,11 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
-# Source0:   http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
+# Source0: http://download.osgeo.org/gdal/%%{version}/gdal-%%{version}.tar.xz
 # See PROVENANCE.TXT-fedora and the cleaner script for details!
 
 Source0:	%{sname}-%{version}-fedora.tar.xz
@@ -183,8 +183,8 @@ BuildRequires:	python3-setuptools
 BuildRequires:	qhull-devel
 
 # Run time dependency for gpsbabel driver
-Requires:      gpsbabel
-Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	gpsbabel
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 
 %description
@@ -199,15 +199,15 @@ GDAL/OGR is the most widely used geospatial data access library.
 
 
 %package devel
-Summary:       Development files for the GDAL file format library
-Requires:      %{name}-libs%{?_isa} = %{version}-%{release}
+Summary:	Development files for the GDAL file format library
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package contains development files for GDAL.
 
 
 %package libs
-Summary:       GDAL file format library
+Summary:	GDAL file format library
 # See frmts/grib/degrib/README.TXT
 Provides:	bundled(g2lib) = 1.6.0
 Provides:	bundled(degrib) = 2.14
@@ -258,7 +258,7 @@ The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 %package python-tools
 Summary:	Python tools for the GDAL file format library
-Requires:	python3-gdal
+Requires:	%{sname}-python3
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
@@ -331,7 +331,7 @@ for file in %{buildroot}%{gdalinstdir}/bin/*.py; do
 done
 
 %{__mkdir} -p %{buildroot}/%{python3_sitearch}/
-%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/  %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
+%{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/GDAL-%{version}-py*.egg-info/ %{buildroot}/%{python3_sitearch}/GDAL-%{version}-py*.egg-info/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo %{buildroot}/%{python3_sitearch}/osgeo/
 %{__mv} %{buildroot}/%{gdalinstdir}/lib64/python%{pyver}/site-packages/osgeo_utils %{buildroot}/%{python3_sitearch}/osgeo_utils
 
@@ -428,6 +428,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Wed Oct 11 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-4PGDG
+- Fix dependency of the python-tools subpackage. Per report from
+  Tim Kempisty.
+
 * Tue Sep 12 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-3PGDG
 - Rebuild
 - Use libgeotiff17, instead of libgeotiff16.
