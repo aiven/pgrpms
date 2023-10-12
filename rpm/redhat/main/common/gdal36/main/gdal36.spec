@@ -51,7 +51,7 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -258,7 +258,7 @@ The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 %package python-tools
 Summary:	Python tools for the GDAL file format library
-Requires:	%{sname}-python3
+Requires:	%{name}-python3%{?_isa} = %{version}-%{release}
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
@@ -430,6 +430,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Thu Oct 12 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-5PGDG
+- Use correct macro for python-tools dependency.
+
 * Wed Oct 11 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-4PGDG
 - Fix dependency of the python-tools subpackage. Per report from
   Tim Kempisty.
