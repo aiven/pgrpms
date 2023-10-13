@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 4
-%global orafcemidver 6
-%global orafceminver 1
+%global orafcemidver 7
+%global orafceminver 0
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -86,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Oct 13 2023 Devrim Gündüz <devrim@gunduz.org> 4.7.0-1PGDG
+- Update to 4.7.0
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> 4.6.1-1PGDG
 - Update to 4.6.1
 
