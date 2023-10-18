@@ -12,7 +12,7 @@
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.7.4
+Version:	5.0.0
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
@@ -72,17 +72,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/%{sname}.md
-%doc %{pginstdir}/doc/extension/%{sname}_howto_native.md
-%doc %{pginstdir}/doc/extension/%{sname}_howto_triggerbased.md
 %{pginstdir}/lib/%{sname}_bgw.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%{pginstdir}/doc/extension/migration_to_partman.md
-%{pginstdir}/doc/extension/migrate_to_native.md
 %{pginstdir}/doc/extension/fix_missing_procedures.md
+%{pginstdir}/doc/extension/migrate_to_declarative.md
+%{pginstdir}/doc/extension/migrate_to_partman.md
+%{pginstdir}/doc/extension/pg_partman_*_upgrade.md
+%{pginstdir}/doc/extension/pg_partman_howto.md
 %attr(755, root, -) %{pginstdir}/bin/check_unique_constraint.py
 %attr(755, root, -) %{pginstdir}/bin/dump_partition.py
-%attr(755, root, -) %{pginstdir}/bin/reapply_indexes.py
 %attr(755, root, -) %{pginstdir}/bin/vacuum_maintenance.py
 
 %if %llvm
@@ -92,6 +91,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 5.0.0-1PGDG
+- Update to 5.0.0
+
 * Thu Sep 14 2023 Devrim Gündüz <devrim@gunduz.org> - 4.7.4-1PGDG
 - Update to 4.7.4
 - Add PGDG branding
