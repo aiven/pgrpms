@@ -63,7 +63,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16.0
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -88,6 +88,8 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+# Will be removed in 16.1:
+Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -547,6 +549,8 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
+# Will be removed in 16.1:
+%patch -P 7 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -788,7 +792,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
@@ -1333,6 +1337,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-3PGDG
+- Add a temp patch to support newer LLVM until 16.1 is out.
+
 * Tue Sep 19 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-2PGDG
 - Re-add plpython3 (was plpython) build macro for the users who don't
   want to build with PL/Python (make it consistent with other PLs)
