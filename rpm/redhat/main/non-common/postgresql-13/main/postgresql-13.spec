@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.12
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -101,6 +101,8 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+# To be removed in 13.13:
+Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -550,6 +552,8 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
+# To be removed in 13.13:
+%patch -P 7 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1342,6 +1346,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 13.13-2PGDG
+- Add a temp patch to support newer LLVM until 13.13 is out.
+
 * Tue Aug 8 2023 Devrim Gündüz <devrim@gunduz.org> - 13.12-1PGDG
 - Update to 13.12, per changes described at
   https://www.postgresql.org/docs/release/13.12/
