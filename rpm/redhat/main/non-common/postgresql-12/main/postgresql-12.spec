@@ -103,7 +103,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.16
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -142,6 +142,8 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # version 12.10:
 Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-aa2215d6b.patch
 %endif
+# To be removed in 12.17
+Patch8:		%{sname}-%{pgmajorversion}-llvm1x.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
@@ -579,6 +581,8 @@ benchmarks.
 %if 0%{?rhel} && 0%{?rhel} == 6
 %patch -P 7 -p0
 %endif
+# To be removed in 12.17
+%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1595,6 +1599,9 @@ fi
 %endif
 
 %changelog
+* Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 12.16-2PGDG
+- Add a temp patch to support newer LLVM until 12.17 is out.
+
 * Tue Aug 8 2023 Devrim Gündüz <devrim@gunduz.org> - 12.16-1PGDG
 - Update to 12.16, per changes described at
   https://www.postgresql.org/docs/release/12.16/
