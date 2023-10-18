@@ -22,9 +22,13 @@ Source0:	https://github.com/debezium/%{sname}/archive/refs/tags/v%{version}.Fina
 
 BuildRequires:	gcc llvm clang
 BuildRequires:	postgresql%{pgmajorversion}-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libprotobuf-c-devel
+Requires:	libprotobuf-c1
+%else
 BuildRequires:	protobuf-c-devel
-
 Requires:	protobuf-c
+%endif
 
 %description
 A PostgreSQL logical decoder output plugin to deliver data as Protocol Buffers messages.
@@ -45,8 +49,8 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm15-devel clang15-devel
+Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -79,6 +83,7 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %changelog
 * Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
 - Update to 2.4.0
+- Add SLES 15 support
 
 * Fri Jul 21 2023 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1
 - Update to 2.3.0
