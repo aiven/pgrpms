@@ -8,12 +8,12 @@
 %endif
 
 Name:		python3-%{sname}
-Version:	0.31
-Release:	1%{?dist}
+Version:	1.0.2
+Release:	1PGDG%{?dist}
 Summary:	Pure Python Implementation of MySQL replication protocol build on top of PyMYSQL
 License:	Apache-2.0
-URL:		https://github.com/noplay/python-mysql-replication
-Source0:	https://github.com/noplay/python-mysql-replication/archive/%{version}.tar.gz
+URL:		https://github.com/noplay/python-%{sname}
+Source0:	https://github.com/noplay/python-%{sname}/archive/%{version}.tar.gz
 BuildArch:	noarch
 
 BuildRequires:	python3-setuptools
@@ -40,9 +40,6 @@ their datas and raw SQL queries.
 %install
 %{__ospython3} setup.py install --prefix=%{_prefix} --root=%{buildroot} -O2
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %{python3_sitelib}/mysql_replication-%{version}-py%{py3ver}.egg-info/*
 %{python3_sitelib}/pymysqlreplication/*.py*
@@ -51,8 +48,14 @@ their datas and raw SQL queries.
 %{python3_sitelib}/pymysqlreplication/constants/__pycache__/*.py*
 %{python3_sitelib}/pymysqlreplication/tests/*.py*
 %{python3_sitelib}/pymysqlreplication/tests/__pycache__/*.py*
+%{python3_sitelib}/pymysqlreplication/util/*.py*
+%{python3_sitelib}/pymysqlreplication/util/__pycache__/*.py*
 
 %changelog
+* Wed Oct 18 2023 - Devrim Gündüz <devrim@gunduz.org> 1.0.2-1
+- Update to 1.0.2
+- Add PGDG branding
+
 * Thu Mar 30 2023 - Devrim Gündüz <devrim@gunduz.org> 0.31-1
 - Update to 0.31
 
