@@ -144,6 +144,7 @@ Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-aa2215d6b.patch
 %endif
 # To be removed in 12.17
 Patch8:		%{sname}-%{pgmajorversion}-llvm1x.patch
+Patch9:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
@@ -583,6 +584,7 @@ benchmarks.
 %endif
 # To be removed in 12.17
 %patch -P 8 -p1
+%patch -P 9 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1600,7 +1602,7 @@ fi
 
 %changelog
 * Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 12.16-2PGDG
-- Add a temp patch to support newer LLVM until 12.17 is out.
+- Add temp patches to support newer LLVM until 12.17 is out.
 
 * Tue Aug 8 2023 Devrim Gündüz <devrim@gunduz.org> - 12.16-1PGDG
 - Update to 12.16, per changes described at
