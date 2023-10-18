@@ -1,0 +1,37 @@
+%global sname pg_fact_loader
+
+Summary:	Build fact tables with Postgres using replicated tables and a queue
+Name:		%{sname}_%{pgmajorversion}
+Version:	2.0.1
+Release:	1PGDG%{?dist}
+License:	MIT
+Source0:	https://github.com/enova/%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/enova/%{sname}
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
+
+BuildArch:	noarch
+
+%description
+pg_fact_loader is a PostgreSQL extension to build fact tables with
+Postgres using replicated tables and a queue.
+
+%prep
+%setup -q -n %{sname}-%{version}
+
+%build
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
+
+%install
+%{__rm} -rf %{buildroot}
+
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+
+%files
+%defattr(644,root,root,755)
+%{pginstdir}/share/extension/%{sname}*sql
+%{pginstdir}/share/extension/%{sname}.control
+
+%changelog
+* Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
+- Initial RPM packaging for the PostgreSQL RPM Repository
