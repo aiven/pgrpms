@@ -103,6 +103,7 @@ Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # To be removed in 13.13:
 Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
+Patch8:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -554,6 +555,7 @@ benchmarks.
 %patch -P 6 -p0
 # To be removed in 13.13:
 %patch -P 7 -p1
+%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1346,8 +1348,8 @@ fi
 %endif
 
 %changelog
-* Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 13.13-2PGDG
-- Add a temp patch to support newer LLVM until 13.13 is out.
+* Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 13.12-2PGDG
+- Add temp patches to support newer LLVM until 13.13 is out.
 
 * Tue Aug 8 2023 Devrim Gündüz <devrim@gunduz.org> - 13.12-1PGDG
 - Update to 13.12, per changes described at
