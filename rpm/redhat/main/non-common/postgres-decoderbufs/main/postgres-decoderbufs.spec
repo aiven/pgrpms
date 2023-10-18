@@ -20,7 +20,7 @@ URL:		https://github.com/debezium/%{sname}
 
 Source0:	https://github.com/debezium/%{sname}/archive/refs/tags/v%{version}.Final.tar.gz
 
-BuildRequires:	gcc llvm clang
+BuildRequires:	gcc
 BuildRequires:	postgresql%{pgmajorversion}-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libprotobuf-c-devel
