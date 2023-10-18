@@ -106,6 +106,7 @@ Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # To be removed in 14.10:
 Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
+Patch8:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -566,6 +567,7 @@ benchmarks.
 %patch -P 6 -p0
 # To be removed in 14.10:
 %patch -P 7 -p1
+%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1379,7 +1381,7 @@ fi
 
 %changelog
 * Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 14.9-3PGDG
-- Add a temp patch to support newer LLVM until 14.10 is out.
+- Add temp patches to support newer LLVM until 14.10 is out.
 
 * Fri Aug 11 2023 Devrim Gündüz <devrim@gunduz.org> - 14.9-2PGDG
 - Rebuild due to error in previous build.
