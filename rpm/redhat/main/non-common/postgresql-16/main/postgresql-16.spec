@@ -90,6 +90,7 @@ Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # Will be removed in 16.1:
 Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
+Patch8:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -551,6 +552,7 @@ benchmarks.
 %patch -P 6 -p0
 # Will be removed in 16.1:
 %patch -P 7 -p1
+%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1338,7 +1340,7 @@ fi
 
 %changelog
 * Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-3PGDG
-- Add a temp patch to support newer LLVM until 16.1 is out.
+- Add temp patches to support newer LLVM until 16.1 is out.
 
 * Tue Sep 19 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-2PGDG
 - Re-add plpython3 (was plpython) build macro for the users who don't
