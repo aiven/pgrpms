@@ -1,19 +1,22 @@
-%global debug_package %{nil}
-
 %global sname mailchimp_fdw
 %global packagesoversion 0.3.0
 
-%global __ospython %{_bindir}/python3
-%{expand: %%global pybasever %(%{__ospython} -c 'import sys;print(sys.version[0:3])')}
-%global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
+%global python_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	PostgreSQL foreign data wrapper for Mailchimp
 Name:		%{sname}
 Version:	0.3.1
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/daamien/%{sname}/archive/%{version}.tar.gz
-URL:		https://github.com/daamien/mailchimp_fdw
+URL:		https://github.com/daamien/%{sname}
+
+BuildArch:	noarch
 
 %description
 This is a PostgreSQL FDW for Mailchimp
@@ -22,14 +25,11 @@ This is a PostgreSQL FDW for Mailchimp
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__ospython} setup.py build
+%{__python3} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
-
-%clean
-%{__rm} -rf %{buildroot}
+%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -38,11 +38,16 @@ This is a PostgreSQL FDW for Mailchimp
 %defattr(644,root,root,755)
 %doc README.md
 %dir %{python_sitelib}/mailchimpfdw/
-%{python_sitelib}/mailchimpfdw-%{packagesoversion}-py%{pybasever}.egg-info
+%{python_sitelib}/mailchimpfdw-%{packagesoversion}-py%{py3ver}.egg-info
 %{python_sitelib}/mailchimpfdw/*.py*
 %{python_sitelib}/mailchimpfdw/__pycache__/*.pyc
 
 %changelog
+* Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-3PGDG
+- Enable builds on Python 3.10+
+- Add PGDG branding
+- Minor spec file cleanup
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 0.3.1-2.1
 - Rebuild against PostgreSQL 11.0
 
