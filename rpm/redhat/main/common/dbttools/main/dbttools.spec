@@ -35,7 +35,6 @@ These scripts currently depend on R or Julia to generate charts.
 %license LICENSE
 %attr (755,root,root) %{_bindir}/dbt-pgsql*
 %attr (755,root,root) %{_bindir}/dbt-plot*
-%attr (755,root,root) %{_bindir}/dbt-process-pidstat
 
 
 %changelog
