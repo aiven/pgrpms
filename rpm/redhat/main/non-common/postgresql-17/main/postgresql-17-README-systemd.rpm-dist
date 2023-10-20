@@ -161,6 +161,16 @@ with a remote PostgreSQL server. The others are optional.
 
 Pgtcl is distributed via postgresql17-tcl package.
 
+-devel subpackage requires additional repos on RHEL and its derivatives.
+
+On RHEL 9 and 8, enable codeready-builder repo:
+
+$ subscription-manager repos --enable=codeready-builder-for-rhel-9-x86_64-rpms
+$ subscription-manager repos --enable=codeready-builder-for-rhel-8-x86_64-rpms
+
+On Rocky / AlmaLinux 8, enable crb repo:
+$ crb enable
+
 RPM FILE LOCATIONS.
 -----------------------------------------------------------------------------
 To be in compliance with the Linux FHS, the PostgreSQL RPMs install files in
