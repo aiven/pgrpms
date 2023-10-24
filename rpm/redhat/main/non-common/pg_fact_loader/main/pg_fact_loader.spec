@@ -3,7 +3,7 @@
 Summary:	Build fact tables with Postgres using replicated tables and a queue
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/enova/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/enova/%{sname}
@@ -33,5 +33,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2PGDG
+- Rebuilt
+
 * Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository
