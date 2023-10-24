@@ -14,7 +14,7 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.53.6
+Version:	0.53.7
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -140,10 +140,13 @@ popd
 %endif
 
 %changelog
-* Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.6-1
+* Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.7-1PGDG
+- Update to 0.53.7
+
+* Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.6-1PGDG
 - Update to 0.53.6
 
-* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.4-1
+* Sun Jul 23 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.4-1PGDG
 - Update to 0.53.4
 - Add PGDG branding
 
