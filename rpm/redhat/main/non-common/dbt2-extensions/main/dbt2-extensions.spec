@@ -29,7 +29,13 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 3.2.0
 %endif
 
-BuildRequires:	libpq5-devel openssl-devel curl-devel expat-devel
+BuildRequires:	libpq5-devel openssl-devel curl-devel
+
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libexpat-devel
+%else
+Requires:	expat-devel
+%endif
 
 %description
 The Open Source Development Lab's Database Test 2 (DBT-2) test kit.
@@ -88,7 +94,7 @@ popd
 
 pushd storedproc/pgsql/c
 export PATH=%{pginstdir}/bin:$PATH
-make DESTDIR=%{buildroot}
+%{__make} DESTDIR=%{buildroot}
 popd
 
 %install
@@ -101,7 +107,7 @@ popd
 
 pushd storedproc/pgsql/c
 export PATH=%{pginstdir}/bin:$PATH
-make DESTDIR=%{buildroot} install
+%{__make} DESTDIR=%{buildroot} install
 popd
 
 # Install extrension control file
@@ -142,6 +148,7 @@ popd
 %changelog
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.7-1PGDG
 - Update to 0.53.7
+- Add SLES 15 support
 
 * Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.6-1PGDG
 - Update to 0.53.6
@@ -151,7 +158,7 @@ popd
 - Add PGDG branding
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.50.1-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Mar 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.50.1-1
 - Update to 0.50.1
