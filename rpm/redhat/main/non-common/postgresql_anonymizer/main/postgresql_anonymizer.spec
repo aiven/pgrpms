@@ -13,7 +13,7 @@
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -80,6 +80,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/anon/*
 %{pginstdir}/share/extension/anon.control
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
+%doc docs/*
 
 %if %llvm
 %files llvmjit
@@ -88,6 +89,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-5PGDG
+- Install documentation along with the main package, per report
+  from Seda Yavuz.
+
 * Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-4PGDG
 - Fix LLVM dependency on SLES 15
 
