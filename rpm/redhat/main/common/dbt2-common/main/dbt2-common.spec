@@ -11,11 +11,17 @@ URL:		https://github.com/osdldbt/%{sname}/
 Patch0:		%{sname}-cmakelists-rpm.patch
 Patch1:		%{sname}-profile.patch
 
-BuildRequires:	gcc-c++ openssl-devel curl-devel expat-devel
+BuildRequires:	gcc-c++ openssl-devel curl-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
 %else
 BuildRequires:	cmake => 3.2.0
+%endif
+
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libexpat-devel
+%else
+Requires:	expat-devel
 %endif
 
 BuildRequires:	libpq5-devel
@@ -79,6 +85,7 @@ popd
 %changelog
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.7-1PGDG
 - Update to 0.53.7
+- Add SLES 15 support
 
 * Thu Sep 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.6-1PGDG
 - Update to 0.53.6
