@@ -33,7 +33,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Thu Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2PGDG
+* Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-2PGDG
 - Rebuilt
 
 * Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
