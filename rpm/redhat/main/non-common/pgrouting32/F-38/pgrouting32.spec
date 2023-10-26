@@ -1,1 +1,0 @@
-../main/pgrouting32.spec
