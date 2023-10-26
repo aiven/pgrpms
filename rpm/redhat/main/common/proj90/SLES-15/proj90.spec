@@ -1,1 +1,0 @@
-../main/proj90.spec
