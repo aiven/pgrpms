@@ -6,7 +6,7 @@
 
 Name:		postgresql%{pgmajorversion}-tcl
 Version:	%{pgtclmajorversion}.0
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -49,17 +49,10 @@ autoconf
 # we don't really need to ship the .h file
 %{__rm} -f %{buildroot}%{pgtclprefix}-%{pgmajorversion}/include/pgtclId.h
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc doc
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE
-%else
 %license LICENSE
-%endif
 %dir %{pgtclprefix}-%{pgmajorversion}/
 %dir %{pgtclprefix}-%{pgmajorversion}/share/man/mann/
 %{pgtclprefix}-%{pgmajorversion}/lib/libpgtcl.so
@@ -69,8 +62,13 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Thu Oct 26 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-3PGDG
+- Add PGDG branding
+- Clean up rpmlint warnings
+- Remove RHEL 6 bits
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-2.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.0-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
