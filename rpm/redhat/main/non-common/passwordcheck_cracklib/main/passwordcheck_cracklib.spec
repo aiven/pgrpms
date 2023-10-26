@@ -12,14 +12,12 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0.0
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
 Requires:	postgresql%{pgmajorversion} cracklib cracklib-dicts
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.0.2-3
 
 BuildRequires:	cracklib-devel postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
@@ -38,11 +36,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -63,9 +61,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %{pginstdir}/lib/%{sname}.so
@@ -77,6 +72,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-2PGDG
+- Add PGDG branding
+- Clean up rpmlint warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-1.1
 - Rebuild against LLVM 15 on SLES 15
 
