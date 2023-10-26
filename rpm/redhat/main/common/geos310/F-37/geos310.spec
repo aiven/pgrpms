@@ -1,1 +1,0 @@
-../main/geos310.spec
