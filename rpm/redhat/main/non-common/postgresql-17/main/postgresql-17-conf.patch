@@ -1,5 +1,5 @@
---- postgresql.conf.sample.old	2023-10-26 11:16:24.161093300 +0100
-+++ postgresql.conf.sample	2023-10-26 11:16:48.363170541 +0100
+--- src/backend/utils/misc/postgresql.conf.sample.old	2023-10-26 11:16:24.161093300 +0100
++++ src/backend/utils/misc/postgresql.conf.sample	2023-10-26 11:16:48.363170541 +0100
 @@ -444,31 +444,31 @@
  
  # - Where to Log -
