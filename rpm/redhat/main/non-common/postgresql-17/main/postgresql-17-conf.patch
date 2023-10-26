@@ -1,6 +1,6 @@
---- src/backend/utils/misc/postgresql.conf.sample.old	2022-05-19 13:41:40.574361886 +0100
-+++ src/backend/utils/misc/postgresql.conf.sample	2022-05-19 13:42:43.258471901 +0100
-@@ -442,31 +442,31 @@
+--- postgresql.conf.sample.old	2023-10-26 11:16:24.161093300 +0100
++++ postgresql.conf.sample	2023-10-26 11:16:48.363170541 +0100
+@@ -444,31 +444,31 @@
  
  # - Where to Log -
  
@@ -39,7 +39,7 @@
  					# same name as the new log file will be
  					# truncated rather than appended to.
  					# But such truncation only occurs on
-@@ -557,7 +557,7 @@
+@@ -559,7 +559,7 @@
  #log_duration = off
  #log_error_verbosity = default		# terse, default, or verbose messages
  #log_hostname = off
