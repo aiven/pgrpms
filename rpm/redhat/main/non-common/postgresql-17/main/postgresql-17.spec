@@ -117,7 +117,7 @@ Requires:	libzstd >= 1.4.0
 %endif
 
 # This dependency is needed for Source 16:
-%if 0%{?fedora} || 0%{?rhel} > 7
+%if 0%{?fedora} || 0%{?rhel}
 BuildRequires:	perl-generators
 %endif
 
@@ -129,14 +129,6 @@ Requires:	libicu
 %endif
 
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} == 7
-# Packages come from EPEL and SCL:
-%ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
-%else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
-%endif
-%endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
 BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
@@ -177,15 +169,12 @@ BuildRequires:	pam-devel
 %endif
 
 %if %plperl
-%if 0%{?rhel} && 0%{?rhel} >= 7
 BuildRequires:	perl-ExtUtils-Embed
-%endif
-%if 0%{?fedora} >= 22
-BuildRequires:	perl-ExtUtils-Embed
-%endif
 %endif
 
+%if %plpython3
 BuildRequires:	python3-devel
+%endif
 
 %if %pltcl
 BuildRequires:	tcl-devel
@@ -283,12 +272,6 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description libs
 The postgresql%{pgmajorversion}-libs package provides the essential shared libraries for any
 PostgreSQL client program or interface. You will need to install this package
@@ -318,12 +301,6 @@ Requires(postun):	systemd
 
 Provides:	postgresql-server >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The postgresql%{pgmajorversion}-server package contains the programs needed to create
@@ -348,12 +325,6 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-contrib >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description contrib
 The postgresql%{pgmajorversion}-contrib package contains various extension modules that are
 included in the PostgreSQL distribution.
@@ -362,15 +333,8 @@ included in the PostgreSQL distribution.
 Summary:	PostgreSQL development header files and libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} == 7
-# Packages come from EPEL and SCL:
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
-%else
-Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
-%endif
-%endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 # Packages come from Appstream:
 Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
@@ -407,12 +371,6 @@ BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
 Provides:	postgresql-devel >= %{version}-%{release}
 Obsoletes:	libpq-devel <= 42.0
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description devel
 The postgresql%{pgmajorversion}-devel package contains the header files and libraries
 needed to compile C or C++ applications which will directly interact
@@ -424,13 +382,6 @@ to develop applications which will interact with a PostgreSQL server.
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
 %if 0%{?suse_version} == 1315
 Requires:	llvm
 %endif
@@ -442,12 +393,6 @@ Requires:	llvm => 5.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
 
 %description llvmjit
 The postgresql%{pgmajorversion}-llvmjit package contains support for
@@ -466,12 +411,6 @@ BuildRequires:	perl-devel
 %endif
 Provides:	postgresql-plperl >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description plperl
 The postgresql%{pgmajorversion}-plperl package contains the PL/Perl procedural language,
 which is an extension to the PostgreSQL database server.
@@ -488,14 +427,7 @@ Provides:	postgresql-plpython3 >= %{version}-%{release}
 %if 0%{?suse_version} >= 1315
 Requires:	python3-base
 %else
-# We support Python3 natively on RHEL/CentOS 7 as of 7.7.
 Requires:	python3-libs
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
 %endif
 
 %description plpython3
@@ -512,12 +444,6 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	tcl
 Provides:	postgresql-pltcl >= %{version}-%{release}
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
-
 %description pltcl
 PostgreSQL is an advanced Object-Relational database management
 system. The %{name}-pltcl package contains the PL/Tcl language
@@ -530,12 +456,6 @@ Summary:	The test suite distributed with PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
 
 %description test
 The postgresql%{pgmajorversion}-test package contains files needed for various tests for the
@@ -574,16 +494,7 @@ LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-	export CLANG=/opt/rh/llvm-toolset-7.0/root/usr/bin/clang LLVM_CONFIG=/opt/rh/llvm-toolset-7.0/root/usr/bin/llvm-config
-%else
-	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
-%endif
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 8
-	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
+export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 
 # These configure options must match main build
 ./configure --enable-rpath \
@@ -791,7 +702,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
