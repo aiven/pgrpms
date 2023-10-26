@@ -52,8 +52,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.8
-Release:	2%{?dist}.2
+Version:	%{postgismajorversion}.9
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	http://download.osgeo.org/%{sname}/docs/%{sname}-%{version}.pdf
@@ -86,11 +86,7 @@ BuildRequires:	SFCGAL-devel SFCGAL
 Requires:	SFCGAL
 %endif
 %if %{raster}
-  %if 0%{?rhel} && 0%{?rhel} <= 6
-BuildRequires:	gdal-devel >= 1.9.2-9
-  %else
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
-  %endif
 %endif
 
 %if 0%{?fedora} >= 29 || 0%{?rhel} >= 8
@@ -197,11 +193,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -241,7 +237,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-        --with-projdir=%{projinstdir} \
+	--with-projdir=%{projinstdir} \
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=/%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
@@ -284,17 +280,10 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove postgis-shp2pgsql	%{pginstdir}/bin/shp2pgsql
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc COPYING CREDITS NEWS TODO README.%{sname} doc/html loader/README.* doc/%{sname}.xml doc/ZMSgeoms.txt
-%if 0%{?rhel} && 0%{?rhel} <= 6
-%doc LICENSE.TXT
-%else
 %license LICENSE.TXT
-%endif
 %{pginstdir}/doc/extension/README.address_standardizer
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis.sql
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/postgis_comments.sql
@@ -385,11 +374,16 @@ fi
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.9-1PGDG
+- Update to 3.0.9
+- Add PGDG branding
+- Remove RHEL 6 bits
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.8-2.2
 - Rebuild against LLVM 15 on SLES 15
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.8-2.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.0.8-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
