@@ -1,10 +1,12 @@
 
-%global __ospython3 %{_bindir}/python3
-%{expand: %%global py3ver %(echo `%{__ospython3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%if 0%{?fedora} >= 35
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 Name:		PyGreSQL
-Version:	5.2.5
+Version:	6.0
 Release:	1PGDG%{?dist}
 Summary:	A Python client library for PostgreSQL
 
@@ -16,7 +18,7 @@ URL:		http://www.PyGreSQL.org/
 # recognizes it as an independent license, so we do as well.
 License:	PostgreSQL or Python
 
-Source0:	https://github.com/%{name}/%{name}/releases/download/%{version}/%{name}-%{version}.tar.gz
+Source0:	https://github.com/%{name}/%{name}/archive/refs/tags/%{version}.tar.gz
 
 Provides:	python3-%{name} = %{version}-%{release}
 Provides:	python3-%{name}%{?_isa} = %{version}-%{release}
@@ -39,27 +41,25 @@ Python code for accessing a PostgreSQL database.
 find -type f -exec chmod 644 {} +
 
 %build
-%{__ospython3} setup.py build
+%{__python3} setup.py build
 
 %install
 %{__rm} -rf %{buildroot}
-%{__ospython3} setup.py install -O1 --skip-build --root %{buildroot}
-
-%clean
+%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 
 %files
 %license docs/copyright.rst
 %doc docs/*.rst
-%{python3_sitearch}/*.so
-%{python3_sitearch}/*.py
-%{python3_sitearch}/*.egg-info
-%if 0%{?rhel} <= 7
-%{python3_sitearch}/__pycache__/*.pyc
-%else
-%{python3_sitearch}/__pycache__/*.py{c,o}
-%endif
+%{python3_sitearch}/%{name}-%{version}-py%{py3ver}*.egg-info/
+%{python3_sitearch}/pg/*py*
+#{python3_sitearch}/pg/__pycache__/*
+%{python3_sitearch}/pgdb/*py*
+#{python3_sitearch}/pgdb/__pycache__/*
 
 %changelog
+* Thu Oct 26 2023 Devrim Gündüz <devrim@gunduz.org> - 6.0-1PGDG
+- Update to 6.0
+
 * Sat Sep 2 2023 Devrim Gündüz <devrim@gunduz.org> - 5.2.5-1
 - Update to 5.2.5
 - Add PGDG branding
