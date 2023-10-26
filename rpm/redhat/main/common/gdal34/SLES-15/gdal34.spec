@@ -1,1 +1,0 @@
-../main/gdal34.spec
