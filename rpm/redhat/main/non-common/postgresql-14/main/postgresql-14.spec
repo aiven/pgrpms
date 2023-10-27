@@ -77,7 +77,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	14.9
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -603,9 +603,8 @@ export PYTHON=/usr/bin/python3
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
 %endif
-%if 0%{?rhel} && 0%{?rhel} == 8
-	export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
+
+export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 
 # These configure options must match main build
 ./configure --enable-rpath \
@@ -1380,6 +1379,10 @@ fi
 %endif
 
 %changelog
+* Fri Oct 27 2023 Devrim Gunduz <devrim@gunduz.org> - 14.9-4PGDG
+- Export CLANG and LLVM on all distros. Per report from Greg Hennessy:
+  https://www.postgresql.org/message-id/CA%2BmZaON9nDxWrg%3DABBczU3DuYwQ3Q02atsY%2BXhb0ogAgHzmYVg%40mail.gmail.com
+
 * Wed Oct 18 2023 Devrim Gunduz <devrim@gunduz.org> - 14.9-3PGDG
 - Add temp patches to support newer LLVM until 14.10 is out.
 
