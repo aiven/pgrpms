@@ -4,7 +4,7 @@
 # Powa archivist version
 %global powamajorversion 4
 %global powamidversion 2
-%global powaminorversion 0
+%global powaminorversion 1
 
 %global __ospython %{_bindir}/python3
 %if 0%{?fedora} >= 35
@@ -102,6 +102,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Mon Oct 30 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.1-1PGDG
+- Update to 4.2.1
+
 * Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.0-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
 
