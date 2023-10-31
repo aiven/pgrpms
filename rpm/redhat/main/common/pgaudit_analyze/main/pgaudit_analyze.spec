@@ -2,14 +2,14 @@
 
 Summary:	PostgreSQL Audit Analyzer
 Name:		pgaudit_analyze
-Version:	1.0.8
-Release:	2%{?dist}
+Version:	1.0.9
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgaudit/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/pgaudit/%{name}
 BuildArch:	noarch
 
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7
+%if 0%{?fedora} || 0%{?rhel}
 Requires:	perl-Carp
 %endif
 
@@ -33,8 +33,6 @@ and loads them into a database schema to aid in analysis and auditing.
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{name}.md
 
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -47,9 +45,15 @@ and loads them into a database schema to aid in analysis and auditing.
 %{painstdir}/sql/*
 
 %changelog
+* Tue Oct 31 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.9-1PGDG
+- Update to 1.0.9 per changes described at:
+  https://github.com/pgaudit/pgaudit_analyze/releases/tag/1.0.9
+- Add PGDG branding
+
 * Thu Dec 16 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-2
 - Use perl-Carp dependency only on Fedora/RHEL. SLES does not
   have this package, and also it still works.
+
 * Mon Oct 11 2021 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1
 - Update to 1.0.8
 
