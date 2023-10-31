@@ -13,8 +13,8 @@
 %endif
 
 Name:		etcd
-Version:	3.5.9
-Release:	2PGDG%{?dist}
+Version:	3.5.10
+Release:	1PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
@@ -87,6 +87,10 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
+* Tue Oct 31 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.10-1PGDG
+- Update to 3.5.10, per changes described at:
+  https://github.com/etcd-io/etcd/blob/main/CHANGELOG/CHANGELOG-3.5.md#v3510-2023-10-27
+
 * Thu Aug 10 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.9-2PGDG
 - Fix dependency on SLES 15, per report from Matt Baker:
   https://redmine.postgresql.org/issues/7847
