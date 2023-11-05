@@ -68,10 +68,10 @@ popd
 %{_bindir}/h3ToHier
 %{_bindir}/latLngToCell
 %{_bindir}/localIjToCell
-%{_includedir}/h3/h3api.h
 /usr/lib/libh3.so*
 
 %files devel
+%{_includedir}/h3/h3api.h
 /usr/lib/cmake/%{sname}/*.cmake
 
 %changelog
