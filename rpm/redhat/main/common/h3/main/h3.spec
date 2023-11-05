@@ -48,6 +48,7 @@ pushd build
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install \
 	DESTDIR=%{buildroot}
 popd
+%{__mv} %{buildroot}/%{_includedir}/h3/h3api.h %{buildroot}/%{_includedir}/
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
@@ -71,7 +72,7 @@ popd
 /usr/lib/libh3.so*
 
 %files devel
-%{_includedir}/h3/h3api.h
+%{_includedir}/h3api.h
 /usr/lib/cmake/%{sname}/*.cmake
 
 %changelog
