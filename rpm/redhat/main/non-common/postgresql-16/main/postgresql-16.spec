@@ -164,7 +164,9 @@ BuildRequires:	pam-devel
 %endif
 
 %if %plperl
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
 BuildRequires:	perl-ExtUtils-Embed
+%endif
 %endif
 
 BuildRequires:	python3-devel
