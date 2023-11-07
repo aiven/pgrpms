@@ -17,16 +17,21 @@ Version:	1.4.1
 BuildRequires:	CGAL-devel >= 5.4
 %endif
 
-%if 0%{?fedora} && 0%{?fedora} >= 35
+%if 0%{?fedora} && 0%{?fedora} == 38
 Version:	1.4.1
-BuildRequires:	CGAL-devel >= 5.3
+BuildRequires:	CGAL-devel >= 5.4
 %endif
 
-Release:	15%{?dist}
+%if 0%{?fedora} && 0%{?fedora} == 38
+Version:	1.5.0
+BuildRequires:	CGAL-devel >= 5.6
+%endif
+
+Release:	1%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
-URL:		http://sfcgal.org/
+URL:		https://sfcgal.gitlab.io/SFCGAL/
 
 BuildRequires:	cmake pgdg-srpm-macros
 
@@ -121,6 +126,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-1PGDG
+- Update to 1.5.0 on Fedora 39 (1.5.0 requires CGAL 5.6).
+
 * Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-15-1
 - Fix setup line
 - Remove support for older distros
