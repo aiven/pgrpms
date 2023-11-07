@@ -62,8 +62,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	16.0
-Release:	4PGDG%{?dist}
+Version:	16.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -88,9 +88,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-# Will be removed in 16.1:
-Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
-Patch8:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -141,7 +138,6 @@ BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
-%endif
 %endif
 
 %if %kerberos
@@ -466,9 +462,6 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
-# Will be removed in 16.1:
-%patch -P 7 -p1
-%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1246,6 +1239,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 16.1-1PGDG
+- Update to 16.1, per changes described at:
+  https://www.postgresql.org/docs/release/16.1/
+
 * Fri Oct 27 2023 Devrim Gunduz <devrim@gunduz.org> - 16.0-4PGDG
 - Remove references to RHEL 7. While passing, export CLANG and LLVM
   on all distros. Per report from Greg Hennessy:
