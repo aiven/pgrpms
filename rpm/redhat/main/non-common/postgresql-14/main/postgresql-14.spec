@@ -76,8 +76,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.9
-Release:	4PGDG%{?dist}
+Version:	14.10
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -104,9 +104,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-# To be removed in 14.10:
-Patch7:		%{sname}-%{pgmajorversion}-llvm1x.patch
-Patch8:		%{sname}-%{pgmajorversion}-llvm17.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -565,9 +562,6 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
-# To be removed in 14.10:
-%patch -P 7 -p1
-%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1379,6 +1373,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 14.10-1PGDG
+- Update to 14.10, per changes described at
+  https://www.postgresql.org/docs/release/14.10/
+
 * Fri Oct 27 2023 Devrim Gunduz <devrim@gunduz.org> - 14.9-4PGDG
 - Export CLANG and LLVM on all distros. Per report from Greg Hennessy:
   https://www.postgresql.org/message-id/CA%2BmZaON9nDxWrg%3DABBczU3DuYwQ3Q02atsY%2BXhb0ogAgHzmYVg%40mail.gmail.com
