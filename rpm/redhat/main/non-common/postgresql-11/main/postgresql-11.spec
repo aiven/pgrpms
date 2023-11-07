@@ -101,8 +101,8 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	11.21
-Release:	2PGDG%{?dist}
+Version:	11.22
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1616,6 +1616,11 @@ fi
 %endif
 
 %changelog
+* Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 11.22-1PGDG
+- Update to 11.22, per changes described at
+  https://www.postgresql.org/docs/release/11.22/
+- v11 is now EOLed. Please upgrade to a recent version.
+
 * Fri Oct 27 2023 Devrim Gunduz <devrim@gunduz.org> - 11.21-2PGDG
 - Export CLANG and LLVM on all distros. Per report from Greg Hennessy:
   https://www.postgresql.org/message-id/CA%2BmZaON9nDxWrg%3DABBczU3DuYwQ3Q02atsY%2BXhb0ogAgHzmYVg%40mail.gmail.com
