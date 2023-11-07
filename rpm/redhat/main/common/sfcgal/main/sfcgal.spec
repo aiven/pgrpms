@@ -22,20 +22,10 @@ Version:	1.4.1
 BuildRequires:	CGAL-devel >= 5.3
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} <= 7
-Version:	1.3.1
-Requires:	CGAL => 4.7
-BuildRequires:	CGAL-devel >= 4.7
-%endif
-Release:	14%{?dist}.1
+Release:	15%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
-# Adding patches for CGAL 5.x. Grabbed them from Debian folks
-# per  https://github.com/Oslandia/SFCGAL/pull/219
-%if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
-Patch0:		sfcgal-fix-ftbfs-with-cgal-5.x.patch
-Patch1:		sfcgal-config.patch
-%endif
+
 URL:		http://sfcgal.org/
 
 BuildRequires:	cmake pgdg-srpm-macros
@@ -71,11 +61,6 @@ can be either 2D or 3D.
 
 %package libs
 Summary:	The shared libraries required for SFCGAL
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-AutoReq:	0
-%endif
-%endif
 
 %description libs
 The sfcgal-libs package provides the essential shared libraries for SFCGAL.
@@ -88,12 +73,7 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 Development headers and libraries for SFCGAL.
 
 %prep
-%setup -q -n SFCGAL-2d6a1a89552f14fe2926038b7237686bb9e5472e
-
-%if 0%{?fedora} >= 32 && 0%{?fedora} <= 34
-%patch -P 0 -p0
-%patch -P 1 -p0
-%endif
+%setup -q -n SFCGAL-v%{version}
 
 %build
 
@@ -136,14 +116,15 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %{_libdir}/pkgconfig/sfcgal.pc
 %endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
-/usr/lib/libSFCGAL.la
-%endif
 
 %files libs
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-15-1
+- Fix setup line
+- Remove support for older distros
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-14.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
