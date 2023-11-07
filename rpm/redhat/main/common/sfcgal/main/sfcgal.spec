@@ -29,7 +29,7 @@ BuildRequires:	CGAL-devel >= 5.6
 
 Release:	1%{?dist}
 License:	GLPLv2
-Source:		https://gitlab.com/Oslandia/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
+Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
 URL:		https://sfcgal.gitlab.io/SFCGAL/
 
