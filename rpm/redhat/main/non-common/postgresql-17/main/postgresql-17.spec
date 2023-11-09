@@ -241,11 +241,10 @@ Provides:	%{sname} >= %{version}-%{release}
 %description
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
 The base postgresql package contains the client programs that you'll need to
-access a PostgreSQL DBMS server, as well as HTML documentation for the whole
-system. These client programs can be located on the same machine as the
-PostgreSQL server, or on a remote machine that accesses a PostgreSQL server
-over a network connection. The PostgreSQL server can be found in the
-postgresql%{pgmajorversion}-server sub-package.
+access a PostgreSQL DBMS server. These client programs can be located on the
+same machine as the PostgreSQL server, or on a remote machine that accesses a
+PostgreSQL server over a network connection. The PostgreSQL server can be found
+in the postgresql%{pgmajorversion}-server sub-package.
 
 If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
@@ -728,7 +727,6 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %endif
 
 # Fix some more documentation
-# gzip doc/internals.ps
 %{__cp} %{SOURCE6} README.rpm-dist
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/doc/html
 %{__mv} doc/src/sgml/html doc
@@ -739,7 +737,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 # These file(s) should not be packaged:
 %{__rm} %{buildroot}%{pgbaseinstdir}/lib/libpgfeutils.a
 
-# initialize file lists
+# Initialize file lists
 %{__cp} /dev/null main.lst
 %{__cp} /dev/null libs.lst
 %{__cp} /dev/null server.lst
