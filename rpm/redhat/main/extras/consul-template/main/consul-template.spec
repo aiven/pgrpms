@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.34.0
+%global		_verstr	0.35.0
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -84,6 +84,9 @@ exit 0
 
 
 %changelog
+* Thu Nov 9 2023 Devrim Gündüz <devrim@gunduz.org> 0.35.0-1PGDG
+- Update to 0.35.0
+
 * Wed Oct 11 2023 Devrim Gündüz <devrim@gunduz.org> 0.34.0-1PGDG
 - Update to 0.34.0
 
