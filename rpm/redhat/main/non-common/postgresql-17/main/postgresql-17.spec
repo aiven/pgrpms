@@ -91,10 +91,11 @@ Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
-BuildRequires:	perl glibc-devel bison flex >= 2.5.31
+BuildRequires:	perl glibc-devel bison >= 2.3 flex >= 2.5.35
 BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
+BuildRequires:	libxml2-devel libxslt-devel
 
 # lz4 dependency
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
@@ -214,10 +215,6 @@ BuildRequires:	uuid-devel
 %else
 BuildRequires:	libuuid-devel
 %endif
-%endif
-
-%if %xml
-BuildRequires:	libxml2-devel libxslt-devel
 %endif
 
 BuildRequires:		systemd, systemd-devel
@@ -576,6 +573,7 @@ sed "s|C=\`pwd\`;|C=%{pgbaseinstdir}/lib/tutorial;|" < src/tutorial/Makefile > s
 %{__rm} -f src/tutorial/GNUmakefile
 
 MAKELEVEL=0 %{__make} %{?_smp_mflags} all
+%{__make} %{?_smp_mflags} -C doc all
 %{__make} %{?_smp_mflags} -C contrib all
 %if %uuid
 %{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
