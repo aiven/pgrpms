@@ -14,10 +14,10 @@
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
-URL:		https://pgxn.org/dist/pgtap/
-Source0:	https://api.pgxn.org/dist/pgtap/%{version}/pgtap-%{version}.zip
+URL:		https://github.com/theory/%{sname}
+Source0:	https://github.com/theory/%{sname}/archive/refs/tags/v%{version}.tar.gz
 # Use this source for pg_prove and pg_tapgen
 Source1:	https://search.cpan.org/CPAN/authors/id/D/DW/DWHEELER/TAP-Parser-SourceHandler-pgTAP-%{tapparserversion}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel pgdg-srpm-macros
@@ -102,6 +102,9 @@ popd
 %endif
 
 %changelog
+* Fri Nov 10 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2PGDG
+- Use pgtap Github URLs
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1PGDG
 - Update to 1.3.1
 
