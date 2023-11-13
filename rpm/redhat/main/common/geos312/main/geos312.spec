@@ -6,7 +6,7 @@
 %global		_geoslibdir lib64
 
 Name:		%{sname}%{_geosversion}
-Version:	3.12.0
+Version:	3.12.1
 Release:	1PGDG%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
@@ -103,6 +103,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Mon Nov 13 2023 Devrim Gunduz <devrim@gunduz.org> - 3.12.1-1PGDG
+- Update to 3.12.1
+
 * Thu Aug 10 2023 Devrim Gunduz <devrim@gunduz.org> - 3.12.0-1PGDG
 - Initial packaging of 3.12.X for the PostgreSQL RPM Repository
 
