@@ -27,7 +27,7 @@
 
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
-%{!?plpython3:%global plpython3 0}
+%{!?plpython3:%global plpython3 1}
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
@@ -63,7 +63,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1246,6 +1246,11 @@ fi
 %endif
 
 %changelog
+* Mon Nov 13 2023 Devrim Gunduz <devrim@gunduz.org> - 16.1-2PGDG
+- Enable plpython subpackage, which is an oversight of commit
+  2e6573c653 . Per report from Laurent Parodi. Fixes
+  https://redmine.postgresql.org/issues/7903
+
 * Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 16.1-1PGDG
 - Update to 16.1, per changes described at:
   https://www.postgresql.org/docs/release/16.1/
