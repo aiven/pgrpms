@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL extension for high level cryptographic algorithms
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1.8
+Version:	3.1.9
 Release:	1PGDG%{dist}
 License:	BSD
 URL:		https://github.com/michelp/%{sname}/
@@ -96,6 +96,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Nov 13 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.9-1PGDG
+- Update to 3.1.9
+
 * Wed Jul 19 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1.8-1PGDG
 - Update to 3.1.8
 - Add PGDG branding
