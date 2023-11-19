@@ -42,15 +42,7 @@
  %{!?sdt:%global sdt 1}
 %endif
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 %{!?selinux:%global selinux 1}
 
@@ -490,7 +482,12 @@ LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
+%endif
+%if 0%{?suse_version} >= 1315
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
+%endif
 
 # These configure options must match main build
 ./configure --enable-rpath \
