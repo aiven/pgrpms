@@ -40,15 +40,7 @@
  %{!?sdt:%global sdt 1}
 %endif
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 %{!?selinux:%global selinux 1}
 
@@ -63,7 +55,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1246,6 +1238,9 @@ fi
 %endif
 
 %changelog
+* Sun Nov 19 2023 Devrim Gunduz <devrim@gunduz.org> - 16.1-3PGDG
+- Enable LLVM on all supported platforms.
+
 * Mon Nov 13 2023 Devrim Gunduz <devrim@gunduz.org> - 16.1-2PGDG
 - Enable plpython subpackage, which is an oversight of commit
   2e6573c653 . Per report from Laurent Parodi. Fixes
