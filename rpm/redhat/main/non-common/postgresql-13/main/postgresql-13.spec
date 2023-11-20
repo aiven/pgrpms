@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.13
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1345,6 +1345,9 @@ fi
 %endif
 
 %changelog
+* Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 13.13-2PGDG
+- Rebuild against new LLVM on RHEL 8.9
+
 * Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 13.13-1PGDG
 - Update to 13.13, per changes described at
   https://www.postgresql.org/docs/release/13.13/
