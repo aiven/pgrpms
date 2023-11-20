@@ -76,8 +76,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.9
-Release:	3PGDG%{?dist}
+Version:	%{postgismajorversion}.10
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -402,6 +402,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.10-1PGDG
+- Update to 3.1.10, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.10/NEWS
+
 * Sun Oct 22 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.9-3PGDG
 - Do not override dependencies on Fedora 38+.
 
