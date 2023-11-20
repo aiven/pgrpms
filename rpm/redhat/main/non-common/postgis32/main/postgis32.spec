@@ -68,8 +68,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.5
-Release:	2PGDG%{?dist}
+Version:	%{postgismajorversion}.6
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -394,6 +394,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.6-1PGDG
+- Update to 3.2.6, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.6/NEWS
+
 * Thu Sep 14 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.5-2PGDG
 - Rebuild against GeOS 3.12, Proj 9.2, and libgeotiff 1.7
 - Add PGDG branding
@@ -406,7 +410,7 @@ fi
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.5/NEWS
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.4-6.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Thu Apr 6 2023 Devrim Gündüz <devrim@gunduz.org> - 3.2.4-6
 - Use Proj 9.2.X, GDAL 3.6, GeOS 3.11 and libgeotiff 1.7 on Fedora 38+
