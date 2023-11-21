@@ -55,7 +55,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	16.1
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1238,6 +1238,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 21 2023 Devrim Gündüz <devrim@gunduz.org> - 16.1-5PGDG
+- Rebuild on RHEL 9.3 / aarch64 against new LLVM
+
 * Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 16.1-4PGDG
 - Rebuild against new LLVM on RHEL 8.9
 
