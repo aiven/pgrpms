@@ -1,8 +1,8 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.6.0
-Release:	1%{?dist}
+Version:	42.7.0
+Release:	1PGDG%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -23,16 +23,16 @@ Requires:	java-headless >= 1:1.8
 BuildRequires:	java-1_8_0-openjdk-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  java-11-openjdk-devel
+BuildRequires:	java-11-openjdk-devel
 %endif
 %if 0%{?rhel} == 9
-BuildRequires:  java-17-openjdk-devel
+BuildRequires:	java-17-openjdk-devel
 %endif
-%if 0%{?rhel} < 9  && 0%{?rhel} >= 7
-BuildRequires:  java-latest-openjdk-devel
+%if 0%{?rhel} < 9 && 0%{?rhel} >= 7
+BuildRequires:	java-latest-openjdk-devel
 %endif
 %if 0%{?fedora}
-BuildRequires:  java-latest-openjdk-devel
+BuildRequires:	java-latest-openjdk-devel
 %endif
 
 %if 0%{?rhel} == 7
@@ -71,7 +71,7 @@ export CLASSPATH=
 # Ideally we would run "sh update-translations.sh" here, but that results
 # in inserting the build timestamp into the generated messages_*.class
 # files, which makes rpmdiff complain about multilib conflicts if the
-# different platforms don't build in the same minute.  For now, rely on
+# different platforms don't build in the same minute. For now, rely on
 # upstream to have updated the translations files before packaging.
 
 %if 0%{?rhel} == 7
@@ -88,7 +88,7 @@ mvn -DskipTests -Pjavadoc package
 
 pushd %{buildroot}%{_javadir}
 # Also, for backwards compatibility with our old postgresql-jdbc packages,
-# add these symlinks.  (Probably only the jdbc3 symlink really makes sense?)
+# add these symlinks. (Probably only the jdbc3 symlink really makes sense?)
 %{__ln_s} %{name}.jar postgresql-jdbc2.jar
 %{__ln_s} %{name}.jar postgresql-jdbc2ee.jar
 %{__ln_s} %{name}.jar postgresql-jdbc3.jar
@@ -105,7 +105,7 @@ sed 's/UPSTREAM_VERSION/%{version}/g' %{SOURCE1} >JPP-%{name}.pom
 
 %check
 %if 0%{?runselftest}
-# Note that this requires to have PostgreSQL properly configured;  for this
+# Note that this requires to have PostgreSQL properly configured; for this
 # reason the testsuite is turned off by default (see org/postgresql/test/README)
 test_log=test.log
 # TODO: more reliable testing
@@ -145,6 +145,11 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Tue Mar 21 2023 Devrim Gündüz <devrim@gunduz.org> - 42.7.0-1PGDG
+- Update to 42.7.0 per changes described at:
+  https://jdbc.postgresql.org/changelogs/2023-11-20-42.7.0-release/
+- Add PGDG branding
+
 * Tue Mar 21 2023 Devrim Gündüz <devrim@gunduz.org> - 42.6.0-1
 - Update to 42.6.0
 
