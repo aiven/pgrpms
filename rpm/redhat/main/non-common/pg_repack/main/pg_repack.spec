@@ -13,8 +13,8 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.8
-Release:	4PGDG%{?dist}
+Version:	1.5.0
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/reorg/%{sname}/archive/refs/tags/ver_%{version}.tar.gz
 URL:		https://github.com/reorg/%{sname}/
@@ -58,7 +58,7 @@ This packages provides JIT support for XXX
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-ver_%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -83,6 +83,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Thu Nov 23 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-1PGDG
+- Update to 1.5.0
+
 * Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.8-4PGDG
 - Add PGDG branding
 - Cleanup rpmlint warnings
