@@ -4,7 +4,7 @@
 # Powa archivist version
 %global powamajorversion 4
 %global powamidversion 2
-%global powaminorversion 1
+%global powaminorversion 2
 
 %global __ospython %{_bindir}/python3
 %if 0%{?fedora} >= 35
@@ -102,6 +102,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Tue Nov 28 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.2-1PGDG
+- Update to 4.2.2 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_4_2_2
+
 * Mon Oct 30 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.1-1PGDG
 - Update to 4.2.1
 
