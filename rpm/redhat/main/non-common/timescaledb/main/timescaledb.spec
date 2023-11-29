@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.12.2
+Version:	2.13.0
 Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -67,6 +67,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Nov 29 2023 Devrim Gündüz <devrim@gunduz.org> - 2.13.0-1PGDG
+- Update to 2.13.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.13.0
+
 * Fri Oct 20 2023 Devrim Gündüz <devrim@gunduz.org> - 2.12.2-1PGDG
 - Update to 2.12.2, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.12.2
