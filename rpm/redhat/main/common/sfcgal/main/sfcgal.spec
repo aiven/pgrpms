@@ -22,7 +22,7 @@ Version:	1.4.1
 BuildRequires:	CGAL-devel >= 5.4
 %endif
 
-%if 0%{?fedora} && 0%{?fedora} == 38
+%if 0%{?fedora} && 0%{?fedora} >= 39
 Version:	1.5.0
 BuildRequires:	CGAL-devel >= 5.6
 %endif
