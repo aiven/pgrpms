@@ -73,7 +73,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.13
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -782,7 +782,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %endif
 
 # Create the directory for sockets.
-%{__install} -d -m 755 %{buildroot}/var/run/%{sname}
+%{__install} -d -m 755 %{buildroot}/%{_rundir}/%{sname}
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
@@ -1277,7 +1277,7 @@ fi
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
-%attr(755,postgres,postgres) %dir /var/run/%{sname}
+%attr(755,postgres,postgres) %dir %{_rundir}/%{sname}
 %{pgbaseinstdir}/lib/*_and_*.so
 %{pgbaseinstdir}/share/information_schema.sql
 %{pgbaseinstdir}/share/snowball_create.sql
@@ -1345,6 +1345,10 @@ fi
 %endif
 
 %changelog
+* Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 13.13-3PGDG
+- Update legacy path /var/run to /run. Also use macros in the spec file for
+  that.
+
 * Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 13.13-2PGDG
 - Rebuild against new LLVM on RHEL 8.9
 
