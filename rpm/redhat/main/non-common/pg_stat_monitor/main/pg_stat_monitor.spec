@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL Query Performance Monitoring Tool
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.2
+Version:	2.0.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/percona/%{sname}
@@ -95,6 +95,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Dec 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.0.3-1PGDG
+- Update to 2.0.3
+
 * Wed Sep 13 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.0.2-1PGDG
 - Update to 2.0.2
 - Cleanup rpmlint warning
