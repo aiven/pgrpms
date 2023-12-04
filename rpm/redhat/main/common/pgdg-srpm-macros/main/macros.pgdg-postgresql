@@ -37,14 +37,11 @@
 %global geos310majorversion		310
 %global geos39majorversion		39
 %global gdalmajorversion		33
+%global gdal38majorversion		38
 %global gdal37majorversion		37
 %global gdal36majorversion		36
 %global gdal35majorversion		35
-%global gdal34majorversion		34
 %global gdal33majorversion		33
-%global gdal32majorversion		32
-%global gdal31majorversion		31
-%global gdal30majorversion		30
 %global libgeotiffmajorversion		17
 %global libgeotiff17majorversion	17
 %global libgeotiff16majorversion	16
@@ -61,14 +58,11 @@
 %global proj71majorversion		71
 %global proj70majorversion		70
 %global gdalinstdir			/usr/gdal%{gdalmajorversion}
+%global gdal38instdir			/usr/gdal%{gdal38majorversion}
 %global gdal37instdir			/usr/gdal%{gdal37majorversion}
 %global gdal36instdir			/usr/gdal%{gdal36majorversion}
 %global gdal35instdir			/usr/gdal%{gdal35majorversion}
-%global gdal34instdir			/usr/gdal%{gdal34majorversion}
 %global gdal33instdir			/usr/gdal%{gdal33majorversion}
-%global gdal32instdir			/usr/gdal%{gdal32majorversion}
-%global gdal31instdir			/usr/gdal%{gdal31majorversion}
-%global gdal30instdir			/usr/gdal%{gdal30majorversion}
 %global geos310instdir			/usr/geos%{geos310majorversion}
 %global geos311instdir			/usr/geos%{geos311majorversion}
 %global geos312instdir			/usr/geos%{geos312majorversion}
@@ -82,13 +76,8 @@
 %global proj93instdir			/usr/proj%{proj93majorversion}
 %global proj92instdir			/usr/proj%{proj92majorversion}
 %global proj91instdir			/usr/proj%{proj91majorversion}
-%global proj90instdir			/usr/proj%{proj90majorversion}
 %global proj82instdir			/usr/proj%{proj82majorversion}
-%global proj81instdir			/usr/proj%{proj81majorversion}
-%global proj80instdir			/usr/proj%{proj80majorversion}
 %global proj72instdir			/usr/proj%{proj72majorversion}
-%global proj71instdir			/usr/proj%{proj71majorversion}
-%global proj70instdir			/usr/proj%{proj70majorversion}
 %global geos312fullversion		3.12.0
 %global geos311fullversion		3.11.2
 %global geos310fullversion		3.10.3
@@ -102,12 +91,10 @@
 %global proj82fullversion		8.2.1
 %global proj72fullversion		7.2.1
 %global gdalfullversion			3.3.3
+%global gdal38fullversion		3.8.1
 %global gdal37fullversion		3.7.2
 %global gdal36fullversion		3.6.3
 %global gdal35fullversion		3.5.3
-%global gdal34fullversion		3.4.3
 %global gdal33fullversion		3.3.3
-%global gdal32fullversion		3.2.3
-%global gdal31fullversion		3.1.3
 \
 }
