@@ -1,6 +1,6 @@
 Summary:	A fast PostgreSQL log analyzer
 Name:		pgbadger
-Version:	12.2
+Version:	12.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -43,6 +43,10 @@ compressed file.
 %{_mandir}/man1/%{name}.1p.gz
 
 %changelog
+* Mon Dec 4 2023 - Devrim Gündüz <devrim@gunduz.org> 12.3-1PGDG
+- Update to 12.3, per changes described at:
+  https://github.com/darold/pgbadger/releases/tag/v12.3
+
 * Mon Aug 21 2023 - Devrim Gündüz <devrim@gunduz.org> 12.2-1PGDG
 - Update to 12.2, per changes described at:
   https://github.com/darold/pgbadger/releases/tag/v12.2
