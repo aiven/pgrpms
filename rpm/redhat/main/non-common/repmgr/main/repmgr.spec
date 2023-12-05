@@ -13,7 +13,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.4.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://github.com/enterpriseDB/%{sname}
@@ -127,7 +127,7 @@ USE_PGXS=1 %{__make} %{?_smp_mflags}
 %install
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Use new %%make_install macro:
-USE_PGXS=1 %make_install  DESTDIR=%{buildroot}
+USE_PGXS=1 %make_install DESTDIR=%{buildroot}
 
 %{__mkdir} -p %{buildroot}/%{pginstdir}/bin/
 # Install sample conf file
@@ -193,7 +193,10 @@ fi
 %endif
 
 %changelog
-* Mon Jul 24 2023 - Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1
+* Tue Dec 5 2023 - Devrim Gündüz <devrim@gunduz.org> - 5.4.1-2PGDG
+- Update legacy path /var/run to /run.
+
+* Mon Jul 24 2023 - Devrim Gündüz <devrim@gunduz.org> - 5.4.1-1PGDG
 - Update to 5.4.1, per changes described at:
   https://repmgr.org/docs/current/release-5.4.1.html
 - Add PGDG branding
