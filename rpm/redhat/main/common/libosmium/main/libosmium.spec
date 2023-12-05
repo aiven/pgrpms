@@ -69,7 +69,7 @@ applications that use %{name}.
 %{__mv} %{name}-%{version} %{name}
 %{__mv} osm-testdata-%{testcommit} osm-testdata
 %{__rm} -rf libosmium/include/gdalcpp.h libosmium/test/catch
-{%__ln_s} -f /usr/include/catch2 libosmium/test/catch
+%{__ln_s} -f /usr/include/catch2 libosmium/test/catch
 sed -i -e 's/-O3 -g//' libosmium/CMakeLists.txt
 
 %build
