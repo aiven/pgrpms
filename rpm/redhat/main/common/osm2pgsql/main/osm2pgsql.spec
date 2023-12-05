@@ -8,15 +8,15 @@
 
 Summary:	Import map data from OpenStreetMap to a PostgreSQL database
 Name:		%{sname}
-Version:	1.9.2
+Version:	1.10.0
 Release:	1PGDG%{?dist}
 License:	GPLv2
-Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/1.9.2.tar.gz
+Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/%{sname}-dev/%{sname}
 
 BuildRequires:	make gcc-c++ cmake libtool boost-devel bzip2-devel
 BuildRequires:	catch2-devel catch2-static clang-tools-extra
-BuildRequires:	expat-devel fmt-devel json-devel libosmium-devel libxml2-devel
+BuildRequires:	expat-devel fmt-devel json-devel libosmium-devel >= 2.20.0-42 libxml2-devel
 BuildRequires:	lua-devel
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	protozero-devel protozero-static zlib-devel
@@ -73,5 +73,8 @@ popd
 %{_datadir}/%{sname}/*.style
 
 %changelog
+* Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.10.0-1PGDG
+- Update to 1.10.0
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 1.9.2-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository
