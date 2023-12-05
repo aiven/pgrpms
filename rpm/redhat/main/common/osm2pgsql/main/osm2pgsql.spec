@@ -66,7 +66,7 @@ popd
 %postun -p /sbin/ldconfig
 
 %files
-%defattr(644,root,root,755)
+%defattr(755,root,root,755)
 %{_bindir}/%{sname}
 %{_bindir}/%{sname}-replication
 %{_mandir}/man1/%{sname}*
