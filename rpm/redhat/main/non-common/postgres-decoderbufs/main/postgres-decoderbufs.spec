@@ -11,7 +11,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.0
+Version:	2.4.1
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
@@ -81,6 +81,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Wed Dec 6 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1PGDG
+- Update to 2.4.1
+
 * Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1
 - Update to 2.4.0
 - Add SLES 15 support
