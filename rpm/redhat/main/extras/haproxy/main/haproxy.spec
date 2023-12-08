@@ -14,7 +14,7 @@ Summary:	HAProxy reverse proxy for high availability environments
 License:	GPLv2+
 
 URL:		https://www.haproxy.org/
-Source0:	https://www.haproxy.org/download/2.8/src/%{name}-%{version}.tar.gz
+Source0:	https://www.haproxy.org/download/2.9/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
@@ -127,7 +127,8 @@ exit 0
 
 %changelog
 * Fri Dec 8 2023 - Devrim Gündüz <devrim@gunduz.org> 2.9.0-1PGDG
-- Update to 2.9.0
+- Update to 2.9.0 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg44400.html
 
 * Sun Nov 19 2023 - Devrim Gündüz <devrim@gunduz.org> 2.8.4-1PGDG
 - Update to 2.8.4
