@@ -55,7 +55,7 @@ This packages provides JIT support for pg_strom
 %endif
 
 %prep
-%setup -q -n pg-strom-%{version}_alpha1
+%setup -q -n pg-strom-%{version}
 
 %build
 pushd src
