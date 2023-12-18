@@ -4,7 +4,7 @@
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
+Version:	%{pgroutingmajorversion}.1
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
@@ -71,5 +71,8 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon Dec 18 2023 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-1PGDG
+- Update to 3.6.1
+
 * Fri Nov 24 2023 Devrim Gündüz <devrim@gunduz.org> - 3.6.0-1PGDG
 - pgRouting 3.6.0
