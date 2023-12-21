@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %undefine _package_note_file
 
 # These are macros to be used with find_lang and other stuff
@@ -844,6 +845,7 @@ fi
 %{_sbindir}/update-alternatives --install %{_bindir}/dropdb pgsql-dropdb %{pgbaseinstdir}/bin/dropdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/dropuser pgsql-dropuser %{pgbaseinstdir}/bin/dropuser %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_basebackup pgsql-pg_basebackup %{pgbaseinstdir}/bin/pg_basebackup %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_combinebackup pgsql-pg_combinebackup %{pgbaseinstdir}/bin/pg_combinebackup %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
@@ -855,6 +857,7 @@ fi
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/dropdb.1 pgsql-dropdbman %{pgbaseinstdir}/share/man/man1/dropdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/dropuser.1 pgsql-dropuserman %{pgbaseinstdir}/share/man/man1/dropuser.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_basebackup.1 pgsql-pg_basebackupman %{pgbaseinstdir}/share/man/man1/pg_basebackup.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_combinebackup.1 pgsql-pg_combinebackupman %{pgbaseinstdir}/share/man/man1/pg_combinebackup.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1 pgsql-pg_dumpman %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dumpall.1 pgsql-pg_dumpallman %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_restore.1 pgsql-pg_restoreman %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
@@ -883,10 +886,12 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-dropuser		%{pgbaseinstdir}/bin/dropuser
 	%{_sbindir}/update-alternatives --remove pgsql-dropuserman	%{pgbaseinstdir}/share/man/man1/dropuser.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_basebackup	%{pgbaseinstdir}/bin/pg_basebackup
+	%{_sbindir}/update-alternatives --remove pgsql-pg_combinebackup	%{pgbaseinstdir}/bin/pg_combinebackup
 	%{_sbindir}/update-alternatives --remove pgsql-pg_dump		%{pgbaseinstdir}/bin/pg_dump
 	%{_sbindir}/update-alternatives --remove pgsql-pg_dumpall	%{pgbaseinstdir}/bin/pg_dumpall
 	%{_sbindir}/update-alternatives --remove pgsql-pg_dumpallman	%{pgbaseinstdir}/share/man/man1/pg_dumpall.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_basebackupman	%{pgbaseinstdir}/share/man/man1/pg_basebackup.1
+	%{_sbindir}/update-alternatives --remove pgsql-pg_combinebackupman	%{pgbaseinstdir}/share/man/man1/pg_combinebackup.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_dumpman	%{pgbaseinstdir}/share/man/man1/pg_dump.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restore	%{pgbaseinstdir}/bin/pg_restore
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restoreman	%{pgbaseinstdir}/share/man/man1/pg_restore.1
@@ -926,6 +931,7 @@ fi
 %{pgbaseinstdir}/bin/dropuser
 %{pgbaseinstdir}/bin/pgbench
 %{pgbaseinstdir}/bin/pg_basebackup
+%{pgbaseinstdir}/bin/pg_combinebackup
 %{pgbaseinstdir}/bin/pg_config
 %{pgbaseinstdir}/bin/pg_dump
 %{pgbaseinstdir}/bin/pg_dumpall
@@ -943,6 +949,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/dropdb.*
 %{pgbaseinstdir}/share/man/man1/dropuser.*
 %{pgbaseinstdir}/share/man/man1/pgbench.1
+%{pgbaseinstdir}/share/man/man1/pg_combinebackup.*
 %{pgbaseinstdir}/share/man/man1/pg_basebackup.*
 %{pgbaseinstdir}/share/man/man1/pg_config.*
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
