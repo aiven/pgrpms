@@ -13,8 +13,8 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0
-Release:	2%{dist}.1
+Version:	2.1
+Release:	1PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -36,19 +36,8 @@ commands to configure synchronous streaming replication.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_auto_failover
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -71,9 +60,6 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG.md docs/
@@ -89,6 +75,11 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Dec 21 2023 Devrim Gunduz <devrim@gunduz.org> - 2.1-1PGDG
+- Update to 2.1, per changes described at:
+  https://github.com/hapostgres/pg_auto_failover/releases/tag/v2.1
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.0-2.1
 - Rebuild against LLVM 15 on SLES 15
 
