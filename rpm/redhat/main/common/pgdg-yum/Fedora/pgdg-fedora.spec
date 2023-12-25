@@ -1,10 +1,11 @@
 Name:		pgdg-fedora-repo
 Version:	42.0
-Release:	29PGDG
-Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Fedora
+Release:	30PGDG
+Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Fedora
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG
+#Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-Fedora
+Source0:	PGDG-RPM-GPG-KEY-Fedora
 Source2:	pgdg-fedora-all.repo
 BuildArch:	noarch
 Requires:	/etc/fedora-release
@@ -14,7 +15,7 @@ This package contains yum configuration for Fedora, and also the GPG
 key for PGDG RPMs.
 
 %prep
-%setup -q  -c -T
+%setup -q -c -T
 
 %build
 
@@ -22,7 +23,7 @@ key for PGDG RPMs.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 %{__install} -pm 644 %{SOURCE2} \
@@ -35,6 +36,9 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Mon Dec 25 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-30PGDG
+- Update GPG keys
+
 * Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-29PGDG
 - Remove v11 repos
 
