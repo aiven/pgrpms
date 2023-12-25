@@ -1,17 +1,14 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	35PGDG
-Summary:	PostgreSQL PGDG RPMs- Yum Repository Configuration for Red Hat / Rocky on aarch64
+Release:	36PGDG
+Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky / AlmaLinux on aarch64
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-%if 0%{?rhel} && 0%{?rhel} == 9
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL9
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 8
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL8
+%if 0%{?rhel} && 0%{?rhel} >= 8
+Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
-Source0:	https://yum.postgresql.org/RPM-GPG-KEY-PGDG-AARCH64-RHEL7
+Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64-RHEL7
 %endif
 Source2:	pgdg-redhat-all-rhel7-aarch64.repo
 Source3:	pgdg-redhat-all-rhel8-aarch64.repo
@@ -24,7 +21,7 @@ This package contains yum configuration for Red Hat Enterprise Linux, CentOS,
 and also the GPG key for PGDG RPMs on aarch64.
 
 %prep
-%setup -q  -c -T
+%setup -q -c -T
 
 %build
 
@@ -32,7 +29,7 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG-AARCH64
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/PGDG-RPM-GPG-KEY-AARCH64
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
@@ -56,6 +53,9 @@ and also the GPG key for PGDG RPMs on aarch64.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Mon Dec 25 2023 Derim Gündüz <devrim@gunduz.org> - 42.0-36PGDG
+- Update GPG keys
+
 * Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-35PGDG
 - Remove v11 repos
 
