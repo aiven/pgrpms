@@ -29,7 +29,7 @@ and also the GPG key for PGDG RPMs.
 %{__rm} -rf %{buildroot}
 
 %{__install} -Dpm 644 %{SOURCE0} \
-	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/PGDG-RPM-GPG-KEY-RHEL
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
