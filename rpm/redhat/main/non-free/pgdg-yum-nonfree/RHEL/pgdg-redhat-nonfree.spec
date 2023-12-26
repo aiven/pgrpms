@@ -8,7 +8,7 @@ URL:		https://yum.postgresql.org
 Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-RHEL-nonfree
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
-Source0:        https://yum.postgresql.org/PGDG-RPM-GPG-KEY-RHEL7-nonfree
+Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-RHEL7-nonfree
 %endif
 Source2:	pgdg-redhat-nonfree-all.repo
 Source3:	pgdg-redhat-nonfree-all-rhel7.repo
@@ -20,7 +20,7 @@ This package contains yum configuration for Red Hat Enterprise Linux, CentOS
 non-free repository, and also the GPG key for PGDG RPMs.
 
 %prep
-%setup -q  -c -T
+%setup -q -c -T
 
 %build
 
@@ -34,11 +34,11 @@ non-free repository, and also the GPG key for PGDG RPMs.
 
 %if 0%{?rhel} && 0%{?rhel} == 7
 %{__install} -pm 644 %{SOURCE3} \
-        %{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 %{__install} -pm 644 %{SOURCE2} \
-        %{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
+	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
 %endif
 
 %files
