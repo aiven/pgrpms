@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.0
+Version:	3.1
 Release:	1PGDG%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
@@ -70,7 +70,7 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory with a better name:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
-%{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}/%{pginstdir}/doc/extension/README.md
 
 %files
@@ -87,6 +87,9 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Tue Dec 26 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1-1PGDG
+- Update to 3.1
+
 * Mon Sep 18 2023 Devrim Gündüz <devrim@gunduz.org> - 3.0-1PGDG
 - Update to 3.0
 - Add PGDG branding
