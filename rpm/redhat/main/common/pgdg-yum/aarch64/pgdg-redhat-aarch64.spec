@@ -5,7 +5,7 @@ Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 %if 0%{?rhel} && 0%{?rhel} >= 8
-Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
 Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64-RHEL7

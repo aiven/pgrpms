@@ -4,7 +4,7 @@ Release:	30PGDG
 Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Fedora
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-Fedora
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-Fedora
 Source2:	pgdg-fedora-all.repo
 BuildArch:	noarch
 Requires:	/etc/fedora-release
