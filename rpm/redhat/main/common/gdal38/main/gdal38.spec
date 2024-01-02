@@ -50,7 +50,7 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}38
-Version:	3.8.1
+Version:	3.8.2
 Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -431,5 +431,8 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Jan 2 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.2-1PGDG
+- Update to 3.8.2
+
 * Mon Dec 4 2023 Devrim Gunduz <devrim@gunduz.org> - 3.8.1-1PGDG
 - Initial 3.8.x packaging.
