@@ -5,10 +5,10 @@ Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for RHEL / Rocky Li
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 %if 0%{?rhel} && 0%{?rhel} >= 8
-Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-RHEL-nonfree
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL-nonfree
 %endif
 %if 0%{?rhel} && 0%{?rhel} == 7
-Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-RHEL7-nonfree
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL7-nonfree
 %endif
 Source2:	pgdg-redhat-nonfree-all.repo
 Source3:	pgdg-redhat-nonfree-all-rhel7.repo
@@ -16,8 +16,8 @@ BuildArch:	noarch
 Requires:	/etc/redhat-release
 
 %description
-This package contains yum configuration for Red Hat Enterprise Linux, CentOS
-non-free repository, and also the GPG key for PGDG RPMs.
+This package contains yum configuration for Red Hat Enterprise Linux, Rocky Linux,
+AlmaLinux non-free repository, and also the GPG key for PGDG RPMs.
 
 %prep
 %setup -q -c -T
