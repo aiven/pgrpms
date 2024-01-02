@@ -1,6 +1,6 @@
 %global sname orafce
 %global orafcemajver 4
-%global orafcemidver 7
+%global orafcemidver 9
 %global orafceminver 0
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -86,6 +86,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Jan 2 2024 Devrim Gündüz <devrim@gunduz.org> 4.9.0-1PGDG
+- Update to 4.9.0 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_9_0
+
 * Fri Oct 13 2023 Devrim Gündüz <devrim@gunduz.org> 4.7.0-1PGDG
 - Update to 4.7.0
 
