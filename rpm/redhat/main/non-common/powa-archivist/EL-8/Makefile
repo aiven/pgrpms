@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
+DIST=.rhel8
 SPECFILE="powa-archivist.spec"
 
 # Now, include global Makefile
