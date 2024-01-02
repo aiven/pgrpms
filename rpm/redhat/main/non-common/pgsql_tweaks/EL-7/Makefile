@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel8
+DIST=.rhel7
 SPECFILE="pgsql_tweaks.spec"
 
 # Now, include global Makefile
