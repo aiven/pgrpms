@@ -27,6 +27,8 @@ AlmaLinux non-free repository, and also the GPG key for PGDG RPMs.
 %install
 %{__rm} -rf %{buildroot}
 
+%{__mkdir} -p %{buildroot}%{_sysconfdir}/pki/rpm-gpg
+
 %{__install} -Dpm 644 %{SOURCE0} \
 	%{buildroot}%{_sysconfdir}/pki/rpm-gpg/
 
