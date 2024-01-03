@@ -1,7 +1,7 @@
 %global sname	pg_extra_time
 
 Summary:	Extra date time functions and operators for PostgreSQL
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.2
 Release:	1PGDG%{?dist}
 License:	BSD
