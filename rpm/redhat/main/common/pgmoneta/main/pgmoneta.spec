@@ -12,7 +12,7 @@ Patch0:		%{name}-conf-rpm.patch
 BuildRequires:	gcc cmake make python3-docutils zlib-devel
 BuildRequires:	libzstd-devel lz4-devel bzip2-devel
 BuildRequires:	libev-devel openssl-devel systemd-devel
-BuildRequires:	libssh-devel libarchive-devel cjson-devel
+BuildRequires:	libssh-devel libarchive-devel cjson-devel libatomic
 Requires:	libev openssl systemd zlib libzstd lz4 bzip2 libssh
 Requires:	libarchive cjson
 
