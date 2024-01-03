@@ -4,7 +4,7 @@
 %{!?llvm:%global llvm 1}
 
 Summary:	R-Tree implementation using GiST for spherical objects
-Name:		%{sname}%{pgmajorversion}
+Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
 Release:	1PGDG%{?dist}
 License:	BSD
