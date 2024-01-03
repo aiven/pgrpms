@@ -23,7 +23,7 @@ BuildRequires:	CGAL-devel >= 5.4
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 39
-Version:	1.5.0
+Version:	1.5.1
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
@@ -126,6 +126,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Wed Jan 3 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.1-1PGDG
+- Update to 1.5.1 on Fedora 39
+
 * Tue Nov 7 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-1PGDG
 - Update to 1.5.0 on Fedora 39 (1.5.0 requires CGAL 5.6).
 
