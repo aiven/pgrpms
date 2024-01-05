@@ -103,7 +103,7 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	12.17
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -247,7 +247,7 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+%if 0%{?suse_version} >= 1315
 BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
@@ -1599,6 +1599,9 @@ fi
 %endif
 
 %changelog
+* Fri Jan 5 2024 Devrim Gunduz <devrim@gunduz.org> - 12.18-4PGDG
+- Fix a BR for SLES 15. Per report from Muralikrishna Bandaru.
+
 * Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 12.17-3PGDG
 - Update legacy path /var/run to /run. Also use macros in the spec file for
   that.
