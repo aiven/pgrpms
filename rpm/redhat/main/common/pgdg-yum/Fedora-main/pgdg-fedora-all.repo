@@ -229,7 +229,7 @@ repo_gpgcheck = 1
 
 [pgdg16-debuginfo]
 name=PostgreSQL 16 for Fedora $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/16/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/debug/16/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -237,7 +237,7 @@ repo_gpgcheck = 1
 
 [pgdg15-debuginfo]
 name=PostgreSQL 15 for Fedora $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/15/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/debug/15/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -245,7 +245,7 @@ repo_gpgcheck = 1
 
 [pgdg14-debuginfo]
 name=PostgreSQL 14 for Fedora $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/14/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/debug/14/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -253,7 +253,7 @@ repo_gpgcheck = 1
 
 [pgdg13-debuginfo]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/13/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/debug/13/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -261,7 +261,7 @@ repo_gpgcheck = 1
 
 [pgdg12-debuginfo]
 name=PostgreSQL 12 for Fedora $releasever - $basearch - Debuginfo
-baseurl=https://download.postgresql.org/pub/repos/yum/debug/12/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/debug/12/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -271,7 +271,7 @@ repo_gpgcheck = 1
 
 [pgdg17-updates-testing-debuginfo]
 name=PostgreSQL 17 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/17/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/17/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=0
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -279,7 +279,7 @@ repo_gpgcheck = 1
 
 [pgdg16-updates-testing-debuginfo]
 name=PostgreSQL 16 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/16/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/16/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -287,7 +287,7 @@ repo_gpgcheck = 1
 
 [pgdg15-updates-testing-debuginfo]
 name=PostgreSQL 15 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/15/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/15/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -295,7 +295,7 @@ repo_gpgcheck = 1
 
 [pgdg14-updates-testing-debuginfo]
 name=PostgreSQL 14 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/14/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/14/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -303,7 +303,7 @@ repo_gpgcheck = 1
 
 [pgdg13-updates-testing-debuginfo]
 name=PostgreSQL 13 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/13/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/13/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
@@ -311,7 +311,7 @@ repo_gpgcheck = 1
 
 [pgdg12-updates-testing-debuginfo]
 name=PostgreSQL 12 for Fedora $releasever - $basearch - Debuginfo testing
-baseurl=https://download.postgresql.org/pub/repos/yum/testing/debug/12/fedora/fedora-$releasever-$basearch
+baseurl=https://dnf-debuginfo.postgresql.org/testing/debug/12/fedora/fedora-$releasever-$basearch
 enabled=0
 gpgcheck=1
 gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
