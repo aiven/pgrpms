@@ -57,7 +57,13 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	17
+%if 0%{?suse_version} >= 1315
+# SuSE upstream packages have release numbers like 150200.5.19.1
+# which overrides our packages. Increase our release number on SuSE.
 Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+%else
+Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+%endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1244,6 +1250,10 @@ fi
 %endif
 
 %changelog
+* Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-alpha-PGDG
+- SuSE upstream packages have release numbers like 150200.5.19.1
+  which overrides our packages. Increase our release number on SuSE.
+
 * Mon Aug 14 2023 Devrim Gündüz <devrim@gunduz.org> - 17.0-alpha-PGDG
 - Re-add plpython3 (was plpython) build macro for the users who don't
   want to build with PL/Python (make it consistent with other PLs)

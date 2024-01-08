@@ -73,7 +73,13 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	13.13
-Release:	4PGDG%{?dist}
+%if 0%{?suse_version} >= 1315
+# SuSE upstream packages have release numbers like 150200.5.19.1
+# which overrides our packages. Increase our release number on SuSE.
+Release:	420005PGDG%{?dist}
+%else
+Release:	5PGDG%{?dist}
+%endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -1345,6 +1351,10 @@ fi
 %endif
 
 %changelog
+* Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 13.13-5PGDG
+- SuSE upstream packages have release numbers like 150200.5.19.1
+  which overrides our packages. Increase our release number on SuSE.
+
 * Fri Jan 5 2024 Devrim Gunduz <devrim@gunduz.org> - 13.13-4PGDG
 - Fix a BR for SLES 15. Per report from Muralikrishna Bandaru.
 
