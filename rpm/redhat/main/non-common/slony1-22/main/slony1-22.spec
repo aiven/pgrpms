@@ -8,13 +8,12 @@
 Summary:	A "master to multiple slaves" replication system with cascading and failover
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2.11
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 URL:		https://www.slony.info/
 Source0:	http://main.slony.info/downloads/2.2/source/%{sname}-%{version}.tar.bz2
 Source2:	%{sname}-%{slonymajorversion}-filter-requires-perl-Pg.sh
 Source5:	%{sname}-%{slonymajorversion}-%{pgmajorversion}.service
-Source6:	%{sname}-%{slonymajorversion}-%{pgmajorversion}-tmpfiles.d
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}-server
 BuildRequires:	flex pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server perl-DBD-Pg
@@ -120,9 +119,10 @@ sed "s:\([$]LOGDIR = '/var/log/slony1\):\1-%{pgmajorversion}:" -i %{buildroot}%{
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/
 # ... and make a tmpfiles script to recreate it at reboot.
-%{__install} -d -m 755 %{buildroot}/%{_rundir}/%{name}
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
-%{__install} -m 0644 %{SOURCE6} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
+d %{_rundir}/%{sname} 0755 postgres postgres -
+EOF
 
 cd tools
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
@@ -193,6 +193,9 @@ fi
 %endif
 
 %changelog
+* Mon Jan 8 2024 Devrim Gündüz <devrim@gunduz.org> - 2.2.11-3PGDG
+- Create tmpfiles.d content within the spec file
+
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.11-2PGDG
 - Add PGDG branding
 - Cleanup rpmlint warnings

@@ -1,8 +1,8 @@
 # It's not recommended to modify this file in-place, because it will be
 # overwritten during package upgrades.  If you want to customize, the
-# best way is to create a file "/etc/systemd/system/slony1-22-11.service",
+# best way is to create a file "/etc/systemd/system/slony1-22-15.service",
 # containing
-#       .include /lib/systemd/system/slony1-22-11.service
+#       .include /lib/systemd/system/slony1-22-15.service
 #       ...make your changes here...
 # For more info about custom unit files, see
 # http://fedoraproject.org/wiki/Systemd#How_do_I_customize_a_unit_file.2F_add_a_custom_unit_file.3F
@@ -11,7 +11,7 @@
 Description=A "master to multiple slaves" replication system with cascading and failover for PostgreSQL
 After=syslog.target
 After=network.target
-After=postgresql-11.service
+After=postgresql-15.service
 
 [Service]
 Type=simple
@@ -20,12 +20,12 @@ User=postgres
 Group=postgres
 
 # PID file
-PIDFile=/run/slony1-11/slon.pid
+PIDFile=/run/slony1-15/slon.pid
 
 # Location of Slony conf file:
-Environment=SLONCONF=/etc/slony1-11/slon.conf
-Environment=SLONPID=/run/slony1-11/slon.pid
-Environment=SLONLOGDIR=/var/log/slony-11/
+Environment=SLONCONF=/etc/slony1-15/slon.conf
+Environment=SLONPID=/run/slony1-15/slon.pid
+Environment=SLONLOGDIR=/var/log/slony-15/
 Environment=SLONCLUSTERNAME=replication
 Environment=SLONCONNINFO='host=localhost port=5432 user=postgres'
 
@@ -33,7 +33,7 @@ Environment=SLONCONNINFO='host=localhost port=5432 user=postgres'
 # This is normally controlled by the global default set by systemd
 # StandardOutput=syslog
 
-ExecStart=/usr/pgsql-11/bin/slon -f ${SLONCONF} -p ${SLONPID} ${SLONCLUSTERNAME} ${SLONCONNINFO} >> ${SLONLOGDIR}/slonystartup.log 2>&1 < /dev/null
+ExecStart=/usr/pgsql-15/bin/slon -f ${SLONCONF} -p ${SLONPID} ${SLONCLUSTERNAME} ${SLONCONNINFO} >> ${SLONLOGDIR}/slonystartup.log 2>&1 < /dev/null
 ExecStop=/usr/bin/kill -TERM $MAINPID
 ExecReload=/usr/bin/kill -HUP $MAINPID
 
