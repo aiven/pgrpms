@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname	timescaledb
 
 Summary:	PostgreSQL based time-series database
