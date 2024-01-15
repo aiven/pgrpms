@@ -51,7 +51,7 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -430,6 +430,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Jan 15 2024 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-6PGDG
+- Rebuild against armadillo 12 on RHEL 9 and RHEL 8.
+
 * Thu Oct 12 2023 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-5PGDG
 - Use correct macro for python-tools dependency.
 
