@@ -854,6 +854,7 @@ fi
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dump pgsql-pg_dump %{pgbaseinstdir}/bin/pg_dump %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_dumpall pgsql-pg_dumpall %{pgbaseinstdir}/bin/pg_dumpall %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/pg_restore pgsql-pg_restore %{pgbaseinstdir}/bin/pg_restore %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_bindir}/pg_walsummary pgsql-pg_walsummary %{pgbaseinstdir}/bin/pg_walsummary %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/reindexdb pgsql-reindexdb %{pgbaseinstdir}/bin/reindexdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_bindir}/vacuumdb pgsql-vacuumdb %{pgbaseinstdir}/bin/vacuumdb %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/clusterdb.1 pgsql-clusterdbman %{pgbaseinstdir}/share/man/man1/clusterdb.1 %{packageversion}0
@@ -866,6 +867,7 @@ fi
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dump.1 pgsql-pg_dumpman %{pgbaseinstdir}/share/man/man1/pg_dump.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_dumpall.1 pgsql-pg_dumpallman %{pgbaseinstdir}/share/man/man1/pg_dumpall.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_restore.1 pgsql-pg_restoreman %{pgbaseinstdir}/share/man/man1/pg_restore.1 %{packageversion}0
+%{_sbindir}/update-alternatives --install %{_mandir}/man1/pg_walsummary.1 pgsql-pg_walsummaryman %{pgbaseinstdir}/share/man/man1/pg_walsummary.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/psql.1 pgsql-psqlman %{pgbaseinstdir}/share/man/man1/psql.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/reindexdb.1 pgsql-reindexdbman %{pgbaseinstdir}/share/man/man1/reindexdb.1 %{packageversion}0
 %{_sbindir}/update-alternatives --install %{_mandir}/man1/vacuumdb.1 pgsql-vacuumdbman %{pgbaseinstdir}/share/man/man1/vacuumdb.1 %{packageversion}0
@@ -900,6 +902,7 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-pg_dumpman	%{pgbaseinstdir}/share/man/man1/pg_dump.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restore	%{pgbaseinstdir}/bin/pg_restore
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restoreman	%{pgbaseinstdir}/share/man/man1/pg_restore.1
+	%{_sbindir}/update-alternatives --remove pgsql-pg_walsummary	%{pgbaseinstdir}/bin/pg_walsummary
 	%{_sbindir}/update-alternatives --remove pgsql-psqlman		%{pgbaseinstdir}/share/man/man1/psql.1
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdb	%{pgbaseinstdir}/bin/reindexdb
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdbman	%{pgbaseinstdir}/share/man/man1/reindexdb.1
@@ -944,6 +947,7 @@ fi
 %{pgbaseinstdir}/bin/pg_receivewal
 %{pgbaseinstdir}/bin/pg_restore
 %{pgbaseinstdir}/bin/pg_waldump
+%{pgbaseinstdir}/bin/pg_walsummary
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
@@ -961,6 +965,7 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
+%{pgbaseinstdir}/share/man/man1/pg_walsummary.*
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
 %{pgbaseinstdir}/share/man/man1/vacuumdb.*
