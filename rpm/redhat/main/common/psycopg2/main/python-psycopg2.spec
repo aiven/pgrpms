@@ -10,6 +10,7 @@
 %if 0%{?rhel} == 8
 %global python3_runtimes python3.9
 %global __ospython %{_bindir}/python3.9
+%global python3_sitearch %(%{__ospython} -Ic "import sysconfig; print(sysconfig.get_path('platlib', vars={'platbase': '%{_prefix}', 'base': '%{_prefix}'}))")
 %else
 %global python3_runtimes python3
 %global __ospython %{_bindir}/python3
@@ -20,7 +21,6 @@
 %else
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
