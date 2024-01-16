@@ -7,28 +7,36 @@
 
 %{!?with_docs:%global with_docs 0}
 
-%global with_python3 1
-
-%global	python3_runtimes python3
+%if 0%{?rhel} == 8
+%global python3_runtimes python3.9
+%global __ospython %{_bindir}/python3.9
+%else
+%global python3_runtimes python3
+%global __ospython %{_bindir}/python3
+%endif
 
 %if 0%{?fedora} >= 35
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
-%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
 Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}.%{ppg2midver}.%{ppg2minver}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+%if 0%{?rhel} == 8
+BuildRequires:	python39-devel
+%else
 BuildRequires:	python3-devel
+%endif
 
 Requires:	libpq5 >= 10.0
 
@@ -114,6 +122,9 @@ done
 %endif
 
 %changelog
+* Tue Jan 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.9.9-2PGDG
+- Fix builds on RHEL 8 by exporting Python version manually
+
 * Mon Oct 9 2023 Devrim Gündüz <devrim@gunduz.org> - 2.9.9-1PGDG
 - Update to 2.9.9
 - Add PGDG branding
