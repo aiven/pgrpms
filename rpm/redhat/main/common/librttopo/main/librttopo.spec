@@ -2,7 +2,7 @@
 
 Name:		librttopo
 Version:	1.1.0
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	Create and manage SQL/MM topologies
 License:	GPLv2+
 URL:		https://git.osgeo.org/gitea/rttopo/%{name}
@@ -10,7 +10,7 @@ Source0:	https://git.osgeo.org/gitea/rttopo/%{name}/archive/%{name}-%{version}.t
 
 BuildRequires:	autoconf automake gcc libtool make
 BuildRequires:	pgdg-srpm-macros >= 1.0.24
-BuildRequires:	geos%{geos311majorversion}-devel >= %{geos311fullversion}
+BuildRequires:	geos%{geos312majorversion}-devel >= %{geos312fullversion}
 
 %description
 The RT Topology Library exposes an API to create and manage standard
@@ -20,7 +20,7 @@ The RT Topology Library exposes an API to create and manage standard
 Summary:	Development files for %{name}
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 
-%description    devel
+%description	devel
 The %{name}-devel package contains libraries and header files for
 developing applications that use %{name}.
 
@@ -28,10 +28,10 @@ developing applications that use %{name}.
 %autosetup -p1 -n %{name}
 
 %build
-CFLAGS="$CFLAGS -I%{geos311instdir}/include -g -fPIE"; export CFLAGS
+CFLAGS="$CFLAGS -I%{geos312instdir}/include -g -fPIE"; export CFLAGS
 autoreconf -ifv
-export PATH=%{geos311instdir}/bin:$PATH
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geos311instdir}/lib64" ; export SHLIB_LINK
+export PATH=%{geos312instdir}/bin:$PATH
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geos312instdir}/lib64" ; export SHLIB_LINK
 %configure --disable-static
 %make_build
 
@@ -51,6 +51,10 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/rttopo.pc
 
 %changelog
+* Thu Jan 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-3PGDG
+- Rebuild against GeOS 3.12.x
+- Add PGDG branding
+
 * Wed Jul 13 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2
 - Build with GeOS 3.11.x
 
