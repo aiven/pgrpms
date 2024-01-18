@@ -1,26 +1,15 @@
 %global sname temporal_tables
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
-
 Summary:	Temporal tables extension for PostgreQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.2
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 Source0:	https://github.com/arkhipov/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/arkhipov/%{sname}
 License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
-%if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for temporal_tables
 Requires:	%{name}%{?_isa} = %{version}-%{release}
@@ -45,7 +34,6 @@ Requires:	llvm => 13.0
 
 %description llvmjit
 This packages provides JIT support for temporal_tables
-%endif
 
 %description
 A temporal table is a table that records the period of time when a row
@@ -75,13 +63,19 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} inst
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
-%if %llvm
 %files llvmjit
 %{pginstdir}/lib/bitcode/%{sname}*.bc
 %{pginstdir}/lib/bitcode/%{sname}/*.bc
-%endif
 
 %changelog
+* Thu Jan 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-2PGDG
+- Remove LLVM conditionals. Future updates will all have LLVM enabled
+  anyway. This actually fixes RHEL 8 builds, where *for some reason* spectool
+  cannot download sources when llvm macro is around just for this spec file.
+  This does not fix PostgreSQL bug #18289 in full:
+  https://www.postgresql.org/message-id/18289-cc1b88346b51af93%40postgresql.org
+  but at least we provide user the RPM.
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-1PGDG
 - Initial packaging for the PostgreSQL RPM repository.
 
