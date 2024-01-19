@@ -3,18 +3,27 @@
 
 %{!?with_docs:%global with_docs 0}
 
-%if 0%{?fedora} >= 35
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%if 0%{?rhel} == 8
+%global python3_runtimes python3.9
+%global __ospython %{_bindir}/python3.9
+%global python3_sitearch %(%{__ospython} -Ic "import sysconfig; print(sysconfig.get_path('platlib', vars={'platbase': '%{_prefix}', 'base': '%{_prefix}'}))")
 %else
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%global python3_runtimes python3
+%global __ospython %{_bindir}/python3
 %endif
-%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
+%if 0%{?fedora} >= 38
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%else
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%endif
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.1.17
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -35,7 +44,7 @@ API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
 # Enable this package only on Fedora, which has PY 3.9:
-%if 0%{?fedora} > 32
+%if 0%{?fedora} > 37
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
@@ -62,7 +71,7 @@ database adapter.
 %build
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
-%{__python3} setup.py build
+%{__ospython} setup.py build
 popd
 
 %if %with_docs
@@ -77,13 +86,13 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %install
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
-%{__python3} setup.py install --no-compile --root %{buildroot}
+%{__ospython} setup.py install --no-compile --root %{buildroot}
 popd
 
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 
 #Only on Fedora:
-%if 0%{?fedora} > 32
+%if 0%{?fedora} > 37
 # Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
@@ -102,7 +111,7 @@ popd
 %{python3_sitelib}/psycopg/types/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
-%if 0%{?fedora} >= 34 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/crdb/__pycache__/*.py*
 %{python3_sitelib}/psycopg/pq/__pycache__/*.py*
@@ -110,7 +119,7 @@ popd
 %endif
 
 # Only on Fedora:
-%if 0%{?fedora} > 32
+%if 0%{?fedora} > 37
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 %endif
@@ -122,6 +131,9 @@ popd
 %endif
 
 %changelog
+* Fri Jan 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.17-2PGDG
+- Add RHEL 8 support
+
 * Sun Jan 7 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.17-1PGDG
 - Update to 3.1.17, per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.1.17
