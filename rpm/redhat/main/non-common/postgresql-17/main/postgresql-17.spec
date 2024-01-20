@@ -12,8 +12,6 @@
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
-%{!?kerbdir:%global kerbdir "/usr"}
-
 %if 0%{?suse_version} >= 1315
 %{!?enabletaptests:%global enabletaptests 0}
 %else
@@ -537,8 +535,8 @@ export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 %endif
 %if %kerberos
 	--with-gssapi \
-	--with-includes=%{kerbdir}/include \
-	--with-libraries=%{kerbdir}/%{_lib} \
+	--with-includes=%{_includedir} \
+	--with-libraries=%{_libdir} \
 %endif
 %if %nls
 	--enable-nls \
