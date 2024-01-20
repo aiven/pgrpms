@@ -2,6 +2,10 @@
 %global __cuda_path	/usr/local/cuda
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
+# Upstream uses - in tarball name, and spec files don't like it
+# Invented this macro to fix that.
+%global packageversion 5.0-2
+
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -18,7 +22,7 @@ Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
-Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
+Source0:	https://github.com/heterodb/pg-strom/archive/v%{packageversion}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -91,6 +95,9 @@ popd
 %endif
 
 %changelog
+* Sat Jan 20 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0-2-1PGDG
+- Update to 5.0-2
+
 * Mon Dec 18 2023 Devrim Gündüz <devrim@gunduz.org> - 5.0-1PGDG
 - Update to 5.0
 - Add PGDG branding
