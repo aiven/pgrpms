@@ -1,5 +1,5 @@
 %global	sname	pg_strom
-%global __cuda_path	/usr/local/cuda
+%global __cuda_path	/usr/local/cuda-12.3
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 # Upstream uses - in tarball name, and spec files don't like it
@@ -26,9 +26,9 @@ Source0:	https://github.com/heterodb/pg-strom/archive/v%{packageversion}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cuda-12-0 >= 12
+BuildRequires:	cuda-12-3 >= 12
 Requires:	nvidia-kmod
-Requires:	cuda-12-0 >= 12
+Requires:	cuda-12-3 >= 12
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
@@ -97,6 +97,7 @@ popd
 %changelog
 * Sat Jan 20 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0-2-1PGDG
 - Update to 5.0-2
+- Update Cuda dependency to 12.3
 
 * Mon Dec 18 2023 Devrim Gündüz <devrim@gunduz.org> - 5.0-1PGDG
 - Update to 5.0
