@@ -17,7 +17,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0
+Version:	5.0.2
 Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -95,7 +95,7 @@ popd
 %endif
 
 %changelog
-* Sat Jan 20 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0-2-1PGDG
+* Sat Jan 20 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.2-1PGDG
 - Update to 5.0-2
 - Update Cuda dependency to 12.3
 
