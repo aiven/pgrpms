@@ -1,5 +1,5 @@
 Name:		pgmoneta
-Version:	0.7.3
+Version:	0.8.0
 Release:	1PGDG%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -114,6 +114,10 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Jan 23 2024 Devrim Gündüz <devrim@gunduz.org> 0.8.0-1PGDG
+- Update to 0.8.0 per changes described at:
+  https://pgmoneta.github.io///release/announcement/2024/01/22/pgmoneta-0.8.0.html
+
 * Thu Dec 28 2023 Devrim Gündüz <devrim@gunduz.org> 0.7.3-1PGDG
 - Update to 0.7.3 per changes described at:
   https://pgmoneta.github.io/release/announcement/2023/12/28/pgmoneta-0.7.3.html
