@@ -3,11 +3,11 @@
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.4.2
-Release:	1%{?dist}
+Version:	4.5.0
+Release:	1PGDG%{?dist}
 License:	BSD
-URL:		http://pgpool.net
-Source0:	http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
+URL:		https://pgpool.net
+Source0:	https://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Requires:	postgresql%{pgmajorversion}-server %{sname}-pcp
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
@@ -77,6 +77,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %license COPYING
 %{pginstdir}/lib/pgpool_adm.so
 %{pginstdir}/lib/pgpool-recovery.so
+%{pginstdir}/lib/pgpool-regclass.so
 %{pginstdir}/share/extension/pgpool_adm*.sql
 %{pginstdir}/share/extension/pgpool_adm.control
 %{pginstdir}/share/extension/pgpool-regclass.sql
@@ -85,9 +86,12 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/pgpool-recovery.sql
 %{pginstdir}/share/extension/pgpool_recovery*.sql
 %{pginstdir}/share/extension/pgpool_recovery.control
-%{pginstdir}/lib/pgpool-regclass.so
 
 %changelog
+* Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-1PGDG
+- Update to 4.5.0
+- Add PGDG branding
+
 * Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 4.4.2-1
 - Update to 4.4.2
 
