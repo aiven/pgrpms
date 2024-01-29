@@ -22,9 +22,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global	projmajorversion %proj92majorversion
-%global	projfullversion %proj92fullversion
-%global	projinstdir %proj92instdir
+%global	projmajorversion %proj93majorversion
+%global	projfullversion %proj93fullversion
+%global	projinstdir %proj93instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	34
@@ -51,7 +51,7 @@
 
 Name:		%{sname}38
 Version:	3.8.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -76,7 +76,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.34
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.36
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -431,6 +431,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Jan 29 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.3-2PGDG
+- Build against Proj 9.3.X
+
 * Mon Jan 15 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.3-1PGDG
 - Update to 3.8.3
 
