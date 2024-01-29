@@ -9,26 +9,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
-
-# A new feature available in PostGIS 2.0
-#%%global _lwgeom "--enable-lwgeom=yes"
-# Disabled due to a circular dependency issue with PostGIS
-# https://bugzilla.redhat.com/show_bug.cgi?id=979179
-%global _lwgeom "--disable-lwgeom"
-
-# Geocallbacks work with SQLite 3.7.3 and up, available in Fedora and EL 7
-%if (0%{?fedora} || 0%{?rhel} >= 7)
-  %global _geocallback "--enable-geocallbacks"
-%endif
-
-# check_bufovflw test fails on gcc 4.9
-# https://groups.google.com/forum/#!msg/spatialite-users/zkGP-gPByXk/EAZ-schWn1MJ
-%if (0%{?fedora} >= 30 || 0%{?rhel} > 7)
-  %global _no_checks 1
-%endif
+%global projmajorversion %proj93majorversion
+%global projfullversion %proj93fullversion
+%global projinstdir %proj93instdir
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.1.0
@@ -40,7 +23,7 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc librttopo-devel
-BuildRequires:	minizip-devel pgdg-srpm-macros >= 1.0.33
+BuildRequires:	minizip-devel pgdg-srpm-macros >= 1.0.36
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
@@ -87,8 +70,7 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 	--build=ppc64le-unknown-linux-gnu \
 %endif
 	--enable-libxml2 \
-	%{?_geocallback}   \
-	%{?_geosadvanced}
+	--enable-geocallbacks
 
 %{__make} %{?_smp_mflags}
 
@@ -103,17 +85,6 @@ LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
 
 # Delete undesired libtool archives
 find %{buildroot} -type f -name "*.la" -delete
-
-%check
-%if 0%{?_no_checks}
-# Run check but don't fail build
-#%%{__make} check V=1 ||:
-#%%else
-#%%{__make} check V=1
-%endif
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -138,10 +109,11 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
-* Tue Sep 12 2023  Devrim Gunduz <devrim@gunduz.org> - 5.1.0-2PGDG
-- Rebuild
+* Mon Jan 29 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-2PGDG
+- Rebuild against Proj 9.3
+- Spec file cleanup
 
-* Wed Aug 16 2023  Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
+* Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
 - Update to 5.1.0
 - Build with GeOS 3.12 and Proj 9.0
 - Add PGDG branding
