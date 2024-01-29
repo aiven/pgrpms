@@ -92,6 +92,8 @@ BuildRequires:	g2clib-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
+BuildRequires:	libarrow-devel
+BuildRequires:	libdeflate-devel
 # For 'mvn_artifact' and 'mvn_install'
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
 BuildRequires:	libjpeg-devel
