@@ -1,13 +1,14 @@
+%global	_build_id_links none
 %global pgpoolinstdir /usr
 %global sname pgpool-II
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}
-Version:		4.4.2
-Release:		1%{?dist}.1
+Version:		4.5.0
+Release:		1PGDG%{?dist}
 License:		BSD
-URL:			http://pgpool.net
-Source0:		http://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
+URL:			https://pgpool.net
+Source0:		https://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
 Source1:		%{sname}.service
 Source2:		%{sname}.sysconfig
 Patch1:			%{sname}-conf.sample.patch
@@ -31,11 +32,6 @@ Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-
-# The path to the config files is different in older
-# versions of pgpool.  Let's conflict so that an upgrade
-# would need to be a manual process to be safe.
-Conflicts:	%{sname}_%{pgmajorversion}
 
 %description
 pgpool-II is a inherited project of pgpool (to classify from
@@ -64,7 +60,6 @@ Development headers and libraries for pgpool-II.
 
 %package -n %{sname}-pcp
 Summary:	PCP (Pgpool Control Protocol) files of Pgpool.
-Requires:	postgresql%{pgmajorversion}-server
 
 %description -n %{sname}-pcp
 PCP (Pgpool Control Protocol) files of Pgpool, shared across
@@ -157,22 +152,12 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 
 %postun
 if [ "$1" -eq 0 ]
-  then
+then
 	/sbin/ldconfig
 fi
 /sbin/ldconfig
 
 %systemd_postun_with_restart %{sname}.service
-
-%triggerun -- %{sname}-%{pgmajorversion} < 3.1-1
-# Save the current service runlevel info
-# User must manually run systemd-sysv-convert --apply pgpool
-# to migrate them to systemd targets
-/usr/bin/systemd-sysv-convert --save %{sname}-%{pgmajorversion} >/dev/null 2>&1 ||:
-
-# Run these because the SysV package being removed won't do them
-/sbin/chkconfig --del %{sname}-%{pgmajorversion} >/dev/null 2>&1 || :
-/bin/systemctl try-restart %{sname}.service >/dev/null 2>&1 || :
 
 %files
 %doc README TODO INSTALL AUTHORS ChangeLog NEWS
@@ -188,7 +173,6 @@ fi
 %{_datadir}/pgpool-II/pgpool.pam
 %{_sysconfdir}/%{name}/*.sample*
 
-%ghost %{_rundir}
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{sname}.service
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
@@ -219,8 +203,14 @@ fi
 %{_libdir}/libpcp.so*
 
 %changelog
+* Mon Jan 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-1PGDG
+- Update to 4.5.0
+- Add PGDG branding
+- Spec file cleanup
+- Fix rpmlint warnings
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.4.2-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 4.4.2-1
 - Update to 4.4.2
