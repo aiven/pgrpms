@@ -5,20 +5,20 @@
 %pgdg_set_gis_variables
 
 # Override PROJ:
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
+%global projmajorversion %proj93majorversion
+%global projfullversion %proj93fullversion
+%global projinstdir %proj93instdir
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.33 cmake
+BuildRequires:	pgdg-srpm-macros >= 1.0.36 cmake
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -135,6 +135,9 @@ EOF
 
 
 %changelog
+* Mon Jan 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-5PGDG
+- Rebuild against Proj 9.3
+
 * Thu Sep 21 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-4PGDG
 - Support SLES 15
 
