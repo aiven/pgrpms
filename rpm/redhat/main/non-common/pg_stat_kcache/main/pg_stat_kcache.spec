@@ -2,7 +2,7 @@
 
 %global kcachemajver 2
 %global kcachemidver 2
-%global kcacheminver 2
+%global kcacheminver 3
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -92,6 +92,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Jan 25 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.3-1PGDG
+- Update to 2.2.3
+
 * Thu Aug 3 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.2-1PGDG
 - Update to 2.2.2
 - Add PGDG branding
