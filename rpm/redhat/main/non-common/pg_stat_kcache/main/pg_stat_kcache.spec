@@ -92,7 +92,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Thu Jan 25 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.3-1PGDG
+* Thu Jan 25 2024 Devrim Gunduz <devrim@gunduz.org> - 2.2.3-1PGDG
 - Update to 2.2.3
 
 * Thu Aug 3 2023 Devrim Gunduz <devrim@gunduz.org> - 2.2.2-1PGDG
