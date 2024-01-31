@@ -2,18 +2,17 @@
 BuildRequires:	python3-devel
 Requires:	python3
 
-
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 38
 %{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pybasever %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
+
 %global python_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python_sitearch %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	3.9.0
+Version:	3.10.0
 Release:	1PGDG%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
@@ -90,9 +89,6 @@ groupadd -f -r barman >/dev/null 2>&1 || :
 useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 	-c "Backup and Recovery Manager for PostgreSQL" barman >/dev/null 2>&1 || :
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc NEWS README.rst
@@ -132,6 +128,11 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 %{python_sitelib}/%{name}/
 
 %changelog
+* Mon Jan 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.10.0-1PGDG
+- Update to 3.10.0, per changes described at:
+  https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.10.0
+- Fix rpmlint warning
+
 * Thu Oct 5 2023 Devrim Gündüz <devrim@gunduz.org> - 3.9.0-1PGDG
 - Update to 3.9.0, per changes described at:
   https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.9.0
@@ -278,8 +279,8 @@ useradd -M -g barman -r -d /var/lib/barman -s /bin/bash \
 
 * Wed Jun 6 2018 - Devrim Gündüz <devrim@gunduz.org> 2.4-1
 - Update to 2.4, per #3402
-
 - Perform a cleanup in th spec file, use macros for some binaries, remove
+
 * Wed Sep 13 2017 - Devrim Gündüz <devrim@gunduz.org> 2.3-1
 - Update to 2.3, per #2682.
 - Perform a cleanup in th spec file, use macros for some binaries, remove
