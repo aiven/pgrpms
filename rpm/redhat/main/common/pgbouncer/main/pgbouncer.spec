@@ -1,5 +1,5 @@
 Name:		pgbouncer
-Version:	1.21.0
+Version:	1.22.0
 Release:	42PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -135,9 +135,6 @@ if [ $1 -eq 0 ]; then
 fi
 %systemd_postun_with_restart %{name}.service
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %doc %{_defaultdocdir}/pgbouncer
 %license COPYRIGHT
@@ -155,6 +152,12 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Thu Feb 1 2024 Devrim Gündüz <devrim@gunduz.org> - 1.22.0-42PGDG
+- Update to 1.22.0, per changes described at:
+  https://www.pgbouncer.org/changelog.html#pgbouncer-122x
+- Merge systemd unit file changes from upstream.
+- Cleanup rpmlint warnings
+
 * Tue Oct 17 2023 Devrim Gündüz <devrim@gunduz.org> - 1.21.0-42PGDG
 - Update to 1.21.0, per changes described at:
   https://www.pgbouncer.org/changelog.html#pgbouncer-121x
@@ -181,7 +184,7 @@ fi
   https://www.pgbouncer.org/changelog.html#pgbouncer-119x
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.18.0-11.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Dec 12 2022 Devrim Gündüz <devrim@gunduz.org> - 1.18.0-11
 - Update to 1.18.0, per changes described at:
