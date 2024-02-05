@@ -9,8 +9,8 @@ License:	PostgreSQL
 Source0:	https://github.com/dimitri/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/dimitri/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
-BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel
+BuildRequires:	pgdg-srpm-macros krb5-devel bison flex sqlite-devel
 Requires:	postgresql%{pgmajorversion}
 
 %description
