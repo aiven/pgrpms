@@ -32,7 +32,7 @@
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
 %{!?raster:%global     raster 1}
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global     sfcgal 1}
@@ -46,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -81,8 +81,16 @@ Requires:	SFCGAL
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%endif
 
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+
+%if 0%{?suse_version} >= 1315
+Requires:	libprotobuf-c1
+BuildRequires:	libprotobuf-c-devel
+%else
+# Fedora/RHEL:
+Requires:	protobuf-c >= 1.1.0
 BuildRequires:	protobuf-c-devel >= 1.1.0
 %endif
 
@@ -98,15 +106,13 @@ Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c5
-Requires:	libxerces-c-3_1
+Requires:	libxerces-c-3_2
+BuildRequires:	libxerces-c-devel
 %else
 Requires:	json-c xerces-c
+BuildRequires:	xerces-c-devel
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
-
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
-Requires:	protobuf-c >= 1.1.0
-%endif
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
@@ -232,7 +238,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 31 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -373,8 +379,11 @@ fi
 %endif
 
 %changelog
+* Wed Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2PGDG
+- Fix missing dependencies (RHEL, Fedora and SLES)
+
 * Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-1PGDG
-- Update to 3.4.17 per changes described at:
+- Update to 3.4.1 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.1/NEWS
 
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.0-1PGDG
