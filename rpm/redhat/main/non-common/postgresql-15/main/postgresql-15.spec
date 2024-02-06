@@ -76,13 +76,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.5
+Version:	15.6
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:        420005PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:        5PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1062,9 +1062,6 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 # FILES section.
 
 %files -f pg_main.lst
@@ -1401,6 +1398,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 6 2024 Devrim Gündüz <devrim@gunduz.org> - 15.6-1PGDG
+- Update to 15.6, per changes described at
+  https://www.postgresql.org/docs/release/15.6/
+
 * Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 15.5-5PGDG
 - SuSE upstream packages have release numbers like 150200.5.19.1
   which overrides our packages. Increase our release number on SuSE.
@@ -1441,7 +1442,7 @@ fi
   https://www.postgresql.org/docs/release/15.3/
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 15.2-1PGDG.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 15.2-1PGDG
 - Update to 15.2, per changes described at
