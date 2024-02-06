@@ -76,13 +76,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.10
+Version:	14.11
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420005PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	5PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -502,10 +502,10 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-pl <= %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
 %if 0%{?suse_version} >= 1315
-Requires:       python3-base
+Requires:	python3-base
 %else
 # We support Python3 natively on RHEL/CentOS 7 as of 7.7.
-Requires:       python3-libs
+Requires:	python3-libs
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -831,7 +831,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
@@ -1047,9 +1047,6 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-ld-conf		%{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
 	/sbin/ldconfig
 fi
-
-%clean
-%{__rm} -rf %{buildroot}
 
 # FILES section.
 
@@ -1383,6 +1380,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 6 2024 Devrim Gündüz <devrim@gunduz.org> - 14.11-1PGDG
+- Update to 14.11, per changes described at
+  https://www.postgresql.org/docs/release/14.11/
+
 * Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 14.10-5PGDG
 - SuSE upstream packages have release numbers like 150200.5.19.1
   which overrides our packages. Increase our release number on SuSE.
@@ -1396,6 +1397,10 @@ fi
 
 * Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> - 14.10-2PGDG
 - Rebuild against new LLVM on RHEL 8.9
+
+* Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 14.10-1PGDG
+- Update to 14.10, per changes described at
+  https://www.postgresql.org/docs/release/14.10/
 
 * Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 14.10-1PGDG
 - Update to 14.10, per changes described at
@@ -1426,7 +1431,7 @@ fi
   https://www.postgresql.org/docs/release/14.8/
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 14.7-2PGDG.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Feb 13 2023 John Harvey <john.harvey@crunchydata.com> - 14.7-2PGDG
 - Fix enabling of TAP tests on RHEL
