@@ -27,7 +27,7 @@ Version:	1.5.1
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
@@ -41,9 +41,9 @@ BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
 BuildRequires:	libboost_serialization1_54_0-devel libboost_atomic1_54_0-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	libboost_date_time1_75_0 libboost_thread1_75_0
-BuildRequires:	libboost_system1_75_0 libboost_serialization1_75_0
-BuildRequires:	libboost_serialization1_75_0-devel libboost_atomic1_75_0-devel
+BuildRequires:	libboost_date_time1_84_0 libboost_thread1_84_0
+BuildRequires:	libboost_system1_84_0 libboost_serialization1_84_0
+BuildRequires:	libboost_serialization1_84_0-devel libboost_atomic1_84_0-devel
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
@@ -126,6 +126,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.8-2-1PGDG
+- Rebuild against boost 1.80 on SLES 15
+
 * Wed Jan 3 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.1-1PGDG
 - Update to 1.5.1 on Fedora 39
 
@@ -137,7 +140,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 - Remove support for older distros
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-14.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Mon Mar 27 2023 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-14
 - Update download URL
