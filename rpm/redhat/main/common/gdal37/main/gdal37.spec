@@ -50,8 +50,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}37
-Version:	3.7.2
-Release:	2PGDG%{?dist}
+Version:	3.7.3
+Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -430,6 +430,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.7.3-1PGDG
+- Update to 3.7.3, per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.7.3/NEWS.md
+
 * Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.7.2-2PGDG
 - Rebuild against armadillo 12 on RHEL 9, 8 and Fedora.
 
