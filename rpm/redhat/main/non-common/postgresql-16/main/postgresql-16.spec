@@ -54,13 +54,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	16.1
+Version:	16.2
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420008PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	8PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -909,9 +909,6 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 # FILES section.
 
 %files -f pg_main.lst
@@ -1244,6 +1241,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 16.2-1PGDG
+- Update to 16.2, per changes described at:
+  https://www.postgresql.org/docs/release/16.2/
+
 * Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 16.1-8PGDG
 - SuSE upstream packages have release numbers like 150200.5.19.1
   which overrides our packages. Increase our release number on SuSE.
@@ -1308,7 +1309,7 @@ fi
   needed, as they are supported on all distros. Also remove %%disablepgfts macro.
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 16-alpha_20230424_PGDG.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Feb 7 2023 Devrim Gündüz <devrim@gunduz.org> - 16-alpha_20230208_PGDG.1
 - Enable TAP tests on all RHEL versions, per report from Bill Smith.
