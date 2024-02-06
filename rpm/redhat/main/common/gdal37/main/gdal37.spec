@@ -247,7 +247,7 @@ BuildArch:	noarch
 This package contains the API documentation for %{name}.
 
 %package python3
-%{?python_provide:%python_provide python3-gdal}
+%{?python3_provide:%python3_provide python3-gdal}
 Summary:	Python modules for the GDAL file format library
 Requires:	python3-numpy
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
