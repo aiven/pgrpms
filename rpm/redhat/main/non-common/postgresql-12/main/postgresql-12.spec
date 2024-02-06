@@ -1006,7 +1006,7 @@ sed 's/^PGVERSION=.*$/PGVERSION=%{version}/' <%{SOURCE3} > %{sname}.init
 %endif
 
 # Create the directory for sockets.
-%{__install} -d -m 755 %{buildroot}%{_rundir}/%{sname}
+%{__install} -d -m 755 %{buildroot}/var/run/%{sname}
 %if %{systemd_enabled}
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
@@ -1523,7 +1523,7 @@ fi
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/data
 %attr(700,postgres,postgres) %dir /var/lib/pgsql/%{pgmajorversion}/backups
-%attr(755,postgres,postgres) %dir %{_rundir}/%{sname}
+%attr(755,postgres,postgres) %dir /var/run/%{sname}
 %{pgbaseinstdir}/lib/*_and_*.so
 %{pgbaseinstdir}/share/information_schema.sql
 %{pgbaseinstdir}/share/snowball_create.sql
@@ -1605,6 +1605,7 @@ fi
 * Tue Feb 6 2024 Devrim Gündüz <devrim@gunduz.org> - 12.18-1PGDG
 - Update to 12.18, per changes described at
   https://www.postgresql.org/docs/release/12.18/
+- Revert c261c923e1. It breaks RHEL 6 builds.
 
 * Mon Jan 8 2024 Devrim Gunduz <devrim@gunduz.org> - 12.18-5PGDG
 - SuSE upstream packages have release numbers like 150200.5.19.1
