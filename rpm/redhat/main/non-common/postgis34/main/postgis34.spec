@@ -30,23 +30,22 @@
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
-%{!?raster:%global     raster 1}
 
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
-%{!?sfcgal:%global     sfcgal 1}
+%{!?sfcgal:%global	sfcgal 1}
 %else
-%{!?sfcgal:%global     sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 %else
-%{!?sfcgal:%global    sfcgal 0}
+%{!?sfcgal:%global	sfcgal 0}
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -77,13 +76,8 @@ BuildRequires:	gtk2-devel > 2.8.0
 BuildRequires:	SFCGAL-devel SFCGAL
 Requires:	SFCGAL
 %endif
-%if %{raster}
+
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
-%endif
-
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
-%endif
-
 
 %if 0%{?suse_version} >= 1315
 Requires:	libprotobuf-c1
@@ -98,11 +92,7 @@ Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversi
 Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projfullversion}
 Requires:	libgeotiff%{libgeotiffmajorversion}
 Requires:	hdf5
-
-%if %{raster}
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
-%endif
-
 Requires:	pcre
 %if 0%{?suse_version} >= 1315
 Requires:	libjson-c5
@@ -229,9 +219,6 @@ autoconf
 	--bindir=%{pginstdir}/bin/ \
 	--datadir=%{pginstdir}/share/ \
 	--enable-lto \
-%if !%raster
-	--without-raster \
-%endif
 %if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
 %endif
@@ -314,7 +301,6 @@ fi
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
-%if %{raster}
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_legacy.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_upgrade.sql
@@ -322,15 +308,12 @@ fi
 %{pginstdir}/share/extension/postgis_raster*.sql
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
-%endif
 %{_mandir}/man1/%{sname}*
 
 %files client
 %defattr(644,root,root)
 %attr(755,root,root) %{pginstdir}/bin/pgsql2shp
-%if %{raster}
 %attr(755,root,root) %{pginstdir}/bin/raster2pgsql
-%endif
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_export
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_import
@@ -361,10 +344,8 @@ fi
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
-   %if %raster
-    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
-    %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
-   %endif
+   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
    %if %{sfcgal}
    %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}.index.bc
    %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}/lwgeom_sfcgal.bc
@@ -379,7 +360,10 @@ fi
 %endif
 
 %changelog
-* Wed Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2PGDG
+* Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3PGDG
+- Remove raster conditional, already enabled everywhere.
+- Convert spaces into tabs.
+* Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2PGDG
 - Fix missing dependencies (RHEL, Fedora and SLES)
 
 * Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-1PGDG
