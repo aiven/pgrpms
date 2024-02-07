@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.2
-Release:	3%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -53,8 +53,13 @@ CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread -std=c++11"
 export CFLAGS
 export CXXFLAGS
-
-%cmake3	\
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+cmake \
+%endif
+%else
+%cmake3 \
+%endif
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
 	-D STATIC_BUILD:BOOL=OFF .
@@ -123,9 +128,6 @@ if [ $1 -ge 1 ] ; then
 	/bin/systemctl try-restart %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-, root, root)
 %doc README
@@ -142,6 +144,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Feb 7 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-4PGDG
+- Add SLES 15 support
+- Add PGDG branding
+
 * Sat Feb 4 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-3
 - Switch on C++11 support on older GCC versions (in this case,
   RHEL 7).
