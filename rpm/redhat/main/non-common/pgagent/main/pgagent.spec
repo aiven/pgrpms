@@ -16,6 +16,14 @@ BuildRequires:	cmake3
 BuildRequires:	cmake => 3.0.0
 %endif
 
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+BuildRequires: libboost_filesystem1_84_0-devel libboost_regex1_84_0-devel
+%endif
+%else
+BuildRequires:	boost-filesystem boost-regex
+%endif
+
 BuildRequires:	boost-devel >= 1.41
 
 BuildRequires:		systemd, systemd-devel
