@@ -3,7 +3,8 @@
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
 %if 0%{?suse_version} && 0%{?suse_version} >= 1315
-Version:	1.3.8
+Version:	1.3.10
+BuildRequires:	cgal-devel
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
@@ -27,7 +28,7 @@ Version:	1.5.1
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-Release:	2%{?dist}
+Release:	1%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
@@ -126,7 +127,8 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
-* Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.8-2-1PGDG
+* Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.10-1-1PGDG
+- Update to 1.3.10 on SLES 15
 - Rebuild against boost 1.80 on SLES 15
 
 * Wed Jan 3 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.1-1PGDG
