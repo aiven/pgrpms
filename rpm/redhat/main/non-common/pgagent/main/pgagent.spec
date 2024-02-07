@@ -18,10 +18,13 @@ BuildRequires:	cmake => 3.0.0
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires: libboost_filesystem1_84_0-devel libboost_regex1_84_0-devel
+BuildRequires:	libboost_filesystem1_84_0-devel libboost_regex1_84_0-devel
+BuildRequires:	libboost_date_time1_84_0-devel libboost_thread1_84_0-devel
+BuildRequires:	libboost_system1_84_0-devel
 %endif
 %else
-BuildRequires:	boost-filesystem boost-regex
+BuildRequires:	boost-filesystem boost-regex boost-date-time
+BuildRequires:	boost-thread boost-system
 %endif
 
 BuildRequires:	boost-devel >= 1.41
