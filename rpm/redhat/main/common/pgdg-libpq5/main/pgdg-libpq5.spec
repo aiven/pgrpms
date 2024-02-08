@@ -8,7 +8,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.1
+Version:	%{pgmajorversion}.2
 Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -93,13 +93,13 @@ PostgreSQL server.
 Summary:	Development files for building PostgreSQL client tools
 Requires:	%name%{?_isa} = %version-%release
 # Historically we had 'postgresqlXX-devel' package which was used for building
-# both PG clients and PG server modules;  let's have this fake provide to cover
+# both PG clients and PG server modules; let's have this fake provide to cover
 # most of the depending packages and the rest (those which want to build server
 # modules) need to be fixed to require postgresql-server-devel package.
 
 %description devel
 The libpq5 package provides the essential shared library for any PostgreSQL
-client program or interface.  You will need to install this package to build any
+client program or interface. You will need to install this package to build any
 package or any clients that need to connect to a PostgreSQL server.
 
 %ifarch ppc64 ppc64le
@@ -195,6 +195,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Feb 8 2024 Devrim Gündüz <devrim@gunduz.org> - 16.2-42-1PGDG
+- Update to 16.2
+
 * Tue Nov 7 2023 Devrim Gündüz <devrim@gunduz.org> - 16.1-42-1PGDG
 - Update to 16.1
 
