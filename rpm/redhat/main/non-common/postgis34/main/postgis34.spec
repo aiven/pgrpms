@@ -44,8 +44,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.1
-Release:	3PGDG%{?dist}
+Version:	%{postgismajorversion}.2
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -360,9 +360,14 @@ fi
 %endif
 
 %changelog
+* Fri Feb 9  2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
+- Update to 3.4.2 per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
+
 * Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3PGDG
 - Remove raster conditional, already enabled everywhere.
 - Convert spaces into tabs.
+
 * Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-2PGDG
 - Fix missing dependencies (RHEL, Fedora and SLES)
 
