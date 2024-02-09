@@ -360,7 +360,7 @@ fi
 %endif
 
 %changelog
-* Fri Feb 9  2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
+* Fri Feb 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
 - Update to 3.4.2 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
 
