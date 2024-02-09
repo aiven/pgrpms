@@ -19,7 +19,23 @@
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
 
-%global libspatialitemajorversion	50
+# Override PROJ major version on RHEL 7.
+# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
+# Also use GDAL 3.4
+%if 0%{?rhel} && 0%{?rhel} == 7
+-%global gdalfullversion %gdal34fullversion
+%global gdalmajorversion %gdal34majorversion
+%global gdalinstdir %gdal34instdir
+%global projmajorversion 72
+%global projfullversion 7.2.1
+%global projinstdir /usr/proj%{projmajorversion}
+%endif
+
+%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
+ %global libspatialitemajorversion      43
+%else
+ %global libspatialitemajorversion      50
+%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -380,7 +396,6 @@ fi
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.3.6/NEWS
 - Add protobuf support to SLES 15.
 - Remove conditionals around raster macro. Already enabled everywhere.
-- Remove RHEL 7 support
 
 * Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.5-1PGDG
 - Update to 3.3.5, per changes described at:
