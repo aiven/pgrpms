@@ -30,6 +30,7 @@
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
+%{!?raster:%global	raster 1}
 
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
@@ -77,7 +78,10 @@ BuildRequires:	SFCGAL-devel SFCGAL
 Requires:	SFCGAL
 %endif
 
+%if %{raster}
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
+Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
+%endif
 
 %if 0%{?suse_version} >= 1315
 Requires:	libprotobuf-c1
@@ -219,6 +223,9 @@ autoconf
 	--bindir=%{pginstdir}/bin/ \
 	--datadir=%{pginstdir}/share/ \
 	--enable-lto \
+%if !%raster
+	--without-raster \
+%endif
 %if %{sfcgal}
 	--with-sfcgal=%{_bindir}/sfcgal-config \
 %endif
@@ -301,6 +308,7 @@ fi
 %{pginstdir}/share/extension/%{sname}_topology-*.sql
 %{pginstdir}/share/extension/%{sname}_topology.control
 %{pginstdir}/share/contrib/%{sname}-%{postgismajorversion}/uninstall_legacy.sql
+%if %{raster}
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_legacy.sql
 %{pginstdir}/share/contrib/postgis-%{postgismajorversion}/rtpostgis_upgrade.sql
@@ -308,12 +316,15 @@ fi
 %{pginstdir}/share/extension/postgis_raster*.sql
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
+%endif
 %{_mandir}/man1/%{sname}*
 
 %files client
 %defattr(644,root,root)
 %attr(755,root,root) %{pginstdir}/bin/pgsql2shp
+%if %{raster}
 %attr(755,root,root) %{pginstdir}/bin/raster2pgsql
+%endif
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_export
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_import
@@ -344,8 +355,10 @@ fi
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}/*.bc
    %{pginstdir}/lib/bitcode/postgis_topology-%{postgissomajorversion}*.bc
    %{pginstdir}/lib/bitcode/postgis-%{postgissomajorversion}/*.bc
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
-   %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
+   %if %{raster}
+     %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}*.bc
+     %{pginstdir}/lib/bitcode/postgis_raster-%{postgissomajorversion}/*.bc
+   %endif
    %if %{sfcgal}
    %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}.index.bc
    %{pginstdir}/lib/bitcode/postgis_sfcgal-%{postgissomajorversion}/lwgeom_sfcgal.bc
@@ -364,6 +377,7 @@ fi
 - Update to 3.4.2 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
 - (re)-enable shp2pgsqlgui macro
+- re-add raster macro, in case users may want to disable it.
 
 * Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3PGDG
 - Remove raster conditional, already enabled everywhere.
