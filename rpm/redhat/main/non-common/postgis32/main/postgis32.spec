@@ -68,7 +68,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.6
+Version:	%{postgismajorversion}.7
 Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
@@ -105,8 +105,13 @@ Requires:	SFCGAL
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
-BuildRequires:	protobuf-c-devel >= 1.1.0
+%if 0%{?suse_version} >= 1315
+Requires:       libprotobuf-c1
+BuildRequires:  libprotobuf-c-devel
+%else
+# Fedora/RHEL:
+Requires:       protobuf-c >= 1.1.0
+BuildRequires:  protobuf-c-devel >= 1.1.0
 %endif
 
 Requires:	postgresql%{pgmajorversion} geos%{geosmajorversion} >= %{geosfullversion}
@@ -126,10 +131,6 @@ Requires:	libxerces-c-3_2
 Requires:	json-c xerces-c
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
-
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
-Requires:	protobuf-c >= 1.1.0
-%endif
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
@@ -260,7 +261,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -394,6 +395,11 @@ fi
 %endif
 
 %changelog
+* Fri Feb 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.2.7-1PGDG
+- Update to 3.2.7, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.7/NEWS
+- Add protobuf support to SLES 15.
+
 * Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.2.6-1PGDG
 - Update to 3.2.6, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.6/NEWS
