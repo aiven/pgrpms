@@ -378,6 +378,7 @@ fi
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
 - (re)-enable shp2pgsqlgui macro
 - re-add raster macro, in case users may want to disable it.
+- Add protobuf support to SLES 15
 
 * Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3PGDG
 - Remove raster conditional, already enabled everywhere.
