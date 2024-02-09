@@ -29,7 +29,7 @@
 %endif
 
 %{!?utils:%global	utils 1}
-%{!?shp2pgsqlgui:%global	shp2pgsqlgui 0}
+%{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
@@ -332,8 +332,8 @@ fi
 %files gui
 %defattr(-,root,root)
 %{pginstdir}/bin/shp2pgsql-gui
-#{pginstdir}/share/applications/shp2pgsql-gui.desktop
-#{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
+%{pginstdir}/share/applications/shp2pgsql-gui.desktop
+%{pginstdir}/share/icons/hicolor/*/apps/shp2pgsql-gui.png
 %endif
 
 %if %llvm
@@ -360,9 +360,10 @@ fi
 %endif
 
 %changelog
-* Fri Feb 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
+* Fri Feb 9  2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
 - Update to 3.4.2 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
+- (re)-enable shp2pgsqlgui macro
 
 * Wed Feb 7 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.1-3PGDG
 - Remove raster conditional, already enabled everywhere.
