@@ -47,14 +47,6 @@
  %{!?llvm:%global llvm 1}
 %endif
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %if 0%{?suse_version} < 1499
@@ -76,7 +68,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.10
+Version:	%{postgismajorversion}.11
 Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
@@ -113,7 +105,12 @@ Requires:	SFCGAL
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
+%if 0%{?suse_version} >= 1315
+Requires:	libprotobuf-c1
+BuildRequires:	libprotobuf-c-devel
+%else
+# Fedora/RHEL:
+Requires:	protobuf-c >= 1.1.0
 BuildRequires:	protobuf-c-devel >= 1.1.0
 %endif
 
@@ -139,10 +136,6 @@ Requires:	libxerces-c-3_2
 Requires:	json-c xerces-c
 %endif
 Requires(post):	%{_sbindir}/update-alternatives
-
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
-Requires:	protobuf-c >= 1.1.0
-%endif
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
@@ -267,7 +260,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -402,6 +395,11 @@ fi
 %endif
 
 %changelog
+* Fri Feb 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.11-1PGDG
+- Update to 3.1.11, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.11/NEWS
+- Add protobuf support to SLES 15
+
 * Mon Nov 20 2023 Devrim Gunduz <devrim@gunduz.org> - 3.1.10-1PGDG
 - Update to 3.1.10, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.10/NEWS
