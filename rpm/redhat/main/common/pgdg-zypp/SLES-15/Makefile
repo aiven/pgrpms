@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST="el"
+DIST=".sles15"
 SPECFILE="pgdg-suse.spec"
 
 # Now, include global Makefile
