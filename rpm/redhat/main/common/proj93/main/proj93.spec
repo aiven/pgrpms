@@ -5,7 +5,7 @@
 
 Name:		%{sname}93
 Version:	9.3.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -17,11 +17,14 @@ Source2:	%{name}-pgdg-libs.conf
 BuildRequires:	sqlite-devel >= 3.7 gcc-c++ libcurl-devel cmake
 BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.29
 
-%if 0%{?fedora} > 30 || 0%{?rhel} == 8
-Requires:	sqlite-libs >= 3.7
+%if 0%{?suse_version} >= 1315
+# Unfortunately SLES 15 ships the libraries with -devel subpackage:
+Requires:	sqlite3-devel >= 3.7
 %else
-Requires:	sqlite
+# All other sane distributions have a separate -libs subpackage:
+Requires:	sqlite-libs >= 3.7
 %endif
+
 
 %package devel
 Summary:	Development files for PROJ
@@ -44,16 +47,6 @@ This package contains libproj and the appropriate header files and man pages.
 pushd build
 LDFLAGS="-Wl,-rpath,%{proj93instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj93instdir}/lib64" ; export SHLIB_LINK
-
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-export SQLITE3_LIBS="-L%{sqlite33dir}/lib -lsqlite3"
-export SQLITE3_INCLUDE_DIR='%{sqlite33dir}/include'
-export SQLITE3_CFLAGS="-I%{sqlite33dir}/include"
-export PATH=%{sqlite33dir}/bin/:$PATH
-LDFLAGS="-Wl,-rpath,%{sqlite33dir}/lib ${LDFLAGS}" ; export LDFLAGS
-CPPFLAGS="-I%{sqlite33dir}/include/ ${CFLAGS}" ; export CPPFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{sqlite33dir}/lib" ; export SHLIB_LINK
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
@@ -109,6 +102,9 @@ popd
 %{proj93instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Thu Feb 15 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.3.1-2PGDG
+- Fix SLES 15 builds.
+
 * Mon Jan 15 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.3.1-1PGDG
 - Update to 9.3.1
 
