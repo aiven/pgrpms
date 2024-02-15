@@ -1,24 +1,21 @@
 %global		sname	ogdi
-%global		gittag	4_1_0
+%global		gittag	4_1_1
 %global		ogdimajorver 41
 %global		ogdi41instdir /usr/ogdi%{ogdimajorver}
 
 Name:		ogdi%{ogdimajorver}
-Version:	4.1.0
-Release:	3%{?dist}.1
+Version:	4.1.1
+Release:	1PGDG%{?dist}
 Summary:	Open Geographic Datastore Interface
 License:	BSD
-URL:		http://ogdi.sourceforge.net/
-# new project location is https://github.com/libogdi/ogdi
-Source0:	https://github.com/libogdi/ogdi/archive/%{sname}_%{gittag}.tar.gz
-Source1:	http://ogdi.sourceforge.net/ogdi.pdf
+URL:		https://github.com/libogdi/ogdi
+Source0:	https://github.com/libogdi/ogdi/releases/download/ogdi_%{gittag}/ogdi-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 # https://bugzilla.redhat.com/show_bug.cgi?id=1470896
 Patch0:		%{name}-4.1.0-sailer.patch
 Patch1:		%{name}-4.1.0-mkinstalldirs.patch
 
 BuildRequires:	gcc
-BuildRequires:	unixODBC-devel
 BuildRequires:	zlib-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libexpat-devel
@@ -53,21 +50,10 @@ BuildRequires:	expat-devel
 OGDI header files and developer's documentation.
 
 
-%package odbc
-Summary:	ODBC driver for OGDI
-Requires:	%{name} = %{version}-%{release}
-
-%description odbc
-ODBC driver for OGDI.
-
 %prep
-%setup -q -n %{sname}-%{sname}_%{gittag}
+%setup -q -n %{sname}-%{version}
 %patch -P 0 -p1
 %patch -P 1 -p0
-
-# include documentation
-%{__cp} -p %{SOURCE1} .
-
 
 %build
 TOPDIR=`pwd`; TARGET=Linux; export TOPDIR TARGET
@@ -90,10 +76,6 @@ export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 # build contributions
 %{__make} -C contrib/gdal
 
-# build odbc drivers
-%{__make} -C ogdi/attr_driver/odbc \
-	ODBC_LINKLIB="-lodbc"
-
 %install
 # export env
 TOPDIR=`pwd`; TARGET=Linux; export TOPDIR TARGET
@@ -105,8 +87,6 @@ export DESTDIR=%{buildroot}
 
 # install plugins olso
 %{__make} install -C contrib/gdal \
-	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
-%{__make} install -C ogdi/attr_driver/odbc \
 	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
 
 # remove example binary
@@ -153,13 +133,10 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %{ogdi41instdir}/bin/ogdi_*
 %{ogdi41instdir}/lib/libogdi.so*
 %dir %{ogdi41instdir}/lib/ogdi
-%exclude %{ogdi41instdir}/lib/%{sname}/liblodbc.so
-%exclude %{ogdi41instdir}/lib/%{sname}/libecs_tcl.so
 %{ogdi41instdir}/lib/%{sname}/lib*.so
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
 %files devel
-%doc ogdi.pdf
 %doc ogdi/examples/example1/example1.c
 %doc ogdi/examples/example2/example2.c
 %{ogdi41instdir}/bin/%{sname}-config
@@ -168,10 +145,14 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %dir %{ogdi41instdir}/include/
 %{ogdi41instdir}/include/*.h
 
-%files odbc
-%{ogdi41instdir}/lib/%{sname}/liblodbc.so
 
 %changelog
+* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.1.1-1PGDG
+- Update to 4.1.1 per changes described at:
+  https://github.com/libogdi/ogdi/releases/tag/ogdi_4_1_1
+- Remove ODBC package per upstream.
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 4.1.0-3.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
