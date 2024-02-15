@@ -1,11 +1,18 @@
 %global	_vpath_builddir .
 %global sname proj
 
+%if 0%{?suse_version} >= 1315
+%global sqlitepname	sqlite33
+%global sqlite33dir	/usr/sqlite330
+%else
+%global sqlitepname	sqlite
+%endif
+
 %pgdg_set_gis_variables
 
 Name:		%{sname}93
 Version:	9.3.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
 
@@ -109,6 +116,9 @@ popd
 %{proj93instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Thu Feb 15 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.3.1-2PGDG
+- Fix SLES 15 builds.
+
 * Mon Jan 15 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.3.1-1PGDG
 - Update to 9.3.1
 
