@@ -1,4 +1,3 @@
-%global debug_package		%{nil}
 %global sname libspatialite
 %global libspatialiteinstdir	/usr/%{name}
 
@@ -112,6 +111,7 @@ find %{buildroot} -type f -name "*.la" -delete
 * Mon Jan 29 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-2PGDG
 - Rebuild against Proj 9.3
 - Spec file cleanup
+- re-enable debug package
 
 * Wed Aug 16 2023 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
 - Update to 5.1.0
