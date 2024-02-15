@@ -10,19 +10,24 @@ Summary:	Open Geographic Datastore Interface
 License:	BSD
 URL:		https://github.com/libogdi/ogdi
 Source0:	https://github.com/libogdi/ogdi/releases/download/ogdi_%{gittag}/ogdi-%{version}.tar.gz
+Source1:	http://ogdi.sourceforge.net/ogdi.pdf
 Source2:	%{name}-pgdg-libs.conf
 # https://bugzilla.redhat.com/show_bug.cgi?id=1470896
 Patch0:		%{name}-4.1.0-sailer.patch
 Patch1:		%{name}-4.1.0-mkinstalldirs.patch
 
 BuildRequires:	gcc
-BuildRequires:	zlib-devel
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libexpat-devel
 %else
 BuildRequires:	expat-devel
 %endif
 BuildRequires:	libtirpc-devel
+BuildRequires:	tcl-devel
+BuildRequires:	zlib-devel
+
+# ODBC driver has been removed in 4.1.1 without replacement
+Obsoletes:	%{name}-odbc < 4.1.1
 
 %description
 OGDI is the Open Geographic Datastore Interface. OGDI is an
@@ -50,10 +55,20 @@ BuildRequires:	expat-devel
 OGDI header files and developer's documentation.
 
 
+%package tcl
+Summary:	TCL wrapper for OGDI
+Requires:	%{name} = %{version}-%{release}
+
+%description tcl
+TCL wrapper for OGDI.
+
 %prep
 %setup -q -n %{sname}-%{version}
 %patch -P 0 -p1
 %patch -P 1 -p0
+
+# include documentation
+%{__cp} -p %{SOURCE1} .
 
 %build
 TOPDIR=`pwd`; TARGET=Linux; export TOPDIR TARGET
@@ -74,6 +89,8 @@ export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 %{__make}
 
 # build contributions
+%{__make} -C ogdi/tcl_interface \
+	TCL_LINKLIB="-ltcl"
 %{__make} -C contrib/gdal
 
 %install
@@ -86,6 +103,8 @@ export DESTDIR=%{buildroot}
 	INST_BIN=%{buildroot}%{ogdi41instdir}/bin
 
 # install plugins olso
+%{__make} install -C ogdi/tcl_interface \
+	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
 %{__make} install -C contrib/gdal \
 	INST_LIB=%{buildroot}%{ogdi41instdir}/lib
 
@@ -128,6 +147,7 @@ touch -r ogdi-config.in %{buildroot}%{ogdi41instdir}/bin/%{sname}-config
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 
 %files
+%doc ogdi.pdf
 %doc LICENSE NEWS ChangeLog README
 %{ogdi41instdir}/bin/gltpd
 %{ogdi41instdir}/bin/ogdi_*
