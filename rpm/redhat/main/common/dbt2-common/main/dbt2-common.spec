@@ -3,7 +3,7 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
-Version:	0.53.7
+Version:	0.53.9
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -65,14 +65,11 @@ pushd build
 	DESTDIR=%{buildroot}
 popd
 
-# Remove .sql files, we'll ship them with -extensions  subpackages.
+# Remove .sql files, we'll ship them with -extensions subpackages.
 %{__rm} -f %{buildroot}/%{_datadir}/pgsql/*.sql
 
 %{__mkdir} -p %{buildroot}/%{_sysconfdir}/
 %{__cp} examples/dbt2_profile %{buildroot}/%{_sysconfdir}/dbt2_profile.conf
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
@@ -83,6 +80,10 @@ popd
 %{_mandir}/man1/dbt2*
 
 %changelog
+* Fri Feb 16 2024 Devrim Gündüz <devrim@gunduz.org> - 0.53.9-1PGDG
+- Update to 0.53.9
+- Fix rpmlint warnings
+
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.7-1PGDG
 - Update to 0.53.7
 - Add SLES 15 support
@@ -95,7 +96,7 @@ popd
 - Add PGDG branding
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.50.1-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Tue Mar 7 2023 Devrim Gündüz <devrim@gunduz.org> - 0.50.1-1
 - Update to 0.50.1
