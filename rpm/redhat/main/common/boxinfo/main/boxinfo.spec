@@ -17,6 +17,9 @@ highly developed Postgres section. It was developed at End Point
 Corporation by Greg Sabino Mullane.
 
 %prep
+%if 0%{?suse_version} >= 1315
+%{__cp} -p %{SOURCE0} .
+%endif
 
 %build
 
