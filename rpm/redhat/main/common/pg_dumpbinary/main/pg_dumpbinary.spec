@@ -1,6 +1,6 @@
 Summary:	Dump a PostgreSQL database with data dumped in binary format
 Name:		pg_dumpbinary
-Version:	2.14
+Version:	2.15
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/lzlabs/%{name}/archive/v%{version}.tar.gz
@@ -41,6 +41,10 @@ pg_restorebinary.
 %{_mandir}/man1/pg_restorebinary.1p.gz
 
 %changelog
+* Fri Feb 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.15-1PGDG
+- Update to 2.15, per changes described at:
+  https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.15
+
 * Wed Jan 10 2024 Devrim Gündüz <devrim@gunduz.org> - 2.14-1PGDG
 - Update to 2.14, per changes described at:
   https://github.com/lzlabs/pg_dumpbinary/releases/tag/v2.14
