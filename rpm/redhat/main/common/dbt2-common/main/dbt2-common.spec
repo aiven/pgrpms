@@ -11,7 +11,7 @@ URL:		https://github.com/osdldbt/%{sname}/
 Patch0:		%{sname}-cmakelists-rpm.patch
 Patch1:		%{sname}-profile.patch
 
-BuildRequires:	gcc-c++ openssl-devel curl-devel
+BuildRequires:	gcc-c++ openssl-devel curl-devel libev-devel
 %if 0%{?rhel} && 0%{?rhel} == 7
 BuildRequires:	cmake3
 %else
@@ -20,8 +20,10 @@ BuildRequires:	cmake => 3.2.0
 
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libexpat-devel
+Requires:	libev4
 %else
-Requires:	expat-devel
+BuildRequires:	expat-devel
+Requires:	libev
 %endif
 
 BuildRequires:	libpq5-devel
