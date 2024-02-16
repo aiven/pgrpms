@@ -13,7 +13,7 @@
 Summary:	BigQuery Foreign Data Wrapper for PostgreSQL
 Name:		bigquery_fdw
 Version:	2.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
@@ -40,20 +40,24 @@ python3 setup.py build
 %install
 python3 setup.py install --no-compile --root %{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc docs/ README.md
 %license LICENSE
 %{_bindir}/bq_client_test
 %{python3_sitelib}/%{name}/*.py
+%if 0%{?rhel} || 0%{?fedora}
 %{python3_sitelib}/%{name}/__pycache__/*.pyc
+%endif
 %dir %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info
 %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
 
 %changelog
+* Fri Feb 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0-2PGDG
+- Fix SLES 15 builds
+- Add PGDG branding
+- Fix rpmlint warning
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 2.0-1
 - Update to 2.0
 
