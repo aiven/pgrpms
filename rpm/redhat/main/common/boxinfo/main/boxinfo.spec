@@ -1,12 +1,12 @@
 Summary:	Gather information about a particular computer
 Name:		boxinfo
 Version:	1.4.0
-Release:	1%{?dist}.1
+Release:	2PGDG%{?dist}
 License:	BSD
-Source0:	http://bucardo.org/downloads/%{name}.pl
+Source0:	https://bucardo.org/downloads/%{name}.pl
 Source2:	README.%{name}
-URL:		http://bucardo.org/wiki/Boxinfo
-Buildarch:	noarch
+URL:		https://bucardo.org/wiki/Boxinfo
+BuildArch:	noarch
 
 %description
 boxinfo is a Perl script for quickly gathering all sorts of interesting
@@ -17,22 +17,17 @@ highly developed Postgres section. It was developed at End Point
 Corporation by Greg Sabino Mullane.
 
 %prep
-cp -p %{SOURCE0} .
 
 %build
 
 %install
-rm -rf %{buildroot}
+%{__rm} -rf %{buildroot}
 
-install -d -m 755 %{buildroot}%{_bindir}
-install -d -m 755 %{buildroot}%{_docdir}/%{name}
+%{__install} -d -m 755 %{buildroot}%{_bindir}
+%{__install} -d -m 755 %{buildroot}%{_docdir}/%{name}
 
-install -m 755 %{name}.pl %{buildroot}%{_bindir}/%{name}.pl
-ln -s %{_bindir}/%{name}.pl %{buildroot}/%{_bindir}/%{name}
-install -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
-
-%clean
-rm -rf %{buildroot}
+%{__install} -m 755 %{name}.pl %{buildroot}%{_bindir}/%{name}.pl
+%{__install} -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 
 %files
 %defattr(-,root,root,-)
@@ -40,6 +35,11 @@ rm -rf %{buildroot}
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
+* Fri Feb 16 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-2PGDG
+- Modernise the spec file.
+- Add PGDG branding.
+- Fix rpmlint warning.
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-1.1
 - Rebuild against PostgreSQL 11.0
 
