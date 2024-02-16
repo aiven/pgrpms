@@ -1,7 +1,7 @@
 Summary:	PostgreSQL monitoring script
 Name:		check_postgres
 Version:	2.26.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://bucardo.org/wiki/Check_postgres
@@ -10,10 +10,9 @@ BuildRequires:	perl-ExtUtils-MakeMaker
 BuildRequires:	perl-DBD-Pg >= 2.0 perl-DBI >= 1.51
 #perl-Date-Parse
 Requires:	perl-File-Temp perl-Time-HiRes perl-Digest-MD5
-%if 0%{?fedora} >= 32 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 7
 Requires:	perl-Getopt-Long
 %endif
-
 %if 0%{?suse_version} >= 1315
 Requires:	perl-Getopt-Long-Descriptive
 %endif
@@ -42,9 +41,6 @@ scripts.
 %endif
 %endif
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{name}.pl.html README.md
@@ -52,6 +48,10 @@ scripts.
 %{_bindir}/%{name}.pl
 
 %changelog
+* Fri Feb 16 2024 - Devrim Gündüz <devrim@gunduz.org> 2.26.0-2PGDG
+- Add PGDG branding
+- Fix rpmlint warning
+
 * Wed Apr 12 2023 - Devrim Gündüz <devrim@gunduz.org> 2.26.0-1
 - Update to 2.26.0
 
