@@ -51,7 +51,7 @@ CFLAGS="$CFLAGS -I%{pginstdir}/include/server -g -fPIE"; export CFLAGS
 %{__install} -d build
 pushd build
 %if 0%{?suse_version} >= 1315
-cmake ..
+cmake  -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 %else
 %cmake3 ..
 %endif
