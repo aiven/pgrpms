@@ -51,7 +51,7 @@
 
 Name:		%{sname}38
 Version:	3.8.3
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -68,11 +68,11 @@ Source6:	%{name}-pgdg-libs.conf
 
 # lz4 dependency
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	liblz4-devel
+BuildRequires:	liblz4-devel bash-completion-devel
 Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
-BuildRequires:	lz4-devel
+BuildRequires:	lz4-devel bash-completion
 Requires:	lz4
 %endif
 
@@ -435,6 +435,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Sat Feb 17 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.3-3PGDG
+- Add missing BR
+
 * Mon Jan 29 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.3-2PGDG
 - Build against Proj 9.3.X
 
