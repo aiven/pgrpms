@@ -77,7 +77,7 @@ export CFG=debug # for -g
 
 # removal of -D_FORTIFY_SOURCE from preprocessor flags seems not needed any more
 # ogdits-3.1 test suite produces same result with and without the flag
-export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
+export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO -ltirpc"
 ./configure \
 	--prefix=%{ogdi41instdir} \
 	--with-binconfigs \
@@ -89,8 +89,7 @@ export CFLAGS="$RPM_OPT_FLAGS -DDONT_TD_VOID -DUSE_TERMIO"
 %{__make}
 
 # build contributions
-%{__make} -C ogdi/tcl_interface \
-	TCL_LINKLIB="-ltcl"
+%{__make} -C ogdi/tcl_interface
 %{__make} -C contrib/gdal
 
 %install
