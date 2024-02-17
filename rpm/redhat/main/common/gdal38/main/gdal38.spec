@@ -93,7 +93,9 @@ BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 %ifnarch %{ppc64le}
+%if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	libarrow-devel
+%endif
 BuildRequires:	libdeflate-devel
 %endif
 # For 'mvn_artifact' and 'mvn_install'
