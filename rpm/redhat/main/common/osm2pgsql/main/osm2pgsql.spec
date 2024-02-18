@@ -14,15 +14,22 @@ License:	GPLv2
 Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/%{sname}-dev/%{sname}
 
-BuildRequires:	make gcc-c++ cmake libtool boost-devel bzip2-devel
-BuildRequires:	catch2-devel catch2-static clang-tools-extra
-BuildRequires:	expat-devel fmt-devel json-devel libosmium-devel >= 2.20.0-42 libxml2-devel
-BuildRequires:	lua-devel
-BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
-BuildRequires:	protozero-devel protozero-static zlib-devel
-BuildRequires:	python3-devel python3-behave python3-osmium
-BuildRequires:	python3-psycopg2
-BuildRequires:	libpq5-devel
+BuildRequires:	make gcc-c++ cmake libtool libpq5-devel libosmium-devel >= 2.20.0-42
+BuildRequires:	libxml2-devel proj%{projmajorversion}-devel >= %{projfullversion}
+BuildRequires:	protozero-devel python3-psycopg2 python3-devel
+BuildRequires:	zlib-devel
+
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libboost_headers1_66_0-devel libbz2-devel
+BuildRequires:	Catch2-2-devel clang-tools
+BuildRequires:	libexpat-devel fmt-devel nlohmann_json-devel
+BuildRequires:	lua54-devel python3-behave
+%else
+BuildRequires:	boost-devel bzip2-devel
+BuildRequires:	catch2-devel clang-tools-extra
+BuildRequires:	expat-devel fmt-devel json-devel
+BuildRequires:	lua-devel python3-behave
+%endif
 
 Requires:	libpq5
 
@@ -76,6 +83,7 @@ popd
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-1PGDG
 - Update to 1.11.0
 - Build against Proj 9.3.1
+- Add SLES 15 support
 
 * Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.10.0-1PGDG
 - Update to 1.10.0
