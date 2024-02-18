@@ -34,7 +34,6 @@ Import tool for OpenStreetMap data to pgRouting database.
 %build
 %if 0%{?suse_version} >= 1499
 cmake .. \
-%endif
 %else
 %cmake3 .. \
 %endif
