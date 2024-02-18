@@ -7,17 +7,16 @@
 %pgdg_set_gis_variables
 
 # Override some variables:
-
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
+%global gdalfullversion %gdal38fullversion
+%global gdalmajorversion %gdal38majorversion
+%global gdalinstdir %gdal38instdir
 
 Name:		libosmium
 Version:	2.20.0
-Release:	42PGDG%{?dist}
+Release:	43PGDG%{?dist}
 Summary:	Fast and flexible C++ library for working with OpenStreetMap data
 
 License:	BSL-1.0
@@ -25,7 +24,7 @@ URL:		http://osmcode.org/%{name}/
 Source0:	https://github.com/osmcode/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:	https://github.com/osmcode/osm-testdata/archive/%{testcommit}/osm-testdata-%{testcommit}.tar.gz
 
-BuildRequires:	cmake make gcc-c++
+BuildRequires:	cmake make gcc-c++ pgdg-srpm-macros >= 1.0.37
 BuildRequires:	doxygen graphviz xmlstarlet
 BuildRequires:	ruby rubygems spatialite-tools
 
@@ -97,6 +96,9 @@ cd libosmium
 %license libosmium/LICENSE
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-43PGDG
+- Rebuild against GDAL 3.8.4
+
 * Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-42PGDG
 - Initial packaging for the PostgreSQL RPM repository to support osm2pgsql
   package.
