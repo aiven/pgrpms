@@ -33,7 +33,7 @@ BuildRequires:	zlib-devel sparsehash-devel
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	liblz4-devel libbz2-devel Catch2-devel libexpat-devel
+BuildRequires:	liblz4-devel libbz2-devel Catch2-2-devel libexpat-devel
 %else
 BuildRequires:	lz4-devel bzip2-devel catch2-devel expat-devel
 BuildRequires:	catch2-static
