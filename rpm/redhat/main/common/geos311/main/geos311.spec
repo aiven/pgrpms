@@ -6,8 +6,8 @@
 %global		_geoslibdir lib64
 
 Name:		%{sname}%{_geosversion}
-Version:	3.11.2
-Release:	2%{?dist}.1
+Version:	3.11.3
+Release:	1PGDG%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
@@ -53,10 +53,10 @@ use GEOS
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch -P  0 -p0
+%patch -P 0 -p0
 
 %if 0%{?fedora} >= 38
-%patch -P  1 -p1
+%patch -P 1 -p1
 %endif
 
 %build
@@ -84,9 +84,6 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post
 /sbin/ldconfig
 
@@ -112,6 +109,10 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 3.11.3-1PGDG
+- Update to 3.11.3
+- Add PGDG branding
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 3.11.2-2.1
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
