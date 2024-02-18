@@ -3,19 +3,20 @@
 Summary:	Import tool for OpenStreetMap data to pgRouting database
 Name:		%{sname}
 Version:	2.3.8
-Release:	4PGDG%{dist}
+Release:	5PGDG%{dist}
 License:	GPLv2
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
-BuildRequires:	gcc-c++ libpqxx-devel
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	cmake3
+BuildRequires:	gcc-c++ libpqxx-devel libpq5-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	expat-devel
+Requires:	libboost_program_options1_66_0 libpqxx-6_4
 %else
-BuildRequires:	cmake => 2.8.8
+BuildRequires:	libexpat-devel
+Requires:	boost-program-options libpqxx
 %endif
-BuildRequires:	libpq5-devel, expat-devel
-BuildRequires:	boost-devel >= 1.53 pgdg-srpm-macros
-Requires:	libpqxx boost-program-options
+BuildRequires:	cmake => 2.8.8
+BuildRequires:	boost-devel >= 1.53 pgdg-srpm-macros >= 1.0.37
 Requires:	libpq5
 
 Obsoletes:	%{sname}_15 <= 2.3.8
@@ -31,10 +32,11 @@ Import tool for OpenStreetMap data to pgRouting database.
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?rhel} && 0%{?rhel} == 7
-cmake3 .. \
+%if 0%{?suse_version} >= 1499
+cmake .. \
+%endif
 %else
-%cmake .. \
+%cmake3 .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPOSTGRESQL_INCLUDE_DIR:PATH=%{_includedir} \
@@ -49,9 +51,6 @@ cd build/
 %{__rm} -rf %{buildroot}
 
 %{__make} -C build install DESTDIR=%{buildroot}
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post	-p %{_sbindir}/ldconfig
 %postun	-p %{_sbindir}/ldconfig
@@ -68,6 +67,9 @@ cd build/
 %{_datadir}/%{sname}/mapconfig_for_pedestrian.xml
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.8-5PGDG
+- Add SLES-15 support, remove RHEL 7 support.
+
 * Fri Jul 28 2023 Devrim Gündüz <devrim@gunduz.org> - 2.3.8-4PGDG
 - Rebuild against new libpqxx
 
