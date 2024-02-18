@@ -1,7 +1,6 @@
-%global debug_package %{nil}
 %global	sname ldap2pg
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 38
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -12,17 +11,17 @@
 Summary:	Synchronize Postgres roles and ACLs from any LDAP directory
 Name:		python3-%{sname}
 Version:	5.9
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Url:		https://github.com/dalibo/%{sname}
 Source0:	https://github.com/dalibo/%{sname}/archive/%{version}.tar.gz
 
 BuildRequires:	python3-devel pgdg-srpm-macros
+BuildArch:	noarch
 
 Obsoletes:	python-ldap2pg < 5.1
 
 Requires:	libpq5 >= 10.0
-
 Requires:	python3-psycopg2 python3-ldap python3-setuptools
 
 %if 0%{?rhel} == 7
@@ -75,9 +74,6 @@ Documentation and example files for the ldap2pg package.
 # We're not currently interested in packaging the test suite.
 %{__rm} -rf %{buildroot}%{python_sitearch}/%{sname}/tests
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc README.rst LICENSE
@@ -96,6 +92,10 @@ Documentation and example files for the ldap2pg package.
 %doc docs/
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 5.9-3PGDG
+- Add PGDG branding
+- Mark package as noarch.
+
 * Wed Jun 14 2023 Devrim Gündüz <devrim@gunduz.org> - 5.9-2
 - Install sample config file
 - Simplify install section, no need to use a function as we
