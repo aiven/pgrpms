@@ -76,7 +76,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.34
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.37
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
