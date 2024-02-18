@@ -33,7 +33,8 @@ for h3.
 %{__install} -d build
 pushd build
 %if 0%{?suse_version} >= 1315
-cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Release \
+	-DBUILD_SHARED_LIBS:BOOL=ON  ..
 %else
 %cmake3 -DCMAKE_BUILD_TYPE=Release ..
 %endif
