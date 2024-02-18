@@ -22,9 +22,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global	projmajorversion %proj92majorversion
-%global	projfullversion %proj92fullversion
-%global	projinstdir %proj92instdir
+%global	projmajorversion %proj93majorversion
+%global	projfullversion %proj93fullversion
+%global	projinstdir %proj93instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	33
@@ -51,7 +51,7 @@
 
 Name:		%{sname}37
 Version:	3.7.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -430,6 +430,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Sun Feb 18 2024 Devrim Gunduz <devrim@gunduz.org> - 3.7.3-2PGDG
+- Rebuild against Proj 9.3.1
+
 * Tue Feb 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.7.3-1PGDG
 - Update to 3.7.3, per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.7.3/NEWS.md
