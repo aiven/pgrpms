@@ -50,10 +50,9 @@ A fast and flexible C++ library for working with OpenStreetMap data.
 Summary:	Development files for %{name}
 Provides:	%{name}-static = %{version}-%{release}
 
-Requires:	boost-devel expat-devel zlib-devel bzip2-devel
 Requires:	protozero-devel >= %{protozero_version}
 Requires:	gdalcpp-devel >= %{gdalcpp_version}
-Requires:	lz4-devel sparsehash-devel
+Requires:	sparsehash-devel
 Requires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 Requires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 
