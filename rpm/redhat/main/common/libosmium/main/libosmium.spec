@@ -59,6 +59,7 @@ Requires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 This package contains libraries and header files for developing
 applications that use %{name}.
 
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 %package	doc
 Summary:	Documentation for %{name}
 BuildArch:	noarch
@@ -66,6 +67,7 @@ BuildArch:	noarch
 %description	doc
 This package contains documentation for developing
 applications that use %{name}.
+%endif
 
 %prep
 %setup -q -c -T -a 0 -a 1
@@ -83,7 +85,9 @@ cd libosmium
 	-DGEOS_LIBRARY=%{geosinstdir}/lib64/libgeos.so -DGEOS_INCLUDE_DIR=%{geosinstdir}/include
 
 %cmake_build
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 %cmake_build --target doc
+%endif
 
 %install
 cd libosmium
@@ -95,9 +99,11 @@ cd libosmium
 %license %{name}/LICENSE
 %{_includedir}/osmium
 
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 %files doc
 %doc libosmium/%{__cmake_builddir}/doc/html/*
 %license libosmium/LICENSE
+%endif
 
 %changelog
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-43PGDG
