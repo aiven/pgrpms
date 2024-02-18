@@ -3,7 +3,6 @@
 
 %global testcommit ecfdeb0d5ffcfcb60939651d517d5d7d1bb041a3
 
-%define debug_package %{nil}
 %pgdg_set_gis_variables
 
 # Override some variables:
@@ -31,11 +30,17 @@ BuildRequires:	ruby rubygems spatialite-tools
 BuildRequires:	catch2-devel boost-devel lz4-devel
 BuildRequires:	protozero-devel >= %{protozero_version}
 BuildRequires:	gdalcpp-devel >= %{gdalcpp_version}
-BuildRequires:	expat-devel zlib-devel bzip2-devel sparsehash-devel
+BuildRequires:	expat-devel zlib-devel sparsehash-devel
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
-
 BuildRequires:	catch2-static protozero-static gdalcpp-static
+%if 0%{?suse_version} >= 1500
+BuildRequires:  libbz2-devel
+%else
+BuildRequires:	bzip2-devel
+%endif
+
+BuildArch:	noarch
 
 %description
 A fast and flexible C++ library for working with OpenStreetMap data.
