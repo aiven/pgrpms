@@ -2,13 +2,13 @@
 
 %pgdg_set_gis_variables
 
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
+%global projmajorversion %proj93majorversion
+%global projfullversion %proj93fullversion
+%global projinstdir %proj93instdir
 
 Summary:	Import map data from OpenStreetMap to a PostgreSQL database
 Name:		%{sname}
-Version:	1.10.0
+Version:	1.11.0
 Release:	1PGDG%{?dist}
 License:	GPLv2
 Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
@@ -73,6 +73,10 @@ popd
 %{_datadir}/%{sname}/*.style
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-1PGDG
+- Update to 1.11.0
+- Build against Proj 9.3.1
+
 * Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.10.0-1PGDG
 - Update to 1.10.0
 
