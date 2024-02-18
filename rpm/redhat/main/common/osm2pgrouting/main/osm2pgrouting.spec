@@ -9,10 +9,10 @@ Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgRouting/%{sname}/
 BuildRequires:	gcc-c++ libpqxx-devel libpq5-devel
 %if 0%{?suse_version} >= 1315
-BuildRequires:	expat-devel
+BuildRequires:	libexpat-devel
 Requires:	libboost_program_options1_66_0 libpqxx-6_4
 %else
-BuildRequires:	libexpat-devel
+BuildRequires:	expat-devel
 Requires:	boost-program-options libpqxx
 %endif
 BuildRequires:	cmake => 2.8.8
