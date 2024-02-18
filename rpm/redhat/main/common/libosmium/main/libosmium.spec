@@ -27,17 +27,17 @@ BuildRequires:	cmake make gcc-c++ pgdg-srpm-macros >= 1.0.37
 BuildRequires:	doxygen graphviz xmlstarlet
 BuildRequires:	ruby rubygems spatialite-tools
 
-BuildRequires:	catch2-devel boost-devel lz4-devel
-BuildRequires:	protozero-devel >= %{protozero_version}
+BuildRequires:	boost-devel protozero-devel >= %{protozero_version}
 BuildRequires:	gdalcpp-devel >= %{gdalcpp_version}
-BuildRequires:	expat-devel zlib-devel sparsehash-devel
+BuildRequires:	zlib-devel sparsehash-devel
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	catch2-static protozero-static gdalcpp-static
+BuildRequires:	protozero-static gdalcpp-static
 %if 0%{?suse_version} >= 1500
-BuildRequires:  libbz2-devel
+BuildRequires:	liblz4-devel libbz2-devel Catch2-devel libexpat-devel
 %else
-BuildRequires:	bzip2-devel
+BuildRequires:	lz4-devel bzip2-devel catch2-devel expat-devel
+BuildRequires:	catch2-static
 %endif
 
 BuildArch:	noarch
