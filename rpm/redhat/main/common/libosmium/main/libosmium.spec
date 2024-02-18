@@ -32,7 +32,6 @@ BuildRequires:	gdalcpp-devel >= %{gdalcpp_version}
 BuildRequires:	zlib-devel sparsehash-devel
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	protozero-static gdalcpp-static
 %if 0%{?suse_version} >= 1500
 BuildRequires:	liblz4-devel libbz2-devel Catch2-devel libexpat-devel
 %else
