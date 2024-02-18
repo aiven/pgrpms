@@ -4,7 +4,7 @@
 Summary:	A Hexagonal Hierarchical Geospatial Indexing System
 Name:		%{sname}
 Version:	4.1.0
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/uber/h3/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/uber/h3
@@ -33,7 +33,7 @@ for h3.
 %{__install} -d build
 pushd build
 %if 0%{?suse_version} >= 1315
-cmake ..
+cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
 %else
 %cmake3 -DCMAKE_BUILD_TYPE=Release ..
 %endif
@@ -76,5 +76,8 @@ popd
 /usr/lib/cmake/%{sname}/*.cmake
 
 %changelog
+* Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2PGDG
+- Fix SLES-15 builds
+
 * Sat Nov 4 2023 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1PGDG
 - Initial packaging of H3 to support h3-pg extension.
