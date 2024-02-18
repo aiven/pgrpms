@@ -22,9 +22,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global	projmajorversion %proj92majorversion
-%global	projfullversion %proj92fullversion
-%global	projinstdir %proj92instdir
+%global	projmajorversion %proj93majorversion
+%global	projfullversion %proj93fullversion
+%global	projinstdir %proj93instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	32
@@ -51,7 +51,7 @@
 
 Name:		%{sname}36
 Version:	3.6.4
-Release:	6PGDG%{?dist}
+Release:	7PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -76,7 +76,7 @@ BuildRequires:	lz4-devel
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.34
+BuildRequires:	cmake gcc-c++ pgdg-srpm-macros >= 1.0.37
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -430,6 +430,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Sun Feb 18 2024 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-7PGDG
+- Rebuild against Proj 9.3.1
+
 * Mon Jan 15 2024 Devrim Gunduz <devrim@gunduz.org> - 3.6.4-6PGDG
 - Rebuild against armadillo 12 on RHEL 9, 8 and Fedora.
 
