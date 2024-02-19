@@ -63,6 +63,12 @@ top like application for PostgreSQL server activity monitoring.
 %setup -q -n %{name}-%{version}
 
 %build
+# Change the name of the Python module in the source code. SLES packages
+# this module in a different name:
+%if 0%{?suse_version} >= 1500
+find . -type f -exec sed -i 's/blessed/blessings/g' {} +
+%endif
+
 %{__ospython} setup.py build
 
 %install
