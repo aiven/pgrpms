@@ -5,11 +5,11 @@
 
 Name:		selinux-pgsql-pgdg
 Version:	1.5.0
-Release:	1%{dist}
+Release:	3PGDG%{dist}
 Summary:	SELinux policy module for PostgreSQL from the PGDG
 License:	PostgreSQL
-Url:		http://github.com/dalibo/selinux-pgsql-pgdg
-Source0:	https://github.com/dalibo/selinux-pgsql-pgdg/archive/refs/tags/1.5.0.tar.gz
+Url:		http://github.com/dalibo/%{name}
+Source0:	https://github.com/dalibo/%{name}/archive/refs/tags/%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	gcc make
@@ -44,9 +44,6 @@ do
 	%{buildroot}%{_datadir}/selinux/${selinuxvariant}/%{modulename}.pp
 done
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post
 for selinuxvariant in %{selinux_variants}
 do
@@ -70,6 +67,10 @@ fi
 %doc README.md
 
 %changelog
+* Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-3PGDG
+- Add PGDG branding
+- Fix rpmlint warning
+
 * Wed Mar 24 2021 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-2
 - Minor rpmlint fixes
 
