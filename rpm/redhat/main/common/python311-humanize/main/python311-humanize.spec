@@ -2,11 +2,11 @@
 %global sname humanize
 %global __ospython %{_bindir}/python3.11
 
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%{!?python311_sitearch: %global python311_sitearch %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(2))")}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%global python311_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Name:		python311-%{sname}
-Version:	4.9.0
+Version:	3.13.1
 Release:	42PGDG%{?dist}
 Summary:	Turns dates in to human readable format, e.g '3 minutes ago'
 
@@ -41,20 +41,17 @@ done
 
 # Remove .po files
 find -name '*.po' -delete
-echo "
-[tool.hatch.metadata]
-allow-direct-references = true
-allow-ambiguous-features = true
-" >> pyproject.toml
 
 %build
-%pyproject_wheel
+%{__ospython} setup.py build
 
 %install
-%pyproject_install
+%{__ospython} setup.py install --no-compile --root %{buildroot}
 
-%files -n python3-%{sname} -f %{pyproject_files}
+%files
 %doc README.md
+%{python311_sitelib}/humanize-0.0.0-py%{py3ver}.egg-info/*
+%{python311_sitelib}/humanize/*
 
 %changelog
 * Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.13.1-42PGDG
