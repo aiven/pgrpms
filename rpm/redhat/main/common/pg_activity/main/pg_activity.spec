@@ -1,12 +1,14 @@
-%{!?with_python3:%global with_python3 1}
-
 %if 0%{?rhel} == 8
 %global __ospython %{_bindir}/python3.9
-%else
+%endif
+%if 0%{?rhel} >= 9 || 0%{?fedora}
 %global __ospython %{_bindir}/python3
 %endif
+%if 0%{?suse_version} >= 1500
+%global __ospython %{_bindir}/python3.11
+%endif
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 38 || 0%{?suse_version} >= 1500
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -17,20 +19,24 @@
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	3.4.2
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
 BuildArch:	noarch
 
 %if 0%{?rhel} == 8
+BuildRequires:	python3-setuptools >= 39.2
 Requires:	python39 python39-attrs
 Requires:	python39-six python39-psutil
 Requires:	python3-psycopg2 >= 2.9.9
 Requires:	python39-humanize >= 3.13.1
 Requires:	python39-blessed
 Requires:	python39-wcwidth
-%else
+%endif
+
+%if 0%{?rhel} >= 9 || 0%{?fedora}
+BuildRequires:	python3-setuptools >= 53.0
 Requires:	python3-blessed
 Requires:	python3 >= 3.9 python3-attrs
 Requires:	python3-six python3-psutil
@@ -39,7 +45,16 @@ Requires:	python3-humanize >= 2.6.0
 Requires:	python3-wcwidth
 %endif
 
-BuildRequires:	python3-setuptools >= 0.6.10
+%if 0%{?suse_version} >= 1500
+BuildRequires:	python311-setuptools >= 67.7.2
+Requires:	python311-blessings
+Requires:	python311 >= 3.11 python311-attrs
+Requires:	python311-six python311-psutil
+Requires:	python3-psycopg3 >= 3.1.8
+Requires:	python311-humanfriendly
+Requires:	python311-wcwidth
+%endif
+
 
 %description
 top like application for PostgreSQL server activity monitoring.
@@ -66,6 +81,10 @@ top like application for PostgreSQL server activity monitoring.
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-3PGDG
+- Add SLES 15 support. Use Python 3.11 on this platform which is already
+  available in main SuSE repos.
+
 * Tue Jan 23 2024 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-2PGDG
 - Update psycopg2 dependency in RHEL 8. psycopg2 >= 2.9.9 and
   psycopg3 >= 3.1.17 are now available on this platform, so use them.
