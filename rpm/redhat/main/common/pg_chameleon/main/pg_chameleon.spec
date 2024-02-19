@@ -9,7 +9,7 @@
 Summary:	MySQL to PostgreSQL replica system
 Name:		pg_chameleon
 Version:	2.0.19
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/the4thdoctor/%{name}
@@ -44,9 +44,6 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{__rm} -rf %{buildroot}
 %{__ospython3} setup.py install --root %{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,755)
 %doc docs/ README.rst
@@ -63,6 +60,9 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{python3_sitelib}/%{name}/sql/upgrade/*.sql
 
 %changelog
+* Mon Feb 19 2024  Devrim Gündüz <devrim@gunduz.org> - 2.0.19-2PGDG
+- Add PGDG branding
+
 * Thu Mar 30 2023  Devrim Gündüz <devrim@gunduz.org> - 2.0.19-1
 - Update to 2.0.19
 
