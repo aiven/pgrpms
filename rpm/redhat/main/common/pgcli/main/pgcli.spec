@@ -5,8 +5,8 @@
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	3.5.0
-Release:	1%{?dist}
+Version:	4.0.1
+Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/dbcli/%{name}
@@ -28,7 +28,7 @@ This is a PostgreSQL client that does auto-completion and syntax highlighting.
 %package -n python3-%{name}
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting for Python 3
 
-%description  -n python3-%{name}
+%description -n python3-%{name}
 This is a build of pgcli the for the Python 3.
 
 %package -n python3-%{name}-debug
@@ -63,9 +63,6 @@ for python in %{python_runtimes} ; do
   DoInstall $python
 done
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %doc AUTHORS changelog.rst LICENSE.txt DEVELOP.rst TODO
@@ -83,6 +80,10 @@ done
 %doc LICENSE.txt
 
 %changelog
+* Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
+- Update to 4.0.1
+- Addd PGDG branding
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0
 
