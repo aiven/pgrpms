@@ -82,7 +82,7 @@ done
 %changelog
 * Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1
-- Addd PGDG branding
+- Add PGDG branding
 
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1
 - Update to 3.5.0
