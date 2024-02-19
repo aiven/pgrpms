@@ -1,7 +1,7 @@
 Summary:	Bloat check script for PostgreSQL
 Name:		pg_bloat_check
 Version:	2.8.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/keithf4/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}-LICENSE
@@ -28,15 +28,15 @@ sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" pg_bloat_check.py
 %{__install} -d -m 755 %{buildroot}%{_bindir}
 %{__install} -m 755 %{name}.py %{buildroot}%{_bindir}/
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %doc README.md CHANGELOG
 %license LICENSE
 %attr(755,root,root) %{_bindir}/%{name}.py
 
 %changelog
+* Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-2PGDG
+- Add PGDG branding
+
 * Tue Feb 14 2023 Devrim Gündüz <devrim@gunduz.org> - 2.8.0-1
 - Update to 2.8.0
 
