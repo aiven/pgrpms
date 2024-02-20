@@ -4,7 +4,7 @@
 
 Name:		pgmodeler
 Version:	1.0.6
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
 URL:		http://pgmodeler.io/
@@ -16,7 +16,7 @@ Requires:	hicolor-icon-theme shared-mime-info libpq5
 BuildRequires:	desktop-file-utils gettext libxml2-devel libpq5-devel
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1400
-BuildRequires:	libappstream-glib8 qt6-base-devel qt6-svg-devel qt6-macros
+BuildRequires:	libappstream-glib8 qt6-base-devel qt6-svg-devel qt6-macros appstream-glib
 %else
 BuildRequires:	qt6-qtbase-devel qt6-qtsvg-devel qt6-rpm-macros libappstream-glib
 %endif
@@ -39,7 +39,11 @@ by the user to SQL code and apply them onto database clusters (Version
 # CONFDIR=%%{_sysconfdir}/%%{name} \
 # LANGDIR=%%{_datadir}/locale \
 # SCHEMASDIR=%%{_sysconfdir}/%%{name} \
+%if 0%{?suse_version} >= 1400
+%qmake6 \
+%else
 %qmake_qt6 \
+%endif
  PREFIX=%{_prefix} \
  BINDIR=%{_bindir} \
  PRIVATEBINDIR=%{_libexecdir} \
@@ -68,6 +72,11 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 # License installed separately
 %{__rm} -f %{buildroot}/%{_docdir}/%{name}/LICENSE
 
+# Remove duplicate docs on SLES :
+%if 0%{?suse_version} >= 1400
+%{__rm} -f %{buildroot}%_defaultdocdir/%{name}-%{version}/*
+%endif
+
 %files
 %doc CHANGELOG.md README.md RELEASENOTES.md
 %license LICENSE
@@ -83,6 +92,9 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> 1.0.6-2PGDG
+- Add SLES 15 support
+
 * Wed Oct 18 2023 Devrim Gündüz <devrim@gunduz.org> 1.0.6-1PGDG
 - Update to 1.0.6
 
