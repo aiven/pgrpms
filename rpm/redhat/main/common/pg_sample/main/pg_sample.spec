@@ -1,12 +1,12 @@
-%global debug_package %{nil}
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
-Version:	1.13
-Release:	1%{?dist}
+Version:	1.16
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/mla/%{name}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/mla/%{name}
 Requires:	postgresql, perl-DBI, perl-DBD-Pg >= 2.0
+BuildArch:	noarch
 
 %description
 pg_sample is a utility for exporting a small, sample dataset from a
@@ -34,6 +34,11 @@ maintains referential integrity, and supports circular dependencies.
 %{_bindir}/%{name}
 
 %changelog
+* Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.16-1PGDG
+- Update to 1.16
+- Mark package as noarch
+- Add PGDG branding
+
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 1.13-1
 - Update to 1.13
 
