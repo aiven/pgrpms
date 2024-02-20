@@ -1,0 +1,46 @@
+.TH PLAC_RUNNER.PY "1" "July 2022" "" "User Commands"
+.SH NAME
+.B plac_runner.py
+\(en Runner for plac tools, plac batch files and plac tests
+.SH SYNOPSIS
+.B plac_runner.py
+.RB [ \-v ]
+.RB [ \-i ]
+.RB [ \-m ]
+.RB [ \-s\ \fISERVE ]
+.RB [ \-b ]
+.RB [ \-t ]
+.RI [ '' ]
+.RI [ extra \ ...]
+.SH OPTIONS
+.SS "POSITIONAL ARGUMENTS"
+.TP
+.I ''
+script to run
+.RB ( .py
+or
+.B .plac
+or
+.BR .placet )
+.TP
+.I extra
+additional arguments
+.SS "OPTIONAL ARGUMENTS"
+.TP
+.B \-v\fR, \fB\-\-verbose
+verbose mode
+.TP
+.B \-i\fR, \fB\-\-interactive
+run plac tool in interactive mode
+.TP
+.B \-m\fR, \fB\-\-multiline
+run plac tool in multiline mode
+.TP
+.B \-s\ \fISERVE\fR, \fB\-\-serve\ \fISERVE
+run plac server
+.TP
+.B \-b\fR, \fB\-\-batch
+run plac batch files
+.TP
+.B \-t\fR, \fB\-\-test
+run plac test files
