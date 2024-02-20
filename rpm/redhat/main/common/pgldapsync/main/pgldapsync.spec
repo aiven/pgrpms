@@ -1,7 +1,6 @@
-%global debug_package %{nil}
 %global sname pgldapsync
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 38
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -11,11 +10,12 @@
 Summary:	A tool for syncing LDAP users to Postgres Roles
 Name:		%{sname}
 Version:	1.0.0
-Release:	4%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/enterprisedb/pgldapsync
 Source0:	https://github.com/EnterpriseDB/pgldapsync/archive/refs/tags/pgldapsync-%{version}.tar.gz
 
+BuildArch:	noarch
 BuildRequires:	python3-devel >= 3.5 pgdg-srpm-macros >= 1.0.17
 
 Requires:	libpq5 >= 10.0 python3-psycopg2
@@ -46,8 +46,10 @@ for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\
 %{__install} -d %{buildroot}%{_sysconfdir}/%{sname}
 %{__cp} %{sname}/config_default.ini %{sname}/config.ini.example %{buildroot}%{_sysconfdir}/%{sname}
 
-%clean
-%{__rm} -rf %{buildroot}
+# Create __pycache__ directories and their contents in SLES *too*:
+%if 0%{?suse_version}
+%py3_compile %{buildroot}%{python3_sitelib}
+%endif
 
 %files
 %defattr(-,root,root)
@@ -56,15 +58,20 @@ for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\
 %{_bindir}/%{sname}
 %{python3_sitelib}/%{sname}-%{version}-py%{pyver}.egg-info/*
 %{python3_sitelib}/%{sname}/*.py
-%{python3_sitelib}/%{sname}/__pycache__/*.pyc
 %{python3_sitelib}/%{sname}/config.ini.example
 %{python3_sitelib}/%{sname}/config_default.ini
 %{python3_sitelib}/%{sname}/ldaputils/*.py*
-%{python3_sitelib}/%{sname}/ldaputils/__pycache__/*.py*
 %{python3_sitelib}/%{sname}/pgutils/*.py
+%{python3_sitelib}/%{sname}/__pycache__/*.pyc
+%{python3_sitelib}/%{sname}/ldaputils/__pycache__/*.py*
 %{python3_sitelib}/%{sname}/pgutils/__pycache__/*.py*
 
 %changelog
+* Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-5PGDG
+- Force creation of __pycache__ directories and their contents in
+  SLES *too*.
+- Add PGDG branding
+
 * Tue Feb 14 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-4
 - Add missing dependencies, per report from Troels Arvin.
   Fixes https://redmine.postgresql.org/issues/7772
