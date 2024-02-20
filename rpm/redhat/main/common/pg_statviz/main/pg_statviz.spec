@@ -13,16 +13,17 @@ License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vyruss/%{sname}
 
-Requires:	python3-plac python3-numpy python3-psycopg2 >= 2.9.5
-Requires:	python3-six python3-matplotlib
-Requires:	python3-fonttools python3-kiwisolver python3-packaging
-Requires:	python3-argh
+Requires:	python3-plac python3-numpy python3-psycopg2 >= 2.9.3
+Requires:	python3-six python3-matplotlib python3-kiwisolver
+Requires:	python3-packaging python3-argh
 
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 Requires:	python3-cycler python3-dateutils python3-pillow
+Requires:	python3-fonttools
 %endif
 %if 0%{?suse_version} >= 1315
 Requires:	python3-Cycler python3-python-dateutil python3-Pillow
+Requires:	python3-FontTools
 %endif
 
 BuildArch:	noarch
