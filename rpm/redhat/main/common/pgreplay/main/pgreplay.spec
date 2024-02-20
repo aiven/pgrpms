@@ -4,7 +4,7 @@
 Summary:	PostgreSQL log file re-player
 Name:		%{sname}
 Version:	1.3.0
-Release:	4%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/laurenz/%{sname}/archive/%{vname}.tar.gz
 URL:		https://github.com/laurenz/%{sname}
@@ -39,11 +39,7 @@ affect you.
 
 %install
 %{__rm} -rf %{buildroot}
-
 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -52,6 +48,9 @@ affect you.
 %{_mandir}/man1/%{sname}*
 
 %changelog
+* Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-5PGDG
+- Add PGDG branding
+
 * Tue Dec 6 2022 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-4
 - Remove Advance Toolchain support from RHEL 7 - ppc64le.
 
