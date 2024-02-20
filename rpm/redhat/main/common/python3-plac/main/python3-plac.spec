@@ -46,6 +46,11 @@ in your source code.}
 # Install man file
 %{__install} -t '%{buildroot}%{_mandir}/man1' -m 0644 -p -D '%{SOURCE1}'
 
+# Create __pycache__ directories and their contents in SLES *too*:
+%if 0%{?suse_version}
+%py3_compile %{buildroot}%{python3_sitelib}
+%endif
+
 %files
 %doc CHANGES.md README.md RELEASE.md
 %{_bindir}/plac_runner.py
