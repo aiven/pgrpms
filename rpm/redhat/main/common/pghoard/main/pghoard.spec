@@ -1,9 +1,7 @@
-%global debug_package %{nil}
-
 Summary:	PostgreSQL backup daemon and restore tooling for cloud object storage
 Name:		pghoard
-Version:	2.2.2a
-Release:	1%{?dist}
+Version:	2.5.1
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/ohmu/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ohmu/%{name}
@@ -43,19 +41,20 @@ sed -e "s@#!/bin/python@#!%{_bindir}/python@" -i %{buildroot}%{_bindir}/*
 %{__install} -Dm0644 pghoard.unit %{buildroot}%{_unitdir}/pghoard.service
 %{__mkdir_p} %{buildroot}%{_localstatedir}/lib/pghoard
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc README.rst pghoard.json
-%attr (755,root,root)  %{_bindir}/pghoard*
+%attr (755,root,root) %{_bindir}/pghoard*
 %attr(0755, postgres, postgres) %{_localstatedir}/lib/pghoard
 %{_unitdir}/pghoard.service
 %{python3_sitelib}/*
 %license LICENSE
 
 %changelog
+* Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 2.5.1-1PGDG
+- Update to 2.5.1
+- Add PGDG branding
+
 * Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.2a-1
 - Update to 2.2.2a
 
