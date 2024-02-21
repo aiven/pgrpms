@@ -30,7 +30,11 @@ Source4:	%{name}.json
 
 Requires:	systemd
 
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 Requires(pre):	shadow-utils
+%else
+Requires(pre):	shadow
+%endif
 
 %description
 consul-template watches a series of templates on the file system, writing

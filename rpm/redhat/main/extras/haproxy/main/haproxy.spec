@@ -24,7 +24,12 @@ Source5:	halog.1
 BuildRequires:	gcc lua-devel pcre2-devel make
 BuildRequires:	openssl-devel systemd-devel systemd
 
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 Requires(pre):	shadow-utils
+%else
+Requires(pre):	shadow
+%endif
+
 %{?systemd_requires}
 
 %description
