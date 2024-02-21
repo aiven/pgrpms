@@ -14,7 +14,7 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.53.7
+Version:	0.53.9
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -146,6 +146,9 @@ popd
 %endif
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 0.53.9-1PGDG
+- Update to 0.53.9
+
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 0.53.7-1PGDG
 - Update to 0.53.7
 - Add SLES 15 support
