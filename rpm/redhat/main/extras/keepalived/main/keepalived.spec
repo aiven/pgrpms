@@ -11,7 +11,7 @@
 Name:		keepalived
 Summary:	High Availability monitor built upon LVS, VRRP and service pollers
 Version:	2.2.8
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 URL:		https://www.keepalived.org/
 Source0:	https://www.keepalived.org/software/keepalived-%{version}.tar.gz
@@ -32,7 +32,6 @@ BuildRequires:	ipset-devel
 BuildRequires:	iptables-devel
 %endif
 BuildRequires:	gcc
-BuildRequires:	systemd-units
 BuildRequires:	systemd-devel
 BuildRequires:	openssl-devel
 BuildRequires:	libnl3-devel
@@ -111,6 +110,9 @@ touch aclocal.m4 Makefile.in lib/config.h.in configure
 %{_mandir}/man8/keepalived.8*
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-2PGDG
+- Remove redundant BR.
+
 * Thu Jun 15 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.8-1
 - Initial packaging for the PostgreSQL RPM repository to support
   Patroni installations. Spec file taken from Fedora rawhide.
