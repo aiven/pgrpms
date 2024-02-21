@@ -1,11 +1,8 @@
 Name:		postgresql_autodoc
 Version:	1.41.1
-Release:	1%{?dist}.2
+Release:	2PGDG%{?dist}
 Summary:	PostgreSQL AutoDoc Utility
 License:	BSD
-# I forked this for YUM repo, because old code base was not available anymore
-# and the "official" fork does not have a release (yet)
-# https://github.com/cbbrowne/autodoc
 URL:		https://github.com/devrimgunduz/%{name}/
 Source0:	https://github.com/devrimgunduz/%{name}/archive/%{version}.tar.gz
 Patch0:		%{name}-makefile.patch
@@ -35,9 +32,6 @@ PREFIX=%{_usr} make %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 DESTDIR=%{buildroot} PREFIX=%{_usr} make install %{?_smp_mflags}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %{_bindir}/%{name}
@@ -45,7 +39,9 @@ DESTDIR=%{buildroot} PREFIX=%{_usr} make install %{?_smp_mflags}
 %{_mandir}/man1/%{name}.1.gz
 
 %changelog
-* Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 1.41.1-1.2
+* Wed Feb 21 2024 Devrim Gunduz <devrim@gunduz.org> - 1.41.1-2PGDG
+- Add PGDG branding
+
 - Modernise %patch usage, which has been deprecated in Fedora 38
 
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.41.1-1.1
