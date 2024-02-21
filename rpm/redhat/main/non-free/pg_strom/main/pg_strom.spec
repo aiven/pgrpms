@@ -17,7 +17,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0.2
+Version:	5.0.3
 Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -34,9 +34,6 @@ Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
-
-Obsoletes:	nvme_strom < 2.0
-Obsoletes:	%{sname}-%{pgmajorversion} < 2.3-2
 
 %description
 PG-Strom is an extension for PostgreSQL, to accelerate analytic queries
@@ -95,6 +92,9 @@ popd
 %endif
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-1PGDG
+- Update to 5.0-3
+
 * Sat Jan 20 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.2-1PGDG
 - Update to 5.0-2
 - Update Cuda dependency to 12.3
