@@ -8,7 +8,7 @@
 Summary:	Compare and synchronize PostgreSQL database schemas
 Name:		python3-%{sname}
 Version:	0.10.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/perseas/%{cname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/perseas/%{cname}/
@@ -32,9 +32,6 @@ Andromeda Project. This is Python 3 version.
 %{__rm} -rf %{buildroot}
 %{__ospython3} setup.py install --root %{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,755)
 %doc docs/ README.rst
@@ -45,6 +42,9 @@ Andromeda Project. This is Python 3 version.
 %{python3_sitelib}/%{sname}
 
 %changelog
+* Wed Feb 21 2024 - Devrim Gündüz <devrim@gunduz.org> 0.10.0-2-PGDG
+- Add PGDG branding
+
 * Tue Nov 8 2022 - Devrim Gündüz <devrim@gunduz.org> 0.10.0-1
 - Update to 0.10.0
 
