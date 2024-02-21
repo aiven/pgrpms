@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=.rhel8
-SPECFILE="ydiff.spec"
+SPECFILE="python3-ydiff.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global

@@ -1,6 +1,6 @@
 Name:		ydiff
 Version:	1.2
-Release:	10%{?dist}
+Release:	11PGDG%{?dist}
 Summary:	View colored, incremental diff
 URL:		https://github.com/ymattw/ydiff
 License:	BSD
@@ -42,6 +42,9 @@ Python library that implements API used by ydiff tool.
 %{python3_sitelib}/%{name}-%{version}-py%{python3_version}.egg-info
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2-11PGDG
+- Add PGDG branding
+
 * Thu Oct 1 2020 Devrim Gündüz <devrim@gunduz.org> - 1.2-10
 - Initial packaging for the PostgreSQL RPM repository to satisfy Patroni
   dependency. Took the spec file from Fedora rawhide.
