@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.36.0
+%global		_verstr	0.37.0
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -84,6 +84,10 @@ exit 0
 
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> 0.37.0-1PGDG
+- Update to 0.37.0 per changes described at
+  https://github.com/hashicorp/consul-template/releases/tag/v0.37.0
+
 * Thu Jan 4 2024 Devrim Gündüz <devrim@gunduz.org> 0.36.0-1PGDG
 - Update to 0.36.0
 
