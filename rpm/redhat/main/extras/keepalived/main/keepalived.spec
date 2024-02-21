@@ -81,6 +81,11 @@ touch aclocal.m4 Makefile.in lib/config.h.in configure
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/keepalived.service
 %{__mkdir} -p %{buildroot}%{_libexecdir}/keepalived
 
+# Remove duplicate README on SLES:
+%if 0%{?suse_version} >= 1315
+%{__rm} -f %{buildroot}%{_datadir}/doc/%{name}/README
+%endif
+
 %post
 %systemd_post keepalived.service
 
