@@ -8,7 +8,7 @@
 
 Name:		haproxy
 Version:	2.9.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
@@ -50,12 +50,24 @@ regparm_opts=
 regparm_opts="USE_REGPARM=1"
 %endif
 
-%{__make} %{?_smp_mflags} CPU="generic" TARGET="linux-glibc" USE_OPENSSL=1 USE_PCRE2=1 USE_SLZ=1 USE_LUA=1 USE_CRYPT_H=1 USE_SYSTEMD=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 DEFINE=-DMAX_SESS_STKCTR=12 ${regparm_opts} ADDINC="%{build_cflags}" ADDLIB="%{build_ldflags}"
+%{__make} %{?_smp_mflags} CPU="generic" TARGET="linux-glibc" USE_OPENSSL=1 USE_PCRE2=1 USE_SLZ=1 USE_LUA=1 USE_CRYPT_H=1 USE_SYSTEMD=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 DEFINE=-DMAX_SESS_STKCTR=12 ${regparm_opts} \
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+	ADDLIB="%{build_ldflags}" \
+%endif
+	ADDINC="%{build_cflags}"
 
-%{__make} admin/halog/halog ADDINC="%{build_cflags}" ADDLIB="%{build_ldflags}"
+%{__make} admin/halog/halog \
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+	ADDLIB="%{build_ldflags}" \
+%endif
+	ADDINC="%{build_cflags}"
 
 pushd admin/iprange
-%{__make} OPTIMIZE="%{build_cflags}" LDFLAGS="%{build_ldflags}"
+%{__make} \
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+	LDFLAGS="%{build_ldflags}" \
+%endif
+	OPTIMIZE="%{build_cflags}"
 popd
 
 %install
@@ -126,6 +138,9 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Wed Feb 21 2024 - Devrim Gündüz <devrim@gunduz.org> 2.9.5-2PGDG
+- Fix builds on SLES-15
+
 * Sat Feb 17 2024 - Devrim Gündüz <devrim@gunduz.org> 2.9.5-1PGDG
 - Update to 2.9.5 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg44603.html
