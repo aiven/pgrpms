@@ -1,7 +1,7 @@
 Summary:	Break a PostgreSQL dump file into pre-data and post-data segments
 Name:		split_postgres_dump
 Version:	1.3.3
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/Split_postgres_dump/archive/%{version}.tar.gz
 Source2:	README.%{name}
@@ -30,15 +30,15 @@ indexes, constraints, and triggers.
 %{__install} -m 755 %{name} %{buildroot}%{_bindir}/
 %{__install} -m 644 %{SOURCE2} %{buildroot}%{_docdir}/%{name}/
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %attr(755,root,root) %{_bindir}/%{name}
 %attr(644,root,root) %{_docdir}/%{name}/README.%{name}
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-3PGDG
+- Add PGDG branding
+
 * Mon Oct 15 2018 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-2.1
 - Rebuild against PostgreSQL 11.0
 
