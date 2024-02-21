@@ -1,5 +1,7 @@
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 %global		debug_package %{nil}
 %global		_missing_build_ids_terminate_build 0
+%endif
 
 # Consul does not provide tarballs for ppc64le:
 ExcludeArch:	ppc64le
@@ -12,7 +14,7 @@ ExcludeArch:	ppc64le
 %endif
 
 Name:		consul
-Version:	1.17.2
+Version:	1.17.3
 Release:	1PGDG%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
@@ -84,9 +86,6 @@ exit 0
 %postun
 %systemd_postun_with_restart %{name}.service
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %dir %attr(750, root, consul) %{_sysconfdir}/%{name}.d
@@ -98,6 +97,11 @@ exit 0
 %doc
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> 1.17.3-1PGDG
+- Update to 1.17.3, per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.17.3
+- Enable builds on SLES-15.
+
 * Tue Jan 23 2024 Devrim Gündüz <devrim@gunduz.org> 1.17.2-1PGDG
 - Update to 1.17.2, per changes described at:
   https://github.com/hashicorp/consul/releases/tag/v1.17.2
