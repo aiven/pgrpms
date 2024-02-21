@@ -1,7 +1,7 @@
 Summary:	Check Log Files and Mail Related Parties
 Name:		tail_n_mail
 Version:	3.3.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/bucardo/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/bucardo/tail_n_mail
@@ -29,15 +29,15 @@ at End Point Corporation by Greg Sabino Mullane.
 ln -s %{_bindir}/%{name} %{buildroot}/%{_bindir}/%{name}.pl
 %{__install} -m 644 README.md %{buildroot}%{_docdir}/%{name}/
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %attr(755,root,root) %{_bindir}/%{name}*
 %attr(644,root,root) %{_docdir}/%{name}/README.md
 
 %changelog
+* Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-2PGDG
+- Add PGDG branding
+
 * Wed Mar 10 2021 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1
 - Update to 3.3.0
 
