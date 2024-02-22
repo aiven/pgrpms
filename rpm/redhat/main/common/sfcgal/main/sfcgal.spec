@@ -28,7 +28,7 @@ Version:	1.5.1
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-Release:	2%{?dist}
+Release:	2PGDG%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
@@ -128,6 +128,7 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 
 %changelog
 * Wed Feb 21 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.10-2PGDG
+- Add PGDG branding
 - Switch back to boot 1.66 on SLES 15, which is the version in the
   SuSE repos.
 
