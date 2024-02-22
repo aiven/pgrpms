@@ -1,7 +1,7 @@
 Summary:	Thread-safe hash algorithms library
 Name:		mhash
 Version:	0.9.9.9
-Release:	2%{dist}
+Release:	2PGDG%{dist}
 URL:		http://mhash.sourceforge.net/
 License:	LGPL
 Source:		http://downloads.sourceforge.net/sourceforge/mhash/mhash-%{version}.tar.bz2
