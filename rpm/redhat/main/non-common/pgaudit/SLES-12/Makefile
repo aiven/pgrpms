@@ -11,7 +11,7 @@
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
 DIST=".sles12"
-SPECFILE="pgaudit17.spec"
+SPECFILE="pgaudit.spec"
 
 # Now, include global Makefile
 include ../../../../global/Makefile.global
