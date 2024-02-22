@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname luapgsql
 
 %{!?luaver: %global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
@@ -10,7 +9,7 @@
 Summary:	Lua binding for PostgreSQL
 Name:		%{sname}
 Version:	1.6.7
-Release:	5PGDG%{?dist}1
+Release:	6PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
@@ -45,6 +44,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Thu Feb 22 2024 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-6PGDG
+- Enable debug package
+
 * Wed Sep 13 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-5PGDG
 - Add PGDG branding
 - Fix rpmlint warnings
