@@ -3,7 +3,7 @@
 Summary:	PAM module to authenticate using a PostgreSQL database
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.7.3.2
-Release:	5PGDG%{dist}
+Release:	6PGDG%{dist}
 Source0:	https://github.com/%{sname}/%{sname}/archive/release-%{version}.tar.gz
 
 License:	GPLv2
@@ -36,6 +36,11 @@ sh autogen.sh
 %{__rm} -rf %{buildroot}
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
+# This is generated on SLES, and we don't ship it:
+%if 0%{?suse_version} >= 1315
+%{__rm} -f %{buildroot}%{pginstdir}/lib/security/pam_pgsql.la
+%endif
+
 %post
 # Create alternatives entries for lib files
 %{_sbindir}/update-alternatives --install %{_libdir}/security/pam_pgsql.so %{sname}-so %{pginstdir}/lib/security/pam_pgsql.so %{pgmajorversion}0
@@ -52,6 +57,9 @@ libtool --finish %{pginstdir}/lib/security
 %{pginstdir}/lib/security/pam_pgsql.so
 
 %changelog
+* Thu Feb 22 2024 Devrim Gunduz <devrim@gunduz.org> - 0.7.3.2-6PGDG
+- Add SLES-15 support
+
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 0.7.3.2-5PGDG
 - Cleanup rpmlint warnings
 - Add PGDG branding
