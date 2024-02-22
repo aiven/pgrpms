@@ -13,7 +13,7 @@
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.1.2
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/munakoiso/%{sname}
 Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
@@ -80,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Thu Feb 22 2024 - Devrim Gündüz <devrim@gunduz.org> - 2.1.2-2PGDG
+- Add PGDG branding
+
 * Sun Jun 4 2023 - Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1
 - Update to 2.1.2
 - Remove patch0, no longer needed.
