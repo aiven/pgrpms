@@ -12,7 +12,7 @@
 Summary:	Extra Window Functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	3%{dist}.1
+Release:	4PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/xocolatl/%{sname}
 Source0:	https://github.com/xocolatl/%{sname}/archive/v%{version}.tar.gz
@@ -37,11 +37,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -65,9 +65,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.%{sname}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -82,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Thu Feb 22 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0-3-2PGDG
+- Add PGDG branding
+- Fix rpmling warnings
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0-3.1
 - Rebuild against LLVM 15 on SLES 15
 
