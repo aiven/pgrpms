@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.2
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -18,9 +18,9 @@ BuildRequires:	cmake => 3.0.0
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-BuildRequires:	libboost_filesystem1_84_0-devel libboost_regex1_84_0-devel
-BuildRequires:	libboost_date_time1_84_0-devel libboost_thread1_84_0-devel
-BuildRequires:	libboost_system1_84_0-devel
+BuildRequires:	libboost_filesystem1_66_0-devel libboost_regex1_66_0-devel
+BuildRequires:	libboost_date_time1_66_0-devel libboost_thread1_66_0-devel
+BuildRequires:	libboost_system1_66_0-devel
 %endif
 %else
 BuildRequires:	boost-filesystem boost-regex boost-date-time
@@ -155,6 +155,10 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Feb 22 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-5GDG
+- Relax boost dependency on SLES 15 a bit. 1.66 is the version in the
+  main SLES repos, so use that.
+
 * Wed Feb 7 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-4PGDG
 - Add SLES 15 support
 - Add PGDG branding
