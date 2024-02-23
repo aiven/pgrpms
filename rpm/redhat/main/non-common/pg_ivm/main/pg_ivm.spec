@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname	pg_ivm
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -79,6 +78,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %changelog
 * Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7-2PGDG
 - Add missing BR and Requires
+- Enable -debug* subpackages
 
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7-1PGDG
 - Update to 1.7
