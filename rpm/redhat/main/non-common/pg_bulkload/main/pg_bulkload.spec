@@ -1,4 +1,3 @@
-%global	debug_package %{nil}
 %global	pgbulkloadpackagever 3_1_21
 
 %global sname pg_bulkload
@@ -16,7 +15,7 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.21
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
@@ -68,6 +67,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 
+# Strip .so files to produce -debug* packages properly on SLES.
+%{__strip} %{buildroot}%{pginstdir}/lib/*.so
+
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -95,6 +97,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-2PGDG
+- Strip .so files to produce -debug* packages properly on SLES.
+
 * Thu Jan 18 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-1PGDG
 - Update to 3.1.21
 - Update LLVM dependencies
