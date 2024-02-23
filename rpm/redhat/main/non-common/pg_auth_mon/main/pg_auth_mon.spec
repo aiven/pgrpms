@@ -13,7 +13,7 @@
 Summary:	PostgreSQL extension to store authentication attempts
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.0
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/RafiaSabih/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/RafiaSabih/%{sname}/
@@ -46,7 +46,7 @@ BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -85,7 +85,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
-* Sun Jun 4 2023 Devrim Gunduz <devrim@gunduz.org> - 2.0.1
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 2.0-2PGDG
+- Add PGDG branding
+
+* Sun Jun 4 2023 Devrim Gunduz <devrim@gunduz.org> - 2.0-1
 - Update to 2.0
 
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0-2.1
