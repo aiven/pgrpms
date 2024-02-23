@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname pg_auto_failover
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -14,12 +13,12 @@
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.1
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
-Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 
 %description
 pg_auto_failover is an extension and service for PostgreSQL that monitors and
@@ -60,6 +59,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
+# Strip .so file to produce -debug* packages properly:
+%{__strip} %{buildroot}%{pginstdir}/lib/*.so
+
 %files
 %defattr(-,root,root,-)
 %doc CHANGELOG.md docs/
@@ -68,6 +70,7 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %{pginstdir}/lib/pgautofailover.so
 %{pginstdir}/share/extension/pgautofailover-*.sql
 %{pginstdir}/share/extension/pgautofailover.control
+
 %if %llvm
 %files llvmjit
     %{pginstdir}/lib/bitcode/pgautofailover*.bc
@@ -75,6 +78,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 2.1-2PGDG
+- Strip .so file to produce -debug* packages properly
+
 * Thu Dec 21 2023 Devrim Gunduz <devrim@gunduz.org> - 2.1-1PGDG
 - Update to 2.1, per changes described at:
   https://github.com/hapostgres/pg_auto_failover/releases/tag/v2.1
