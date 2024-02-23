@@ -3,7 +3,7 @@
 Summary:	command line tool for import XML, TEXT and BYTEA documents to PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.1.4
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/okbob/%{sname}
@@ -29,9 +29,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__install} -d %{buildroot}%{_bindir}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc README.md
@@ -39,6 +36,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Fri Feb 23 2024 - Devrim Gündüz <devrim@gunduz.org> 0.1.4-2PGDG
+- Add PGDG branding
+
 * Mon Apr 24 2023 - Devrim Gündüz <devrim@gunduz.org> 0.1.4-1
 - Update to 0.1.4
 
