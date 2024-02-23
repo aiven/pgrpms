@@ -1,11 +1,11 @@
 %global sname pg_permissions
 
-%global tarballversion REL_1_1
+%global tarballversion REL_1_2
 
 Summary:	PostgreSQL permission reports and checks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1
-Release:	3%{?dist}
+Version:	1.2
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/refs/tags/%{tarballversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/pg_permissions/
@@ -29,15 +29,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/README.%{sname}
 %{pginstdir}/share/extension/%{sname}*.*
 
 %changelog
+* Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2-1PGDG
+- Update to 1.2
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.1-3
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
