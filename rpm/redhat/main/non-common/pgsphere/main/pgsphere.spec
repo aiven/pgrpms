@@ -6,12 +6,19 @@
 Summary:	R-Tree implementation using GiST for spherical objects
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
 Source0:	https://github.com/postgrespro/pgsphere/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/postgrespro/pgsphere
-BuildRequires:	postgresql%{pgmajorversion}-devel healpix-c++-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+BuildRequires:	healpix-c++-devel
+%endif
+%if 0%{?suse_version} >= 1315
+BuildRequires:	healpix_cxx-devel
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -64,5 +71,8 @@ This packages provides JIT support for pgsphere
 %endif
 
 %changelog
+* Fri Feb 23 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.4.2-2PGDG
+- Add SLES 15 support
+
 * Thu Dec 21 2023 - Devrim Gündüz <devrim@gunduz.org> - 1.4.2-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM repository.
