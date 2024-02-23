@@ -1,5 +1,5 @@
 %global sname pg_squeeze
-%global pgsqueezerelversion 1_6_1
+%global pgsqueezerelversion 1_6_2
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,7 +13,7 @@
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.1
+Version:	1.6.2
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
@@ -85,6 +85,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 1.6.2-1PGDG
+- Update to 1.6.2
+
 * Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 1.6.1-1PGDG
 - Update to 1.6.1
 - Add PGDG branding
