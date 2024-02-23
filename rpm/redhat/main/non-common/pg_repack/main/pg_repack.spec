@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname	pg_repack
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -14,7 +13,7 @@
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/reorg/%{sname}/archive/refs/tags/ver_%{version}.tar.gz
 URL:		https://github.com/reorg/%{sname}/
@@ -83,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-2PGDG
+- Enable -debug* subpackages
+
 * Thu Nov 23 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-1PGDG
 - Update to 1.5.0
 
