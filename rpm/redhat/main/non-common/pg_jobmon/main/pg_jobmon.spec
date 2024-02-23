@@ -3,7 +3,7 @@
 Summary:	Job logging and monitoring extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.1
-Release:	2%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	http://api.pgxn.org/dist/pg_jobmon/%{version}/pg_jobmon-%{version}.zip
 URL:		https://github.com/omniti-labs/%{sname}
@@ -27,10 +27,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__install} -m 755 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
-
-%clean
-%{__rm} -rf %{buildroot}
+%{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %files
 %defattr(644,root,root,755)
@@ -40,6 +37,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-3PGDG
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-2
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
