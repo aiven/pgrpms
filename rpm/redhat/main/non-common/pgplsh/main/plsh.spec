@@ -13,7 +13,7 @@
 Summary:	Sh shell procedural language handler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20220917
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
@@ -64,9 +64,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -88,6 +85,9 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gunduz <devrim@gunduz.org> - 1.20220917-5PGDG
+- Cleanup rpmlint warning
+
 * Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20220917-4PGDG
 - Remove RHEL 6 bits
 
