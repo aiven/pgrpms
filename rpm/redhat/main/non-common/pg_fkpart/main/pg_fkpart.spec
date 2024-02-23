@@ -3,7 +3,7 @@
 Summary:	PostgreSQL extension to partition tables following a foreign key
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.7.0
-Release:	4%{?dist}
+Release:	5PGDG%{?dist}
 License:	GPLv2
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/lemoineat/pg_fkpart
@@ -28,7 +28,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
-%{__install} -m 644 README.md  %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %files
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -37,6 +37,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install install DESTDIR=%{buildroo
 %{pginstdir}/share/extension/%{sname}*.sql
 
 %changelog
+* Fri Feb 24 2024  Devrim Gündüz <devrim@gunduz.org> - 1.7.0-5PGDG
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-4
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
