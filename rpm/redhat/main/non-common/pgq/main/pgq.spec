@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname pgq
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -14,7 +13,7 @@
 Summary:	Generic Queue for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.5.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}/
@@ -87,6 +86,9 @@ export PG_CONFIG=%{pginstdir}/bin/pg_config
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-2PGDG
+- Enable -debug* subpackages
+
 * Fri Sep 8 2023 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-1PGDG
 - Update to 3.5.1
 - Add PGDG branding
