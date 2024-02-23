@@ -14,10 +14,12 @@
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
 Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
 Incremental View Maintenance (IVM) is a way to make materialized views
@@ -75,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7-2PGDG
+- Add missing BR and Requires
+
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.7-1PGDG
 - Update to 1.7
 
