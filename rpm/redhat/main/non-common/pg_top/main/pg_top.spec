@@ -3,7 +3,7 @@
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.7.0
-Release:	9%{?dist}
+Release:	10PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
@@ -29,15 +29,13 @@ PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
 %ifarch ppc64 ppc64le
 	--build=power \
 %endif
-	--prefix=%{pginstdir}
+	--prefix=%{pginstdir} \
+	--libdir=%{pginstdir}/lib
 %{__make} %{?_smp_mflags} CFLAGS="%{optflags}"
 
 %install
 %{__rm} -rf %{buildroot}
 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post
 %{_sbindir}/update-alternatives --install /usr/bin/pg_top pg_top %{pginstdir}/bin/%{sname} %{pgmajorversion}0
@@ -47,7 +45,7 @@ PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
 %postun
 if [ "$1" -eq 0 ]
 then
-      	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
+	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
 	%{_sbindir}/update-alternatives --remove pg_top %{pginstdir}/bin/%{sname}
 	%{_sbindir}/update-alternatives --remove pg_topman  %{pginstdir}/share/man/man1/pg_top.1
 fi
@@ -60,6 +58,9 @@ fi
 %{pginstdir}/share/man/man1/pg_top.1
 
 %changelog
+* Sun Feb 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-10PGDG
+- Add PGDG branding
+
 * Mon Dec 05 2022 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-9
 - Get rid of AT and switch to GCC on RHEL 7 - ppc64le
 
