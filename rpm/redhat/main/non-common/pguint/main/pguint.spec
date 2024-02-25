@@ -12,8 +12,8 @@
 
 Summary:	Unsigned and other extra integer types for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20220601
-Release:	3%{?dist}.1
+Version:	1.20231206
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
@@ -43,11 +43,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -69,9 +69,6 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
@@ -88,6 +85,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Sun Feb 25 2024 Devrim Gunduz <devrim@gunduz.org> - 1.20231206-1PGDG
+- Update to 1.20231206
+- Add PGDG branding
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20220601-3.1
 - Rebuild against LLVM 15 on SLES 15
 
