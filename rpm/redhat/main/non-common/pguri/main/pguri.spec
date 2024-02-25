@@ -13,12 +13,12 @@
 Summary:	uri type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20151224
-Release:	4%{?dist}.1
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/pguri
-BuildRequires:	postgresql%{pgmajorversion}-devel, uriparser-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server, uriparser
+BuildRequires:	postgresql%{pgmajorversion}-devel uriparser-devel pgdg-srpm-macros
+Requires:	postgresql%{pgmajorversion}-server uriparser
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.20151224-2
 
@@ -49,11 +49,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -68,15 +68,13 @@ This packages provides JIT support for pguri
 %setup -q -n %{sname}-%{version}
 
 %build
+#export PG_CPPFLAGS="$PG_CPPFLAGS -Wno-int-conversion"
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -95,6 +93,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sun Feb 25 2024 Devrim Gunduz <devrim@gunduz.org> - 1.20151224-5PGDG
+- Add PGDG branding
+- Fix PostgreSQL 16 builds
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.20151224-4.1
 - Rebuild against LLVM 15 on SLES 15
 
