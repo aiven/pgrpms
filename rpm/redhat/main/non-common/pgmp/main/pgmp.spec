@@ -13,14 +13,18 @@
 Summary:	PostgreSQL Multiple Precision Arithmetic Extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	LGPL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 # Make sure that we use Python 3.
 Patch1:		%{sname}-python3.patch
 URL:		https://dvarrazzo.github.io/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel gmp-devel pgdg-srpm-macros
+%if 0%{?suse_version} >= 1315
 Requires:	gmp
+%else
+Requires:	libgmp10
+%endif
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.4-3
 
@@ -82,6 +86,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0.5-2PGDG
+- Add SLES 15 support
+
 * Mon Sep 11 2023 Devrim Gunduz <devrim@gunduz.org> - 1.0.5-1PGDG
 - Update to 1.0.5
 - Add PGDG branding
