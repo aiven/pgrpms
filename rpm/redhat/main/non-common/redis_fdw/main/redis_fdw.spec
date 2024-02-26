@@ -19,13 +19,13 @@ URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel hiredis-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
-Requires:	postgresql%{pgmajorversion}-server hiredis
+Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?rhel} && 0%{?rhel} >= 8
-Requires:	libnsl
+%if 0%{?fedora} && 0%{?rhel} >= 8
+Requires:	libnsl hiredis
 %endif
 %if 0%{?suse_version}
-Requires:	libnsl2
+Requires:	libnsl2 libhiredis1_1_0
 %endif
 
 %description
