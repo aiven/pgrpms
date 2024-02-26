@@ -7,8 +7,8 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	2.9.5
-Release:	2PGDG%{?dist}
+Version:	2.9.6
+Release:	1PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
@@ -143,6 +143,10 @@ exit 0
 %{_mandir}/man1/*
 
 %changelog
+* Mon Feb 26 2024 - Devrim Gündüz <devrim@gunduz.org> 2.9.6-1PGDG
+- Update to 2.9.6 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg44631.html
+
 * Wed Feb 21 2024 - Devrim Gündüz <devrim@gunduz.org> 2.9.5-2PGDG
 - Fix builds on SLES-15
 
