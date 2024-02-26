@@ -13,7 +13,7 @@
 Summary:	t-digest implementation for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/tvondra/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/tvondra/%{sname}
@@ -33,17 +33,6 @@ the fact that t-digests are much more compact when stored on disk.
 %package llvmjit
 Summary:	Just-in-time compilation support for tdigest
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -83,8 +72,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
  %{pginstdir}/lib/bitcode/%{sname}/*.bc
 %endif
 
-
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> 1.4.1-2PGDG
+- Update LLVM dependencies
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> 1.4.1-1PGDG
 - Update to 1.4.1
 - Add PGDG branding
