@@ -13,7 +13,7 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	5%{?dist}.1
+Release:	6PDGD%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -25,21 +25,10 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for sslutils
+Summary:	Just-in-time compilation support for sslutilss
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -51,7 +40,7 @@ This packages provides JIT support for sslutils
 %endif
 
 %prep
-%setup -q  -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{__make} %{?_smp_mflags}
@@ -67,15 +56,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{__make} %{?_smp_mflags} DEST
 %ifarch ppc64 ppc64le
 strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
-
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-%debug_package
-%endif
-%endif
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %post
 /sbin/ldconfig
@@ -98,6 +78,11 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3-6PGDG
+- Add PGDG branding
+- Add SLES 15 support
+- Update LLVM dependencies
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3-5.1
 - Rebuild against LLVM 15 on SLES 15
 
