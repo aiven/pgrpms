@@ -57,9 +57,9 @@ This packages provides JIT support for PL/Lua
 
 %build
 %if 0%{?suse_version} >= 1500
-export LUA_INCDIR="%{includedir}/lua5.4"
+export LUA_INCDIR="%{_includedir}/lua5.4"
 %else
-export LUA_INCDIR="%{includedir}"
+export LUA_INCDIR="%{_includedir}"
 %endif
 LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
 	PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
