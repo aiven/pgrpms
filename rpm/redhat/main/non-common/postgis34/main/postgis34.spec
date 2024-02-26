@@ -11,12 +11,17 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
+%global gdalfullversion %gdal38fullversion
+%global gdalmajorversion %gdal38majorversion
+%global gdalinstdir %gdal38instdir
 %global projmajorversion %proj93majorversion
 %global projfullversion %proj93fullversion
 %global projinstdir %proj93instdir
+%if 0%{?suse_version} >= 1315
+%global gdalfullversion %gdal36fullversion
+%global gdalmajorversion %gdal36majorversion
+%global gdalinstdir %gdal36instdir
+%endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -375,6 +380,7 @@ fi
 %changelog
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-2PGDG
 - Rebuild against PROJ 9.3
+- Rebuild against GDAL 3.8 (except SLES 15, use 3.6 there)
 
 * Fri Feb 9  2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
 - Update to 3.4.2 per changes described at:
