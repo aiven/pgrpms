@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname table_version
 
 Summary:	PostgreSQL table versioning extension
@@ -10,6 +9,7 @@ Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.
 URL:		https://github.com/linz/postgresql-tableversion/
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
+BuildArch:	noarch
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.8.0-2
 
@@ -44,6 +44,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/table_version.control
 
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-4PGDG
+- Mark package as noarch and enable -debug* subpackages.
+
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-3PGDG
 - Add PGDG branding
 - Cleanup rpmlint warning
