@@ -22,8 +22,15 @@ License:	MIT
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel lua-devel
-Requires:	postgresql%{pgmajorversion}-server lua-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server
+%if 0%{?suse_version} >= 1500
+BuildRequires:	lua54-devel
+Requires:	liblua5_4-5
+%else
+BuildRequires:	lua-devel
+Requires:	lua-libs
+%endif
 
 %description
 PL/Lua is a procedural language module for the PostgreSQL database that
