@@ -1,6 +1,5 @@
 %global _build_id_links none
 
-%global debug_package %{nil}
 %global pgtclmajorversion 3.0
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
@@ -63,6 +62,7 @@ autoconf
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-1PGDG
 - Update to 3.0.1
 - Remove patch, not needed anymore.
+- Enable -debug* subpackages
 
 * Thu Oct 26 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-3PGDG
 - Add PGDG branding
