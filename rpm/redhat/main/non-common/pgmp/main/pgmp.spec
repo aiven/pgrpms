@@ -21,9 +21,9 @@ Patch1:		%{sname}-python3.patch
 URL:		https://dvarrazzo.github.io/pgmp/
 BuildRequires:	postgresql%{pgmajorversion}-devel gmp-devel pgdg-srpm-macros
 %if 0%{?suse_version} >= 1315
-Requires:	gmp
-%else
 Requires:	libgmp10
+%else
+Requires:	gmp
 %endif
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.0.4-3
