@@ -16,18 +16,19 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server sqlite-devel
 Requires:	postgresql%{pgmajorversion}-server
-%if 0%{?fedora} >= 27
-Requires:	sqlite-libs
-%endif
-%if 0%{?rhel} <= 7
-Requires:	sqlite
+%if 0%{?suse_version} >= 1315
+# Unfortunately SLES 15 ships the libraries with -devel subpackage:
+Requires:	sqlite3-devel >= 3.7
+%else
+# All other sane distributions have a separate -libs subpackage:
+Requires:	sqlite-libs >= 3.7
 %endif
 
 %description
@@ -89,6 +90,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-2PGDG
+- Add SLES 15 support
+
 * Wed Sep 27 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1PGDG
 - Update to 2.4.0
 - Add PGDG branding
