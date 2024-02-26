@@ -1,8 +1,5 @@
 %global sname	redis_fdw
 
-# Disable tests by default.
-%{!?runselftest:%global runselftest 0}
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -16,7 +13,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Redis
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1
-Release:	3%{?dist}.2
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/nahanni/rw_redis_fdw/
 Source0:	https://github.com/nahanni/rw_redis_fdw/archive/v%{version}.tar.gz
@@ -24,38 +21,11 @@ BuildRequires:	postgresql%{pgmajorversion}-devel hiredis-devel
 BuildRequires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-server hiredis
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	glibc-devel
-%endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
 Requires:	libnsl
 %endif
-
-# Packages come from EPEL and SCL:
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
-%else
-BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
-%endif
-%endif
-
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-%endif
-
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requres:	llvm15
+%if 0%{?suse_version}
+Requires:	libnsl2
 %endif
 
 %description
@@ -78,11 +48,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -100,16 +70,8 @@ This packages provides JIT support for redis_fdw
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf  %{buildroot}
+%{__rm} -rf %{buildroot}
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-
-%check
-%if %runselftest
-PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres PGPORT=5495
-%endif
-
-%clean
-%{__rm} -rf  %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -126,6 +88,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} installcheck PG_CONFIG=%{pginstdir}/bin/p
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.1-4PGDG
+- Add PGDG branding
+- Add SLES 15 support
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.1-3.2
 - Rebuild against LLVM 15 on SLES 15
 
