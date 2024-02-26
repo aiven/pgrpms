@@ -1,7 +1,9 @@
 %global sname	pljava
 %global relver	1_6_6
 
+%if 0%{?suse_version} >= 1500
 %global debug_package %{nil}
+%endif
 
 %ifarch ppc64 ppc64le
 %global archtag	ppc64le
@@ -104,7 +106,7 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
-* Mon Feb 20 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-2PGDG
+* Mon Feb 26 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-2PGDG
 - Update dependencies
 
 * Tue Nov 21 2023 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-1PGDG
