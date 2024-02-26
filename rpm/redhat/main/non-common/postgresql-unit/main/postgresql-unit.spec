@@ -13,7 +13,7 @@
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	7.7
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ChristophBerg/%{sname}
@@ -41,11 +41,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm13-devel clang13-devel
+BuildRequires:	llvm13-devel clang13-devel
 Requires:	llvm13
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -64,13 +64,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/doc/extension
 %{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(644,root,root,755)
@@ -88,6 +85,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH  %{__make} %{?_smp_mflags} install DESTD
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 7.7-2PGDG
+- Add PGDG branding
+- Fix rpmlint warnings
+
 * Mon Apr 24 2023 Devrim Gündüz <devrim@gunduz.org> - 7.7-1
 - Update to 7.7
 
