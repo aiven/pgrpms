@@ -13,7 +13,7 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	6PDGD%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
