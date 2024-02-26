@@ -14,9 +14,9 @@
 %global gdalfullversion %gdal36fullversion
 %global gdalmajorversion %gdal36majorversion
 %global gdalinstdir %gdal36instdir
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
+%global projmajorversion %proj93majorversion
+%global projfullversion %proj93fullversion
+%global projinstdir %proj93instdir
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -46,7 +46,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -373,6 +373,9 @@ fi
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-2PGDG
+- Rebuild against PROJ 9.3
+
 * Fri Feb 9  2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-1PGDG
 - Update to 3.4.2 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.2/NEWS
