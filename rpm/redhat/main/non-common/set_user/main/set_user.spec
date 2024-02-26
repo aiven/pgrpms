@@ -17,7 +17,7 @@
 Summary:	PostgreSQL extension allowing privilege escalation with enhanced logging and control
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{setusermajver}.%{setusermidver}.%{setuserminver}
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgaudit/%{sname}
 Source0:	https://github.com/pgaudit/%{sname}/archive/refs/tags/REL%{setusermajver}_%{setusermidver}_%{setuserminver}.tar.gz
@@ -74,9 +74,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 # Remove header file, we don't need to ship it:
 %{__rm} -f %{buildroot}%{pginstdir}/include/%{sname}.h
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
@@ -91,7 +88,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
-* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org>
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 4.0.1-3PGDG
+- Add PGDG branding
+
+* Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 4.0.1-2
 - Rebuild against LLVM 15 on SLES 15
 
 * Wed Feb 22 2023 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1
