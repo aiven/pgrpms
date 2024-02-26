@@ -2,6 +2,7 @@
 %global relver	1_6_6
 
 %if 0%{?suse_version} >= 1500
+%else
 %global debug_package %{nil}
 %endif
 
