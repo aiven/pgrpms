@@ -14,7 +14,7 @@
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.5
-Release:	3%{?dist}.1
+Release:	4PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{wal2json_rel}.tar.gz
 URL:		https://github.com/eulerto/wal2json
@@ -39,29 +39,17 @@ schema-qualified, data types, and transaction ids.
 %package llvmjit
 Summary:	Just-in-time compilation support for wal2json
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
 This packages provides JIT support for wal2json
 %endif
-
 
 %prep
 %setup -q -n %{sname}-%{sname}_%{wal2json_rel}
@@ -89,6 +77,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 2.5-4PGDG
+- Add PGDG branding
+- Update LLVM dependencieso
+
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.5-3.1
 - Rebuild against LLVM 15 on SLES 15
 
