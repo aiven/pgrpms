@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global sname postgresql_faker
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -14,7 +13,7 @@
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.3
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
 URL:		https://gitlab.com/dalibo/%{sname}
@@ -95,6 +94,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-5PGDG
+- Enable -debug* subpackages
+
 * Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-4PGDG
 - Fix LLVM dependency on SLES 15
 
