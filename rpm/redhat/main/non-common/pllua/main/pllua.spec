@@ -22,7 +22,7 @@ License:	MIT
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros lua-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel lua-devel
 Requires:	postgresql%{pgmajorversion}-server lua-libs
 
 %description
@@ -56,13 +56,17 @@ This packages provides JIT support for PL/Lua
 %setup -q -n %{sname}-REL_%{plluangmajver}_%{plluangmidver}_%{plluangminver}
 
 %build
-LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
+%if 0%{?suse_version} >= 1500
+export LUA_INCDIR="%{includedir}/lua5.4"
+%else
+export LUA_INCDIR="%{includedir}"
+%endif
+LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
 	PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LUA="%{_bindir}/lua" \
-	PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
@@ -90,6 +94,7 @@ LUA_INCDIR="%{includedir}" LUALIB="-L%{libdir} -l lua" LUAC="%{_bindir}/luac" LU
 %changelog
 * Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.12-2PGDG
 - Update LLVM dependencies
+- Add SLES 15 support
 
 * Mon Jul 31 2023 Devrim Gündüz <devrim@gunduz.org> - 2.0.12-1PGDG
 - Update to 2.0.12
