@@ -13,7 +13,7 @@
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.13
-Release:	2%{?dist}.1
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
@@ -45,11 +45,11 @@ Requires:	llvm5.0 >= 5.0
 %endif
 %endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:  llvm6-devel clang6-devel
+BuildRequires:	llvm6-devel clang6-devel
 Requires:	llvm6
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:  llvm15-devel clang15-devel
+BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
@@ -59,7 +59,6 @@ Requires:	llvm => 5.0
 %description llvmjit
 This packages provides JIT support for rum
 %endif
-
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -72,12 +71,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__install} -d %{buildroot}%{pginstdir}/include/server
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 # Install README and howto file under PostgreSQL installation directory:
-%{__install}  -d %{buildroot}%{pginstdir}/doc/extension
-%{__install}  -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 644 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 %{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
-
-%clean
-%{__rm} -rf %{buildroot}
 
 %files
 %defattr(-,root,root,-)
@@ -97,6 +93,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Mon Feb  26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.13-3PGDG
+- Add PGDG brandign
+
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3.13-2.1
 - Rebuild against LLVM 15 on SLES 15
 
@@ -114,7 +114,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 - Update to 1.3.8
 
 * Wed Jun 2 2021 Devrim Gündüz <devrim@gunduz.org> 1.3.7-2
-- Remove pgxs patches, and  export PATH instead.
+- Remove pgxs patches, and export PATH instead.
 
 * Wed Oct 21 2020 Devrim Gündüz <devrim@gunduz.org> 1.3.7-1
 - Update to 1.3.7
