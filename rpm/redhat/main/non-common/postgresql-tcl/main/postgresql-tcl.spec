@@ -5,15 +5,14 @@
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	%{pgtclmajorversion}.0
-Release:	3PGDG%{?dist}
+Version:	%{pgtclmajorversion}.1
+Release:	1PGDG%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
 License:	BSD
 
 Source0:	https://github.com/flightaware/Pgtcl/archive/v%{version}.tar.gz
-Patch0:		postgresql-tcl-%{version}-configure-version-fix.patch
 
 Requires:	tcl(abi) >= 8.5
 
@@ -30,7 +29,6 @@ to a PostgreSQL server.
 
 %prep
 %setup -q -n Pgtcl-%{version}
-%patch -P 0 -p0
 
 autoconf
 
@@ -62,6 +60,10 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-1PGDG
+- Update to 3.0.1
+- Remove patch, not needed anymore.
+
 * Thu Oct 26 2023 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-3PGDG
 - Add PGDG branding
 - Clean up rpmlint warnings
