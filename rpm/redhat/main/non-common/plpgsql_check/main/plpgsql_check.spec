@@ -1,6 +1,3 @@
-%global debug_package %{nil}
-%global sname plpgsql_check
-
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
   %{!?llvm:%global llvm 0}
@@ -13,7 +10,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.7.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
@@ -80,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.2-2PGDG
+- Enable -debug* subpackages
+
 * Tue Jan 23 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.2-1PGDG
 - Update to 2.7.2 per changes described at:
   https://github.com/okbob/plpgsql_check/releases/tag/v2.7.2
