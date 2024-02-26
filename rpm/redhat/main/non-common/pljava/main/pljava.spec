@@ -37,7 +37,6 @@ BuildRequires:	java-latest-openjdk-devel
 
 %if 0%{?suse_version} >= 1315
 Requires:	java-11-openjdk-headless
-%endif
 %else
 Requires:	java-headless >= 1:1.8
 %endif
