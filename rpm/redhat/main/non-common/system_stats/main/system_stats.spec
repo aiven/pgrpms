@@ -12,7 +12,7 @@
 
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0
+Version:	2.1
 Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -32,17 +32,6 @@ NULL is returned for affected values.
 %package llvmjit
 Summary:	Just-in-time compilation support for system_stats
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -84,6 +73,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 2.1-1PGDG
+- Update to 2.1
+- Update LLVM dependencies
+
 * Fri Sep 22 2023 Devrim Gunduz <devrim@gunduz.org> - 2.0-1PGDG
 - Update to 2.0
 - Add PGDG branding
