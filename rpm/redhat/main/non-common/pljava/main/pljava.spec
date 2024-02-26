@@ -12,20 +12,33 @@
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.6
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 
 Source0:	https://github.com/tada/%{sname}/archive/V%{relver}.tar.gz
 Source1:	%{sname}.pom
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	java-1_8_0-openjdk-devel
-Requires:	java-1_8_0-openjdk-headless
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	java-11-openjdk-devel
+%endif
+%if 0%{?rhel} == 9
+BuildRequires:	java-17-openjdk-devel
+%endif
+%if 0%{?rhel} < 9 && 0%{?rhel} >= 7
+BuildRequires:	java-latest-openjdk-devel
+%endif
+%if 0%{?fedora}
+BuildRequires:	java-latest-openjdk-devel
+%endif
+
+%if 0%{?suse_version} >= 1315
+Requires:	java-11-openjdk-headless
 %endif
 %else
-BuildRequires:	java-1.8.0-openjdk-devel
 Requires:	java-headless >= 1:1.8
 %endif
 
@@ -92,6 +105,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Mon Feb 20 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-2PGDG
+- Update dependencies
+
 * Tue Nov 21 2023 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-1PGDG
 - Update to 1.6.6
 
