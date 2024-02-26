@@ -10,14 +10,19 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
+%global gdalfullversion %gdal38fullversion
+%global gdalmajorversion %gdal38majorversion
+%global gdalinstdir %gdal38instdir
+%global projmajorversion %proj93majorversion
+%global projfullversion %proj93fullversion
+%global projinstdir %proj93instdir
+%global libgeotiffmajorversion 17
+%global libgeotiffinstdir %libgeotiff17instdir
+%if 0%{?suse_version} >= 1315
 %global gdalfullversion %gdal36fullversion
 %global gdalmajorversion %gdal36majorversion
 %global gdalinstdir %gdal36instdir
-%global projmajorversion %proj92majorversion
-%global projfullversion %proj92fullversion
-%global projinstdir %proj92instdir
-%global libgeotiffmajorversion 17
-%global libgeotiffinstdir %libgeotiff17instdir
+%endif
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -69,7 +74,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -395,6 +400,10 @@ fi
 %endif
 
 %changelog
+* Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.2.7-2PGDG
+- Rebuild against PROJ 9.3
+- Rebuild against GDAL 3.8 (except SLES 15, use 3.6 there)
+
 * Fri Feb 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.2.7-1PGDG
 - Update to 3.2.7, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.7/NEWS
