@@ -51,7 +51,7 @@
 
 Name:		%{sname}38
 Version:	3.8.4
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -92,6 +92,7 @@ BuildRequires:	g2clib-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
+BuildRequires:	libarchive-devel
 %ifnarch %{ppc64le}
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	libarrow-devel
@@ -437,6 +438,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Tue Feb 27 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.4-2PGDG
+- Build with libarchive to enable direct reading of files within
+  rar and 7z archives.
+
 * Sun Feb 18 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.4-1PGDG
 - Update to 3.8.4 per changes described at
   https://github.com/OSGeo/gdal/blob/v3.8.4/NEWS.md
