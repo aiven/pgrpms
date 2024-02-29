@@ -66,7 +66,7 @@ Source5:	%{sname}-cleaner.sh
 
 Source6:	%{name}-pgdg-libs.conf
 
-# lz4 dependency
+# lz4 and bash-completion dependencies
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	liblz4-devel bash-completion-devel
 Requires:	liblz4-1
@@ -189,8 +189,14 @@ BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
 
-# Run time dependency for gpsbabel driver
+# Run time dependencies
 Requires:	gpsbabel
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+Requires:	libarchive
+%endif
+%if 0%{?suse_version} >= 1499
+Requires: libarchive13
+%endif
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 
