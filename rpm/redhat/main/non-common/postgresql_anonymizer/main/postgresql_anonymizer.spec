@@ -12,7 +12,7 @@
 
 Summary:	Anonymization & Data Masking for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2.0
+Version:	1.3.1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.gz
@@ -89,6 +89,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Mar 4 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1PGDG
+- Update to 1.3.1
+
 * Tue Jan 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1PGDG
 - Update to 1.2.0
 
