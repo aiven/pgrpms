@@ -1,24 +1,60 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	39PGDG
+Release:	40PGDG
 Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky / AlmaLinux
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
+
+# RHEL 7:
 %if 0%{?rhel} && 0%{?rhel} == 7
+%ifarch aarch64
+Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64-RHEL7
+Source2:	pgdg-redhat-all-rhel7-aarch64.repo
+%endif
+%ifarch ppc64le x86_64
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL7
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-%endif
 Source2:	pgdg-redhat-all-rhel7.repo
-Source3:	pgdg-redhat-all-rhel8.repo
-Source4:	pgdg-redhat-all-rhel9.repo
+%endif
+%endif
+
+# RHEL 8
+%if 0%{?rhel} && 0%{?rhel} == 8
+%ifarch aarch64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
+Source2:	pgdg-redhat-all-rhel8-aarch64.repo
+%endif
+%ifarch ppc64le
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel8-ppc64le.repo
+%endif
+%ifarch x86_64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel8.repo
+%endif
+%endif
+
+# RHEL 9+
+%if 0%{?rhel} && 0%{?rhel} >= 9
+%ifarch aarch64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
+Source2:	pgdg-redhat-all-rhel9-aarch64.repo
+%endif
+%ifarch ppc64le
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel9-ppc64le.repo
+%endif
+%ifarch x86_64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel9.repo
+%endif
+%endif
+
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 
 %description
-This package contains yum configuration for Red Hat Enterprise Linux, CentOS,
-and also the GPG key for PGDG RPMs.
+This package contains yum configuration for Red Hat Enterprise Linux,
+Rocky Linux, Alma Linux and also the GPG key for PGDG RPMs.
 
 %prep
 %setup -q -c -T
@@ -35,18 +71,8 @@ and also the GPG key for PGDG RPMs.
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
-%if 0%{?rhel} && 0%{?rhel} == 7
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 8
-%{__install} -pm 644 %{SOURCE3} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 9
-%{__install} -pm 644 %{SOURCE4} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-all.repo
-%endif
 
 %files
 %defattr(-,root,root,-)
@@ -55,6 +81,9 @@ and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Tue Mar 5 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-40PGDG
+- Unify repo spec files for RHEL
+
 * Thu Jan 11 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-39PGDG
 - Use new URL for debuginfo RPMs on RHEL 8 and RHEL 9.
 
