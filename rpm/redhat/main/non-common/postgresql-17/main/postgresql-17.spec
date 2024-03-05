@@ -983,7 +983,6 @@ fi
 %defattr(-,root,root)
 %doc %{pgbaseinstdir}/doc/extension/*.example
 %{pgbaseinstdir}/lib/_int.so
-%{pgbaseinstdir}/lib/adminpack.so
 %{pgbaseinstdir}/lib/amcheck.so
 %{pgbaseinstdir}/lib/auth_delay.so
 %{pgbaseinstdir}/lib/autoinc.so
@@ -1051,7 +1050,6 @@ fi
 %if %uuid
 %{pgbaseinstdir}/lib/uuid-ossp.so
 %endif
-%{pgbaseinstdir}/share/extension/adminpack*
 %{pgbaseinstdir}/share/extension/amcheck*
 %{pgbaseinstdir}/share/extension/autoinc*
 %{pgbaseinstdir}/share/extension/bloom*
