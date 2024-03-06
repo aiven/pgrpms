@@ -5,7 +5,7 @@ Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	4.0
 Release:	1PGDG%{?dist}
-License:	BSD
+License:	PostgreSQL
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}_collectd.service
