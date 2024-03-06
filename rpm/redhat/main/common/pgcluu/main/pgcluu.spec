@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
-Version:	3.5
+Version:	4.0
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
@@ -58,9 +58,6 @@ of the PostgreSQL cluster and the system utilization
 %{__chown} postgres:postgres %{pgcluureportdir}
 %{__chmod} u=rwX,g=rsX,o= %{pgcluureportdir}
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root,-)
 %doc ChangeLog
@@ -76,7 +73,11 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
-* Thu Jul 13 2023 Devrim Gündüz <devrim@gunduz.org> 3.5-1
+* Wed Mar 6 2024 Devrim Gündüz <devrim@gunduz.org> 4.0-1PGDG
+- Update to 4.0 per changes described at:
+  https://github.com/darold/pgcluu/releases/tag/v4.0
+
+* Thu Jul 13 2023 Devrim Gündüz <devrim@gunduz.org> 3.5-1PGDG
 - Update to 3.5
 - Add PGDG branding
 
