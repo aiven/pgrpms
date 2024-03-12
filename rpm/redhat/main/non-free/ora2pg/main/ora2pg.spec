@@ -1,6 +1,6 @@
 Summary:	Oracle, MySQL and SQL Server to PostgreSQL database schema converter
 Name:		ora2pg
-Version:	24.1
+Version:	24.2
 Release:	1PGDG%{?dist}
 License:	GPLv3
 URL:		http://ora2pg.darold.net/
@@ -45,9 +45,6 @@ to a PostgreSQL database.
 %{__rm} -f `find %{buildroot}/%{_libdir}/perl*/ -name .packlist -type f`
 %{__rm} -f `find %{buildroot}/%{_libdir}/perl*/ -name perllocal.pod -type f`
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-, root, root, 0755)
 %attr(0755,root,root) %{_bindir}/%{name}
@@ -63,6 +60,9 @@ to a PostgreSQL database.
 %{_docdir}/%{name}-%{version}/*
 
 %changelog
+* Tue Mar 12 2024 Devrim Gündüz <devrim@gunduz.org> 24.2-1PGDG
+- Update to 24.2
+
 * Tue Sep 12 2023 Devrim Gündüz <devrim@gunduz.org> 24.1-1PGDG
 - Update to 24.1
 
