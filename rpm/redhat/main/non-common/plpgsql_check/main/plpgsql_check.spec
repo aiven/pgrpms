@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.7.2
-Release:	2PGDG%{?dist}
+Version:	2.7.3
+Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
@@ -79,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Tue Mar 12 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.3-1PGDG
+- Update to 2.7.3 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.7.3
+
 * Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.2-2PGDG
 - Enable -debug* subpackages
 
