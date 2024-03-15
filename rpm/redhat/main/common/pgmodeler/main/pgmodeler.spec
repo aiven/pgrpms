@@ -3,8 +3,8 @@
 %global __requires_exclude (%{_privatelibs})
 
 Name:		pgmodeler
-Version:	1.0.6
-Release:	2PGDG%{?dist}
+Version:	1.1.0
+Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
 URL:		http://pgmodeler.io/
@@ -92,6 +92,10 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Fri Mar 15 2024 Devrim Gündüz <devrim@gunduz.org> 1.1.1-1PGDG
+- Update to 1.1.1 per changes described at:
+  https://github.com/pgmodeler/pgmodeler/releases/tag/v1.1.1
+
 * Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> 1.0.6-2PGDG
 - Add SLES 15 support
 
