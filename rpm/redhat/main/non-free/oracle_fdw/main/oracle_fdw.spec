@@ -14,7 +14,7 @@
 Summary:	A PostgreSQL Foreign Data Wrapper for Oracle.
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{ofdwmajver}.%{ofdwmidver}.%{ofdwminver}
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		http://laurenz.github.io/%{sname}
 Source0:	https://github.com/laurenz/%{sname}/archive/ORACLE_FDW_%{ofdwmajver}_%{ofdwmidver}_%{ofdwminver}.tar.gz
@@ -26,9 +26,9 @@ Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-BuildRequires:	oracle-instantclient-basic >= 21.12.0.0.0
-BuildRequires:	oracle-instantclient-devel >= 21.12.0.0.0
-Requires:	oracle-instantclient-basic >= 21.12.0.0.0
+BuildRequires:	oracle-instantclient-basic >= 21.13.0.0.0
+BuildRequires:	oracle-instantclient-devel >= 21.13.0.0.0
+Requires:	oracle-instantclient-basic >= 21.13.0.0.0
 
 %description
 Provides a Foreign Data Wrapper for easy and efficient read access from
@@ -43,7 +43,7 @@ required columns as well as comprehensive EXPLAIN support.
 PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
-%{__rm} -rf  %{buildroot}
+%{__rm} -rf %{buildroot}
 PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 %check
@@ -59,8 +59,8 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
-* Mon Dec 18 2023 Devrim Gündüz <devrim@gunduz.org> 2.6.0-2PGDG
-- Rebuild against OIC 21.12.0.0.0
+* Sat Mar 16 2024 Devrim Gündüz <devrim@gunduz.org> 2.6.0-3PGDG
+- Rebuild against OIC 21.13.0.0.0
 
 * Mon Sep 11 2023 Devrim Gündüz <devrim@gunduz.org> 2.6.0-1PGDG
 - Update to 2.6.0
