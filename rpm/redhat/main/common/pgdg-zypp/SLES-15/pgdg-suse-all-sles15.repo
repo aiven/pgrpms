@@ -11,7 +11,7 @@ enabled=1
 autorefresh=1
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/common/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -25,7 +25,7 @@ enabled=0
 autorefresh=1
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/common/pgdg-suse$releasever-extras/suse/sles-$releasever-$basearch/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -38,7 +38,7 @@ enabled=1
 autorefresh=1
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/16/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -49,7 +49,7 @@ autorefresh=1
 baseurl=https://download.postgresql.org/pub/repos/zypp/15/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/15/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -60,7 +60,7 @@ autorefresh=1
 baseurl=https://download.postgresql.org/pub/repos/zypp/14/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/14/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -71,7 +71,7 @@ autorefresh=1
 baseurl=https://download.postgresql.org/pub/repos/zypp/13/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/13/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -82,7 +82,7 @@ autorefresh=1
 baseurl=https://download.postgresql.org/pub/repos/zypp/12/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/12/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -95,7 +95,7 @@ enabled=0
 autorefresh=1
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/testing/common/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -109,7 +109,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=0
-gpgkey=https://download.postgresql.org/pub/repos/zypp/testing/17/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -120,7 +120,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=0
-gpgkey=https://download.postgresql.org/pub/repos/zypp/testing/16/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -131,7 +131,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=0
-gpgkey=https://download.postgresql.org/pub/repos/zypp/testing/15/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -144,7 +144,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=0
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/common/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -157,7 +157,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/testing/common/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -170,7 +170,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/testing/17/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -181,7 +181,7 @@ autorefresh=0
 baseurl=https://download.postgresql.org/pub/repos/zypp/srpms/16/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/16/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -192,7 +192,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/testing/16/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -203,7 +203,7 @@ autorefresh=0
 baseurl=https://download.postgresql.org/pub/repos/zypp/srpms/15/suse/sles-$releasever-$basearch
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/15/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -214,7 +214,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://download.postgresql.org/pub/repos/zypp/srpms/testing/15/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -227,7 +227,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/16/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -238,7 +238,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/15/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -249,7 +249,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/14/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -260,7 +260,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/13/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -271,7 +271,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/12/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -285,7 +285,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/12/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -296,7 +296,7 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/12/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
 
@@ -307,6 +307,6 @@ enabled=0
 autorefresh=0
 type=rpm-md
 gpgcheck=1
-gpgkey=https://zypp-debuginfo.postgresql.org/debug/12/suse/sles-$releasever-$basearch/repodata/repomd.xml
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
 keeppackages=0
 priority=1
