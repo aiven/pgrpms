@@ -13,7 +13,7 @@
 Summary:	v7 UUIDs data type in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5.0
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	MPLv2.0
 Source0:	https://github.com/fboulnois/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/fboulnois/%{sname}
@@ -81,8 +81,11 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
-* Sun Feb 25 2024 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-1PGDG
-- Update to 1.4.1
+* Mon Mar 25 2024 John Harvey <john.harvey@crunchydata.com> - 1.5.0-2PGDG
+- Changelog fix
+
+* Fri Mar 22 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.0-1PGDG
+- Update to 1.5.0
 
 * Sun Feb 25 2024 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-1PGDG
 - Update to 1.4.1
