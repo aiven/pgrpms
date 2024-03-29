@@ -14,7 +14,7 @@
 
 Summary:	PostgreSQL DB2 Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
-Version:	6.0.0
+Version:	6.0.1
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -86,7 +86,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} USE_PGXS=1 %{?_smp_mf
 
 %changelog
 
-* Fri Sep 29 2023 - Devrim Gündüz <devrim@gunduz.org> 6.0.0-1
+* Fri Mar 29 2024 - Devrim Gündüz <devrim@gunduz.org> 6.0.1-1PGDG
+- Update to 6.0.1
+
+* Fri Sep 29 2023 - Devrim Gündüz <devrim@gunduz.org> 6.0.0-1PGDG
 - Update to 6.0.0
 - Add PGDG branding
 - Modernise LLVM portion of the spec file
