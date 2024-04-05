@@ -6,7 +6,7 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	3.2.2
+Version:	3.3.0
 Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
@@ -21,6 +21,7 @@ Requires:	python3-cdiff python3-psutil >= 2.0.0
 Requires:	python3-psycopg2 >= 2.5.4
 Requires:	python3-psutil >= 2.0.0
 Requires:	python3-ydiff >= 1.2
+Requires:	python3-ydiff <= 1.3
 
 %if 0%{?rhel} == 7
 Requires:	python36-click >= 4.1 python36-six >= 1.7
@@ -164,6 +165,7 @@ fi
 %doc docs README.rst postgres0.yml postgres1.yml
 %attr (755,root,root) %{_bindir}/patroni
 %attr (755,root,root) %{_bindir}/patronictl
+%attr (755,root,root) %{_bindir}/patroni_barman
 %attr (755,root,root) %{_bindir}/patroni_raft_controller
 %{_unitdir}/%{name}.service
 %{python3_sitelib}/%{name}*.egg-info
@@ -180,6 +182,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Fri Apr 5 2024 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1PGDG
+- Update to 3.3.0, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-330
+
 * Fri Jan 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.2-1PGDG
 - Update to 3.2.2, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-322
