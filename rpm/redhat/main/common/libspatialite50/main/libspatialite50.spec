@@ -1,3 +1,7 @@
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%global debug_package %{nil}
+%endif
+
 %global sname libspatialite
 %global libspatialiteinstdir	/usr/%{name}
 
@@ -14,7 +18,7 @@
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.1.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -51,7 +55,7 @@ developing applications that use %{name}.
 %build
 CFLAGS="$CFLAGS -I%{projinstdir}/include"; export CFLAGS
 CFLAGS="$CFLAGS -I%{geosinstdir}/include"; export CFLAGS
-SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib" ; export SHLIB_LINK
+SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64,%{projinstdir}/lib64" ; export SHLIB_LINK
 
 # PROJ 9x uses lib64 as the library path.
 LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -L%{projinstdir}/lib64"; export LDFLAGS
@@ -108,6 +112,10 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-4PGDG
+- Fix PROJ library path
+- Enable debuginfo packages only on SLES until I can solve the issue.
+
 * Mon Apr 1 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-3PGDG
 - Rebuild properly against Proj 9.3
 
