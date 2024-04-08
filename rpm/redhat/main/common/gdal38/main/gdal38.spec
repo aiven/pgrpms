@@ -50,8 +50,8 @@
 %global spatialite "--with-spatialite=%{libspatialiteinstdir}"
 
 Name:		%{sname}38
-Version:	3.8.4
-Release:	2PGDG%{?dist}
+Version:	3.8.5
+Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -444,6 +444,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-1PGDG
+- Update to 3.8.5 per changes described at
+  https://github.com/OSGeo/gdal/blob/v3.8.5/NEWS.md
+
 * Tue Feb 27 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.4-2PGDG
 - Build with libarchive to enable direct reading of files within
   rar and 7z archives.
