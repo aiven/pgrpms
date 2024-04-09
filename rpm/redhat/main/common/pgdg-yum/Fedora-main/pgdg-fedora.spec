@@ -36,7 +36,7 @@ key for PGDG RPMs.
 
 %changelog
 * Mon Mar 5 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-32PGDG
-- Enable debuginfo for the common repo
+- Introduce debuginfo repo for the common RPMs
 
 * Mon Jan 8 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-31PGDG
 - Use new URL for debuginfo RPMs
