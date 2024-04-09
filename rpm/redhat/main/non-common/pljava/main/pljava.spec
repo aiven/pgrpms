@@ -66,12 +66,7 @@ language and executed in the backend.
 %build
 export CLASSPATH=
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-export PATH=%{atpath}/bin/:$PATH
-%endif
-
 %ifarch ppc64 ppc64le
-# The next line is useful only on RHEL 7, for the rh-maven33 package
 export PATH=%{pginstdir}/bin
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
