@@ -51,7 +51,7 @@
 
 Name:		%{sname}38
 Version:	3.8.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -92,7 +92,9 @@ BuildRequires:	g2clib-devel
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
-BuildRequires:	libarchive-devel
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1499
+BuildRequires:	libarchive-devel >= 3.5.0
+%endif
 %ifnarch %{ppc64le}
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	libarrow-devel
@@ -192,10 +194,10 @@ BuildRequires:	qhull-devel
 # Run time dependencies
 Requires:	gpsbabel
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
-Requires:	libarchive
+Requires:	libarchive >= 3.5.0
 %endif
 %if 0%{?suse_version} >= 1499
-Requires: libarchive13
+Requires: libarchive13 >= 3.5.0
 %endif
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -260,7 +262,7 @@ BuildArch:	noarch
 This package contains the API documentation for %{name}.
 
 %package python3
-%{?python_provide:%python_provide python3-gdal}
+%{?py_provide:%py_provide python3-gdal}
 Summary:	Python modules for the GDAL file format library
 Requires:	python3-numpy
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
@@ -444,6 +446,9 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
+* Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-1PGDG
+- Disable libarchive support RHEL 8 as GDAL now requires at least 3.5.0
+
 * Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-1PGDG
 - Update to 3.8.5 per changes described at
   https://github.com/OSGeo/gdal/blob/v3.8.5/NEWS.md
