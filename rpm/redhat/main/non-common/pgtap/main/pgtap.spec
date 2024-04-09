@@ -3,7 +3,7 @@
 
 Summary:	Unit testing for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.2
+Version:	1.3.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/theory/%{sname}
@@ -60,6 +60,9 @@ popd
 %{perl_privlib}/TAP/Parser/SourceHandler/pgTAP.pm
 
 %changelog
+* Tue Apr 9 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.3-1PGDG
+- Update to 1.3.3
+
 * Mon Feb 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.2-1PGDG
 - Update to 1.3.2
 - Remove llvmjit subpackage, not built as of this version.
