@@ -1,5 +1,5 @@
 %global sname	pljava
-%global relver	1_6_6
+%global relver	1_6_7
 
 %if 0%{?suse_version} >= 1500
 %else
@@ -14,8 +14,8 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.6
-Release:	2PGDG%{?dist}
+Version:	1.6.7
+Release:	1PGDG%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 
@@ -49,6 +49,8 @@ BuildRequires:	openssl-devel krb5-devel
 
 %if 0%{?rhel} == 7
 BuildRequires:	rh-maven33
+%else
+BuildRequires:	maven
 %endif
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
@@ -107,6 +109,9 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Tue Apr 9 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.7-1PGDG
+- Update to 1.6.7
+
 * Mon Feb 26 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.6-2PGDG
 - Update dependencies
 
