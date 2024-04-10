@@ -12,13 +12,13 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global projmajorversion %proj93majorversion
-%global projfullversion %proj93fullversion
-%global projinstdir %proj93instdir
+%global projmajorversion %proj94majorversion
+%global projfullversion %proj94fullversion
+%global projinstdir %proj94instdir
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.1.0
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -112,6 +112,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Wed Apr 10 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-5PGDG
+- Rebuild against PROJ 9.4
+
 * Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-4PGDG
 - Fix PROJ library path
 - Enable debuginfo packages only on SLES until I can solve the issue.
