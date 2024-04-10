@@ -5,13 +5,13 @@
 %pgdg_set_gis_variables
 
 # Override PROJ:
-%global projmajorversion %proj93majorversion
-%global projfullversion %proj93fullversion
-%global projinstdir %proj93instdir
+%global projmajorversion %proj94majorversion
+%global projfullversion %proj94fullversion
+%global projinstdir %proj94instdir
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.1
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
@@ -135,6 +135,9 @@ EOF
 
 
 %changelog
+* Wed Apr 10 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-6PGDG
+- Rebuild against PROJ 9.4
+
 * Mon Jan 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-5PGDG
 - Rebuild against Proj 9.3
 
