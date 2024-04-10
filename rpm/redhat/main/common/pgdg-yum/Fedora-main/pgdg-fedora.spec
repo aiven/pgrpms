@@ -35,7 +35,7 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
-* Wed Apr 10 Devrim Gündüz <devrim@gunduz.org> - 42.0-32PGDG
+* Wed Apr 10 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-32PGDG
 - Introduce debuginfo repo for the common RPMs
 
 * Mon Jan 8 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-31PGDG
