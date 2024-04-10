@@ -7,31 +7,18 @@
 %pgdg_set_gis_variables
 
 # Override some variables. PostGIS 3.4 is best served with GeOS 3.12,
-# GDAL 3.6 and PROJ 9.2:
+# GDAL 3.8 and PROJ 9.4:
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
-%global projmajorversion %proj93majorversion
-%global projfullversion %proj93fullversion
-%global projinstdir %proj93instdir
-%if 0%{?suse_version} >= 1315
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
-%endif
+%global projmajorversion %proj94majorversion
+%global projfullversion %proj94fullversion
+%global projinstdir %proj94instdir
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
@@ -51,7 +38,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.2
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -378,6 +365,10 @@ fi
 %endif
 
 %changelog
+* Wed Apr 10 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-3PGDG
+- Rebuild against PROJ 9.4
+- Rebuild against GDAL 3.8 on SLES 15 as well.
+
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.4.2-2PGDG
 - Rebuild against PROJ 9.3
 - Rebuild against GDAL 3.8 (except SLES 15, use 3.6 there)
