@@ -22,9 +22,9 @@
 %global geosfullversion %geos312fullversion
 %global geosmajorversion %geos312majorversion
 %global geosinstdir %geos312instdir
-%global	projmajorversion %proj93majorversion
-%global	projfullversion %proj93fullversion
-%global	projinstdir %proj93instdir
+%global	projmajorversion %proj94majorversion
+%global	projfullversion %proj94fullversion
+%global	projinstdir %proj94instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	34
@@ -51,7 +51,7 @@
 
 Name:		%{sname}38
 Version:	3.8.5
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -446,7 +446,10 @@ done
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 
 %changelog
-* Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-1PGDG
+* Wed Apr 10 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-2PGDG
+- Build against PROJ 9.4.0
+
+* Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-2PGDG
 - Disable libarchive support RHEL 8 as GDAL now requires at least 3.5.0
 
 * Mon Apr 8 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-1PGDG
