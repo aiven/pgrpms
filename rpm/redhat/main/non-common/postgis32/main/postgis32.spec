@@ -13,16 +13,11 @@
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
-%global projmajorversion %proj93majorversion
-%global projfullversion %proj93fullversion
-%global projinstdir %proj93instdir
+%global projmajorversion %proj94majorversion
+%global projfullversion %proj94fullversion
+%global projinstdir %proj94instdir
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
-%if 0%{?suse_version} >= 1315
-%global gdalfullversion %gdal36fullversion
-%global gdalmajorversion %gdal36majorversion
-%global gdalinstdir %gdal36instdir
-%endif
 
 # Override PROJ major version on RHEL 7.
 # libspatialite 4.3 does not build against 8.0.0 as of March 2021.
@@ -74,7 +69,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
