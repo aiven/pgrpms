@@ -11,11 +11,20 @@ Summary:	Cartographic projection software (PROJ)
 
 License:	MIT
 URL:		https://proj.org
-Source0:	http://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
+Source0:	https://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
-BuildRequires:	sqlite-devel >= 3.7 gcc-c++ libcurl-devel cmake
+BuildRequires:	sqlite-devel >= 3.7 libcurl-devel cmake
 BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.38
+
+# Default GCC version on SLES 15 is not sufficient to build PROJ 9.4,
+# so use a newer one:
+%if 0%{?suse_version} >= 1315
+BuildRequires:	gcc12-c++
+%else
+# The rest is safe:
+BuildRequires:	gcc-c++
+%endif
 
 %if 0%{?suse_version} >= 1315
 # Unfortunately SLES 15 ships the libraries with -devel subpackage:
@@ -47,6 +56,10 @@ This package contains libproj and the appropriate header files and man pages.
 pushd build
 LDFLAGS="-Wl,-rpath,%{proj94instdir}/lib64 ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj94instdir}/lib64" ; export SHLIB_LINK
+
+%if 0%{?suse_version} >= 1315
+export CXX=/usr/bin/g++-12
+%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
