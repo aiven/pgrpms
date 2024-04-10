@@ -193,7 +193,7 @@ BuildRequires:	qhull-devel
 
 # Run time dependencies
 Requires:	gpsbabel
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 9
 Requires:	libarchive >= 3.5.0
 %endif
 %if 0%{?suse_version} >= 1499
