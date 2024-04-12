@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL Global Temporary Tables Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1
+Version:	3.2
 Release:	1PGDG%{?dist}
 License:	GPLv2
 Source0:	https://github.com/darold/%{sname}/archive/v%{version}.tar.gz
@@ -87,6 +87,10 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %make_install install DESTDIR=%{buildroot
 %endif
 
 %changelog
+* Fri Apr 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2-1PGDG
+- Update to 3.2 per changes described at:
+  https://github.com/darold/pgtt/releases/tag/v3.2
+
 * Tue Dec 26 2023 Devrim Gündüz <devrim@gunduz.org> - 3.1-1PGDG
 - Update to 3.1
 
