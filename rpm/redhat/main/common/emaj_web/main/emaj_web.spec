@@ -2,7 +2,7 @@
 
 Summary:	Web-based Emaj administration
 Name:		%{sname}
-Version:	4.3.1
+Version:	4.4.0
 Release:	1PGDG%{?dist}
 License:	GPL
 URL:		https://github.com/dalibo/%{sname}
@@ -45,8 +45,8 @@ perform all E-Maj operations.
 %{__install} -m 644 -p *.php %{buildroot}%{_emajwebdir}
 %{__install} -m 755 -p %{SOURCE1} %{buildroot}%{_sysconfdir}/httpd/conf.d/%{name}.conf
 %{__install} -m 755 conf/* %{buildroot}%{_sysconfdir}/%{name}
-%{__ln_s} %{_sysconfdir}/%{name}/config.inc.php %{buildroot}/%{_emajwebdir}/conf/config.inc.php
-%{__ln_s} %{_sysconfdir}/%{name}/config.inc.php-dist %{buildroot}/%{_emajwebdir}/conf/config.inc.php-dist
+%{__ln_s} -r %{_sysconfdir}/%{name}/config.inc.php %{buildroot}/%{_emajwebdir}/conf/config.inc.php
+%{__ln_s} -r %{_sysconfdir}/%{name}/config.inc.php-dist %{buildroot}/%{_emajwebdir}/conf/config.inc.php-dist
 
 %post
 /usr/bin/systemctl reload httpd.service
@@ -82,6 +82,10 @@ perform all E-Maj operations.
 %attr(644,root,root) %{_emajwebdir}/*.php
 
 %changelog
+* Sat Apr 20 2024 Devrim Gündüz <devrim@gunduz.org> - 4.4.0-1PGDG
+- Update to 4.4.0
+- Fix rpm build warning about the absolute symlink.
+
 * Wed Nov 1 2023 Devrim Gündüz <devrim@gunduz.org> - 4.3.1-1PGDG
 - Update to 4.3.1
 
