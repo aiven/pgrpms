@@ -4,7 +4,7 @@
 
 # Upstream uses - in tarball name, and spec files don't like it
 # Invented this macro to fix that.
-%global packageversion 5.0-4
+%global packageversion 5.1
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -17,7 +17,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0.4
+Version:	5.1
 Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -92,8 +92,8 @@ popd
 %endif
 
 %changelog
-* Sun Mar 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.4-1PGDG
-- Update to 5.0-4
+* Sun Mar 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1-1PGDG
+- Update to 5.1
 
 * Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-1PGDG
 - Update to 5.0-3
