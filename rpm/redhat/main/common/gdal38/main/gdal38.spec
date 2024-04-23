@@ -5,6 +5,12 @@
 
 %global sname gdal
 
+%if 0%{?fedora} == 40
+%{!?gdaljava:%global gdaljava 0}
+%else
+%{!?gdaljava:%global gdaljava 1}
+%endif
+
 %pgdg_set_gis_variables
 
 %if 0%{?fedora} >= 37
@@ -51,7 +57,7 @@
 
 Name:		%{sname}38
 Version:	3.8.5
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -243,6 +249,7 @@ Requires:	armadillo
 %description libs
 This package contains the GDAL file format library.
 
+%if %gdaljava
 # No complete java yet in EL8
 %package java
 Summary:	Java modules for the GDAL file format library
@@ -260,6 +267,7 @@ BuildArch:	noarch
 
 %description javadoc
 This package contains the API documentation for %{name}.
+%if %gdaljava
 
 %package python3
 %{?py_provide:%py_provide python3-gdal}
@@ -331,6 +339,11 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
+%if %gdaljava
+ -DBUILD_JAVA_BINDINGS=ON \
+%else
+ -DBUILD_JAVA_BINDINGS=OFF \
+%endif
  -DSWIG_REGENERATE_PYTHON=OFF
 
 %cmake_build
@@ -434,6 +447,7 @@ done
 %{gdalinstdir}/bin/rgb2pct.py
 %{gdalinstdir}/share/bash-completion/completions/*.py
 
+%if %gdaljava
 %files java
 %{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
@@ -444,8 +458,12 @@ done
 
 %files javadoc
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
+%endif
 
 %changelog
+* Tue Apr 23 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-4PGDG
+- Disable JAVA bindings on Fedora 40 until the build issue is resolved.
+
 * Wed Apr 10 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-2PGDG
 - Build against PROJ 9.4.0
 
