@@ -267,7 +267,7 @@ BuildArch:	noarch
 
 %description javadoc
 This package contains the API documentation for %{name}.
-%if %gdaljava
+%endif
 
 %package python3
 %{?py_provide:%py_provide python3-gdal}
