@@ -417,6 +417,7 @@ done
 %{gdalinstdir}/bin/%{sname}-config
 %dir %{gdalinstdir}/include/
 %{gdalinstdir}/include/*.h
+%{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
 %{gdalinstdir}/lib/*.so
 %{gdalinstdir}/lib/pkgconfig/%{sname}.pc
 
@@ -449,7 +450,6 @@ done
 
 %if %gdaljava
 %files java
-%{gdalinstdir}/lib/cmake/%{sname}/GDAL*.cmake
 %{_jnidir}/%{name}/gdal-%{version}-javadoc.jar
 %{_jnidir}/%{name}/gdal-%{version}-sources.jar
 %{_jnidir}/%{name}/gdal-%{version}.jar
