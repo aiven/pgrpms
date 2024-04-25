@@ -1,8 +1,12 @@
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
 Version:	0.5.0
-Release:	2PGDG%{dist}
+Release:	3PGDG%{dist}
 Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
+%if 0%{?fedora} == 40
+# Temp patch to be removed along with the new release:
+Patch0:		%{name}-0.5.0.patch
+%endif
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
 Group:		Development/Libraries/C and C++
@@ -21,6 +25,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 
 %prep
 %setup -q -n %{name}-%{version}
+%if 0%{?fedora} == 40
+%patch -P 0 -p1
+%endif
 
 %build
 ./configure --prefix=%{_prefix} \
@@ -43,6 +50,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Thu Apr 25 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-3PGDG
+- Add a temp patch to fix build issues on Fedora 40.
+
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-2PGDG
 - Add PGDG branding
 - Fix rpmlint warning
