@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.0.0
-Release:	3PGDG%{?dist}
+Version:	3.1.0
+Release:	1PGDG%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
@@ -77,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Fri Apr 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-1PGDG
+- Update to 3.1.0 to support latest GCC versions
+
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0.0-3PGDG
 - Add SLES 15 support
 
