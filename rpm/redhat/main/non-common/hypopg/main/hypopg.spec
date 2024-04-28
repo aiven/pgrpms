@@ -12,8 +12,8 @@
 
 Summary:	Hypothetical Indexes support for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
-Release:	2PGDG%{?dist}
+Version:	1.4.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/HypoPG/hypopg/archive/%{version}.tar.gz
 URL:		https://github.com/HypoPG/%{sname}
@@ -79,6 +79,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sun Apr 28 2024 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-1PGDG
+- Update to 1.4.1 per changes described at:
+  https://github.com/HypoPG/hypopg/releases/tag/1.4.1
+
 * Tue Aug 1 2023 Devrim Gunduz <devrim@gunduz.org> - 1.4.0-2PGDG
 - Cleanup rpmlint warnings
 - Add PGDG branding
