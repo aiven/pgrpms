@@ -12,15 +12,17 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.6.2
-Release:	2PGDG%{?dist}
+Version:	0.7.0
+Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/v%{version}.tar.gz
 
-# To be removed in 0.7.0: https://github.com/pgvector/pgvector/pull/311
+# To be removed when upstream releases a version with this patch:
+# https://github.com/pgvector/pgvector/pull/311
 Patch0:		pgvector-0.6.2-fixillegalinstructionrror.patch
+
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.27
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -75,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %{pginstdir}/lib/%{pname}.so
 %{pginstdir}/share/extension//%{pname}.control
 %{pginstdir}/share/extension/%{pname}*sql
+%dir %{pginstdir}/include/server/extension/vector/
+%{pginstdir}/include/server/extension/vector/*.h
+
 %if %llvm
 %files llvmjit
    %{pginstdir}/lib/bitcode/%{pname}*.bc
@@ -82,6 +87,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Apr 30 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-1PGDG
+- Update to 0.7.0
+
 * Wed Apr 3 2024 Devrim Gündüz <devrim@gunduz.org> - 0.6.2-2PGDG
   Add a patch to solve "illegal instruction error". This patch will be removed
   in 0.7.0 per: https://github.com/pgvector/pgvector/pull/311
