@@ -1,11 +1,11 @@
---- Makefile.old	2024-04-03 21:06:36.504702638 +0100
-+++ Makefile	2024-04-03 21:06:48.632741790 +0100
-@@ -10,7 +10,7 @@
- REGRESS = $(patsubst test/sql/%.sql,%,$(TESTS))
+--- Makefile.old	2024-04-30 11:01:09.441915857 +0100
++++ Makefile	2024-04-30 11:01:15.600010426 +0100
+@@ -11,7 +11,7 @@
  REGRESS_OPTS = --inputdir=test --load-extension=$(EXTENSION)
  
+ # To compile for portability, run: make OPTFLAGS=""
 -OPTFLAGS = -march=native
 +#OPTFLAGS = -march=native
  
- # Mac ARM doesn't support -march=native
+ # Mac ARM doesn't always support -march=native
  ifeq ($(shell uname -s), Darwin)
