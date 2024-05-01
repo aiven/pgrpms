@@ -4,7 +4,7 @@
 
 # Upstream uses - in tarball name, and spec files don't like it
 # Invented this macro to fix that.
-%global packageversion 5.1
+%global packageversion 5.1-1
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -17,7 +17,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.1
+Version:	5.1.1
 Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -59,16 +59,26 @@ This packages provides JIT support for pg_strom
 %setup -q -n pg-strom-%{packageversion}
 
 %build
+export PG_CONFIG=%{pginstdir}/bin/pg_config
+
 pushd src
-%{__make} -j 8 CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config
+%{__make} -j 8 CUDA_PATH=%{__cuda_path}
 popd
 
+%{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} arrow2csv
+%{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} pg2arrow
+
 %install
+export PG_CONFIG=%{pginstdir}/bin/pg_config
+
 %{__rm} -rf %{buildroot}
 pushd src
-%{__make} CUDA_PATH=%{__cuda_path} PG_CONFIG=%{pginstdir}/bin/pg_config DESTDIR=%{buildroot} install
+%{__make} CUDA_PATH=%{__cuda_path} DESTDIR=%{buildroot} install
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}/%{__systemd_conf}
 popd
+
+%{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} install-arrow2csv
+%{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} install-pg2arrow
 
 %post
 /sbin/ldconfig
@@ -79,7 +89,8 @@ popd
 %files
 %defattr(-,root,root,-)
 %doc LICENSE README.md
-
+%{pginstdir}/bin/arrow2csv
+%{pginstdir}/bin/pg2arrow
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/*
@@ -92,6 +103,10 @@ popd
 %endif
 
 %changelog
+* Wed May 1 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1.1-1PGDG
+- Update to 5.1-1
+- Add arrow2csv and pg2arrow binaries. Per report from KaiGai Kohei.
+
 * Sun Mar 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1-1PGDG
 - Update to 5.1
 
