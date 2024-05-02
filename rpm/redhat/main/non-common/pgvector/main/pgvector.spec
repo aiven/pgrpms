@@ -1,4 +1,4 @@
-,%global pname vector
+%global pname vector
 %global sname pgvector
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
