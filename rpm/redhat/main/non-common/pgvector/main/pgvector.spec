@@ -96,7 +96,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
-* Thu Nay 2 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2PGDG
+* Thu May 2 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2PGDG
 - Add a patch from upstream to fix extension instsallation on RHEL 8.
   https://github.com/pgvector/pgvector/issues/538
 
