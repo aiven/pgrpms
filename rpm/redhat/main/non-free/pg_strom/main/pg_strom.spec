@@ -1,5 +1,7 @@
 %global	sname	pg_strom
-%global __cuda_path	/usr/local/cuda-12.4
+%global __cuda_major_version 12
+%global __cuda_minor_version 4
+%global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -22,9 +24,9 @@ Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cuda-12-4 >= 12
+BuildRequires:	uda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
 Requires:	nvidia-kmod
-Requires:	cuda-12-4 >= 12
+Requires:	cuda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
@@ -56,20 +58,19 @@ This packages provides JIT support for pg_strom
 
 %build
 export PG_CONFIG=%{pginstdir}/bin/pg_config
+export CUDA_PATH=%{__cuda_path}
 
-pushd src
-%{__make} -j 8 CUDA_PATH=%{__cuda_path}
-popd
+%{__make} -C src %{?_smp_mflags} CUDA_PATH=%{__cuda_path}
 
 %{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} arrow2csv
 %{__make} -C arrow-tools DESTDIR=%{buildroot} PREFIX=%{pginstdir} pg2arrow
 
 %install
 export PG_CONFIG=%{pginstdir}/bin/pg_config
+export CUDA_PATH=%{__cuda_path}
 
 %{__rm} -rf %{buildroot}
-pushd src
-%{__make} CUDA_PATH=%{__cuda_path} DESTDIR=%{buildroot} install
+%{__make} -C src DESTDIR=%{buildroot} install
 %{__install} -Dpm 644 %{SOURCE1} %{buildroot}/%{__systemd_conf}
 popd
 
