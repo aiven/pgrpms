@@ -25,7 +25,8 @@ Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	cuda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
-Requires:	nvidia-kmod
+BuildRequires:	nvidia-driver-cuda-libs
+Requires:	nvidia-driver-cuda-libs
 Requires:	cuda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
