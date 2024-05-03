@@ -1,5 +1,5 @@
 %global sname wal2json
-%global wal2json_rel 2_5
+%global wal2json_rel 2_6
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
  %if 0%{?rhel} && 0%{?rhel} == 7
@@ -13,8 +13,8 @@
 
 Summary:	JSON output plugin for changeset extraction
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.5
-Release:	4PGDG%{?dist}
+Version:	2.6
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/eulerto/%{sname}/archive/%{sname}_%{wal2json_rel}.tar.gz
 URL:		https://github.com/eulerto/wal2json
@@ -77,10 +77,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install DESTDIR=%{buildroot}
 %endif
 
 %changelog
+* Fri May 3 2024 - John Harvey <john.harvey@crunchydata.com> - 2.6-1PGDG
+- Update to 2.6
+
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 2.5-4PGDG
 - Add PGDG branding
-- Update LLVM dependencieso
-
+- Update LLVM dependencies
 
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 2.5-3.1
 - Rebuild against LLVM 15 on SLES 15
