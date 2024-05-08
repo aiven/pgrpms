@@ -1078,7 +1078,6 @@ fi
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
 %{pgbaseinstdir}/share/errcodes.txt
-%{pgbaseinstdir}/share/fix-CVE-2024-4317.sql
 %{pgbaseinstdir}/share/man/man1/clusterdb.*
 %{pgbaseinstdir}/share/man/man1/createdb.*
 %{pgbaseinstdir}/share/man/man1/createuser.*
@@ -1274,6 +1273,7 @@ fi
 %{pgbaseinstdir}/bin/pg_verifybackup
 %{pgbaseinstdir}/bin/postgres
 %{pgbaseinstdir}/bin/postmaster
+%{pgbaseinstdir}/share/fix-CVE-2024-4317.sql
 %{pgbaseinstdir}/share/man/man1/initdb.*
 %{pgbaseinstdir}/share/man/man1/pg_archivecleanup.1
 %{pgbaseinstdir}/share/man/man1/pg_checksums.*
