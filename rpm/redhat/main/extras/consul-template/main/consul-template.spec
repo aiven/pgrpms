@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.37.5
+%global		_verstr	0.37.6
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -85,6 +85,10 @@ exit 0
 %attr(755, root, root) %{_bindir}/consul-template
 
 %changelog
+* Wed May 8 2024 Devrim Gündüz <devrim@gunduz.org> 0.37.6-1PGDG
+- Update to 0.37.6 per changes described at
+  https://github.com/hashicorp/consul-template/releases/tag/v0.37.6
+
 * Thu May 2 2024 Devrim Gündüz <devrim@gunduz.org> 0.37.5-1PGDG
 - Update to 0.37.5 per changes described at
   https://github.com/hashicorp/consul-template/releases/tag/v0.37.5
