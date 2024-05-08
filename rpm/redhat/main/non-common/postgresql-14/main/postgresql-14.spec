@@ -1078,6 +1078,7 @@ fi
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
 %{pgbaseinstdir}/share/errcodes.txt
+%{pgbaseinstdir}/share/fix-CVE-2024-4317.sql
 %{pgbaseinstdir}/share/man/man1/clusterdb.*
 %{pgbaseinstdir}/share/man/man1/createdb.*
 %{pgbaseinstdir}/share/man/man1/createuser.*
