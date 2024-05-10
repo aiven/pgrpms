@@ -1,4 +1,3 @@
-%global _debugsource_template %{nil}
 %global sname pointcloud
 %global pointcloudmajorversion 1.2
 
