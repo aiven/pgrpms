@@ -11,6 +11,24 @@ URL:		https://github.com/pramsey/%{sname}
 Source0:	https://github.com/pramsey/%{sname}/archive/refs/tags/v%{version}.tar.gz
 License:	MIT
 BuildRequires:	postgresql%{pgmajorversion}-devel
+
+%if 0%{?fedora} == 39
+BuildRequires:	zlib-devel
+Requires:	zlib
+%endif
+%if 0%{?fedora} == 40
+BuildRequires:	zlib-ng-compat-devel
+Requires:	zlib-ng-compat
+%endif
+%if 0%{?rhel} >= 8
+BuildRequires:	zlib-devel
+Requires:	devel
+%endif
+%if 0%{?suse_version} >= 1315
+BuildRequires:	zlib-devel
+Requires:	libz1
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -54,7 +72,7 @@ This packages provides JIT support for pgsql_gzip
 
 %build
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
-.
+
 %install
 %{__rm} -rf %{buildroot}
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
