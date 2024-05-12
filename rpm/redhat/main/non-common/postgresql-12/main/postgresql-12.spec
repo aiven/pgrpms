@@ -108,7 +108,7 @@ Version:	12.19
 # which overrides our packages. Increase our release number on SuSE.
 Release:	420001PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1602,6 +1602,9 @@ fi
 %endif
 
 %changelog
+* Sun May 12 2024 Devrim Gündüz <devrim@gunduz.org> - 12.19-2PGDG
+- Rebuild against LLVM 17 on RHEL 9 - aarch64
+
 * Tue May 7 2024 Devrim Gündüz <devrim@gunduz.org> - 12.19-1PGDG
 - Update to 12.19, per changes described at
   https://www.postgresql.org/docs/release/12.19/
