@@ -6,7 +6,7 @@
 Summary:	PostgreSQL gzip/gunzip functions
 Name:		%{pname}_%{pgmajorversion}
 Version:	1.0.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 URL:		https://github.com/pramsey/%{sname}
 Source0:	https://github.com/pramsey/%{sname}/archive/refs/tags/v%{version}.tar.gz
 License:	MIT
@@ -22,7 +22,7 @@ Requires:	zlib-ng-compat
 %endif
 %if 0%{?rhel} >= 8
 BuildRequires:	zlib-devel
-Requires:	devel
+Requires:	zlib
 %endif
 %if 0%{?suse_version} >= 1315
 BuildRequires:	zlib-devel
@@ -93,6 +93,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Sun May 12 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0.0-2PGDG
+- Fix dependency on RHEL 8
+
 * Fri May 10 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0.0-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
 
