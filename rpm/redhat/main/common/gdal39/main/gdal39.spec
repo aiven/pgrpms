@@ -331,6 +331,7 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
+ -DGDAL_USE_SHAPELIB=ON \
  -DOGDI_INCLUDE_DIRS='%{ogdiinstdir}/include' \
  -DOGDI_LIBRARY='%{ogdiinstdir}/lib/libogdi.so' \
 %if %gdaljava
