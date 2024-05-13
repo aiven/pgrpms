@@ -18,8 +18,8 @@
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	3.4.2
-Release:	3PGDG%{?dist}
+Version:	3.5.1
+Release:	1PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
@@ -82,11 +82,17 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
 %{python_sitelib}/pgactivity/*.py*
 %{python_sitelib}/pgactivity/__pycache__/*.pyc
+%{python_sitelib}/pgactivity/profiles/*.conf
 %{python_sitelib}/pgactivity/queries/*.py
 %{python_sitelib}/pgactivity/queries/*.sql
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon May 13 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-1PGDG
+- Update to 3.5.1 per changes described at:
+  https://github.com/dalibo/pg_activity/releases/tag/v3.5.1
+  https://github.com/dalibo/pg_activity/releases/tag/v3.5.0
+
 * Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.4.2-3PGDG
 - Add SLES 15 support. Use Python 3.11 on this platform which is already
   available in main SuSE repos.
