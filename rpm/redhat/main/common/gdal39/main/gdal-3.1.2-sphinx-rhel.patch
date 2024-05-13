@@ -1,0 +1,13 @@
+--- doc/Makefile.old	2020-08-18 11:56:18.231729744 +0100
++++ doc/Makefile	2020-08-18 11:56:28.523836116 +0100
+@@ -2,8 +2,8 @@
+ #
+ 
+ # You can set these variables from the command line.
+-SPHINXOPTS    = --keep-going -j auto -W
+-SPHINXBUILD   = sphinx-build
++SPHINXOPTS    = -j auto
++SPHINXBUILD   = sphinx-build-3
+ SOURCEDIR     = source
+ BUILDDIR      = build
+ 
