@@ -1,7 +1,14 @@
+# Override these macros on RHEL 7 so that we can
+# build pgbackrest on this platform:
+%if 0%{?rhel} && 0%{?rhel} == 7
+%global	pgmajorversion 15
+%global	pginstdir /usr/pgsql-15
+%endif
+
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.51
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -144,6 +151,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon May 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.51-2PGDG
+- Override PostgreSQL version macros on RHEL 7 so that we can build
+  pgbackrest it on this platform. Per report from Magnus.
+
 * Mon Mar 25 2024 Devrim Gündüz <devrim@gunduz.org> - 2.51-1PGDG
 - Update to 2.51, per changes described at:
   https://pgbackrest.org/release.html#2.51
