@@ -44,7 +44,9 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 
 %changelog
 * Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 0.6.1-1PGDG
-- Update to 0.6.1
+- Update to 0.6.1 per changes described at:
+  https://github.com/ibarwick/libfq/releases/tag/0.6.1
+  https://github.com/ibarwick/libfq/releases/tag/0.6.0
 - Remove patch added in 0.5.0-3
 
 * Thu Apr 25 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.0-3PGDG
