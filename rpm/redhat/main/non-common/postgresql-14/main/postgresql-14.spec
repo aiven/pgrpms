@@ -82,7 +82,7 @@ Version:	14.12
 # which overrides our packages. Increase our release number on SuSE.
 Release:	420001PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1381,6 +1381,9 @@ fi
 %endif
 
 %changelog
+* Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 14.12-3PGDG
+- Rebuild against LLVM 17 on RHEL 8
+
 * Sun May 12 2024 Devrim Gündüz <devrim@gunduz.org> - 14.12-2PGDG
 - Rebuild against LLVM 17 on RHEL 9 - aarch64
 
