@@ -55,7 +55,7 @@ popd
 %{pginstdir}/share/extension/h3_postgis.control
 
 %changelog
-* Thu May 23 20243 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-2PGDG
+* Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-2PGDG
 - Fix changelog date.
 
 * Sun Nov 5 2023 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-1PGDG
