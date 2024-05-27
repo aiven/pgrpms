@@ -1,3 +1,6 @@
+%global debug_package %{nil}
+%global _vpath_builddir build
+
 # Override these macros on RHEL 7 so that we can
 # build pgbackrest on this platform:
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -7,8 +10,8 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.51
-Release:	2PGDG%{?dist}
+Version:	2.52
+Release:	1PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -24,22 +27,23 @@ Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
 
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel libyaml-devel libssh2-devel
+BuildRequires:	meson
 
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
 Requires:	lz4-libs libzstd libssh2
-BuildRequires:	lz4-devel bzip2-devel
+BuildRequires:	lz4-devel bzip2-devel ninja-build
 %endif
 %if 0%{?rhel} && 0%{?rhel} <= 7
 Requires:	lz4 libzstd libssh2
-BuildRequires:	lz4-devel bzip2-devel
+BuildRequires:	lz4-devel bzip2-devel ninja-build
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} <= 1499
 Requires:	liblz4-1_7 libzstd1 libssh2-1
-BuildRequires:	liblz4-devel libbz2-devel
+BuildRequires:	liblz4-devel libbz2-devel ninja
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:	liblz4-1 libzstd1 libssh2-1
-BuildRequires:	liblz4-devel libbz2-devel
+BuildRequires:	liblz4-devel libbz2-devel ninja
 %endif
 
 Requires:	postgresql-libs
@@ -74,24 +78,20 @@ are required to perform a backup which increases security.
 %setup -q -n %{name}-release-%{version}
 
 %build
-pushd src
-export CPPFLAGS='-I %{pginstdir}/include'
-export PATH=%{pginstdir}/bin/:$PATH
-export LDFLAGS='-L%{pginstdir}/lib'
-%configure
-%{__make}
-popd
+%{__install} -d build
+%meson
+%meson_build
 
 %install
+%meson_install
 %{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/log/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/spool/%{name}
 %{__install} -D -d -m 0755 %{buildroot}%{_sysconfdir}
-%{__install} %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
-%{__cp} -a src/%{name} %{buildroot}%{_bindir}/%{name}
+%{__install} -m 0644 %{SOURCE1} %{buildroot}/%{_sysconfdir}/%{name}.conf
 
-# Install logrotate file:
+#Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
@@ -151,7 +151,11 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
-* Mon May 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.51-2PGDG
+* Mon May 27 2024 Devrim Gündüz <devrim@gunduz.org> - 2.52-1PGDG
+- Update to 2.52, per changes described at:
+  https://pgbackrest.org/release.html#2.52
+
+* Mon May 27 2024 Devrim Gündüz <devrim@gunduz.org> - 2.51-2PGDG
 - Override PostgreSQL version macros on RHEL 7 so that we can build
   pgbackrest it on this platform. Per report from Magnus.
 
