@@ -1,4 +1,5 @@
 %global _vpath_builddir build
+%global _vpath_srcdir .
 
 # Override these macros on RHEL 7 so that we can
 # build pgbackrest on this platform:
