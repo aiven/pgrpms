@@ -9,8 +9,12 @@ License:	BSD
 Source0:	https://api.pgxn.org/dist/pg_top/%{version}/pg_top-%{version}.zip
 URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	libpq5-devel ncurses-devel
-BuildRequires:	elfutils-libelf-devel libbsd-devel
-
+BuildRequires:	libbsd-devel
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libelf-devel
+%else
+BuildRequires:	elfutils-libelf-devel
+%endif
 Requires:	libpq postgresql-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -41,6 +45,9 @@ cmake
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
+%if 0%{?suse_version} >= 1315
+pushd build
+%endif
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
 	DESTDIR=%{buildroot}
 
