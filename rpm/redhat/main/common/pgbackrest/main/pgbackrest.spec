@@ -1,4 +1,3 @@
-%global debug_package %{nil}
 %global _vpath_builddir build
 
 # Override these macros on RHEL 7 so that we can
