@@ -7,7 +7,7 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.2
+Version:	%{pgmajorversion}.3
 Release:	43PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -194,6 +194,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Mon May 27 2024 Devrim Gündüz <devrim@gunduz.org> - 16.3-42-1PGDG
+- Update to 16.3
+
 * Fri Feb 9 2024 Devrim Gündüz <devrim@gunduz.org> - 16.2-43-1PGDG
 - Enable debug package
 
