@@ -1,63 +1,60 @@
 %global sname pg_top
 
 Summary:	'top' for PostgreSQL process
-Name:		%{sname}_%{pgmajorversion}
-Version:	3.7.0
+Name:		%{sname}
+Version:	4.1.0
 Release:	10PGDG%{?dist}
 License:	BSD
-Source0:	https://github.com/markwkm/%{sname}/archive/v%{version}.tar.gz
+Source0:	https://api.pgxn.org/dist/pg_top/%{version}/pg_top-%{version}.zip
 URL:		https://github.com/markwkm/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel ncurses-devel
-BuildRequires:	systemtap-sdt-devel
-BuildRequires:	autoconf pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	libpq5-devel ncurses-devel
+BuildRequires:	elfutils-libelf-devel libbsd-devel
+
+Requires:	libpq postgresql-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-Obsoletes:	%{sname}%{pgmajorversion} < 3.7.0-6
+Obsoletes:	%{sname}_16 < 4.1.0 %{sname}_15 < 4.1.0	%{sname}_14 < 4.1.0
+Obsoletes:	%{sname}_13 < 4.1.0 %{sname}_12 < 4.1.0
 
 %description
-pg_top is 'top' for PostgreSQL processes. See running queries,
-query plans, issued locks, and table and index statistics.
+pg_top is 'top' for PostgreSQL. It is derived from Unix Top. Similar to top,
+pg_top allows you to monitor PostgreSQL processes. It also allows you to:
+ - View currently running SQL statement of a process.
+ - View query plan of a currently running SELECT statement.
+ - View locks held by a process.
+ - View I/O statistics per process.
+ - View replication statistics for downstream nodes.
 
 %prep
 %setup -q -n %{sname}-%{version}
 
-%build
-sh autogen.sh
-PG_CONFIG=%{pginstdir}/bin/pg_config ./configure \
-%ifarch ppc64 ppc64le
-	--build=power \
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1315
+cmake
 %endif
-	--prefix=%{pginstdir} \
-	--libdir=%{pginstdir}/lib
-%{__make} %{?_smp_mflags} CFLAGS="%{optflags}"
+%else
+%cmake3
+%endif
+
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
-%{__rm} -rf %{buildroot}
-%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
-
-%post
-%{_sbindir}/update-alternatives --install /usr/bin/pg_top pg_top %{pginstdir}/bin/%{sname} %{pgmajorversion}0
-%{_sbindir}/update-alternatives --install /usr/share/man/man1/pg_top.1 pg_topman %{pginstdir}/share/man/man1/pg_top.1 %{pgmajorversion}0
-
-# Drop alternatives entries for common binaries and man files
-%postun
-if [ "$1" -eq 0 ]
-then
-	# Only remove these links if the package is completely removed from the system (vs.just being upgraded)
-	%{_sbindir}/update-alternatives --remove pg_top %{pginstdir}/bin/%{sname}
-	%{_sbindir}/update-alternatives --remove pg_topman  %{pginstdir}/share/man/man1/pg_top.1
-fi
+%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
+	DESTDIR=%{buildroot}
 
 %files
 %defattr(-,root,root,-)
-%doc FAQ README
+%doc README.rst
 %license LICENSE
-%{pginstdir}/bin/pg_top
-%{pginstdir}/share/man/man1/pg_top.1
+%{_bindir}/pg_top
+%{_mandir}/man1/pg_top.1.gz
 
 %changelog
+* Mon May 27 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-10PGDG
+- Update to 4.1.0
+- Move package to common repository.
+
 * Sun Feb 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-10PGDG
 - Add PGDG branding
 
