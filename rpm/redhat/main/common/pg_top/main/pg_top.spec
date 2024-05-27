@@ -1,3 +1,4 @@
+%global _vpath_builddir .
 %global sname pg_top
 
 Summary:	'top' for PostgreSQL process
