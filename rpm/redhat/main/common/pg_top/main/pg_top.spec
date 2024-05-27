@@ -36,7 +36,7 @@ pg_top allows you to monitor PostgreSQL processes. It also allows you to:
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-cmake
+%cmake
 %endif
 %else
 %cmake3
