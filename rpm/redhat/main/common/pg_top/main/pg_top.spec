@@ -9,7 +9,7 @@ License:	BSD
 Source0:	https://api.pgxn.org/dist/pg_top/%{version}/pg_top-%{version}.zip
 URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	libpq5-devel ncurses-devel
-BuildRequires:	libbsd-devel
+BuildRequires:	libbsd-devel cmake
 %if 0%{?suse_version} >= 1315
 BuildRequires:	libelf-devel
 %else
@@ -34,14 +34,8 @@ pg_top allows you to monitor PostgreSQL processes. It also allows you to:
 %prep
 %setup -q -n %{sname}-%{version}
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-cmake
-%endif
-%else
+%build
 %cmake3
-%endif
-
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
