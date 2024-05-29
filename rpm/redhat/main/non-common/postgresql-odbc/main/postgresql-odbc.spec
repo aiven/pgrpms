@@ -1,29 +1,29 @@
+%global odbcgittag 16_00_0005
+
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	16.00.0000
+Version:	16.00.0005
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/odbc/versions/src/psqlodbc-%{version}.tar.gz
+Source0:	https://github.com/postgresql-interfaces/psqlodbc/archive/refs/tags/REL-%{odbcgittag}.tar.gz
 Source1:	acinclude.m4
 
 BuildRequires:	unixODBC-devel pgdg-srpm-macros
-BuildRequires:	libtool automake autoconf postgresql%{pgmajorversion}-devel
+BuildRequires:	utomake autoconf postgresql%{pgmajorversion}-devel
 BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
 
 Requires:	postgresql%{pgmajorversion}-libs
 Provides:	postgresql-odbc%{?_isa} >= 08.00.0100
-
-# This spec file and ancillary files are licensed in accordance with
-# the psqlodbc license.
 
 %description
 This package includes the driver needed for applications to access a
 PostgreSQL system via ODBC (Open Database Connectivity).
 
 %prep
-%setup -q -n psqlodbc-%{version}
+%setup -q -n psqlodbc-REL-%{odbcgittag}
+
 %ifarch ppc64le
 sed -i "s:elf64ppc:elf64lppc:g" configure
 %endif
@@ -33,11 +33,7 @@ sed -i "s:elf64ppc:elf64lppc:g" configure
 # Use build system's libtool.m4, not the one in the package.
 %{__rm} -f libtool.m4
 
-libtoolize --force --copy
-aclocal -I .
-automake --add-missing --copy
-autoconf
-autoheader
+autoreconf -i
 
 %build
 chmod +x configure
@@ -71,6 +67,10 @@ popd
 %license license.txt
 
 %changelog
+* Wed May 29 2024 Devrim Gündüz <devrim@gunduz.org> - 16.00.0005-1PGDG
+- Update to 16.00.0005
+- Update download URL
+
 * Sun Sep 17 2023 Devrim Gündüz <devrim@gunduz.org> - 16.00.0000-1PGDG
 - Update to 16.00.0000
 
