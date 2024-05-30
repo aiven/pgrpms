@@ -10,11 +10,29 @@ URL:		https://odbc.postgresql.org/
 Source0:	https://github.com/postgresql-interfaces/psqlodbc/archive/refs/tags/REL-%{odbcgittag}.tar.gz
 Source1:	acinclude.m4
 
-BuildRequires:	unixODBC-devel pgdg-srpm-macros
-BuildRequires:	utomake autoconf postgresql%{pgmajorversion}-devel
-BuildRequires:	openssl-devel krb5-devel pam-devel zlib-devel readline-devel
+BuildRequires:	autoconf krb5-devel pam-devel pgdg-srpm-macros
+BuildRequires:	openssl-devel pam-devel postgresql%{pgmajorversion}-devel
+BuildRequires:	unixODBC-devel
 
-Requires:	postgresql%{pgmajorversion}-libs
+Requires:	postgresql%{pgmajorversion}-libs krb5-libs
+
+%if 0%{?fedora} == 39
+BuildRequires:	zlib-devel
+Requires:	zlib
+%endif
+%if 0%{?fedora} == 40
+BuildRequires:	zlib-ng-compat-devel
+Requires:	zlib-ng-compat
+%endif
+%if 0%{?rhel} >= 8
+BuildRequires:	zlib-devel
+Requires:	zlib
+%endif
+%if 0%{?suse_version} >= 1315
+BuildRequires:	zlib-devel
+Requires:	libz1
+%endif
+
 Provides:	postgresql-odbc%{?_isa} >= 08.00.0100
 
 %description
@@ -36,9 +54,9 @@ sed -i "s:elf64ppc:elf64lppc:g" configure
 autoreconf -i
 
 %build
-chmod +x configure
-	./configure --with-unixodbc --with-libpq=%{pginstdir} -disable-dependency-tracking --libdir=%{_libdir}
-%{__make}
+./configure --with-unixodbc --with-libpq=%{pginstdir} \
+	-disable-dependency-tracking --libdir=%{_libdir}
+%{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
