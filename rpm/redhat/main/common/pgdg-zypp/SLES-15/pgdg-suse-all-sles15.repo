@@ -20,7 +20,7 @@ priority=1
 
 [pgdg-sles15-extras]
 name=Extra packages to support some RPMs in the PostgreSQL RPM repo SLES $releasever - $basearch
-baseurl=https://download.postgresql.org/pub/repos/zypp/common/pgdg-suse$releasever-extras/suse/sles-$releasever-$basearch
+baseurl=https://download.postgresql.org/pub/repos/zypp/common/pgdg-sles$releasever-extras/suse/sles-$releasever-$basearch
 enabled=0
 autorefresh=1
 type=rpm-md
