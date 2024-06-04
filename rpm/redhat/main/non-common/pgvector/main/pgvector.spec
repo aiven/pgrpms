@@ -12,8 +12,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.7.0
-Release:	2PGDG%{?dist}
+Version:	0.7.1
+Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -96,6 +96,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Jun 4 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.1-1PGDG
+- Update to 0.7.1
+
 * Thu May 2 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.0-2PGDG
 - Add a patch from upstream to fix extension instsallation on RHEL 8.
   https://github.com/pgvector/pgvector/issues/538
