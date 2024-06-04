@@ -2,7 +2,7 @@
 
 Summary:	PostgreSQL functions which a DBA regularly needs
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.10.2
+Version:	0.10.3
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	http://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
@@ -39,7 +39,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
-* Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> 0:0.10.2-PGDG
+* Tue Jun 4 2024 Devrim Gündüz <devrim@gunduz.org> 0.10.3-1PGDG
+- Update to 0.10.3
+
+* Mon Nov 20 2023 Devrim Gündüz <devrim@gunduz.org> 0:0.10.2-1PGDG
 - Update to 0.10.2
 - Add PGDG branding
 
