@@ -1,0 +1,17 @@
+<comps>        
+  <group>
+   <id>postgresqldbserver16</id>
+   <default>false</default>
+   <uservisible>true</uservisible>
+   <display_order>1024</display_order>
+   <name>PostgreSQL Database Server 16 PGDG</name>
+   <description></description>
+    <packagelist>
+      <packagereq type="mandatory">postgresql16</packagereq>
+      <packagereq type="mandatory">postgresql16-contrib</packagereq>
+      <packagereq type="mandatory">postgresql16-libs</packagereq>
+      <packagereq type="mandatory">postgresql16-server</packagereq>
+    </packagelist>
+  </group>
+</comps>
+
