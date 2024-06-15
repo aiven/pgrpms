@@ -1,3 +1,7 @@
+%if 0%{?fedora} || 0%{?rhel}
+%global debug_package %{nil}
+%endif
+
 %global _build_id_links none
 
 %global pgtclmajorversion 3.1
@@ -37,12 +41,12 @@ autoconf
 	--with-tcl=%{_libdir} --with-postgres-include=%{pginstdir}/include \
 	--with-postgres-lib=%{pginstdir}/lib --disable-rpath
 
-%{__make} all
+%{__make} %{?_smp_mflags} all
 
 %install
 %{__rm} -rf %{buildroot}
 
-%{__make} install DESTDIR=%{buildroot}
+%{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 # we don't really need to ship the .h file
 %{__rm} -f %{buildroot}%{pgtclprefix}-%{pgmajorversion}/include/pgtclId.h
 
