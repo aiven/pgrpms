@@ -64,7 +64,7 @@ autoconf
 
 %changelog
 * Fri Jun 14 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-1PGDG
-- Update to 3.0.1 per changes described at:
+- Update to 3.1.0 per changes described at:
   https://github.com/flightaware/Pgtcl/releases/tag/v3.1.0
 
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0.1-1PGDG
