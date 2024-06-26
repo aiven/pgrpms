@@ -1,38 +1,26 @@
 %global sname multicorn2
 %global pname multicorn
 
-%if 0%{?fedora} >= 37
+%{!?llvm:%global llvm 1}
+
+%if 0%{?fedora} >= 39
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%global eggbuild 1
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global eggbuild 0
-%endif
-
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
 %endif
 
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.5
-Release:	1PGDG%{?dist}
+Version:	3.0
+Release:	beta1_1PGDG%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
+Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}beta1.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
 URL:		https://github.com/pgsql-io/%{version}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
-Obsoletes:	%{pname}%{pgmajorversion} < 1.4.0-10
-Obsoletes:	%{pname}_%{pgmajorversion} < 1.4.0-10
-
+Provides:	python3dist(multicorn)%{?_isa} = %{version}-%{release}
 # Provide versionless multicorn. This will simplify using
 # bigquery_fdw package.
 Provides:	%{sname} = %{version}
@@ -52,17 +40,6 @@ foreign data wrappers in Python.
 %package llvmjit
 Summary:	Just-in-time compilation support for multicorn2
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -76,7 +53,7 @@ This packages provides JIT support for multicorn2
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{sname}-%{version}beta1
 %patch -P 0 -p0
 
 %build
@@ -87,32 +64,18 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 export PYTHON_OVERRIDE="python%{pyver}"
 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
-
 # Install Python portions manually:
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}
-%if %eggbuild
- %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
- %{__cp} -r python/multicorn.egg-info/* %{buildroot}%{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
- %{__cp} build/lib.linux-%{_arch}-cpython-*/%{pname}/_*.so %{buildroot}%{python3_sitearch}/%{pname}/
-%endif
-%{__cp} -r python/%{pname}/* %{buildroot}%{python3_sitearch}/%{pname}
+%{__cp} -rp python/multicorn/* %{buildroot}%{python3_sitearch}/%{pname}
 
 %files
 %defattr(644,root,root,755)
 %doc README.md
 %doc %{pginstdir}/doc/extension/%{pname}.md
-%if %eggbuild
- %dir %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info
- %{python3_sitearch}/%{pname}-%{version}-py%{pyver}.egg-info/*
- %{python3_sitearch}/%{pname}/_*.so
-%endif
-%{python3_sitearch}/%{pname}/__pycache__/*.pyc
-%{python3_sitearch}/%{pname}/fsfdw/*.py
-%{python3_sitearch}/%{pname}/fsfdw/__pycache__/*.pyc
-%{python3_sitearch}/%{pname}/*.py
 %{pginstdir}/lib/%{pname}.so
 %{pginstdir}/share/extension/%{pname}*.sql
 %{pginstdir}/share/extension/%{pname}.control
+%{python3_sitearch}/%{pname}/*
 
 %if %llvm
 %files llvmjit
@@ -121,6 +84,11 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Wed Jun 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0beta1-1PGDG
+- Update to 3.0 beta1
+- Explicitly provide python module, per
+  https://redmine.postgresql.org/issues/7811#note-3
+
 * Mon Sep 25 2023 Devrim Gündüz <devrim@gunduz.org> - 2.5-1PGDG
 - Update to 2.5
 - Add PGDG branding
@@ -133,7 +101,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
   https://redmine.postgresql.org/issues/7811
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.4-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Wed Apr 12 2023 Devrim Gündüz <devrim@gunduz.org> - 2.4-1
 - Update to 2.4
