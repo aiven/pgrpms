@@ -2,7 +2,7 @@
 
 Summary:	Extra date time functions and operators for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.2
+Version:	1.1.3
 Release:	1PGDG%{?dist}
 License:	BSD
 Group:		Applications/Databases
@@ -40,5 +40,9 @@ ought to be part of the PostgreSQL standard distribution.
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Wed Jun 26 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.1.3-1PGDG
+- Update to 1.1.3 per changes described at:
+  https://github.com/bigsmoke/pg_extra_time/releases/tag/v1.1.3
+
 * Thu Dec 21 2023 - Devrim Gündüz <devrim@gunduz.org> - 1.1.2-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM repository.
