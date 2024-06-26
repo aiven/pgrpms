@@ -1,17 +1,15 @@
-%global pgbigmpackagever 20200228
+%global pgbigmpackagever 20240606
+%global pgbigmver 1.2
 %global sname pg_bigm
 
 %{!?llvm:%global llvm 1}
 
 Summary:	2-gram (bigram) index for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
+Version:	%{pgbigmver}_%{pgbigmpackagever}
 Release:	1PGDG%{?dist}
 URL:		https://github.com/pgbigm/%{sname}
-Source0:	https://github.com/pgbigm/%{sname}/releases/download/v%{version}-%{pgbigmpackagever}/%{sname}-%{version}-%{pgbigmpackagever}.tar.gz
-# Upstream patch to fix v16 builds:
-# https://github.com/pgbigm/pg_bigm/commit/34fe30fcb7dd58b6652e7cbf539f1615fcc0e47b
-Patch0:		%{sname}-pg16-fixbuild.patch
+Source0:	https://github.com/pgbigm/%{sname}/archive/refs/tags/v%{pgbigmver}-%{pgbigmpackagever}.tar.gz
 License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -32,21 +30,13 @@ Requires:	llvm15
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
 %endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
 
 %description llvmjit
 This packages provides JIT support for pg_bigm
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}-%{pgbigmpackagever}
-%patch -P 0 -p0
+%setup -q -n %{sname}-%{pgbigmver}-%{pgbigmpackagever}
 
 %build
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
@@ -71,6 +61,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Wed Jun 26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.2-20240606-1PGDG
+- Update to 1.2-20240606 per changes described at:
+  https://github.com/pgbigm/pg_bigm/releases/tag/v1.2-20240606
+
 * Wed Apr 3 2024 Devrim Gunduz <devrim@gunduz.org> - 1.2-20200228-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
 
