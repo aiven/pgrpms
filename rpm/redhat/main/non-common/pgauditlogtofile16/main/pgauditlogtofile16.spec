@@ -12,7 +12,7 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.12
+Version:	1.6.0
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
@@ -90,6 +90,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Jun 26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.6.0-1PGDG
+- Update to 1.6.0 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.6.0
+
 * Mon Jul 31 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5.12-1PGDG
 - Update to 1.5.12
 - Add PGDG branding
