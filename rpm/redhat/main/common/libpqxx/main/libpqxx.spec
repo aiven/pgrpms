@@ -16,7 +16,6 @@ BuildRequires:	ninja-build
 BuildRequires:	cmake
 BuildRequires:	pkgconfig
 BuildRequires:	libpq5-devel
-BuildRequires:	doxygen
 BuildRequires:	graphviz
 BuildRequires:	xmlto
 
@@ -44,9 +43,7 @@ BuildArch:	noarch
 %build
 mkdir build
 pushd build
-%cmake -G Ninja		\
-  -DBUILD_DOC=ON	\
-  ..
+%cmake -G Ninja	..
 %ninja_build
 popd
 
@@ -73,12 +70,12 @@ popd
 %files doc
 %dir %{_docdir}/%{name}
 %{_docdir}/%{name}/*.md
-%{_docdir}/%{name}/html
 
 %changelog
 * Wed Jun 26 2024 Devrim Gündüz <devrim@gunduz.org> - 1:7.9.1-10PGDG
 - Update to 7.9.1 per changes described at
   https://github.com/jtv/libpqxx/releases/tag/7.9.1
+- Disable doc builds to match upstream default.
 
 * Tue Mar 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1:7.9.0-10PGDG
 - Update to 7.9.0 per changes described at
