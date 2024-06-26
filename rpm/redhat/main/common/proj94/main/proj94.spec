@@ -4,7 +4,7 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}94
-Version:	9.4.0
+Version:	9.4.1
 Release:	1PGDG%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -115,5 +115,9 @@ popd
 %{proj94instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Wed Jun 26 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.4.1-1PGDG
+- Update to 9.4.1 per changes described at:
+  https://proj.org/en/9.4/news.html#release-notes
+
 * Fri Mar 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.4.0-1PGDG
 - Initial 9.4 packaging for PostgreSQL RPM Repository.
