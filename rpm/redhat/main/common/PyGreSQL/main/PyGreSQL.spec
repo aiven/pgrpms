@@ -1,12 +1,12 @@
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 39
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
 Name:		PyGreSQL
-Version:	6.0
+Version:	6.0.1
 Release:	1PGDG%{?dist}
 Summary:	A Python client library for PostgreSQL
 
@@ -52,11 +52,13 @@ find -type f -exec chmod 644 {} +
 %doc docs/*.rst
 %{python3_sitearch}/%{name}-%{version}-py%{py3ver}*.egg-info/
 %{python3_sitearch}/pg/*py*
-#{python3_sitearch}/pg/__pycache__/*
 %{python3_sitearch}/pgdb/*py*
-#{python3_sitearch}/pgdb/__pycache__/*
 
 %changelog
+* Thu Oct 26 2023 Devrim Gündüz <devrim@gunduz.org> - 6.0.1-1PGDG
+- Update to 6.0.1 per changes described at:
+  https://pygresql.org/contents/changelog.html
+
 * Thu Oct 26 2023 Devrim Gündüz <devrim@gunduz.org> - 6.0-1PGDG
 - Update to 6.0
 
