@@ -57,14 +57,14 @@ Version:	17
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	beta1_2PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 %else
-Release:	beta1_2PGDG%{?dist}
+Release:	beta2_1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta2/postgresql-%{version}beta2.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -457,7 +457,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta1
+%setup -q -n %{sname}-%{pgpackageversion}beta2
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1260,6 +1260,9 @@ fi
 %endif
 
 %changelog
+* Wed Jun 26 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta2-1PGDG
+- Update to PostgreSQL 17 Beta2
+
 * Wed May 29 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta1-2PGDG
 - Fix Source0 URL
 
