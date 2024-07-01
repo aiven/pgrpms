@@ -26,12 +26,14 @@ export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
 export git_os=EL-9		# EL-9, F-40, SLES-15
 export osshort=rhel9		# Will be used for extras builds for now
-export ossysupdates=rocky9 	# centos8 rocky9 . Used for the sysupdates repo.
+export ossysupdates=rocky9	# centos8 rocky9 . Used for the sysupdates repo.
+export extrasrepoenabled=1	# 1 or 0. Currently for RHEL 9, 8 and SLES 15
 
 export GPG_TTY=$(tty)
 export GPG_PASSWORD=foobar
 
 declare -a pgStableBuilds=("16 15 14 13 12" )
-declare -a pgTestBuilds=("17 16 15 14 13 12" )
-declare -a pgAlphaVersion=("17" )
+declare -a pgTestBuilds=("17 16 15 14 13" )
+declare -a pgBetaVersion=("17" )
+declare -a pgAlphaVersion=("18" )
 
