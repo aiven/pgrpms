@@ -1,16 +1,7 @@
 %global _build_id_links none
-
 %global sname ogr_fdw
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 %pgdg_set_gis_variables
 
@@ -21,8 +12,8 @@
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.4
-Release:	3PGDG%{?dist}
+Version:	1.1.5
+Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -99,6 +90,10 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Mon Jul 1 2024 Devrim Gündüz <devrim@gunduz.org> 1.1.5-1PGDG
+- Update to 1.1.5 per changes described at:
+  https://github.com/pramsey/pgsql-ogr-fdw/releases/tag/v1.1.5
+
 * Thu Feb 22 2024 Devrim Gündüz <devrim@gunduz.org> 1.1.4-3PGDG
 - Rebuild against GDAL 3.8
 
