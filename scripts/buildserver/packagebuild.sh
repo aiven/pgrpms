@@ -22,7 +22,7 @@ source ~/bin/global.sh
 
 # The name of the package in the git tree (pgpool-II-41, postgresql-16, etc)
 packagename=$1
-# Actual package name to sign (postgresql16, pgpool-II, postgis, etc).
+# Actual package name to sign (postgresql16, pgpool-II, postgis34, etc).
 signPackageName=$2
 # Optional: The PostgreSQL major version the package will be built against.
 # Leave empty to build against all supported PostgreSQL versions.
@@ -36,6 +36,7 @@ sign_package(){
 	find ~/rpm* -iname "*.sig" -print0 | xargs -0 /bin/rm -v -rf "{}"
 
 	# Find the packages, and sign them. Using an expect script to automate signing process.
+	# The first parameter refers to the location of the RPMs:
 	for signpackagelist in `find ~/$1* -iname "*$signPackageName*$packageVersion*.rpm"`; do /usr/bin/expect ~/bin/signrpms.expect $signpackagelist; done
 }
 
@@ -43,7 +44,8 @@ sign_package(){
 #	Build packages		#
 #################################
 
-# For this script, packages can be in 2 places: Either in "common", or "non-common" directories.
+# Packages can be in 3 places: Either in "common", "non-common" or "extras" directories.
+# This script currently ignores "non-free" repo.
 
 #################
 # Common repo	#
