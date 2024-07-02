@@ -22,7 +22,7 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.1.19
+Version:	3.2.1
 Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
@@ -33,7 +33,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
 Requires:	libpq5 >= 10.0
-Provides:	python3dist(psycopg) = %{version}
 
 BuildArch:	noarch
 
@@ -69,6 +68,9 @@ database adapter.
 %setup -q -n psycopg-%{version}
 
 %build
+# Change Python path in the scripts:
+find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/g" {} \;
+
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
 %{__ospython} setup.py build
@@ -131,6 +133,9 @@ popd
 %endif
 
 %changelog
+* Tue Jul 2 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.1-1PGDG
+- Update to 3.2.1
+
 * Mon May 20 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.19-1PGDG
 - Update to 3.1.19, per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.1.19
