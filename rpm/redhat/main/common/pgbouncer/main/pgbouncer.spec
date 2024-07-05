@@ -1,5 +1,5 @@
 Name:		pgbouncer
-Version:	1.22.1
+Version:	1.23.0
 Release:	42PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -152,6 +152,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Fri Jul 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1.23.0-42PGDG
+- Update to 1.23.0, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-123x
+
 * Mon Mar 4 2024 Devrim Gündüz <devrim@gunduz.org> - 1.22.1-42PGDG
 - Update to 1.22.1, per changes described at:
   https://www.pgbouncer.org/2024/03/pgbouncer-1-22-1
