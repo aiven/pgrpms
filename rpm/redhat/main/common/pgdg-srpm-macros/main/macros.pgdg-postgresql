@@ -80,13 +80,13 @@
 %global proj91instdir			/usr/proj%{proj91majorversion}
 %global proj82instdir			/usr/proj%{proj82majorversion}
 %global proj72instdir			/usr/proj%{proj72majorversion}
-%global geos312fullversion		3.12.1
-%global geos311fullversion		3.11.3
+%global geos312fullversion		3.12.2
+%global geos311fullversion		3.11.4
 %global geos310fullversion		3.10.6
 %global geos39fullversion		3.9.2
 %global geosfullversion			3.9.2
 %global projfullversion			8.1.1
-%global proj94fullversion		9.4.0
+%global proj94fullversion		9.4.1
 %global proj93fullversion		9.3.1
 %global proj92fullversion		9.2.1
 %global proj91fullversion		9.1.1
@@ -94,7 +94,7 @@
 %global proj82fullversion		8.2.1
 %global proj72fullversion		7.2.1
 %global gdalfullversion			3.3.3
-%global gdal39fullversion		3.9.0
+%global gdal39fullversion		3.9.1
 %global gdal38fullversion		3.8.4
 %global gdal37fullversion		3.7.2
 %global gdal36fullversion		3.6.3
