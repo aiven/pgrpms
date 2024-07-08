@@ -3,18 +3,18 @@
 %if %{pgmajorversion} == 15
 %global pgauditversion 17
 %global pversion 1.7.0
-%elif %{pgmajorversion} == 14
+%endif
+%if %{pgmajorversion} == 14
 %global pgauditversion 16
 %global pversion 1.6.2
-%elif %{pgmajorversion} == 13
+%endif
+%if %{pgmajorversion} == 13
 %global pgauditversion 15
 %global pversion 1.5.2
-%elif %{pgmajorversion} == 12
+%endif
+%if %{pgmajorversion} == 12
 %global pgauditversion 14
 %global pversion 1.4.3
-%elif %{pgmajorversion} == 11
-%global pgauditversion 13
-%global pversion 1.3.4
 %endif
 
 %ifarch ppc64 ppc64le s390 s390x armv7hl
@@ -30,7 +30,7 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}%{pgauditversion}_%{pgmajorversion}
 Version:	%{pversion}
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/%{version}.tar.gz
 URL:		https://www.pgaudit.org
@@ -107,6 +107,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Jul 9 2024 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-5PGDG
+- Fix builds on RHEL 8. Per report from Christoph Berg.
+
 * Thu Feb 22 2024 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-4PGDG
 - Cleanup an rpmlint warning
 
