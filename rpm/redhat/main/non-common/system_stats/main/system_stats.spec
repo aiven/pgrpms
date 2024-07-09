@@ -12,7 +12,7 @@
 
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1
+Version:	3.0
 Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -73,6 +73,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Tue Jul 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0-1PGDG
+- Update to 3.0 per changes described at:
+  https://github.com/EnterpriseDB/system_stats/releases/tag/v3.0
+
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 2.1-1PGDG
 - Update to 2.1
 - Update LLVM dependencies
