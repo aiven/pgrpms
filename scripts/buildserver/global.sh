@@ -37,3 +37,14 @@ declare -a pgTestBuilds=("17 16 15 14 13" )
 declare -a pgBetaVersion=("17" )
 declare -a pgAlphaVersion=("18" )
 
+# Common function to sign the package.
+sign_package(){
+	# Remove all files with .sig suffix. They are leftovers which appear
+	# when signing process is not completed. Signing will be broken when
+	# they exist.
+	find ~/rpm* -iname "*.sig" -print0 | xargs -0 /bin/rm -v -rf "{}"
+
+	# Find the packages, and sign them. Using an expect script to automate signing process.
+	# The first parameter refers to the location of the RPMs:
+	for signpackagelist in `find ~/$1* -iname "*$signPackageName*$packageVersion*.rpm"`; do /usr/bin/expect ~/bin/signrpms.expect $signpackagelist; done
+}
