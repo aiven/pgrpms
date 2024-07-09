@@ -38,10 +38,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha1_1PGDG%{?dist}
+Release:	alpha2_1PGDG%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha1.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha1-en.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2-en.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 
 URL:		https://www.postgis.net/
@@ -195,7 +195,7 @@ This packages provides JIT support for postgis33
 
 
 %prep
-%setup -q -n %{sname}-%{version}alpha1
+%setup -q -n %{sname}-%{version}alpha2
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} %{sname}-%{version}.pdf
 
@@ -365,5 +365,8 @@ fi
 %endif
 
 %changelog
+* Tue Jul 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.5.0alpha2-1PGDG
+- Update to 3.5.0 Alpha2
+
 * Fri Jul 5 2024 Devrim Gunduz <devrim@gunduz.org> - 3.5.0alpha1-1PGDG
 - Initial cut for PostGIS 3.5.0 alpha1
