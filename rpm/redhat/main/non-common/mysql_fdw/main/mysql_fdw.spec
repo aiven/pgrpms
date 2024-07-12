@@ -1,22 +1,14 @@
 %global sname mysql_fdw
 %global mysqlfdwmajver 2
 %global mysqlfdwmidver 9
-%global mysqlfdwminver 1
+%global mysqlfdwminver 2
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the MySQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{mysqlfdwmajver}.%{mysqlfdwmidver}.%{mysqlfdwminver}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{mysqlfdwmajver}_%{mysqlfdwmidver}_%{mysqlfdwminver}.tar.gz
 URL:		https://github.com/EnterpriseDB/mysql_fdw
@@ -24,7 +16,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
 BuildRequires:	mariadb-devel
 Requires:	mariadb-connector-c-devel
 %endif
@@ -41,17 +33,6 @@ the MySQL.
 %package llvmjit
 Summary:	Just-in-time compilation support for mysql_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -99,6 +80,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Jul 12 2024 Devrim Gunduz <devrim@gunduz.org> - 2.9.2-1PGDG
+- Update to 2.9.2 per changes described at:
+  https://github.com/EnterpriseDB/mysql_fdw/releases/tag/REL-2_9_2
+
 * Thu Feb 22 2024 Devrim Gunduz <devrim@gunduz.org> - 2.9.1-2PGDG
 - Fix/update both BR and Requires.
 
