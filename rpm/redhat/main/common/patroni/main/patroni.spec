@@ -6,7 +6,7 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	3.3.1
+Version:	3.3.2
 Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
@@ -23,12 +23,7 @@ Requires:	python3-psutil >= 2.0.0
 Requires:	python3-ydiff >= 1.2
 Requires:	python3-ydiff <= 1.3
 
-%if 0%{?rhel} == 7
-Requires:	python36-click >= 4.1 python36-six >= 1.7
-Requires:	python36-dateutil python36-prettytable >= 0.7
-Requires:	python36-PyYAML python36-urllib3 >= 1.19.1
-%endif
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
 Requires:	python3-click >= 4.1 python3-six >= 1.7
 Requires:	python3-dateutil python3-prettytable >= 0.7
 Requires:	python3-pyyaml python3-urllib3 >= 1.19.1
@@ -59,7 +54,7 @@ Summary:	Related components to use patroni with Consul
 Requires:	%{name} = %{version}-%{release}
 Requires:	consul python3-requests
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
 Requires:	python3-consul >= 0.7.1
 %endif
 
@@ -77,11 +72,7 @@ Summary:	Related components to use patroni with etcd
 Requires:	%{name} = %{version}-%{release}
 Requires:	python3-etcd >= 0.4.3
 
-%if 0%{?rhel} == 7
-Requires:	python36-dns python36-certifi
-%endif
-
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
 Requires:	python3-dns python3-certifi
 %endif
 
@@ -182,6 +173,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Fri Jul 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-1PGDG
+- Update to 3.3.2, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-332
+
 * Tue Jun 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1PGDG
 - Update to 3.3.1, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-331
