@@ -1,27 +1,16 @@
 %global sname hdfs_fdw
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.1
+Version:	2.3.2
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	libxml2-devel java-devel
-%if 0%{?rhel} && 0%{?rhel} >= 7
-BuildRequires:	javapackages-tools
-%endif
 
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -33,17 +22,6 @@ the hdfs.
 %package llvmjit
 Summary:	Just-in-time compilation support for hdfs_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -109,6 +87,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Fri Jul 12 2024 Devrim Gunduz <devrim@gunduz.org> - 2.3.2-1PGDG
+- Update to 2.3.2 per changes described at:
+  https://github.com/EnterpriseDB/hdfs_fdw/releases/tag/v2.3.2
+- Remove RHEL 7 support
+
+- Add PGDG branding
 * Thu Jul 20 2023 Devrim Gunduz <devrim@gunduz.org> - 2.3.1-1PGDG
 - Update to 2.3.1
 - Add PGDG branding
