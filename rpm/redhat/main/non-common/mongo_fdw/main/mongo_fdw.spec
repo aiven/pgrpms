@@ -1,24 +1,17 @@
 %global sname mongo_fdw
-%global relver 5_5_1
+%global relver 5_5_2
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.5.1
+Version:	5.5.2
 Release:	1PGDG%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
+Patch0:		patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 
@@ -29,20 +22,11 @@ BuildRequires:		snappy-devel libbson-1_0-0-devel libmongoc-1_0-0-devel
 BuildRequires:		libopenssl-devel
 %endif
 %else
-# use pgdg-libmongoc and pgdg-libmongoc-devel packages for rhel7. pgdg-libmongoc* contains required version of libbson libs.
-# so no need to install libbson-devel or libbson libs packages.
-%if 0%{?rhel} == 7
-Requires:	snappy
-Requires:	pgdg-libmongoc-libs
-BuildRequires:	pgdg-libmongoc-devel snappy-devel cmake3
-BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
-%else
 Requires:	snappy
 Requires:	mongo-c-driver-libs libbson
 BuildRequires:	mongo-c-driver-devel snappy-devel
 BuildRequires:	openssl-devel cyrus-sasl-devel krb5-devel
 BuildRequires:	libbson-devel
-%endif
 %endif
 
 Requires:	postgresql%{pgmajorversion}-server cyrus-sasl-lib
@@ -57,17 +41,6 @@ MongoDB.
 %package llvmjit
 Summary:	Just-in-time compilation support for mongo_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -82,46 +55,29 @@ This packages provides JIT support for mongo_fdw
 
 %prep
 %setup -q -n %{sname}-REL-%{relver}
+%patch -P 0 -p0
 
-sed -i 's|^[[:space:]]checkout_mongo_driver|#checkout_mongo_driver|' autogen.sh
-sed -i 's|^[[:space:]]install_mongoc_driver|#install_mongo_driver|' autogen.sh
-sed -i 's|^[[:space:]]make install |# make install|' autogen.sh
-sed -i 's|^[[:space:]]export PKG_CONFIG_PATH=mongo-c-driver/src/:mongo-c-driver/src/libbson/src|#export PKG_CONFIG_PATH=mongo-c-driver/src/:mongo-c-driver/src/libbson/src|' autogen.sh
-
-# set rpath of edb-mongoc driver libs
-# RHEL 7: Use edb-mongoc driver for building, so disable mongo-c-driver compilation
-# RHEL 8 and Fedora: Use OS supplied mongo-c-driver
-%if 0%{?rhel} && 0%{?rhel} == 7
-sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/pgdg-libmongoc/lib64',--enable-new-dtags' Makefile.meta
-%else
-sed -i '/SHLIB_LINK = /c SHLIB_LINK = $(shell pkg-config --libs libmongoc-1.0) -Wl,-rpath='/usr/lib64',--enable-new-dtags' Makefile.meta
-%endif
 
 %build
-CFLAGS="$RPM_OPT_FLAGS -fPIC"; export CFLAGS
-
-sh autogen.sh --with-master
-
-%if 0%{?rhel} && 0%{?rhel} == 7
-export PKG_CONFIG_PATH=/usr/pgdg-libmongoc/lib64/pkgconfig
-sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/pgdg-libmongoc/include/libmongoc-1.0 -I/usr/pgdg-libmongoc/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile.meta
-%endif
 
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
-sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/libmongoc-1.0 -I/usr/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile.meta
+sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/libmongoc-1.0 -I/usr/include/libbson-1.0 -I/usr/include/json-c -fPIC:g" Makefile
 sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.c
 sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.h
 sed -i "s:\(^#include \"bson.h\"\)://\1:g" mongo_wrapper.h
 %endif
 %endif
 
-PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags}
+%if 0%{?fedora} || 0%{?rhel} >= 8
+sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/json-c -fPIC:g" Makefile
+%endif
+PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
 
-PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
+PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
@@ -147,6 +103,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile.meta USE_PGXS=1 %{?_smp_mflags
 %endif
 
 %changelog
+* Fri Jul 12 2024 Devrim Gündüz <devrim@gunduz.org> - 5.5.2-1PGDG
+- Update to 5.5.2 per changes described at:
+  https://github.com/EnterpriseDB/mongo_fdw/releases/tag/REL-5_5_2
+
 * Thu Jul 20 2023 Devrim Gündüz <devrim@gunduz.org> - 5.5.1-1PGDG
 - Update to 5.5.1
 - Add PGDG branding
