@@ -204,7 +204,8 @@ fi
 
 %changelog
 * Sat Jul 13 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.2-1PGDG
-- Update to 4.5.2
+- Update to 4.5.2 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-5-2.html
 
 * Thu Feb 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.1-1PGDG
 - Update to 4.5.1
