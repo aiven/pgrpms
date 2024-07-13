@@ -10,13 +10,14 @@
 %global projinstdir %proj94instdir
 
 Name:		%{sname}%{libgeotiffversion}
-Version:	1.7.1
-Release:	6PGDG%{?dist}
+Version:	1.7.3
+Release:	1PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
+Patch0:		%{sname}_cmake.patch
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
 BuildRequires:	pgdg-srpm-macros >= 1.0.36 cmake
 
@@ -36,6 +37,7 @@ The GeoTIFF library provides support for development of geotiff image format.
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch -P 0 -p0
 
 # fix wrongly encoded files from tarball
 set +x
@@ -58,11 +60,13 @@ set -x
 
 %{__install} -d build
 pushd build
-cmake .. -DCMAKE_C_COMPILER_LAUNCHER=ccache -DPROJ_LIBRARY=%{projinstdir}/lib64 \
+cmake .. -DCMAKE_C_COMPILER_LAUNCHER=ccache \
 	-DPROJ_INCLUDE_DIR=%{projinstdir}/include \
-	-DGEOTIFF_BIN_DIR=%{libgeotiff17instdir}/bin -DGEOTIFF_LIB_DIR=%{libgeotiff17instdir}/lib \
-	-DGEOTIFF_BIN_SUBDIR=%{libgeotiff17instdir}/bin -DGEOTIFF_MAN_PAGES=%{libgeotiff17instdir}/man \
-	-DGEOTIFF_INCLUDE_SUBDIR=%{libgeotiff17instdir}/include
+	-DCMAKE_INSTALL_INCLUDEDIR=%{libgeotiff17instdir}/include \
+	-DCMAKE_INSTALL_BINDIR=%{libgeotiff17instdir}/bin \
+	-DCMAKE_INSTALL_LIBDIR=%{libgeotiff17instdir}/lib \
+	-DCMAKE_INSTALL_MANDIR=%{libgeotiff17instdir}/man \
+	-DCMAKE_INSTALL_DOCDIR=%{_docdir}/%{name}
 
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
 popd
@@ -72,7 +76,7 @@ popd
 pushd build
 %{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install DESTDIR=%{buildroot}
 
-# install manually some files
+# install some files manually
 %{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/bin
 %{__install} -p -m 755 bin/makegeo %{buildroot}%{libgeotiff17instdir}/bin
 popd
@@ -94,10 +98,6 @@ EOF
 %{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/lib/pkgconfig/
 %{__install} -p -m 644 %{name}.pc %{buildroot}%{libgeotiff17instdir}/lib/pkgconfig/
 
-#clean up junks
-%{__rm} -rf %{buildroot}%{libgeotiff17instdir}/lib/*.a
-%{__rm} -f %{buildroot}%{libgeotiff17instdir}/lib/*.la
-
 # Install linker config file:
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{__install} %{SOURCE2} %{buildroot}%{_sysconfdir}/ld.so.conf.d/
@@ -106,21 +106,18 @@ EOF
 %{__mkdir} -p %{buildroot}/%{_docdir}/%{name}
 %{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/lib
 %{__mkdir} -p %{buildroot}%{libgeotiff17instdir}/man/man1
-%{__mv} %{buildroot}/usr/local/doc/* %{buildroot}%{_docdir}/%{name}
-%{__mv} %{buildroot}/usr/local/lib/libgeotiff.a %{buildroot}/%{libgeotiff17instdir}/lib
-%{__rm} -f %{buildroot}/usr/local/share/cmake/GeoTIFF/*cmake
-%{__mv} %{buildroot}/usr/local/share/man/man1/* %{buildroot}%{libgeotiff17instdir}/man/man1
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %doc ChangeLog LICENSE AUTHORS COPYING INSTALL README*
+%dir %{libgeotiff17instdir}/
 %{libgeotiff17instdir}/bin/applygeo
 %{libgeotiff17instdir}/bin/geotifcp
 %{libgeotiff17instdir}/bin/listgeo
 %{libgeotiff17instdir}/bin/makegeo
-%{libgeotiff17instdir}/lib/*.a
+%{libgeotiff17instdir}/lib/*
 %{libgeotiff17instdir}/man/man1/listgeo.1
 %{libgeotiff17instdir}/man/man1/geotifcp.1
 %{libgeotiff17instdir}/man/man1/applygeo.1
@@ -133,8 +130,12 @@ EOF
 %attr(0644,root,root) %{libgeotiff17instdir}/include/*.inc
 %{libgeotiff17instdir}/lib/pkgconfig/%{name}.pc
 
-
 %changelog
+* Fri Jul 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.3-1PGDG
+- Update to 1.7.3 per changes described at:
+  https://github.com/OSGeo/libgeotiff/releases/tag/1.7.3
+  https://github.com/OSGeo/libgeotiff/releases/tag/1.7.2
+
 * Wed Apr 10 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.1-6PGDG
 - Rebuild against PROJ 9.4
 
