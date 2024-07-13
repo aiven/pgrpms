@@ -11,7 +11,6 @@ License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
 Source1:	%{sname}-config.h
-Patch0:		patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel wget pgdg-srpm-macros
 
@@ -55,8 +54,6 @@ This packages provides JIT support for mongo_fdw
 
 %prep
 %setup -q -n %{sname}-REL-%{relver}
-%patch -P 0 -p0
-
 
 %build
 
@@ -71,6 +68,9 @@ sed -i "s:\(^#include \"bson.h\"\)://\1:g" mongo_wrapper.h
 
 %if 0%{?fedora} || 0%{?rhel} >= 8
 sed -i "s:^\(PG_CPPFLAGS.*\):\1 -I/usr/include/json-c -fPIC:g" Makefile
+sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.c
+sed -i "s:\(^#include \"bson.h\"\):#include <bson.h>:g" mongo_fdw.h
+sed -i "s:\(^#include \"bson.h\"\)://\1:g" mongo_wrapper.h
 %endif
 PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile USE_PGXS=1 %{?_smp_mflags}
 
