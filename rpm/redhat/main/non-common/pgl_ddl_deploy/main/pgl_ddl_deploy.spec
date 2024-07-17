@@ -1,18 +1,10 @@
 %global sname pgl_ddl_deploy
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	Transparent Logical DDL Replication (pgl_ddl_deploy)
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.0
+Version:	2.2.1
 Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/enova/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -28,17 +20,6 @@ replication.
 %package llvmjit
 Summary:	Just-in-time compilation support for pgl_ddl_deploy
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -78,5 +59,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Jul 18 2024 Devrim Gündüz <devrim@gunduz.org> - 2.2.1-1PGDG
+- Update to 2.2.1
+- Remove RHEL 7 support
+- Update LLVM dependencies
+
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository
