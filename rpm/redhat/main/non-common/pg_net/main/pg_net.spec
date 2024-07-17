@@ -1,10 +1,10 @@
-%global sname pg_net
+,%global sname pg_net
 
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension that enables asynchronous (non-blocking) HTTP/HTTPS requests with SQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.1
+Version:	0.9.2
 Release:	1PGDG%{?dist}
 URL:		https://github.com/supabase/%{sname}
 Source0:	https://github.com/supabase/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -31,13 +31,6 @@ Requires:	llvm15
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
 %endif
 
 %description llvmjit
@@ -70,6 +63,11 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Jul 18 2024 Devrim Gunduz <devrim@gunduz.org> - 0.9.2-1PGDG
+- Update to 0.9.2 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.9.2
+- Update LLVM dependencies
+
 * Fri May 10 2024 Devrim Gunduz <devrim@gunduz.org> - 0.9.1-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
 
