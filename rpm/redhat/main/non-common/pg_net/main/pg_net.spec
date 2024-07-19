@@ -1,4 +1,4 @@
-,%global sname pg_net
+%global sname pg_net
 
 %{!?llvm:%global llvm 1}
 
