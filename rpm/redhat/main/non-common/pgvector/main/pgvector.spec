@@ -1,18 +1,10 @@
 %global pname vector
 %global sname pgvector
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.7.2
+Version:	0.7.3
 Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
@@ -34,17 +26,6 @@ inner product, and cosine distance
 %package llvmjit
 Summary:	Just-in-time compilation support for pgvector
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -87,6 +68,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.3-1PGDG
+- Update to 0.7.3
+- Remove RHEL 7 support
+
 * Sat Jun 15 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.2-1PGDG
 - Update to 0.7.2
 
