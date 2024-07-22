@@ -90,9 +90,9 @@ then
 			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 			cd
 		sign_package rpm
-		exit 0
 		fi
 	done
+exit 0
 fi # End of non-common build
 
 #################################
