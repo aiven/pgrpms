@@ -7,13 +7,13 @@
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
 Name:		%{sname}
-Version:	0.6
-Release:	2PGDG%{dist}
+Version:	0.7
+Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vyruss/%{sname}
 
-Requires:	python3-plac python3-numpy python3-psycopg2 >= 2.9.3
+Requires:	python3-plac python3-numpy python3-psycopg3 >= 3.2.1
 Requires:	python3-six python3-matplotlib python3-kiwisolver
 Requires:	python3-packaging python3-argh
 
@@ -59,6 +59,10 @@ Best served with pg_statviz extensions package, which includes the extension fil
 %{python3_sitelib}/%{sname}
 
 %changelog
+* Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7-1PGDG
+- Update to 0.7 per changes described at:
+  https://github.com/vyruss/pg_statviz/releases/tag/v0.7
+
 * Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 0.6-2PGDG
 - Organise dependencies to support SLES 15.
 
