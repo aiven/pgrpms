@@ -1,16 +1,9 @@
 %global _vpath_builddir build
 %global _vpath_srcdir .
 
-# Override these macros on RHEL 7 so that we can
-# build pgbackrest on this platform:
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global	pgmajorversion 15
-%global	pginstdir /usr/pgsql-15
-%endif
-
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.52.1
+Version:	2.53
 Release:	1PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -19,11 +12,6 @@ Source1:	%{name}-conf.patch
 Source2:	%{name}-tmpfiles.d
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch ppc64 ppc64le
-Patch0:		pgbackrest-const-ppc64-gcc-bug.patch
-%endif
-%endif
 
 BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	libzstd-devel libxml2-devel libyaml-devel libssh2-devel
@@ -31,10 +19,6 @@ BuildRequires:	meson
 
 %if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
 Requires:	lz4-libs libzstd libssh2
-BuildRequires:	lz4-devel bzip2-devel ninja-build
-%endif
-%if 0%{?rhel} && 0%{?rhel} <= 7
-Requires:	lz4 libzstd libssh2
 BuildRequires:	lz4-devel bzip2-devel ninja-build
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} <= 1499
@@ -84,7 +68,6 @@ are required to perform a backup which increases security.
 
 %install
 %meson_install
-%{__install} -D -d -m 0755 %{buildroot}%{perl_vendorlib} %{buildroot}%{_bindir}
 %{__install} -D -d -m 0700 %{buildroot}/%{_sharedstatedir}/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/log/%{name}
 %{__install} -D -d -m 0700 %{buildroot}/var/spool/%{name}
@@ -151,6 +134,11 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 2.53-1PGDG
+- Update to 2.53, per changes described at:
+  https://pgbackrest.org/release.html#2.53
+- Remove RHEL 7 support.
+
 * Tue Jun 25 2024 Devrim Gündüz <devrim@gunduz.org> - 2.52.1-1PGDG
 - Update to 2.52.1 per changes described at:
   https://pgbackrest.org/release.html#2.52.1
