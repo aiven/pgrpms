@@ -1229,6 +1229,7 @@ fi
 %attr(-,postgres,postgres) %dir %{pgbaseinstdir}/lib/test
 %endif
 
+%changelog
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 16.3-4PGDG
 - Update LLVM dependencies
 
