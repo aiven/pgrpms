@@ -21,20 +21,12 @@
 %global git_tag	1_3_9
 %endif
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	Tweak PostgreSQL execution plans using so-called "hints" in SQL comments
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pghintplanversion}
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/ossc-db/pg_hint_plan/archive/refs/tags/REL%{pgmajorversion}_%{git_tag}.tar.gz
 URL:		https://github.com/ossc-db/%{sname}/
@@ -55,22 +47,12 @@ since it doesn't count some properties of the data, for example, correlation bet
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_hint_plan
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -110,5 +92,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Tue Sep 12 2023 Devrim Gunduz <devrim@gunduz.org> - %{pghintplanversion}-1PGDG
 - Initial packaging for the PostgreSQL RPM Repository

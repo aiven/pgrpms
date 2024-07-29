@@ -1,19 +1,11 @@
 %global sname system_stats
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -33,10 +25,11 @@ NULL is returned for affected values.
 Summary:	Just-in-time compilation support for system_stats
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -73,6 +66,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Tue Jul 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0-1PGDG
 - Update to 3.0 per changes described at:
   https://github.com/EnterpriseDB/system_stats/releases/tag/v3.0

@@ -13,7 +13,7 @@
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.5
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -31,27 +31,17 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %package llvmjit
 Summary:	Just-in-time compilation support for ogr_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
+Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for ogr_fdw.
+This packages provides JIT support for ogr_fdw
 %endif
 
 %prep
@@ -90,6 +80,10 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Mon Jul 1 2024 Devrim Gündüz <devrim@gunduz.org> 1.1.5-1PGDG
 - Update to 1.1.5 per changes described at:
   https://github.com/pramsey/pgsql-ogr-fdw/releases/tag/v1.1.5

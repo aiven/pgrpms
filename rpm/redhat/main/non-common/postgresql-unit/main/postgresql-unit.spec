@@ -1,19 +1,11 @@
 %global sname postgresql-unit
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	7.7
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ChristophBerg/%{sname}
@@ -31,29 +23,19 @@ pre-built grammar files are used if only bison 2 is available).
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for postgresql-unit
+Summary:	Just-in-time compilation support for xxx
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm13-devel clang13-devel
-Requires:	llvm13
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for postgresql-unit
+This packages provides JIT support for xxx
 %endif
 
 %prep
@@ -85,6 +67,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 7.7-3PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 7.7-2PGDG
 - Add PGDG branding
 - Fix rpmlint warnings

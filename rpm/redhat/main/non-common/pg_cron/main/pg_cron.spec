@@ -49,10 +49,11 @@ schedule PostgreSQL commands directly from the database.
 Summary:	Just-in-time compilation support for pg_cron
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -92,6 +93,7 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 - Update to 1.6.3, per changes described at:
   https://github.com/citusdata/pg_cron/releases/tag/v1.6.3
 - Update LLVM dependencies
+- Remove RHEL 7 support
 
 * Tue Oct 24 2023 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-1PGDG
 - Update to 1.6.2, per changes described at:

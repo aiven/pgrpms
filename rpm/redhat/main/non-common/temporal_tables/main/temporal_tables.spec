@@ -1,19 +1,11 @@
 %global sname temporal_tables
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	Temporal tables extension for PostgreQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2.2
-Release:	3PGDG%{dist}
+Release:	4PGDG%{dist}
 Source0:	https://github.com/arkhipov/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/arkhipov/%{sname}
 License:	BSD
@@ -25,10 +17,11 @@ Requires:	postgresql%{pgmajorversion}-server
 Summary:	Just-in-time compilation support for temporal_tables
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -71,6 +64,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} inst
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-4PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2.2-3PGDG
 - Update LLVM dependencies
 

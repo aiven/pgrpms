@@ -7,7 +7,7 @@
 Summary:	Set of functions and operators for executing similarity queries for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{packagemajorver}.%{packageminver}
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 URL:		https://github.com/eulerto/%{sname}
 Source0:	https://github.com/eulerto/%{sname}/archive/refs/tags/%{sname}_%{packagemajorver}_%{packageminver}.tar.gz
 License:	BSD
@@ -24,18 +24,12 @@ full text search.
 Summary:	Just-in-time compilation support for pg_similarity
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
 %endif
 
 %description llvmjit
@@ -68,6 +62,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Fri Apr 12 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
 

@@ -19,29 +19,9 @@
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
 
-# Override PROJ major version on RHEL 7.
-# libspatialite 4.3 does not build against 8.0.0 as of March 2021.
-%if 0%{?rhel} && 0%{?rhel} == 7
-%global projmajorversion 72
-%global projfullversion 7.2.1
-%global projinstdir /usr/proj%{projmajorversion}
-%endif
-
-%if 0%{?rhel} == 7 || 0%{?suse_version} <= 1400
-%global libspatialitemajorversion	43
-%else
 %global libspatialitemajorversion	50
-%endif
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
@@ -55,7 +35,7 @@
 %endif
 %endif
 
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global	sfcgal 1}
@@ -202,22 +182,12 @@ The %{name}-utils package provides the utilities for PostGIS.
 %package llvmjit
 Summary:	Just-in-time compilation support for postgis32
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -261,7 +231,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -395,6 +365,10 @@ fi
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-3PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Mon Feb 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.2.7-2PGDG
 - Rebuild against PROJ 9.3
 - Rebuild against GDAL 3.8 (except SLES 15, use 3.6 there)

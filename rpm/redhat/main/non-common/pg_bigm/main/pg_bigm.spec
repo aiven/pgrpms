@@ -7,7 +7,7 @@
 Summary:	2-gram (bigram) index for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgbigmver}_%{pgbigmpackagever}
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 URL:		https://github.com/pgbigm/%{sname}
 Source0:	https://github.com/pgbigm/%{sname}/archive/refs/tags/v%{pgbigmver}-%{pgbigmpackagever}.tar.gz
 License:	BSD
@@ -24,10 +24,11 @@ full text search.
 Summary:	Just-in-time compilation support for pg_bigm
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -61,6 +62,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.2-20240606-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Wed Jun 26 2024 Devrim Gunduz <devrim@gunduz.org> - 1.2-20240606-1PGDG
 - Update to 1.2-20240606 per changes described at:
   https://github.com/pgbigm/pg_bigm/releases/tag/v1.2-20240606

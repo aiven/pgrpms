@@ -1,19 +1,11 @@
 %global sname sslutils
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	6PGDG%{?dist}
+Release:	7PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -25,13 +17,14 @@ Required extension for Postgres Enterprise Manager (PEM) Server
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for sslutilss
+Summary:	Just-in-time compilation support for sslutils
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -78,6 +71,10 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-7PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Sat Jun 03 2023 Devrim Gunduz <devrim@gunduz.org> - 1.3-6PGDG
 - Add PGDG branding
 - Add SLES 15 support

@@ -5,7 +5,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -20,18 +20,19 @@ the hdfs.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for hdfs_fdw
+Summary:	Just-in-time compilation support for firebird_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for hdfs_fdw
+This packages provides JIT support for firebird_fdw
 %endif
 
 %prep
@@ -87,6 +88,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Fri Jul 12 2024 Devrim Gunduz <devrim@gunduz.org> - 2.3.2-1PGDG
 - Update to 2.3.2 per changes described at:
   https://github.com/EnterpriseDB/hdfs_fdw/releases/tag/v2.3.2

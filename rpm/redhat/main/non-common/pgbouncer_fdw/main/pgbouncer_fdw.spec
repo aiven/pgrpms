@@ -4,7 +4,7 @@
 Summary:	pgbouncer Foreign Data Wrapper
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/CrunchyData/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/CrunchyData/%{sname}
@@ -40,6 +40,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}*.control
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Tue Oct 31 2023 Devrim Gündüz <devrim@gunduz.org> 1.1.0-1PGDG
 - Update to 1.1.0
 

@@ -24,7 +24,7 @@
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %{!?raster:%global	raster 1}
 
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 %ifnarch ppc64 ppc64le
 # TODO
 %{!?sfcgal:%global	sfcgal 1}
@@ -38,7 +38,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha2_1PGDG%{?dist}
+Release:	alpha2_2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2-en.pdf
@@ -55,7 +55,7 @@ Requires:	libgmp10
 Requires:	gmp
 %endif
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
 %endif
 %else
@@ -75,7 +75,7 @@ BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	libprotobuf-c1
 BuildRequires:	libprotobuf-c-devel
 %else
@@ -90,7 +90,7 @@ Requires:	libgeotiff%{libgeotiffmajorversion}
 Requires:	hdf5
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 Requires:	pcre
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	libjson-c5
 Requires:	libxerces-c-3_2
 BuildRequires:	libxerces-c-devel
@@ -168,31 +168,20 @@ The %{name}-utils package provides the utilities for PostGIS.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for postgis33
+Summary:	Just-in-time compilation support for postgis35
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for postgis33
+This packages provides JIT support for postgis35
 %endif
-
 
 %prep
 %setup -q -n %{sname}-%{version}alpha2
@@ -224,7 +213,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -365,6 +354,9 @@ fi
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0alpha2-2PGDG
+- Update LLVM dependencies
+
 * Tue Jul 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.5.0alpha2-1PGDG
 - Update to 3.5.0 Alpha2
 

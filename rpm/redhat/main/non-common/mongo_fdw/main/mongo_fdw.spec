@@ -6,7 +6,7 @@
 Summary:	PostgreSQL foreign data wrapper for MongoDB
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.5.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	LGPLv3
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/REL-%{relver}.tar.gz
@@ -41,10 +41,11 @@ MongoDB.
 Summary:	Just-in-time compilation support for mongo_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -103,6 +104,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} -f Makefile USE_PGXS=1 %{?_smp_mflags} ins
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 5.5.2-2PGDG
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Fri Jul 12 2024 Devrim Gündüz <devrim@gunduz.org> - 5.5.2-1PGDG
 - Update to 5.5.2 per changes described at:
   https://github.com/EnterpriseDB/mongo_fdw/releases/tag/REL-5_5_2
