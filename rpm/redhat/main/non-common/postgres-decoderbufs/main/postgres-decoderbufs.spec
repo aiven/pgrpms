@@ -11,7 +11,7 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.6.1
+Version:	2.7.0
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
@@ -81,6 +81,10 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1PGDG
+- Update to 2.7.0 per changes described at
+  https://github.com/debezium/postgres-decoderbufs/releases/tag/v2.7.0.Final
+
 * Thu Apr 25 2024 Devrim Gündüz <devrim@gunduz.org> - 2.6.1-1PGDG
 - Update to 2.6.1 per changes described at
   https://github.com/debezium/postgres-decoderbufs/releases/tag/v2.6.1.Final
