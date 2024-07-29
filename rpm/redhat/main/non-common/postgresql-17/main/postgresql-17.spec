@@ -129,7 +129,7 @@ Requires:	libicu
 BuildRequires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm => 13.0
+BuildRequires:	llvm-devel => 13.0 clang-devel >= 13.0
 %endif
 %endif
 
@@ -1244,7 +1244,7 @@ fi
 %endif
 
 %changelog
-* Mon Jul 19 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta2-2PGDG
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta2-2PGDG
 - Update LLVM dependencies
 
 * Wed Jun 26 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta2-1PGDG

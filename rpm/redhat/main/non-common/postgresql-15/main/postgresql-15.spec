@@ -80,9 +80,9 @@ Version:	15.7
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -157,21 +157,14 @@ BuildRequires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.
 BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
 %endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
+BuildRequires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0
-%endif
-%if 0%{?fedora} == 38
-BuildRequires:	llvm15-devel >= 15.0
+%if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel => 13.0 clang-devel >= 13.0
 %endif
 %endif
 
@@ -397,25 +390,18 @@ Requires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
 %else
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	llvm15-devel clang15-devel
+Requires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm-devel >= 13.0 clang-devel >= 13.0
 %endif
-%if 0%{?fedora} == 38
-Requires:	llvm15-devel >= 15.0 clang15-devel >= 15.0
+%endif
 %endif
 
-%endif
 %if %icu
 Requires:	libicu-devel
 %endif
@@ -466,13 +452,10 @@ Requires:	llvm5.0 >= 5.0
 Requires:	llvm
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	libLLVM15
+Requires:	libLLVM17
 %endif
-%if 0%{?fedora} == 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm >= 13.0
-%endif
-%if 0%{?fedora} == 38
-Requires:	llvm15 >= 15.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -620,7 +603,7 @@ export PYTHON=/usr/bin/python3
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
 %endif
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel} >= 8
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
 %if 0%{?suse_version} >= 1315
@@ -845,7 +828,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 
 %if %test
 	# tests. There are many files included here that are unnecessary,
-	# but include them anyway for completeness.  We replace the original
+	# but include them anyway for completeness. We replace the original
 	# Makefiles, however.
 	%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/lib/test
 	%{__cp} -a src/test/regress %{buildroot}%{pgbaseinstdir}/lib/test
@@ -1399,6 +1382,9 @@ fi
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 15.8-4PGDG
+- Update LLVM dependencies
+
 * Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 15.8-3PGDG
 - Rebuild against LLVM 17 on RHEL 8
 
