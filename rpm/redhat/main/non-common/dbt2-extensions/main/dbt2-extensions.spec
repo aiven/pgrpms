@@ -2,19 +2,11 @@
 %global _vpath_builddir .
 %global sname	dbt2
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.53.9
+Version:	0.61.2
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -23,11 +15,7 @@ Patch0:		%{sname}-cmakelists-rpm.patch
 Requires:	%{sname}-common
 
 BuildRequires:	gcc-c++
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	cmake3
-%else
 BuildRequires:	cmake => 3.2.0
-%endif
 
 BuildRequires:	libpq5-devel openssl-devel curl-devel
 
@@ -49,20 +37,9 @@ The database management systems that are currently supported are:
 %package llvmjit
 Summary:	Just-in-time compilation support for dbt2-extensions
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm => 13.0
@@ -146,6 +123,11 @@ popd
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 0.61.2-1PGDG
+- Update 0.61.2
+- Update LLVM dependencies
+- Remove RHEL 7 support
+
 * Wed Feb 21 2024 Devrim Gündüz <devrim@gunduz.org> - 0.53.9-1PGDG
 - Update to 0.53.9
 
