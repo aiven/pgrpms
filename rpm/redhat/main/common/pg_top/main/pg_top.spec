@@ -3,7 +3,7 @@
 
 Summary:	'top' for PostgreSQL process
 Name:		%{sname}
-Version:	4.1.0
+Version:	4.1.1
 Release:	10PGDG%{?dist}
 License:	BSD
 Source0:	https://api.pgxn.org/dist/pg_top/%{version}/pg_top-%{version}.zip
@@ -59,6 +59,9 @@ pushd build
 %{_mandir}/man1/pg_top.1.gz
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.1-10PGDG
+- Update to 4.1.1
+
 * Mon May 27 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-10PGDG
 - Update to 4.1.0
 - Move package to common repository.
