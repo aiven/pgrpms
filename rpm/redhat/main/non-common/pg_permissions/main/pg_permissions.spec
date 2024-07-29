@@ -1,11 +1,11 @@
 %global sname pg_permissions
 
-%global tarballversion REL_1_2
+%global tarballversion REL_1_3
 
 Summary:	PostgreSQL permission reports and checks
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/refs/tags/%{tarballversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/pg_permissions/
@@ -35,6 +35,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/%{sname}*.*
 
 %changelog
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-2PGDG
+- Fix tarball version
+
 * Tue Jun 25 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-1PGDG
 - Update to 1.3 per changes described at:
   https://github.com/cybertec-postgresql/pg_permissions/releases/tag/REL_1_3
