@@ -1,18 +1,10 @@
 %global sname plpgsql_check
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.7.7
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
@@ -31,17 +23,6 @@ performance issues.
 %package llvmjit
 Summary:	Just-in-time compilation support for plpgsql_check
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
-%endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm15-devel clang15-devel
 Requires:	llvm15
@@ -53,6 +34,7 @@ Requires:	llvm => 13.0
 %description llvmjit
 This packages provides JIT support for plpgsql_check
 %endif
+
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -79,7 +61,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
-* Mon Jun 25 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.7-1PGDG
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.7-2PGDG
+- Update LLVM dependencies
+- Fix changelog date
+- Remove RHEL 7 support
+
+* Tue Jun 25 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.7-1PGDG
 - Update to 2.7.7 per changes described at:
   https://github.com/okbob/plpgsql_check/releases/tag/v2.7.7
 
