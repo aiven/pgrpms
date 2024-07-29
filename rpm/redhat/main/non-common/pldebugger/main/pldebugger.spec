@@ -11,8 +11,8 @@
 %endif
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5
-Release:	3PGDG%{?dist}
+Version:	1.8
+Release:	1PGDG%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic 2.0
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -72,10 +72,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 
 # Install README and howto file under PostgreSQL installation directory:
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__install} -m 644 README.%{sname} %{buildroot}%{pginstdir}/doc/extension/README.%{sname}
+%{__install} -m 644 README-%{sname}.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %files
-%doc %{pginstdir}/doc/extension/README.%{sname}
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %license LICENSE
 %{pginstdir}/lib/plugin_debugger.so
 %{pginstdir}/share/extension/pldbgapi*.sql
@@ -88,6 +88,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.8-1PGDG
+- Update to 1.8 per changes described at:
+  https://github.com/EnterpriseDB/pldebugger/releases/tag/v1.8
+  https://github.com/EnterpriseDB/pldebugger/releases/tag/v1.7
+  https://github.com/EnterpriseDB/pldebugger/releases/tag/v1.6
+
 * Mon Aug 21 2023 Devrim Gunduz <devrim@gunduz.org> - 1.5-3PGDG
 - Remove RHEL 6 bits
 - Add PGDG branding
