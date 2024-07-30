@@ -24,7 +24,7 @@ BuildRequires:	CGAL-devel >= 5.4
 %endif
 
 %if 0%{?fedora} && 0%{?fedora} >= 39
-Version:	1.5.1
+Version:	1.5.2
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
@@ -127,6 +127,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Tue Jul 30 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.2-1PGDG
+- Update to 1.5.2 on Fedora
+
 * Wed Feb 21 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.10-2PGDG
 - Add PGDG branding
 - Switch back to boot 1.66 on SLES 15, which is the version in the
