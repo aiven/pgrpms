@@ -6,7 +6,7 @@ Name:		%{sname}
 Version:	4.1.1
 Release:	10PGDG%{?dist}
 License:	BSD
-Source0:	https://api.pgxn.org/dist/pg_top/%{version}/pg_top-%{version}.zip
+Source0:	https://github.com/markwkm/pg_top/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/markwkm/%{sname}
 BuildRequires:	libpq5-devel ncurses-devel
 BuildRequires:	libbsd-devel
