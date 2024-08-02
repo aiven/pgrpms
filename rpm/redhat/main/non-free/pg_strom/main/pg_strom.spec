@@ -4,18 +4,10 @@
 %global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.1.2
+Version:	5.2.2
 Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
@@ -43,10 +35,11 @@ towards large data set using the capability of GPU devices.
 Summary:	Just-in-time compilation support for pg_strom
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
 Requires:	llvm => 13.0
 %endif
 
@@ -100,6 +93,9 @@ export CUDA_PATH=%{__cuda_path}
 %endif
 
 %changelog
+* Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1PGDG
+- Update to 5.2.2
+
 * Fri May 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1.2-1PGDG
 - Update to 5.1.2
 
