@@ -1,6 +1,6 @@
 %global sname	oracle_fdw
 %global ofdwmajver 2
-%global ofdwmidver 6
+%global ofdwmidver 7
 %global ofdwminver 0
 
 # Override RPM dependency generation to filter out libclntsh.so.
@@ -26,9 +26,9 @@ Obsoletes:	%{sname}%{pgmajorversion} < 2.3.0-2
 
 Requires:	postgresql%{pgmajorversion}-server
 # Package builder needs to adjust this as needed.
-BuildRequires:	oracle-instantclient-basic >= 21.13.0.0.0
-BuildRequires:	oracle-instantclient-devel >= 21.13.0.0.0
-Requires:	oracle-instantclient-basic >= 21.13.0.0.0
+BuildRequires:	oracle-instantclient-basic >= 23.5.0.0.0
+BuildRequires:	oracle-instantclient-devel >= 23.5.0.0.0
+Requires:	oracle-instantclient-basic >= 23.5.0.0.0
 
 %description
 Provides a Foreign Data Wrapper for easy and efficient read access from
@@ -48,7 +48,7 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR
 
 %check
 %if %runselftest
-%{__make} installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres PGPORT=5495
+%{__make} installcheck PG_CONFIG=%{pginstdir}/bin/pg_config %{?_smp_mflags} PGUSER=postgres PGPORT=5416
 %endif
 
 %files
@@ -59,6 +59,11 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} install DESTDIR
 %{pginstdir}/doc/extension/README.%{sname}
 
 %changelog
+* Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.0-1PGDG
+- Update to 2.7.0 per changes described at:
+  https://github.com/laurenz/oracle_fdw/releases/tag/ORACLE_FDW_2_7_0
+- Update OIC dependency to 23.5.0.0.0
+
 * Sat Mar 16 2024 Devrim Gündüz <devrim@gunduz.org> 2.6.0-3PGDG
 - Rebuild against OIC 21.13.0.0.0
 
