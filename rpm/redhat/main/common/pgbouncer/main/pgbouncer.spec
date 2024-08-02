@@ -1,5 +1,5 @@
 Name:		pgbouncer
-Version:	1.23.0
+Version:	1.23.1
 Release:	42PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
@@ -8,7 +8,6 @@ Source0:	https://www.pgbouncer.org/downloads/files/%{version}/%{name}-%{version}
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
-Source5:	%{name}.service.rhel7
 Patch0:		%{name}-ini.patch
 
 BuildRequires:	pgdg-srpm-macros
@@ -57,9 +56,6 @@ sed -i.fedora \
 # c-ares >= 1.16 is needed for proper c-ares support. Currently only RHEL 9
 # and Fedora has it. Use libevent on the remaining ones.
 # Per https://redmine.postgresql.org/issues/6315
-#
-# Building with systemd flag tries to enable notify support which is not
-# available on RHEL/CentOS 7, so use the flag on RHEL 8 and Fedora.
 
 %configure \
 	--datadir=%{_datadir} \
@@ -68,9 +64,7 @@ sed -i.fedora \
 %else
 	--without-cares \
 %endif
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-systemd \
-%endif
 	--with-pam
 
 %{__make} %{?_smp_mflags} V=1
@@ -86,11 +80,7 @@ sed -i.fedora \
 %{__install} -p -m 700 etc/mkauth.py %{buildroot}%{_sysconfdir}/%{name}/
 
 %{__install} -d %{buildroot}%{_unitdir}
-%if 0%{?rhel} == 7 || 0%{?suse_version} >= 1315
-%{__install} -m 644 %{SOURCE5} %{buildroot}%{_unitdir}/%{name}.service
-%else
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
-%endif
 
 # ... and make a tmpfiles script to recreate it at reboot.
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
@@ -152,6 +142,11 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 1.23.1-42PGDG
+- Update to 1.23.1, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-123x
+- Remove RHEL 7 and SLES 12 support from the spec file.
+
 * Fri Jul 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1.23.0-42PGDG
 - Update to 1.23.0, per changes described at:
   http://www.pgbouncer.org/changelog.html#pgbouncer-123x
