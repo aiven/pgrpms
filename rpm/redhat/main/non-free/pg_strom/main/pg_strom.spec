@@ -1,6 +1,6 @@
 %global	sname	pg_strom
 %global __cuda_major_version 12
-%global __cuda_minor_version 4
+%global __cuda_minor_version 6
 %global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
@@ -95,6 +95,7 @@ export CUDA_PATH=%{__cuda_path}
 %changelog
 * Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1PGDG
 - Update to 5.2.2
+- Update Cuda dependency to 12.6
 
 * Fri May 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1.2-1PGDG
 - Update to 5.1.2
