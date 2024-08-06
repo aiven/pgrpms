@@ -102,13 +102,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.19
+Version:	12.20
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1595,6 +1595,10 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 12.20-1PGDG
+- Update to 12.20, per changes described at
+  https://www.postgresql.org/docs/release/12.20/
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 12.19-4PGDG
 - Update LLVM dependencies
 
