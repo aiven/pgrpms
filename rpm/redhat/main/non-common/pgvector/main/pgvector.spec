@@ -4,8 +4,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.7.3
-Release:	2PGDG%{?dist}
+Version:	0.7.4
+Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -69,6 +69,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.4-1PGDG
+- Update to 0.7.4
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7.3-2PGDG
 - Update LLVM dependencies
 
