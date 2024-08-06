@@ -4,8 +4,8 @@
 
 Summary:	Incremental View Maintenance (IVM) feature for PostgreSQL.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.8
-Release:	2PGDG%{?dist}
+Version:	1.9
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/sraoss/%{sname}/
 Source0:	https://github.com/sraoss/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -58,6 +58,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 1.9-1PGDG
+- Update to 1.9 per changes described at:
+  https://github.com/sraoss/pg_ivm/releases/tag/v1.9
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.8-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
