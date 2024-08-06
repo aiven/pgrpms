@@ -100,7 +100,7 @@ Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
-Requires:	lz4
+Requires:	lz4-libs
 %endif
 
 # zstd dependency
@@ -126,19 +126,11 @@ Requires:	libicu
 %endif
 
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-BuildRequires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-%if 0%{?fedora}
-BuildRequires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-%endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+BuildRequires:	llvm17-devel clang17-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel => 13.0 clang-devel >= 13.0
 %endif
 %endif
 
@@ -329,20 +321,15 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %if %llvm
-%if 0%{?rhel} && 0%{?rhel} >= 8
-# Packages come from Appstream:
-Requires:	llvm-devel >= 8.0.1 clang-devel >= 8.0.1
-%endif
-%if 0%{?fedora}
-Requires:	llvm-devel >= 5.0 clang-devel >= 5.0
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-Requires:	llvm6-devel clang6-devel
-%endif
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-Requires:	llvm15-devel clang15-devel
+Requires:	llvm17
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm => 13.0
 %endif
 %endif
+
 %if %icu
 Requires:	libicu-devel
 %endif
@@ -376,14 +363,11 @@ to develop applications which will interact with a PostgreSQL server.
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} == 1315
-Requires:	llvm
-%endif
 %if 0%{?suse_version} >= 1500
-Requires:	libLLVM15
+Requires:	libLLVM17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm => 13
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
