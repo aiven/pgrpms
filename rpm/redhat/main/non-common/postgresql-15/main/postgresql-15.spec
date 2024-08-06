@@ -76,13 +76,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.7
+Version:	15.8
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -123,7 +123,7 @@ Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
-Requires:	lz4
+Requires:	lz4-libs
 %endif
 
 # zstd dependency
@@ -1382,10 +1382,16 @@ fi
 %endif
 
 %changelog
-* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 15.8-4PGDG
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 15.8-1PGDG
+- Update to 15.8, per changes described at
+  https://www.postgresql.org/docs/release/15.8/
+- Tighten lz4 dependency per report from Florian Apolloner. Fixes
+  https://redmine.postgresql.org/issues/8023
+
+* Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 15.7-4PGDG
 - Update LLVM dependencies
 
-* Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 15.8-3PGDG
+* Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 15.7-3PGDG
 - Rebuild against LLVM 17 on RHEL 8
 
 * Sun May 12 2024 Devrim Gündüz <devrim@gunduz.org> - 15.7-2PGDG
