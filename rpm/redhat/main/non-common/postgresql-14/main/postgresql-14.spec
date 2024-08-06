@@ -76,13 +76,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.12
+Version:	14.13
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -123,7 +123,7 @@ Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
-Requires:	lz4
+Requires:	lz4-libs
 %endif
 
 # This dependency is needed for Source 16:
@@ -1374,6 +1374,12 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 14.13-1PGDG
+- Update to 14.13, per changes described at
+  https://www.postgresql.org/docs/release/14.13/
+- Tighten lz4 dependency per report from Florian Apolloner. Fixes
+  https://redmine.postgresql.org/issues/8023
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 14.12-4PGDG
 - Update LLVM dependencies
 
