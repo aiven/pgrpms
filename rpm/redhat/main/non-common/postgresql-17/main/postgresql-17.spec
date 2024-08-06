@@ -99,7 +99,7 @@ Requires:	liblz4-1
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
-Requires:	lz4
+Requires:	lz4-libs
 %endif
 
 # zstd dependency
@@ -1244,6 +1244,11 @@ fi
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta3-1PGDG
+- Update to PostgreSQL 17 Beta3
+- Tighten lz4 dependency per report from Florian Apolloner. Fixes
+  https://redmine.postgresql.org/issues/8023
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta2-2PGDG
 - Update LLVM dependencies
 
