@@ -67,6 +67,14 @@ repo_gpgcheck = 1
 # PGDG Fedora Updates Testing repositories (These packages should not be used in production).
 # Available for 12 and above.
 
+[pgdg18-updates-testing]
+name=PostgreSQL 18 for Fedora $releasever - $basearch - Updates testing
+baseurl=https://download.postgresql.org/pub/repos/yum/testing/18/fedora/fedora-$releasever-$basearch
+enabled=0
+gpgcheck=0
+gpgkey=file:///etc/pki/rpm-gpg/PGDG-RPM-GPG-KEY-Fedora
+repo_gpgcheck = 1
+
 [pgdg17-updates-testing]
 name=PostgreSQL 17 for Fedora $releasever - $basearch - Updates testing
 baseurl=https://download.postgresql.org/pub/repos/yum/testing/17/fedora/fedora-$releasever-$basearch
