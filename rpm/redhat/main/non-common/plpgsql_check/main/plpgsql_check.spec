@@ -3,8 +3,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.7.7
-Release:	2PGDG%{?dist}
+Version:	2.7.8
+Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
@@ -61,6 +61,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.8-1PGDG
+- Update to 2.7.8 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.7.8
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.7-2PGDG
 - Update LLVM dependencies
 - Fix changelog date
