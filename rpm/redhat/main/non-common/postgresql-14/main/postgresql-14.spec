@@ -121,9 +121,13 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 BuildRequires:	liblz4-devel
 Requires:	liblz4-1
 %endif
-%if 0%{?rhel} || 0%{?fedora}
+%if 0%{?rhel} >= 8 || 0%{?fedora}
 BuildRequires:	lz4-devel
 Requires:	lz4-libs
+%endif
+%if 0%{?rhel} == 7
+BuildRequires:	lz4-devel
+Requires:	lz4
 %endif
 
 # This dependency is needed for Source 16:
@@ -1377,8 +1381,8 @@ fi
 * Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 14.13-1PGDG
 - Update to 14.13, per changes described at
   https://www.postgresql.org/docs/release/14.13/
-- Tighten lz4 dependency per report from Florian Apolloner. Fixes
-  https://redmine.postgresql.org/issues/8023
+- Tighten lz4 dependency on RHEL 8+ per report from Florian Apolloner.
+  Fixes https://redmine.postgresql.org/issues/8023
 
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 14.12-4PGDG
 - Update LLVM dependencies
