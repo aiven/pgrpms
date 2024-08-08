@@ -1,0 +1,30 @@
+diff --git a/src/test/perl/PostgreSQL/Test/Cluster.pm b/src/test/perl/PostgreSQL/Test/Cluster.pm
+index 14e9138..c0c275a 100644
+--- a/src/test/perl/PostgreSQL/Test/Cluster.pm
++++ b/src/test/perl/PostgreSQL/Test/Cluster.pm
+@@ -10,4 +10,10 @@ use warnings;
+ BEGIN { *PostgreSQL::Test::Cluster:: = \*PostgresNode::; }
+ use PostgresNode ();
+ 
++# There's no runtime requirement for the following package declaration, but it
++# convinces the RPM Package Manager that this file provides the Perl package
++# in question.  Perl v5.10.1 segfaults if a declaration of the to-be-aliased
++# package precedes the aliasing itself, hence the abnormal placement.
++package PostgreSQL::Test::Cluster;
++
+ 1;
+diff --git a/src/test/perl/PostgreSQL/Test/Utils.pm b/src/test/perl/PostgreSQL/Test/Utils.pm
+index 2d15bbf..3b77a6e 100644
+--- a/src/test/perl/PostgreSQL/Test/Utils.pm
++++ b/src/test/perl/PostgreSQL/Test/Utils.pm
+@@ -8,4 +8,10 @@ use warnings;
+ BEGIN { *PostgreSQL::Test::Utils:: = \*TestLib::; }
+ use TestLib ();
+ 
++# There's no runtime requirement for the following package declaration, but it
++# convinces the RPM Package Manager that this file provides the Perl package
++# in question.  Perl v5.10.1 segfaults if a declaration of the to-be-aliased
++# package precedes the aliasing itself, hence the abnormal placement.
++package PostgreSQL::Test::Utils;
++
+ 1;

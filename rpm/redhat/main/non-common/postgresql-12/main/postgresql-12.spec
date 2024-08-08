@@ -106,9 +106,9 @@ Version:	12.20
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -148,6 +148,7 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # version 12.10:
 Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-aa2215d6b.patch
 %endif
+Patch8:		postgresql-12-provide-perl-dependency.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
@@ -578,6 +579,7 @@ benchmarks.
 %if 0%{?rhel} && 0%{?rhel} == 6
 %patch -P 7 -p0
 %endif
+%patch -P 8 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1595,6 +1597,10 @@ fi
 %endif
 
 %changelog
+* Fri Aug 9 2024 Devrim Gündüz <devrim@gunduz.org> - 12.20-2PGDG
+- Add a patch to virtually provide PostgreSQL::Test::Utils dependency.
+  Per report from John Harvey and others. Patch from Noah Misch.
+
 * Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 12.20-1PGDG
 - Update to 12.20, per changes described at
   https://www.postgresql.org/docs/release/12.20/
