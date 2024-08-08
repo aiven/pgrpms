@@ -4,8 +4,8 @@
 
 Summary:	Sampling based statistics of wait events
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.5
-Release:	2PGDG%{?dist}
+Version:	1.1.6
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}
@@ -65,6 +65,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Aug 8 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.6-1PGDG
+- Update to 1.1.6 per changes described at:
+  https://github.com/postgrespro/pg_wait_sampling/releases/tag/v1.1.6
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
