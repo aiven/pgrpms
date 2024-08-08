@@ -80,9 +80,9 @@ Version:	14.13
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -110,6 +110,7 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+Patch7:		%{sname}-%{pgmajorversion}-provide-perl-dependency.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -565,6 +566,7 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
+%patch -P 7 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1378,6 +1380,10 @@ fi
 %endif
 
 %changelog
+* Fri Aug 9 2024 Devrim Gündüz <devrim@gunduz.org> - 14.13-2PGDG
+- Add a patch to virtually provide PostgreSQL::Test::Utils dependency.
+  Per report from John Harvey and others. Patch from Noah Misch.
+
 * Tue Aug 6 2024 Devrim Gündüz <devrim@gunduz.org> - 14.13-1PGDG
 - Update to 14.13, per changes described at
   https://www.postgresql.org/docs/release/14.13/
