@@ -148,7 +148,7 @@ Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 # version 12.10:
 Patch7:		%{sname}-%{pgmajorversion}-rhel6-revert-aa2215d6b.patch
 %endif
-Patch8:		postgresql-12-provide-perl-dependency.patch
+Patch8:		%{sname}-%{pgmajorversion}-provide-perl-dependency.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31 pgdg-srpm-macros
 BuildRequires:	gcc-c++
