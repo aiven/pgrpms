@@ -102,6 +102,17 @@ priority=1
 # PGDG SuSE Enterprise Linux Updates Testing repositories. (These packages should not be used in production)
 # Available for v15 and above.
 
+[pgdg-18-updates-testing]
+name=PostgreSQL 18 SLES $releasever - $basearch - Updates testing
+baseurl=https://download.postgresql.org/pub/repos/zypp/testing/18/suse/sles-$releasever-$basearch
+enabled=0
+autorefresh=0
+type=rpm-md
+gpgcheck=0
+gpgkey=file:///etc/pki/PGDG-RPM-GPG-KEY-SLES15
+keeppackages=0
+priority=1
+
 [pgdg-17-updates-testing]
 name=PostgreSQL 17 SLES $releasever - $basearch - Updates testing
 baseurl=https://download.postgresql.org/pub/repos/zypp/testing/17/suse/sles-$releasever-$basearch
