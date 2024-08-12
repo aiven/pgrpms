@@ -4,7 +4,7 @@
 Name:		libpqxx
 Summary:	C++ client API for PostgreSQL
 Epoch:		1
-Version:	%{libpqxxmajorver}.1
+Version:	%{libpqxxmajorver}.2
 Release:	10PGDG%{?dist}
 
 License:	BSD
@@ -72,6 +72,10 @@ popd
 %{_docdir}/%{name}/*.md
 
 %changelog
+* Mon Aug 12 2024 Devrim Gündüz <devrim@gunduz.org> - 1:7.9.2-10PGDG
+- Update to 7.9.2 per changes described at
+  https://github.com/jtv/libpqxx/releases/tag/7.9.2
+
 * Wed Jun 26 2024 Devrim Gündüz <devrim@gunduz.org> - 1:7.9.1-10PGDG
 - Update to 7.9.1 per changes described at
   https://github.com/jtv/libpqxx/releases/tag/7.9.1
