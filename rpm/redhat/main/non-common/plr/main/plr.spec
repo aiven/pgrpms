@@ -2,14 +2,14 @@
 
 %global plrmajver 8
 %global plrmidver 4
-%global plrminver 6
+%global plrminver 7
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{plrmajver}.%{plrmidver}.%{plrminver}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL%{plrmajver}_%{plrmidver}_%{plrminver}.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
@@ -70,6 +70,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Mon Aug 12 2024 Devrim Gunduz <devrim@gunduz.org> - 8.4.7-1PGDG
+- Update to 8.4.7
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 8.4.6-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
