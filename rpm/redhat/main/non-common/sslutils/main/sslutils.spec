@@ -4,8 +4,8 @@
 
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3
-Release:	7PGDG%{?dist}
+Version:	1.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -71,6 +71,9 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Mon Aug 12 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4-1PGDG
+- Update to 1.4
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-7PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
