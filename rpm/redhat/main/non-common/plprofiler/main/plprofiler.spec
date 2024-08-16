@@ -1,9 +1,9 @@
 %global sname	plprofiler
-%global git_tag	REL4_2_4
+%global git_tag	REL4_2_5
 %global ppmajorver 4.2
 
 %global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 39
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -13,8 +13,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{ppmajorver}.4
-Release:	2PGDG%{dist}
+Version:	%{ppmajorver}.5
+Release:	1PGDG%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
 URL:		https://github.com/bigsql/%{sname}
@@ -41,13 +41,8 @@ Provides:		%{name}%{version}-client%{?_isa} = %{version}-%{release}
 Summary:		Command Line Tool for the PL/pgSQL profiler
 Requires:		python3
 Requires:		python3-psycopg2
-%if 0%{?rhel} == 7
-BuildRequires:	python36-six >= 1.4
-BuildRequires:	python3-psycopg2
-%else
 BuildRequires:	python3-six >= 1.4
 BuildRequires:	python3-psycopg2
-%endif
 BuildRequires:	python3-devel python3-setuptools
 
 %description client
@@ -107,13 +102,16 @@ cd ..
 %endif
 
 %changelog
+* Fri Aug 16 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.5-1PGDG
+- Update to 4.2.5
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.4-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
 
 * Wed Sep 13 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.4-1PGDG
 - Update to 4.2.4
-
+.
 * Tue Aug 1 2023 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-1PGDG
 - Update to 4.2.2
 - Add PGDG branding
