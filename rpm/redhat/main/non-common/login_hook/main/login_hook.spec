@@ -4,11 +4,11 @@
 
 Summary:	Postgres database extension to execute some code on user login, comparable to Oracle's after logon trigger.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5
-Release:	2PGDG%{?dist}
+Version:	1.6
+Release:	1PGDG%{?dist}
 License:	GPLv3
 URL:		https://github.com/splendiddata/%{sname}
-Source0:	https://github.com/splendiddata/%{sname}/archive/refs/tags/version_%{version}.tar.gz
+Source0:	https://github.com/splendiddata/%{sname}/archive/refs/tags/Version_%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
 
@@ -34,7 +34,7 @@ This packages provides JIT support for login_hook
 %endif
 
 %prep
-%setup -q -n %{sname}-version_%{version}
+%setup -q -n %{sname}-Version_%{version}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
@@ -63,6 +63,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Aug 16 2024 Devrim Gündüz <devrim@gunduz.org> - 1.6-1PGDG
+- Update to 1.6 per changes described at:
+  https://github.com/splendiddata/login_hook/releases/tag/Version_1.6
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
