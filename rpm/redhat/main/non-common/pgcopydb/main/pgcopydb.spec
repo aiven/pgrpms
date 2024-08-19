@@ -12,6 +12,12 @@ URL:		https://github.com/dimitri/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel gc-devel
 BuildRequires:	pgdg-srpm-macros krb5-devel bison flex sqlite-devel
 Requires:	postgresql%{pgmajorversion}
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
+Requires:	gc
+%endif
+%if 0%{?suse_version} >= 1500
+Requires:	libgc1
+%endif
 
 %description
 pgcopydb is a tool that automates running pg_dump | pg_restore between
