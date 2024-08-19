@@ -3,7 +3,7 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.53
+Version:	2.53.1
 Release:	1PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
@@ -134,6 +134,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Aug 19 2024 Devrim Gündüz <devrim@gunduz.org> - 2.53.1-1PGDG
+- Update to 2.53.1, per changes described at:
+  https://pgbackrest.org/release.html#2.53.1
+
 * Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 2.53-1PGDG
 - Update to 2.53, per changes described at:
   https://pgbackrest.org/release.html#2.53
