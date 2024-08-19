@@ -83,8 +83,9 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 
 %changelog
 * Mon Aug 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.15-2PGDG
-- Fix ownership of config file and etcd working directory.
-- Make sure that unit file uses the correct etcd config file.
+- Fix ownership of config file and etcd working directory. Also make
+  sure that unit file uses the correct etcd config file. Per report
+  from Karsten Lenz. Fixes https://redmine.postgresql.org/issues/7758
 
 * Fri Jul 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.15-1PGDG
 - Update to 3.5.15, per changes described at:
