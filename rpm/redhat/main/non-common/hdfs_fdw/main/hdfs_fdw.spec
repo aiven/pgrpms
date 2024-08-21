@@ -5,7 +5,7 @@
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.3.2
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -20,7 +20,7 @@ the hdfs.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for firebird_fdw
+Summary:	Just-in-time compilation support for hdfs_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm17-devel clang17-devel
@@ -32,7 +32,7 @@ Requires:	llvm => 13.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for firebird_fdw
+This packages provides JIT support for hdfs_fdw
 %endif
 
 %prep
@@ -88,6 +88,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Wed Aug 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-3PGDG
+- Fix package description in -debuginfo subpackage.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
