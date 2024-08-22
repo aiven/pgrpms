@@ -48,7 +48,7 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
 Name:		%{sname}39
-Version:	3.9.0
+Version:	3.9.2
 Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -74,7 +74,7 @@ BuildRequires:	lz4-devel bash-completion
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.37
+BuildRequires:	cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.42
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
@@ -87,7 +87,7 @@ BuildRequires:	freexl-devel
 %if 0%{?g2clib_enabled}
 BuildRequires:	g2clib-devel
 %endif
-BuildRequires:	geos%{geosmajorversion}-devel >= 3.9.0
+BuildRequires:	geos%{geosmajorversion}-devel >= 3.12.2
 BuildRequires:	ghostscript
 BuildRequires:	jpackage-utils
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1499
@@ -130,7 +130,7 @@ BuildRequires:	libpoppler-devel >= 0.86
 %else
 BuildRequires:	poppler-devel >= 0.86
 %endif
-BuildRequires:	proj%{projmajorversion}-devel >= 7.1.0
+BuildRequires:	proj%{projmajorversion}-devel >= 9.4.1
 
 BuildRequires:	sqlite-devel >= 3.31
 BuildRequires:	swig
@@ -235,7 +235,7 @@ Requires:	libspatialite%{libspatialitemajorversion}-devel
 Requires:	libarmadillo10
 %endif
 %endif
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
 Requires:	armadillo
 %endif
 
@@ -331,7 +331,7 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
- -DGDAL_USE_SHAPELIB=ON \
+ -DGDAL_USE_SHAPELIB=OFF \
  -DOGDI_INCLUDE_DIRS='%{ogdiinstdir}/include' \
  -DOGDI_LIBRARY='%{ogdiinstdir}/lib/libogdi.so' \
 %if %gdaljava
@@ -455,6 +455,12 @@ done
 %endif
 
 %changelog
+* Thu Aug 22 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-1PGDG
+- Update to 3.9.2 per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.9.2/NEWS.md
+  https://github.com/OSGeo/gdal/blob/v3.9.1/NEWS.md
+- Use internal shapelib.
+
 * Mon May 13 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.0-1PGDG
 - Initial 3.9.0 packaging. This RPM package adds / fixes SFCGAL,
   shapelib, OGDI and libspatialite support over the 3.8.5 package.
