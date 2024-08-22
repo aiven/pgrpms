@@ -94,7 +94,7 @@
 %global proj82fullversion		8.2.1
 %global proj72fullversion		7.2.1
 %global gdalfullversion			3.3.3
-%global gdal39fullversion		3.9.1
+%global gdal39fullversion		3.9.2
 %global gdal38fullversion		3.8.4
 %global gdal37fullversion		3.7.2
 %global gdal36fullversion		3.6.3
