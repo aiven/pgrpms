@@ -81,7 +81,7 @@
 
 Name:		%{sname}33
 Version:	3.3.3
-Release:	7PGDG%{?dist}
+Release:	8PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://gdal.org/
@@ -742,10 +742,13 @@ popd
 %_bindir/*.py
 
 %changelog
-* Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-7-1PGDG
+* Thu Aug 22 2024 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-8PGDG
+- Rebuild against new armadillo on RHEL 8
+
+* Thu Sep 21 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-7PGDG
 - Rebuild against GeOS 3.12 and Proj 9.2
 
-* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-6-1PGDG
+* Thu Aug 17 2023 Devrim Gunduz <devrim@gunduz.org> - 3.3.3-6PGDG
 - Rebuild against libspatialite50 5.1.0
 - Add PGDG branding
 
