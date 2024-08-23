@@ -11,8 +11,21 @@ URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
 Patch0:		%{sname}-pgdg-rpm.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildRequires:	postgresql%{pgmajorversion}-server java-1.8.0-openjdk-headless
+BuildRequires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-server
+
+%if 0%{?rhel} == 9
+BuildRequires:	java-17-openjdk-devel
+%endif
+%if 0%{?rhel} == 8
+BuildRequires:	java-latest-openjdk-devel
+%endif
+%if 0%{?fedora}
+BuildRequires:	java-latest-openjdk-devel
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	java-11-openjdk-devel
+%endif
 
 %description
 This is a foreign data wrapper (FDW) to connect PostgreSQL to
