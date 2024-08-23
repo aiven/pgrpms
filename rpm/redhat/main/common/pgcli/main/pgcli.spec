@@ -1,18 +1,18 @@
 %global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global	python_runtimes python3 python3-debug
+%global	python_runtimes python3
 
 %{?python_disable_dependency_generator}
 
 Summary:	A PostgreSQL client that does auto-completion and syntax highlighting
 Name:		pgcli
-Version:	4.0.1
+Version:	4.1.0
 Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/dbcli/%{name}
 Source0:	https://github.com/dbcli/%{name}/archive/refs/tags/v%{version}.tar.gz
 
-BuildRequires:	python3-devel python3-debug
+BuildRequires:	python3-devel
 
 Requires:	python3-click => 3.2, python3-pygments => 2.0
 Requires:	python3-sqlparse >= 0.1.14, python3-%{name}
@@ -80,6 +80,9 @@ done
 %doc LICENSE.txt
 
 %changelog
+* Fri Aug 23 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1PGDG
+- Update to 4.1.0
+
 * Mon Feb 19 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1
 - Add PGDG branding
