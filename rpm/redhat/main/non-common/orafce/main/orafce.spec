@@ -1,14 +1,14 @@
 %global sname orafce
 %global orafcemajver 4
-%global orafcemidver 10
-%global orafceminver 3
+%global orafcemidver 11
+%global orafceminver 0
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Implementation of some Oracle functions into PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{orafcemajver}.%{orafcemidver}.%{orafceminver}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
@@ -68,6 +68,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Aug 27 2024 Devrim Gündüz <devrim@gunduz.org> 4.11.0-1PGDG
+- Update to 4.11.0 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_11_0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.10.3-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
