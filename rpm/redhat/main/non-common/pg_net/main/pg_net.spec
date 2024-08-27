@@ -4,8 +4,8 @@
 
 Summary:	A PostgreSQL extension that enables asynchronous (non-blocking) HTTP/HTTPS requests with SQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.9.2
-Release:	2PGDG%{?dist}
+Version:	0.10.0
+Release:	1PGDG%{?dist}
 URL:		https://github.com/supabase/%{sname}
 Source0:	https://github.com/supabase/%{sname}/archive/refs/tags/v%{version}.tar.gz
 License:	Apache-2.0
@@ -64,6 +64,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Aug 27 2024 Devrim Gunduz <devrim@gunduz.org> - 0.10.0-1PGDG
+- Update to 0.10.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.10.0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 0.9.2-2PGDG
 - Update LLVM dependencies
 
