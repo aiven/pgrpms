@@ -4,8 +4,8 @@
 
 Summary:	Makes PostgreSQL logical replication slots practically usable across physical failover.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.1
-Release:	2PGDG%{?dist}
+Version:	1.1.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -76,6 +76,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Tue Aug 27 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-1PGDG
+- Update to 1.1.0 per changes described at:
+  https://github.com/EnterpriseDB/pg_failover_slots/releases/tag/v1.1.0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.1-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
