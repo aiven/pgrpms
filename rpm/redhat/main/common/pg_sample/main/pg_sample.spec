@@ -1,6 +1,6 @@
 Summary:	PostgreSQL utility for creating a small, sample database from a larger one
 Name:		pg_sample
-Version:	1.16
+Version:	1.17
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/mla/%{name}/archive/refs/tags/%{version}.tar.gz
@@ -34,6 +34,10 @@ maintains referential integrity, and supports circular dependencies.
 %{_bindir}/%{name}
 
 %changelog
+* Wed Aug 28 2024 Devrim Gündüz <devrim@gunduz.org> - 1.17-1PGDG
+- Update to 1.17 per changes described at:
+  https://github.com/mla/pg_sample/releases/tag/1.17
+
 * Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.16-1PGDG
 - Update to 1.16
 - Mark package as noarch
@@ -50,3 +54,4 @@ maintains referential integrity, and supports circular dependencies.
 
 * Thu Mar 3 2016 - Devrim Gündüz <devrim@gunduz.org> 1.09-1
 - Initial RPM packaging for yum.postgresql.org
+
