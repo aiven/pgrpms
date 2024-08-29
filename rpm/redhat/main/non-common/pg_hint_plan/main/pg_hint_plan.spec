@@ -1,20 +1,24 @@
 %global sname	pg_hint_plan
 
+%if %{pgmajorversion} == 17
+%global pghintplanversion 1.7.0
+%global git_tag	1_7_0
+%endif
 %if %{pgmajorversion} == 16
-%global pghintplanversion 1.6.0
-%global git_tag	1_6_0
+%global pghintplanversion 1.6.1
+%global git_tag	1_6_1
 %endif
 %if %{pgmajorversion} == 15
-%global pghintplanversion 1.5.1
-%global git_tag	1_5_0
+%global pghintplanversion 1.5.2
+%global git_tag	1_5_2
 %endif
 %if %{pgmajorversion} == 14
-%global pghintplanversion 1.4.2
-%global git_tag	1_4_2
+%global pghintplanversion 1.4.3
+%global git_tag	1_4_3
 %endif
 %if %{pgmajorversion} == 13
-%global pghintplanversion 1.3.9
-%global git_tag	1_3_9
+%global pghintplanversion 1.3.10
+%global git_tag	1_3_10
 %endif
 %if %{pgmajorversion} == 12
 %global pghintplanversion 1.3.10
@@ -26,7 +30,7 @@
 Summary:	Tweak PostgreSQL execution plans using so-called "hints" in SQL comments
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pghintplanversion}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/ossc-db/pg_hint_plan/archive/refs/tags/REL%{pgmajorversion}_%{git_tag}.tar.gz
 URL:		https://github.com/ossc-db/%{sname}/
@@ -34,14 +38,15 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
-pg_hint_plan makes it possible to tweak PostgreSQL execution plans using so-called
-"hints" in SQL comments, like /*+ SeqScan(a) */.
+pg_hint_plan makes it possible to tweak PostgreSQL execution plans using
+so-called "hints" in SQL comments, like /*+ SeqScan(a) */.
 
-PostgreSQL uses a cost-based optimizer, which utilizes data statistics, not static
-rules. The planner (optimizer) esitimates costs of each possible execution plans for a
-SQL statement then the execution plan with the lowest cost finally be executed.
-The planner does its best to select the best best execution plan, but is not always perfect,
-since it doesn't count some properties of the data, for example, correlation between columns.
+PostgreSQL uses a cost-based optimizer, which utilizes data statistics,
+not static rules. The planner (optimizer) esitimates costs of each possible
+execution plans for a SQL statement then the execution plan with the lowest
+cost finally be executed. The planner does its best to select the best best
+execution plan, but is not always perfect, since it doesn't count some
+properties of the data, for example, correlation between columns.
 
 %if %llvm
 %package llvmjit
@@ -92,7 +97,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
-* Thu Aug 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-2PGDG
+* Thu Aug 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-1PGDG
+- Update to 1.7.0 for PostgreSQL 17 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL17_1_7_0
+- Update to 1.6.1 for PostgreSQL 16 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL16_1_6_1
+- Update to 1.5.2 for PostgreSQL 15 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL15_1_5_2
+- Update to 1.4.3 for PostgreSQL 14 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL14_1_4_3
+- Update to 1.3.10 for PostgreSQL 13 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL13_1_3_10
 - Update to 1.3.10 for PostgreSQL 12 per changes described at:
   https://github.com/ossc-db/pg_hint_plan/releases/tag/REL12_1_3_10
 
