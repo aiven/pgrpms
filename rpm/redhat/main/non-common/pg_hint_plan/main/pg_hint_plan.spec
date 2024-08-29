@@ -17,8 +17,8 @@
 %global git_tag	1_3_9
 %endif
 %if %{pgmajorversion} == 12
-%global pghintplanversion 1.3.9
-%global git_tag	1_3_9
+%global pghintplanversion 1.3.10
+%global git_tag	1_3_10
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -92,6 +92,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Aug 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-2PGDG
+- Update to 1.3.10 for PostgreSQL 12 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL12_1_3_10
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
