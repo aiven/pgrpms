@@ -88,7 +88,7 @@ Meta package to pull etcd related dependencies for patroni
 %package -n %{name}-aws
 Summary:	Related components to use patroni on AWS
 Requires:	%{name} = %{version}-%{release}
-Requires:	python3-boto
+Requires:	python3-boto3
 
 %description -n %{name}-aws
 Meta package to pull AWS related dependencies for patroni
@@ -176,6 +176,7 @@ fi
 * Fri Aug 30 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-401
+- Fix boto3 dependency for the aws subpackage.
 
 * Fri Aug 30 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1PGDG
 - Update to 4.0.0, per changes described at:
