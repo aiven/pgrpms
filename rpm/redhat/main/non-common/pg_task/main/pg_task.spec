@@ -7,7 +7,7 @@ Name:		%{sname}_%{pgmajorversion}
 Version:	2.1.5
 Release:	1PGDG%{?dist}
 License:	MIT
-Group:		Applications/Databasesw
+Group:		Applications/Databases
 URL:		https://github.com/RekGRpth/%{sname}
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 BuildRequires:	postgresql%{pgmajorversion}-devel
