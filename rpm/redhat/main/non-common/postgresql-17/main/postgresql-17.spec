@@ -7,7 +7,7 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 # Macros that define the configure parameters:
@@ -57,14 +57,14 @@ Version:	17
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	beta3_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 %else
-Release:	beta3_1PGDG%{?dist}
+Release:	rc1_1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}beta3/postgresql-%{version}beta3.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}rc1/postgresql-%{version}rc1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -441,7 +441,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}beta3
+%setup -q -n %{sname}-%{pgpackageversion}rc1
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1244,6 +1244,9 @@ fi
 %endif
 
 %changelog
+* Tue Sep 3 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-rc1-1PGDG
+- Update to PostgreSQL 17 RC1
+
 * Tue Aug 6 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-beta3-1PGDG
 - Update to PostgreSQL 17 Beta3
 - Tighten lz4 dependency per report from Florian Apolloner. Fixes
