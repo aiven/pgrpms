@@ -155,11 +155,11 @@ exit 0
 - Update to 3.0.2 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg45058.html
 
-* Mon Jun 11 2024 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1PGDG
+* Tue Jun 11 2024 - Devrim Gündüz <devrim@gunduz.org> 3.0.1-1PGDG
 - Update to 3.0.1 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg45045.html
 
-* Sun Jun 10 2024 - Devrim Gündüz <devrim@gunduz.org> 3.0.0-1PGDG
+* Mon Jun 10 2024 - Devrim Gündüz <devrim@gunduz.org> 3.0.0-1PGDG
 - Update to 3.0.0 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg44993.html
 
