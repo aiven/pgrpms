@@ -7,11 +7,10 @@ Wants=network-online.target
 [Service]
 Type=notify
 WorkingDirectory=/var/lib/etcd/
-Environment=ETCDCONF=/etc/etcd/etcd.conf
+EnvironmentFile=-/etc/etcd/etcd.conf
 User=etcd
-
 # set GOMAXPROCS to number of processors
-ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/bin/etcd --config-file=${ETCDCONF}"
+ExecStart=/bin/bash -c "GOMAXPROCS=$(nproc) /usr/bin/etcd"
 Restart=on-failure
 LimitNOFILE=65536
 

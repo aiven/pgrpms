@@ -14,7 +14,7 @@
 
 Name:		etcd
 Version:	3.5.15
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
@@ -22,9 +22,14 @@ Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{n
 Source1:	%{name}.service
 Source2:	%{name}.conf
 
+BuildRequires:	python3-devel
+%if 0%{?rhel} && 0%{?rhel} == 7
+BuildRequires:	systemd
+%else
 BuildRequires:	systemd-rpm-macros
+%endif
 
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
 Requires(pre):	shadow-utils
 %endif
 %if 0%{?suse_version} >= 1315
@@ -73,19 +78,15 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %files
 %defattr(-,root,root,-)
 %doc README*
-%dir %attr(750, etcd, etcd) %{_sysconfdir}/%{name}
+%dir %attr(750, root, root) %{_sysconfdir}/%{name}
 %dir %attr(750, etcd, etcd) %{_var}/lib/%{name}
-%config(noreplace) %attr(750, etcd, etcd)%{_sysconfdir}/%{name}/%{name}.conf
+%config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %{_unitdir}/%{name}.service
 %attr(755, root, root) %{_bindir}/etcd
 %attr(755, root, root) %{_bindir}/etcdctl
 %attr(755, root, root) %{_bindir}/etcdutl
 
 %changelog
-* Mon Aug 19 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.15-2PGDG
-- Fix ownership of config file and etcd working directory.
-- Make sure that unit file uses the correct etcd config file.
-
 * Fri Jul 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.15-1PGDG
 - Update to 3.5.15, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.5.15
