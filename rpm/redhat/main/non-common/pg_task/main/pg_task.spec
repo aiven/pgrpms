@@ -38,11 +38,11 @@ This packages provides JIT support for pg_task
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__make} PATH=%{pginstdir}/bin/:$PATH USE_PGXS=1 %{?_smp_mflags}
+%{__make} PG_CONFIG=%{pginstdir}/bin/pg_config PATH=%{pginstdir}/bin/:$PATH USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} PATH=%{pginstdir}/bin/:$PATH USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
+%{__make} PG_CONFIG=%{pginstdir}/bin/pg_config PATH=%{pginstdir}/bin/:$PATH USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
