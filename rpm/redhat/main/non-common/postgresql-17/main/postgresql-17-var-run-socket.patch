@@ -1,6 +1,6 @@
---- src/backend/utils/misc/guc_tables.c.old	2023-10-26 11:18:15.355448176 +0100
-+++ src/backend/utils/misc/guc_tables.c	2023-10-26 11:18:34.744510056 +0100
-@@ -4284,7 +4284,7 @@
+--- src/backend/utils/misc/guc_tables.c.old	2024-09-04 17:37:13.525388016 +0300
++++ src/backend/utils/misc/guc_tables.c	2024-09-04 17:37:36.645784090 +0300
+@@ -4419,7 +4419,7 @@
  			GUC_LIST_INPUT | GUC_LIST_QUOTE | GUC_SUPERUSER_ONLY
  		},
  		&Unix_socket_directories,
@@ -9,8 +9,8 @@
  		NULL, NULL, NULL
  	},
  
---- src/include/pg_config_manual.h.old	2023-10-26 11:18:26.588484026 +0100
-+++ src/include/pg_config_manual.h	2023-10-26 11:18:34.745510059 +0100
+--- src/include/pg_config_manual.h.old	2024-09-04 17:37:23.380556843 +0300
++++ src/include/pg_config_manual.h	2024-09-04 17:37:36.646784107 +0300
 @@ -206,7 +206,7 @@
   * support them yet.
   */
