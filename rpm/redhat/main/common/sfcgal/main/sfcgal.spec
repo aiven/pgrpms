@@ -14,12 +14,7 @@ BuildRequires:	CGAL-devel >= 5.4
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 9
-Version:	1.4.1
-BuildRequires:	CGAL-devel >= 5.4
-%endif
-
-%if 0%{?fedora} && 0%{?fedora} == 38
-Version:	1.4.1
+Version:	1.5.1
 BuildRequires:	CGAL-devel >= 5.4
 %endif
 
@@ -127,6 +122,9 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Fri Sep 6 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.1-1PGDG
+- Update to 1.5.1 on RHEL 9
+
 * Tue Jul 30 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5.2-1PGDG
 - Update to 1.5.2 on Fedora
 
