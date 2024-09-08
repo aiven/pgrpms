@@ -15,9 +15,9 @@ URL:		https://libgeos.org/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 
 %if 0%{?suse_version} && 0%{?suse_version} >= 1499
-BuildRequires:	cmake >= 3.13
+BuildRequires:	cmake >= 3.15
 %else
-BuildRequires:	cmake3 >= 3.13
+BuildRequires:	cmake3 >= 3.15
 %endif
 BuildRequires:	libtool gcc-c++ pgdg-srpm-macros
 Provides:	geos%{_geosversion}-python >= %{version}
