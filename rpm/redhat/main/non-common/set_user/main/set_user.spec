@@ -1,15 +1,15 @@
 %global sname	set_user
 
 %global setusermajver 4
-%global setusermidver 0
-%global setuserminver 1
+%global setusermidver 1
+%global setuserminver 0
 
 %{!?llvm:%global llvm 1}
 
 Summary:	PostgreSQL extension allowing privilege escalation with enhanced logging and control
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{setusermajver}.%{setusermidver}.%{setuserminver}
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgaudit/%{sname}
 Source0:	https://github.com/pgaudit/%{sname}/archive/refs/tags/REL%{setusermajver}_%{setusermidver}_%{setuserminver}.tar.gz
@@ -70,6 +70,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Sun Sep 8 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1PGDG
+  Update to 4.1.0 per changes described at
+  https://github.com/pgaudit/set_user/releases/tag/REL4_1_0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-4PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
