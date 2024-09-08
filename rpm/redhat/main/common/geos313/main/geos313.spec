@@ -1,12 +1,12 @@
 %global _vpath_builddir .
 
 %global		sname geos
-%global		_geosversion	312
+%global		_geosversion	313
 %global		geosinstdir /usr/%{sname}%{_geosversion}
 %global		_geoslibdir lib64
 
 Name:		%{sname}%{_geosversion}
-Version:	3.12.2
+Version:	3.13.0
 Release:	1PGDG%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
