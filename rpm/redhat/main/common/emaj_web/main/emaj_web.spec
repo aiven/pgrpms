@@ -2,7 +2,7 @@
 
 Summary:	Web-based Emaj administration
 Name:		%{sname}
-Version:	4.4.0
+Version:	4.5.0
 Release:	1PGDG%{?dist}
 License:	GPL
 URL:		https://github.com/dalibo/%{sname}
@@ -82,6 +82,9 @@ perform all E-Maj operations.
 %attr(644,root,root) %{_emajwebdir}/*.php
 
 %changelog
+* Mon Sep 9 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-1PGDG
+- Update to 4.5.0
+
 * Sat Apr 20 2024 Devrim Gündüz <devrim@gunduz.org> - 4.4.0-1PGDG
 - Update to 4.4.0
 - Fix rpm build warning about the absolute symlink.
