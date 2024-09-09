@@ -2,7 +2,7 @@
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.5.3
+Version:	4.5.4
 Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://pgpool.net
@@ -87,6 +87,11 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/pgpool_recovery.control
 
 %changelog
+* Mon Sep 9 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.4-1PGDG
+- Update to 4.5.4 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-5-4.html
+  Fixes CVE-2024-45624.
+
 * Fri Aug 16 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.3-1PGDG
 - Update to 4.5.3 per changes described at:
   https://www.pgpool.net/docs/latest/en/html/release-4-5-3.html
