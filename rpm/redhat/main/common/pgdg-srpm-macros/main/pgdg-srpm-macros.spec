@@ -11,7 +11,7 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.43
+Version:	1.0.44
 Release:	1PGDG%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -41,6 +41,9 @@ echo no build stage needed
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.44-1PGDG
+- Add PROJ 9.5
+
 * Tue Sep 10 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.43-1PGDG
 - Add GeOS 3.13
 
