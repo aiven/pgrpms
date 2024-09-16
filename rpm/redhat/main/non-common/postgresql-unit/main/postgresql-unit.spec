@@ -4,8 +4,8 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	7.7
-Release:	3PGDG%{?dist}
+Version:	7.9
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ChristophBerg/%{sname}
@@ -67,6 +67,11 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 7.9-1PGDG
+- Update to 7.9 per changes described at:
+  https://github.com/df7cb/postgresql-unit/releases/tag/7.9
+  https://github.com/df7cb/postgresql-unit/releases/tag/7.8
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 7.7-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
