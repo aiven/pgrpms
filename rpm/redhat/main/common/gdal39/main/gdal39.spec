@@ -183,14 +183,15 @@ BuildRequires:	libtirpc-devel
 BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
+BuildRequires:	openjpeg2-devel >= 2.3.0
+
 BuildRequires:	qhull-devel
 BuildRequires:	SFCGAL-devel
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libshp-devel libcurl-devel >= 7.68
-BuildRequires:	openjpeg-devel >= 2.3.1 python311-devel
+BuildRequires:	python311-devel
 %else
 BuildRequires:	shapelib-devel curl-devel >= 7.68
-BuildRequires:	openjpeg2-devel >= 2.3.1
 BuildRequires:	python3-devel >= 3.8
 %endif
 
