@@ -74,13 +74,12 @@ BuildRequires:	lz4-devel bash-completion
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.42
+BuildRequires:	cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.44
 
 BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
 BuildRequires:	chrpath
-BuildRequires:	curl-devel >= 7.68
 BuildRequires:	doxygen
 BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
@@ -122,7 +121,6 @@ BuildRequires:	mariadb-connector-c-devel
 BuildRequires:	libpq5-devel
 BuildRequires:	pcre2-devel
 BuildRequires:	ogdi%{ogdimajorversion}-devel
-BuildRequires:	openjpeg2-devel >= 2.3.1
 BuildRequires:	perl(ExtUtils::MakeMaker)
 BuildRequires:	%{_bindir}/pkg-config
 %if 0%{?suse_version} >= 1500
@@ -182,13 +180,19 @@ BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
 
-BuildRequires:	python3-devel >= 3.8
-
 BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
-BuildRequires:	SFCGAL-devel shapelib-devel
+BuildRequires:	SFCGAL-devel
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libshp-devel libcurl-devel >= 7.68
+BuildRequires:	openjpeg-devel >= 2.3.1 python311-devel
+%else
+BuildRequires:	shapelib-devel curl-devel >= 7.68
+BuildRequires:	openjpeg2-devel >= 2.3.1
+BuildRequires:	python3-devel >= 3.8
+%endif
 
 # Run time dependencies
 Requires:	gpsbabel
@@ -460,6 +464,7 @@ done
   https://github.com/OSGeo/gdal/blob/v3.9.2/NEWS.md
   https://github.com/OSGeo/gdal/blob/v3.9.1/NEWS.md
 - Use internal shapelib.
+- Add SLES 15 support.
 
 * Mon May 13 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.0-1PGDG
 - Initial 3.9.0 packaging. This RPM package adds / fixes SFCGAL,
