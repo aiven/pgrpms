@@ -365,7 +365,6 @@ fi
 - Rebuild against PROJ 9.5, GeOS 3.13
 - Rebuild against GDAL 3.9 on Fedora, RHEL 9 and SLES 15.
 
-
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0alpha2-2PGDG
 - Update LLVM dependencies
 
