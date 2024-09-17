@@ -4,8 +4,8 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.3
-Release:	5PGDG%{?dist}
+Version:	2.0.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/tds-fdw/%{sname}
@@ -63,7 +63,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %files
 %defattr(644,root,root,755)
 %doc %{pginstdir}/doc/extension/*%{sname}.md
-%{pginstdir}/share/extension/%{sname}--%{version}.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
 
@@ -74,6 +74,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Tue Sep 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.4-1PGDG
+- Update to 2.0.4 per changes described at:
+  https://github.com/tds-fdw/tds_fdw/releases
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.3-5PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
