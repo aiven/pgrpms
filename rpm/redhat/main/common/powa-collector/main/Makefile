@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f99
+DIST=.f42
 SPECFILE="powa-collector.spec"
 
 # Now, include global Makefile
