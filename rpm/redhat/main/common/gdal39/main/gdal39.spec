@@ -13,7 +13,7 @@
 
 %pgdg_set_gis_variables
 
-%if 0%{?fedora} >= 37
+%if 0%{?fedora} >= 39
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -36,7 +36,7 @@
 %global gdalsomajorversion	35
 %global libspatialitemajorversion	50
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
 %global g2clib_enabled 1
 %else
 %global g2clib_enabled 0
@@ -240,7 +240,7 @@ Requires:	libspatialite%{libspatialitemajorversion}-devel
 Requires:	libarmadillo10
 %endif
 %endif
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
 Requires:	armadillo
 %endif
 
@@ -303,15 +303,24 @@ rm -rf mrf/LERCV1
 # Copy in PROVENANCE.TXT-fedora
 cp -a %{SOURCE4} .
 
-
 %build
+# Use a newer GCC on SLES 15 to build this version of GDAL:
+%if 0%{?suse_version} >= 1500
+export CC=/usr/bin/gcc-13
+export CXX=/usr/bin/g++-13
+%endif
 %ifarch sparcv9 sparc64 s390 s390x
 export CFLAGS="$RPM_OPT_FLAGS -fPIC"
 %else
 export CFLAGS="$RPM_OPT_FLAGS -fpic"
 %endif
-export CXXFLAGS="$CFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
-export CPPFLAGS="$CPPFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include -I%{_includedir}/tirpc"
+export CXXFLAGS="$CFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include"
+export CPPFLAGS="$CPPFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include"
+# SLES 15 has -Itirpc on /usr/include, so use the following only on Fedora and RHEL:
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
+export CXXFLAGS="$CFLAGS -I%{_includedir}/tirpc"
+export CPPFLAGS="$CPPFLAGS -I%{_includedir}/tirpc"
+%endif
 LDFLAGS="$LDFLAGS -L%{projinstdir}/lib64 -L%{ogdiinstdir}/lib -L%{libgeotiffinstdir}/lib -L%{geosinstdir}/lib64 -L%{libspatialiteinstdir}/lib -L%{_libdir}"; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{projinstdir}/lib64,%{ogdiinstdir}/lib,%{libgeotiffinstdir}/lib,%{geosinstdir}/lib64,%{libspatialiteinstdir}/lib" ; export SHLIB_LINK
 export OGDI_CFLAGS='-I%{ogdiinstdir}/include/'
@@ -349,6 +358,11 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/'
 %cmake_build
 
 %install
+# Use a newer GCC on SLES 15 to install this version of GDAL:
+%if 0%{?suse_version} >= 1500
+export CC=/usr/bin/gcc-13
+export CXX=/usr/bin/g++-13
+%endif
 %cmake_install
 
 # List of manpages for python scripts
