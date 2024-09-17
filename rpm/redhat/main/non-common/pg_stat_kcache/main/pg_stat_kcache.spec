@@ -1,22 +1,20 @@
 %global sname pg_stat_kcache
 
 %global kcachemajver 2
-%global kcachemidver 2
-%global kcacheminver 3
+%global kcachemidver 3
+%global kcacheminver 0
 
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/powa-team/%{sname}
 Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 2.1.3-2
 
 %description
 Gathers statistics about real reads and writes done by the filesystem layer.
@@ -74,6 +72,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Sep 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1PGDG
+- Update to 2.3.0 per changes described at:
+  https://github.com/powa-team/pg_stat_kcache/releases/tag/REL2_3_0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
