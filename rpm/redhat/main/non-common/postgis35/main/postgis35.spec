@@ -6,17 +6,23 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables. PostGIS 3.4 is best served with GeOS 3.12,
-# GDAL 3.8 and PROJ 9.4:
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
+# Override some variables. PostGIS 3.5 is best served with GeOS 3.13,
+# PROJ 9.5 and GDAL 3.9 (except on RHEL 8 where GDAL 3.8 is available):
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%if 0%{?rhel} == 8
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
-%global projmajorversion %proj94majorversion
-%global projfullversion %proj94fullversion
-%global projinstdir %proj94instdir
+%else
+%global gdalfullversion %gdal39fullversion
+%global gdalmajorversion %gdal39majorversion
+%global gdalinstdir %gdal39instdir
+%endif
+%global projmajorversion %proj95majorversion
+%global projfullversion %proj95fullversion
+%global projinstdir %proj95instdir
 
 %{!?llvm:%global llvm 1}
 
@@ -38,10 +44,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	alpha2_2PGDG%{?dist}
+Release:	beta1_1PGDG%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}alpha2.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}alpha2-en.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}beta1.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}beta1-en.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 
 URL:		https://www.postgis.net/
@@ -184,7 +190,7 @@ This packages provides JIT support for postgis35
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}alpha2
+%setup -q -n %{sname}-%{version}beta1
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} %{sname}-%{version}.pdf
 
@@ -354,6 +360,12 @@ fi
 %endif
 
 %changelog
+* Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0beta1-1PGDG
+- Update to 3.5.0 beta1
+- Rebuild against PROJ 9.5, GeOS 3.13
+- Rebuild against GDAL 3.9 on Fedora, RHEL 9 and SLES 15.
+
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0alpha2-2PGDG
 - Update LLVM dependencies
 
