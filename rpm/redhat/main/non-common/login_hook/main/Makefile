@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f99
 SPECFILE="login_hook.spec"
 
 # Now, include global Makefile

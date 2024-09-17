@@ -10,7 +10,7 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
+DIST=.f99
 SPECFILE="python39-wcwidth.spec"
 
 # Now, include global Makefile
