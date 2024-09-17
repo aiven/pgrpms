@@ -6,7 +6,7 @@
 
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
-Version:	4.0.1
+Version:	4.0.2
 Release:	1PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/zalando/%{name}/archive/v%{version}.tar.gz
@@ -173,6 +173,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Tue Sep 17 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.2-1PGDG
+- Update to 4.0.2, per changes described at:
+  https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-402
+
 * Fri Aug 30 2024 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1, per changes described at:
   https://github.com/zalando/patroni/blob/master/docs/releases.rst#version-401
