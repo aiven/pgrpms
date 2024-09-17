@@ -25,12 +25,12 @@
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
-%global	projmajorversion %proj94majorversion
-%global	projfullversion %proj94fullversion
-%global	projinstdir %proj94instdir
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%global	projmajorversion %proj95majorversion
+%global	projfullversion %proj95fullversion
+%global	projinstdir %proj95instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	35
@@ -480,6 +480,7 @@ done
   https://github.com/OSGeo/gdal/blob/v3.9.1/NEWS.md
 - Use internal shapelib.
 - Add SLES 15 support.
+- Build against GeOS 3.13 and PROJ 9.5
 
 * Mon May 13 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.0-1PGDG
 - Initial 3.9.0 packaging. This RPM package adds / fixes SFCGAL,
