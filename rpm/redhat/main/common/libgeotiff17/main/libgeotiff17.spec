@@ -5,9 +5,9 @@
 %pgdg_set_gis_variables
 
 # Override PROJ:
-%global projmajorversion %proj94majorversion
-%global projfullversion %proj94fullversion
-%global projinstdir %proj94instdir
+%global projmajorversion %proj95majorversion
+%global projfullversion %proj95fullversion
+%global projinstdir %proj95instdir
 
 Name:		%{sname}%{libgeotiffversion}
 Version:	1.7.3
@@ -131,6 +131,9 @@ EOF
 %{libgeotiff17instdir}/lib/pkgconfig/%{name}.pc
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.3-2PGDG
+- Rebuild against PROJ 9.5
+
 * Fri Jul 5 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.3-1PGDG
 - Update to 1.7.3 per changes described at:
   https://github.com/OSGeo/libgeotiff/releases/tag/1.7.3
