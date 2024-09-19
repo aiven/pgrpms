@@ -9,16 +9,16 @@
 
 %pgdg_set_gis_variables
 # Override some variables.
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
-%global projmajorversion %proj94majorversion
-%global projfullversion %proj94fullversion
-%global projinstdir %proj94instdir
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%global projmajorversion %proj95majorversion
+%global projfullversion %proj95fullversion
+%global projinstdir %proj95instdir
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.1.0
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -112,6 +112,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Thu Sep 19 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-6PGDG
+- Rebuild against PROJ 9.5 and GeOS 3.13
+
 * Wed Apr 10 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-5PGDG
 - Rebuild against PROJ 9.4
 
