@@ -2,7 +2,7 @@
 
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
+Version:	1.5.0
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
@@ -47,6 +47,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/doc/README-%{sname}.md
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> 1.5.0-1PGDG
+- Update to 1.5.0
+
 * Fri Sep 22 2023 Devrim Gündüz <devrim@gunduz.org> 1.4.0-1PGDG
 - Update to 1.4.0
 - Add PGDG branding
