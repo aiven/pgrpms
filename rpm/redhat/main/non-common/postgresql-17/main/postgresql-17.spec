@@ -59,7 +59,7 @@ Version:	17
 # which overrides our packages. Increase our release number on SuSE.
 Release:	rc1_1PGDG%{?dist}
 %else
-Release:	rc1_1PGDG%{?dist}
+Release:	rc1_2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -194,6 +194,10 @@ BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
 %endif
+%endif
+
+%if 0%{?fedora} >= 41
+BuildRequires:	openssl-devel-engine
 %endif
 
 %if %uuid
@@ -1244,6 +1248,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-rc1-2PGDG
+- Add new BR for Fedora 41
+
 * Tue Sep 3 2024 Devrim Gunduz <devrim@gunduz.org> - 17.0-rc1-1PGDG
 - Update to PostgreSQL 17 RC1
 

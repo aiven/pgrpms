@@ -78,7 +78,7 @@ Version:	13.16
 # which overrides our packages. Increase our release number on SuSE.
 Release:	420002PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -210,6 +210,10 @@ BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
 %endif
+%endif
+
+%if 0%{?fedora} >= 41
+BuildRequires:	openssl-devel-engine
 %endif
 
 %if %uuid
@@ -1343,6 +1347,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 13.16-3PGDG
+- Add new BR for Fedora 41
+
 * Fri Aug 9 2024 Devrim Gündüz <devrim@gunduz.org> - 13.16-2PGDG
 - Add a patch to virtually provide PostgreSQL::Test::Utils dependency.
   Per report from John Harvey and others. Patch from Noah Misch.

@@ -60,7 +60,7 @@ Version:	16.4
 # which overrides our packages. Increase our release number on SuSE.
 Release:	420001PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -192,6 +192,10 @@ BuildRequires:	libopenssl-devel
 %else
 BuildRequires:	openssl-devel
 %endif
+%endif
+
+%if 0%{?fedora} >= 41
+BuildRequires:	openssl-devel-engine
 %endif
 
 %if %uuid
@@ -1230,6 +1234,9 @@ fi
 %endif
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-2PGDG
+- Add new BR for Fedora 41
+
 * Tue Aug 6 2024 Devrim Gunduz <devrim@gunduz.org> - 16.4-1PGDG
 - Update to 16.4, per changes described at:
   https://www.postgresql.org/docs/release/16.4/

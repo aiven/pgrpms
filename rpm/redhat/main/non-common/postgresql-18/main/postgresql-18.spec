@@ -197,6 +197,10 @@ BuildRequires:	openssl-devel
 %endif
 %endif
 
+%if 0%{?fedora} >= 41
+BuildRequires:	openssl-devel-engine
+%endif
+
 %if %uuid
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
