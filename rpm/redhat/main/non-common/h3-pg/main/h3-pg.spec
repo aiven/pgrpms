@@ -4,7 +4,7 @@
 Summary:	Uber's H3 Hexagonal Hierarchical Geospatial Indexing System in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.1.3
-Release:	2PGDG%{dist}
+Release:	3PGDG%{dist}
 License:	Apache
 URL:		https://github.com/zachasme/%{sname}
 Source0:	https://github.com/zachasme/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -24,6 +24,10 @@ This library provides PostgreSQL bindings for the H3 Core Library.
 %build
 %{__install} -d build
 pushd build
+# h3-pg cannot find the header file on Fedora, so export CFLAGS:
+%if 0%{?fedora}
+CFLAGS="$CFLAGS -I%{_includedir}/h3"; export CFLAGS
+%endif
 %if 0%{?suse_version} >= 1315
 cmake -DCMAKE_BUILD_TYPE=Release .. \
 %else
@@ -55,6 +59,9 @@ popd
 %{pginstdir}/share/extension/h3_postgis.control
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-3PGDG
+- Fix builds on Fedora
+
 * Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-2PGDG
 - Fix changelog date.
 
