@@ -8,7 +8,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.4
-Release:	42PGDG%{?dist}
+Release:	43PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -20,10 +20,30 @@ Patch5:		%{name}-var-run-socket.patch
 BuildRequires:	gcc glibc-devel bison flex >= 2.5.31
 BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
-Requires:	/sbin/ldconfig
+BuildRequires:	krb5-devel libicu-devel
+BuildRequires:	e2fsprogs-devel systemd systemd-devel
 
-BuildRequires:	krb5-devel
-BuildRequires:	e2fsprogs-devel
+Requires:	/sbin/ldconfig libicu
+
+%if 0%{?suse_version} >= 1315
+BuildRequires:	libopenssl-devel
+%else
+BuildRequires:	openssl-devel
+%endif
+
+%if 0%{?fedora} >= 41
+BuildRequires:	openssl-devel-engine
+%endif
+
+# lz4 dependency
+%if 0%{?suse_version} >= 1315
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
 
 # zstd dependency
 %if 0%{?suse_version} >= 1499
@@ -194,6 +214,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-43-1PGDG
+- Add missing BRs
+
 * Wed Aug 7 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-42-1PGDG
 - Update to 16.4
 
