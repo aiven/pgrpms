@@ -16,18 +16,18 @@ URL:		https://github.com/%{sname}-dev/%{sname}
 
 BuildRequires:	make gcc-c++ cmake libtool libpq5-devel libosmium-devel >= 2.20.0-42
 BuildRequires:	libxml2-devel proj%{projmajorversion}-devel >= %{projfullversion}
-BuildRequires:	protozero-devel python3-psycopg2 python3-devel
-BuildRequires:	zlib-devel
+BuildRequires:	protozero-devel python3-psycopg2 python3-devel potrace-devel
+BuildRequires:	opencv-devel zlib-devel
 
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libboost_headers1_66_0-devel libbz2-devel
 BuildRequires:	Catch2-2-devel clang-tools
-BuildRequires:	libexpat-devel fmt-devel nlohmann_json-devel
+BuildRequires:	libexpat-devel nlohmann_json-devel
 BuildRequires:	lua54-devel python3-behave
 %else
 BuildRequires:	boost-devel bzip2-devel
 BuildRequires:	catch2-devel clang-tools-extra
-BuildRequires:	expat-devel fmt-devel json-devel
+BuildRequires:	expat-devel json-devel
 BuildRequires:	lua-devel python3-behave
 %endif
 
@@ -53,7 +53,7 @@ cmake .. \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DPROJ_LIBRARY=%{projinstdir}/lib64/libproj.so \
 	-DPROJ6_INCLUDE_DIR=%{projinstdir}/include \
-	-DEXTERNAL_FMT=ON \
+	-DEXTERNAL_FMT=OFF \
 	-DEXTERNAL_LIBOSMIUM=ON \
 	-DEXTERNAL_PROTOZERO=ON \
 %if "%{_lib}" == "lib64"
@@ -68,6 +68,9 @@ popd
 %{__rm} -rf %{buildroot}
 %{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install \
 	DESTDIR=%{buildroot}
+# We need this for osm2pgsql-gen binary:
+%{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install-gen \
+	DESTDIR=%{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -75,6 +78,7 @@ popd
 %files
 %defattr(755,root,root,755)
 %{_bindir}/%{sname}
+%{_bindir}/%{sname}-gen
 %{_bindir}/%{sname}-replication
 %{_mandir}/man1/%{sname}*
 %{_datadir}/%{sname}/*.style
@@ -83,6 +87,9 @@ popd
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1PGDG
 - Update to 2.0.0 per changes described at:
   https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.0.0
+- Do not use external FMT library, per:
+  https://github.com/osm2pgsql-dev/osm2pgsql/issues/2256
+- Build and install osm2pgsql-gen binary.
 
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1.11.0-1PGDG
 - Update to 1.11.0
