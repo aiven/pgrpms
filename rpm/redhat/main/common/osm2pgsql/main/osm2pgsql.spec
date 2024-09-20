@@ -14,7 +14,7 @@ License:	GPLv2
 Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/%{sname}-dev/%{sname}
 
-BuildRequires:	make gcc-c++ cmake libtool libpq5-devel libosmium-devel >= 2.20.0-42
+BuildRequires:	make gcc-c++ cmake libtool libpq5-devel libosmium-devel >= 2.20.0-44
 BuildRequires:	libxml2-devel proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	protozero-devel python3-psycopg2 python3-devel potrace-devel
 BuildRequires:	opencv-devel zlib-devel
