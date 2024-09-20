@@ -6,16 +6,16 @@
 %pgdg_set_gis_variables
 
 # Override some variables:
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
-%global gdalfullversion %gdal38fullversion
-%global gdalmajorversion %gdal38majorversion
-%global gdalinstdir %gdal38instdir
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%global gdalfullversion %gdal39fullversion
+%global gdalmajorversion %gdal39majorversion
+%global gdalinstdir %gdal39instdir
 
 Name:		libosmium
 Version:	2.20.0
-Release:	43PGDG%{?dist}
+Release:	44PGDG%{?dist}
 Summary:	Fast and flexible C++ library for working with OpenStreetMap data
 
 License:	BSL-1.0
@@ -107,6 +107,9 @@ cd libosmium
 %endif
 
 %changelog
+* Fri Sep 20 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-44PGDG
+- Rebuild against GDAL 3.9 and GeOS 3.13
+
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-43PGDG
 - Rebuild against GDAL 3.8.4
 
