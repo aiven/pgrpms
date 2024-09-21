@@ -25,6 +25,7 @@ clean:
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
 include ../../../../global/Makefile.global-common
+include ../../../../global/Makefile.global-common-testing
 include ../../../../global/Makefile.global-extras
 include ../../../../global/Makefile.global-PG12-testing
 include ../../../../global/Makefile.global-PG12

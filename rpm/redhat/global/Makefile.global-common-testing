@@ -1,0 +1,71 @@
+#################################
+# Makefile for PostgreSQL 	#
+# common packaging	 	#
+# https://yum.postgresql.org	#
+#			   	#
+# Devrim Gunduz		   	#
+# devrim@gunduz.org	   	#
+#################################
+
+## PostgreSQL common testing build targets
+
+commonbfsrpmtesting: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommontesting/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17"  --define "pgpackageversion 17" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+commonbuildtesting: commonbfsrpm
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "_builddir $(HOME)/rpmcommontesting/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpmcommontesting/SRPMS" \
+	--define "_rpmdir $(HOME)/rpmcommontesting/RPMS/" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonrpmtesting: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnoprepbuildtesting:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommontesting/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(HOME)/rpmcommontesting/BUILD" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/rpmcommontesting/SRPMS" \
+	--define "_rpmdir $(HOME)/rpmcommontesting/RPMS/" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnopreprpmtesting:
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define  "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "dist $(DIST)" -bb $(SPECFILE)
+
+commonnoprepsrpmtesting:
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir ." \
+	--define "_buildrootdir $(HOME)/rpmcommontesting/BUILDROOT" \
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+
