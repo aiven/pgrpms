@@ -1,10 +1,8 @@
-#%{?python_enable_dependency_generator}
-
 %global library google-oauthlib
 
 Name:		python3-%{library}
 Version:	0.4.1
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		1
 Summary:	oauthlib integration for Google Auth
 License:	ASL 2.0
@@ -44,6 +42,10 @@ Requires:	python3
 %{python3_sitelib}/google_auth_oauthlib/tool/*.py*
 
 %changelog
+* Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 0.4.1-2PGDG
+- Remove comment
+- Add PGDG branding
+
 * Mon May 18 2020 Devrim Gündüz <devrim@gunduz.org> - 0.4.1-1
 - Initial packaging for PostgreSQL RPM repository to satisfy
   bigquery_fdw dependency.
