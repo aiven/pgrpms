@@ -47,6 +47,6 @@ echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --b
 rsync --checksum -ave ssh --delete $COMMON_RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/common/$osdistro/$os-$osarch
 rsync --checksum -ave ssh --delete $COMMON_SRPM_DIR/ yumupload@yum.postgresql.org:yum/yum/srpms/common/$osdistro/$os-$osarch
 aws s3 sync $COMMON_DEBUG_RPM_DIR s3://dnf-debuginfo.postgresql.org/debug/common/$osdistro/$os-$osarch/
-aws cloudfront create-invalidation --distribution-id E3CHUBIN4OQV1C --path /debug/common/$osdistro/$os-$osarch/repodata/*
+aws cloudfront create-invalidation --distribution-id XXXXXXXXXXXX --path /debug/common/$osdistro/$os-$osarch/repodata/*
 
 exit 0
