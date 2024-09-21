@@ -4,8 +4,8 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.0
-Release:	3PGDG%{?dist}
+Version:	1.5.1
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/reorg/%{sname}/archive/refs/tags/ver_%{version}.tar.gz
 URL:		https://github.com/reorg/%{sname}/
@@ -74,6 +74,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1PGDG
+- Update to 1.5.1 per changes described at:
+  https://github.com/reorg/pg_repack/releases/tag/ver_1.5.1
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5.0-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
