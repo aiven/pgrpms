@@ -5,15 +5,15 @@
 
 %pgdg_set_gis_variables
 
-# Use GDAL 3.8 on all of the platforms:
-%global gdalfullversion %gdal38fullversion
-%global gdalmajorversion %gdal38majorversion
-%global gdalinstdir %gdal38instdir
+# Use GDAL 3.9 on all of the platforms:
+%global gdalfullversion %gdal39fullversion
+%global gdalmajorversion %gdal39majorversion
+%global gdalinstdir %gdal39instdir
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.5
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
@@ -80,6 +80,9 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-3PGDG
+- Rebuild against GDAL 3.9
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
