@@ -5,9 +5,10 @@
 Summary:	uri type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.20151224
-Release:	6PGDG%{?dist}
+Release:	7PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
+Patch0:		%{sname}-fix-pg_cppflags.patch
 URL:		https://github.com/petere/pguri
 BuildRequires:	postgresql%{pgmajorversion}-devel uriparser-devel pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}-server uriparser
@@ -48,6 +49,7 @@ This packages provides JIT support for pguri
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch -P 0 -p0
 
 %build
 #export PG_CPPFLAGS="$PG_CPPFLAGS -Wno-int-conversion"
@@ -75,6 +77,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Sun Sep 22 2024 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-7PGDG
+- Fix builds against PostgreSQL 16+. Per
+  https://github.com/petere/pguri/issues/16#issuecomment-1827546607
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.20151224-6PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

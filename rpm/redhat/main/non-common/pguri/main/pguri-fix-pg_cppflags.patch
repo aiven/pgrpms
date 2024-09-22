@@ -1,0 +1,10 @@
+--- Makefile.old	2024-09-22 17:33:37.349916333 +0100
++++ Makefile	2024-09-22 17:34:04.411356575 +0100
+@@ -11,6 +11,7 @@
+ endif
+ 
+ PG_CPPFLAGS += $(shell $(PKG_CONFIG) --cflags-only-I liburiparser)
++PG_CPPFLAGS += "-Wno-int-conversion"
+ SHLIB_LINK += $(shell $(PKG_CONFIG) --libs liburiparser)
+ 
+ REGRESS = init test escape
