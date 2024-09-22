@@ -49,7 +49,7 @@ sleep 1
 	# Get the package version after building the package so that we get the latest version:
 	packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 	cd
-	sign_package rpm
+	sign_package rpmcommon
 	exit 0
 fi
 
@@ -88,7 +88,7 @@ then
 			# Get the package version after building the package so that we get the latest version:
 			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 			cd
-		sign_package rpm
+		sign_package rpm${packageBuildVersion}
 		fi
 	done
 exit 0
