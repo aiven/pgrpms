@@ -1,12 +1,12 @@
 %global sname pglogical
-%global tag 2_4_4
+%global tag 2_4_5
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.4
-Release:	2PGDG%{dist}
+Version:	2.4.5
+Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
 Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
@@ -74,6 +74,10 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.5-1PGDG
+- Update to 2.4.5 per changes described at:
+  https://github.com/2ndQuadrant/pglogical/releases/tag/REL2_4_5
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.4-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
