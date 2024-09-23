@@ -53,18 +53,18 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	17
+Version:	17.0
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	rc1_1PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %else
-Release:	rc1_2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
-Source0:	https://download.postgresql.org/pub/source/v%{version}rc1/postgresql-%{version}rc1.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
@@ -445,7 +445,7 @@ benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}rc1
+%setup -q -n %{sname}-%{version}
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -1248,6 +1248,9 @@ fi
 %endif
 
 %changelog
+* Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-1PGDG
+- Update to 17.0 Gold!
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-rc1-2PGDG
 - Add new BR for Fedora 41
 
