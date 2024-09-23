@@ -1,4 +1,4 @@
-%global pgmajorversion 16
+%global pgmajorversion 17
 
 # Macros that define the configure parameters:
 %{!?kerbdir:%global kerbdir "/usr"}
@@ -7,8 +7,8 @@
 
 Summary:	PostgreSQL Client Library
 Name:		libpq5
-Version:	%{pgmajorversion}.4
-Release:	43PGDG%{?dist}
+Version:	%{pgmajorversion}.0
+Release:	42PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -214,6 +214,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Tue Sep 24 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-42-1PGDG
+- Update to 17.0
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-43-1PGDG
 - Add missing BRs
 
