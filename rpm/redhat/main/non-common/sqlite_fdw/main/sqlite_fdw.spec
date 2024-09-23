@@ -8,10 +8,11 @@
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.4.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
+Patch0:		%{sname}-pg17.patch
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	postgresql%{pgmajorversion}-server sqlite-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -45,6 +46,7 @@ This packages provides JIT support for sqlite_fdw
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch -P 0 -p0
 
 %build
 
@@ -72,6 +74,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-4PGDG
+- Add a patch to fix builds on PostgreSQL 17.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
