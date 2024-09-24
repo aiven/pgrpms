@@ -1,12 +1,12 @@
 %global sname pg_squeeze
-%global pgsqueezerelversion 1_6_2
+%global pgsqueezerelversion 1_7_0
 
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.2
-Release:	2PGDG%{?dist}
+Version:	1.7.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
@@ -67,6 +67,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Tue Sep 24 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1PGDG
+- Update to 1.7.0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.6.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
