@@ -4,7 +4,7 @@
 
 Summary:	PostgreSQL and Greenplum job scheduler
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.5
+Version:	2.1.7
 Release:	1PGDG%{?dist}
 License:	MIT
 Group:		Applications/Databases
@@ -62,5 +62,8 @@ This packages provides JIT support for pg_task
 %endif
 
 %changelog
+* Tue Sep 24 2024 - Devrim Gündüz <devrim@gunduz.org> - 2.1.7-1PGDG
+- Update to 2.1.7
+
 * Tue Sep 3 2024 - Devrim Gündüz <devrim@gunduz.org> - 2.1.5-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM repository.
