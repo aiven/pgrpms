@@ -6,16 +6,24 @@
 
 %pgdg_set_gis_variables
 
-# Override some variables:
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
+# Override some variables. PostGIS 3.2 is best served with GeOS 3.13,
+# PROJ 9.5 and GDAL 3.9 (except on RHEL 8 where GDAL 3.8 is available):
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%if 0%{?rhel} == 8
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
-%global projmajorversion %proj94majorversion
-%global projfullversion %proj94fullversion
-%global projinstdir %proj94instdir
+%else
+%global gdalfullversion %gdal39fullversion
+%global gdalmajorversion %gdal39majorversion
+%global gdalinstdir %gdal39instdir
+%endif
+%global projmajorversion %proj95majorversion
+%global projfullversion %proj95fullversion
+%global projinstdir %proj95instdir
+
 %global libgeotiffmajorversion 17
 %global libgeotiffinstdir %libgeotiff17instdir
 
@@ -49,7 +57,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -365,6 +373,10 @@ fi
 %endif
 
 %changelog
+* Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-4PGDG
+- Rebuild against PROJ 9.5, GeOS 3.13
+- Rebuild against GDAL 3.9 on Fedora, RHEL 9 and SLES 15.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
