@@ -23,7 +23,7 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	3.2.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -33,6 +33,7 @@ BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
 
 Requires:	libpq5 >= 10.0
+Requires:	python3-typing-extensions
 
 BuildArch:	noarch
 
@@ -43,7 +44,7 @@ API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
 # Enable this package only on Fedora, which has PY 3.9:
-%if 0%{?fedora} > 37
+%if 0%{?fedora} > 39
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
@@ -94,7 +95,7 @@ popd
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 
 #Only on Fedora:
-%if 0%{?fedora} > 37
+%if 0%{?fedora} > 39
 # Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
@@ -113,7 +114,7 @@ popd
 %{python3_sitelib}/psycopg/types/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 7
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/crdb/__pycache__/*.py*
 %{python3_sitelib}/psycopg/pq/__pycache__/*.py*
@@ -121,7 +122,7 @@ popd
 %endif
 
 # Only on Fedora:
-%if 0%{?fedora} > 37
+%if 0%{?fedora} > 39
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 %endif
@@ -133,6 +134,10 @@ popd
 %endif
 
 %changelog
+* Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.2-2PGDG
+- Add python3-typing-extensions dependency per:
+  https://redmine.postgresql.org/issues/7781
+
 * Sun Sep 22 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.2-1PGDG
 - Update to 3.2.2 per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.2.2
