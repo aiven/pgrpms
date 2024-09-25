@@ -1,17 +1,11 @@
 Name:		pgdg-redhat-nonfree-repo
 Version:	42.0
-Release:	14PGDG
+Release:	15PGDG
 Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for RHEL / Rocky Linux / AlmaLinux NonFree
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-%if 0%{?rhel} && 0%{?rhel} >= 8
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL-nonfree
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL7-nonfree
-%endif
 Source2:	pgdg-redhat-nonfree-all.repo
-Source3:	pgdg-redhat-nonfree-all-rhel7.repo
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 
@@ -34,14 +28,8 @@ AlmaLinux non-free repository, and also the GPG key for PGDG RPMs.
 
 %{__install} -dm 755 %{buildroot}%{_sysconfdir}/yum.repos.d
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-%{__install} -pm 644 %{SOURCE3} \
-	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
-%endif
-%if 0%{?rhel} && 0%{?rhel} >= 8
 %{__install} -pm 644 %{SOURCE2} \
 	%{buildroot}%{_sysconfdir}/yum.repos.d/pgdg-redhat-nonfree-all.repo
-%endif
 
 %files
 %defattr(-,root,root,-)
@@ -50,6 +38,10 @@ AlmaLinux non-free repository, and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-15PGDG
+- Add v17 repositories
+- Remove RHEL 7 bits
+
 * Tue Dec 26 2023 Devrim Gündüz <devrim@gunduz.org> - 42.0-14PGDG
 - Update GPG keys
 
