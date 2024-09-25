@@ -55,7 +55,7 @@ Manages a virtual IP for Patroni based on state kept in etcd or Consul
 %files
 %defattr(-,root,root,-)
 %dir %attr(750, root, root) %{_sysconfdir}/%{name}
-%config %attr(640, root, root) %{_sysconfdir}/%{name}/*yml
+%config(noreplace) %attr(640, root, root) %{_sysconfdir}/%{name}/*yml
 %dir %attr(750, root, root) %{_sharedstatedir}/%{name}
 %{_unitdir}/%{name}.service
 %attr(755, root, root) %{_bindir}/%{name}
