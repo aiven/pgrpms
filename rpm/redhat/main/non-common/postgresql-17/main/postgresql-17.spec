@@ -93,7 +93,7 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 BuildRequires:	libxml2-devel libxslt-devel
 
 # lz4 dependency
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
+%if 0%{?suse_version} >= 1499
 BuildRequires:	liblz4-devel
 Requires:	liblz4-1
 %endif
