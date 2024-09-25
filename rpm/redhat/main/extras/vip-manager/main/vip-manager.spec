@@ -13,7 +13,7 @@ ExcludeArch:	ppc64le
 
 Summary:	Manages a virtual IP for Patroni based on state kept in etcd or Consul
 Name:		vip-manager
-Version:	2.6.0
+Version:	2.7.0
 Release:	1PGDG%{?dist}
 License:	BSD2
 URL:		https://github.com/cybertec-postgresql/%{name}
@@ -55,13 +55,19 @@ Manages a virtual IP for Patroni based on state kept in etcd or Consul
 %files
 %defattr(-,root,root,-)
 %dir %attr(750, root, root) %{_sysconfdir}/%{name}
-%attr(640, root, root) %{_sysconfdir}/%{name}/*yml
+%config %attr(640, root, root) %{_sysconfdir}/%{name}/*yml
 %dir %attr(750, root, root) %{_sharedstatedir}/%{name}
 %{_unitdir}/%{name}.service
 %attr(755, root, root) %{_bindir}/%{name}
 %doc
 
 %changelog
+* Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.0-1PGDG
+- Update to 2.7.0 per changes described at:
+  https://github.com/cybertec-postgresql/vip-manager/releases/tag/v2.7.0
+- Make sure that config files is not overwritten during updates, per:
+  https://redmine.postgresql.org/issues/8039
+
 * Fri Jul 26 2024 Devrim Gündüz <devrim@gunduz.org> 2.6.0-1PGDG
 - Update to 2.6.0 per changes described at:
   https://github.com/cybertec-postgresql/vip-manager/releases/tag/v2.6.0
