@@ -12,11 +12,10 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0
-Release:	beta1_3PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}beta1.tar.gz
+Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
-Patch1:		%{sname}-pg17-fix-build.patch
 URL:		https://github.com/pgsql-io/%{version}
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
 BuildRequires:	python3-devel
@@ -55,9 +54,8 @@ This packages provides JIT support for multicorn2
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}beta1
+%setup -q -n %{sname}-%{version}
 %patch -P 0 -p0
-%patch -P 1 -p1
 
 %build
 export PYTHON_OVERRIDE="python%{pyver}"
@@ -87,6 +85,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0-1PGDG
+- Update to 3.0
+- Remove patch1, it is now in upstream tarball.
+
 * Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0beta1-3PGDG
 - Add a (temporary) patch from upstream to fix builds against PostgreSQL 17.
 
