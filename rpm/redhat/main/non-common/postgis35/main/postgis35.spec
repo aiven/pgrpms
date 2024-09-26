@@ -44,10 +44,10 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	rc1_1PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	GPLv2+
-Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}rc1.tar.gz
-Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}rc1-en.pdf
+Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
+Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
 Source4:	%{sname}%{postgiscurrmajorversion}-filter-requires-perl-Pg.sh
 
 URL:		https://www.postgis.net/
@@ -190,7 +190,7 @@ This packages provides JIT support for postgis35
 %endif
 
 %prep
-%setup -q -n %{sname}-%{version}rc1
+%setup -q -n %{sname}-%{version}
 # Copy .pdf file to top directory before installing.
 %{__cp} -p %{SOURCE2} %{sname}-%{version}.pdf
 
@@ -360,7 +360,11 @@ fi
 %endif
 
 %changelog
-* Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0rc-1PGDG
+* Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1PGDG
+- Update to 3.5.0 per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.5.0/NEWS
+
+* Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0rc1-1PGDG
 - Update to 3.5.0 RC1
 
 * Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0beta1-1PGDG
