@@ -25,12 +25,12 @@
 
 %global bashcompletiondir %(pkg-config --variable=compatdir bash-completion)
 
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
-%global	projmajorversion %proj94majorversion
-%global	projfullversion %proj94fullversion
-%global	projinstdir %proj94instdir
+%global geosfullversion %geos313fullversion
+%global geosmajorversion %geos313majorversion
+%global geosinstdir %geos313instdir
+%global	projmajorversion %proj95majorversion
+%global	projfullversion %proj95fullversion
+%global	projinstdir %proj95instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	34
@@ -57,7 +57,7 @@
 
 Name:		%{sname}38
 Version:	3.8.5
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -461,6 +461,9 @@ done
 %endif
 
 %changelog
+* Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-5PGDG
+- Rebuild against PROJ 9.5 and GeOS 3.13
+
 * Tue Apr 23 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-4PGDG
 - Disable JAVA bindings on Fedora 40 until the build issue is resolved.
 
