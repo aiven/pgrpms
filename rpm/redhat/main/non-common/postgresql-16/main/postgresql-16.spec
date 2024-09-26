@@ -58,9 +58,9 @@ Version:	16.4
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -302,6 +302,7 @@ and maintain PostgreSQL databases.
 %package docs
 Summary:	Extra documentation for PostgreSQL
 Provides:	postgresql-docs >= %{version}-%{release}
+BuildRequires:	docbook-dtds docbook-style-xsl libxslt
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
@@ -329,10 +330,10 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %llvm
 Requires:       %{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-Requires:	llvm17
+Requires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:       llvm => 13.0
+Requires:       llvm-devel => 17.0 clang-devel >= 17.0
 %endif
 %endif
 
@@ -1234,6 +1235,11 @@ fi
 %endif
 
 %changelog
+* Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-4PGDG
+- Re-add missing clang-devel and llvm-devel dependencies to -devel
+  subpackage.
+- Add missing BRs for doc builds.
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-2PGDG
 - Add new BR for Fedora 41
 
