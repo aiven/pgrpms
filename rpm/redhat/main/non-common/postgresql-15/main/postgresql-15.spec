@@ -80,9 +80,9 @@ Version:	15.8
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -362,7 +362,6 @@ and maintain PostgreSQL databases.
 %package docs
 Summary:	Extra documentation for PostgreSQL
 Provides:	postgresql-docs >= %{version}-%{release}
-BuildRequires:	docbook-dtds docbook-style-xsl libxslt
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
@@ -1392,9 +1391,6 @@ fi
 %endif
 
 %changelog
-* Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 15.8-3PGDG
-- Add missing BRs for doc builds.
-
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 15.8-2PGDG
 - Add new BR for Fedora 41
 
