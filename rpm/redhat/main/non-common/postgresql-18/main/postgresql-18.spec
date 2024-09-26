@@ -327,10 +327,10 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 %if %llvm
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
-Requires:	llvm17
+Requires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 13.0
+Requires:	llvm-devel => 17.0 clang-devel >= 17.0
 %endif
 %endif
 
