@@ -189,9 +189,12 @@ BuildRequires:	xerces-c-devel
 BuildRequires:	xz-devel
 BuildRequires:	zlib-devel
 BuildRequires:	libtirpc-devel
-
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 9 || 0%{?suse_version} <= 1499
 BuildRequires:	python3-devel
-
+%endif
+%if 0%{?rhel} == 8
+BuildRequires:	python39-devel
+%endif
 BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
@@ -320,6 +323,10 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_INCLUDE='-I%{ogdiinstdir}/include/ogdi'
 export OGDI_LIBS='-L%{ogdiinstdir}/lib'
 
+%if 0%{?rhel} == 8
+export PYTHON=/usr/bin/python3.9
+%endif
+
 %if 0%{?suse_version}
 %if 0%{?suse_version} >= 1315
  %{__install} -d build
@@ -339,8 +346,8 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
-%if 0%{?rhel} == 8
- -DGDAL_USE_ARCHIVE=OFF
++%if 0%{?rhel} == 8
+ -DGDAL_USE_ARCHIVE=OFF \
 %endif
 %if %gdaljava
  -DBUILD_JAVA_BINDINGS=ON \
@@ -467,6 +474,7 @@ done
 * Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-5PGDG
 - Rebuild against PROJ 9.5 and GeOS 3.13
 - Disable libarchive support properly on RHEL 8
+- Fix RHEL 8 Python builds.
 
 * Tue Apr 23 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-4PGDG
 - Disable JAVA bindings on Fedora 40 until the build issue is resolved.
