@@ -112,6 +112,9 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-7PGDG
+- Rebuild due to issues with PROJ and GeOS dependency on the build instances
+
 * Thu Sep 19 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-6PGDG
 - Rebuild against PROJ 9.5 and GeOS 3.13
 
