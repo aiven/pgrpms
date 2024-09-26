@@ -300,7 +300,12 @@ and maintain PostgreSQL databases.
 %package docs
 Summary:	Extra documentation for PostgreSQL
 Provides:	postgresql-docs >= %{version}-%{release}
-BuildRequires:	docbook-dtds docbook-style-xsl libxslt
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	docbook-style-xsl libxslt
+%endif
+%if 0%{?suse_version} >= 1499
+BuildRequires:	docbook-xsl-stylesheets
+%endif
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
