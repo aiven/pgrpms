@@ -49,7 +49,7 @@
 
 Name:		%{sname}39
 Version:	3.9.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -474,6 +474,9 @@ done
 %endif
 
 %changelog
+* Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-2PGDG
+- Rebuild due to issues with PROJ dependency on the build instances.
+
 * Thu Aug 22 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-1PGDG
 - Update to 3.9.2 per changes described at:
   https://github.com/OSGeo/gdal/blob/v3.9.2/NEWS.md
