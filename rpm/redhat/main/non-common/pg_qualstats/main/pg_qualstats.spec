@@ -4,8 +4,8 @@
 
 Summary:	A PostgreSQL extension collecting statistics about predicates
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.0
-Release:	2PGDG%{?dist}
+Version:	2.1.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/powa-team/%{sname}
@@ -77,6 +77,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-1PGDG
+- Update to 2.1.1
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
