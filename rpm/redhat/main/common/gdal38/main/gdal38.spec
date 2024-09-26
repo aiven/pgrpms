@@ -346,7 +346,7 @@ export PYTHON=/usr/bin/python3.9
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
-+%if 0%{?rhel} == 8
+%if 0%{?rhel} == 8
  -DGDAL_USE_ARCHIVE=OFF \
 %endif
 %if %gdaljava
