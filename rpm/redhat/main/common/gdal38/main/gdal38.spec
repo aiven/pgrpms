@@ -339,6 +339,9 @@ export OGDI_LIBS='-L%{ogdiinstdir}/lib'
  -DGDAL_JAVA_INSTALL_DIR=%{_jnidir}/%{name} \
  -DCMAKE_PREFIX_PATH="%{geosinstdir};%{libgeotiffinstdir}" \
  -DGDAL_USE_JPEG12_INTERNAL=OFF \
+%if 0%{?rhel} == 8
+ -DGDAL_USE_ARCHIVE=OFF
+%endif
 %if %gdaljava
  -DBUILD_JAVA_BINDINGS=ON \
 %else
@@ -463,6 +466,7 @@ done
 %changelog
 * Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-5PGDG
 - Rebuild against PROJ 9.5 and GeOS 3.13
+- Disable libarchive support properly on RHEL 8
 
 * Tue Apr 23 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-4PGDG
 - Disable JAVA bindings on Fedora 40 until the build issue is resolved.
