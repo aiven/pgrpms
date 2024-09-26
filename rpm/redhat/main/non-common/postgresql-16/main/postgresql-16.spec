@@ -302,7 +302,6 @@ and maintain PostgreSQL databases.
 %package docs
 Summary:	Extra documentation for PostgreSQL
 Provides:	postgresql-docs >= %{version}-%{release}
-BuildRequires:	docbook-dtds docbook-style-xsl libxslt
 
 %description docs
 The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
@@ -1238,7 +1237,6 @@ fi
 * Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-4PGDG
 - Re-add missing clang-devel and llvm-devel dependencies to -devel
   subpackage.
-- Add missing BRs for doc builds.
 
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-2PGDG
 - Add new BR for Fedora 41
