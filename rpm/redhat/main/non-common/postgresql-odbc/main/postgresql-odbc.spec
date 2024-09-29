@@ -1,8 +1,8 @@
-%global odbcgittag 17_00_0000
+%global odbcgittag 17_00_0001
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	17.00.0000
+Version:	17.00.0001
 Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
@@ -85,6 +85,10 @@ popd
 %license license.txt
 
 %changelog
+* Sun Sep 29 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0001-1PGDG
+- Update to 17.00.0001 per changes described at:
+  https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0001
+
 * Fri Sep 27 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0000-1PGDG
 - Update to 17.00.0000
 
