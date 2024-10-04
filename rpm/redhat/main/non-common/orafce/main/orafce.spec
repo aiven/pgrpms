@@ -1,7 +1,7 @@
 %global sname orafce
 %global orafcemajver 4
 %global orafcemidver 13
-%global orafceminver 2
+%global orafceminver 3
 
 %{!?llvm:%global llvm 1}
 
@@ -68,6 +68,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Oct 4 2024 Devrim Gündüz <devrim@gunduz.org> 4.13.3-1PGDG
+- Update to 4.13.3 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_13_3
+
 * Fri Sep 27 2024 Devrim Gündüz <devrim@gunduz.org> 4.13.2-1PGDG
 - Update to 4.13.2 per changes described at
   https://github.com/orafce/orafce/releases/tag/VERSION_4_13_2
