@@ -4,8 +4,8 @@
 
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3.13
-Release:	4PGDG%{?dist}
+Version:	1.3.14
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
@@ -34,8 +34,8 @@ BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
+Requires:	llvm => 17.0
 %endif
 
 %description llvmjit
@@ -75,6 +75,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Thu Oct 10 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.14-1PGDG
+- Update to 1.3.14 per changes described at:
+  https://github.com/postgrespro/rum/releases/tag/1.3.14
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.13-4PGDG
 - Update LLVM dependencies
 
