@@ -4,8 +4,8 @@
 
 Summary:	A PostgreSQL extension that enables asynchronous (non-blocking) HTTP/HTTPS requests with SQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.10.0
-Release:	2PGDG%{?dist}
+Version:	0.11.0
+Release:	1PGDG%{?dist}
 URL:		https://github.com/supabase/%{sname}
 Source0:	https://github.com/supabase/%{sname}/archive/refs/tags/v%{version}.tar.gz
 License:	Apache-2.0
@@ -30,8 +30,8 @@ BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
+Requires:	llvm => 17.0
 %endif
 
 %description llvmjit
@@ -64,6 +64,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Fri Oct 11 2024 Devrim Gunduz <devrim@gunduz.org> - 0.11.0-1PGDG
+- Update to 0.11.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.11.0
+
 * Wed Sep 4 2024 Devrim Gunduz <devrim@gunduz.org> - 0.10.0-1PGDG
 - Specify libcurl dependency per https://github.com/supabase/pg_net/issues/143 .
   This currently disables builds on RHEL 9 and 8.
