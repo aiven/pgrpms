@@ -49,7 +49,7 @@
 
 Name:		%{sname}39
 Version:	3.9.2
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -184,7 +184,12 @@ BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 9
+BuildRequires:	SFCGAL-devel >= 2.0.0
+%endif
+%if 0%{?rhel} == 8 || 0%{?suse_version} >= 1315
 BuildRequires:	SFCGAL-devel
+%endif
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libshp-devel libcurl-devel >= 7.68
 BuildRequires:	python311-devel
@@ -474,6 +479,9 @@ done
 %endif
 
 %changelog
+* Fri Oct 11 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-3PGDG
+- Rebuild against SFCGAL 2.0 on RHEL 9 and Fedora.
+
 * Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-2PGDG
 - Rebuild due to issues with PROJ dependency on the build instances.
 
