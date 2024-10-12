@@ -57,7 +57,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.7
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -86,8 +86,12 @@ BuildRequires:	libxml2-devel
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
 %if %{sfcgal}
-BuildRequires:	SFCGAL-devel SFCGAL
-Requires:	SFCGAL
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 9
+BuildRequires:	SFCGAL-devel >= 2.0.0
+%endif
+%if 0%{?rhel} == 8 || 0%{?suse_version} >= 1315
+BuildRequires:	SFCGAL-devel
+%endif
 %endif
 %if %{raster}
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
@@ -373,6 +377,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-5PGDG
+- Rebuild against SFCGAL 2.0 on RHEL 9 and Fedora
+
 * Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-4PGDG
 - Rebuild against PROJ 9.5, GeOS 3.13
 - Rebuild against GDAL 3.9 on Fedora, RHEL 9 and SLES 15.
