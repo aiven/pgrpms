@@ -72,8 +72,12 @@ BuildRequires:	libxml2-devel
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
 %if %{sfcgal}
-BuildRequires:	SFCGAL-devel SFCGAL
-Requires:	SFCGAL
+%if 0%{?fedora} >= 39 || 0%{?rhel} >= 9
+BuildRequires:	SFCGAL-devel >= 2.0.0
+%endif
+%if 0%{?rhel} == 8 || 0%{?suse_version} >= 1315
+BuildRequires:	SFCGAL-devel
+%endif
 %endif
 
 %if %{raster}
@@ -360,6 +364,9 @@ fi
 %endif
 
 %changelog
+* Sat Oct 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-2PGDG
+- Rebuild against SFCGAL 2.0.0
+
 * Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1PGDG
 - Update to 3.5.0 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.5.0/NEWS
