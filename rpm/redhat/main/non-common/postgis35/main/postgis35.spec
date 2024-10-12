@@ -365,7 +365,7 @@ fi
 
 %changelog
 * Sat Oct 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-2PGDG
-- Rebuild against SFCGAL 2.0.0
+- Rebuild against SFCGAL 2.0.0 on RHEL 9 and Fedora
 
 * Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-1PGDG
 - Update to 3.5.0 per changes described at:
