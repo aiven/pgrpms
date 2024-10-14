@@ -10,26 +10,20 @@
 %global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
-# Macros that define the configure parameters:
-%if 0%{?suse_version} >= 1315
-%{!?enabletaptests:%global enabletaptests 0}
-%else
 %{!?enabletaptests:%global enabletaptests 1}
-%endif
-
 %{!?icu:%global icu 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
+%{!?llvm:%global llvm 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?plpython3:%global plpython3 1}
-
+%{!?runselftest:%global runselftest 0}
+%{!?selinux:%global selinux 1}
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
-%{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
 
@@ -38,10 +32,6 @@
 %else
  %{!?sdt:%global sdt 1}
 %endif
-
-%{!?llvm:%global llvm 1}
-
-%{!?selinux:%global selinux 1}
 
 %if 0%{?fedora} > 30
 %global _hardened_build 1
@@ -54,12 +44,12 @@
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
 Version:	17.0
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420003PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -93,7 +83,7 @@ BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
 BuildRequires:	libxml2-devel libxslt-devel
 
 # lz4 dependency
-%if 0%{?suse_version} >= 1499
+%if 0%{?suse_version} >= 1500
 BuildRequires:	liblz4-devel
 Requires:	liblz4-1
 %endif
@@ -103,7 +93,7 @@ Requires:	lz4-libs
 %endif
 
 # zstd dependency
-%if 0%{?suse_version} >= 1499
+%if 0%{?suse_version} >= 1500
 BuildRequires:	libzstd-devel >= 1.4.0
 Requires:	libzstd1 >= 1.4.0
 %endif
@@ -128,8 +118,8 @@ Requires:	libicu
 %if 0%{?suse_version} >= 1500
 BuildRequires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel => 13.0 clang-devel >= 13.0
+%if 0%{?fedora} || 0%{?rhel}
+BuildRequires:	llvm-devel => 17.0 clang-devel >= 17.0
 %endif
 %endif
 
@@ -140,7 +130,7 @@ BuildRequires:	e2fsprogs-devel
 
 %if %ldap
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	openldap2-devel
 %endif
 %else
@@ -157,7 +147,7 @@ BuildRequires:	pam-devel
 %endif
 
 %if %plperl
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel}
 BuildRequires:	perl-ExtUtils-Embed
 %endif
 %endif
@@ -177,11 +167,7 @@ BuildRequires:	systemtap-sdt-devel
 %if %selinux
 # All supported distros have libselinux-devel package:
 BuildRequires:	libselinux-devel >= 2.0.93
-# SLES: SLES 15 does not have selinux-policy package. Use
-# it only on SLES 12:
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	selinux-policy >= 3.9.13
-%endif
+# SLES: SLES 15 does not have selinux-policy packageç
 # RHEL/Fedora has selinux-policy:
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	selinux-policy >= 3.9.13
@@ -189,11 +175,7 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	libopenssl-devel
-%else
 BuildRequires:	openssl-devel
-%endif
 %endif
 
 %if 0%{?fedora} >= 41
@@ -202,7 +184,7 @@ BuildRequires:	openssl-devel-engine
 
 %if %uuid
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	uuid-devel
 %endif
 %else
@@ -214,7 +196,7 @@ BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires(post):		systemd-sysvinit
 %endif
 %else
@@ -247,18 +229,10 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-Requires:	libopenssl1_0_0
-%else
 %if 0%{?suse_version} >= 1500
 Requires:	libopenssl1_1
 %else
-Requires:	openssl-libs >= 1.0.2k
-%endif
-%endif
+Requires:	openssl-libs >= 1.1.1k
 %endif
 
 %description libs
@@ -279,7 +253,7 @@ Requires(postun):	glibc
 # pre/post stuff needs systemd too
 
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires(post):		systemd
 %endif
 %else
@@ -303,7 +277,7 @@ BuildRequires:	docbook-dtds libxslt
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	docbook-style-xsl libxslt
 %endif
-%if 0%{?suse_version} >= 1499
+%if 0%{?suse_version} >= 1500
 BuildRequires:	docbook-xsl-stylesheets
 %endif
 
@@ -335,7 +309,7 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
 Requires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel}
 Requires:	llvm-devel => 17.0 clang-devel >= 17.0
 %endif
 %endif
@@ -345,7 +319,7 @@ Requires:	libicu-devel
 %endif
 
 %if %enabletaptests
-%if 0%{?suse_version} && 0%{?suse_version} >= 1315
+%if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:	perl-IPC-Run
 BuildRequires:	perl-IPC-Run
 %endif
@@ -376,8 +350,8 @@ Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} >= 1500
 Requires:	libLLVM17
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 13
+%if 0%{?fedora} || 0%{?rhel}
+Requires:	llvm => 17
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -412,7 +386,7 @@ Summary:	The Python3 procedural language for PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Provides:	postgresql-plpython3 >= %{version}-%{release}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	python3-base
 %else
 Requires:	python3-libs
@@ -482,10 +456,10 @@ LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} || 0%{?rhel}
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
 %endif
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 %endif
 
@@ -497,9 +471,7 @@ export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 	--datadir=%{pgbaseinstdir}/share \
 	--libdir=%{pgbaseinstdir}/lib \
 	--with-lz4 \
-%if 0%{?rhel} || 0%{?suse_version} >= 1499 || 0%{?fedora}
 	--with-zstd \
-%endif
 %if %beta
 	--enable-debug \
 	--enable-cassert \
@@ -574,7 +546,6 @@ MAKELEVEL=0 %{__make} %{?_smp_mflags} all
 %if %uuid
 %{__make} %{?_smp_mflags} -C contrib/uuid-ossp all
 %endif
-
 
 # run_testsuite WHERE
 # -------------------
@@ -801,7 +772,7 @@ useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
-   %if 0%{?suse_version} >= 1315
+   %if 0%{?suse_version} >= 1500
    %service_add_pre postgresql-%{pgpackageversion}.service
    %endif
    %else
@@ -1255,6 +1226,9 @@ fi
 %endif
 
 %changelog
+* Mon Oct 14 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-3PGDG
+- Remove references to RHEL 7, 6 and SLES 12
+
 * Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-2PGDG
 - Re-add missing clang-devel and llvm-devel dependencies to -devel
   subpackage.
