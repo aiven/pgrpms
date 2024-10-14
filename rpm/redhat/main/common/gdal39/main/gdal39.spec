@@ -48,8 +48,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
 Name:		%{sname}39
-Version:	3.9.2
-Release:	3PGDG%{?dist}
+Version:	3.9.3
+Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -479,6 +479,10 @@ done
 %endif
 
 %changelog
+* Mon Oct 14 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.3-1PGDG
+- Update to 3.9.3 per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.9.3/NEWS.md
+
 * Fri Oct 11 2024 Devrim Gunduz <devrim@gunduz.org> - 3.9.2-3PGDG
 - Rebuild against SFCGAL 2.0 on RHEL 9 and Fedora.
 
