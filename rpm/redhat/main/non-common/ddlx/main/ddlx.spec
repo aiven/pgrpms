@@ -3,7 +3,7 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.27
+Version:	0.28
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
@@ -38,6 +38,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Mon Oct 14 2024 Devrim Gündüz <devrim@gunduz.org> - 0.28-1PGDG
+- Update to 0.28 per changes described at:
+  https://github.com/lacanoid/pgddl/releases/tag/0.28
+
 * Sun Oct 22 2023 Devrim Gündüz <devrim@gunduz.org> - 0.27-1PGDG
 - Update to 0.27 per changes described at:
   https://github.com/lacanoid/pgddl/releases/tag/0.27
