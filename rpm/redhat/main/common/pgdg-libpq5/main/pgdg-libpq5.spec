@@ -8,7 +8,7 @@
 Summary:	PostgreSQL Client Library
 Name:		libpq5
 Version:	%{pgmajorversion}.0
-Release:	42PGDG%{?dist}
+Release:	43PGDG%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -95,7 +95,7 @@ Requires:	openssl-libs >= 1.0.2k
 %endif
 %endif
 
-Obsoletes:	libpq >= 9.0
+Obsoletes:	libpq <= 99.0
 Provides:	postgresql-libs >= 9.2 libpq >= 10.0 libpq.so.5
 Provides:	libpq.so.5(RHPG_9.6)(64bit) libpq.so.5(RHPG_10)(64bit)
 Provides:	libpq.so.5(RHPG_11)(64bit) libpq.so.5(RHPG_12)(64bit)
@@ -178,6 +178,8 @@ done
 # remove files not to be packaged
 find %{buildroot} -name '*.a' -delete
 %{__rm} -r %{buildroot}%_includedir/pgsql/server
+%{__rm} -r %{buildroot}%_datadir/pgsql/postgres.bki
+%{__rm} -r %{buildroot}%_datadir/pgsql/system_constraints.sql
 
 %{__cp} /dev/null libs.lst
 
@@ -206,8 +208,6 @@ find_lang_bins %name-devel.lst	pg_config
 %defattr(-,root,root)
 %{_libdir}/libpq.so*
 %doc %_datadir/pgsql/pg_service.conf.sample
-%_datadir/pgsql/postgres.bki
-%_datadir/pgsql/system_constraints.sql
 
 %files devel -f %name-devel.lst
 %_bindir/pg_config
@@ -216,6 +216,9 @@ find_lang_bins %name-devel.lst	pg_config
 %_libdir/pkgconfig/libpq.pc
 
 %changelog
+* Thu Oct 17 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-43-1PGDG
+- Remove .bki and .sql files to avoid conflict with Fedora packages.
+
 * Tue Sep 24 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-42-1PGDG
 - Update to 17.0
 
