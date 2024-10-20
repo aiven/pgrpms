@@ -1,5 +1,5 @@
 %global sname	pljava
-%global relver	1_6_7
+%global relver	1_6_8
 
 %if 0%{?suse_version} >= 1500
 %else
@@ -14,7 +14,7 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.7
+Version:	1.6.8
 Release:	1PGDG%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
@@ -31,7 +31,7 @@ BuildRequires:	java-11-openjdk-devel
 %if 0%{?rhel} == 9
 BuildRequires:	java-17-openjdk-devel
 %endif
-%if 0%{?rhel} < 9 && 0%{?rhel} >= 7
+%if 0%{?rhel} == 8
 BuildRequires:	java-latest-openjdk-devel
 %endif
 %if 0%{?fedora}
@@ -47,11 +47,7 @@ Requires:	java-headless >= 1:1.8
 BuildRequires:	pgdg-srpm-macros
 BuildRequires:	openssl-devel krb5-devel
 
-%if 0%{?rhel} == 7
-BuildRequires:	rh-maven33
-%else
 BuildRequires:	maven
-%endif
 
 Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
 
@@ -70,8 +66,6 @@ export CLASSPATH=
 export PATH=%{pginstdir}/bin
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
-# The next line is useful only on RHEL 7, for the rh-maven33 package
-export PATH=%{pginstdir}/bin:/opt/rh/rh-maven33/root/usr/bin:$PATH
 # ommon for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
@@ -104,6 +98,11 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Sun Oct 20 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.8-1PGDG
+- Update to 1.6.8 per changes described at:
+  https://github.com/tada/pljava/releases/tag/V1_6_8
+- Remove RHEL 7 bits.
+
 * Tue Apr 9 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.7-1PGDG
 - Update to 1.6.7
 
