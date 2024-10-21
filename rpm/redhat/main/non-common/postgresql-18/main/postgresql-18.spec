@@ -731,6 +731,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %find_lang pg_controldata-%{pgmajorversion}
 %find_lang pg_ctl-%{pgmajorversion}
 %find_lang pg_dump-%{pgmajorversion}
+#%find_lang pg_logicalinspect-%{pgmajorversion}
 %find_lang pg_resetwal-%{pgmajorversion}
 %find_lang pg_rewind-%{pgmajorversion}
 %find_lang pg_test_fsync-%{pgmajorversion}
@@ -756,6 +757,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %find_lang postgres-%{pgmajorversion}
 %find_lang psql-%{pgmajorversion}
 
+#cat pg_amcheck-%{pgmajorversion}.lang pg_logicalinspect-%{pgmajorversion}.lang > pg_contrib.lst
 cat pg_amcheck-%{pgmajorversion}.lang > pg_contrib.lst
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
 cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
@@ -996,6 +998,7 @@ fi
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
 %{pgbaseinstdir}/lib/pg_freespacemap.so
+%{pgbaseinstdir}/lib/pg_logicalinspect.so
 %{pgbaseinstdir}/lib/pg_prewarm.so
 %{pgbaseinstdir}/lib/pg_stat_statements.so
 %{pgbaseinstdir}/lib/pg_surgery.so
@@ -1053,6 +1056,7 @@ fi
 %{pgbaseinstdir}/share/extension/pageinspect*
 %{pgbaseinstdir}/share/extension/pg_buffercache*
 %{pgbaseinstdir}/share/extension/pg_freespacemap*
+%{pgbaseinstdir}/share/extension/pg_logicalinspect*
 %{pgbaseinstdir}/share/extension/pg_prewarm*
 %{pgbaseinstdir}/share/extension/pg_stat_statements*
 %{pgbaseinstdir}/share/extension/pg_surgery*
