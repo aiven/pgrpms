@@ -2,7 +2,7 @@
 
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.17.0
+Version:	2.17.1
 Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
@@ -66,6 +66,10 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Thu Oct 24 2024 Devrim Gündüz <devrim@gunduz.org> - 2.17.1-1PGDG
+- Update to 2.17.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.17.1
+
 * Tue Oct 8 2024 Devrim Gündüz <devrim@gunduz.org> - 2.17.0-1PGDG
 - Update to 2.17.0, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.17.0
@@ -134,7 +138,7 @@ cd build; %{__make} DESTDIR=%{buildroot} install
   https://github.com/timescale/timescaledb/releases/tag/2.10.3
 
 * Mon Apr 24 2023 Devrim Gunduz <devrim@gunduz.org> - 2.10.2-1.1
-- Modernise %patch usage, which has been deprecated in Fedora 38
+- Modernise %%patch usage, which has been deprecated in Fedora 38
 
 * Fri Apr 21 2023 Devrim Gündüz <devrim@gunduz.org> - 2.10.2-1
 - Update to 2.10.2, per changes described at:
