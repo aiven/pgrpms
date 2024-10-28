@@ -32,7 +32,7 @@ BuildRequires:	java-11-openjdk-devel
 BuildRequires:	java-17-openjdk-devel
 %endif
 %if 0%{?rhel} == 8
-BuildRequires:	java-latest-openjdk-devel
+BuildRequires:	java-11-openjdk-devel
 %endif
 %if 0%{?fedora}
 BuildRequires:	java-latest-openjdk-devel
@@ -62,10 +62,13 @@ language and executed in the backend.
 %build
 export CLASSPATH=
 
+export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
-export PATH=%{pginstdir}/bin
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
+%if 0%{?rhel} == 8
+export JAVA_HOME=/etc/alternatives/java_sdk_11_openjdk
+%endif
 # Common for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
