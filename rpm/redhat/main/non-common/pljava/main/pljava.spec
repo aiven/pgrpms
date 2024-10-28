@@ -66,7 +66,7 @@ export CLASSPATH=
 export PATH=%{pginstdir}/bin
 mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so/aol.%{archtag}-linux-gpp.properties
 %else
-# ommon for all distros:
+# Common for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
 %endif
 
@@ -86,9 +86,13 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{__install} -d %{buildroot}%{pginstdir}/share/extension
 %{__cp} -f %{sname}-packaging/target/classes/%{sname}.control %{buildroot}%{pginstdir}/share/extension
 
+%{__install} -d %{buildroot}%{_sysconfdir}/pgsql/
+%{__cp} -f %{sname}-packaging/src/main/resources/pljava.policy %{buildroot}%{_sysconfdir}/pgsql/%{sname}_%{pgmajorversion}.policy
+
 %files
 %doc README.md
 %license COPYRIGHT
+%{_sysconfdir}/pgsql/%{sname}_%{pgmajorversion}.policy
 %{pginstdir}/lib/libpljava-so-%{version}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/%{sname}/%{sname}--1*.sql
@@ -101,6 +105,7 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 * Sun Oct 20 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.8-1PGDG
 - Update to 1.6.8 per changes described at:
   https://github.com/tada/pljava/releases/tag/V1_6_8
+- Install pljava.policy file, per report from Chapman Flack.
 - Remove RHEL 7 bits.
 
 * Tue Apr 9 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.7-1PGDG
