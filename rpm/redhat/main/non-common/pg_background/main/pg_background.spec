@@ -4,8 +4,8 @@
 
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.2
-Release:	2PGDG%{?dist}
+Version:	1.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
@@ -25,8 +25,8 @@ BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
+Requires:	llvm => 17.0
 %endif
 
 %description llvmjit
@@ -61,6 +61,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-1PGDG
+- Update to 1.3 per changes described at:
+  https://github.com/vibhorkum/pg_background/releases/tag/v1.3
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
