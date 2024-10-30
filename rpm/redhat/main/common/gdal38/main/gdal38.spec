@@ -57,7 +57,7 @@
 
 Name:		%{sname}38
 Version:	3.8.5
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -471,6 +471,9 @@ done
 %endif
 
 %changelog
+* Wed Oct 30 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-6PGDG
+- Rebuild against libarrow 16 on Fedora 41
+
 * Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 3.8.5-5PGDG
 - Rebuild against PROJ 9.5 and GeOS 3.13
 - Disable libarchive support properly on RHEL 8
