@@ -12,7 +12,7 @@
 
 
 Name:		powa-collector
-Version:	1.2.0
+Version:	1.3.0
 Release:	1PGDG%{?dist}
 Summary:	POWA data collector daemon
 License:	PostgreSQL
@@ -90,5 +90,9 @@ database (in the powa_servers table).
 %{python3_sitelib}/%{pname}/__pycache__/*.py*
 
 %changelog
+* Sun Nov 3 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1PGDG
+- Update to 1.3.0 per changes described at:
+  https://github.com/powa-team/powa-collector/releases/tag/1.3.0
+
 * Wed Sep 20 2023 Devrim Gündüz <devrim@gunduz.org> - 1.2.0-1PGDG
 - Initial packaging for the PostgreSQL RPM repository
