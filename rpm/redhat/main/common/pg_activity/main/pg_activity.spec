@@ -19,7 +19,7 @@
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	3.5.1
-Release:	1PGDG%{?dist}
+Release:	42PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
@@ -88,6 +88,9 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Sun Nov 3 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-42PGDG
+- Bump up version number to avoid conclicts with OS packages.
+
 * Mon May 13 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-1PGDG
 - Update to 3.5.1 per changes described at:
   https://github.com/dalibo/pg_activity/releases/tag/v3.5.1
