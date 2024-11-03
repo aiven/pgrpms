@@ -44,7 +44,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.0
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -213,6 +213,7 @@ autoconf
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
 	--bindir=%{pginstdir}/bin/ \
 	--datadir=%{pginstdir}/share/ \
+	--mandir=%{_mandir}/%{name} \
 	--enable-lto \
 %if !%raster
 	--without-raster \
@@ -308,7 +309,7 @@ fi
 %{pginstdir}/lib/postgis_raster-%{postgissomajorversion}.so
 %{pginstdir}/share/extension/%{sname}_raster.control
 %endif
-%{_mandir}/man1/%{sname}*
+%{_mandir}/%{name}/man1/*
 
 %files client
 %defattr(644,root,root)
@@ -319,9 +320,9 @@ fi
 %attr(755,root,root) %{pginstdir}/bin/shp2pgsql
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_export
 %attr(755,root,root) %{pginstdir}/bin/pgtopo_import
-%{_mandir}/man1/pgsql2shp*
-%{_mandir}/man1/pgtopo_*
-%{_mandir}/man1/shp2pgsql*
+%{_mandir}/%{name}/man1/pgsql2shp*
+%{_mandir}/%{name}/man1/pgtopo_*
+%{_mandir}/%{name}/man1/shp2pgsql*
 
 %files devel
 %defattr(644,root,root)
@@ -364,6 +365,10 @@ fi
 %endif
 
 %changelog
+* Sun Mov 3 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-3PGDG
+- Install man files to another location to avoid packaging conflict
+  with other PostGIS RPMs.
+
 * Sat Oct 12 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.0-2PGDG
 - Rebuild against SFCGAL 2.0.0 on RHEL 9 and Fedora
 
