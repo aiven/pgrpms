@@ -3,7 +3,7 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.7.0
+Version:	3.0.1
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
@@ -34,8 +34,8 @@ BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
+Requires:	llvm => 17.0
 %endif
 
 %description llvmjit
@@ -64,6 +64,10 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Oct 28 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0.1-1PGDG
+- Update to 3.0.1 per changes described at
+  https://github.com/debezium/postgres-decoderbufs/releases/tag/v3.0.1.Final
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.7.0-1PGDG
 - Update to 2.7.0 per changes described at
   https://github.com/debezium/postgres-decoderbufs/releases/tag/v2.7.0.Final
