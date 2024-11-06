@@ -3,8 +3,8 @@
 
 Summary:	Uber's H3 Hexagonal Hierarchical Geospatial Indexing System in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.1.3
-Release:	3PGDG%{dist}
+Version:	4.1.4
+Release:	1PGDG%{dist}
 License:	Apache
 URL:		https://github.com/zachasme/%{sname}
 Source0:	https://github.com/zachasme/%{sname}/archive/refs/tags/v%{version}.tar.gz
@@ -59,6 +59,10 @@ popd
 %{pginstdir}/share/extension/h3_postgis.control
 
 %changelog
+* Wed Nov 6 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.4-1PGDG
+- Update to 4.1.4 per changes described at:
+  https://github.com/zachasme/h3-pg/releases/tag/v4.1.4
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.3-3PGDG
 - Fix builds on Fedora
 
