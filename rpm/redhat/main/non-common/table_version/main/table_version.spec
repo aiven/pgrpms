@@ -2,8 +2,8 @@
 
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.10.3
-Release:	3PGDG%{?dist}
+Version:	1.11.1
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
 URL:		https://github.com/linz/postgresql-tableversion/
@@ -44,6 +44,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %{pginstdir}/share/extension/table_version.control
 
 %changelog
+* Sat Nov 9 2024 Devrim Gündüz <devrim@gunduz.org> - 1.11.1-1PGDG
+- Update to 1.11.1
+
 * Mon Feb 26 2024 Devrim Gündüz <devrim@gunduz.org> - 1.10.3-4PGDG
 - Mark package as noarch and enable -debug* subpackages.
 
