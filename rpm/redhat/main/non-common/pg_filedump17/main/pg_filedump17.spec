@@ -3,7 +3,7 @@
 
 Summary:	PostgreSQL File Dump Utility
 Name:		%{sname}_%{pgmajorversion}
-Version:	17.0
+Version:	17.1
 Release:	1PGDG%{?dist}
 URL:		https://github.com/df7cb/%{sname}
 Source0:	https://github.com/df7cb/%{sname}/archive/%{sversion}.tar.gz
@@ -33,5 +33,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 %doc README.pg_filedump.md
 
 %changelog
+* Sat Nov 9 2024 Devrim Gündüz <devrim@gunduz.org> - 17.1-1PGDG
+- Update to 17.1 per changes described at:
+  https://github.com/df7cb/pg_filedump/releases/tag/REL_17_1
+
 * Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 17.0-1PGDG
 - Initial packaging for the PostgreSQL RPM Repository
