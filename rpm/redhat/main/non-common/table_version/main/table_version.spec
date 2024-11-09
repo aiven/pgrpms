@@ -7,7 +7,7 @@ Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/linz/postgresql-tableversion/archive/%{version}.tar.gz
 URL:		https://github.com/linz/postgresql-tableversion/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros jq
 Requires:	postgresql%{pgmajorversion}-server
 BuildArch:	noarch
 
