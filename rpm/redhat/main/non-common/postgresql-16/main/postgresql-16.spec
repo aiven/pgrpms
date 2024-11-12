@@ -54,13 +54,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	16.4
+Version:	16.5
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1234,6 +1234,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 12 2024 Devrim Gunduz <devrim@gunduz.org> - 16.5-1PGDG
+- Update to 16.5, per changes described at:
+  https://www.postgresql.org/docs/release/16.5/
+
 * Thu Sep 26 2024 Devrim Gündüz <devrim@gunduz.org> - 16.4-4PGDG
 - Re-add missing clang-devel and llvm-devel dependencies to -devel
   subpackage.
