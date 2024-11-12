@@ -102,13 +102,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	12.20
+Version:	12.21
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1597,6 +1597,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 12 2024 Devrim Gündüz <devrim@gunduz.org> - 12.21-1PGDG
+- Update to 12.21, per changes described at
+  https://www.postgresql.org/docs/release/12.21/
+
 * Fri Aug 9 2024 Devrim Gündüz <devrim@gunduz.org> - 12.20-2PGDG
 - Add a patch to virtually provide PostgreSQL::Test::Utils dependency.
   Per report from John Harvey and others. Patch from Noah Misch.
