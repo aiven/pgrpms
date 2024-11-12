@@ -107,7 +107,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-Patch7:		%{sname}-%{pgmajorversion}-provide-perl-dependency.patch
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -554,7 +553,6 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
-%patch -P 7 -p1
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1350,6 +1348,7 @@ fi
 * Tue Nov 12 2024 Devrim Gündüz <devrim@gunduz.org> - 13.17-1PGDG
 - Update to 13.17, per changes described at
   https://www.postgresql.org/docs/release/13.17/
+- Remove patch 7. It is now in upstream.
 
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 13.16-3PGDG
 - Add new BR for Fedora 41
