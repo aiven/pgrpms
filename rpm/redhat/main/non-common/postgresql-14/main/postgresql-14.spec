@@ -76,13 +76,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.13
+Version:	14.14
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1384,6 +1384,10 @@ fi
 %endif
 
 %changelog
+* Tue Nov 12 2024 Devrim Gündüz <devrim@gunduz.org> - 14.14-1PGDG
+- Update to 14.14, per changes described at
+  https://www.postgresql.org/docs/release/14.14/
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 14.13-3PGDG
 - Add new BR for Fedora 41
 
