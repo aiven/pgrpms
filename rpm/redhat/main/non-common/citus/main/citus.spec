@@ -106,7 +106,7 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
-* Fri Nov 15 Devrim Gunduz <devrim@gunduz.org> - 12.1.6-1PGDG
+* Fri Nov 15 2024 Devrim Gunduz <devrim@gunduz.org> - 12.1.6-1PGDG
 - Update to 12.1.6
 
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 12.1.5-2PGDG
