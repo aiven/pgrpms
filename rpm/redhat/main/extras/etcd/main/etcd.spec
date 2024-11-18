@@ -23,13 +23,9 @@ Source1:	%{name}.service
 Source2:	%{name}.conf
 
 BuildRequires:	python3-devel
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	systemd
-%else
 BuildRequires:	systemd-rpm-macros
-%endif
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 7
+%if 0%{?fedora} || 0%{?rhel}
 Requires(pre):	shadow-utils
 %endif
 %if 0%{?suse_version} >= 1315
@@ -90,6 +86,7 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 * Wed Nov 13 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.17-1PGDG
 - Update to 3.5.17, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.5.17
+- Remove RHEL 7 bits
 
 * Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.16-1PGDG
 - Update to 3.5.16, per changes described at:
