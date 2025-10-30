@@ -13,24 +13,21 @@
 %endif
 
 Name:		etcd
-Version:	3.5.17
-Release:	1PGDG%{?dist}
+Version:	3.6.5
+Release:	2PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
 Source0:	https://github.com/%{name}-io/%{name}/releases/download/v%{version}/%{name}-v%{version}-linux-%{tarballarch}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.conf
+Source6:	%{name}-sysusers.conf
+Source7:	%{name}-tmpfiles.d
 
 BuildRequires:	python3-devel
-BuildRequires:	systemd-rpm-macros
+BuildRequires:	systemd-rpm-macros systemd
+Requires:	systemd
 
-%if 0%{?fedora} || 0%{?rhel}
-Requires(pre):	shadow-utils
-%endif
-%if 0%{?suse_version} >= 1315
-Requires(pre):	shadow
-%endif
 
 %description
 etcd is a distributed reliable key-value store for the most critical data
@@ -57,10 +54,14 @@ of a distributed system, with a focus on being:
 
 %{__mkdir} -p %{buildroot}/%{_var}/lib/%{name}
 
+%{__install} -m 0644 -D %{SOURCE6} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
+
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+
+
 %pre
-getent group %{name} >/dev/null || groupadd -r %{name}
-getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/%{name} \
-    -s /sbin/nologin -c "etcd user" %{name}
+%sysusers_create_package %{name} %SOURCE6
 
 %post
 %systemd_post %{name}.service
@@ -77,12 +78,58 @@ getent passwd %{name} >/dev/null || useradd -r -g %{name} -d %{_sharedstatedir}/
 %dir %attr(750, root, root) %{_sysconfdir}/%{name}
 %dir %attr(750, etcd, etcd) %{_var}/lib/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
-%{_unitdir}/%{name}.service
 %attr(755, root, root) %{_bindir}/etcd
 %attr(755, root, root) %{_bindir}/etcdctl
 %attr(755, root, root) %{_bindir}/etcdutl
+%{_sysusersdir}/%{name}-pgdg.conf
+%{_tmpfilesdir}/%{name}.conf
+%{_unitdir}/%{name}.service
 
 %changelog
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> 3.6.5-2PGDG
+- Add sysusers.d and tmpfiles.d config file to allow rpm to create
+  users/groups automatically.
+
+* Sun Sep 21 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-1PGDG
+- Update to 3.6.5, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.5
+
+* Mon Jul 28 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.4-1PGDG
+- Update to 3.6.4, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.4
+
+* Wed Jul 23 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.3-1PGDG
+- Update to 3.6.3, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.3
+
+* Thu Jul 10 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.2-1PGDG
+- Update to 3.6.2, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.2
+
+* Fri Jun 6 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-1PGDG
+- Update to 3.6.1, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.1
+
+* Sun May 18 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.0-1PGDG
+- Update to 3.6.0, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.0
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 3.5.21-1PGDG
+- Update to 3.5.21, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.5.21
+
+* Sat Mar 22 2025 Devrim Gündüz <devrim@gunduz.org> - 3.5.20-1PGDG
+- Update to 3.5.20, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.5.20
+
+* Fri Mar 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.5.19-1PGDG
+- Update to 3.5.19, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.5.19
+
+* Sun Jan 26 2025 Devrim Gündüz <devrim@gunduz.org> - 3.5.18-1PGDG
+- Update to 3.5.18, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.5.18
+
 * Wed Nov 13 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.17-1PGDG
 - Update to 3.5.17, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.5.17

@@ -3,27 +3,35 @@
 
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
-Version:	2.54.0
+Version:	2.57.0
 Release:	1PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
 Source1:	%{name}-conf.patch
-Source2:	%{name}-tmpfiles.d
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
+Source6:	%{name}-sysusers.conf
+Source7:	%{name}-tmpfiles.d
 
-BuildRequires:	openssl-devel zlib-devel postgresql%{pgmajorversion}-devel
-BuildRequires:	libzstd-devel libxml2-devel libyaml-devel libssh2-devel
-BuildRequires:	meson
+BuildRequires:	gcc libpq5-devel libssh2-devel libxml2-devel libyaml-devel
+BuildRequires:	libzstd-devel meson zlib-devel
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 Requires:	lz4-libs libzstd libssh2
 BuildRequires:	lz4-devel bzip2-devel ninja-build
-%endif
-%if 0%{?suse_version} && 0%{?suse_version} <= 1499
-Requires:	liblz4-1_7 libzstd1 libssh2-1
-BuildRequires:	liblz4-devel libbz2-devel ninja
 %endif
 %if 0%{?suse_version} && 0%{?suse_version} >= 1500
 Requires:	liblz4-1 libzstd1 libssh2-1
@@ -31,21 +39,13 @@ BuildRequires:	liblz4-devel libbz2-devel ninja
 %endif
 
 Requires:	postgresql-libs
-Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
 
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 %description
 pgBackRest aims to be a simple, reliable backup and restore system that can
@@ -78,47 +78,42 @@ are required to perform a backup which increases security.
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
 %{__install} -p -m 644 %{SOURCE3} %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
-# ... and make a tmpfiles script to recreate it at reboot.
-%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
-%{__install} -m 0644 %{SOURCE2} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
-
 # Install unit file:
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
 
+%{__install} -m 0644 -D %{SOURCE6} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
+
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+
 %pre
-# PGDATA needs removal of group and world permissions due to pg_pwd hole.
-%{__install} -d -m 700 /var/lib/pgsql/
-groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
-useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+%sysusers_create_package %{name} %SOURCE6
 %{__chown} postgres: /var/lib/pgsql
 
 %post
 if [ $1 -eq 1 ] ; then
-   /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %if 0%{?suse_version}
-   %if 0%{?suse_version} >= 1315
-   %service_add_pre %{name}.service
-   %endif
+   /usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+   %if 0%{?suse_version} >= 1500
+   %service_add_pre postgresql-%{pgpackageversion}.service
    %else
-   %systemd_post %{name}.service
+   %systemd_post %{sname}-%{pgpackageversion}.service
    %endif
 fi
 
 %preun
 if [ $1 -eq 0 ] ; then
 	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
+	/usr/bin/systemctl --no-reload disable %{name}.service >/dev/null 2>&1 || :
+	/usr/bin/systemctl stop %{name}.service >/dev/null 2>&1 || :
 fi
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+/usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
 
 if [ $1 -ge 1 ] ; then
 	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
+	/usr/bin/systemctl try-restart %{name}.service >/dev/null 2>&1 || :
 fi
 
 %files
@@ -128,12 +123,41 @@ fi
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{name}.conf
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_tmpfilesdir}/%{name}.conf
+%{_sysusersdir}/%{name}-pgdg.conf
 %{_unitdir}/%{name}.service
 %attr(-,postgres,postgres) /var/log/%{name}
 %attr(-,postgres,postgres) %{_sharedstatedir}/%{name}
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Oct 20 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-1PGDG
+- Update to 2.57.0, per changes described at:
+  https://pgbackrest.org/release.html#2.57.0
+- Utilise systemd-sysusers feature that comes with systemd 215.
+
+* Mon Aug 11 2025 Devrim Gündüz <devrim@gunduz.org> - 2.56.0-2PGDG
+- Add missing libpq5-devel. Per report from Christoph.
+
+* Tue Jul 22 2025 Devrim Gündüz <devrim@gunduz.org> - 2.56.0-1PGDG
+- Update to 2.56.0, per changes described at:
+  https://pgbackrest.org/release.html#2.56.0
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 2.55.1-1PGDG
+- Update to 2.55.1, per changes described at:
+  https://pgbackrest.org/release.html#2.55.1
+
+* Tue Apr 22 2025 Devrim Gündüz <devrim@gunduz.org> - 2.55.0-1PGDG
+- Update to 2.55.0, per changes described at:
+  https://pgbackrest.org/release.html#2.55.0
+
+* Mon Jan 20 2025 Devrim Gündüz <devrim@gunduz.org> - 2.54.2-1PGDG
+- Update to 2.54.2, per changes described at:
+  https://pgbackrest.org/release.html#2.54.2
+
+* Mon Dec 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.54.1-1PGDG
+- Update to 2.54.1, per changes described at:
+  https://pgbackrest.org/release.html#2.54.1
+
 * Mon Oct 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.54.0-1PGDG
 - Update to 2.54.0, per changes described at:
   https://pgbackrest.org/release.html#2.54.0

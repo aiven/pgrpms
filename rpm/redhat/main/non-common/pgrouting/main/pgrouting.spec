@@ -1,5 +1,5 @@
 %global _vpath_builddir .
-%global pgroutingmajorversion 3.7
+%global pgroutingmajorversion 3.8
 %global sname	pgrouting
 
 Summary:	Routing functionality for PostGIS
@@ -9,13 +9,10 @@ Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
-BuildRequires:	gcc-c++
-BuildRequires:	boost-devel >= 1.56
+BuildRequires:	cmake >= 3.12 boost-devel >= 1.56
+BuildRequires:	gcc-c++ gmp-devel perl-version
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	gmp-devel
-Requires:	postgis
-
-Requires:	postgresql%{pgmajorversion}
+Requires:	postgresql%{pgmajorversion} postgis
 
 %description
 pgRouting extends the PostGIS / PostgreSQL geospatial database to
@@ -37,7 +34,7 @@ value can come from multiple fields or tables.
 %build
 %{__install} -d build
 pushd build
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 cmake .. \
 %else
 %cmake3 .. \
@@ -71,6 +68,25 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 3.8.0-1PGDG
+- Update to 3.8.0 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v3.8.0
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 3.7.3-2PGDG
+- Add missing BR
+
+* Tue Feb 11 2025 Devrim Gündüz <devrim@gunduz.org> - 3.7.3-1PGDG
+- Update to 3.7.3 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v3.7.3
+
+* Mon Jan 20 2025 Devrim Gündüz <devrim@gunduz.org> - 3.7.2-1PGDG
+- Update to 3.7.2 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v3.7.2
+
+* Tue Dec 24 2024 Devrim Gündüz <devrim@gunduz.org> - 3.7.1-1PGDG
+- Update to 3.7.1 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v3.7.1
+
 * Fri Nov 15 2024 Devrim Gündüz <devrim@gunduz.org> - 3.7.0-1PGDG
 - Update to 3.7.0 per changes described at:
   https://github.com/pgRouting/pgrouting/releases/tag/v3.7.0

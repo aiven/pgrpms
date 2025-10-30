@@ -1,5 +1,9 @@
 %global sname	pljava
-%global relver	1_6_8
+%global pljavamajver 1
+%global pljavamidver 6
+%global pljavaminver 10
+
+%global relver %{pljavamajver}_%{pljavamidver}_%{pljavaminver}
 
 %if 0%{?suse_version} >= 1500
 %else
@@ -14,42 +18,36 @@
 
 Summary:	Java stored procedures, triggers, and functions for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.8
-Release:	1PGDG%{?dist}
+Version:	%{pljavamajver}.%{pljavamidver}.%{pljavaminver}
+Release:	2PGDG%{?dist}
 License:	BSD
 URL:		http://tada.github.io/%{sname}/
 
 Source0:	https://github.com/tada/%{sname}/archive/V%{relver}.tar.gz
 Source1:	%{sname}.pom
 
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	java-1_8_0-openjdk-devel
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	java-11-openjdk-devel
-%endif
-%if 0%{?rhel} == 9
-BuildRequires:	java-17-openjdk-devel
-%endif
 %if 0%{?rhel} == 8
 BuildRequires:	java-11-openjdk-devel
-%endif
-%if 0%{?fedora}
-BuildRequires:	java-latest-openjdk-devel
-%endif
-
-%if 0%{?suse_version} >= 1315
-Requires:	java-11-openjdk-headless
+Requires:	java-11-openjdk
 %else
-Requires:	java-headless >= 1:1.8
+BuildRequires:	java-devel
+Requires:	java
 %endif
 
-BuildRequires:	pgdg-srpm-macros
-BuildRequires:	openssl-devel krb5-devel
+BuildRequires:	maven krb5-devel
 
-BuildRequires:	maven
-
-Obsoletes:	%{sname}-%{pgmajorversion} < 1.5.6-2
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
 %description
 PL/Java is a free open-source extension for PostgreSQL™ that allows
@@ -68,6 +66,12 @@ mvn clean install -Dso.debug=true -Psaxon-examples -Dnar.aolProperties=pljava-so
 %else
 %if 0%{?rhel} == 8
 export JAVA_HOME=/etc/alternatives/java_sdk_11_openjdk
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 9
+export JAVA_HOME=/usr/lib/jvm/java-openjdk/
+%endif
+%if 0%{?suse_version} >= 1500
+export JAVA_HOME=/usr/lib64/jvm/java-openjdk/
 %endif
 # Common for all distros:
 mvn clean install -Dso.debug=true -Psaxon-examples
@@ -105,6 +109,22 @@ mvn clean install -Dso.debug=true -Psaxon-examples
 %{pginstdir}/share/%{sname}/%{sname}-api-%{version}.jar
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.6.10-2PGDG
+- Add SLES 16 support
+
+* Mon Sep 29 2025 - Devrim Gündüz <devrim@gunduz.org> - 1.6.10-1PGDG
+- Update to 1.6.10 per changes described at:
+  https://github.com/tada/pljava/releases/tag/V1_6_10
+
+* Mon Mar 24 2025 - Devrim Gündüz <devrim@gunduz.org> - 1.6.9-1PGDG
+- Update to 1.6.9 per changes described at:
+  https://github.com/tada/pljava/releases/tag/V1_6_9
+
+* Thu Jan 2 2025 - Devrim Gündüz <devrim@gunduz.org> - 1.6.8-2PGDG
+- Simplify Java BR and add Java Requires.
+- Use proper JAVA_HOME on all distros
+- Use macros for version numbers in the spec file to avoid accidents.
+
 * Sun Oct 20 2024 - Devrim Gündüz <devrim@gunduz.org> - 1.6.8-1PGDG
 - Update to 1.6.8 per changes described at:
   https://github.com/tada/pljava/releases/tag/V1_6_8

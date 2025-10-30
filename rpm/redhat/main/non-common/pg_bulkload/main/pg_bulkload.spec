@@ -1,22 +1,40 @@
-%global	pgbulkloadpackagever 3_1_21
-
 %global sname pg_bulkload
+
+%global pgbulkloadmajver 3
+%global pgbulkloadmidver 1
+%global pgbulkloadminver 22
+%global	pgbulkloadpackagever %{pgbulkloadmajver}_%{pgbulkloadmidver}_%{pgbulkloadminver}
 
 %{!?llvm:%global llvm 1}
 
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.1.21
-Release:	3PGDG%{?dist}
+Version:	%{pgbulkloadmajver}.%{pgbulkloadmidver}.%{pgbulkloadminver}
+Release:	4PGDG%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
 BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
-BuildRequires:	libsepol-devel readline-devel krb5-devel
+BuildRequires:	libsepol-devel readline-devel krb5-devel lz4-devel zlib-devel
+# zstd dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
 Requires:	postgresql%{pgmajorversion}-server %{sname}_%{pgmajorversion}-client
 
 %description
-pg_bulkload provides high-speed data loading capability to PostgreSQL users.
+pg_bulkload is a high speed data loading tool for PostgreSQL.
+
+pg_bulkload is designed to load huge amount of data to a database. You can
+load data to table bypassing PostgreSQL shared buffers.
+
+pg_bulkload also has some ETL features; input data validation and data
+transformation.
 
 %package client
 Summary:	High speed data loading utility for PostgreSQL
@@ -29,17 +47,21 @@ pg_bulkload client subpackage provides client-only tools.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_bulkload
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_bulkload
+This package provides JIT support for pg_bulkload
 %endif
 
 %prep
@@ -60,16 +82,16 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 
 %files
 %defattr(-,root,root)
-%{pginstdir}/lib/pg_bulkload.so
+%{pginstdir}/lib/%{sname}.so
 %{pginstdir}/lib/pg_timestamp.so
 %{pginstdir}/share/contrib/pg_timestamp.sql
 %{pginstdir}/share/contrib/uninstall_pg_timestamp.sql
-%{pginstdir}/share/extension/pg_bulkload*.sql
-%{pginstdir}/share/extension/pg_bulkload.control
+%{pginstdir}/share/extension/%{sname}*.sql
+%{pginstdir}/share/extension/%{sname}.control
 
 %files client
 %defattr(-,root,root)
-%{pginstdir}/bin/pg_bulkload
+%{pginstdir}/bin/%{sname}
 %{pginstdir}/bin/postgresql
 
 %if %llvm
@@ -82,6 +104,25 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.1.22-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-2PGDG
+- Add missing BRs
+
+* Mon Jan 27 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-1PGDG
+- Update to 3.1.22 per changes described at:
+  https://github.com/ossc-db/pg_bulkload/releases/tag/VERSION3_1_22
+
+* Thu Jan 9 2025  Devrim Gündüz <devrim@gunduz.org> - 3.1.21-4PGDG
+- Update LLVM dependencies and package description
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.21-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

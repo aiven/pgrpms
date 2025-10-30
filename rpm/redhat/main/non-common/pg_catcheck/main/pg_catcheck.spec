@@ -3,12 +3,39 @@
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.0
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+# All supported distros have libselinux-devel package:
+BuildRequires:	libselinux-devel >= 2.0.93
+# SLES: SLES 15 does not have selinux-policy packageç
+# RHEL/Fedora has selinux-policy:
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	selinux-policy >= 3.9.13
+%endif
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
+# zstd dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
+BuildRequires:	libxml2-devel libxslt-devel openssl-devel pam-devel
+BuildRequires:	krb5-devel readline-devel zlib-devel
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.2.0-2
 
@@ -34,8 +61,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
-%{__install} -d %{buildroot}%{pginstdir}/doc
-%{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/README-%{sname}.md
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -43,10 +70,16 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %files
 %defattr(755,root,root,755)
 %license LICENSE
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/bin/%{sname}
-%{pginstdir}/doc/README-%{sname}.md
 
 %changelog
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> 1.6.0-3PGDG
+- Add missing BRs
+
+* Mon Jan 13 2025 Devrim Gündüz <devrim@gunduz.org> 1.6.0-2PGDG
+- Fix path of the README file.
+
 * Mon Nov 4 2024 Devrim Gündüz <devrim@gunduz.org> 1.6.0-1PGDG
 - Update to 1.6.0 per changes described at:
   https://github.com/EnterpriseDB/pg_catcheck/releases/tag/1.6.0

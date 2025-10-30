@@ -3,38 +3,53 @@
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension to manage partitioned tables by time or ID
+
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.1.0
-Release:	2PGDG%{?dist}
+Version:	5.3.1
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgpartman/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/pgpartman/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-%if 0%{?fedora} >= 33 || 0%{?rhel} >= 7 || 0%{?suse_version} >= 1500
 Requires:	python3-psycopg2
-%endif
-
-Obsoletes:	%{sname}%{pgmajorversion} < 4.4.0-2
 
 %description
-pg_partman is a PostgreSQL extension to manage partitioned tables by time or ID.
+pg_partman is an extension to create and manage both time-based and
+number-based table partition sets.
+
+The declarative partitioning built into PostgreSQL provides the commands to
+create a partitioned table and its children. pg_partman uses the built-in
+declarative features that PostgreSQL provides and builds upon those with
+additional features and enhancements to make managing partitions easier.
+One key way that pg_partman extends partitioning in Postgres is by providing
+a means to automate the child table maintenance over time (Ex. adding new
+children, dropping old ones based on a retention policy). pg_partman also
+has features to turn an existing table into a partitioned table or vice versa.
+
+A background worker (BGW) process is included to automatically run partition
+maintenance without the need of an external scheduler (cron, etc) in most
+cases.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_partman
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_partman
+This package provides JIT support for pg_partman
 %endif
 
 %prep
@@ -73,7 +88,48 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
-* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.1-2PGDG
+* Tue Oct 21 2025 Devrim Gündüz <devrim@gunduz.org> - 5.3.1-1PGDG
+- Update to 5.3.1 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.3.1
+
+* Thu Oct 9 2025 Devrim Gündüz <devrim@gunduz.org> - 5.3.0-1PGDG
+- Update to 5.3.0 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.3.0
+
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.4-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 5.2.4-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Jan 9 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.4-2PGDG
+- Update description
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.4-1PGDG
+- Update to 5.2.4 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.2.4
+
+* Tue Dec 31 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.3-1PGDG
+- Update to 5.2.3 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.2.3
+
+* Wed Dec 11 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1PGDG
+- Update to 5.2.2 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.2.2
+
+* Tue Dec 3 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.1-1PGDG
+- Update to 5.2.1 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.2.1
+
+* Sat Nov 23 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-1PGDG
+- Update to 5.2.0 per changes described at:
+  https://github.com/pgpartman/pg_partman/releases/tag/v5.2.0
+- Update LLVM dependencies
+
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 5.1.0-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support
 

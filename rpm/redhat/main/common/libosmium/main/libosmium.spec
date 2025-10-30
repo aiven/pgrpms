@@ -6,15 +6,22 @@
 %pgdg_set_gis_variables
 
 # Override some variables:
-%global geosfullversion %geos313fullversion
-%global geosmajorversion %geos313majorversion
-%global geosinstdir %geos313instdir
-%global gdalfullversion %gdal39fullversion
-%global gdalmajorversion %gdal39majorversion
-%global gdalinstdir %gdal39instdir
+%global geosfullversion %geos314fullversion
+%global geosmajorversion %geos314majorversion
+%global geosinstdir %geos314instdir
+# Use GDAL 3.11 on all of the platforms except RHEL 8:
+%if 0%{?rhel} == 8
+%global gdalfullversion %gdal38fullversion
+%global gdalmajorversion %gdal38majorversion
+%global gdalinstdir %gdal38instdir
+%else
+%global gdalfullversion %gdal311fullversion
+%global gdalmajorversion %gdal311majorversion
+%global gdalinstdir %gdal311instdir
+%endif
 
 Name:		libosmium
-Version:	2.20.0
+Version:	2.22.0
 Release:	44PGDG%{?dist}
 Summary:	Fast and flexible C++ library for working with OpenStreetMap data
 
@@ -23,7 +30,7 @@ URL:		http://osmcode.org/%{name}/
 Source0:	https://github.com/osmcode/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
 Source1:	https://github.com/osmcode/osm-testdata/archive/%{testcommit}/osm-testdata-%{testcommit}.tar.gz
 
-BuildRequires:	cmake make gcc-c++ pgdg-srpm-macros >= 1.0.37
+BuildRequires:	cmake make gcc-c++ pgdg-srpm-macros >= 1.0.45
 BuildRequires:	doxygen graphviz xmlstarlet
 BuildRequires:	ruby rubygems spatialite-tools
 
@@ -60,7 +67,7 @@ Requires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 This package contains libraries and header files for developing
 applications that use %{name}.
 
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 %package	doc
 Summary:	Documentation for %{name}
 BuildArch:	noarch
@@ -80,13 +87,12 @@ sed -i -e 's/-O3 -g//' libosmium/CMakeLists.txt
 
 %build
 cd libosmium
-%{__rm} include/osmium/geom/projection.hpp
 %cmake -DBUILD_HEADERS=ON -DBUILD_DATA_TESTS=ON \
 	-DGDAL_LIBRARY=%{gdalinstdir}/lib/libgdal.so -DGDAL_INCLUDE_DIR=%{gdalinstdir}/include \
 	-DGEOS_LIBRARY=%{geosinstdir}/lib64/libgeos.so -DGEOS_INCLUDE_DIR=%{geosinstdir}/include
 
 %cmake_build
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 %cmake_build --target doc
 %endif
 
@@ -100,13 +106,26 @@ cd libosmium
 %license %{name}/LICENSE
 %{_includedir}/osmium
 
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 %files doc
 %doc libosmium/%{__cmake_builddir}/doc/html/*
 %license libosmium/LICENSE
 %endif
 
 %changelog
+* Wed Sep 17 2025 Devrim Gündüz <devrim@gunduz.org> - 2.22.0-44PGDG
+- Rebuild against GeOS 3.14 and GDAL 3.11 (except GDAL 3.8 on RHEL 8)
+
+* Tue Apr 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.22.0-43PGDG
+- Rebuild to fix incorrect release number in previous changelog entry
+
+* Tue Mar 18 2025 Devrim Gündüz <devrim@gunduz.org> - 2.22.0-42PGDG
+- Update to 2.22.0 per changes described at:
+  https://github.com/osmcode/libosmium/releases/tag/v2.22.0
+
+* Mon Dec 30 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-45PGDG
+- Rebuild against GDAL 3.10
+
 * Fri Sep 20 2024 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-44PGDG
 - Rebuild against GDAL 3.9 and GeOS 3.13
 

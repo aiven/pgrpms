@@ -1,5 +1,5 @@
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -11,7 +11,7 @@
 
 Name:		python3-%{sname}
 Version:	1.0.9
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		1
 Summary:	Python library for building backup tools for databases
 
@@ -46,5 +46,9 @@ CFLAGS="%{optflags}" %{__python3} setup.py build
 %{python3_sitelib}/%{sname}/*
 
 %changelog
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.9-2PGDG
+- Add RHEL 10 support
+- Add PGDG branding
+
 * Mon Jan 23 2023 Devrim Gündüz <devrim@gunduz.org> - 1:1.0.9-1
 - Initial packaging for PostgreSQL YUM repo, to satisfy pghoard dependency.

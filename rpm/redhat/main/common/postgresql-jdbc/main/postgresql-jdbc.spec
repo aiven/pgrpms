@@ -1,49 +1,41 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.7.4
-Release:	1PGDG%{?dist}
+Version:	42.7.8
+Release:	2PGDG%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
-Source0:	https://jdbc.postgresql.org/download/postgresql-jdbc-%{version}.src.tar.gz
+Source0:	https://repo1.maven.org/maven2/org/postgresql/postgresql/%{version}/postgresql-%{version}-jdbc-src.tar.gz
 Source1:	%{name}.pom
+%if 0%{?rhel} == 8
+Patch0:		%{name}-downgradeshade-rhel8.patch
+%endif
 BuildArch:	noarch
 
 Requires:	jpackage-utils
+
 %if 0%{?suse_version} >= 1500
 # On SUSE/SLES, java-headless is Provided by java-11-openjdk-headless, which is version 0:11
 Requires:	java-headless >= 8
 %else
-# On rhel/centos, java-headless Provides 'java-headless = 1:1.8.0'
-Requires:	java-headless >= 1:1.8
+# On RHEL java-headless Provides 'java-headless = 1:1.8.0'
+Requires:	java-headless
 %endif
 
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	java-1_8_0-openjdk-devel
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	java-11-openjdk-devel
+%if 0%{?rhel} == 8 || 0%{?fedora}
+BuildRequires:	java-latest-openjdk-devel
 %endif
 %if 0%{?rhel} == 9
 BuildRequires:	java-17-openjdk-devel
 %endif
-%if 0%{?rhel} < 9 && 0%{?rhel} >= 7
-BuildRequires:	java-latest-openjdk-devel
+%if 0%{?rhel} == 10
+BuildRequires:	java-21-openjdk-devel
 %endif
-%if 0%{?fedora}
-BuildRequires:	java-latest-openjdk-devel
+%if 0%{?suse_version} >= 1500
+BuildRequires:	java-11-openjdk-devel
 %endif
-
-%if 0%{?rhel} == 7
-# Default maven 3.0 does not build the driver, so use 3.3:
-BuildRequires:	rh-maven33-maven
-%endif
-
-# On the remaining distros, use the maven package supplied by OS.
-%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
-BuildRequires:	maven
-%endif
+BuildRequires:	maven javapackages-local
 
 %description
 PostgreSQL is an advanced Object-Relational database management
@@ -58,14 +50,33 @@ This package contains the API Documentation for %{name}.
 
 %prep
 %setup -q -n postgresql-%{version}-jdbc-src
-%{__rm} -f .gitattributes
-%{__rm} -f .gitignore
-%{__rm} -f .travis.yml
-%{__rm} -f src/test/java/org/postgresql/test/jdbc4/CopyUtfTest.java
+%if 0%{?rhel} == 8
+%patch -P 0 -p0
+%endif
 
 # remove any binary libs
 find -name "*.jar" -or -name "*.class" | xargs %{__rm} -fr
+
+# For compat reasons, make Maven artifact available under older coordinates.
+%mvn_alias org.postgresql:postgresql postgresql:postgresql
+
+# remove unmet dependency
+%pom_remove_dep uk.org.webcompere:system-stubs-jupiter
+
+# remove tests that depend on the system-stubs-jupiter
+%{__rm} src/test/java/org/postgresql/test/jdbc2/DriverTest.java \
+	src/test/java/org/postgresql/util/OSUtilTest.java \
+	src/test/java/org/postgresql/jdbcurlresolver/PgServiceConfParserTest.java \
+	src/test/java/org/postgresql/jdbcurlresolver/PgPassParserTest.java \
+	src/test/java/org/postgresql/util/StubEnvironmentAndProperties.java
+
 %build
+%if 0%{?suse_version} >= 1500
+export PATH=/usr/lib64/jvm/java-openjdk/bin:$PATH
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+export PATH=/usr/lib/jvm/java-openjdk/bin:$PATH
+%endif
 
 export CLASSPATH=
 # Ideally we would run "sh update-translations.sh" here, but that results
@@ -74,11 +85,7 @@ export CLASSPATH=
 # different platforms don't build in the same minute. For now, rely on
 # upstream to have updated the translations files before packaging.
 
-%if 0%{?rhel} == 7
-/opt/rh/rh-maven33/root/usr/bin/mvn -DskipTests -Pjavadoc package
-%else
 mvn -DskipTests -Pjavadoc package
-%endif
 
 %install
 %{__install} -d %{buildroot}%{_javadir}
@@ -113,7 +120,7 @@ mvn clean package 2>&1 | tee test.log | grep FAILED
 test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 %files
 %doc LICENSE README.md
 %else
@@ -124,11 +131,8 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %endif
 
 # ...and SLES locates .pom file somewhere else:
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 %{_javadir}/%{name}.jar
-%{_datadir}/maven-poms/JPP-%{name}.pom
-%endif
-%if 0%{?rhel} && 0%{?rhel} == 7
 %{_datadir}/maven-poms/JPP-%{name}.pom
 %endif
 %if 0%{?rhel} && 0%{?rhel} >= 8
@@ -145,6 +149,35 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.8-2PGDG
+- Update download URL to point to the new location. Per Dave Cramer.
+
+* Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.8-1PGDG
+- Update to 42.7.8 per changes described at:
+  https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.8
+
+* Wed Jun 11 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.7-1PGDG
+- Update to 42.7.7 per changes described at:
+  https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.7
+
+* Wed May 28 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.6-1PGDG
+- Update to 42.7.6 per changes described at:
+  https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.6
+
+* Wed Jan 15 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.5-2PGDG
+- Do not remove shade plugin, just downgrade it for RHEL 8 to
+  unbreak SCRAM auth.
+
+* Tue Jan 14 2025 Devrim Gündüz <devrim@gunduz.org> - 42.7.5-1PGDG
+- Update to 42.7.5 per changes described at:
+  https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.5
+- Fix RHEL 10 dependency
+- Disable shade plugin per https://github.com/pgjdbc/pgjdbc/issues/3480
+- Merged some changes from Fedora spec file.
+
+* Mon Dec 30 2024 Devrim Gündüz <devrim@gunduz.org> - 42.7.4-2PGDG
+- Fix SLES 15 dependency and remove RHEL 7 and SLES 12 support.
+
 * Fri Aug 23 2024 Devrim Gündüz <devrim@gunduz.org> - 42.7.4-1PGDG
 - Update to 42.7.4 per changes described at:
   https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.4

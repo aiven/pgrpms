@@ -4,48 +4,75 @@
 
 Summary:	Reorganize tables in PostgreSQL databases without any locks
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5.1
+Version:	1.5.3
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/reorg/%{sname}/archive/refs/tags/ver_%{version}.tar.gz
 URL:		https://github.com/reorg/%{sname}/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
-BuildRequires:	pgdg-srpm-macros
+BuildRequires:	readline-devel zlib-devel
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
+# zstd dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+
 Requires:	postgresql%{pgmajorversion}
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.4.6-2
 
 %description
-pg_repack can re-organize tables on a postgres database without any locks so that
-you can retrieve or update rows in tables being reorganized.
-The module is developed to be a better alternative of CLUSTER and VACUUM FULL.
+PostgreSQL extension which lets you remove bloat from tables and indexes, and
+optionally restore the physical order of clustered indexes. Unlike CLUSTER and
+VACUUM FULL it works online, without holding an exclusive lock on the
+processed tables during processing. pg_repack is efficient to boot, with
+performance comparable to using CLUSTER directly.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for XXX
+Summary:	Just-in-time compilation support for pg_repack
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for XXX
+This package provides JIT support for pg_repack
 %endif
 
 %prep
@@ -74,6 +101,35 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Oct 27 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.3-1PGDG
+- Update to 1.5.3 per changes described at:
+  https://github.com/reorg/pg_repack/releases/tag/ver_1.5.3
+
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-7PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.5.2-6PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Fri Sep 5 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-5PGDG
+- Update LLVM dependencies
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-4PGDG
+- Add missing BRs and dependencies
+
+* Wed Feb 12 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-3PGDG
+- Improve package description
+
+* Sat Jan 11 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-2PGDG
+- Remove obsoleted BR
+
+* Mon Dec 16 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5.2-1PGDG
+- Update to 1.5.2 per changes described at:
+  https://github.com/reorg/pg_repack/releases/tag/ver_1.5.2
+
 * Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5.1-1PGDG
 - Update to 1.5.1 per changes described at:
   https://github.com/reorg/pg_repack/releases/tag/ver_1.5.1

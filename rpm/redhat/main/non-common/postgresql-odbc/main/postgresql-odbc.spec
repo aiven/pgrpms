@@ -1,26 +1,29 @@
-%global odbcgittag 17_00_0002
+%global pgodbcmajver 17
+%global pgodbcmidver 00
+%global pgodbcminver 0006
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
-Version:	17.00.0002
-Release:	1PGDG%{?dist}
+Version:	%{pgodbcmajver}.%{pgodbcmidver}.%{pgodbcminver}
+Release:	2PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
-Source0:	https://github.com/postgresql-interfaces/psqlodbc/archive/refs/tags/REL-%{odbcgittag}.tar.gz
+Source0:	https://github.com/postgresql-interfaces/psqlodbc/archive/refs/tags/REL-%{pgodbcmajver}_%{pgodbcmidver}_%{pgodbcminver}.tar.gz
 Source1:	acinclude.m4
 
-BuildRequires:	autoconf krb5-devel pam-devel pgdg-srpm-macros
-BuildRequires:	openssl-devel pam-devel postgresql%{pgmajorversion}-devel
+BuildRequires:	autoconf krb5-devel pam-devel automake
+BuildRequires:	pam-devel postgresql%{pgmajorversion}-devel
 BuildRequires:	unixODBC-devel
 
-Requires:	postgresql%{pgmajorversion}-libs krb5-libs
-
-%if 0%{?fedora} == 39
-BuildRequires:	zlib-devel
-Requires:	zlib
+Requires:	postgresql%{pgmajorversion}-libs
+%if 0%{?suse_version} >= 1500
+Requires:	krb5
+%else
+Requires:	krb5-libs
 %endif
-%if 0%{?fedora} == 40
+
+%if 0%{?fedora} >= 40
 BuildRequires:	zlib-ng-compat-devel
 Requires:	zlib-ng-compat
 %endif
@@ -28,9 +31,21 @@ Requires:	zlib-ng-compat
 BuildRequires:	zlib-devel
 Requires:	zlib
 %endif
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	zlib-devel
 Requires:	libz1
+%endif
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
 %endif
 
 Provides:	postgresql-odbc%{?_isa} >= 08.00.0100
@@ -40,10 +55,10 @@ This package includes the driver needed for applications to access a
 PostgreSQL system via ODBC (Open Database Connectivity).
 
 %prep
-%setup -q -n psqlodbc-REL-%{odbcgittag}
+%setup -q -n psqlodbc-REL-%{pgodbcmajver}_%{pgodbcmidver}_%{pgodbcminver}
 
 %ifarch ppc64le
-sed -i "s:elf64ppc:elf64lppc:g" configure
+sed -i "s:elf64ppc:elf64lppc:g" configure.ac
 %endif
 
 # Some missing macros. Courtesy Owen Taylor <otaylor@redhat.com>.
@@ -85,6 +100,35 @@ popd
 %license license.txt
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-2PGDG
+- Add/improve SLES 16 support
+
+* Thu Jun 12 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-1PGDG
+- Update to 17.00.0006 per changes described at:
+  https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0006
+
+* Wed May 28 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0005-1PGDG
+- Update to 17.00.0005 per changes described at:
+  https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0005
+
+* Wed Feb 26 2025  Devrim Gündüz <devrim@gunduz.org> - 17.00.0004-4PGDG
+- Add missing BR and remove redundant BR
+
+* Sun Dec 29 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0004-3PGDG
+- Fix SLES 15 dependency and add proper Fedora 41 support
+
+* Mon Dec 16 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0004-2PGDG
+- Fix version number in spec file and really update to 17.00.0004 :(
+- Fix ppc64le builds.
+
+* Wed Dec 11 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0004-1PGDG
+- Update to 17.00.0004 per changes described at:
+  https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0004
+
+* Mon Nov 25 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0003-1PGDG
+- Update to 17.00.0003 per changes described at:
+  https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0003
+
 * Wed Oct 2 2024 Devrim Gündüz <devrim@gunduz.org> - 17.00.0002-1PGDG
 - Update to 17.00.0002 per changes described at:
   https://github.com/postgresql-interfaces/psqlodbc/releases/tag/REL-17_00_0002

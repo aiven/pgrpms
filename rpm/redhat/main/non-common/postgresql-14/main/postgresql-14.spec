@@ -41,6 +41,11 @@
 %{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?ssl:%global ssl 1}
+%if 0%{?fedora} >= 43
+%{!?sysuserd:%global sysuserd 1}
+%else
+%{!?sysuserd:%global sysuserd 0}
+%endif
 %{!?test:%global test 1}
 %{!?runselftest:%global runselftest 0}
 %{!?uuid:%global uuid 1}
@@ -76,13 +81,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	14.15
+Version:	14.19
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420003PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	5PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -105,16 +110,22 @@ Source10:	%{sname}-%{pgmajorversion}-check-db-dir
 Source18:	%{sname}-%{pgmajorversion}.service
 Source19:	%{sname}-%{pgmajorversion}-tmpfiles.d
 %endif
+%if %sysuserd
+Source20:	%{sname}-%{pgmajorversion}-sysusers.conf
+%endif
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+%if 0%{?fedora} == 43
+Patch7:		%{sname}-%{pgmajorversion}-llvm21.patch
+%endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
-BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
+BuildRequires:	readline-devel zlib-devel >= 1.0.4
 
 # lz4 dependency
 %if 0%{?suse_version} >= 1315
@@ -154,11 +165,14 @@ BuildRequires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	llvm6-devel clang6-devel
 %endif
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel => 13.0 clang-devel >= 13.0
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -251,11 +265,10 @@ BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} <= 1315
 Requires(post):		systemd-sysvinit
 %endif
 %else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
@@ -286,18 +299,17 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
-%if 0%{?rhel} && 0%{?rhel} <= 6
-Requires:	openssl
-%else
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	libopenssl1_0_0
-%else
-%if 0%{?suse_version} >= 1500
+%endif
+%if 0%{?suse_version} == 1500
 Requires:	libopenssl1_1
-%else
-Requires:	openssl-libs >= 1.0.2k
 %endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
 %endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 7
@@ -316,7 +328,9 @@ PostgreSQL server.
 Summary:	The programs needed to create and run a PostgreSQL server
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%if ! %sysuserd
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
+%endif
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
@@ -388,15 +402,18 @@ Requires:	llvm-toolset-7.0-llvm-devel >= 7.0.1 llvm-toolset-7.0-clang >= 7.0.1
 %else
 Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 %endif
+%endif
 %if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 Requires:	llvm6-devel clang6-devel
 %endif
-%if 0%{?suse_version} >= 1500
-Requires:	llvm17-devel clang17-devel
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm-devel >= 13.0 clang-devel >= 13.0
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
 %endif
+%if 0%{?fedora} || 0%{?rhel}
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -449,11 +466,14 @@ Requires:	llvm5.0 >= 5.0
 %if 0%{?suse_version} == 1315
 Requires:	llvm
 %endif
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libLLVM17
 %endif
+%if 0%{?suse_version} == 1600
+Requires:	libLLVM19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 13
+Requires:	llvm >= 19.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -569,6 +589,9 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
+%if 0%{?fedora} == 43
+%patch -P 7 -p1
+%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -604,10 +627,7 @@ export PYTHON=/usr/bin/python3
 	export CLANG=/opt/rh/llvm-toolset-7/root/usr/bin/clang LLVM_CONFIG=%{_libdir}/llvm5.0/bin/llvm-config
 %endif
 %endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
-%if 0%{?suse_version} >= 1315
+%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 %endif
 
@@ -830,6 +850,11 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__install} -d -m 755 %{buildroot}%{pgbaseinstdir}/share/
 %{__install} -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 
+%if %sysuserd
+# Install sysusers.d config file to allow rpm to create users/groups automatically.
+%{__install} -m 0644 -D %{SOURCE20} %{buildroot}%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
+%endif
+
 %if %test
 	# tests. There are many files included here that are unnecessary,
 	# but include them anyway for completeness. We replace the original
@@ -927,9 +952,16 @@ cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checks
 %endif
 
 %pre server
+%if %sysuserd
+# We need this user to be created ASAP so that we can set up
+# ownership of some directories:
+%sysusers_create_package %{name} %SOURCE20
+%else
+# This is replaced by sysusers.d in recent OSes:
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+%endif
 
 %post server
 /sbin/ldconfig
@@ -1254,6 +1286,9 @@ fi
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
 %{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
+%if %sysuserd
+%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
+%endif
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %endif
@@ -1382,6 +1417,59 @@ fi
 %endif
 
 %changelog
+* Tue Oct 14 2025 Devrim Gunduz <devrim@gunduz.org> - 14.19-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 14.19-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sun Sep 21 2025 Devrim Gunduz <devrim@gunduz.org> - 14.19-3PGDG
+- Add a temp patch from upstream to fix builds on Fedora 43 (LLVM 21).
+  Will be removed in next minor release set.
+- Add sysusers.d config file to allow rpm to create users/groups automatically.
+  Only for Fedora 43+.
+
+* Wed Aug 27 2025 Devrim Gunduz <devrim@gunduz.org> - 14.19-2PGDG
+- Rebuild against new GCC on Fedora 42
+
+* Tue Aug 12 2025 Devrim Gündüz <devrim@gunduz.org> - 14.19-1PGDG
+- Update to 14.19, per changes described at
+  https://www.postgresql.org/docs/release/14.19/
+
+* Wed May 14 2025 Devrim Gündüz <devrim@gunduz.org> - 14.18-2PGDG
+- Rebuild against LLVM 19 on RHEL 8
+
+* Tue May 6 2025 Devrim Gündüz <devrim@gunduz.org> - 14.18-1PGDG
+- Update to 14.18, per changes described at
+  https://www.postgresql.org/docs/release/14.18/
+
+* Tue Apr 15 2025 Devrim Gunduz <devrim@gunduz.org> - 14.17-4PGDG
+- Rebuild against new GCC on Fedora 42
+
+* Mon Mar 24 2025 Devrim Gunduz <devrim@gunduz.org> - 14.17-3PGDG
+- Remove explicit calls to CLANG and LLVM_CONFIG on RHEL 8+, Fedora
+  and SLES as they are the same across all distros (and also
+  llvm-config-64 is removed from Fedora 42).
+
+* Fri Mar 07 2025 Devrim Gunduz <devrim@gunduz.org> - 14.17-2PGDG
+- Remove redundant BR
+
+* Mon Feb 17 2025 Devrim Gündüz <devrim@gunduz.org> - 14.17-1PGDG
+- Update to 14.17, per changes described at
+  https://www.postgresql.org/docs/release/14.17/
+
+* Tue Feb 11 2025 Devrim Gündüz <devrim@gunduz.org> - 14.16-1PGDG
+- Update to 14.16, per changes described at
+  https://www.postgresql.org/docs/release/14.16/
+
+* Thu Dec 19 2024 Devrim Gündüz <devrim@gunduz.org> - 14.15-2PGDG
+- Make sure that llvm-devel and clang-devel are pulled along with
+  the -devel subpackage on SLES 15, RHEL 9 and RHEL 8. Report and patch
+  from Muralikrishna Bandaru. Fixes https://redmine.postgresql.org/issues/8071
+
 * Mon Nov 18 2024 Devrim Gündüz <devrim@gunduz.org> - 14.15-1PGDG
 - Update to 14.15, per changes described at
   https://www.postgresql.org/docs/release/14.15/

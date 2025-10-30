@@ -5,12 +5,11 @@
 Summary:	RUM access method - inverted index with additional information in posting lists
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.3.14
-Release:	1PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
-BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
 %description
@@ -20,7 +19,6 @@ It is based on the GIN access methods code.
 %package devel
 Summary:	RUM access method development header files
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description devel
 This package includes the development headers for the rum extension.
@@ -29,17 +27,21 @@ This package includes the development headers for the rum extension.
 %package llvmjit
 Summary:	Just-in-time compilation support for rum
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
-Requires:	llvm => 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for rum
+This package provides JIT support for rum
 %endif
 
 %prep
@@ -75,6 +77,19 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/include/server/rum*.h
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3.14-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.3.14-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Mar 13 2025 Devrim Gunduz <devrim@gunduz.org> - 1.3.14-2PGDG
+- Remove irrelevant dependency from -devel subpackage.
+- Remove redundant BR
+
 * Thu Oct 10 2024 Devrim Gunduz <devrim@gunduz.org> - 1.3.14-1PGDG
 - Update to 1.3.14 per changes described at:
   https://github.com/postgrespro/rum/releases/tag/1.3.14

@@ -32,10 +32,15 @@ export extrasrepoenabled=1	# 1 or 0. Currently for RHEL 9, 8 and SLES 15
 export GPG_TTY=$(tty)
 export GPG_PASSWORD=foobar
 
-declare -a pgStableBuilds=("17 16 15 14 13 12" )
+export AWS_PAGER=""
+
+export CF_DEBUG_DISTRO_ID=XXXXXXXXXXXXXXXXXX
+export CF_SRPM_DISTRO_ID=XXXXXXXXXXXXXXXXXX
+
+declare -a pgStableBuilds=("17 16 15 14 13" )
 declare -a pgTestBuilds=("17 16 15 14 13" )
-declare -a pgBetaVersion=("" )
-declare -a pgAlphaVersion=("18" )
+declare -a pgBetaVersion=18
+declare -a pgAlphaVersion=19
 
 # Common function to sign the package.
 sign_package(){
@@ -43,6 +48,9 @@ sign_package(){
 	# when signing process is not completed. Signing will be broken when
 	# they exist.
 	find ~/rpm* pgdg* $ossysupdates -iname "*.sig" -print0 | xargs -0 /bin/rm -v -rf "{}"
+
+	# Remove all buildreqs.nosrc packages:
+	find ~/rpm* pgdg* $ossysupdates -iname "*buildreqs.nosrc*" -print0 | xargs -0 /bin/rm -v -rf "{}"
 
 	# Find the packages, and sign them. Using an expect script to automate signing process.
 	# The first parameter refers to the location of the RPMs:

@@ -4,7 +4,7 @@
 %pgdg_set_gis_variables
 
 Name:		%{sname}95
-Version:	9.5.0
+Version:	9.5.1
 Release:	1PGDG%{?dist}
 Epoch:		0
 Summary:	Cartographic projection software (PROJ)
@@ -115,5 +115,9 @@ popd
 %{proj95instdir}/lib64/cmake/%{sname}4/*cmake
 
 %changelog
+* Mon Dec 2 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.5.1-1PGDG
+- Update to 9.5.1 per changes described at:
+  https://github.com/OSGeo/PROJ/releases/tag/9.5.1
+
 * Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 0:9.5.0-1PGDG
 - Initial 9.5 packaging for PostgreSQL RPM Repository.

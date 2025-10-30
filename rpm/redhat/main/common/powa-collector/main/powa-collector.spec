@@ -3,17 +3,9 @@
 
 %global __ospython %{_bindir}/python3
 
-%if 0%{?fedora} >= 37
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
-%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
-
 Name:		powa-collector
-Version:	1.3.0
-Release:	1PGDG%{?dist}
+Version:	1.3.1
+Release:	3PGDG%{?dist}
 Summary:	POWA data collector daemon
 License:	PostgreSQL
 URL:		https://github.com/powa-team/%{name}
@@ -21,17 +13,16 @@ Source0:	https://github.com/powa-team/%{name}/archive/%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{sname}-tmpfiles.d
 
-BuildRequires:	python3-devel python3-setuptools
+BuildRequires:	python3-devel python3-wheel
+BuildRequires:	systemd-rpm-macros
 Requires:	python3-psycopg2 systemd
 
 BuildArch:	noarch
 
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires(post):		systemd-sysvinit
-%endif
 %else
 Requires(post):		systemd-sysv
 Requires(post):		systemd
@@ -47,12 +38,16 @@ database (in the powa_servers table).
 %prep
 %setup -q -n %{name}-%{version}
 
+%if 0%{?fedora} <= 42 || 0%{?rhel} >= 8
+%generate_buildrequires
+%pyproject_buildrequires -t
+%endif
+
 %build
-%{__ospython} setup.py build
+%pyproject_wheel
 
 %install
-%{__rm} -rf %{buildroot}
-%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+%pyproject_install
 
 # Install sample config file:
 %{__install} -d %{buildroot}%{_sysconfdir}
@@ -69,7 +64,7 @@ database (in the powa_servers table).
 %post
 /bin/systemctl daemon-reload >/dev/null 2>&1 || :
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 %service_add_pre %{name}.service
 %endif
 %else
@@ -84,12 +79,24 @@ database (in the powa_servers table).
 %{_sysconfdir}/%{name}.conf-dist
 %{_unitdir}/%{name}.service
 %{_tmpfilesdir}/%{sname}.conf
-%dir %{python3_sitelib}/%{pname}-%{version}-py%{pyver}.egg-info
-%{python3_sitelib}/%{pname}-%{version}-py%{pyver}.egg-info/*
 %{python3_sitelib}/%{pname}/*.py
 %{python3_sitelib}/%{pname}/__pycache__/*.py*
+%{python3_sitelib}/%{pname}-%{version}.dist-info/*
 
 %changelog
+* Tue Oct 28 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-3PGDG
+- Fix builds on Fedora 43.
+
+* Mon Mar 24 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-2PGDG
+- Add missing BRs
+
+* Sun Mar 23 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3.1-1PGDG
+- Update to 1.3.1 per changes described at:
+  https://github.com/powa-team/powa-collector/releases/tag/1.3.1
+
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-2PGDG
+- Add RHEL 10 support
+
 * Sun Nov 3 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3.0-1PGDG
 - Update to 1.3.0 per changes described at:
   https://github.com/powa-team/powa-collector/releases/tag/1.3.0

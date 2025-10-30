@@ -6,46 +6,53 @@
 
 %pgdg_set_gis_variables
 
-%global libspatialitemajorversion	50
-
 # Override some variables:
-%global geosfullversion %geos312fullversion
-%global geosmajorversion %geos312majorversion
-%global geosinstdir %geos312instdir
+%global geosfullversion %geos314fullversion
+%global geosmajorversion %geos314majorversion
+%global geosinstdir %geos314instdir
+
+%if 0%{?rhel} && 0%{?rhel} == 8
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
-%global projmajorversion %proj94majorversion
-%global projfullversion %proj94fullversion
-%global projinstdir %proj94instdir
-%global libgeotiffmajorversion 17
-%global libgeotiffinstdir %libgeotiff17instdir
+%global projmajorversion %proj96majorversion
+%global projfullversion %proj96fullversion
+%global projinstdir %proj96instdir
+%else
+%global gdalfullversion %gdal311fullversion
+%global gdalmajorversion %gdal311majorversion
+%global gdalinstdir %gdal311instdir
+%global projmajorversion %proj97majorversion
+%global projfullversion %proj97fullversion
+%global projinstdir %proj97instdir
+%endif
+
+%global	libgeotiffmajorversion 17
+%global	libgeotiffinstdir %libgeotiff17instdir
+
+%global	libspatialitemajorversion	50
 
 %{!?llvm:%global llvm 1}
 
 %{!?utils:%global	utils 1}
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
-%if 0%{?suse_version} < 1499
 %{!?raster:%global	raster 1}
-%else
-%{!?raster:%global	raster 1}
-%endif
 
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
-%ifnarch ppc64 ppc64le
-# TODO
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
 %{!?sfcgal:%global	sfcgal 1}
-%else
-%{!?sfcgal:%global	sfcgal 0}
 %endif
-%else
+%if 0%{?rhel} == 8
+%ifarch ppc64 ppc64le
 %{!?sfcgal:%global	sfcgal 0}
+%else
+%{!?sfcgal:%global	sfcgal 1}
+%endif
 %endif
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.11
-Release:	4PGDG%{?dist}
+Version:	%{postgismajorversion}.12
+Release:	12PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -55,15 +62,22 @@ Patch0:		%{sname}%{postgiscurrmajorversion}-%{postgismajorversion}.0-gdalfpic.pa
 URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
-BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.18 pcre-devel gmp-devel
-%if 0%{?suse_version} >= 1315
+BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel libxml2 libxslt autoconf
+BuildRequires:	pgdg-srpm-macros >= 1.0.50 gmp-devel
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
+BuildRequires:	pcre2-devel
+Requires:	pcre2
+%else
+BuildRequires:	pcre-devel
+Requires:	pcre
+%endif
+%if 0%{?suse_version} >= 1500
 Requires:	libgmp10
 %else
 Requires:	gmp
 %endif
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	libjson-c-devel proj%{projmajorversion}-devel >= %{projfullversion}
 %endif
 %else
@@ -81,7 +95,7 @@ Requires:	SFCGAL
 BuildRequires:	gdal%{gdalmajorversion}-devel >= %{gdalfullversion}
 %endif
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	libprotobuf-c1
 BuildRequires:	libprotobuf-c-devel
 %else
@@ -99,11 +113,6 @@ Requires:	hdf5
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
 %endif
 
-Requires:	pcre
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-Requires:	libjson-c2
-Requires:	libxerces-c-3_1
-%endif
 %if 0%{?suse_version} >= 1500
 Requires:	libjson-c5
 Requires:	libxerces-c-3_2
@@ -115,7 +124,7 @@ Requires(post):	%{_sbindir}/update-alternatives
 
 Provides:	%{sname} = %{version}-%{release}
 Obsoletes:	%{sname}3_%{pgmajorversion} <= %{postgismajorversion}.0-1
-Provides:	%{sname}3_%{pgmajorversion} => %{postgismajorversion}.0
+Provides:	%{sname}3_%{pgmajorversion} >= %{postgismajorversion}.0
 
 %description
 PostGIS adds support for geographic objects to the PostgreSQL object-relational
@@ -130,7 +139,7 @@ Summary:	Client tools and their libraries of PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-client = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-client <= %{postgismajorversion}.2-1
-Provides:	%{sname}2_%{pgmajorversion}-client => %{postgismajorversion}.0
+Provides:	%{sname}2_%{pgmajorversion}-client >= %{postgismajorversion}.0
 
 %description client
 The %{name}-client package contains the client tools and their libraries
@@ -141,7 +150,7 @@ Summary:	Development headers and libraries for PostGIS
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Provides:	%{sname}-devel = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-devel <= %{postgismajorversion}.2-1
-Provides:	%{sname}2_%{pgmajorversion}-devel => %{postgismajorversion}.0
+Provides:	%{sname}2_%{pgmajorversion}-devel >= %{postgismajorversion}.0
 
 %description devel
 The %{name}-devel package contains the header files and libraries
@@ -151,7 +160,7 @@ with PostGIS.
 %package docs
 Summary:	Extra documentation for PostGIS
 Obsoletes:	%{sname}2_%{pgmajorversion}-docs <= %{postgismajorversion}.2-1
-Provides:	%{sname}2_%{pgmajorversion}-docs => %{postgismajorversion}.0
+Provides:	%{sname}2_%{pgmajorversion}-docs >= %{postgismajorversion}.0
 
 %description docs
 The %{name}-docs package includes PDF documentation of PostGIS.
@@ -171,7 +180,7 @@ Summary:	The utils for PostGIS
 Requires:	%{name} = %{version}-%{release} perl-DBD-Pg
 Provides:	%{sname}-utils = %{version}-%{release}
 Obsoletes:	%{sname}2_%{pgmajorversion}-utils <= %{postgismajorversion}.2-1
-Provides:	%{sname}2_%{pgmajorversion}-utils => %{postgismajorversion}.0
+Provides:	%{sname}2_%{pgmajorversion}-utils >= %{postgismajorversion}.0
 
 %description utils
 The %{name}-utils package provides the utilities for PostGIS.
@@ -181,19 +190,23 @@ The %{name}-utils package provides the utilities for PostGIS.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for postgis31
+Summary:	Just-in-time compilation support for PostGIS 3.1
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for postgis31
+This package provides JIT support for PostGIS 3.1
 %endif
 
 %prep
@@ -211,12 +224,13 @@ LDFLAGS="-Wl,-rpath,%{libspatialiteinstdir}/lib ${LDFLAGS}" ; export LDFLAGS
 SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{geosinstdir}/lib64" ; export SHLIB_LINK
 SFCGAL_LDFLAGS="$SFCGAL_LDFLAGS -L/usr/lib64"; export SFCGAL_LDFLAGS
 
-LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
+LDFLAGS="$LDFLAGS -L%{geosinstdir}/lib64 -lgeos_c -L%{projinstdir}/lib64 -L%{gdalinstdir}/lib -L%{libgeotiffinstdir}/lib -ltiff -L/usr/lib64"; export LDFLAGS
 CFLAGS="$CFLAGS -I%{gdalinstdir}/include"; export CFLAGS
 
 autoconf
 
 %configure --with-pgconfig=%{pginstdir}/bin/pg_config \
+	--with-projdir=%{projinstdir} \
 %if !%raster
 	--without-raster \
 %endif
@@ -226,7 +240,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -361,6 +375,54 @@ fi
 %endif
 
 %changelog
+* Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-12PGDG
+- Rebuild against PROJ 9.7 on all platforms except RHEL 8
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.1.12-11PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-10PGDG
+- Rebuild against GeOS 3.14
+
+* Thu Jul 31 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-9PGDG
+- Rebuild against GDAL 3.11.3
+
+* Thu Jul 17 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-8PGDG
+- Use GDAL 3.11 and PROJ 9.6 on RHEL 8 and SLES 15 as well.
+
+* Sun May 25 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-7PGDG
+- Keep using PROJ 9.5 and GDAL 3.10. Use GDAL 3.11 where available.
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-6PGDG
+- Rebuild against PROJ 9.6
+
+* Sat Mar 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-5PGDG
+- Enable SFCGAL support on RHEL 9 - ppc64le
+
+* Wed Feb 26 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-4PGDG
+- Add missing BR
+
+* Thu Jan 30 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.12-3PGDG
+- Add RHEL 10 support
+
+* Sat Dec 28 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.12-2PGDG
+- Fix SLES 15 builds by adding --with-projdir option back. Also fix
+  PROJ path.
+
+* Tue Dec 24 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.12-1PGDG
+- Update to 3.1.12, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.1.12/NEWS
+- Rebuild against GDAL 3.10 on Fedora, RHEL 9 and SLES 15.
+
+* Mon Dec 9 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.11-6PGDG
+- Rebuild against SFCGAL 2.0 on RHEL 9 and Fedora
+- Rebuild against PROJ 9.5, GeOS 3.13
+- Rebuild against GDAL 3.9 on Fedora, RHEL 9 and SLES 15.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.11-4PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

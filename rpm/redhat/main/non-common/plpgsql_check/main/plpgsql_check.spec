@@ -1,20 +1,21 @@
+
 %global sname plpgsql_check
 
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.7.12
+Version:	2.8.3
 Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
 Source0:	https://github.com/okbob/%{sname}/archive/v%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}
 
 %description
-The plpgsql_check is PostgreSQL extension with functionality for direct
+plpgsql_check is a PostgreSQL extension with functionality for direct
 or indirect extra validation of functions in PL/pgSQL language. It verifies
 a validity of SQL identifiers used in PL/pgSQL code. It also tries to identify
 performance issues.
@@ -23,17 +24,21 @@ performance issues.
 %package llvmjit
 Summary:	Just-in-time compilation support for plpgsql_check
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for plpgsql_check
+This package provides JIT support for plpgsql_check
 %endif
 
 %prep
@@ -61,6 +66,40 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.3-1PGDG
+- Update to 2.8.3 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.3
+
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.8.2-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.8.2-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Jul 28 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.2-1PGDG
+- Update to 2.8.2 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.2
+
+* Tue Apr 29 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.1-1PGDG
+- Update to 2.8.1 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.1
+
+* Sat Mar 22 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.0-1PGDG
+- Update to 2.8.0 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.0
+
+* Fri Feb 7 2025 Devrim Gündüz <devrim@gunduz.org> 2.7.15-1PGDG
+- Update to 2.7.15 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.7.15
+
+* Wed Feb 5 2025 Devrim Gündüz <devrim@gunduz.org> 2.7.14-1PGDG
+- Update to 2.7.14 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.7.14
+- Update LLVM dependencies.
+
 * Tue Oct 15 2024 Devrim Gündüz <devrim@gunduz.org> 2.7.12-1PGDG
 - Update to 2.7.12 per changes described at:
   https://github.com/okbob/plpgsql_check/releases/tag/v2.7.12

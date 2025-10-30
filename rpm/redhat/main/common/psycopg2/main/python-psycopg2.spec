@@ -2,21 +2,20 @@
 %global pname python-%{sname}
 
 %global ppg2majver 2
+%if 0%{?rhel} == 8
+# DO NOT BUMP UP THESE VALUES FOR RHEL 8 #
 %global ppg2midver 9
-%global ppg2minver 9
-
+%global ppg2minver 6
+%else
+%global ppg2midver 9
+%global ppg2minver 11
+%endif
 %{!?with_docs:%global with_docs 0}
 
-%if 0%{?rhel} == 8
-%global python3_runtimes python3.9
-%global __ospython %{_bindir}/python3.9
-%global python3_sitearch %(%{__ospython} -Ic "import sysconfig; print(sysconfig.get_path('platlib', vars={'platbase': '%{_prefix}', 'base': '%{_prefix}'}))")
-%else
-%global python3_runtimes python3
 %global __ospython %{_bindir}/python3
-%endif
+%global python3_runtimes python3
 
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -25,18 +24,14 @@
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
 Version:	%{ppg2majver}.%{ppg2midver}.%{ppg2minver}
-Release:	2PGDG%{?dist}
+Release:	42PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://www.psycopg.org
 Source0:	https://github.com/psycopg/psycopg2/archive/refs/tags/%{ppg2majver}.%{ppg2midver}.%{ppg2minver}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-%if 0%{?rhel} == 8
-BuildRequires:	python39-devel
-%else
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python3-devel
-%endif
 
 Requires:	libpq5 >= 10.0
 
@@ -122,6 +117,27 @@ done
 %endif
 
 %changelog
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> - 2.9.11-42PGDG
+- Update to 2.9.11 per changes descrihed at:
+  https://github.com/psycopg/psycopg2/releases/tag/2.9.11
+
+* Sat Oct 4 2025 Devrim Gündüz <devrim@gunduz.org> - 2.9.10-5PGDG
+- Add SLES 16 support
+
+* Sat Mar 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.9.10-4PGDG
+- Remove redundant BR
+
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.9.10-3PGDG
+- psycopg2 > 2.9.6 does not build on RHEL 8. So add a permanent guard
+  against accidental builds on RHEL 8 to prevent breakage.
+
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.9.10-2PGDG
+- Add RHEL 10 support
+
+* Wed Nov 20 2024 Devrim Gündüz <devrim@gunduz.org> - 2.9.10-1PGDG
+- Update to 2.9.10 per changes descrihed at:
+  https://github.com/psycopg/psycopg2/releases/tag/2.9.10
+
 * Tue Jan 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.9.9-2PGDG
 - Fix builds on RHEL 8 by exporting Python version manually
 

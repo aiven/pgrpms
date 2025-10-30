@@ -5,35 +5,39 @@
 
 Summary:	Sequential UUID generators for PostgreSQL
 Name:		%{pname}_%{pgmajorversion}
-Version:	1.0.2
-Release:	5PGDG%{?dist}
+Version:	1.0.3
+Release:	4PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/tvondra/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/tvondra/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-
-%if %llvm
-%package llvmjit
-Summary:	Just-in-time compilation support for sequential_uuids
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm17-devel clang17-devel
-Requires:	llvm17
-%endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
-%endif
-
-%description llvmjit
-This packages provides JIT support for sequential_uuids
-%endif
 
 %description
 This PostgreSQL extension implements two UUID generators with sequential
 patterns, which helps to reduce random I/O patterns associated with regular
 entirely-random UUID.
+
+%if %llvm
+%package llvmjit
+Summary:	Just-in-time compilation support for sequential_uuids
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 8
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
+%endif
+
+%description llvmjit
+This package provides JIT support for sequential_uuids
+%endif
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -62,6 +66,23 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.0.3-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Jan 29 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-2PGDG
+- Update LLVM dependencies
+- Remove redundant BR
+
+* Mon Dec 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-1PGDG
+- Update to 1.0.3 per changes described at:
+  https://github.com/tvondra/sequential-uuids/releases/tag/v1.0.3
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.2-5PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

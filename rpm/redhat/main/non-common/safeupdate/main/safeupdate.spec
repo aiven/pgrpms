@@ -5,12 +5,11 @@
 Summary:	A simple extension to PostgreSQL that requires criteria for UPDATE and DELETE
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5
-Release:	1PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	ISC
 URL:		https://github.com/eradman/pg-safeupdate
 Source0:	https://github.com/eradman/pg-safeupdate/archive/refs/tags/%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
 %description
@@ -23,17 +22,21 @@ is writable by PostgREST.
 %package llvmjit
 Summary:	Just-in-time compilation support for safeupdate
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for safeupdate
+This package provides JIT support for safeupdate
 %endif
 
 %prep
@@ -58,6 +61,19 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.5-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Jan 29 2025 Devrim Gunduz <devrim@gunduz.org> - 1.5-2PGDG
+- Update LLVM dependencies
+- Remove redundant BR
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.5-1PGDG
 - Update to 1.5 per changes described at:
   https://github.com/eradman/pg-safeupdate/releases/tag/1.5

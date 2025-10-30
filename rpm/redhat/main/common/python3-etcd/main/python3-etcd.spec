@@ -1,9 +1,33 @@
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
+
 %global modname etcd
 %global srcname python-%{modname}
 
-Name:		python3-%{modname}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
+
+Name:		python%{python3_pkgversion}-%{modname}
 Version:	0.4.5
-Release:	45%{?dist}
+Release:	50PGDG%{?dist}
 Summary:	A python client library for etcd
 
 License:	MIT
@@ -18,18 +42,25 @@ BuildArch:	noarch
 # Also https://fedoraproject.org/wiki/Packaging:Guidelines#Noarch_with_Unported_Dependencies
 ExclusiveArch:	noarch %{ix86} x86_64 %{arm} aarch64 ppc64le s390x powerpc64le
 
-%if 0%{?rhel} == 7
-Requires:	python36-urllib3 >= 1.7.1
-Requires:	python36-dns >= 1.13.0
-%endif
-%if 0%{?fedora} ||0%{?rhel} >= 8
+%if 0%{?fedora} && 0%{?fedora} >= 41
 Requires:	python3-urllib3 >= 1.7.1
 Requires:	python3-dns >= 1.13.0
 %endif
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+
+%if 0%{?rhel} && 0%{?rhel} >= 10
 Requires:	python3-urllib3 >= 1.7.1
-Requires:	python3-dnspython >= 1.13.0
+Requires:	python3-dns >= 1.13.0
+%endif
+
+%if 0%{?rhel} && 0%{?rhel} <= 9
+Requires:	python%{python3_pkgversion}-urllib3 >= 1.7.1
+Requires:	python%{python3_pkgversion}-dns >= 1.13.0
+%endif
+
+%if 0%{?suse_version}
+%if 0%{?suse_version} >= 1500
+Requires:	python%{python3_pkgversion}-urllib3 >= 1.7.1
+Requires:	python%{python3_pkgversion}-dnspython >= 1.13.0
 %endif
 %endif
 
@@ -43,10 +74,11 @@ election.
 %autosetup -p1 -n %{srcname}-%{version}
 
 %build
-%py3_build
+%{__ospython} setup.py build
 
 %install
-%py3_install
+%{__rm} -rf %{buildroot}
+%{__ospython} setup.py install --root %{buildroot} -O1 --skip-build
 
 %files
 %doc README.rst
@@ -54,6 +86,25 @@ election.
 %{python3_sitelib}/*
 
 %changelog
+* Sat Oct 25 2025 Devrim Gunduz <devrim@gunduz.org> - 0.4.5-50PGDG
+- Add SLES 16 support
+
+* Mon Sep 22 2025 Devrim Gunduz <devrim@gunduz.org> - 0.4.5-49PGDG.1
+- Add Fedora 43 support
+
+* Mon May 26 2025 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-49PGDG
+- Rebuild
+
+* Wed May 21 2025 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-48PGDG
+- Fix conditionals around dependency definitions.
+
+* Wed May 21 2025 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-47PGDG
+- Rebuild against Python 3.12 on RHEL 8 and 9 and Python 3.11 on SLES 15.
+
+* Wed Jan 10 2024 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-46PGDG
+- Remove RHEL 7 support
+- Add PGDG branding
+
 * Wed Jan 10 2024 Devrim Gündüz <devrim@gunduz.org> - 0.4.5-45
 - Add explicit dependencies for RHEL >= 8
 

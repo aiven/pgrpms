@@ -4,39 +4,48 @@
 
 Summary:	A PostgreSQL extension that enables asynchronous (non-blocking) HTTP/HTTPS requests with SQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.13.0
+Version:	0.20.0
 Release:	1PGDG%{?dist}
 URL:		https://github.com/supabase/%{sname}
 Source0:	https://github.com/supabase/%{sname}/archive/refs/tags/v%{version}.tar.gz
 License:	Apache-2.0
-BuildRequires:	postgresql%{pgmajorversion}-devel libcurl >= 7.83
-Requires:	postgresql%{pgmajorversion}-server libcurl-devel >= 7.83
+BuildRequires:	postgresql%{pgmajorversion}-devel libcurl-devel >= 7.83
+Requires:	postgresql%{pgmajorversion}-server
+%if 0%{?suse_version} >= 1500
+Requires:	libcurl4 >= 7.83
+%else
+Requires:	libcurl >= 7.83
+%endif
 
 %description
-The PG_NET extension enables PostgreSQL to make asynchronous HTTP/HTTPS
+The pg_net extension enables PostgreSQL to make asynchronous HTTP/HTTPS
 requests in SQL. It eliminates the need for servers to continuously poll for
 database changes and instead allows the database to proactively notify
 external resources about significant events. It seamlessly integrates with
-triggers, cron jobs (e.g., PG_CRON), and procedures, unlocking numerous
-possibilities. Notably, PG_NET powers Supabase's Webhook functionality,
-highlighting its robustness and reliability.
+triggers, cron jobs (e.g., pg_cron), and procedures, unlocking numerous
+possibilities.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_net
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
-Requires:	llvm => 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_net
+This package provides JIT support for pg_net
 %endif
+
 
 %prep
 %setup -q -n %{sname}-%{version}
@@ -64,6 +73,71 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Mon Oct 13 2025 Devrim Gunduz <devrim@gunduz.org> - 0.20.0-1PGDG
+- Update to 0.20.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.20.0
+
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.19.7-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.19.7-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Aug 28 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.7-1PGDG
+- Update to 0.19.7 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.7
+
+* Sat Aug 23 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.6-1PGDG
+- Update to 0.19.6 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.6
+
+* Tue Aug 5 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.5-1PGDG
+- Update to 0.19.5 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.5
+
+* Thu Jul 31 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.4-1PGDG
+- Update to 0.19.4 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.4
+
+* Wed Jul 16 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.3-1PGDG
+- Update to 0.19.3 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.3
+  https://github.com/supabase/pg_net/releases/tag/v0.19.2
+
+* Tue Jul 15 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.1-1PGDG
+- Update to 0.19.1 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.1
+
+* Thu Jul 10 2025 Devrim Gunduz <devrim@gunduz.org> - 0.19.0-1PGDG
+- Update to 0.19.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.19.0
+
+* Tue Jul 1 2025 Devrim Gunduz <devrim@gunduz.org> - 0.17.0-1PGDG
+- Update to 0.17.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.17.0
+
+* Sun Jun 22 2025 Devrim Gunduz <devrim@gunduz.org> - 0.16.0-1PGDG
+- Update to 0.16.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.16.0
+
+* Fri May 30 2025 Devrim Gunduz <devrim@gunduz.org> - 0.15.1-1PGDG
+- Update to 0.15.1 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.15.1
+
+* Fri May 23 2025 Devrim Gunduz <devrim@gunduz.org> - 0.15.0-1PGDG
+- Update to 0.15.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.15.0
+
+* Thu Jan 9 2025 Devrim Gunduz <devrim@gunduz.org> - 0.14.0-2PGDG
+- Add SLES 15 support
+
+* Wed Dec 11 2024 Devrim Gunduz <devrim@gunduz.org> - 0.14.0-1PGDG
+- Update to 0.14.0 per changes described at
+  https://github.com/supabase/pg_net/releases/tag/v0.14.0
+
 * Tue Nov 5 2024 Devrim Gunduz <devrim@gunduz.org> - 0.13.0-1PGDG
 - Update to 0.13.0 per changes described at
   https://github.com/supabase/pg_net/releases/tag/v0.13.0

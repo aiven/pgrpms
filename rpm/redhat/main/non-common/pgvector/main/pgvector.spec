@@ -4,8 +4,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.8.0
-Release:	1PGDG%{?dist}
+Version:	0.8.1
+Release:	3PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -15,28 +15,39 @@ Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/v%{version}.tar.
 # https://github.com/pgvector/pgvector/pull/311
 Patch0:		pgvector-0.6.2-fixillegalinstructionrror.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.27
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
-Open-source vector similarity search for Postgres. Supports L2 distance,
-inner product, and cosine distance
+Open-source vector similarity search for Postgres.
+
+Store your vectors with the rest of your data. Supports:
+
+* exact and approximate nearest neighbor search
+* single-precision, half-precision, binary, and sparse vectors
+* L2 distance, inner product, cosine distance, L1 distance, Hamming distance,
+  and Jaccard distance
+* any language with a Postgres client
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pgvector
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pgvector
+This package provides JIT support for pgvector
 %endif
 
 %prep
@@ -69,6 +80,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.8.1-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Fri Sep 5 2025 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-1PGDG
+- Update to 0.8.1
+
+* Sun Jan 19 2025 Devrim Gündüz <devrim@gunduz.org> - 0.8.0-2PGDG
+- Update package description
+
 * Fri Nov 1 2024 Devrim Gündüz <devrim@gunduz.org> - 0.8.0-1PGDG
 - Update to 0.8.0
 

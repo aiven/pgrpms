@@ -1,23 +1,15 @@
 %global sname semver
 
-%ifarch ppc64 ppc64le s390 s390x armv7hl
- %if 0%{?rhel} && 0%{?rhel} == 7
-  %{!?llvm:%global llvm 0}
- %else
-  %{!?llvm:%global llvm 1}
- %endif
-%else
- %{!?llvm:%global llvm 1}
-%endif
+%{!?llvm:%global llvm 1}
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.32.1
-Release:	1PGDG%{?dist}
+Version:	0.40.0
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
-URL:		https://github.com/theory/pg-semver/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+URL:		https://github.com/theory/pg-%{sname}/
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.31.0-2
@@ -31,27 +23,21 @@ Versioning 2.0.0 Specification.
 %package llvmjit
 Summary:	Just-in-time compilation support for semver
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Requires:	llvm-toolset-7.0-llvm >= 7.0.1
-%else
-Requires:	llvm5.0 >= 5.0
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17
 %endif
-%endif
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	llvm6-devel clang6-devel
-Requires:	llvm6
-%endif
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm15-devel clang15-devel
-Requires:	llvm15
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for semver
+This package provides JIT support for semver
 %endif
 
 %prep
@@ -66,10 +52,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/semver.mmd
+%doc %{pginstdir}/doc/%{sname}/%{sname}.mmd
 %license LICENSE
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}*.sql
+%{pginstdir}/share/%{sname}/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %if %llvm
@@ -79,6 +65,20 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.40.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.40.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Jan 29 2025 Devrim Gunduz <devrim@gunduz.org> - 0.40.0-1PGDG
+- Update to 0.40.0 per changes described at:
+  https://github.com/theory/pg-semver/releases/tag/v0.40.0
+- Remove RHEL 7 and SLES 15 support
+
 * Wed Aug 2 2023 Devrim Gunduz <devrim@gunduz.org> - 0.32.1-1PGDG
 - Update to 0.32.1
 - Add PGDG branding

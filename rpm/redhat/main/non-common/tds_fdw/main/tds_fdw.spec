@@ -4,36 +4,40 @@
 
 Summary:	TDS Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.0.4
-Release:	1PGDG%{?dist}
+Version:	2.0.5
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/tds-fdw/%{sname}/archive/v%{version}.zip
 URL:		https://github.com/tds-fdw/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel freetds-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel freetds-devel
 Requires:	postgresql%{pgmajorversion}-server freetds
 
 Obsoletes:	%{sname}%{pgmajorversion} < 2.0.2-2
 
 %description
-This library contains a single PostgreSQL extension, a foreign data wrapper
-called "tds_fdw". It can be used to communicate with Microsoft SQL
-Server and Sybase databases.
+This is a PostgreSQL foreign data wrapper that can connect to databases that
+use the Tabular Data Stream (TDS) protocol, such as Sybase databases and
+Microsoft SQL server.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for tds_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for tds_fdw
+This package provides JIT support for tds_fdw
 %endif
 
 %prep
@@ -74,6 +78,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.0.5-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Sep 18 2025 John Harvey <john.harvey@crunchydata.com> - 2.0.5-1PGDG
+- Update to 2.0.5 per changes described at:
+  https://github.com/tds-fdw/tds_fdw/releases
+
+* Tue Jan 28 2025 Devrim Gündüz <devrim@gunduz.org> - 2.0.4-2PGDG
+- Update LLVM dependencies and remove redundant BR
+
 * Tue Sep 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.4-1PGDG
 - Update to 2.0.4 per changes described at:
   https://github.com/tds-fdw/tds_fdw/releases

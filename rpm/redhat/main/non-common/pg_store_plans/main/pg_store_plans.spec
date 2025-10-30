@@ -5,40 +5,37 @@
 Summary:	Store execution plans like pg_stat_statements does for queries
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.8
-Release:	2PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/ossc-db/%{sname}/archive/%{version}.tar.gz
 Source1:	README-%{sname}.txt
-URL:		https://github.com/ossc-db/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+URL:		https://ossc-db.github.io/%{sname}/
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.4-2
 
 %description
 The pg_store_plans module provides a means for tracking execution plan
 statistics of all SQL statements executed by a server.
 
-The module must be loaded by adding pg_store_plans to
-shared_preload_libraries in postgresql.conf, because it requires
-additional shared memory. This means that a server restart is required
-to add or remove the module.
-
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_store_plans
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_store_plans
+This package provides JIT support for pg_store_plans
 %endif
 
 %prep
@@ -69,6 +66,19 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.8-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.8-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Fri Jan 17 2025 Devrim Gündüz <devrim@gunduz.org> - 1.8-3PGDG
+- Update LLVM dependencies
+- Update project URL
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.8-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

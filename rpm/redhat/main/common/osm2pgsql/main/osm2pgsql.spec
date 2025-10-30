@@ -1,34 +1,56 @@
+%global _vpath_builddir .
 %global sname osm2pgsql
 
 %pgdg_set_gis_variables
 
-%global projmajorversion %proj95majorversion
-%global projfullversion %proj95fullversion
-%global projinstdir %proj95instdir
+# Override PROJ:
+%if 0%{?rhel} == 8
+%global	projmajorversion %proj96majorversion
+%global	projfullversion %proj96fullversion
+%global	projinstdir %proj96instdir
+%else
+%global	projmajorversion %proj97majorversion
+%global	projfullversion %proj97fullversion
+%global	projinstdir %proj97instdir
+%endif
 
 Summary:	Import map data from OpenStreetMap to a PostgreSQL database
 Name:		%{sname}
-Version:	2.0.0
-Release:	1PGDG%{?dist}
+Version:	2.2.0
+Release:	2PGDG%{?dist}
 License:	GPLv2
 Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/%{sname}-dev/%{sname}
 
-BuildRequires:	make gcc-c++ cmake libtool libpq5-devel libosmium-devel >= 2.20.0-44
+BuildRequires:	make gcc-c++ cmake libtool libpq5-devel
 BuildRequires:	libxml2-devel proj%{projmajorversion}-devel >= %{projfullversion}
-BuildRequires:	protozero-devel python3-psycopg2 python3-devel potrace-devel
-BuildRequires:	opencv-devel zlib-devel
+BuildRequires:	python3-psycopg2 python3-devel
+BuildRequires:	zlib-devel
 
-%if 0%{?suse_version} >= 1500
+# These packages are have been deprecated as of RHEL 8.7,
+# so enable these features on Fedora only:
+# https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/8.7_release_notes/deprecated_functionality#deprecated-packages
+%if 0%{?fedora} >= 41
+BuildRequires:	protozero-devel libosmium-devel
+%endif
+
+%if 0%{?suse_version} == 1500
 BuildRequires:	libboost_headers1_66_0-devel libbz2-devel
 BuildRequires:	Catch2-2-devel clang-tools
 BuildRequires:	libexpat-devel nlohmann_json-devel
-BuildRequires:	lua54-devel python3-behave
-%else
-BuildRequires:	boost-devel bzip2-devel
-BuildRequires:	catch2-devel clang-tools-extra
-BuildRequires:	expat-devel json-devel
-BuildRequires:	lua-devel python3-behave
+BuildRequires:	lua54-devel
+%endif
+
+%if 0%{?suse_version} == 1600
+BuildRequires:	libboost_headers1_86_0-devel libbz2-devel
+BuildRequires:	Catch2-2-devel clang-tools
+BuildRequires:	libexpat-devel nlohmann_json-devel
+BuildRequires:	lua54-devel
+%endif
+
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+BuildRequires:	boost-devel bzip2-devel catch2-devel
+BuildRequires:	clang-tools-extra expat-devel json-devel lua-devel
 %endif
 
 Requires:	libpq5
@@ -44,18 +66,19 @@ geocoding with Nominatim, or general analysis.
 %build
 %{__install} -d build
 pushd build
-%if 0%{?suse_version} >= 1315
-cmake .. \
-%else
-%cmake3 .. \
-%endif
+%cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DPROJ_LIBRARY=%{projinstdir}/lib64/libproj.so \
 	-DPROJ6_INCLUDE_DIR=%{projinstdir}/include \
 	-DEXTERNAL_FMT=OFF \
+%if 0%{?fedora} >= 40
 	-DEXTERNAL_LIBOSMIUM=ON \
 	-DEXTERNAL_PROTOZERO=ON \
+%else
+	-DEXTERNAL_LIBOSMIUM=OFF \
+	-DEXTERNAL_PROTOZERO=OFF \
+%endif
 %if "%{_lib}" == "lib64"
 	-DLIB_SUFFIX=64
 %endif
@@ -68,9 +91,6 @@ popd
 %{__rm} -rf %{buildroot}
 %{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install \
 	DESTDIR=%{buildroot}
-# We need this for osm2pgsql-gen binary:
-%{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install-gen \
-	DESTDIR=%{buildroot}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -78,12 +98,38 @@ popd
 %files
 %defattr(755,root,root,755)
 %{_bindir}/%{sname}
-%{_bindir}/%{sname}-gen
 %{_bindir}/%{sname}-replication
 %{_mandir}/man1/%{sname}*
 %{_datadir}/%{sname}/*.style
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2PGDG
+- Rebuild against PROJ 9.7 on all platforms except RHEL 8.
+- Add SLES 16 support
+
+* Wed Sep 17 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-1PGDG
+- Update to 2.2.0 per changes described at:
+  https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.2.0
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-2PGDG
+- Rebuild against PROJ 9.6
+
+* Mon Apr 14 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.1-1PGDG
+- Update to 2.1.1 per changes described at:
+  https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.1.1
+- Enable osmium and generalizations support only on Fedora because
+  of lack of dependent packages.
+
+* Tue Apr 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1PGDG
+- Update to 2.1.0 per changes described at:
+  https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.1.0
+- Remove generalization support (osm2pgsql-gen binary). It is causing
+  some dependency problems.
+
+* Mon Dec 2 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
+- Update to 2.0.1 per changes described at:
+  https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.0.1
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1PGDG
 - Update to 2.0.0 per changes described at:
   https://github.com/osm2pgsql-dev/osm2pgsql/releases/tag/2.0.0

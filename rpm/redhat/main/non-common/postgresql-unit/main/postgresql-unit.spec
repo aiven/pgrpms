@@ -4,12 +4,12 @@
 
 Summary:	SI Units for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	7.9
-Release:	1PGDG%{?dist}
+Version:	7.10
+Release:	6PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/ChristophBerg/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/ChristophBerg/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel flex
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -18,24 +18,25 @@ The base units can be combined to named and unnamed derived units using
 operators defined in the PostgreSQL type system. SI prefixes are used for
 input and output, and quantities can be converted to arbitrary scale.
 
-Requires PostgreSQL 9.5 or later (uses psprintf()), flex, and bison 3 (the
-pre-built grammar files are used if only bison 2 is available).
-
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for xxx
+Summary:	Just-in-time compilation support for postgresql-unit
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for xxx
+This package provides JIT support for postgresql-unit
 %endif
 
 %prep
@@ -67,6 +68,28 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 7.10-6PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 7.10-5PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 7.7-3PGDG
+- Update LLVM dependencies
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 7.10-3PGDG
+- Add missing BR
+
+* Mon Jan 27 2025 Devrim Gündüz <devrim@gunduz.org> - 7.10-2PGDG
+- Remove redundant BR
+
+* Wed Dec 11 2024 Devrim Gündüz <devrim@gunduz.org> - 7.10-1PGDG
+- Update to 7.10 per changes described at:
+  https://github.com/df7cb/postgresql-unit/releases/tag/7.10
+
 * Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 7.9-1PGDG
 - Update to 7.9 per changes described at:
   https://github.com/df7cb/postgresql-unit/releases/tag/7.9

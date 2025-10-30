@@ -2,21 +2,19 @@
 
 %global plrmajver 8
 %global plrmidver 4
-%global plrminver 7
+%global plrminver 8
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{plrmajver}.%{plrmidver}.%{plrminver}
-Release:	1PGDG%{?dist}
-License:	BSD
+Release:	3PGDG%{?dist}
+License:	GPLv2
 Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL%{plrmajver}_%{plrmidver}_%{plrminver}.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel R-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 8.4.1-2
 
 %description
 Procedural Language Handler for the "R software environment for
@@ -26,17 +24,21 @@ statistical computing and graphics".
 %package llvmjit
 Summary:	Just-in-time compilation support for plr
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for plr
+This package provides JIT support for plr
 %endif
 
 %prep
@@ -70,6 +72,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 8.4.8-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 8.4.8-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sun May 18 2025 Devrim Gunduz <devrim@gunduz.org> - 8.4.8-1PGDG
+- Update to 8.4.8
+
+* Mon Jan 27 2025 Devrim Gündüz <devrim@gunduz.org> - 8.4.7-2PGDG
+- Update LLVM dependencies
+
 * Mon Aug 12 2024 Devrim Gunduz <devrim@gunduz.org> - 8.4.7-1PGDG
 - Update to 8.4.7
 

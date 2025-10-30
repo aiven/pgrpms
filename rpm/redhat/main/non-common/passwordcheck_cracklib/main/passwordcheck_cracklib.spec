@@ -4,19 +4,19 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.1.0
-Release:	2PGDG%{?dist}
+Release:	5PGDG%{?dist}
 Summary:	PostgreSQL passwordcheck extension, built with cracklib.
 License:	BSD
 URL:		https://github.com/devrimgunduz/%{sname}/
 Source0:	https://github.com/devrimgunduz/%{sname}/archive/%{version}.tar.gz
 Requires:	postgresql%{pgmajorversion} cracklib
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	cracklib-dict-full
 %else
 Requires:	cracklib-dicts
 %endif
 
-BuildRequires:	cracklib-devel postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	cracklib-devel postgresql%{pgmajorversion}-devel
 
 %description
 This is the regular PostgreSQL passwordcheck extension, built with cracklib.
@@ -25,17 +25,21 @@ This is the regular PostgreSQL passwordcheck extension, built with cracklib.
 %package llvmjit
 Summary:	Just-in-time compilation support for passwordcheck_cracklib
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for passwordcheck_cracklib
+This package provides JIT support for passwordcheck_cracklib
 %endif
 
 %prep
@@ -59,6 +63,19 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.1.0-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-3PGDG
+- Update LLVM dependencies
+- Remove SLES 12 support
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 3.1.0-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

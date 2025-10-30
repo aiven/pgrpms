@@ -4,15 +4,16 @@
 
 Summary:	PostgreSQL Foreign Data Wrapper (FDW) for the hdfs
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.3.2
+Version:	2.3.3
 Release:	3PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildRequires:	libxml2-devel java-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	libxml2-devel java-devel javapackages-tools
 
 Requires:	postgresql%{pgmajorversion}-server
+Requires:	java
 
 %description
 This PostgreSQL extension implements a Foreign Data Wrapper (FDW) for
@@ -22,29 +23,45 @@ the hdfs.
 %package llvmjit
 Summary:	Just-in-time compilation support for hdfs_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for hdfs_fdw
+This package provides JIT support for hdfs_fdw
 %endif
 
 %prep
 %setup -q -n %{sname}-%{version}
 
 %build
-export JDK_INCLUDE="/etc/alternatives/java_sdk_openjdk/include"
-export JRE_LIBDIR="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
-export JVM_LIB="/usr/lib/jvm/jre-1.8.0-openjdk/lib/amd64/server"
-#export JVM_LIB="/etc/alternatives/jre_1.8.0_exports/lib/amd64/server"
+%if 0%{?rhel} == 8
+export JDK_INCLUDE="/usr/lib/jvm/java-openjdk/include/"
+export JRE_LIBDIR="/usr/lib/jvm/java-openjdk/lib/amd64/server/"
+export JVM_LIB="/usr/lib/jvm/java-openjdk/lib/amd64/server/"
+%endif
+%if 0%{?fedora} || 0%{?rhel} >= 9
+export JDK_INCLUDE="/usr/lib/jvm/java-openjdk/include/"
+export JRE_LIBDIR="/usr/lib/jvm/java-openjdk/lib/server/"
+export JVM_LIB="/usr/lib/jvm/java-openjdk/lib/server/"
+%endif
+%if 0%{?suse_version} >= 1500
+export JDK_INCLUDE="/usr/lib64/jvm/java/include/"
+export JRE_LIBDIR="/usr/lib64/jvm/java/lib/server/"
+export JVM_LIB="/usr/lib64/jvm/java/lib/server/"
+%endif
+
 pushd libhive
-PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
+USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 popd
 
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -54,7 +71,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 pushd libhive
 %{__mkdir} -p %{buildroot}%{pginstdir}/lib
-%{__make} %{?_smp_mflags} install INSTALL_DIR=%{buildroot}/%{pginstdir}/lib
+USE_PGXS=1 %{__make} %{?_smp_mflags} install INSTALL_DIR=%{buildroot}/%{pginstdir}/lib
 popd
 
 pushd libhive/jdbc
@@ -67,16 +84,15 @@ popd
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTALL_DIR=%{buildroot} DESTDIR=%{buildroot}
 
 # Install README file under PostgreSQL installation directory:
-%{__install} -d %{buildroot}%{pginstdir}/share/extension
-%{__install} -m 755 README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}
-%{__rm} -f %{buildroot}%{_docdir}/pgsql/extension/README.md
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
 
 %files
 %defattr(755,root,root,755)
-%doc %{pginstdir}/share/extension/README-%{sname}
+%doc %{pginstdir}/doc/extension/README-%{sname}
 %{pginstdir}/lib/libhive.so
 %{pginstdir}/lib/HiveJdbcClient-1.0.jar
 %{pginstdir}/lib/%{sname}.so
@@ -88,6 +104,27 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install INSTAL
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 2.3.3-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.3.3-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Sep 30 2025 Devrim Gunduz <devrim@gunduz.org> - 2.3.3-1PGDG
+- Update to 2.3.3 per changes described at:
+  https://github.com/EnterpriseDB/hdfs_fdw/releases/tag/v2.3.3
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-5PGDG
+- Add missing BR.
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-4PGDG
+- Add missing Requires.
+- Use better path for Java includes and libraries.
+- Fix location of the README file
+
 * Wed Aug 21 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.2-3PGDG
 - Fix package description in -debuginfo subpackage.
 

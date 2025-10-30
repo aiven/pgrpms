@@ -1,5 +1,5 @@
 Name:		pgmoneta
-Version:	0.14.1
+Version:	0.19.0
 Release:	1PGDG%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -9,6 +9,7 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 
 Patch0:		%{name}-conf-rpm.patch
+Patch1:		%{name}-0.19.0-build-man-pages.patch
 BuildRequires:	gcc cmake make python3-docutils zlib-devel
 BuildRequires:	libzstd-devel lz4-devel bzip2-devel
 BuildRequires:	libev-devel openssl-devel systemd-devel
@@ -22,7 +23,7 @@ BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1499
 Requires(post):		systemd-sysvinit
 %endif
 %else
@@ -40,12 +41,13 @@ pgmoneta is a backup / restore solution for PostgreSQL.
 %prep
 %setup -q -n %{name}-%{version}
 %patch -P 0 -p0
+%patch -P 1 -p1
 
 %build
 
 %{__mkdir} build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release .. -DCMAKE_INSTALL_PREFIX=/usr
+cmake -DCMAKE_BUILD_TYPE=Release .. -DCMAKE_INSTALL_PREFIX=/usr -DDOCS=OFF
 %{__make}
 
 %install
@@ -54,13 +56,13 @@ cd build
 
 # Install some files manually
 %{__mkdir} -p %{buildroot}%{_docdir}/%{name}/shell_comp
-%{__mkdir} -p %{buildroot}%{_docdir}/%{name}/tutorial
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgmoneta_comp.* %{buildroot}%{_docdir}/%{name}/shell_comp/
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/0*.md %{buildroot}%{_docdir}/%{name}/tutorial/
 
 # Install config file
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/%{name}
-%{__mv} %{buildroot}/%{_docdir}/%{name}/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}
+pushd ..
+%{__mv} doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}
+%{__mv} doc/etc/%{name}_walinfo.conf %{buildroot}%{_sysconfdir}/%{name}
 
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
@@ -77,14 +79,13 @@ cd build
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
-    %if 0%{?suse_version} >= 1315
+    %if 0%{?suse_version} >= 1499
      %service_add_pre %{same}.service
     %endif
    %else
     %systemd_post %{name}.service
     %endif
 fi
-
 
 %preun
 if [ $1 -eq 0 ] ; then
@@ -104,7 +105,9 @@ fi
 %{_bindir}/%{name}
 %{_bindir}/%{name}-admin
 %{_bindir}/%{name}-cli
+%{_bindir}/%{name}-walinfo
 %config %{_sysconfdir}/%{name}/%{name}.conf
+%config %{_sysconfdir}/%{name}/%{name}_walinfo.conf
 %{_libdir}/libpgmoneta.so*
 %dir %{_docdir}/%{name}
 %{_docdir}/%{name}/*
@@ -114,6 +117,47 @@ fi
 %{_unitdir}/%{name}.service
 
 %changelog
+* Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> 0.19.0-1PGDG
+- Update to 0.19.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.19.0
+- Add a temp patch from upstream to build man pages.
+
+* Fri Jul 11 2025 Devrim Gündüz <devrim@gunduz.org> 0.18.0-1PGDG
+- Update to 0.18.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.18.0
+
+* Wed Jun 18 2025 Devrim Gündüz <devrim@gunduz.org> 0.17.2-1PGDG
+- Update to 0.17.2 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.17.2
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.17.1
+
+* Fri May 23 2025 Devrim Gündüz <devrim@gunduz.org> 0.17.0-1PGDG
+- Update to 0.17.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.17.0
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> 0.16.1-1PGDG
+- Update to 0.16.1 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.16.1
+
+* Wed Apr 23 2025 Devrim Gündüz <devrim@gunduz.org> 0.16.0-1PGDG
+- Update to 0.16.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.16.0
+
+* Wed Feb 19 2025 Devrim Gündüz <devrim@gunduz.org> 0.15.2-1PGDG
+- Update to 0.15.2 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.15.2
+- Remove patch1
+
+* Sun Jan 5 2025 Devrim Gündüz <devrim@gunduz.org> 0.15.1-1PGDG
+- Update to 0.15.1 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.15.1
+- Add a temp patch per https://redmine.postgresql.org/issues/8084#note-2
+
+* Thu Dec 19 2024 Devrim Gündüz <devrim@gunduz.org> 0.15.0-1PGDG
+- Update to 0.15.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.15.0
+- Add a temp patch, per https://redmine.postgresql.org/issues/8081
+
 * Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> 0.14.1-1PGDG
 - Update to 0.14.1 per changes described at:
   https://github.com/pgmoneta/pgmoneta/releases/tag/0.14.1

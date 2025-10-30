@@ -1,19 +1,20 @@
 %global sname pg_squeeze
-%global pgsqueezerelversion 1_7_0
+
+%global squeezemajver 1
+%global squeezemidver 9
+%global squeezeminver 1
 
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension for automatic bloat cleanup
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.7.0
-Release:	1PGDG%{?dist}
+Version:	%{squeezemajver}.%{squeezemidver}.%{squeezeminver}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
-Source0:	https://github.com/cybertec-postgresql/pg_squeeze/archive/REL%{pgsqueezerelversion}.tar.gz
+Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/REL%{squeezemajver}_%{squeezemidver}_%{squeezeminver}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.3.0-2
 
 %description
 pg_squeeze is an extension that removes unused space from a table and
@@ -24,21 +25,25 @@ command was executed concurrently with regular reads / writes).
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_squeeze
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_squeeze
+This package provides JIT support for pg_squeeze
 %endif
 
 %prep
-%setup -q -n %{sname}-REL%{pgsqueezerelversion}
+%setup -q -n %{sname}-REL%{squeezemajver}_%{squeezemidver}_%{squeezeminver}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -59,7 +64,6 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/lib/%{sname}.so
 
-
 %if %llvm
 %files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
@@ -67,6 +71,30 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.9.1-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.9.1-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Sep 15 2025 Devrim Gündüz <devrim@gunduz.org> - 1.9.1-1PGDG
+- Update to 1.9.1 per changes described at:
+  https://github.com/cybertec-postgresql/pg_squeeze/releases/tag/REL1_9_1
+
+* Mon Aug 4 2025 Devrim Gündüz <devrim@gunduz.org> - 1.9.0-1PGDG
+- Update to 1.9.0 per changes described at:
+  https://github.com/cybertec-postgresql/pg_squeeze/releases/tag/REL1_9_0
+
+* Sun Jan 26 2025 Devrim Gündüz <devrim@gunduz.org> - 1.8.0-1PGDG
+- Update to 1.8.0 per changes described at:
+  https://github.com/cybertec-postgresql/pg_squeeze/releases/tag/REL1_8_0
+
+* Mon Jan 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-2PGDG
+- Update LLVM dependencies
+
 * Tue Sep 24 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-1PGDG
 - Update to 1.7.0
 

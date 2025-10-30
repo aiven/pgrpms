@@ -5,23 +5,42 @@
 
 %pgdg_set_gis_variables
 
-# Use GDAL 3.9 on all of the platforms:
-%global gdalfullversion %gdal39fullversion
-%global gdalmajorversion %gdal39majorversion
-%global gdalinstdir %gdal39instdir
+%if 0%{?fedora} && 0%{?fedora} >= 41
+%global gdalfullversion %gdal311fullversion
+%global gdalmajorversion %gdal311majorversion
+%global gdalinstdir %gdal311instdir
+%endif
+%if 0%{?rhel} && 0%{?rhel} == 8
+%global gdalfullversion %gdal38fullversion
+%global gdalmajorversion %gdal38majorversion
+%global gdalinstdir %gdal38instdir
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 9
+%global gdalfullversion %gdal311fullversion
+%global gdalmajorversion %gdal311majorversion
+%global gdalinstdir %gdal311instdir
+%endif
+%if  0%{?suse_version} == 1500
+%global gdalfullversion %gdal310fullversion
+%global gdalmajorversion %gdal310majorversion
+%global gdalinstdir %gdal310instdir
+%endif
+%if  0%{?suse_version} == 1600
+%global gdalfullversion %gdal311fullversion
+%global gdalmajorversion %gdal311majorversion
+%global gdalinstdir %gdal311instdir
+%endif
 
 Summary:	PostgreSQL foreign data wrapper for OGR
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.5
-Release:	3PGDG%{?dist}
+Version:	1.1.7
+Release:	4PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/pramsey/pgsql-ogr-fdw/archive/v%{version}.tar.gz
 URL:		https://github.com/pramsey/pgsql-ogr-fdw
 BuildRequires:	postgresql%{pgmajorversion}-devel gdal%{gdalmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.34
+BuildRequires:	pgdg-srpm-macros >= 1.0.51
 Requires:	postgresql%{pgmajorversion}-server gdal%{gdalmajorversion}-libs
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.0.12-3
 
 %description
 This library contains a PostgreSQL extension, a Foreign Data Wrapper (FDW)
@@ -31,17 +50,21 @@ handler of PostgreSQL which provides easy way for interacting with OGR.
 %package llvmjit
 Summary:	Just-in-time compilation support for ogr_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for ogr_fdw
+This package provides JIT support for ogr_fdw
 %endif
 
 %prep
@@ -80,6 +103,32 @@ PATH=%{pginstdir}/bin:%{gdalinstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mfla
 %endif
 
 %changelog
+* Sat Oct 25 2025 Devrim Gunduz <devrim@gunduz.org> - 1.1.7-4PGDG
+- Fix SLES 16 support
+
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 1.1.7-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.1.7-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sun Jun 1 2025 Devrim Gündüz <devrim@gunduz.org> 1.1.7-1PGDG
+- Update to 1.1.7 per changes described at:
+  https://github.com/pramsey/pgsql-ogr-fdw/releases/tag/v1.1.7
+
+* Wed Mar 12 2025 Devrim Gündüz <devrim@gunduz.org> 1.1.6-1PGDG
+- Update to 1.1.6 per changes described at:
+  https://github.com/pramsey/pgsql-ogr-fdw/releases/tag/v1.1.6
+
+* Mon Dec 30 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-4PGDG
+- Rebuild against GDAL 3.10
+
+* Fri Nov 22 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-4PGDG
+- Use GDAL 3.8 on RHEL 8
+
 * Sat Sep 21 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.5-3PGDG
 - Rebuild against GDAL 3.9
 

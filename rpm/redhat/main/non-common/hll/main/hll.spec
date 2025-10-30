@@ -4,12 +4,12 @@
 
 Summary:	PostgreSQL extension adding HyperLogLog data structures as a native data type
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.18
-Release:	2PGDG%{dist}
+Version:	2.19
+Release:	1PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/postgresql-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/postgresql-%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
@@ -25,18 +25,23 @@ distinct values with only a few percent error.
 %package llvmjit
 Summary:	Just-in-time compilation support for hll
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for hll
+This package provides JIT support for hll
 %endif
+
 
 %prep
 %setup -q -n postgresql-%{sname}-%{version}
@@ -65,6 +70,22 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Mon Oct 20 2025 - Devrim Gündüz <devrim@gunduz.org> - 2.19-1PGDG
+- Update to 2.19 per changes described at:
+  https://github.com/citusdata/postgresql-hll/releases/tag/v2.19
+
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 2.18-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.18-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.18-3PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.18-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

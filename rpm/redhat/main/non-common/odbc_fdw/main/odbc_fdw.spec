@@ -5,12 +5,15 @@
 Summary:	ODBC Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.1
-Release:	1PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/CartoDB/%{sname}
 Source0:	https://github.com/CartoDB/%{sname}/archive/refs/tags/%{version}.tar.gz
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildRequires:	postgresql%{pgmajorversion}-server
+%if %{pgmajorversion} == 17
+Patch0:		%{sname}-pg17.patch
+%endif
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-server unixODBC-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -21,21 +24,28 @@ for remote databases using Open Database Connectivity (ODBC).
 %package llvmjit
 Summary:	Just-in-time compilation support for odbc_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for odbc_fdw
+This package provides JIT support for odbc_fdw
 %endif
 
 %prep
 %setup -q -n %{sname}-%{version}
+%if %{pgmajorversion} == 17
+%patch -P 0 -p0
+%endif
 
 %build
 
@@ -63,5 +73,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 0.5.1-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.5.1-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-3PGDG
+- Add missing BR
+
+* Fri Jan 3 2025 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-2PGDG
+- Add a patch to fix builds against PostgreSQL 17 per
+  https://github.com/CartoDB/odbc_fdw/pull/143
+
 * Thu Aug 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.1-1PGDG
 - Initial packaging for the PostgreSQL RPM repositories.

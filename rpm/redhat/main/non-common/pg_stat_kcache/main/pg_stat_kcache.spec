@@ -2,42 +2,43 @@
 
 %global kcachemajver 2
 %global kcachemidver 3
-%global kcacheminver 0
+%global kcacheminver 1
 
 %{!?llvm:%global llvm 1}
 
 Summary:	A PostgreSQL extension gathering CPU and disk acess statistics
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{kcachemajver}.%{kcachemidver}.%{kcacheminver}
-Release:	1PGDG%{?dist}
-License:	PostgreSQL
+Release:	3PGDG%{?dist}
+License:	BSD
 URL:		https://github.com/powa-team/%{sname}
 Source0:	https://github.com/powa-team/%{sname}/archive/REL%{kcachemajver}_%{kcachemidver}_%{kcacheminver}.tar.gz
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	postgresql%{pgmajorversion}-devel
+Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 
 %description
 Gathers statistics about real reads and writes done by the filesystem layer.
-It is provided in the form of an extension for PostgreSQL >= 9.4., and
-requires pg_stat_statements extension to be installed. PostgreSQL 9.4 or more
-is required as previous version of provided pg_stat_statements didn't expose
-the queryid field.
+Requires pg_stat_statements extension to be installed.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_stat_kcache
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_stat_kcache
+This package provides JIT support for pg_stat_kcache
 %endif
 
 %prep
@@ -72,6 +73,24 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.3.1-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.1-1PGDG
+- Update to 2.3.1 per changes described at:
+  https://github.com/powa-team/pg_stat_kcache/releases/tag/REL2_3_1
+
+* Tue Jan 14 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-2PGDG
+- Add missing -contrib requirement
+- Simplify package description
+- Update LLVM dependencies
+
 * Tue Sep 17 2024 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1PGDG
 - Update to 2.3.0 per changes described at:
   https://github.com/powa-team/pg_stat_kcache/releases/tag/REL2_3_0

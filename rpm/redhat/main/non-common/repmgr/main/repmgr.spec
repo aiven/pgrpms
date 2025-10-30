@@ -4,8 +4,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.4.1
-Release:	3PGDG%{?dist}
+Version:	5.5.0
+Release:	5PGDG%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://github.com/enterpriseDB/%{sname}
@@ -15,64 +15,71 @@ Source3:	repmgr-pg%{pgmajorversion}.sysconfig
 Patch0:		repmgr-pg%{pgmajorversion}-conf.sample.patch
 Patch1:		repmgr-pg%{pgmajorversion}-config-file-location.patch
 
-BuildRequires:	systemd, systemd-devel
+BuildRequires:	systemd systemd-devel flex krb5-devel libcurl-devel
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libjson-c-devel
+%else
+BuildRequires:	json-c-devel
+%endif
+# All supported distros have libselinux-devel package:
+BuildRequires:	libselinux-devel >= 2.0.93
+# SLES: SLES 15 does not have selinux-policy packageç
+# RHEL/Fedora has selinux-policy:
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	selinux-policy >= 3.9.13
+%endif
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
+# zstd dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
 BuildRequires:	libxslt-devel pam-devel readline-devel
-BuildRequires:	libmemcached-devel libicu-devel pgdg-srpm-macros
+BuildRequires:	libmemcached-devel libicu-devel
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-Requires:	libopenssl1_0_0
-%else
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libopenssl1_1
-%else
-Requires:	openssl-libs >= 1.0.2k
+BuildRequires:	libopenssl-1_1-devel
 %endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
 %endif
-
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	libopenssl-devel
-%else
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
 BuildRequires:	openssl-devel
 %endif
 
-Obsoletes:	%{sname}%{pgmajorversion} < 5.2.1-1
-Obsoletes:	%{sname}_%{pgmajorversion} < 5.2.1-1
-
 %description
-repmgr is an open-source tool suite to manage replication and failover in a
+repmgr is an open-source tool suite for managing replication and failover in
 cluster of PostgreSQL servers. It enhances PostgreSQL's built-in hot-standby
 capabilities with tools to set up standby servers, monitor replication, and
 perform administrative tasks such as failover or manual switchover operations.
 
-repmgr has provided advanced support for PostgreSQL's built-in replication
-mechanisms since they were introduced in 9.0, and repmgr 2.0 supports all
-PostgreSQL versions from 9.0 to 9.5. With further developments in replication
-functionality such as cascading replication, timeline switching and base
-backups via the replication protocol, the repmgr team has decided to use
-PostgreSQL 9.3 as the baseline version for repmgr 3.0, which is a substantial
-rewrite of the existing repmgr code and which will be developed to support
-future PostgreSQL versions.
 
 %package devel
 Summary:	Development header files of repmgr
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-Obsoletes:	%{sname}%{pgmajorversion}-devel < 5.2.1-1
-Obsoletes:	%{sname}_%{pgmajorversion}-devel < 5.2.1-1
 
 %description devel
 The repmgr-devel package contains the header files needed to compile C or C++
@@ -82,17 +89,21 @@ applications which will directly interact with repmgr.
 %package llvmjit
 Summary:	Just-in-time compilation support for repmgr
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for repmgr
+This package provides JIT support for repmgr
 %endif
 
 %prep
@@ -140,7 +151,7 @@ fi
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version}
-   %if 0%{?suse_version} >= 1315
+   %if 0%{?suse_version} >= 1500
     %service_add_pre %{sname}-%{pgmajorversion}.service
    %endif
    %else
@@ -175,6 +186,27 @@ fi
 %endif
 
 %changelog
+* Sat Oct 25 2025 - Devrim Gündüz <devrim@gunduz.org> - 5.5.0-5PGDG
+- Add SLES 16 support and remove some obsoleted dependencies.
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 5.5.0-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Feb 26 2025 - Devrim Gündüz <devrim@gunduz.org> - 5.5.0-3PGDG
+- Add missing BRs and Requires
+
+* Wed Jan 29 2025 - Devrim Gündüz <devrim@gunduz.org> - 5.5.0-2PGDG
+- Update package description
+- Remove redundant BR
+
+* Sat Nov 23 2024 - Devrim Gündüz <devrim@gunduz.org> - 5.5.0-1PGDG
+- Update to 5.5.0, per changes described at:
+  https://repmgr.org/docs/current/release-5.5.0.html
+- Remove SLES 12 support
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 5.4.1-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

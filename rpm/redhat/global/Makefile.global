@@ -20,7 +20,7 @@ allclean:
 	git clean -dfx
 
 clean:
-	rm -rf i386/ i586/ i686/ x86_64/ noarch/
+	rm -rf aarch64/ ppc64le/ x86_64/ noarch/
 	rm -f *.src.rpm
 	rm -f *.tar *.tar.gz *.tar.bz2 *.tgz *.zip .xz
 
@@ -28,8 +28,6 @@ include ../../../../global/Makefile.global-common
 include ../../../../global/Makefile.global-common-testing
 include ../../../../global/Makefile.global-extras
 include ../../../../global/Makefile.global-extras-testing
-include ../../../../global/Makefile.global-PG12-testing
-include ../../../../global/Makefile.global-PG12
 include ../../../../global/Makefile.global-PG13-testing
 include ../../../../global/Makefile.global-PG13
 include ../../../../global/Makefile.global-PG14-testing
@@ -41,3 +39,5 @@ include ../../../../global/Makefile.global-PG16
 include ../../../../global/Makefile.global-PG17-testing
 include ../../../../global/Makefile.global-PG17
 include ../../../../global/Makefile.global-PG18-testing
+include ../../../../global/Makefile.global-PG18
+include ../../../../global/Makefile.global-PG19-testing

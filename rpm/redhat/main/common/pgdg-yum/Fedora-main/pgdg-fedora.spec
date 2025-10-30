@@ -1,6 +1,6 @@
 Name:		pgdg-fedora-repo
 Version:	42.0
-Release:	34PGDG
+Release:	43PGDG
 Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Fedora
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
@@ -35,6 +35,35 @@ key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-43PGDG
+- Add missing source and debuginfo repos
+
+* Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-42PGDG
+- Add v18 repos
+
+* Thu Aug 28 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-41PGDG
+- Enable gpgcheck for v18 repositories.
+
+* Mon Jun 30 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-40PGDG
+- Introduce PostgreSQL 19 testing repo
+
+* Thu Apr 17 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-39PGDG
+- Set the priority of our repo to highest. Upstream started obsoleting
+  our packages, so this is the simplest way to overcome that problem
+  for now.
+
+* Wed Apr 2 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-38PGDG
+- Add missing pgdg18-updates-testing-debuginfo repo.
+
+* Tue Mar 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-37PGDG
+- All SRPM repos must end with -source so that dnf picks that up.
+
+* Thu Mar 13 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-36PGDG
+- Use new URL for SRPMs
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-35PGDG
+- Remove v12 repos
+
 * Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-34PGDG
 - Add v17 repos
 

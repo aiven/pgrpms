@@ -1,11 +1,14 @@
 Summary:	A PostgreSQL SQL syntax beautifier
 Name:		pgFormatter
-Version:	5.5
-Release:	2PGDG%{?dist}
+Version:	5.7
+Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/darold/%{name}/
-BuildRequires:	perl(ExtUtils::MakeMaker)
+BuildRequires:	perl(ExtUtils::MakeMaker) make
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
+BuildRequires:	perl-macros
+%endif
 BuildArch:	noarch
 
 %description
@@ -37,6 +40,18 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{perl_vendorlib}/%{name}/*.pm
 
 %changelog
+* Fri Aug 29 2025 - Devrim Gündüz <devrim@gunduz.org> 5.7-1PGDG
+- Update to 5.7 per changes described at:
+  https://github.com/darold/pgFormatter/releases/tag/v5.7
+
+* Tue Mar 25 2025 - Devrim Gündüz <devrim@gunduz.org> 5.6-2PGDG
+- perl-macros is not needed/available on SLES 15. It is a part
+  of the main rpm package.
+
+* Tue Mar 18 2025 - Devrim Gündüz <devrim@gunduz.org> 5.6-1PGDG
+- Update to 5.6 per changes described at:
+  https://github.com/darold/pgFormatter/releases/tag/v5.6
+
 * Thu Feb 22 2024 - Devrim Gündüz <devrim@gunduz.org> 5.5-2PGDG
 - Add PGDG branding
 

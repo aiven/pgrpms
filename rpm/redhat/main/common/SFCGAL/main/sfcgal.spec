@@ -2,44 +2,54 @@
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
-%if 0%{?suse_version} && 0%{?suse_version} >= 1315
-Version:	1.3.10
+%if 0%{?suse_version} && 0%{?suse_version} == 1500
+Version:	1.4.1
+BuildRequires:	cgal-devel
+%endif
+
+%if 0%{?suse_version} && 0%{?suse_version} == 1600
+Version:	2.2.0
 BuildRequires:	cgal-devel
 %endif
 
 %if 0%{?rhel} && 0%{?rhel} == 8
 Version:	1.4.1
-Requires:	CGAL => 4.7
+Requires:	CGAL >= 4.7
 BuildRequires:	CGAL-devel >= 5.4
 %endif
 
-%if 0%{?rhel} && 0%{?rhel} == 9
-Version:	2.0.0
+%if 0%{?rhel} && 0%{?rhel} >= 9
+Version:	2.2.0
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-%if 0%{?fedora} && 0%{?fedora} >= 39
-Version:	2.0.0
+%if 0%{?fedora} && 0%{?fedora} >= 41
+Version:	2.2.0
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
 URL:		https://sfcgal.gitlab.io/SFCGAL/
 
+%if 0%{?suse_version} >= 1500
+BuildRequires:  cmake-full
+%else
+BuildRequires:  cmake-rpm-macros
+%endif
 BuildRequires:	cmake pgdg-srpm-macros
 
-%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
-BuildRequires:	libboost_date_time1_54_0 libboost_thread1_54_0
-BuildRequires:	libboost_system1_54_0 libboost_serialization1_54_0
-BuildRequires:	libboost_serialization1_54_0-devel libboost_atomic1_54_0-devel
-%endif
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	libboost_date_time1_66_0 libboost_thread1_66_0
 BuildRequires:	libboost_system1_66_0 libboost_serialization1_66_0
 BuildRequires:	libboost_serialization1_66_0-devel libboost_atomic1_66_0-devel
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	libboost_date_time1_86_0 libboost_thread1_86_0
+BuildRequires:	libboost_system1_86_0 libboost_serialization1_86_0
+BuildRequires:	libboost_serialization1_86_0-devel libboost_atomic1_86_0-devel
 %endif
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
@@ -80,20 +90,16 @@ Development headers and libraries for SFCGAL.
 
 %{__install} -d build
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-%endif
-%else
-%cmake3 .. \
+%cmake .. \
+%if 0%{?suse_version} >= 1500
+	-DCMAKE_INSTALL_PREFIX:PATH=/usr \
 %endif
 	-D LIB_INSTALL_DIR=%{_lib} -DBoost_NO_BOOST_CMAKE=BOOL:ON .
 
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags}
+%cmake_build
 
 %install
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install/fast \
-	DESTDIR=%{buildroot}
+%cmake_install
 
 %post
 /sbin/ldconfig
@@ -108,20 +114,50 @@ cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
 /sbin/ldconfig
 
 %files
-%doc AUTHORS README.md NEWS
+%doc AUTHORS README.md NEWS example/
 %license LICENSE
 %{_bindir}/sfcgal-config
 
 %files devel
 %{_includedir}/%{name}/
-%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1315
+%if 0%{?fedora} || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 %{_libdir}/pkgconfig/sfcgal.pc
+%if 0%{?suse_version} == 1600 || 0%{?rhel} >= 9 || 0%{?fedora} >= 41
+%{_libdir}/cmake/%{name}/%{name}*cmake
+%endif
 %endif
 
 %files libs
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Sat Oct 4 2025 Devrim Gunduz <devrim@gunduz.org> - 2.2.0-3PGDG
+- Add SLES 16 support
+- Modernise spec file, use cmake macros.
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.2.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Jul 31 2025 Devrim Gunduz <devrim@gunduz.org> - 2.2.0-1PGDG
+- Update to 2.2.0 on RHEL 9+ and Fedora per changes described at:
+  https://gitlab.com/sfcgal/SFCGAL/-/releases/v2.2.0
+
+* Wed May 14 2025 Devrim Gunduz <devrim@gunduz.org> - 2.1.0-1PGDG
+- Update to 2.1.0 on RHEL and Fedora per changes described at:
+  https://gitlab.com/sfcgal/SFCGAL/-/releases/v2.1.0
+
+* Mon Apr 7 2025 Devrim Gunduz <devrim@gunduz.org> - 2.0.0-3PGDG
+- Add missing BRs.
+
+* Sat Dec 28 2024 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-2PGDG
+- Update to 1.4.1 on SLES 15
+
+* Mon Dec 16 2024 Devrim Gunduz <devrim@gunduz.org> - 2.0.0-2PGDG
+- Add RHEL 10 support
+
 * Thu Oct 10 2024 Devrim Gunduz <devrim@gunduz.org> - 2.0.0-1PGDG
 - Update to 2.0.0 on RHEL and Fedora per changes described at:
   https://gitlab.com/sfcgal/SFCGAL/-/releases/v2.0.0

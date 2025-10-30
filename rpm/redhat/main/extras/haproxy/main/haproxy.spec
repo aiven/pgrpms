@@ -7,28 +7,24 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	3.0.6
+Version:	3.2.6
 Release:	1PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
 
 URL:		https://www.haproxy.org/
-Source0:	https://www.haproxy.org/download/3.0/src/%{name}-%{version}.tar.gz
+Source0:	https://www.haproxy.org/download/3.2/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
 Source4:	%{name}.sysconfig
 Source5:	halog.1
+Source6:	%{name}-sysusers.conf
+Source7:	%{name}-tmpfiles.d
 
 BuildRequires:	gcc lua-devel pcre2-devel make
 BuildRequires:	openssl-devel systemd-devel systemd
-
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
-Requires(pre):	shadow-utils
-%else
-Requires(pre):	shadow
-%endif
 
 %{?systemd_requires}
 
@@ -56,27 +52,27 @@ regparm_opts="USE_REGPARM=1"
 %endif
 
 %{__make} %{?_smp_mflags} CPU="generic" TARGET="linux-glibc" USE_OPENSSL=1 USE_PCRE2=1 USE_SLZ=1 USE_LUA=1 USE_CRYPT_H=1 USE_SYSTEMD=1 USE_LINUX_TPROXY=1 USE_GETADDRINFO=1 USE_PROMEX=1 DEFINE=-DMAX_SESS_STKCTR=12 ${regparm_opts} \
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 	ADDLIB="%{build_ldflags}" \
 %endif
 	ADDINC="%{build_cflags}"
 
 %{__make} admin/halog/halog \
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 	ADDLIB="%{build_ldflags}" \
 %endif
 	ADDINC="%{build_cflags}"
 
 pushd admin/iprange
 %{__make} \
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 	LDFLAGS="%{build_ldflags}" \
 %endif
 	OPTIMIZE="%{build_cflags}"
 popd
 
 %install
-%{__make} install-bin DESTDIR=%{buildroot} PREFIX=%{_prefix} TARGET="linux2628"
+%{__make} install-bin DESTDIR=%{buildroot} PREFIX=%{_prefix} SBINDIR=%{_sbindir} TARGET="linux2628"
 %{__make} install-man DESTDIR=%{buildroot} PREFIX=%{_prefix}
 
 %{__install} -p -D -m 0644 %{SOURCE1} %{buildroot}%{_unitdir}/%{name}.service
@@ -107,13 +103,13 @@ do
     %{__rm} -f $textfile.old
 done
 
+%{__install} -m 0644 -D %{SOURCE6} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
+
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
+
 %pre
-getent group %{haproxy_group} >/dev/null || \
-    groupadd -r %{haproxy_group}
-getent passwd %{haproxy_user} >/dev/null || \
-    useradd -r -g %{haproxy_user} -d %{haproxy_homedir} \
-    -s /sbin/nologin -c "haproxy" %{haproxy_user}
-exit 0
+%sysusers_create_package %{name} %SOURCE6
 
 %post
 %systemd_post %{name}.service
@@ -126,7 +122,7 @@ exit 0
 
 %files
 %doc doc/* examples/*
-%doc CHANGELOG README VERSION
+%doc CHANGELOG VERSION
 %license LICENSE
 %dir %{haproxy_homedir}
 %dir %{haproxy_confdir}
@@ -141,8 +137,71 @@ exit 0
 %{_bindir}/iprange
 %{_bindir}/ip6range
 %{_mandir}/man1/*
+%{_sysusersdir}/%{name}-pgdg.conf
+%{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Mon Oct 6 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.6-1PGDG
+- Update to 3.2.6 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg46185.html
+
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.5-2PGDG
+- Add sysusers.d and tmpfiles.d config file to allow rpm to create
+  users/groups automatically.
+
+* Wed Sep 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.5-1PGDG
+- Update to 3.2.5 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg46051.html
+
+* Mon Aug 18 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.4-1PGDG
+- Update to 3.2.4 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg46166.html
+
+* Wed Jul 23 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.3-1PGDG
+- Update to 3.2.3 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45983.html
+  https://www.mail-archive.com/haproxy@formilux.org/msg45965.html
+
+* Mon Jun 16 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.1-1PGDG
+- Update to 3.2.1 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45947.html
+
+* Wed Jun 4 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.0-1PGDG
+- Update to 3.2.0 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45917.html
+
+* Wed Apr 23 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.7-1PGDG
+- Update to 3.1.7 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45795.html
+
+* Mon Mar 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.6-1PGDG
+- Update to 3.1.6 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45683.html
+
+* Thu Feb 20 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.5-1PGDG
+- Update to 3.1.5 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45610.html
+
+* Wed Feb 19 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.4-1PGDG
+- Update to 3.1.4 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45606.html
+
+* Tue Feb 4 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.3-1PGDG
+- Update to 3.1.3 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45567.html
+
+* Fri Jan 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.1.2-1PGDG
+- Update to 3.1.2 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45549.html
+
+* Mon Dec 16 2024 Devrim Gündüz <devrim@gunduz.org> 3.1.1-1PGDG
+- Update to 3.1.1 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45482.html
+
+* Fri Dec 6 2024 Devrim Gündüz <devrim@gunduz.org> 3.1.0-1PGDG
+- Update to 3.1.0 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg45435.html
+
 * Sat Nov 9 2024 - Devrim Gündüz <devrim@gunduz.org> 3.0.6-1PGDG
 - Update to 3.0.6 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg45411.html

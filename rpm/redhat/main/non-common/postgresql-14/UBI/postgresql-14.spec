@@ -65,7 +65,7 @@
 Summary:	PostgreSQL client programs and libraries for Red Hat's UBI image
 Name:		%{sname}%{pgmajorversion}
 Version:	14.1
-Release:	1PGDG_UBI%{?dist}
+Release:	2PGDG_UBI%{?dist}
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
 
@@ -395,7 +395,7 @@ Requires:	llvm
 Requires:	llvm11
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-Requires:	llvm => 5.0
+Requires:	llvm >= 5.0
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -1248,6 +1248,12 @@ fi
 %endif
 
 %changelog
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 14.1_2PGDG_UBI
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
 * Mon Jan 10 2022 Devrim Gündüz <devrim@gunduz.org> - 14.1_1-UBI
 - Update to 14.1
 

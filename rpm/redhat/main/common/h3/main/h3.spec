@@ -3,11 +3,11 @@
 
 Summary:	A Hexagonal Hierarchical Geospatial Indexing System
 Name:		%{sname}
-Version:	4.1.0
-Release:	2PGDG%{dist}
+Version:	4.3.0
+Release:	1PGDG%{dist}
 License:	Apache
-Source0:	https://github.com/uber/h3/archive/refs/tags/v%{version}.tar.gz
-URL:		https://github.com/uber/h3
+Source0:	https://github.com/uber/%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/uber/%{sname}
 BuildRequires:	gcc cmake libtool
 
 %description
@@ -34,7 +34,7 @@ for h3.
 pushd build
 %if 0%{?suse_version} >= 1315
 cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr -DCMAKE_BUILD_TYPE=Release \
-	-DBUILD_SHARED_LIBS:BOOL=ON  ..
+	-DBUILD_SHARED_LIBS:BOOL=ON ..
 %else
 %cmake3 -DCMAKE_BUILD_TYPE=Release ..
 %endif
@@ -55,7 +55,6 @@ popd
 %postun	-p /sbin/ldconfig
 
 %files
-%defattr(644,root,root,755)
 %license LICENSE
 %doc README.md
 %{_bindir}/cellToBoundary
@@ -65,18 +64,38 @@ popd
 %{_bindir}/cellToLocalIj
 %{_bindir}/gridDisk
 %{_bindir}/gridDiskUnsafe
-%{_bindir}/h3
+%{_bindir}/%{sname}
 %{_bindir}/h3ToComponents
 %{_bindir}/h3ToHier
 %{_bindir}/latLngToCell
 %{_bindir}/localIjToCell
-/usr/lib/libh3.so*
+%{_libdir}/libh3.so*
 
 %files devel
 %{_includedir}/h3api.h
-/usr/lib/cmake/%{sname}/*.cmake
+%{_libdir}/cmake/%{sname}/*.cmake
 
 %changelog
+* Wed Jun 18 2025 Devrim Gündüz <devrim@gunduz.org> - 4.3.0-1PGDG
+- Update to 4.3.0 per changes described at:
+  https://github.com/uber/h3/releases/tag/v4.3.0
+
+* Wed Mar 12 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.1-1PGDG
+- Update to 4.2.1 per changes described at:
+  https://github.com/uber/h3/releases/tag/v4.2.1
+
+* Tue Feb 11 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-3PGDG
+- Revert the changes in 4.2.0-2 as new h3-pg does not need them.
+
+* Wed Feb 5 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-2PGDG
+- Install more header files along with -devel subpackage to build
+  h3-pg
+- Fix permissions of the binary files
+
+* Fri Dec 6 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1PGDG
+- Update to 4.2.0 per changes described at:
+  https://github.com/uber/h3/releases/tag/v4.2.0
+
 * Sun Feb 18 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2PGDG
 - Fix SLES-15 builds
 

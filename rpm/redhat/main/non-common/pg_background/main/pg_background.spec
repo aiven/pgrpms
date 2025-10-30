@@ -4,33 +4,40 @@
 
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.3
-Release:	1PGDG%{?dist}
+Version:	1.5
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	krb5-devel openssl-devel
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
-This module allows user to arbitrary command in a background worker and
-gives capability to users to launch
+This extension allows you to execute arbitrary SQL commands in background
+worker processes within PostgreSQL. It provides a convenient way to offload
+long-running tasks, perform operations asynchronously, and implement
+autonomous transactions.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_background
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
-Requires:	llvm => 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_background
+This package provides JIT support for pg_background
 %endif
 
 %prep
@@ -61,6 +68,26 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.5-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Sep 4 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-1PGDG
+- Update to 1.5 per changes described at:
+  https://github.com/vibhorkum/pg_background/releases/tag/v1.4
+  https://github.com/vibhorkum/pg_background/releases/tag/v1.5
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3-3PGDG
+- Add missing BRs
+
+* Mon Jan 6 2025 Devrim Gündüz <devrim@gunduz.org> - 1.3-2PGDG
+- Update description
+
 * Tue Oct 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.3-1PGDG
 - Update to 1.3 per changes described at:
   https://github.com/vibhorkum/pg_background/releases/tag/v1.3

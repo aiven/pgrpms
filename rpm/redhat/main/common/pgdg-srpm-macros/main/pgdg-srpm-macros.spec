@@ -1,46 +1,63 @@
-%global debug_package %{nil}
 
-%if 0%{?fedora} || 0%{?rhel} >= 7
+%if 0%{?fedora} || 0%{?rhel}
 %global macros_dir %{_rpmconfigdir}/macros.d
+BuildArch:	noarch
 %else
 %global macros_dir %{_sysconfdir}/rpm
 %endif
 
-%if 0%{?fedora} >= 36 || 0%{?rhel} >= 8
-BuildArch:	noarch
-%endif
-
 Name:		pgdg-srpm-macros
-Version:	1.0.44
+Version:	1.0.51
 Release:	1PGDG%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
 License:	PostgreSQL
-URL:		https://yum.PostgreSQL.org
-Source0:	macros.pgdg-postgresql
-Source1:	COPYRIGHT
-Source2:	AUTHORS
+URL:		https://github.com/pgdg-packaging/%{name}
+Source0:	https://github.com/pgdg-packaging/%{name}/archive/refs/tags/%{version}.tar.gz
 
 %description
 A set of macros for building PostgreSQL PGDG packages. 3rd party packagers can
 override these macros and use their own.
 
 %prep
-%setup -c -T
-%{__cp} %{SOURCE1} %{SOURCE2} .
+%setup -q
 
 %build
 echo no build stage needed
 
 %install
-%{__install} -p -D -m 0644 %{SOURCE0} %{buildroot}/%{macros_dir}/macros.pgdg-postgresql
+%{__install} -p -D -m 0644 macros.pgdg-postgresql %{buildroot}/%{macros_dir}/macros.pgdg-postgresql
 
 %files
-%license COPYRIGHT
-%doc AUTHORS
+%license LICENSE.txt
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Thu Sep 18 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.51-1PGDG
+- Update to 1.0.51 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.51
+
+* Tue Aug 26 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.50-1PGDG
+- Update to 1.0.50 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.50
+
+* Fri May 23 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.49-1PGDG
+- Update to 1.0.49 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.49
+
+* Wed Apr 2 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.48-1PGDG
+- Update to 1.0.48 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.48
+
+* Thu Feb 27 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.47-1PGDG
+- Switch to the new repository.
+
+* Thu Feb 27 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.46-1PGDG
+- Remove obsoleted entries from the macros file.
+
+* Mon Dec 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.45-1PGDG
+- Add GeOS 3.10 and update PROJ to 9.5.1
+
 * Mon Sep 16 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.44-1PGDG
 - Add PROJ 9.5
 

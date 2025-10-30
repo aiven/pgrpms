@@ -3,8 +3,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.6
-Release:	4PGDG%{?dist}
+Version:	1.0.8
+Release:	3PGDG%{?dist}
 Summary:	PostgreSQL background worker to report wether a node is a replication master or standby
 License:	PostgreSQL
 URL:		https://github.com/mhagander/%{sname}
@@ -12,8 +12,6 @@ Source0:	https://github.com/mhagander/%{sname}/archive/%{version}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.12
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 1.0.3-2
 
 %description
 bgw_replstatus is a tiny background worker to cheaply report the
@@ -35,17 +33,21 @@ checking the status.
 %package llvmjit
 Summary:	Just-in-time compilation support for bgw_replstatus
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for bgw_replstatus
+This package provides JIT support for bgw_replstatus
 %endif
 
 %prep
@@ -69,6 +71,23 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.0.8-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed May 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.8-1PGDG
+- Update to 1.0.8 per changes described at:
+  https://github.com/mhagander/bgw_replstatus/releases/tag/1.0.8
+  https://github.com/mhagander/bgw_replstatus/releases/tag/1.0.7
+
+* Fri Feb 21 2025 Devrim Gunduz <devrim@gunduz.org> - 1.0.6-5PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.0.6-4PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

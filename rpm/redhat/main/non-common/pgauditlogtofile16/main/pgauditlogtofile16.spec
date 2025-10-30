@@ -4,44 +4,56 @@
 
 Summary:	PostgreSQL Audit Log To File Extension
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.3
+Version:	1.7.5
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/fmbiete/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/fmbiete/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
-BuildRequires:	pgdg-srpm-macros
+BuildRequires:	krb5-devel
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server pgaudit_%{pgmajorversion}
 
 %description
-The PostgreSQL Audit Log to File extension (pgauditlogtofile)
-redirect PostgreSQL Audit extension (pgaudit) output to an
-independent file.
+pgAudit Log to File is an addon to pgAudit than will redirect audit log lines
+to an independent file, instead of using PostgreSQL server logger.
 
-The goal of the PostgreSQL Audit Log to file extension (pgauditlogtofile)
-is to provide PostgreSQL users with capability to produce audit logs
-often required to comply with government, financial, or ISO certifications.
+This will allow us to have an audit file that we can easily rotate without
+polluting server logs with those messages.
 
-An audit is an official inspection of an individual's or organization's
-accounts, typically by an independent body. The information gathered by
-the PostgreSQL Audit extension (pgaudit) is properly called an audit
-trail or audit log. The term audit log is used in this documentation.
+Audit logs in heavily used systems can grow very fast. This extension allows
+to automatically rotate the files based in a number of minutes.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pgauditlogtofile
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pgauditlogtofile
+This package provides JIT support for pgauditlogtofile
 %endif
 
 %prep
@@ -72,6 +84,46 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Oct 20 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.5-1PGDG
+- Update to 1.7.5 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.5
+
+* Mon Oct 13 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.4-1PGDG
+- Update to 1.7.4 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.4
+
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.3-2PGDG
+- Rebuild because of RPM signing issue.
+
+* Sat Oct 4 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.3-1PGDG
+- Update to 1.7.3 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.3
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.2
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.7.1-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Jul 29 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.1-2PGDG
+- Rebuild because of RPM signing issue.
+
+* Mon Jul 28 2025 Devrim Gunduz <devrim@gunduz.org> - 1.7.1-1PGDG
+- Update to 1.7.1 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.0
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.7.1
+
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 1.6.4-3PGDG
+- Add missing BRs
+
+* Sat Jan 4 2025 Devrim Gunduz <devrim@gunduz.org> - 1.6.4-2PGDG
+- Update package description and LLVM dependencies.
+
+* Mon Dec 16 2024 Devrim Gunduz <devrim@gunduz.org> - 1.6.4-1PGDG
+- Update to 1.6.4 per changes described at:
+  https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.6.4
+
 * Mon Oct 28 2024 Devrim Gunduz <devrim@gunduz.org> - 1.6.3-1PGDG
 - Update to 1.6.3 per changes described at:
   https://github.com/fmbiete/pgauditlogtofile/releases/tag/v1.6.3

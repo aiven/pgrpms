@@ -4,13 +4,12 @@
 
 Summary:	PostgreSQL and Greenplum job scheduler
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.7
+Version:	2.1.27
 Release:	1PGDG%{?dist}
 License:	MIT
-Group:		Applications/Databases
 URL:		https://github.com/RekGRpth/%{sname}
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel wget
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -21,17 +20,21 @@ asynchronously.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_task
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_task
+This package provides JIT support for pg_task
 %endif
 
 %prep
@@ -62,6 +65,22 @@ This packages provides JIT support for pg_task
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.27-1PGDG
+- Update to 2.1.27
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.1.7-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Feb 26 2025 - Devrim Gündüz <devrim@gunduz.org> - 2.1.7-3PGDG
+- Add missing BR
+
+* Sat Jan 11 2025 - Devrim Gündüz <devrim@gunduz.org> - 2.1.7-2PGDG
+- Update LLVM dependencies
+
 * Tue Sep 24 2024 - Devrim Gündüz <devrim@gunduz.org> - 2.1.7-1PGDG
 - Update to 2.1.7
 

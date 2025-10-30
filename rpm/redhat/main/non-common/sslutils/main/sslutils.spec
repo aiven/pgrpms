@@ -5,31 +5,36 @@
 Summary:	SSL Utils for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.4
-Release:	1PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
-BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel, net-snmp-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
-Required extension for Postgres Enterprise Manager (PEM) Server
+SSLUtils is a Postgres extension that provides SSL certificate generation
+functions to Postgres.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for sslutils
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for sslutils
+This package provides JIT support for sslutils
 %endif
 
 %prep
@@ -71,6 +76,19 @@ strip %{buildroot}%{pginstdir}/lib/*.so
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.4-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.4-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Jan 29 2025 Devrim Gündüz <devrim@gunduz.org> - 1.4-2PGDG
+- Update package description and LLVM dependencies.
+- Remove redundant BR
+
 * Mon Aug 12 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4-1PGDG
 - Update to 1.4
 

@@ -5,36 +5,41 @@
 Name:		%{sname}_%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
 Version:	2.4.2
-Release:	2PGDG%{?dist}
-License:	BSD
+Release:	5PGDG%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/RhodiumToad/ip4r
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 Provides:	postgresql-ip4r = %{version}-%{release}
 Obsoletes:	%{sname}%{pgmajorversion} < 2.4.1-2
 
 %description
-ip4, ip4r, ip6, ip6r, ipaddress and iprange are types that contain a single
-IPv4/IPv6 address and a range of IPv4/IPv6 addresses respectively. They can
-be used as a more flexible, indexable version of the cidr type.
+ip4r is IPv4/v6 and IPv4/v6 range index type for PostgreSQL. ip4, ip4r, ip6,
+ip6r, ipaddress and iprange are types that contain a single IPv4/IPv6 address
+and a range of IPv4/IPv6 addresses respectively. They can be used as a more
+flexible, indexable version of the cidr type.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for ip4r
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for ip4r
+This package provides JIT support for ip4r
 %endif
 
 %prep
@@ -62,6 +67,18 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 2.4.2-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.4.2-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-3PGDG
+- Update LLVM dependencies and improve description.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

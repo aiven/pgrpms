@@ -5,7 +5,7 @@
 %global	powawebdir  %{_datadir}/%{name}
 
 %global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -14,7 +14,7 @@
 
 Summary:	The user interface of PoWA
 Name:		%{sname}
-Version:	4.2.0
+Version:	5.0.2
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-web/archive/refs/tags/%{version}.tar.gz
@@ -54,8 +54,8 @@ This is the user interface of POWA.
 
 %install
 %{__rm} -rf %{buildroot}
-
 %{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+
 # Install sample conf file
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
 %{__install} powa-web.conf-dist %{buildroot}%{_sysconfdir}
@@ -74,6 +74,21 @@ This is the user interface of POWA.
 %{_unitdir}/%{sname}.service
 
 %changelog
+* Tue Jul 15 2025 Devrim Gunduz <devrim@gunduz.org> - 5.0.2-1PGDG
+- Update to 5.0.2 for changes described at
+  https://github.com/powa-team/powa-web/releases/tag/5.0.2
+
+* Tue Dec 17 2024 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-2PGDG
+- Add RHEL 10 support
+
+* Mon Dec 9 2024 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-1PGDG
+- Update to 5.0.1 for changes described at
+  https://github.com/powa-team/powa-web/releases/tag/5.0.1
+
+* Tue Nov 12 2024 Devrim Gunduz <devrim@gunduz.org> - 5.0.0-1PGDG
+- Update to 5.0.0 for changes described at
+  https://github.com/powa-team/powa-web/releases/tag/5.0.0
+
 * Wed Sep 20 2023 Devrim Gunduz <devrim@gunduz.org> - 4.2.0-1PGDG
 - Update to 4.2.0
 - Trim changelog

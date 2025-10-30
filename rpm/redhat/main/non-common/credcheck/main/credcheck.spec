@@ -3,14 +3,27 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.8
+Version:	4.2
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
 Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros >= 1.0.27
+BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -25,17 +38,21 @@ check_password_hook hook.
 %package llvmjit
 Summary:	Just-in-time compilation support for credcheck
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for credcheck
+This package provides JIT support for credcheck
 %endif
 
 %prep
@@ -61,6 +78,35 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Fri Oct 24 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2-1PGDG
+- Update to 4.2 per changes described at
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.2
+
+* Mon Oct 20 2025 Devrim Gunduz <devrim@gunduz.org> - 4.1-1PGDG
+- Update to 4.1 per changes described at
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.1
+- Update OpenSSL dependencies
+
+* Thu Oct 16 2025 Devrim Gunduz <devrim@gunduz.org> - 4.0-1PGDG
+- Update to 4.0 per changes described at
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.0
+
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 3.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.0-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 3.0-2PGDG
+- Add missing BR
+
+* Thu Jan 2 2025 Devrim Gunduz <devrim@gunduz.org> - 3.0-1PGDG
+- Update to 3.0 per changes described at
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v3.0
+
 * Mon Aug 5 2024 Devrim Gunduz <devrim@gunduz.org> - 2.8-1PGDG
 - Update to 2.8 per changes described at
   https://github.com/MigOpsRepos/credcheck/releases/tag/v2.8

@@ -4,12 +4,31 @@
 
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1
+Version:	2.2
 Release:	3PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
+# All supported distros have libselinux-devel package:
+BuildRequires:	libselinux-devel >= 2.0.93
+# SLES: SLES 15 does not have selinux-policy packageç
+# RHEL/Fedora has selinux-policy:
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	selinux-policy >= 3.9.13
+%endif
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
+BuildRequires:	libxml2-devel libxslt-devel openssl-devel pam-devel
+BuildRequires:	krb5-devel readline-devel zlib-devel
+
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 
 %description
@@ -27,17 +46,21 @@ commands to configure synchronous streaming replication.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_auto_failover
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_auto_failover
+This package provides JIT support for pg_auto_failover
 %endif
 
 %prep
@@ -71,6 +94,25 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.2-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Apr 3 2025 Devrim Gunduz <devrim@gunduz.org> - 2.2-1PGDG
+- Update to 2.2, per changes described at:
+  https://github.com/hapostgres/pg_auto_failover/releases/tag/v2.2
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1-5PGDG
+- Add missing BRs
+
+* Mon Jan 6 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1-4PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.1-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

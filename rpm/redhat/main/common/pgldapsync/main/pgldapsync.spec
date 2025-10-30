@@ -1,6 +1,6 @@
 %global sname pgldapsync
 
-%if 0%{?fedora} >= 38
+%if 0%{?fedora} >= 38 || 0%{?rhel} >= 10
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -10,20 +10,16 @@
 Summary:	A tool for syncing LDAP users to Postgres Roles
 Name:		%{sname}
 Version:	1.0.0
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
-URL:		https://github.com/enterprisedb/pgldapsync
-Source0:	https://github.com/EnterpriseDB/pgldapsync/archive/refs/tags/pgldapsync-%{version}.tar.gz
+URL:		https://github.com/enterprisedb/%{sname}
+Source0:	https://github.com/EnterpriseDB/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 
 BuildArch:	noarch
 BuildRequires:	python3-devel >= 3.5 pgdg-srpm-macros >= 1.0.17
 
 Requires:	libpq5 >= 10.0 python3-psycopg2
-%if 0%{?rhel} && 0%{?rhel} == 7
-Requires:	python36-ldap3
-%else
 Requires:	python3-ldap3
-%endif
 
 %description
 This Python module allows you to synchronise Postgres login roles with users
@@ -67,6 +63,9 @@ for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\
 %{python3_sitelib}/%{sname}/pgutils/__pycache__/*.py*
 
 %changelog
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-6PGDG
+- Add RHEL 10 support and remove RHEL 7 support
+
 * Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.0.0-5PGDG
 - Force creation of __pycache__ directories and their contents in
   SLES *too*.

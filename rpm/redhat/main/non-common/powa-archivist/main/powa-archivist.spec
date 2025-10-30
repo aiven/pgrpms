@@ -2,12 +2,12 @@
 %global sname powa
 
 # Powa archivist version
-%global powamajorversion 4
-%global powamidversion 2
-%global powaminorversion 2
+%global powamajorversion 5
+%global powamidversion 0
+%global powaminorversion 3
 
 %global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -19,11 +19,11 @@
 Summary:	PostgreSQL Workload Analyzer Archivist
 Name:		%{sname}-archivist_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	2PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 URL:		https://powa.readthedocs.io/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 
 %description
 PoWA is PostgreSQL Workload Analyzer that gathers performance stats and
@@ -40,17 +40,21 @@ monitor and tune your PostgreSQL servers.
 %package llvmjit
 Summary:	Just-in-time compilation support for powa-archivist
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for powa-archivist
+This package provides JIT support for powa-archivist
 %endif
 
 %prep
@@ -84,6 +88,34 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 5.0.3-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-2PGDG
+- Rebuild
+
+* Sat Jun 7 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-1PGDG
+- Update 5.0.3 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_5_0_3
+
+* Sun Apr 13 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.2-1PGDG
+- Update 5.0.2 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_5_0_2
+
+* Sun Jan 5 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.1-1PGDG
+- Update 5.0.1 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_5_0_1
+
+* Mon Dec 9 2024 Devrim Gündüz <devrim@gunduz.org> - 5.0.0-1PGDG
+- Update 5.0.0 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_5_0_0
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

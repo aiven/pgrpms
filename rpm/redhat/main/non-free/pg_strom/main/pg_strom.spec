@@ -1,14 +1,15 @@
+%global debug_package %{nil}
 %global	sname	pg_strom
 %global __cuda_major_version 12
-%global __cuda_minor_version 6
+%global __cuda_minor_version 2
 %global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.2.2
-Release:	1PGDG%{?dist}
+Version:	6.0
+Release:	2PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
@@ -16,10 +17,10 @@ Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cuda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
+BuildRequires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 BuildRequires:	nvidia-driver-cuda-libs
 Requires:	nvidia-driver-cuda-libs
-Requires:	cuda-%{__cuda_major_version}-%{__cuda_minor_version} >= %{__cuda_major_version}
+Requires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
 # for /sbin/ldconfig
@@ -27,8 +28,13 @@ Requires(post):		glibc
 Requires(postun):	glibc
 
 %description
-PG-Strom is an extension for PostgreSQL, to accelerate analytic queries
-towards large data set using the capability of GPU devices.
+PG-Strom is an extension for PostgreSQL database. It is designed to accelerate
+mostly batch and analytics workloads with utilization of GPU and NVME-SSD, and
+Apache Arrow columnar.
+
+By utilization of GPU (Graphic Processor Unit) device which has thousands
+cores per chip, it enables to accelerate SQL workloads for data analytics or
+batch processing to big data set.
 
 %if %llvm
 %package llvmjit
@@ -39,12 +45,12 @@ BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
+Requires:	llvm >= 17.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_strom
+This package provides JIT support for pg_strom
 %endif
 
 %prep
@@ -93,6 +99,23 @@ export CUDA_PATH=%{__cuda_path}
 %endif
 
 %changelog
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 6.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Mar 31 2025 Devrim Gündüz <devrim@gunduz.org> - 6.0-1PGDG
+- Update to 6.0 per changes described at:
+  https://heterodb.github.io/pg-strom/release_v6.0/
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-3PGDG
+- Fix Cuda dependency names
+
+* Thu Feb 13 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-2PGDG
+- Update LLVM dependencies
+- Improve package description
+
 * Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 5.2.2-1PGDG
 - Update to 5.2.2
 - Update Cuda dependency to 12.6

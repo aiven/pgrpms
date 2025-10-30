@@ -14,7 +14,7 @@
 
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-%if 0%{?fedora} >= 38
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -22,15 +22,20 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.2.3
+Version:	3.2.12
 Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
 Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python3-devel
+%if 0%{?suse_version} >= 1500
+BuildRequires:	python-rpm-macros
+%else
+BuildRequires:	pyproject-rpm-macros
+%endif
 
 Requires:	libpq5 >= 10.0
 Requires:	python3-typing-extensions
@@ -43,8 +48,8 @@ programming language. At its core it fully implements the Python DB
 API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
-# Enable this package only on Fedora, which has PY 3.9:
-%if 0%{?fedora} > 39
+# Enable this package only on Fedora:
+%if 0%{?fedora} >= 40
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
@@ -74,7 +79,7 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/
 
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
-%{__ospython} setup.py build
+%pyproject_wheel
 popd
 
 %if %with_docs
@@ -89,25 +94,31 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %install
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
-%{__ospython} setup.py install --no-compile --root %{buildroot}
+%pyproject_install
 popd
 
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 
 #Only on Fedora:
-%if 0%{?fedora} > 39
+%if 0%{?fedora} >= 40
 # Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
 %{__rm} -f %{buildroot}%{python3_sitearch}/%{sname}/tests/test_async_keyword.py
 %endif
 
+%pre
+# Remove old psycopg3 directory on updates
+if [ $1 -gt 1 ] ; then
+%{__rm} -rf %{python3_sitelib}/psycopg-3*-py%{py3ver}.egg-info
+fi
+
 %files
 %defattr(-,root,root)
 %doc README.rst
 %dir %{python3_sitearch}/%{sname}
 
-%{python3_sitelib}/psycopg-%{version}-py%{py3ver}.egg-info/*
+%{python3_sitelib}/psycopg-%{version}.dist-info/
 %{python3_sitelib}/psycopg/*.py
 %{python3_sitelib}/psycopg/crdb/*.py*
 %{python3_sitelib}/psycopg/pq/*.py*
@@ -134,6 +145,56 @@ popd
 %endif
 
 %changelog
+* Mon Oct 27 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.12-1PGDG
+- Update to 3.2.12 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.12
+
+* Mon Oct 20 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.11-1PGDG
+- Update to 3.2.11 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.11
+- Switch to pyproject builds
+
+* Sat Oct 4 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.10-2PGDG
+- Add SLES 16 support
+
+* Mon Sep 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.10-1PGDG
+- Update to 3.2.10 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.10
+
+* Mon Aug 25 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.9-2PGDG
+- Forgot to bump up the version number in previous commit. Fixed.
+- Fix logic in removing "old" psycopg egg directory. Improves the
+  solution in https://github.com/pgdg-packaging/pgdg-rpms/issues/66
+
+* Mon Aug 4 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.9-1PGDG
+- Remove old psycopg3 directory on updates. Per report and patch from
+  Alexandre Pereira: https://github.com/pgdg-packaging/pgdg-rpms/issues/66
+- Update to 3.2.9 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.9
+
+* Mon May 12 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.8-1PGDG
+- Update to 3.2.8 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.8
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.7-1PGDG
+- Update to 3.2.7 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.7
+
+* Thu Mar 13 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.6-1PGDG
+- Update to 3.2.6 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.6
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.5-1PGDG
+- Update to 3.2.5 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.5
+
+* Thu Jan 16 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.4-1PGDG
+- Update to 3.2.4 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.4
+
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.3-2PGDG
+- Add RHEL 10 support
+
 * Wed Oct 2 2024 Devrim Gündüz <devrim@gunduz.org> - 3.2.3-1PGDG
 - Update to 3.2.3 per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.2.3

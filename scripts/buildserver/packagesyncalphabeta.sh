@@ -1,0 +1,89 @@
+#!/usr/bin/bash
+
+#########################################################
+#							#
+# Devrim Gündüz <devrim@gunduz.org> - 2025		#
+#							#
+#########################################################
+
+# Include common values:
+source ~/bin/global.sh
+
+# Parse named arguments
+for arg in "$@"; do
+	case $arg in
+	--build-type=*)
+		build_type="${arg#*=}"
+		shift
+		;;
+	*)
+		echo "${red}ERROR:${reset} Unknown argument: $arg"
+		echo "Usage: $0 <pg-version> --build-type=alpha|beta"
+		exit 1
+		;;
+	esac
+done
+
+# Validate build_type
+if [[ -z "$build_type" ]]; then
+	echo "${red}ERROR:${reset} --build-type is required (must be 'alpha' or 'beta')."
+	echo "Usage: $0 <pg-version> --build-type=alpha|beta"
+	exit 1
+fi
+
+if [[ "$build_type" != "alpha" && "$build_type" != "beta" ]]; then
+	echo "${red}ERROR:${reset} Invalid build-type: $build_type (must be 'alpha' or 'beta')."
+	exit 1
+fi
+
+if [[ "$build_type" == "alpha" ]]; then
+	packageSyncVersion=$pgAlphaVersion
+elif [[ "$build_type" == "beta" ]]; then
+	packageSyncVersion=$pgBetaVersion
+fi
+
+export TESTING_BASE_DIR=/var/lib/pgsql/rpm${packageSyncVersion}testing
+export TESTING_RPM_DIR=$TESTING_BASE_DIR/ALLRPMS
+export TESTING_SRPM_DIR=$TESTING_BASE_DIR/ALLSRPMS
+export TESTING_DEBUG_RPM_DIR=$TESTING_BASE_DIR/ALLDEBUGRPMS
+
+# Create directories for binary and source RPMs. This directory will help us
+# to create the repo files easily:
+mkdir -vp $TESTING_RPM_DIR
+mkdir -vp $TESTING_SRPM_DIR
+mkdir -vp $TESTING_DEBUG_RPM_DIR
+
+rm $(repomanage --old --keep=2 $TESTING_RPM_DIR/) -f
+rm $(repomanage --old --keep=2 $TESTING_SRPM_DIR/) -f
+
+# rsync binary and source RPMs to their own directories:
+echo "--------------------------------------------------------------------"
+echo "${green}Syncing PostgreSQL $packageSyncVersion testing RPMs${reset}"
+echo "--------------------------------------------------------------------"
+
+rsync --checksum -av --delete --stats $TESTING_BASE_DIR/RPMS/$osarch/ $TESTING_BASE_DIR/RPMS/noarch/ $TESTING_RPM_DIR
+rsync --checksum -av --delete --stats $TESTING_BASE_DIR/SRPMS/ $TESTING_SRPM_DIR
+
+# Move debuginfo and debugsource packages to a separate directory.
+# First clean the old ones, and then copy existing ones:
+rm -rf $TESTING_DEBUG_RPM_DIR/*
+mv $TESTING_RPM_DIR/*debuginfo* $TESTING_RPM_DIR/*debugsource* $TESTING_DEBUG_RPM_DIR/
+
+createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $TESTING_RPM_DIR
+createrepo --changelog-limit=3 --workers=4 -d --update $TESTING_SRPM_DIR
+createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $TESTING_DEBUG_RPM_DIR
+
+echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_RPM_DIR/repodata/repomd.xml
+echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_SRPM_DIR/repodata/repomd.xml
+echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_DEBUG_RPM_DIR/repodata/repomd.xml
+
+# We currently pull packages from yonada, so skip the next line:
+# rsync --checksum -ave ssh --delete $TESTING_RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/testing/$packageSyncVersion/$osdistro/$os-$osarch
+
+# Sync SRPMs to S3 bucket:
+aws s3 sync $TESTING_SRPM_DIR s3://dnf-srpms.postgresql.org20250313103537584600000001/srpms/testing/$packageSyncVersion/$osdistro/$os-$osarch --exclude "*.html"
+
+# Sync debug* RPMs to S3 bucket:
+aws s3 sync $TESTING_DEBUG_RPM_DIR s3://dnf-debuginfo.postgresql.org20250312201116649700000001/testing/debug/$packageSyncVersion/$osdistro/$os-$osarch/ --exclude "*.html"
+
+exit 0

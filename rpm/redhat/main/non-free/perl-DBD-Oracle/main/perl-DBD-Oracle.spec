@@ -1,10 +1,9 @@
 %global		name perl-DBD-Oracle
 %global		pkgname %(echo %{name}| sed 's/perl-//')
-%{!?version:%global version 1.90_5}
-%{!?oi_release:%global oi_release 23.5.0.24.07}
+%{!?version:%global version 1.91_2}
+%{!?oi_release:%global oi_release 23.26.0.0.0}
 %global		release %{oi_release}PGDG%{dist}
 %global		perl_vendorarch %(eval "$(%{__perl} -V:installvendorarch)"; echo $installvendorarch)
-%global		_use_internal_dependency_generator 0
 %global		custom_find_req %{_tmppath}/%{pkgname}-%{version}-find-requires
 %global		__find_requires %{custom_find_req}
 %global		__perl_requires %{custom_find_req}
@@ -20,18 +19,22 @@ Requires:	libaio
 Requires:	perl(:MODULE_COMPAT_%(eval "$(%{__perl} -V:version)"; echo $version))
 Requires:	perl(ExtUtils::MakeMaker) >= 6.30
 BuildRequires:	perl(DBI) >= 1.51 perl(ExtUtils::MakeMaker) >= 6.30
+%if 0%{?rhel} == 8
+BuildRequires:	perl-interpreter
+%endif
+%if 0%{?rhel} >= 9
+BuildRequires:	perl-filetest
+%endif
 Requires:	perl(DBI) >= 1.51
 Requires:	oracle-instantclient-basic = %{oi_release}
 BuildRequires:	oracle-instantclient-devel = %{oi_release}
 BuildRequires:	oracle-instantclient-sqlplus = %{oi_release}
 Provides:	perl(DBD-Oracle) = %{version}
+Provides:	perl(DBD::Oracle) = %{version}
 
 %description
 DBD::Oracle is a Perl module which works with the DBI module to provide
 access to Oracle databases.
-This documentation describes driver specific behaviour and restrictions.
-It is not supposed to be used as the only reference for the user.
-In any case consult the DBI documentation first!
 
 %prep
 %setup -q -n %{pkgname}-%{version}
@@ -66,6 +69,24 @@ chmod 755 %{custom_find_req}
 %{_mandir}/man3/*
 
 %changelog
+* Tue Oct 14 2025 Devrim Gündüz <devrim@gunduz.org> - 1.91_2-23.26.0.0.0PGDG
+- Update Oracle instant client version to 23.26.0.0.0
+
+* Sun Oct 5 2025 Devrim Gündüz <devrim@gunduz.org> - 1.91_2-23.9.0.25.07
+- Update Oracle instant client version to 23.9.0.25.07
+
+* Wed May 28 2025 Devrim Gündüz <devrim@gunduz.org> - 1.91_2-23.8.0.0.0
+- Update to 1.91_2
+- Update Oracle instant client version to 23.8.0.25.04
+
+* Mon Feb 10 2025 Devrim Gündüz <devrim@gunduz.org> - 1.90_5-23.7.0.25.01
+- Update Oracle instant client version to 23.7.0.25.01
+
+* Thu Dec 19 2024 Devrim Gündüz <devrim@gunduz.org> - 1.90_5-23.6.0.24.10
+- Update Oracle instant client version to 23.6.0.24.10
+- Provide perl(DBD::Oracle) per report and patch from Sébastien Lardière:
+  https://redmine.postgresql.org/issues/8074
+
 * Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 1.90_5-23.5.0.24.07
 - Update Oracle instant client version to 23.5.0.24.07
 

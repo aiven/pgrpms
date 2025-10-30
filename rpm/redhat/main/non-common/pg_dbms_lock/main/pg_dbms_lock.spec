@@ -3,10 +3,14 @@
 Summary:	PostgreSQL extension to manage advisory locks in a way compatible to Oracle DBMS_LOCK package.
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.0
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/hexacluster/%{sname}/
 Source0:	https://github.com/HexaCluster/%{sname}/archive/refs/tags/v%{version}.tar.gz
+BuildRequires:	postgresql%{pgmajorversion}-devel make
+Requires:	postgresql%{pgmajorversion}-server
+Requires:	pg_background_%{pgmajorversion}
+
 BuildArch:	noarch
 
 %description
@@ -34,5 +38,11 @@ PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=%{buildroot
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Jun 30 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0-3PGDG
+- Add missing pg_background dependency
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0-2PGDG
+- Add missing BRs and dependency.
+
 * Mon Dec 4 2023 Devrim Gündüz <devrim@gunduz.org> - 1.0-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository.

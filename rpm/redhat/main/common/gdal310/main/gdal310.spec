@@ -5,15 +5,11 @@
 
 %global sname gdal
 
-%if 0%{?fedora} == 40
-%{!?gdaljava:%global gdaljava 0}
-%else
 %{!?gdaljava:%global gdaljava 1}
-%endif
 
 %pgdg_set_gis_variables
 
-%if 0%{?fedora} >= 39
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -28,18 +24,26 @@
 %global geosfullversion %geos313fullversion
 %global geosmajorversion %geos313majorversion
 %global geosinstdir %geos313instdir
-%global	projmajorversion %proj95majorversion
-%global	projfullversion %proj95fullversion
-%global	projinstdir %proj95instdir
 
 %global gdalinstdir /usr/%{name}
 %global gdalsomajorversion	36
 %global libspatialitemajorversion	50
 
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1499
-%global g2clib_enabled 1
+# Override PROJ:
+%if 0%{?rhel} == 8
+%global	projmajorversion %proj95majorversion
+%global	projfullversion %proj95fullversion
+%global	projinstdir %proj95instdir
 %else
-%global g2clib_enabled 0
+%global	projmajorversion %proj96majorversion
+%global	projfullversion %proj96fullversion
+%global	projinstdir %proj96instdir
+%endif
+
+%if 0%{?suse_version} <= 1500 || 0%{?rhel} >= 10
+%global	g2clib_enabled 0
+%else
+%global	g2clib_enabled 1
 %endif
 
 # Enable/disable generating refmans
@@ -48,8 +52,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
 Name:		%{sname}310
-Version:	3.10.0
-Release:	1PGDG%{?dist}
+Version:	3.10.3
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -74,9 +78,8 @@ BuildRequires:	lz4-devel bash-completion
 Requires:	lz4
 %endif
 
-BuildRequires:	cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.44
+BuildRequires:	ant cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.44
 
-BuildRequires:	ant
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
 BuildRequires:	chrpath
@@ -85,6 +88,7 @@ BuildRequires:	fontconfig-devel
 BuildRequires:	freexl-devel
 %if 0%{?g2clib_enabled}
 BuildRequires:	g2clib-devel
+BuildRequires:	g2clib-static
 %endif
 BuildRequires:	geos%{geosmajorversion}-devel >= 3.12.2
 BuildRequires:	ghostscript
@@ -163,7 +167,6 @@ BuildRequires:	libjasper-devel
 BuildRequires:	libxerces-c-devel
 BuildRequires:	python3-numpy-devel
 %else
-BuildRequires:	g2clib-static
 BuildRequires:	libdap-devel
 BuildRequires:	expat-devel
 BuildRequires:	hdf-devel hdf-static hdf5-devel >= 1.10
@@ -171,7 +174,6 @@ BuildRequires:	jasper-devel
 BuildRequires:	java-devel >= 1:1.6.0
 BuildRequires:	json-c-devel
 BuildRequires:	libdap-devel libgta-devel
-BuildRequires:	librx-devel
 BuildRequires:	perl-devel
 BuildRequires:	perl-generators
 BuildRequires:	xerces-c-devel
@@ -184,7 +186,7 @@ BuildRequires:	python3-numpy
 BuildRequires:	python3-setuptools
 
 BuildRequires:	qhull-devel
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 9
 BuildRequires:	SFCGAL-devel >= 2.0.0
 %endif
 %if 0%{?rhel} == 8 || 0%{?suse_version} >= 1315
@@ -245,7 +247,7 @@ Requires:	libspatialite%{libspatialitemajorversion}-devel
 Requires:	libarmadillo10
 %endif
 %endif
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
 Requires:	armadillo
 %endif
 
@@ -322,7 +324,7 @@ export CFLAGS="$RPM_OPT_FLAGS -fpic"
 export CXXFLAGS="$CFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include"
 export CPPFLAGS="$CPPFLAGS -I%{projinstdir}/include -I%{libgeotiffinstdir}/include -I%{geosinstdir}/include -I%{ogdiinstdir}/include -I%{libspatialiteinstdir}/include"
 # SLES 15 has -Itirpc on /usr/include, so use the following only on Fedora and RHEL:
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 30 || 0%{?rhel} >= 8
 export CXXFLAGS="$CFLAGS -I%{_includedir}/tirpc"
 export CPPFLAGS="$CPPFLAGS -I%{_includedir}/tirpc"
 %endif
@@ -358,7 +360,8 @@ export OGDI_CFLAGS='-I%{ogdiinstdir}/include/'
 %else
  -DBUILD_JAVA_BINDINGS=OFF \
 %endif
- -DSWIG_REGENERATE_PYTHON=OFF
+ -DSWIG_REGENERATE_PYTHON=OFF \
+ -DBUILD_CSHARP_BINDINGS=OFF
 
 %cmake_build
 
@@ -479,6 +482,33 @@ done
 %endif
 
 %changelog
+* Wed Apr 16 2025 Devrim Gunduz <devrim@gunduz.org> - 3.10.3-2PGDG
+- Rebuild against PROJ 9.6
+
+* Mon Apr 7 2025 Devrim Gunduz <devrim@gunduz.org> - 3.10.3-1PGDG
+- Update to 3.10.3 per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.10.3/NEWS.md
+- Put ant back as a BR.
+
+* Sun Mar 9 2025 Devrim Gunduz <devrim@gunduz.org> - 3.10.2-2PGDG
+- Remove redundant ant BR
+
+* Sun Feb 16 2025 Devrim Gunduz <devrim@gunduz.org> - 3.10.2-1PGDG
+- Update to 3.10.2 per changes described at:
+  https://github.com/OSGeo/gdal/blob/v3.10.2/NEWS.md
+
+* Thu Jan 30 2025 Devrim Gunduz <devrim@gunduz.org> - 3.10.1-2PGDG
+- g2clib is not available (yet) on RHEL 10 so disable it on this platform.
+
+* Mon Jan 13 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.10.1-1PGDG
+- Update to 3.10.1 per changes described at:
+  https://github.com/OSGeo/gdal/releases/tag/v3.10.1
+- Update spec file to disable building csharp bindings
+
+* Mon Dec 30 2024 Devrim Gunduz <devrim@gunduz.org> - 3.10.0-2PGDG
+- Fix linker config file
+- Re-enable Java bindings on Fedora 40
+
 * Sat Nov 9 2024 Devrim Gunduz <devrim@gunduz.org> - 3.10.0-1PGDG
 - Initial 3.10.0 packaging per changes described at:
   https://github.com/OSGeo/gdal/releases/tag/v3.10.0

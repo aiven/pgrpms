@@ -1,51 +1,60 @@
-%if 0%{?rhel} == 8
-%global __ospython %{_bindir}/python3.9
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
 %endif
-%if 0%{?rhel} >= 9 || 0%{?fedora}
-%global __ospython %{_bindir}/python3
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
 %endif
-%if 0%{?suse_version} >= 1500
-%global __ospython %{_bindir}/python3.11
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
 %endif
 
-%if 0%{?fedora} >= 38 || 0%{?suse_version} >= 1500
 %{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
+
 %global python_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
-Version:	3.5.1
-Release:	42PGDG%{?dist}
+Version:	3.6.1
+Release:	43PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
+Patch0:		%{name}-3.6.1-pyproject.patch
 BuildArch:	noarch
 
 %if 0%{?rhel} == 8
 BuildRequires:	python3-setuptools >= 39.2
-Requires:	python39 python39-attrs
-Requires:	python39-six python39-psutil
-Requires:	python3-psycopg2 >= 2.9.9
-Requires:	python39-humanize >= 3.13.1
-Requires:	python39-blessed
-Requires:	python39-wcwidth
+Requires:	python3.12 python3.12-attrs
+Requires:	python3.12-six python3.12-psutil
+Requires:	python3-psycopg2 >= 2.9.5
+Requires:	python3.12-humanize >= 3.13.1
+Requires:	python3.12-blessed
+Requires:	python3.12-wcwidth
 %endif
 
 %if 0%{?rhel} >= 9 || 0%{?fedora}
 BuildRequires:	python3-setuptools >= 53.0
-Requires:	python3-blessed
-Requires:	python3 >= 3.9 python3-attrs
-Requires:	python3-six python3-psutil
-Requires:	python3-psycopg3 >= 3.1.8
-Requires:	python3-humanize >= 2.6.0
-Requires:	python3-wcwidth
+Requires:	python3.12-blessed
+Requires:	python3.12 python3.12-attrs
+Requires:	python3.12-six python3.12-psutil
+Requires:	python3.12-psycopg2 >= 2.9.10
+Requires:	python3.12-humanize >= 2.6.0
+Requires:	python3.12-wcwidth
 %endif
 
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	python311-setuptools >= 67.7.2
 Requires:	python311-blessings
 Requires:	python311 >= 3.11 python311-attrs
@@ -55,31 +64,38 @@ Requires:	python311-humanfriendly
 Requires:	python311-wcwidth
 %endif
 
+%if 0%{?suse_version} == 1600
+BuildRequires:	python3-setuptools >= 67.7.2
+Requires:	python313-blessings
+Requires:	python3 >= 3.11 python313-attrs
+Requires:	python313-six python313-psutil
+Requires:	python3-psycopg3 >= 3.1.8
+Requires:	python313-humanfriendly
+Requires:	python311-wcwidth
+%endif
+
 
 %description
 top like application for PostgreSQL server activity monitoring.
 
 %prep
 %setup -q -n %{name}-%{version}
-
+%patch -P 0 -p0
 %build
 # Change the name of the Python module in the source code. SLES packages
 # this module in a different name:
 %if 0%{?suse_version} >= 1500
 find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %endif
-
-%{__ospython} setup.py build
+%pyproject_wheel
 
 %install
-%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
-%{__mkdir} -p %{buildroot}%{_mandir}/man1/
+%pyproject_install
 
 %files
 %defattr(-,root,root)
 %{_bindir}/%{name}
-%dir %{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/
-%{python_sitelib}/%{name}-%{version}-py%{pybasever}.egg-info/*
+%{python_sitelib}/%{name}-%{version}.dist-info/*
 %{python_sitelib}/pgactivity/*.py*
 %{python_sitelib}/pgactivity/__pycache__/*.pyc
 %{python_sitelib}/pgactivity/profiles/*.conf
@@ -88,6 +104,19 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-43PGDG
+- Update RHEL 9 dependencies
+
+* Mon Oct 6 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-42PGDG
+- Update to 3.6.1 per changes described at:
+  https://github.com/dalibo/pg_activity/releases/tag/v3.6.1
+- Add SLES 16 support
+- Switch to pyproject build
+
+* Fri Feb 21 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.0-42PGDG
+- Update to 3.6.0 per changes described at:
+  https://github.com/dalibo/pg_activity/releases/tag/v3.6.0
+
 * Sun Nov 3 2024 Devrim Gündüz <devrim@gunduz.org> - 3.5.1-42PGDG
 - Bump up version number to avoid conclicts with OS packages.
 

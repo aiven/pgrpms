@@ -7,7 +7,7 @@
 
 Name:		librttopo
 Version:	1.1.0
-Release:	4PGDG%{?dist}
+Release:	42PGDG%{?dist}
 Summary:	Create and manage SQL/MM topologies
 License:	GPLv2+
 URL:		https://git.osgeo.org/gitea/rttopo/%{name}
@@ -56,6 +56,9 @@ find %{buildroot} -name '*.la' -exec rm -f {} ';'
 %{_libdir}/pkgconfig/rttopo.pc
 
 %changelog
+* Tue Dec 17 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-42PGDG
+- Beat EPEL package per report from Sagar Yedida.
+
 * Sun Sep 22 2024 Devrim Gündüz <devrim@gunduz.org> - 1.1.0-4PGDG
 - Rebuild against GeOS 3.13
 

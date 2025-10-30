@@ -5,18 +5,17 @@
 Summary:	PostgreSQL json query language with GIN indexing support
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.2
-Release:	2PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/postgrespro/%{sname}/archive/ver_%{version}.tar.gz
 URL:		https://github.com/postgrespro/%{sname}/
 
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros
+BuildRequires:	bison flex
 Requires:	postgresql%{pgmajorversion}
 
 %description
-JsQuery – is a language to query jsonb data type, introduced in
-PostgreSQL release 9.4.
+JsQuery – is a language to query jsonb data type.
 
 It's primary goal is to provide an additional functionality to jsonb
 (currently missing in PostgreSQL), such as a simple and effective way to
@@ -38,17 +37,21 @@ This package includes the development headers for the jsquery extension.
 %package llvmjit
 Summary:	Just-in-time compilation support for jsquery
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for jsquery
+This package provides JIT support for jsquery
 %endif
 
 %prep
@@ -84,6 +87,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 1.2-6PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.2-5PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 1.2-4PGDG
+- Add missing BRs
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 1.2-3PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.2-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

@@ -2,19 +2,15 @@
 
 %if %{pgmajorversion} == 15
 %global pgauditversion 17
-%global pversion 1.7.0
+%global pversion 1.7.1
 %endif
 %if %{pgmajorversion} == 14
 %global pgauditversion 16
-%global pversion 1.6.2
+%global pversion 1.6.3
 %endif
 %if %{pgmajorversion} == 13
 %global pgauditversion 15
-%global pversion 1.5.2
-%endif
-%if %{pgmajorversion} == 12
-%global pgauditversion 14
-%global pversion 1.4.3
+%global pversion 1.5.3
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -22,12 +18,12 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}%{pgauditversion}_%{pgmajorversion}
 Version:	%{pversion}
-Release:	6PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	BSD
-Source0:	https://github.com/pgaudit/pgaudit/archive/refs/tags/%{version}.tar.gz
+Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
-BuildRequires:	pgdg-srpm-macros
+BuildRequires:	openssl-devel krb5-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -46,19 +42,23 @@ trail or audit log. The term audit log is used in this documentation.
 
 %if %llvm
 %package llvmjit
-Summary:	Just-in-time compilation support for pgaudit%{pgauditversion}
+Summary:	Just-in-time compilation support for pgaudit
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pgaudit%{pgauditversion}
+This package provides JIT support for pgaudit
 %endif
 
 %prep
@@ -89,6 +89,28 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - %{pversion}-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - %{pversion}-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Mar 3 2025 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-1PGDG
+- Update to 1.7.1, 1.6.3 and 1.5.3 per changes described at:
+  https://github.com/pgaudit/pgaudit/releases/tag/1.7.1
+  https://github.com/pgaudit/pgaudit/releases/tag/1.6.3
+  https://github.com/pgaudit/pgaudit/releases/tag/1.5.3
+
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-8PGDG
+- Add missing BRs
+
+* Fri Feb 21 2025 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-7PGDG
+- Update LLVM dependencies
+- Remove redundant BR
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - %{pversion}-6PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

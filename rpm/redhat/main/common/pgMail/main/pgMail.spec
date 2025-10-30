@@ -1,7 +1,7 @@
 Summary:	Send email from inside a PostgreSQL Database
 Name:		pgMail
-Version:	1.4
-Release:	2PGDG%{?dist}
+Version:	1.5
+Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/captbrando/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/captbrando/%{name}
@@ -37,6 +37,10 @@ responsible for misconfigured servers allowing dangerous users to do bad things.
 %{_datadir}/%{name}/*.sql
 
 %changelog
+* Wed Dec 11 2024 Devrim Gündüz <devrim@gunduz.org> - 1.5-1PGDG
+- Update to 1.5 per changes described at:
+  https://github.com/captbrando/pgMail/releases/tag/v1.5
+
 * Tue Feb 20 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4-2PGDG
 - Add PGDG branding
 - Spec file cleanup

@@ -1,7 +1,7 @@
 %global sname	set_user
 
 %global setusermajver 4
-%global setusermidver 1
+%global setusermidver 2
 %global setuserminver 0
 
 %{!?llvm:%global llvm 1}
@@ -9,7 +9,7 @@
 Summary:	PostgreSQL extension allowing privilege escalation with enhanced logging and control
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{setusermajver}.%{setusermidver}.%{setuserminver}
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgaudit/%{sname}
 Source0:	https://github.com/pgaudit/%{sname}/archive/refs/tags/REL%{setusermajver}_%{setusermidver}_%{setuserminver}.tar.gz
@@ -26,17 +26,21 @@ superuser or object owner roles in order to perform needed maintenance tasks.
 %package llvmjit
 Summary:	Just-in-time compilation support for set_user
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for set_user
+This package provides JIT support for set_user
 %endif
 
 %prep
@@ -70,6 +74,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 4.2.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Sep 24 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.0-1PGDG
+  Update to 4.2.0 per changes described at
+  https://github.com/pgaudit/set_user/releases/tag/REL4_2_0
+
+* Wed Jan 29 2025 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-2PGDG
+- Update LLVM dependencies
+
 * Sun Sep 8 2024 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-1PGDG
   Update to 4.1.0 per changes described at
   https://github.com/pgaudit/set_user/releases/tag/REL4_1_0

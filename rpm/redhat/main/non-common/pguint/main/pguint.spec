@@ -4,12 +4,12 @@
 
 Summary:	Unsigned and other extra integer types for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.20231206
-Release:	2PGDG%{?dist}
-License:	BSD
+Version:	1.20250815
+Release:	3PGDG%{?dist}
+License:	PostgreSQL
 Source0:	https://github.com/petere/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/petere/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} <= 1.20200704-2
@@ -27,17 +27,21 @@ This extension provides additional integer types for PostgreSQL:
 %package llvmjit
 Summary:	Just-in-time compilation support for pguint
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pguint
+This package provides JIT support for pguint
 %endif
 
 %prep
@@ -57,6 +61,7 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %files
 %defattr(644,root,root,755)
 %doc README.md
+%license LICENSE
 %{pginstdir}/lib/uint.so
 %{pginstdir}/share/extension/uint*
 
@@ -67,6 +72,22 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.20250815-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.20250815-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Aug 18 2025 Devrim Gunduz <devrim@gunduz.org> - 1.20250815-1PGDG
+- Update to 1.20250815
+
+* Sun Jan 19 2025 Devrim Gunduz <devrim@gunduz.org> - 1.20231206-3PGDG
+- Update LLVM dependencies
+- Install license file
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 1.20231206-2PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

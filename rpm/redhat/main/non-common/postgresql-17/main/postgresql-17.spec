@@ -23,6 +23,11 @@
 %{!?runselftest:%global runselftest 0}
 %{!?selinux:%global selinux 1}
 %{!?ssl:%global ssl 1}
+%if 0%{?fedora} >= 43
+%{!?sysuserd:%global sysuserd 1}
+%else
+%{!?sysuserd:%global sysuserd 0}
+%endif
 %{!?test:%global test 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
@@ -33,23 +38,19 @@
  %{!?sdt:%global sdt 1}
 %endif
 
-%if 0%{?fedora} > 30
-%global _hardened_build 1
-%endif
-
 #Filter out some Perl "dependencies"
 %global __requires_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib|PostgreSQL::Test::BackgroundPsql)
 %global __provides_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib|PostgreSQL::Test::BackgroundPsql)
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	17.2
+Version:	17.6
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420005PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	5PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -70,16 +71,22 @@ Source17:	%{sname}-%{pgmajorversion}-setup
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
 Source18:	%{sname}-%{pgmajorversion}.service
 Source19:	%{sname}-%{pgmajorversion}-tmpfiles.d
+%if %sysuserd
+Source20:	%{sname}-%{pgmajorversion}-sysusers.conf
+%endif
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
+%if 0%{?fedora} == 43
+Patch7:		%{sname}-%{pgmajorversion}-llvm21.patch
+%endif
 
 BuildRequires:	perl glibc-devel bison >= 2.3 flex >= 2.5.35
 BuildRequires:	gcc-c++
 BuildRequires:	perl(ExtUtils::MakeMaker)
-BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
+BuildRequires:	readline-devel zlib-devel >= 1.0.4
 BuildRequires:	libxml2-devel libxslt-devel
 
 # lz4 dependency
@@ -115,11 +122,14 @@ Requires:	libicu
 %endif
 
 %if %llvm
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+%endif
 %if 0%{?fedora} || 0%{?rhel}
-BuildRequires:	llvm-devel => 17.0 clang-devel >= 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -195,16 +205,9 @@ BuildRequires:	libuuid-devel
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1500
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -229,9 +232,13 @@ if you're installing the postgresql%{pgmajorversion}-server package.
 Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libopenssl1_1
-%else
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	openssl-libs >= 1.1.1k
 %endif
 
@@ -245,7 +252,10 @@ PostgreSQL server.
 Summary:	The programs needed to create and run a PostgreSQL server
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%if ! %sysuserd
 Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
+%endif
+
 Requires:	util-linux
 # for /sbin/ldconfig
 Requires(post):		glibc
@@ -263,6 +273,7 @@ Requires(postun):	systemd
 %endif
 
 Provides:	postgresql-server >= %{version}-%{release}
+Provides:	group(postgres) user(postgres)
 
 %description server
 PostgreSQL is an advanced Object-Relational database management system (DBMS).
@@ -305,12 +316,14 @@ Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %if %llvm
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
-Requires:	llvm17-devel clang17-devel
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel}
-Requires:	llvm-devel => 17.0 clang-devel >= 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -347,11 +360,14 @@ to develop applications which will interact with a PostgreSQL server.
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libLLVM17
 %endif
+%if 0%{?suse_version} == 1600
+Requires:	libLLVM19
+%endif
 %if 0%{?fedora} || 0%{?rhel}
-Requires:	llvm => 17
+Requires:	llvm >= 19
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
@@ -432,6 +448,9 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
+%if 0%{?fedora} == 43
+%patch -P 7 -p1
+%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -453,15 +472,14 @@ CFLAGS=`echo $CFLAGS|xargs -n 1|grep -v ffast-math|xargs -n 100`
 %if 0%{?rhel}
 LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 %endif
-
 export CFLAGS
 
-%if 0%{?fedora} || 0%{?rhel}
-export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
-%if 0%{?suse_version} >= 1500
+# We need to export these even though they are under the standard
+# path. Buildfarm utilises ccache which may not be available on
+# users' instances, and that breaks extension builds as shown here:
+# https://www.postgresql.org/message-id/CACMiCkV%2BfQ4yAZqygyWx7ZQ8eWsj1AjoC6CGEUoyxY9jUm7paA%40mail.gmail.com
+# Previously reported by Muralikrishna Bandaru.
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
-%endif
 
 # These configure options must match main build
 ./configure --enable-rpath \
@@ -665,6 +683,11 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__install} -d -m 755 %{buildroot}%{pgbaseinstdir}/share/
 %{__install} -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 
+%if %sysuserd
+# Install sysusers.d config file to allow rpm to create users/groups automatically.
+%{__install} -m 0644 -D %{SOURCE20} %{buildroot}%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
+%endif
+
 %if %test
 	# tests. There are many files included here that are unnecessary,
 	# but include them anyway for completeness. We replace the original
@@ -763,9 +786,16 @@ cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checks
 %endif
 
 %pre server
+%if %sysuserd
+# We need this user to be created ASAP so that we can set up
+# ownership of some directories:
+%sysusers_create_package %{name} %SOURCE20
+%else
+# This is replaced by sysusers.d in recent OSes:
 groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
 useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
 	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+%endif
 
 %post server
 /sbin/ldconfig
@@ -887,9 +917,6 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-ld-conf		%{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
 	/sbin/ldconfig
 fi
-
-%clean
-%{__rm} -rf %{buildroot}
 
 # FILES section.
 
@@ -1101,6 +1128,9 @@ fi
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
 %{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
+%if %sysuserd
+%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
+%endif
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %if %pam
@@ -1226,6 +1256,59 @@ fi
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 17.6-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 17.6-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Sun Sep 21 2025 Devrim Gunduz <devrim@gunduz.org> - 17.6-3PGDG
+- Add a temp patch from upstream to fix builds on Fedora 43 (LLVM 21).
+  Will be removed in next minor release set.
+- Add sysusers.d config file to allow rpm to create users/groups automatically.
+  Only for Fedora 43+.
+
+* Wed Aug 27 2025 Devrim Gunduz <devrim@gunduz.org> - 17.6-2PGDG
+- Rebuild against new GCC on Fedora 42
+
+* Tue Aug 12 2025 Devrim Gündüz <devrim@gunduz.org> - 17.6-1PGDG
+- Update to 17.6 per changes described at:
+  https://www.postgresql.org/docs/release/17.6/
+
+* Wed May 14 2025 Devrim Gündüz <devrim@gunduz.org> - 17.5-3PGDG
+- Rebuild against LLVM 19 on RHEL 8
+
+* Tue May 13 2025 Devrim Gunduz <devrim@gunduz.org> - 17.5-2PGDG
+- Add explicit calls to CLANG and LLVM_CONFIG back to fix extension
+  builds. Per report from Muralikrishna Bandaru and
+  https://www.postgresql.org/message-id/CACMiCkV%2BfQ4yAZqygyWx7ZQ8eWsj1AjoC6CGEUoyxY9jUm7paA%40mail.gmail.com
+
+* Tue May 6 2025 Devrim Gündüz <devrim@gunduz.org> - 17.5-1PGDG
+- Update to 17.5 per changes described at:
+  https://www.postgresql.org/docs/release/17.5/
+
+* Tue Apr 15 2025 Devrim Gunduz <devrim@gunduz.org> - 17.4-4PGDG
+- Rebuild against new GCC on Fedora 42
+
+* Mon Mar 24 2025 Devrim Gunduz <devrim@gunduz.org> - 17.4-3PGDG
+- Remove explicit calls to CLANG and LLVM_CONFIG as they are the
+  same across all distros (and also llvm-config-64 is removed from
+  Fedora 42).
+
+* Fri Mar 07 2025 Devrim Gunduz <devrim@gunduz.org> - 17.4-2PGDG
+- Remove redundant BR
+
+* Mon Feb 17 2025 Devrim Gündüz <devrim@gunduz.org> - 17.4-1PGDG
+- Update to 17.4 per changes described at:
+  https://www.postgresql.org/docs/release/17.4/
+
+* Tue Feb 11 2025 Devrim Gündüz <devrim@gunduz.org> - 17.3-1PGDG
+- Update to 17.3 per changes described at:
+  https://www.postgresql.org/docs/release/17.3/
+
 * Mon Nov 18 2024 Devrim Gündüz <devrim@gunduz.org> - 17.2-1PGDG
 - Update to 17.2 per changes described at:
   https://www.postgresql.org/docs/release/17.2/

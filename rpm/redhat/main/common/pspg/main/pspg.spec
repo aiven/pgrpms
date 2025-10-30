@@ -1,6 +1,6 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	5.8.7
+Version:	5.8.12
 Release:	42PGDG%{?dist}
 License:	BSD
 URL:		https://github.com/okbob/%{name}
@@ -28,9 +28,6 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 	prefix=%{_prefix} bindir=%{_bindir} mandir=%{_mandir} \
 	install
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %files
 %defattr(-,root,root)
 %license LICENSE
@@ -38,6 +35,26 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 %{_bindir}/*
 
 %changelog
+* Thu Jul 31 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.12-42PGDG
+- Update to 5.8.12 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.12
+
+* Wed May 7 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.11-42PGDG
+- Update to 5.8.11 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.11
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.10-42PGDG
+- Update to 5.8.10 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.10
+
+* Tue Apr 29 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.9-42PGDG
+- Update to 5.8.9 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.9
+
+* Fri Mar 7 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.8-42PGDG
+- Update to 5.8.8 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.8
+
 * Fri Sep 27 2024 Devrim Gündüz <devrim@gunduz.org> - 5.8.7-42PGDG
 - Update to 5.8.7 per changes described at:
   https://github.com/okbob/pspg/releases/tag/5.8.7

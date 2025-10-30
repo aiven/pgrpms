@@ -1,28 +1,28 @@
 %global sname	pg_hint_plan
 
+%if %{pgmajorversion} == 18
+%global pghintplanversion 1.8.0
+%global git_tag	1_8_0
+%endif
 %if %{pgmajorversion} == 17
-%global pghintplanversion 1.7.0
-%global git_tag	1_7_0
+%global pghintplanversion 1.7.1
+%global git_tag	1_7_1
 %endif
 %if %{pgmajorversion} == 16
-%global pghintplanversion 1.6.1
-%global git_tag	1_6_1
+%global pghintplanversion 1.6.2
+%global git_tag	1_6_2
 %endif
 %if %{pgmajorversion} == 15
-%global pghintplanversion 1.5.2
-%global git_tag	1_5_2
+%global pghintplanversion 1.5.3
+%global git_tag	1_5_3
 %endif
 %if %{pgmajorversion} == 14
-%global pghintplanversion 1.4.3
-%global git_tag	1_4_3
+%global pghintplanversion 1.4.4
+%global git_tag	1_4_4
 %endif
 %if %{pgmajorversion} == 13
-%global pghintplanversion 1.3.10
-%global git_tag	1_3_10
-%endif
-%if %{pgmajorversion} == 12
-%global pghintplanversion 1.3.10
-%global git_tag	1_3_10
+%global pghintplanversion 1.3.11
+%global git_tag	1_3_11
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -30,12 +30,12 @@
 Summary:	Tweak PostgreSQL execution plans using so-called "hints" in SQL comments
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pghintplanversion}
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/ossc-db/pg_hint_plan/archive/refs/tags/REL%{pgmajorversion}_%{git_tag}.tar.gz
 URL:		https://github.com/ossc-db/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
+BuildRequires:	postgresql%{pgmajorversion}-devel flex
+Requires:	postgresql%{pgmajorversion}-server
 
 %description
 pg_hint_plan makes it possible to tweak PostgreSQL execution plans using
@@ -52,17 +52,21 @@ properties of the data, for example, correlation between columns.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_hint_plan
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_hint_plan
+This package provides JIT support for pg_hint_plan
 %endif
 
 %prep
@@ -97,6 +101,36 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - %{pghintplanversion}-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Aug 18 2025 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-1PGDG
+- Update to 1.8.0 for PostgreSQL 18 per changes described at.:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL18_1_8_0
+- Update to 1.7.1 for PostgreSQL 17 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL17_1_7_1
+- Update to 1.6.2 for PostgreSQL 16 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL16_1_6_2
+- Update to 1.5.3 for PostgreSQL 15 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL15_1_5_3
+- Update to 1.4.4 for PostgreSQL 14 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL14_1_4_4
+- Update to 1.3.11 for PostgreSQL 13 per changes described at:
+  https://github.com/ossc-db/pg_hint_plan/releases/tag/REL13_1_3_11
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-3PGDG
+- Add missing BR
+
+* Fri Feb 21 2025 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-2PGDG
+- Update LLVM dependencies
+- Remove redundant BR and Requires
+
 * Thu Aug 29 2024 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-1PGDG
 - Update to 1.7.0 for PostgreSQL 17 per changes described at:
   https://github.com/ossc-db/pg_hint_plan/releases/tag/REL17_1_7_0

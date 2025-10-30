@@ -1,6 +1,6 @@
 Name:		pgbouncer
-Version:	1.23.1
-Release:	42PGDG%{?dist}
+Version:	1.24.1
+Release:	43PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -8,9 +8,9 @@ Source0:	https://www.pgbouncer.org/downloads/files/%{version}/%{name}-%{version}
 Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
+Source5:	%{name}-sysusers.conf
 Patch0:		%{name}-ini.patch
 
-BuildRequires:	pgdg-srpm-macros
 Requires:	python3 python3-psycopg2
 
 BuildRequires:	libevent-devel >= 2.0
@@ -18,16 +18,20 @@ Requires:	libevent >= 2.0
 
 BuildRequires:	openssl-devel pam-devel
 
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 9
 BuildRequires:	c-ares-devel >= 1.13
 Requires:	c-ares >= 1.13
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	c-ares-devel >= 1.13
+Requires:	libcares2 >= 1.19
 %endif
 
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires(post):		systemd-sysvinit
 %endif
 %else
@@ -36,8 +40,6 @@ Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
 %endif
-
-Requires:	/usr/sbin/useradd
 
 %description
 pgbouncer is a lightweight connection pooler for PostgreSQL.
@@ -53,19 +55,16 @@ sed -i.fedora \
  -e '/BININSTALL/s|-s||' \
  configure
 
-# c-ares >= 1.16 is needed for proper c-ares support. Currently only RHEL 9
-# and Fedora has it. Use libevent on the remaining ones.
+# c-ares >= 1.16 is needed for proper c-ares support. Currently
+# only RHEL 8 does not have it, so use libevent only on RHEL 8.
 # Per https://redmine.postgresql.org/issues/6315
-
 %configure \
 	--datadir=%{_datadir} \
-%if 0%{?fedora} >= 37 || 0%{?rhel} >= 9
-	--with-cares --disable-evdns \
-%else
+%if 0%{?rhel} <= 8
 	--without-cares \
+%else
+	--with-cares --disable-evdns \
 %endif
-	--with-systemd \
-	--with-pam
 
 %{__make} %{?_smp_mflags} V=1
 
@@ -86,8 +85,12 @@ sed -i.fedora \
 %{__mkdir} -p %{buildroot}%{_tmpfilesdir}
 cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
 d %{_rundir}/%{name} 0700 pgbouncer pgbouncer -
+d /home/%{name} 0700 pgbouncer pgbouncer -
+
 EOF
 
+# Install sysusers.d config file to allow rpm to create users/groups automatically.
+%{__install} -m 0644 -D %{SOURCE5} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
 
 # Create the directory for the pid files (defined in pgbouncer.ini)
 %{__install} -d -m 755 %{buildroot}/var/run/%{name}
@@ -133,6 +136,7 @@ fi
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.ini
 %ghost %{_rundir}/%{name}
 %{_tmpfilesdir}/%{name}.conf
+%{_sysusersdir}/%{name}-pgdg.conf
 %attr(644,root,root) %{_unitdir}/%{name}.service
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
@@ -142,6 +146,18 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Mon Sep 22 2025 Devrim Gündüz <devrim@gunduz.org> - 1.24.1-43PGDG
+- Add sysusers.d config file to allow rpm to create users/groups automatically.
+- Add c-ares support to SLES 15 as well.
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 1.24.1-42PGDG
+- Update to 1.24.1, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-124x
+
+* Fri Jan 10 2025 Devrim Gündüz <devrim@gunduz.org> - 1.24.0-42PGDG
+- Update to 1.24.0, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-124x
+
 * Fri Aug 2 2024 Devrim Gündüz <devrim@gunduz.org> - 1.23.1-42PGDG
 - Update to 1.23.1, per changes described at:
   http://www.pgbouncer.org/changelog.html#pgbouncer-123x

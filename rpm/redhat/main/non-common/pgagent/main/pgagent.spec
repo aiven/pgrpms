@@ -3,54 +3,48 @@
 
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2.2
-Release:	5PGDG%{?dist}
+Version:	4.2.3
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
+Source6:	%{sname}-sysusers.conf
+Source7:	%{sname}-tmpfiles.d
 URL:		https://github.com/pgadmin-org/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-%if 0%{?rhel} && 0%{?rhel} <= 7
-BuildRequires:	cmake3
-%else
-BuildRequires:	cmake => 3.0.0
-%endif
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	cmake >= 3.0.0
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-BuildRequires:	libboost_filesystem1_66_0-devel libboost_regex1_66_0-devel
-BuildRequires:	libboost_date_time1_66_0-devel libboost_thread1_66_0-devel
-BuildRequires:	libboost_system1_66_0-devel
+%if 0%{?suse_version} == 1500
+BuildRequires:	libboost_date_time1_66_0 libboost_thread1_66_0
+BuildRequires:	libboost_system1_66_0 libboost_serialization1_66_0
+BuildRequires:	libboost_serialization1_66_0-devel libboost_atomic1_66_0-devel
 %endif
-%else
-BuildRequires:	boost-filesystem boost-regex boost-date-time
-BuildRequires:	boost-thread boost-system
+%if 0%{?suse_version} == 1600
+BuildRequires:	libboost_date_time1_86_0 libboost_thread1_86_0
+BuildRequires:	libboost_system1_86_0 libboost_serialization1_86_0
+BuildRequires:	libboost_serialization1_86_0-devel libboost_atomic1_86_0-devel
 %endif
-
-BuildRequires:	boost-devel >= 1.41
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
+%endif
 
 BuildRequires:		systemd, systemd-devel
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 %description
 pgAgent is a job scheduler for PostgreSQL which may be managed
 using pgAdmin.
 
+pgAgent is managed using pgAdmin (http://www.pgadmin.org). The pgAdmin
+documentation contains details of the setup and use of pgAgent with your
+PostgreSQL system.
+
 %pre
 if [ $1 -eq 1 ] ; then
-groupadd -r pgagent >/dev/null 2>&1 || :
-useradd -g pgagent -r -s /bin/false \
-	-c "pgAgent Job Scheduler" pgagent >/dev/null 2>&1 || :
+%sysusers_create_package %{name} %SOURCE6
 touch /var/log/pgagent_%{pgmajorversion}.log
 fi
 %{__chown} pgagent:pgagent /var/log/pgagent_%{pgmajorversion}.log
@@ -65,7 +59,7 @@ CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie -pthread -std=c++11"
 export CFLAGS
 export CXXFLAGS
 %if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 cmake \
 %endif
 %else
@@ -99,11 +93,11 @@ DBHOST=127.0.0.1
 DBPORT=5432
 LOGFILE=/var/log/pgagent_%{pgmajorversion}.log
 EOF
-# ... and make a tmpfiles script to recreate it at reboot.
-%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
-cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_rundir}/%{sname} 0755 root root -
-EOF
+
+%{__install} -m 0644 -D %{SOURCE6} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
+
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{name}_%{pgmajorversion}.conf
 
 # Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
@@ -121,23 +115,13 @@ cat > %{buildroot}%{_sysconfdir}/logrotate.d/%{name} <<EOF
 EOF
 
 %post
-if [ $1 -eq 1 ] ; then
-%systemd_post %{sname}_%{pgmajorversion}.service
-fi
+%systemd_post %{name}.service
 
 %preun
-if [ $1 -eq 0 ] ; then
-	# Package removal, not upgrade
-	/bin/systemctl --no-reload disable %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
-	/bin/systemctl stop %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
-fi
+%systemd_preun %{name}.service
 
 %postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-	# Package upgrade, not uninstall
-	/bin/systemctl try-restart %{sname}_%{pgmajorversion}.service >/dev/null 2>&1 || :
-fi
+%systemd_postun_with_restart %{name}.service
 
 %files
 %defattr(-, root, root)
@@ -147,7 +131,8 @@ fi
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %ghost %{_rundir}/%{sname}
-%{_tmpfilesdir}/%{name}.conf
+%{_sysusersdir}/%{name}-pgdg.conf
+%{_tmpfilesdir}/%{name}_%{pgmajorversion}.conf
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
 %dir %{_sysconfdir}/%{sname}/
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{sname}/%{name}.conf
@@ -155,6 +140,27 @@ fi
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Oct 28 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2.3-4PGDG
+- Fix tmpfiles.d file
+
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2.3-3PGDG
+- Add SLES 16 support
+- Add sysusers.d and tmpfiles.d config file to allow rpm to create
+  users/groups automatically.
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 4.2.3-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Jan 6 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.3-1PGDG
+- Update to 4.2.3 per changes described at
+  https://github.com/pgadmin-org/pgagent/releases/tag/pgagent-4.2.3
+
+* Sat Jan 4 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-6GDG
+- Remove RHEL 7 and SLES 12 support.
+
 * Thu Feb 22 2024 Devrim Gündüz <devrim@gunduz.org> - 4.2.2-5GDG
 - Relax boost dependency on SLES 15 a bit. 1.66 is the version in the
   main SLES repos, so use that.

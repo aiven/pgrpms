@@ -1,7 +1,10 @@
+%global _vpath_builddir build
+%global _vpath_srcdir .
+
 %global sname orafce
 %global orafcemajver 4
-%global orafcemidver 13
-%global orafceminver 5
+%global orafcemidver 16
+%global orafceminver 1
 
 %{!?llvm:%global llvm 1}
 
@@ -13,61 +16,92 @@ License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel, openssl-devel
-BuildRequires:	pgdg-srpm-macros krb5-devel, bison, flex
+BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel
+BuildRequires:	krb5-devel meson
 Requires:	postgresql%{pgmajorversion}
 
-Obsoletes:	%{sname}%{pgmajorversion} < 3.13.4-2
+# llvmjit package is not built with meson:
+Obsoletes:	%{sname}_%{pgmajorversion} < 4.14.3
 
 %description
-The goal of this project is implementation some functions from Oracle database.
-Some date functions (next_day, last_day, trunc, round, ...) are implemented
-now. Functionality was verified on Oracle 10g and module is useful
-for production work.
+Functions and operators that emulate a subset of functions and packages from the
+Oracle RDBMS.
 
-%if %llvm
-%package llvmjit
-Summary:	Just-in-time compilation support for orafce
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm17-devel clang17-devel
-Requires:	llvm17
-%endif
-%if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
-%endif
+This module contains some useful functions that can help with porting Oracle
+application to PostgreSQL or that can be generally useful.
 
-%description llvmjit
-This packages provides JIT support for orafce
-%endif
+Built-in Oracle date functions have been tested against Oracle 10 for conformance. Date
+ranges from 1960 to 2070 work correctly. Dates before 1582-10-05 with the 'J' format
+and before 1100-03-01 with other formats cannot be verified due to a bug in Oracle.
 
 %prep
 %setup -q -n %{sname}-VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}
 
 %build
-USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
+export PATH=%{pginstdir}/bin:$PATH
+%{__install} -d build
+%meson
+%meson_build
 
 %install
-%{__rm} -rf %{buildroot}
-USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+export PATH=%{pginstdir}/bin:$PATH
+%meson_install
+
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension/
+%{__cp} -p INSTALL.%{sname} README.asciidoc %{buildroot}%{pginstdir}/doc/extension/
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/extension/COPYRIGHT.%{sname}
+%license COPYRIGHT.%{sname}
 %doc %{pginstdir}/doc/extension/INSTALL.%{sname}
 %doc %{pginstdir}/doc/extension/README.asciidoc
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}.control
 %{pginstdir}/share/extension/%{sname}--*.sql
 
-%if %llvm
-%files llvmjit
-   %{pginstdir}/lib/bitcode/%{sname}*.bc
-   %{pginstdir}/lib/bitcode/%{sname}/*.bc
-%endif
-
 %changelog
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.1-1PGDG
+- Update to 4.16.1 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_1
+
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.0-1PGDG
+- Update to 4.16.0 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_0
+
+* Sat Oct 4 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.6-1PGDG
+- Update to 4.14.6 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_6
+
+* Sun Sep 21 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.5-1PGDG
+- Update to 4.14.5 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_5
+
+* Wed Jun 4 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.4-1PGDG
+- Update to 4.14.4 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_4
+
+* Thu May 15 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.3-2PGDG
+- Obsolete -llvmjit subpackage (not built by meson) per:
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/12
+  https://redmine.postgresql.org/issues/8110
+
+* Sat Mar 22 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.3-1PGDG
+- Update to 4.14.3 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_3
+
+* Fri Feb 21 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.2-1PGDG
+- Update to 4.14.2 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_2
+
+* Fri Jan 3 2025 Devrim Gündüz <devrim@gunduz.org> 4.14.1-1PGDG
+- Update to 4.14.1 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_1
+- Switch to meson build
+
+* Mon Nov 25 2024 Devrim Gündüz <devrim@gunduz.org> 4.14.0-1PGDG
+- Update to 4.14.0 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_14_0
+
 * Mon Oct 28 2024 Devrim Gündüz <devrim@gunduz.org> 4.13.5-1PGDG
 - Update to 4.13.5 per changes described at
   https://github.com/orafce/orafce/releases/tag/VERSION_4_13_5

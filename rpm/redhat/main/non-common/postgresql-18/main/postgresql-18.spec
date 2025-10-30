@@ -7,36 +7,33 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global pgdg_build_timestamp %(date +"%Y%m%d")
-%global beta 1
+%global beta 0
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
 %{!?enabletaptests:%global enabletaptests 1}
 %{!?icu:%global icu 1}
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
+%{!?libnuma:%global libnuma 1}
+# RHEL 8 does not have io_uring support:
+%if 0%{?rhel} == 8
+%{!?liburing:%global liburing 0}
+%else
+%{!?liburing:%global liburing 1}
+%endif
 %{!?llvm:%global llvm 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
-%{!?pltcl:%global pltcl 1}
 %{!?plperl:%global plperl 1}
 %{!?plpython3:%global plpython3 1}
+%{!?pltcl:%global pltcl 1}
+%{!?runselftest:%global runselftest 0}
+%{!?sdt:%global sdt 1}
+%{!?selinux:%global selinux 1}
 %{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
-%{!?runselftest:%global runselftest 0}
-%{!?selinux:%global selinux 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
-
-%ifarch ppc64 ppc64le s390 s390x armv7hl
-%{!?sdt:%global sdt 0}
-%else
- %{!?sdt:%global sdt 1}
-%endif
-
-%if 0%{?fedora} > 30
-%global _hardened_build 1
-%endif
 
 #Filter out some Perl "dependencies"
 %global __requires_exclude ^perl\\((PostgresVersion|PostgresNode|RecursiveCopy|SimpleTee|TestLib|PostgreSQL::Test::BackgroundPsql)
@@ -44,21 +41,20 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	18
+Version:	18.0
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	4200003PGDG%{?dist}
 %else
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
-
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}/postgresql-%{version}.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
-Source6:	%{sname}-%{pgmajorversion}-README-systemd.rpm-dist
+Source6:	%{sname}-%{pgmajorversion}-README.rpm-dist
 Source7:	%{sname}-%{pgmajorversion}-ecpg_config.h
 Source9:	%{sname}-%{pgmajorversion}-libs.conf
 Source12:	https://www.postgresql.org/files/documentation/pdf/%{pgpackageversion}/%{sname}-%{pgpackageversion}-A4.pdf
@@ -71,16 +67,17 @@ Source17:	%{sname}-%{pgmajorversion}-setup
 Source10:	%{sname}-%{pgmajorversion}-check-db-dir
 Source18:	%{sname}-%{pgmajorversion}.service
 Source19:	%{sname}-%{pgmajorversion}-tmpfiles.d
+Source20:	%{sname}-%{pgmajorversion}-sysusers.conf
 
 Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
 
-BuildRequires:	perl glibc-devel bison >= 2.3 flex >= 2.5.35
-BuildRequires:	gcc-c++
+BuildRequires:	perl glibc-devel bison >= 3.0.4 flex >= 2.6.1
+BuildRequires:	gcc-c++ libcurl-devel >= 7.61.0
 BuildRequires:	perl(ExtUtils::MakeMaker)
-BuildRequires:	readline-devel zlib-devel >= 1.0.4 pgdg-srpm-macros
+BuildRequires:	readline-devel zlib-devel >= 1.0.4
 BuildRequires:	libxml2-devel libxslt-devel
 
 # lz4 dependency
@@ -115,32 +112,47 @@ BuildRequires:	libicu-devel
 Requires:	libicu
 %endif
 
-%if %llvm
-%if 0%{?suse_version} >= 1500
-BuildRequires:	llvm17-devel clang17-devel
-%endif
-%if 0%{?fedora} || 0%{?rhel}
-BuildRequires:	llvm-devel => 17.0 clang-devel >= 17.0
-%endif
-%endif
-
 %if %kerberos
 BuildRequires:	krb5-devel
 BuildRequires:	e2fsprogs-devel
 %endif
 
 %if %ldap
-%if 0%{?suse_version}
 %if 0%{?suse_version} >= 1500
 BuildRequires:	openldap2-devel
-%endif
 %else
 BuildRequires:	openldap-devel
 %endif
 %endif
 
+%if %libnuma
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	numactl-devel
+Requires:	numactl-libs
+%else
+BuildRequires:	libnuma-devel
+Requires:	libnuma1
+%endif
+%endif
+
+%if %liburing
+BuildRequires:	liburing-devel
+%endif
+
+%if %llvm
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+%endif
+%endif
+
 %if %nls
-BuildRequires:	gettext >= 0.10.35
+BuildRequires:	gettext >= 0.19.8
 %endif
 
 %if %pam
@@ -149,7 +161,10 @@ BuildRequires:	pam-devel
 
 %if %plperl
 %if 0%{?fedora} || 0%{?rhel}
+BuildRequires:	perl-devel
 BuildRequires:	perl-ExtUtils-Embed
+%else
+BuildRequires:	perl
 %endif
 %endif
 
@@ -167,27 +182,24 @@ BuildRequires:	systemtap-sdt-devel
 
 %if %selinux
 # All supported distros have libselinux-devel package:
-BuildRequires:	libselinux-devel >= 2.0.93
+BuildRequires:	libselinux-devel >= 2.9
 # SLES: SLES 15 does not have selinux-policy package.
 # RHEL/Fedora has selinux-policy:
 %if 0%{?rhel} || 0%{?fedora}
-BuildRequires:	selinux-policy >= 3.9.13
+BuildRequires:	selinux-policy >= 3.4.3
 %endif
 %endif
 
 %if %ssl
 BuildRequires:	openssl-devel
-%endif
-
 %if 0%{?fedora} >= 41
 BuildRequires:	openssl-devel-engine
 %endif
+%endif
 
 %if %uuid
-%if 0%{?suse_version}
 %if 0%{?suse_version} >= 1500
 BuildRequires:	uuid-devel
-%endif
 %else
 BuildRequires:	libuuid-devel
 %endif
@@ -196,16 +208,9 @@ BuildRequires:	libuuid-devel
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1500
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
 
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
@@ -226,50 +231,58 @@ If you want to manipulate a PostgreSQL database on a local or remote PostgreSQL
 server, you need this package. You also need to install this package
 if you're installing the postgresql%{pgmajorversion}-server package.
 
-%package libs
-Summary:	The shared libraries required for any PostgreSQL clients
-Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
-
-%if 0%{?suse_version} >= 1500
-Requires:	libopenssl1_1
-%else
-Requires:	openssl-libs >= 1.1.1k
-%endif
-
-%description libs
-The postgresql%{pgmajorversion}-libs package provides the essential shared libraries for any
-PostgreSQL client program or interface. You will need to install this package
-to use any other PostgreSQL package or any clients that need to connect to a
-PostgreSQL server.
-
-%package server
-Summary:	The programs needed to create and run a PostgreSQL server
+%package contrib
+Summary:	Contributed source and binaries distributed with PostgreSQL
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires(pre):	/usr/sbin/useradd /usr/sbin/groupadd
-Requires:	util-linux
-# for /sbin/ldconfig
-Requires(post):		glibc
-Requires(postun):	glibc
-# pre/post stuff needs systemd too
+Requires:	%{name}-server%{?_isa} = %{version}-%{release}
+Provides:	postgresql-contrib >= %{version}-%{release}
 
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1500
-Requires(post):		systemd
+%description contrib
+The postgresql%{pgmajorversion}-contrib package contains various extension
+modules that are included in the PostgreSQL distribution.
+
+%package devel
+Summary:	PostgreSQL development header files and libraries
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+
+%if %icu
+Requires:	libicu-devel
 %endif
-%else
-Requires(post):		systemd
-Requires(preun):	systemd
-Requires(postun):	systemd
+
+%if %llvm
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+%if 0%{?suse_version} == 1500
+BuildRequires:	llvm17-devel clang17-devel
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+Requires:	llvm-devel >= 17.0 clang-devel >= 17.0
+%endif
 %endif
 
-Provides:	postgresql-server >= %{version}-%{release}
+%if %enabletaptests
+BuildRequires:	perl-IPC-Run perl-Test-Simple
+Requires:	perl-IPC-Run
+# SLES 15 does not have a separate perl-TimeHires package. It is part
+# of the main perl package.
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	perl-Time-HiRes
+%endif
+%endif
 
-%description server
-PostgreSQL is an advanced Object-Relational database management system (DBMS).
-The postgresql%{pgmajorversion}-server package contains the programs needed to create
-and run a PostgreSQL server, which will in turn allow you to create
-and maintain PostgreSQL databases.
+Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel <= 42.0
+
+%description devel
+The postgresql%{pgmajorversion}-devel package contains the header files and
+libraries needed to compile C or C++ applications which will directly interact
+with a PostgreSQL database management server. You need to install this package
+if you want to develop applications which will interact with a PostgreSQL
+server.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
@@ -282,85 +295,109 @@ BuildRequires:	docbook-xsl-stylesheets
 %endif
 
 %description docs
-The postgresql%{pgmajorversion}-docs package includes the SGML source for the documentation
-as well as the documentation in PDF format and some extra documentation.
-Install this package if you want to help with the PostgreSQL documentation
-project, or if you want to generate printed documentation. This package also
-includes HTML version of the documentation.
+The postgresql%{pgmajorversion}-docs package includes the SGML source for the
+documentation as well as the documentation in PDF format and some extra
+documentation. Install this package if you want to help with the PostgreSQL
+documentation project, or if you want to generate printed documentation. This
+package also includes HTML version of the documentation.
 
-%package contrib
-Summary:	Contributed source and binaries distributed with PostgreSQL
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
-Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-Provides:	postgresql-contrib >= %{version}-%{release}
+%package ecpg-libs
+Summary:	Run-time libraries for ECPG programs
 
-%description contrib
-The postgresql%{pgmajorversion}-contrib package contains various extension modules that are
-included in the PostgreSQL distribution.
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+%endif
 
-%package devel
-Summary:	PostgreSQL development header files and libraries
-Requires:	%{name}%{?_isa} = %{version}-%{release}
-Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+%description ecpg-libs
+The postgresql%{pgmajorversion}-ecpg-libs is used by programs built with ECPG
+(Embedded PostgreSQL for C).
 
-%if %llvm
-Requires:	%{name}%{?_isa} = %{version}-%{release}
+%package ecpg-devel
+Summary:	Development files for ECPG (Embedded PostgreSQL for C)
+Requires:	%{name}-ecpg-libs%{?_isa} = %{version}-%{release}
+
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+%endif
+
+%description ecpg-devel
+The postgresql%{pgmajorversion}-ecpg-devel package contains the necessary
+files to build ECPG (Embedded PostgreSQL for C) programs. It includes the
+development libraries and the preprocessor program ecpg.
+
+%package libs
+Summary:	The shared libraries required for any PostgreSQL clients
+Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
+
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+%endif
+%if 0%{?suse_version} == 1600
+Requires:       libopenssl3
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+%endif
+
+%description libs
+The postgresql%{pgmajorversion}-libs package provides the essential shared
+libraries for any PostgreSQL client program or interface. You will need to
+install this package to use any other PostgreSQL package or any clients that
+need to connect to a PostgreSQL server.
+
+%package libs-oauth
+Summary:	The shared libraries required for any PostgreSQL clients - OAuth flow
+Provides:	postgresql-libs-oauth = %{pgmajorversion}
+Requires:	postgresql%{pgmajorversion}-libs%{?_isa} = %{version}-%{release}
+
 %if 0%{?suse_version} >= 1500
-Requires:	llvm17-devel clang17-devel
-%endif
-%if 0%{?fedora} || 0%{?rhel}
-Requires:	llvm-devel => 17.0 clang-devel >= 17.0
-%endif
+Requires:	libcurl4
+%else
+Requires:	curl
 %endif
 
-%if %icu
-Requires:	libicu-devel
-%endif
-
-%if %enabletaptests
-%if 0%{?suse_version} && 0%{?suse_version} >= 1500
-Requires:	perl-IPC-Run
-BuildRequires:	perl-IPC-Run
-%endif
-%if 0%{?rhel}
-Requires:	perl-Test-Simple
-BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
-%endif
-%if 0%{?fedora}
-Requires:	perl-IPC-Run
-BuildRequires:	perl-Test-Simple perl-IPC-Run perl-Time-HiRes
-%endif
-%endif
-
-Provides:	postgresql-devel >= %{version}-%{release}
-Obsoletes:	libpq-devel <= 42.0
-
-%description devel
-The postgresql%{pgmajorversion}-devel package contains the header files and libraries
-needed to compile C or C++ applications which will directly interact
-with a PostgreSQL database management server. It also contains the ecpg
-Embedded C Postgres preprocessor. You need to install this package if you want
-to develop applications which will interact with a PostgreSQL server.
+%description libs-oauth
+The postgresql%{pgmajorversion}-libs-oauth is an optional module for
+postgresql%{pgmajorversion}-libs implementing the Device Authorization flow for
+OAuth clients (RFC 8628). It is maintained as its own shared library in order
+to isolate its dependency on libcurl. If a connection string allows the use of
+OAuth, and the server asks for it, and a libpq client has not installed its own
+custom OAuth flow, libpq will attempt to delay-load this module using dlopen()
+and the following ABI. Failure to load results in a failed connection.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libLLVM17
 %endif
+%if 0%{?suse_version} == 1600
+Requires:	libLLVM19
+%endif
 %if 0%{?fedora} || 0%{?rhel}
-Requires:	llvm => 17
+Requires:	llvm >= 19
 %endif
 
 Provides:	postgresql-llvmjit >= %{version}-%{release}
 
 %description llvmjit
 The postgresql%{pgmajorversion}-llvmjit package contains support for
-just-in-time compiling parts of PostgreSQL queries. Using LLVM it
-compiles e.g. expressions and tuple deforming into native code, with the
-goal of accelerating analytics queries.
+just-in-time compiling parts of PostgreSQL queries. Using LLVM it compiles e.g.
+expressions and tuple deforming into native code, with the goal of accelerating
+analytics queries.
 %endif
 
 %if %plperl
@@ -368,16 +405,12 @@ goal of accelerating analytics queries.
 Summary:	The Perl procedural language for PostgreSQL
 Requires:	%{name}-server%{?_isa} = %{version}-%{release}
 Requires:	perl(:MODULE_COMPAT_%(eval "`%{__perl} -V:version`"; echo $version))
-%ifarch ppc ppc64
-BuildRequires:	perl-devel
-%endif
 Provides:	postgresql-plperl >= %{version}-%{release}
 
 %description plperl
-The postgresql%{pgmajorversion}-plperl package contains the PL/Perl procedural language,
-which is an extension to the PostgreSQL database server.
-Install this if you want to write database functions in Perl.
-
+The postgresql%{pgmajorversion}-plperl package contains the PL/Perl procedural
+language, which is an extension to the PostgreSQL database server. Install this
+if you want to write database functions in Perl.
 %endif
 
 %if %plpython3
@@ -393,8 +426,8 @@ Requires:	python3-libs
 %endif
 
 %description plpython3
-The postgresql%{pgmajorversion}-plpython3 package contains the PL/Python3 procedural language,
-which is an extension to the PostgreSQL database server.
+The postgresql%{pgmajorversion}-plpython3 package contains the PL/Python3
+procedural language, which is an extension to the PostgreSQL database server.
 Install this if you want to write database functions in Python 3.
 %endif
 
@@ -412,6 +445,41 @@ system. The %{name}-pltcl package contains the PL/Tcl language
 for the backend.
 %endif
 
+%package server
+Summary:	The programs needed to create and run a PostgreSQL server
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
+Requires:	util-linux
+%if %liburing
+%if 0%{?fedora} || 0%{?rhel}
+Requires:	liburing
+%else
+Requires:	liburing2
+%endif
+%endif
+# for /sbin/ldconfig
+Requires(post):		glibc
+Requires(postun):	glibc
+# pre/post stuff needs systemd too
+
+%if 0%{?suse_version} >= 1500
+Requires(post):		systemd
+%else
+Requires(post):		systemd
+Requires(preun):	systemd
+Requires(postun):	systemd
+%endif
+
+Provides:	postgresql-server >= %{version}-%{release}
+Provides:	group(postgres) user(postgres)
+
+
+%description server
+PostgreSQL is an advanced Object-Relational database management system (DBMS).
+The postgresql%{pgmajorversion}-server package contains the programs needed to
+create and run a PostgreSQL server, which will in turn allow you to create and
+maintain PostgreSQL databases.
+
 %if %test
 %package test
 Summary:	The test suite distributed with PostgreSQL
@@ -420,13 +488,13 @@ Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
 Provides:	postgresql-test >= %{version}-%{release}
 
 %description test
-The postgresql%{pgmajorversion}-test package contains files needed for various tests for the
-PostgreSQL database management system, including regression tests and
-benchmarks.
+The postgresql%{pgmajorversion}-test package contains files needed for various
+tests for the PostgreSQL database management system, including regression tests
+and benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}devel
+%setup -q -n %{sname}-%{version}
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -456,14 +524,13 @@ LDFLAGS="-Wl,--as-needed"; export LDFLAGS
 
 export CFLAGS
 
-%if 0%{?fedora} || 0%{?rhel}
-export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config-64
-%endif
-%if 0%{?suse_version} >= 1500
+# We need to export these even though they are under the standard
+# path. Buildfarm utilises ccache which may not be available on
+# users' instances, and that breaks extension builds as shown here:
+# https://www.postgresql.org/message-id/CACMiCkV%2BfQ4yAZqygyWx7ZQ8eWsj1AjoC6CGEUoyxY9jUm7paA%40mail.gmail.com
+# Previously reported by Muralikrishna Bandaru.
 export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
-%endif
 
-# These configure options must match main build
 ./configure --enable-rpath \
 	--prefix=%{pgbaseinstdir} \
 	--includedir=%{pgbaseinstdir}/include \
@@ -482,8 +549,28 @@ export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 %if %icu
 	--with-icu \
 %endif
+%if %kerberos
+	--with-gssapi \
+	--with-includes=%{_includedir} \
+	--with-libraries=%{_libdir} \
+%endif
+%if %libnuma
+	--with-libnuma \
+%endif
+%if %liburing
+	--with-liburing \
+%endif
+%if %ldap
+	--with-ldap \
+%endif
 %if %llvm
 	--with-llvm \
+%endif
+%if %nls
+	--enable-nls \
+%endif
+%if %pam
+	--with-pam \
 %endif
 %if %plperl
 	--with-perl \
@@ -495,22 +582,14 @@ export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 	--with-tcl \
 	--with-tclconfig=%{_libdir} \
 %endif
-%if %ssl
-	--with-openssl \
-%endif
-%if %pam
-	--with-pam \
-%endif
-%if %kerberos
-	--with-gssapi \
-	--with-includes=%{_includedir} \
-	--with-libraries=%{_libdir} \
-%endif
-%if %nls
-	--enable-nls \
-%endif
 %if %sdt
 	--enable-dtrace \
+%endif
+%if %selinux
+	--with-selinux \
+%endif
+%if %ssl
+	--with-openssl \
 %endif
 %if %uuid
 	--with-uuid=e2fs \
@@ -519,12 +598,7 @@ export CLANG=%{_bindir}/clang LLVM_CONFIG=%{_bindir}/llvm-config
 	--with-libxml \
 	--with-libxslt \
 %endif
-%if %ldap
-	--with-ldap \
-%endif
-%if %selinux
-	--with-selinux \
-%endif
+	--with-libcurl \
 	--with-systemd \
 	--with-system-tzdata=%{_datadir}/zoneinfo \
 	--sysconfdir=/etc/sysconfig/pgsql \
@@ -666,6 +740,9 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__install} -d -m 755 %{buildroot}%{pgbaseinstdir}/share/
 %{__install} -m 700 %{SOURCE9} %{buildroot}%{pgbaseinstdir}/share/
 
+# Install sysusers.d config file to allow rpm to create users/groups automatically.
+%{__install} -m 0644 -D %{SOURCE20} %{buildroot}%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
+
 %if %test
 	# tests. There are many files included here that are unnecessary,
 	# but include them anyway for completeness. We replace the original
@@ -731,7 +808,6 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %find_lang pg_controldata-%{pgmajorversion}
 %find_lang pg_ctl-%{pgmajorversion}
 %find_lang pg_dump-%{pgmajorversion}
-#%find_lang pg_logicalinspect-%{pgmajorversion}
 %find_lang pg_resetwal-%{pgmajorversion}
 %find_lang pg_rewind-%{pgmajorversion}
 %find_lang pg_test_fsync-%{pgmajorversion}
@@ -757,27 +833,23 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %find_lang postgres-%{pgmajorversion}
 %find_lang psql-%{pgmajorversion}
 
-#cat pg_amcheck-%{pgmajorversion}.lang pg_logicalinspect-%{pgmajorversion}.lang > pg_contrib.lst
 cat pg_amcheck-%{pgmajorversion}.lang > pg_contrib.lst
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
-cat pg_config-%{pgmajorversion}.lang ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > pg_devel.lst
+cat pg_config-%{pgmajorversion}.lang > pg_devel.lst
+cat ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > ecpg.lst
 cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang pg_combinebackup-%{pgmajorversion}.lang pg_walsummary-%{pgmajorversion}.lang > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_verifybackup-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang > pg_server.lst
 %endif
 
 %pre server
-groupadd -g 26 -o -r postgres >/dev/null 2>&1 || :
-useradd -M -g postgres -o -r -d /var/lib/pgsql -s /bin/bash \
-	-c "PostgreSQL Server" -u 26 postgres >/dev/null 2>&1 || :
+%sysusers_create_package %{name} %SOURCE20
 
 %post server
 /sbin/ldconfig
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %if 0%{?suse_version}
    %if 0%{?suse_version} >= 1500
    %service_add_pre postgresql-%{pgpackageversion}.service
-   %endif
    %else
    %systemd_post %{sname}-%{pgpackageversion}.service
    %endif
@@ -891,9 +963,6 @@ if [ "$1" -eq 0 ]
 	/sbin/ldconfig
 fi
 
-%clean
-%{__rm} -rf %{buildroot}
-
 # FILES section.
 
 %files -f pg_main.lst
@@ -948,13 +1017,6 @@ fi
 %{pgbaseinstdir}/share/man/man3/*
 %{pgbaseinstdir}/share/man/man7/*
 
-%files docs
-%defattr(-,root,root)
-%doc doc/src/*
-%doc *-A4.pdf
-%doc src/tutorial
-%doc doc/html
-
 %files contrib -f pg_contrib.lst
 %defattr(-,root,root)
 %doc %{pgbaseinstdir}/doc/extension/*.example
@@ -999,6 +1061,7 @@ fi
 %{pgbaseinstdir}/lib/pg_buffercache.so
 %{pgbaseinstdir}/lib/pg_freespacemap.so
 %{pgbaseinstdir}/lib/pg_logicalinspect.so
+%{pgbaseinstdir}/lib/pg_overexplain.so
 %{pgbaseinstdir}/lib/pg_prewarm.so
 %{pgbaseinstdir}/lib/pg_stat_statements.so
 %{pgbaseinstdir}/lib/pg_surgery.so
@@ -1092,20 +1155,101 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_recvlogical.1
 %{pgbaseinstdir}/share/man/man1/vacuumlo.1
 
+%files devel -f pg_devel.lst
+%defattr(-,root,root)
+%{pgbaseinstdir}/include/libpq*.h
+%{pgbaseinstdir}/include/pg_config*.h
+%{pgbaseinstdir}/include/postgres_ext.h
+%{pgbaseinstdir}/include/internal/*
+%{pgbaseinstdir}/include/libpq/*
+%{pgbaseinstdir}/include/server/*
+
+%{pgbaseinstdir}/lib/libpq.so
+%{pgbaseinstdir}/lib/libpq.a
+%{pgbaseinstdir}/lib/libpq-oauth.a
+%{pgbaseinstdir}/lib/libpgcommon.a
+%{pgbaseinstdir}/lib/libpgcommon_shlib.a
+%{pgbaseinstdir}/lib/libpgport.a
+%{pgbaseinstdir}/lib/libpgport_shlib.a
+%{pgbaseinstdir}/lib/pgxs/*
+%{pgbaseinstdir}/lib/pkgconfig/libpq.pc
+
+%files docs
+%defattr(-,root,root)
+%doc doc/src/*
+%doc *-A4.pdf
+%doc src/tutorial
+%doc doc/html
+
+%files ecpg-libs -f ecpg.lst
+%defattr(-,root,root)
+%{pgbaseinstdir}/lib/libecpg.so*
+%{pgbaseinstdir}/lib/libecpg_compat.so*
+%{pgbaseinstdir}/lib/libecpg.a
+%{pgbaseinstdir}/lib/libecpg_compat.a
+%{pgbaseinstdir}/lib/libpgtypes.a
+%{pgbaseinstdir}/lib/libpgtypes.so*
+%{pgbaseinstdir}/share/man/man1/ecpg.*
+
+%files ecpg-devel
+%defattr(-,root,root)
+%{pgbaseinstdir}/bin/ecpg
+%{pgbaseinstdir}/include/informix/*
+%{pgbaseinstdir}/include/pgtypes*h
+%{pgbaseinstdir}/include/ecpg*.h
+%{pgbaseinstdir}/include/sql3types.h
+%{pgbaseinstdir}/include/sqlca.h
+%{pgbaseinstdir}/include/sqlda*.h
+%{pgbaseinstdir}/lib/pkgconfig/libecpg*.pc
+%{pgbaseinstdir}/lib/pkgconfig/libpgtypes.pc
+
 %files libs -f pg_libpq5.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/lib/libpq.so.*
-%{pgbaseinstdir}/lib/libecpg.so*
-%{pgbaseinstdir}/lib/libpgtypes.so.*
-%{pgbaseinstdir}/lib/libecpg_compat.so.*
 %{pgbaseinstdir}/lib/libpqwalreceiver.so
 %config(noreplace) %attr (644,root,root) %{pgbaseinstdir}/share/%{sname}-%{pgmajorversion}-libs.conf
+
+%files libs-oauth
+%defattr(-,root,root)
+%{pgbaseinstdir}/lib/libpq-oauth-%{pgmajorversion}.so
+
+%if %llvm
+%files llvmjit
+%defattr(-,root,root)
+%{pgbaseinstdir}/lib/bitcode/*
+%{pgbaseinstdir}/lib/llvmjit.so
+%{pgbaseinstdir}/lib/llvmjit_types.bc
+%endif
+
+%if %plperl
+%files plperl -f pg_plperl.lst
+%defattr(-,root,root)
+%{pgbaseinstdir}/lib/bool_plperl.so
+%{pgbaseinstdir}/lib/plperl.so
+%{pgbaseinstdir}/share/extension/plperl*
+%{pgbaseinstdir}/share/extension/bool_plperl*
+%endif
+
+%if %pltcl
+%files pltcl -f pg_pltcl.lst
+%defattr(-,root,root)
+%{pgbaseinstdir}/lib/pltcl.so
+%{pgbaseinstdir}/share/extension/pltcl*
+%endif
+
+%if %plpython3
+%files plpython3 -f pg_plpython3.lst
+%{pgbaseinstdir}/share/extension/plpython3*
+%{pgbaseinstdir}/lib/plpython3.so
+%{pgbaseinstdir}/share/extension/*_plpython3u*
+%endif
 
 %files server -f pg_server.lst
 %defattr(-,root,root)
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-setup
 %{_bindir}/%{sname}-%{pgmajorversion}-setup
 %{pgbaseinstdir}/bin/%{sname}-%{pgmajorversion}-check-db-dir
+%{_sysusersdir}/%{sname}%{pgpackageversion}-pgdg.conf
 %{_tmpfilesdir}/%{sname}-%{pgmajorversion}.conf
 %{_unitdir}/%{sname}-%{pgmajorversion}.service
 %if %pam
@@ -1172,57 +1316,6 @@ fi
 %{pgbaseinstdir}/share/snowball_create.sql
 %{pgbaseinstdir}/share/sql_features.txt
 
-%files devel -f pg_devel.lst
-%defattr(-,root,root)
-%{pgbaseinstdir}/include/*
-%{pgbaseinstdir}/bin/ecpg
-%{pgbaseinstdir}/lib/libpq.so
-%{pgbaseinstdir}/lib/libecpg.so
-%{pgbaseinstdir}/lib/libpq.a
-%{pgbaseinstdir}/lib/libecpg.a
-%{pgbaseinstdir}/lib/libecpg_compat.so
-%{pgbaseinstdir}/lib/libecpg_compat.a
-%{pgbaseinstdir}/lib/libpgcommon.a
-%{pgbaseinstdir}/lib/libpgcommon_shlib.a
-%{pgbaseinstdir}/lib/libpgport.a
-%{pgbaseinstdir}/lib/libpgport_shlib.a
-%{pgbaseinstdir}/lib/libpgtypes.so
-%{pgbaseinstdir}/lib/libpgtypes.a
-%{pgbaseinstdir}/lib/pgxs/*
-%{pgbaseinstdir}/lib/pkgconfig/*
-%{pgbaseinstdir}/share/man/man1/ecpg.*
-
-%if %llvm
-%files llvmjit
-%defattr(-,root,root)
-%{pgbaseinstdir}/lib/bitcode/*
-%{pgbaseinstdir}/lib/llvmjit.so
-%{pgbaseinstdir}/lib/llvmjit_types.bc
-%endif
-
-%if %plperl
-%files plperl -f pg_plperl.lst
-%defattr(-,root,root)
-%{pgbaseinstdir}/lib/bool_plperl.so
-%{pgbaseinstdir}/lib/plperl.so
-%{pgbaseinstdir}/share/extension/plperl*
-%{pgbaseinstdir}/share/extension/bool_plperl*
-%endif
-
-%if %pltcl
-%files pltcl -f pg_pltcl.lst
-%defattr(-,root,root)
-%{pgbaseinstdir}/lib/pltcl.so
-%{pgbaseinstdir}/share/extension/pltcl*
-%endif
-
-%if %plpython3
-%files plpython3 -f pg_plpython3.lst
-%{pgbaseinstdir}/share/extension/plpython3*
-%{pgbaseinstdir}/lib/plpython3.so
-%{pgbaseinstdir}/share/extension/*_plpython3u*
-%endif
-
 %if %test
 %files test
 %defattr(-,postgres,postgres)
@@ -1231,6 +1324,55 @@ fi
 %endif
 
 %changelog
+* Sat Oct 4 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 18.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Sep 23 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0-1PGDG
+- Update to 18.0 Gold!
+- Remove temp Patch 7 (now in upstream)
+
+* Sun Sep 21 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0rc1-2PGDG
+- Add sysusers.d config file to allow rpm to create users/groups automatically
+- Add a temp patch from upstream to fix builds on Fedora 43 (LLVM 21).
+  Will be removed in next minor release set.
+
+* Tue Sep 2 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0rc1-1PGDG
+- Update to 18.0 RC1
+
+* Sat Aug 23 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta3-3PGDG
+- Move ecpg binary to ecpg-devel and also rename ecpg package to ecpg-libs.
+  Per discussion with Sandeep.
+
+* Wed Aug 20 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta3-2PGDG
+- More fixes after 3faf5edd. Per report from Muralikrishna Bandaru.
+
+* Tue Aug 12 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta3-1PGDG
+- Update to PostgreSQL 18 beta3
+
+* Mon Aug 11 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta2-2PGDG
+- Fix a few issues mentioned at:
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/69
+
+* Tue Jul 15 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta2-1PGDG
+- Update to PostgreSQL 18 beta2
+
+* Wed May 14 2025 Devrim Gündüz <devrim@gunduz.org> - 18.0beta1-3PGDG
+- Rebuild against LLVM 19 on RHEL 8
+
+* Tue May 13 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta1-2PGDG
+- Add explicit calls to CLANG and LLVM_CONFIG back to fix extension
+  builds. Per report from Muralikrishna Bandaru and
+  https://www.postgresql.org/message-id/CACMiCkV%2BfQ4yAZqygyWx7ZQ8eWsj1AjoC6CGEUoyxY9jUm7paA%40mail.gmail.com
+
+* Tue May 6 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0beta1-1PGDG
+- Update to PostgreSQL 18 beta1
+
 * Mon Jul 1 2024 Devrim Gunduz <devrim@gunduz.org> - 18.0alpha-1PGDG
 - Initial cut for PostgreSQL 18
 

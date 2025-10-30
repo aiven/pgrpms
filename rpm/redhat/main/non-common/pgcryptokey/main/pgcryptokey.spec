@@ -5,11 +5,11 @@
 Summary:	PostgreSQL table versioning extension
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.85
-Release:	6PGDG%{?dist}
+Release:	10PGDG%{?dist}
 License:	BSD
 Source0:	http://momjian.us/download/%{sname}/%{sname}-%{version}.tar.gz
 URL:		http://momjian.us/download/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.85-2
@@ -24,17 +24,21 @@ data key requires the proper access password.
 %package llvmjit
 Summary:	Just-in-time compilation support for pgcryptokey
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pgcryptokey
+This package provides JIT support for pgcryptokey
 %endif
 
 %prep
@@ -64,6 +68,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 0.85-10PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.85-9PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 0.85-8PGDG
+- Remove redundant BR
+
+* Tue Jan 7 2025 Devrim Gündüz <devrim@gunduz.org> - 0.85-7PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 0.85-6PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

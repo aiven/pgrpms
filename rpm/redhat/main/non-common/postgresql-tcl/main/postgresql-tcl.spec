@@ -8,8 +8,8 @@
 %global pgtclprefix /usr/pgtcl%{pgtclmajorversion}
 
 Name:		postgresql%{pgmajorversion}-tcl
-Version:	%{pgtclmajorversion}.0
-Release:	1PGDG%{?dist}
+Version:	%{pgtclmajorversion}.1
+Release:	3PGDG%{?dist}
 Summary:	A Tcl client library for PostgreSQL
 
 URL:		https://github.com/flightaware/Pgtcl
@@ -20,7 +20,7 @@ Source0:	https://github.com/flightaware/Pgtcl/archive/v%{version}.tar.gz
 Requires:	tcl(abi) >= 8.5
 
 BuildRequires:	postgresql%{pgmajorversion}-devel tcl-devel
-BuildRequires:	autoconf pgdg-srpm-macros
+BuildRequires:	autoconf
 
 %{!?tcl_version: %global tcl_version %(echo 'puts $tcl_version' | tclsh)}
 %{!?tcl_sitearch: %global tcl_sitearch %{_libdir}/tcl%{tcl_version}}
@@ -63,6 +63,16 @@ autoconf
 %{pgtclprefix}-%{pgmajorversion}/share/man/mann/*
 
 %changelog
+* Wed Oct 15 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-3PGDG
+- Oops, really update to 3.1.1
+
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.1-2PGDG
+- Remove redundant BR
+
+* Sat Sep 27 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.1-1PGDG
+- Update to 3.1.1 per changes described at:
+  https://github.com/flightaware/Pgtcl/releases/tag/v3.1.1
+
 * Fri Jun 14 2024 Devrim Gunduz <devrim@gunduz.org> - 3.1.0-1PGDG
 - Update to 3.1.0 per changes described at:
   https://github.com/flightaware/Pgtcl/releases/tag/v3.1.0

@@ -1,6 +1,6 @@
 
 %global __ospython3 %{_bindir}/python3
-%if 0%{?fedora} >= 35
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -12,7 +12,7 @@
 
 Name:		python3-%{sname}
 Version:	2.0.1
-Release:	1%{?dist}
+Release:	2PGDG%{?dist}
 Epoch:		1
 Summary:	Meta-commands handler for Postgres Database.
 
@@ -43,6 +43,10 @@ CFLAGS="%{optflags}" %{__ospython3} setup.py build
 %{python3_sitelib}/%{sname}/*
 
 %changelog
+* Wed Dec 18 2024 Devrim Gündüz <devrim@gunduz.org> - 1:2.0.1-2PGDG
+- Add RHEL 10 support
+- Add PGDG branding
+
 * Fri Sep 16 2022 Devrim Gündüz <devrim@gunduz.org> - 1:2.0.1-1
 - Update to 2.0.1
 

@@ -5,21 +5,27 @@
 %pgdg_set_gis_variables
 
 # Override PROJ:
-%global projmajorversion %proj95majorversion
-%global projfullversion %proj95fullversion
-%global projinstdir %proj95instdir
-
+%if 0%{?rhel} && 0%{?rhel} == 8
+%global projmajorversion %proj96majorversion
+%global projfullversion %proj96fullversion
+%global projinstdir %proj96instdir
+%else
+%global projmajorversion %proj97majorversion
+%global projfullversion %proj97fullversion
+%global projinstdir %proj97instdir
+%endif
 Name:		%{sname}%{libgeotiffversion}
-Version:	1.7.3
-Release:	2PGDG%{?dist}
+Version:	1.7.4
+Release:	4PGDG%{?dist}
 Summary:	GeoTIFF format library
 License:	MIT
 URL:		https://github.com/OSGeo/%{sname}
 Source0:	https://github.com/OSGeo/%{sname}/releases/download/%{version}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 Patch0:		%{sname}_cmake.patch
+Patch1:		%{sname}-1.7.4-proj.patch
 BuildRequires:	libtiff-devel libjpeg-devel proj%{projmajorversion}-devel zlib-devel
-BuildRequires:	pgdg-srpm-macros >= 1.0.36 cmake
+BuildRequires:	pgdg-srpm-macros >= 1.0.51 cmake gcc gcc-c++ ccache
 
 %description
 GeoTIFF represents an effort by over 160 different remote sensing,
@@ -38,6 +44,7 @@ The GeoTIFF library provides support for development of geotiff image format.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch -P 0 -p0
+%patch -P 1 -p0
 
 # fix wrongly encoded files from tarball
 set +x
@@ -61,6 +68,7 @@ set -x
 %{__install} -d build
 pushd build
 cmake .. -DCMAKE_C_COMPILER_LAUNCHER=ccache \
+	-DPROJ_LIBRARY=%{projinstdir}/lib64/libproj.so \
 	-DPROJ_INCLUDE_DIR=%{projinstdir}/include \
 	-DCMAKE_INSTALL_INCLUDEDIR=%{libgeotiff17instdir}/include \
 	-DCMAKE_INSTALL_BINDIR=%{libgeotiff17instdir}/bin \
@@ -131,6 +139,24 @@ EOF
 %{libgeotiff17instdir}/lib/pkgconfig/%{name}.pc
 
 %changelog
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-4PGDG
+- Fix mock builds. Per report from Christoph Berg.
+
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-3PGDG
+- Rebuild against PROJ 9.7 on all platforms except RHEL 8.
+
+* Thu Jul 17 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-2PGDG
+- Rebuild against PROJ 9.6 on SLES 15 and RHEL 8 as well.
+
+* Mon Jun 23 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.4-1PGDG
+- Update to 1.7.4 per changes described at:
+  https://github.com/OSGeo/libgeotiff/releases/tag/1.7.4
+- Add a patch from upstream per:
+  https://github.com/OSGeo/libgeotiff/issues/137
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 1.7.3-3PGDG
+- Rebuild against PROJ 9.6
+
 * Thu Sep 19 2024 Devrim Gündüz <devrim@gunduz.org> - 1.7.3-2PGDG
 - Rebuild against PROJ 9.5
 

@@ -1,16 +1,16 @@
-%global debug_package %{nil}
 %global sname e-maj
 %global pname emaj
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.5.0
+Version:	4.7.1
 Release:	1PGDG%{?dist}
 Summary:	A table update logger for PostgreSQL
 License:	GPLv2
-URL:		https://github.com/dalibo/%{sname}/
-Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
+URL:		https://github.com/dalibo/%{pname}/
+Source0:	https://github.com/dalibo/%{pname}/archive/refs/tags/v%{version}.tar.gz
 
 BuildArch:	noarch
+Requires:	postgresql%{pgmajorversion}-contrib
 
 %description
 E-Maj is a set of PL/pgSQL functions allowing PostgreSQL Database
@@ -19,7 +19,7 @@ the capability to "rollback" these updates to a predefined point
 in time.
 
 %prep
-%setup -q -n %{sname}-%{version}
+%setup -q -n %{pname}-%{version}
 
 %build
 
@@ -32,11 +32,23 @@ in time.
 %files
 %defattr(-,root,root,-)
 %license LICENSE
-%doc CHANGES.md doc README.md
+%doc CHANGES.md docs README.md
 %{pginstdir}/share/extension/%{pname}.control
 %{pginstdir}/share/extension/%{pname}*.sql
 
 %changelog
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 4.7.1-1PGDG
+- Update to 4.7.1
+
+* Tue Sep 2 2025 Devrim Gündüz <devrim@gunduz.org> - 4.7.0-1PGDG
+- Update to 4.7.0
+
+* Sat Mar 22 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.0-1PGDG
+- Update to 4.6.0
+
+* Thu Jan 9 2025 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-2PGDG
+- Add -contrib dependency for the required dblink extension.
+
 * Mon Sep 9 2024 Devrim Gündüz <devrim@gunduz.org> - 4.5.0-1PGDG
 - Update to 4.5.0
 

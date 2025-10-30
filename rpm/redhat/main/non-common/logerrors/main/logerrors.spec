@@ -4,13 +4,12 @@
 
 Summary:	Extension for PostgreSQL for collecting statistics about messages in logfile
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.3
-Release:	1PGDG%{?dist}
+Version:	2.1.5
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/munakoiso/%{sname}
 Source0:	https://github.com/munakoiso/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion} postgresql%{pgmajorversion}-devel
-BuildRequires:	pgdg-srpm-macros
 Requires:	postgresql%{pgmajorversion}
 
 %description
@@ -20,17 +19,21 @@ Extension for PostgreSQL for collecting statistics about messages in logfile
 %package llvmjit
 Summary:	Just-in-time compilation support for logerrors
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for logerrors
+This package provides JIT support for logerrors
 %endif
 
 %prep
@@ -41,16 +44,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
-# Let's also install documentation:
-%{__mkdir} -p %{buildroot}%{pginstdir}/share/extension
-%{__cp} README.md %{buildroot}%{pginstdir}/share/extension/README-%{sname}.md
+
+# Install README file under PostgreSQL installation directory:
+%{__install} -d %{buildroot}%{pginstdir}/doc/extension
+%{__install} -m 755 README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %postun -p /sbin/ldconfig
 %post -p /sbin/ldconfig
 
 %files
 %license LICENSE
-%doc %{pginstdir}/share/extension/README-%{sname}.md
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}-*.sql
 %{pginstdir}/share/extension/%{sname}.control
@@ -62,6 +66,24 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 2.1.5-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.1.5-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Sep 18 2025 - Devrim Gündüz <devrim@gunduz.org> - 2.1.5-1PGDG
+- Update to 2.1.5 per changes described at:
+  https://github.com/munakoiso/logerrors/releases/tag/v2.1.5
+  https://github.com/munakoiso/logerrors/releases/tag/v2.1.4
+
+* Thu Jan 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.3-2PGDG
+- Update LLVM dependencies
+- Fix location of the README file.
+
 * Fri Aug 23 2024 - Devrim Gündüz <devrim@gunduz.org> - 2.1.3-1PGDG
 - Update to 2.1.3 per changes described at:
   https://github.com/munakoiso/logerrors/releases/tag/v2.1.3

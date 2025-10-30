@@ -5,38 +5,46 @@
 Summary:	PostgreSQL extension to store authentication attempts
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0
-Release:	1PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/RafiaSabih/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/RafiaSabih/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel openssl-devel
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
-The goal of this extension is to ease monitoring of login attempts to your database.
-Although each failed login is written to database log file, but it is not straightforward
-to identify through that information alone if your database is under some malicious
-intents. However, if the information like total failed as well as successful login
-attempts, timestamp of last failed and successful login are maintained individually,
-then we can easily answer questions like,
- * if the user genuinely mistyped their password or their username is being compromised?
- * if there is any particular time when the malicious user/application is active?
+This extension eases monitoring of login attempts to your database. Postgres
+writes each login attempt to a log file, but it is hard to identify through
+that information alone if your database is under malicious activity.
+Maintaining separately information like the total number of successful login
+attempts, or a timestamp of the last failed login helps to answer questions
+like:
+ - when has a user successfully logged in for the last time ?
+ - has a user genuinely mistyped their password or has their username been compromised?
+ - is there any particular time when a malicious role is active?
+
+Once we have spot a suspicious activity, we may dig deeper by using this
+information along with the log file to identify the particular IP address etc.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_auth_mon
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_auth_mon
+This package provides JIT support for pg_auth_mon
 %endif
 
 %prep
@@ -67,6 +75,21 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.0-5PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.0-4PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 3.0-3PGDG
+- Add missing BRs
+
+* Thu Sep 19 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0-2PGDG
+- Update description and LLVM dependencies.
+
 * Tue Aug 6 2024 Devrim Gunduz <devrim@gunduz.org> - 3.0-1PGDG
 - Update to 3.0 per changes described at:
   https://github.com/RafiaSabih/pg_auth_mon/releases/tag/v3.0

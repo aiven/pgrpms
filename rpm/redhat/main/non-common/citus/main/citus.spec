@@ -5,17 +5,26 @@
 
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
-Version:	12.1.6
-Release:	1PGDG%{dist}
+Version:	13.2.0
+Release:	3PGDG%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
 BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
-BuildRequires:	libcurl-devel pgdg-srpm-macros libzstd-devel
+BuildRequires:	libcurl-devel libzstd-devel flex krb5-devel
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 Requires:	libzstd1
 %else
 Requires:	libzstd
@@ -46,17 +55,21 @@ This package includes development libraries for Citus.
 %package llvmjit
 Summary:	Just-in-time compilation support for citus
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
-Requires:	llvm => 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for citus
+This package provides JIT support for citus
 %endif
 
 %prep
@@ -106,6 +119,38 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 13.2.0-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 13.2.0-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Fri Aug 29 2025 Devrim Gunduz <devrim@gunduz.org> - 13.2.0-1PGDG
+- Update to 13.2.0 per changes described at:
+  https://github.com/citusdata/citus/blob/main/CHANGELOG.md#citus-v1320-august-18-2025
+
+* Mon Jun 2 2025 Devrim Gunduz <devrim@gunduz.org> - 13.1.0-1PGDG
+- Update to 13.1.0 per changes described at:
+  https://github.com/citusdata/citus/blob/release-13.1/CHANGELOG.md#citus-v1310-may-30th-2025
+
+* Sat May 31 2025 Devrim Gunduz <devrim@gunduz.org> - 13.0.4-1PGDG
+- Update to 13.0.4 per changes described at:
+  https://github.com/citusdata/citus/blob/release-13.0/CHANGELOG.md#citus-v1304-may-29th-2025
+
+* Mon Feb 24 2025 Devrim Gunduz <devrim@gunduz.org> - 13.0.1-2PGDG
+- Add missing BR, per mock test.
+
+* Wed Feb 5 2025 Devrim Gunduz <devrim@gunduz.org> - 13.0.1-1PGDG
+- Update to 13.0.1 per changes described at:
+  https://github.com/citusdata/citus/blob/release-13.0/CHANGELOG.md#citus-v1301-february-4th-2025
+
+* Fri Jan 24 2025 Devrim Gunduz <devrim@gunduz.org> - 13.0.0-1PGDG
+- Update to 13.0.0 per changes described at:
+  https://github.com/citusdata/citus/blob/release-13.0/CHANGELOG.md#citus-v1300-january-22-2025
+
 * Fri Nov 15 2024 Devrim Gunduz <devrim@gunduz.org> - 12.1.6-1PGDG
 - Update to 12.1.6
 

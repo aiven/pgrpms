@@ -3,14 +3,14 @@
 
 Summary:	DDL eXtractor functions for PostgreSQL (ddlx)
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.28
-Release:	1PGDG%{?dist}
+Version:	0.30
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/lacanoid/%{pname}/archive/%{version}.tar.gz
 URL:		https://github.com/lacanoid/%{pname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildArch:	noarch
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
+BuildArch:	noarch
 
 %description
 This is an SQL-only extension for PostgreSQL that provides uniform functions
@@ -38,6 +38,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %doc %{pginstdir}/doc/extension/README-%{sname}.md
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 0.30-2PGDG
+- Remove redundant BR
+
+* Thu Aug 28 2025 Devrim Gündüz <devrim@gunduz.org> - 0.30-1PGDG
+- Update to 0.30 per changes described at:
+  https://github.com/lacanoid/pgddl/releases/tag/0.30
+
+* Fri Dec 13 2024 Devrim Gündüz <devrim@gunduz.org> - 0.29-1PGDG
+- Update to 0.29 per changes described at:
+  https://github.com/lacanoid/pgddl/releases/tag/0.29
+
 * Mon Oct 14 2024 Devrim Gündüz <devrim@gunduz.org> - 0.28-1PGDG
 - Update to 0.28 per changes described at:
   https://github.com/lacanoid/pgddl/releases/tag/0.28

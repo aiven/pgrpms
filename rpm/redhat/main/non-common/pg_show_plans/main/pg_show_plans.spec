@@ -4,12 +4,12 @@
 
 Summary:	A PostgreSQL extension that shows query plans of all the currently running SQL statements.
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.1.2
-Release:	1PGDG%{?dist}
+Version:	2.1.6
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -23,17 +23,21 @@ not resizable, thus, no new plans can be added once it has been filled up.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_show_plans
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_show_plans
+This package provides JIT support for pg_show_plans
 %endif
 
 %prep
@@ -66,6 +70,26 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.6-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.1.6-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Jul 21 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.8-1PGDG
+- Update to 2.1.8 per described at:
+  https://github.com/cybertec-postgresql/pg_show_plans/releases/tag/v2.1.8
+
+* Tue Apr 29 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.3-1PGDG
+- Update to 2.1.3 per described at:
+  https://github.com/cybertec-postgresql/pg_show_plans/releases/tag/v2.1.3
+
+* Sat Jan 11 2025 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-2PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 2.1.2-1PGDG
 - Update to 2.1.2
 - Update LLVM dependencies

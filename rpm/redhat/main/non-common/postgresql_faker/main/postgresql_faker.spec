@@ -5,22 +5,19 @@
 Summary:	Fake Data Generator for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.3
-Release:	6PGDG%{?dist}
+Release:	9PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://gitlab.com/dalibo/%{sname}/-/archive/%{version}/%{sname}-%{version}.tar.bz2
 URL:		https://gitlab.com/dalibo/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	postgresql%{pgmajorversion}-plpython3
-%if 0%{?fedora} || 0%{?rhel} >= 7
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	python3-faker
 %endif
-
-%if 0%{?suse_version}
 %if 0%{?suse_version} >= 1499
 Requires:	python3-Faker
-%endif
 %endif
 
 %description
@@ -34,17 +31,21 @@ This extension is simply a wrapper written in pl/python procedural language.
 %package llvmjit
 Summary:	Just-in-time compilation support for postgresql_faker
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for postgresql_faker
+This package provides JIT support for postgresql_faker
 %endif
 
 %prep
@@ -55,8 +56,6 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-# Just a workaround until next version is out.
-# https://gitlab.com/dalibo/postgresql_faker/-/issues/13
 PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR=%{buildroot}
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
@@ -76,6 +75,18 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-9PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.5.3-8PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Jan 27 2025 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-7PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 0.5.3-6PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

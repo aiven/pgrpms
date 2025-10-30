@@ -1,16 +1,52 @@
 %global sname pglogical
-%global tag 2_4_5
+
+%global pglogicalmajver 2
+%global pglogicalmidver 4
+%global pglogicalminver 6
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Logical Replication extension for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.5
-Release:	1PGDG%{dist}
+Version:	%{pglogicalmajver}.%{pglogicalmidver}.%{pglogicalminver}
+Release:	3PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/2ndQuadrant/%{sname}
-Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{tag}.tar.gz
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+Source0:	https://github.com/2ndQuadrant/%{sname}/archive/REL%{pglogicalmajver}_%{pglogicalmidver}_%{pglogicalminver}.tar.gz
+BuildRequires:	postgresql%{pgmajorversion}-devel
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+# zstd dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd1 >= 1.4.0
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	libzstd-devel >= 1.4.0
+Requires:	libzstd >= 1.4.0
+%endif
+%endif
+%if 0%{?suse_version} == 1500
+Requires:	libopenssl1_1
+BuildRequires:	libopenssl-1_1-devel
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+BuildRequires:	libxml2-devel libxslt-devel pam-devel
+BuildRequires:	krb5-devel zlib-devel
+
 Requires:	postgresql%{pgmajorversion}-server
 
 Obsoletes:	%{sname}_%{pgmajorversion} < 2.3.3-2
@@ -21,28 +57,32 @@ extension. Fully integrated, it requires no triggers or external programs.
 This alternative to physical replication is a highly efficient method of
 replicating data using a publish/subscribe model for selective replication.
 
-he pglogical 2 extension provides logical streaming replication for
+This extension provides logical streaming replication for
 PostgreSQL, using a publish/subscribe model.
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for pglogical
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pglogical
+This package provides JIT support for pglogical
 %endif
 
 %prep
-%setup -q -n %{sname}-REL%{tag}
+%setup -q -n %{sname}-REL%{pglogicalmajver}_%{pglogicalmidver}_%{pglogicalminver}
 
 %build
 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
@@ -74,6 +114,25 @@ PATH=%{pginstdir}/bin:$PATH %make_install
 %endif
 
 %changelog
+* Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 2.4.6-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.4.6-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> - 2.4.6-1PGDG
+- Update to 2.4.6 per changes described at:
+  https://github.com/2ndQuadrant/pglogical/releases/tag/REL2_4_6
+
+* Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 2.4.5-3PGDG
+- Add missing BRs
+
+* Thu Jan 9 2025 Devrim Gündüz <devrim@gunduz.org> - 2.4.5-2PGDG
+- Update LLVM dependencies
+
 * Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.5-1PGDG
 - Update to 2.4.5 per changes described at:
   https://github.com/2ndQuadrant/pglogical/releases/tag/REL2_4_5

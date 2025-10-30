@@ -1,36 +1,23 @@
 %global sname	timescaledb
 
-Summary:	PostgreSQL based time-series database
+Summary:	A time-series database for high-performance real-time analytics
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.17.2
+Version:	2.23.0
 Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
-%if 0%{?rhel} && 0%{?rhel} == 7
-Patch1:		%{sname}-cmake3-rhel7.patch
-%endif
-URL:		https://github.com/timescale/timescaledb
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
-BuildRequires:	openssl-devel
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	cmake3
-%else
-BuildRequires:	cmake >= 3.4
-%endif
+URL:		https://github.com/timescale/%{sname}
+BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	cmake >= 3.4 openssl-devel
 
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
-TimescaleDB is an open-source database designed to make SQL scalable for
-time-series data. It is engineered up from PostgreSQL, providing automatic
-partitioning across time and space (partitioning key), as well as full SQL
-support.
+TimescaleDB is a PostgreSQL extension for high-performance real-time analytics
+on time-series and event data.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%if 0%{?rhel} && 0%{?rhel} == 7
-%patch -P 1 -p0
-%endif
 
 # Build only the portions that have Apache Licence, and disable telemetry:
 export PATH=%{pginstdir}/bin:$PATH
@@ -40,21 +27,17 @@ export PATH=%{pginstdir}/bin:$PATH
 %build
 export PATH=%{pginstdir}/bin:$PATH
 %ifarch ppc64 ppc64le
-%if 0%{?rhel} && 0%{?rhel} == 7
-	CFLAGS="-O3 -mcpu=$PPC_MCPU -mtune=$PPC_MTUNE"
-%endif
-%else
 	CFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 	CXXFLAGS="$RPM_OPT_FLAGS -fPIC -pie"
 	export CFLAGS
 	export CXXFLAGS
 %endif
 
-cd build; %{__make}
+cd build; %{__make} %{?_smp_mflags}
 
 %install
 export PATH=%{pginstdir}/bin:$PATH
-cd build; %{__make} DESTDIR=%{buildroot} install
+cd build; %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{__rm} -f %{buildroot}/%{pginstdir}/lib/pgxs/src/test/perl/*pm
 
 %files
@@ -66,6 +49,83 @@ cd build; %{__make} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Oct 29 2025 Devrim Gündüz <devrim@gunduz.org> - 2.23.0-1PGDG
+- Update to 2.23.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.23.0
+
+* Tue Sep 30 2025 Devrim Gündüz <devrim@gunduz.org> - 2.22.1-1PGDG
+- Update to 2.22.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.22.1
+
+* Tue Sep 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.22.0-1PGDG
+- Update to 2.22.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.22.0
+
+* Tue Aug 12 2025 Devrim Gündüz <devrim@gunduz.org> - 2.21.3-1PGDG
+- Update to 2.21.3, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.21.3
+
+* Tue Aug 5 2025 Devrim Gündüz <devrim@gunduz.org> - 2.21.2-1PGDG
+- Update to 2.21.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.21.2
+
+* Wed Jul 23 2025 Devrim Gündüz <devrim@gunduz.org> - 2.21.1-1PGDG
+- Update to 2.21.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.21.1
+
+* Thu Jul 10 2025 Devrim Gündüz <devrim@gunduz.org> - 2.21.0-1PGDG
+- Update to 2.21.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.21.0
+
+* Wed Jun 11 2025 Devrim Gündüz <devrim@gunduz.org> - 2.20.3-1PGDG
+- Update to 2.20.3, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.20.3
+
+* Mon Jun 2 2025 Devrim Gündüz <devrim@gunduz.org> - 2.20.2-1PGDG
+- Update to 2.20.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.20.2
+
+* Wed May 28 2025 Devrim Gündüz <devrim@gunduz.org> - 2.20.1-1PGDG
+- Update to 2.20.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.20.1
+
+* Sun May 18 2025 Devrim Gündüz <devrim@gunduz.org> - 2.20.0-1PGDG
+- Update to 2.20.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.20.0
+
+* Wed Apr 16 2025 Devrim Gündüz <devrim@gunduz.org> - 2.19.3-1PGDG
+- Update to 2.19.3, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.19.3
+
+* Tue Apr 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.19.2-1PGDG
+- Update to 2.19.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.19.2
+
+* Tue Apr 1 2025 Devrim Gündüz <devrim@gunduz.org> - 2.19.1-1PGDG
+- Update to 2.19.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.19.1
+
+* Wed Mar 19 2025 Devrim Gündüz <devrim@gunduz.org> - 2.19.0-1PGDG
+- Update to 2.19.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.19.0
+
+* Wed Feb 19 2025 Devrim Gündüz <devrim@gunduz.org> - 2.18.2-1PGDG
+- Update to 2.18.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.18.2
+
+* Tue Feb 11 2025 Devrim Gündüz <devrim@gunduz.org> - 2.18.1-1PGDG
+- Update to 2.18.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.18.1
+
+* Tue Jan 28 2025 Devrim Gündüz <devrim@gunduz.org> - 2.18.0-2PGDG
+- Remove redundant BR
+- Build in parallel
+
+* Thu Jan 23 2025 Devrim Gündüz <devrim@gunduz.org> - 2.18.0-1PGDG
+- Update to 2.18.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.18.0
+- Remove RHEL 7 support
+
 * Wed Nov 6 2024 Devrim Gündüz <devrim@gunduz.org> - 2.17.2-1PGDG
 - Update to 2.17.2, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.17.2

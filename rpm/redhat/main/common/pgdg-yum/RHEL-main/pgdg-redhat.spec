@@ -1,21 +1,9 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	46PGDG
+Release:	59PGDG
 Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky / AlmaLinux
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
-
-# RHEL 7:
-%if 0%{?rhel} && 0%{?rhel} == 7
-%ifarch aarch64
-Source0:	https://yum.postgresql.org/PGDG-RPM-GPG-KEY-AARCH64-RHEL7
-Source2:	pgdg-redhat-all-rhel7-aarch64.repo
-%endif
-%ifarch ppc64le x86_64
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL7
-Source2:	pgdg-redhat-all-rhel7.repo
-%endif
-%endif
 
 # RHEL 8
 %if 0%{?rhel} && 0%{?rhel} == 8
@@ -33,8 +21,8 @@ Source2:	pgdg-redhat-all-rhel8.repo
 %endif
 %endif
 
-# RHEL 9+
-%if 0%{?rhel} && 0%{?rhel} >= 9
+# RHEL 9
+%if 0%{?rhel} && 0%{?rhel} == 9
 %ifarch aarch64
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
 Source2:	pgdg-redhat-all-rhel9-aarch64.repo
@@ -49,12 +37,28 @@ Source2:	pgdg-redhat-all-rhel9.repo
 %endif
 %endif
 
+# RHEL 10
+%if 0%{?rhel} && 0%{?rhel} == 10
+%ifarch aarch64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
+Source2:	pgdg-redhat-all-rhel10-aarch64.repo
+%endif
+%ifarch ppc64le
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel10-ppc64le.repo
+%endif
+%ifarch x86_64
+Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
+Source2:	pgdg-redhat-all-rhel10.repo
+%endif
+%endif
+
 BuildArch:	noarch
 Requires:	/etc/redhat-release
 
 %description
 This package contains yum configuration for Red Hat Enterprise Linux,
-Rocky Linux, Alma Linux and also the GPG key for PGDG RPMs.
+Rocky Linux, AlmaLinux and also the GPG key for PGDG RPMs.
 
 %prep
 %setup -q -c -T
@@ -81,6 +85,46 @@ Rocky Linux, Alma Linux and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-59PGDG
+- Add missing debuginfo/source repos.
+
+* Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-58PGDG
+- v18 is the last major release for RHEL 8
+
+* Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-57PGDG
+- Add v18 repos
+
+* Thu Aug 28 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-56PGDG
+- Enable gpgcheck for v18 repositories.
+
+* Tue Aug 5 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-55PGDG
+- Fix/update debuginfo URLs in ppc64le repo files.
+
+* Mon Jun 30 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-54PGDG
+- Introduce PostgreSQL 19 testing repo
+
+* Thu May 22 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-53PGDG
+- RHEL 10 is now GA.
+
+* Tue May 6 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-52PGDG
+- Rebuilt.
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-51PGDG
+- Add extras SRPM repos
+
+* Tue Mar 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-50PGDG
+- All SRPM repos must end with -source so that dnf picks that up.
+
+* Thu Mar 13 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-49PGDG
+- Use new URL for SRPMs
+
+* Mon Feb 24 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-48PGDG
+- Remove v12 repos
+
+* Wed Dec 18 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-47PGDG
+- Add RHEL 10 repo files
+- Remove RHEL 7 repos
+
 * Tue Oct 1 2024 Devrim Gündüz <devrim@gunduz.org> - 42.0-46PGDG
 - Rebuild on RHEL 9 to properly propagate commit e47a6146 .
 

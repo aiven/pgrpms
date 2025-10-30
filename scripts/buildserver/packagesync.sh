@@ -57,11 +57,18 @@ do
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $DEBUG_RPM_DIR/repodata/repomd.xml
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $SRPM_DIR/repodata/repomd.xml
 
-	# Finally, perform the rsync:
-	rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/$packageSyncVersion/$osdistro/$os-$osarch
-	rsync --checksum -ave ssh --delete $SRPM_DIR/ yumupload@yum.postgresql.org:yum/yum/srpms/$packageSyncVersion/$osdistro/$os-$osarch
-	aws s3 sync $DEBUG_RPM_DIR s3://dnf-debuginfo.postgresql.org/debug/$packageSyncVersion/$osdistro/$os-$osarch/
-	aws cloudfront create-invalidation --distribution-id XXXXXXXXXXXXXX --path /debug/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
+	# We currently pull packages from yonada, so skip the next line:
+	# rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/$packageSyncVersion/$osdistro/$os-$osarch
+
+	# Sync SRPMs to S3 bucket:
+	aws s3 sync $SRPM_DIR s3://dnf-srpms.postgresql.org20250313103537584600000001/srpms/$packageSyncVersion/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $SRPM_DIR/repodata/ s3://dnf-srpms.postgresql.org20250313103537584600000001/srpms/$packageSyncVersion/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
+
+	# Sync debug* RPMs to S3 bucket:
+	aws s3 sync $DEBUG_RPM_DIR s3://dnf-debuginfo.postgresql.org20250312201116649700000001/debug/$packageSyncVersion/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ s3://dnf-debuginfo.postgresql.org20250312201116649700000001/debug/$packageSyncVersion/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
 done
 
 exit 0

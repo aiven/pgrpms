@@ -1,20 +1,14 @@
 Summary:	A wrapper library for the Firebird C API
 Name:		libfq
-Version:	0.6.1
+Version:	0.6.2
 Release:	1PGDG%{dist}
 Source:		https://github.com/ibarwick/%{name}/archive/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{name}
 License:	PostgreSQL
-Group:		Development/Libraries/C and C++
 BuildRequires:	firebird-devel
 
-%if 0%{?rhel} && 0%{?rhel} == 7
-BuildRequires:	firebird-libfbclient
-Requires:	firebird-libfbclient
-%else
 BuildRequires:	libfbclient2
 Requires:	libfbclient2
-%endif
 
 %description
 A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
@@ -23,7 +17,7 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %setup -q -n %{name}-%{version}
 
 %build
-./configure --prefix=%{_prefix} \
+%configure --prefix=%{_prefix} \
 	--with-ibase=%{_includedir}/firebird --libdir=%{_libdir}/
 
 %{__make} %{?_smp_mflags}
@@ -43,6 +37,18 @@ A wrapper library for the Firebird C API, loosely based on libpq for PostgreSQL.
 %{_includedir}/%{name}.h
 
 %changelog
+* Mon Sep 22 2025 Devrim Gündüz <devrim@gunduz.org> - 0.6.2-1PGDG
+- Update to 0.6.2 per changes described at:
+  https://github.com/ibarwick/libfq/releases/tag/0.6.2
+- Remove temp patch included in 0.6.1-3.
+
+* Fri Sep 19 2025 Devrim Gündüz <devrim@gunduz.org> - 0.6.1-3PGDG
+- Fix builds on Fedora 42 (GCC 15). Took the patch from upstream:
+  e966732, bf8f611, 809ef0b, so will be removed in next release.
+
+* Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 0.6.1-2PGDG
+- Remove RHEL 7 support
+
 * Thu May 23 2024 Devrim Gündüz <devrim@gunduz.org> - 0.6.1-1PGDG
 - Update to 0.6.1 per changes described at:
   https://github.com/ibarwick/libfq/releases/tag/0.6.1

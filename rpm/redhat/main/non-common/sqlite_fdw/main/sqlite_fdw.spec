@@ -1,22 +1,18 @@
 %global sname	sqlite_fdw
 
-# Disable tests by default.
-%{!?runselftest:%global runselftest 0}
-
 %{!?llvm:%global llvm 1}
 
 Summary:	SQLite Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.4.0
+Version:	2.5.0
 Release:	4PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
-Patch0:		%{sname}-pg17.patch
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	postgresql%{pgmajorversion}-server sqlite-devel
 Requires:	postgresql%{pgmajorversion}-server
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 # Unfortunately SLES 15 ships the libraries with -devel subpackage:
 Requires:	sqlite3-devel >= 3.7
 %else
@@ -31,22 +27,25 @@ This PostgreSQL extension is a Foreign Data Wrapper for SQLite.
 %package llvmjit
 Summary:	Just-in-time compilation support for sqlite_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for sqlite_fdw
+This package provides JIT support for sqlite_fdw
 %endif
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch -P 0 -p0
 
 %build
 
@@ -74,6 +73,24 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-4PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 2.5.0-3PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Jan 29 2025 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-2PGDG
+- Update LLVM dependencies
+- Remove redundant BR
+
+* Wed Dec 11 2024 Devrim Gündüz <devrim@gunduz.org> - 2.5.0-1PGDG
+- Update to 2.5.0 per changes described at:
+  https://github.com/pgspider/sqlite_fdw/releases/tag/v2.5.0
+- Remove the patch added in 2.4.0-4, now in upstream.
+
 * Mon Sep 23 2024 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-4PGDG
 - Add a patch to fix builds on PostgreSQL 17.
 

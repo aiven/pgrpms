@@ -3,21 +3,38 @@
 
 %{!?llvm:%global llvm 1}
 
-%if 0%{?fedora} >= 39
-%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
 %endif
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
+
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.0
+Version:	3.2
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
 URL:		https://github.com/pgsql-io/%{version}
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python3-devel
 
 Provides:	python3dist(multicorn)%{?_isa} = %{version}-%{release}
@@ -26,8 +43,8 @@ Provides:	python3dist(multicorn)%{?_isa} = %{version}-%{release}
 Provides:	%{sname} = %{version}
 
 %description
-Multicorn Python3 Wrapper for Postgresql Foreign Data Wrapper. Tested
-on Linux w/ Python 3.6+ & Postgres 10+.
+Multicorn2 Python3 Wrapper for Postgresql Foreign Data Wrapper. Tested
+tested on Linux w/ Python 3.9-3.12 & Postgres 13-17.
 
 The Multicorn Foreign Data Wrapper allows you to fetch foreign data in
 Python in your PostgreSQL server.
@@ -40,17 +57,21 @@ foreign data wrappers in Python.
 %package llvmjit
 Summary:	Just-in-time compilation support for multicorn2
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for multicorn2
+This package provides JIT support for multicorn2
 %endif
 
 %prep
@@ -58,12 +79,10 @@ This packages provides JIT support for multicorn2
 %patch -P 0 -p0
 
 %build
-export PYTHON_OVERRIDE="python%{pyver}"
 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-export PYTHON_OVERRIDE="python%{pyver}"
 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} install
 # Install Python portions manually:
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{pname}
@@ -85,6 +104,26 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2-1PGDG
+- Update to 3.2
+
+* Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 3.1-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1-1PGDG
+- Update to 3.1
+- Build with Python 3.12 on RHEL 8 and 9.
+
+* Fri Jan 3 2025 Devrim Gündüz <devrim@gunduz.org> - 3.0-2PGDG
+- Add RHEL 10 support
+- Update LLVM dependencies
+
 * Wed Sep 25 2024 Devrim Gündüz <devrim@gunduz.org> - 3.0-1PGDG
 - Update to 3.0
 - Remove patch1, it is now in upstream tarball.

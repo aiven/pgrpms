@@ -4,31 +4,34 @@
 
 Summary:	A PostgreSQL foreign data wrapper (FDW) for Firebird
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4.0
+Version:	1.4.1
 Release:	3PGDG%{dist}
 Source0:	https://github.com/ibarwick/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/ibarwick/%{sname}
 License:	PostgreSQL
-Group:		Productivity/Databases/Tools
 BuildRequires:	postgresql%{pgmajorversion}-devel firebird-devel
-BuildRequires:	libfq >= 0.6.1 pgdg-srpm-macros
+BuildRequires:	libfq >= 0.6.1
 Requires:	postgresql%{pgmajorversion}-server
 
 %if %llvm
 %package llvmjit
 Summary:	Just-in-time compilation support for firebird_fdw
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for firebird_fdw
+This package provides JIT support for firebird_fdw
 %endif
 
 %description
@@ -63,6 +66,22 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 1.4.1-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.4.1-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Sep 22 2025 Devrim Gündüz <devrim@gunduz.org> - 1.4.1-1PGDG
+- Update to 1.4.1 per changes described at
+  https://github.com/ibarwick/firebird_fdw/releases/tag/1.4.1
+
+* Fri Feb 21 2025 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-4PGDG
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4.0-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

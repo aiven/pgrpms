@@ -2,27 +2,48 @@
 # We will specify dependencies in the spec file.
 %{?python_disable_dependency_generator}
 
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
+
 %global debug_package %{nil}
 
-%if 0%{?fedora} >= 35
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
 
 Summary:	BigQuery Foreign Data Wrapper for PostgreSQL
 Name:		bigquery_fdw
 Version:	2.0
-Release:	2PGDG%{?dist}
+Release:	4PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://github.com/gabfl/%{name}/
 Source0:	https://github.com/gabfl/%{name}/archive/%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel pgdg-srpm-macros
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	python3-devel
 
-Requires:	multicorn
+Requires:	multicorn2
 Requires:	python3-google-auth = 1.14.3
 Requires:	python3-google-oauthlib = 0.4.1
 Requires:	python3-google-cloud-bigquery = 1.24
@@ -35,10 +56,10 @@ Requires:	python3-google-cloud-bigquery = 1.24
 # Change /usr/bin/python to /usr/bin/python2 in the scripts:
 for i in `find . -iname "*.py"`; do sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/env python3/g" $i; done
 
-python3 setup.py build
+%{__ospython} setup.py build
 
 %install
-python3 setup.py install --no-compile --root %{buildroot}
+%{__ospython} setup.py install --no-compile --root %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -53,6 +74,14 @@ python3 setup.py install --no-compile --root %{buildroot}
 %{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.0-4PGDG
+- Use multicorn2 instead of deprecated multicorn package.
+- Add SLES 16 support
+
+* Sun Mar 9 2025 Devrim Gündüz <devrim@gunduz.org> - 2.0-3PGDG
+- Add RHEL 10 dependency
+- Remove redundant BR
+
 * Fri Feb 16 2024 Devrim Gündüz <devrim@gunduz.org> - 2.0-2PGDG
 - Fix SLES 15 builds
 - Add PGDG branding

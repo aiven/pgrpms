@@ -1,4 +1,4 @@
-%if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 %global debug_package %{nil}
 %endif
 
@@ -8,17 +8,24 @@
 %global	libspatialitemajorversion	50
 
 %pgdg_set_gis_variables
+
 # Override some variables.
-%global geosfullversion %geos313fullversion
-%global geosmajorversion %geos313majorversion
-%global geosinstdir %geos313instdir
-%global projmajorversion %proj95majorversion
-%global projfullversion %proj95fullversion
-%global projinstdir %proj95instdir
+%global geosfullversion %geos314fullversion
+%global geosmajorversion %geos314majorversion
+%global geosinstdir %geos314instdir
+%if 0%{?rhel} && 0%{?rhel} == 8
+%global projmajorversion %proj96majorversion
+%global projfullversion %proj96fullversion
+%global projinstdir %proj96instdir
+%else
+%global projmajorversion %proj97majorversion
+%global projfullversion %proj97fullversion
+%global projinstdir %proj97instdir
+%endif
 
 Name:		%{sname}%{libspatialitemajorversion}
 Version:	5.1.0
-Release:	6PGDG%{?dist}
+Release:	12PGDG%{?dist}
 Summary:	Enables SQLite to support spatial data
 License:	MPLv1.1 or GPLv2+ or LGPLv2+
 URL:		https://www.gaia-gis.it/fossil/libspatialite
@@ -26,7 +33,20 @@ Source0:	http://www.gaia-gis.it/gaia-sins/%{sname}-sources/%{sname}-%{version}.t
 Source1:	%{name}-pgdg-libs.conf
 
 BuildRequires:	gcc librttopo-devel
-BuildRequires:	minizip-devel pgdg-srpm-macros >= 1.0.36
+BuildRequires:	pgdg-srpm-macros >= 1.0.50
+%if 0%{?rhel} && 0%{?rhel} <= 9
+BuildRequires:	minizip-devel
+%endif
+%if 0%{?suse_version} || 0%{?suse_version} >= 1500
+BuildRequires:	minizip-devel
+%endif
+%if 0%{?rhel} && 0%{?rhel} >= 10
+BuildRequires:	minizip-ng-compat-devel
+%endif
+%if 0%{?fedora} && 0%{?fedora} >= 41
+BuildRequires:	minizip-ng-compat-devel
+%endif
+
 BuildRequires:	geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	proj%{projmajorversion}-devel >= %{projfullversion}
 BuildRequires:	sqlite-devel zlib-devel libxml2-devel
@@ -112,6 +132,21 @@ find %{buildroot} -type f -name "*.la" -delete
 %{libspatialiteinstdir}/lib/pkgconfig/spatialite.pc
 
 %changelog
+* Tue Oct 7 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-12PGDG
+- Rebuild against PROJ 9.7 on all platforms except RHEL 8.
+
+* Tue Aug 26 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-11PGDG
+- Rebuild against GeOS 3.14
+
+* Thu Jul 17 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-10PGDG
+- Rebuild against PROJ 9.6 on SLES 15 and RHEL 8 as well.
+
+* Sun May 25 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-9PGDG
+- Fix BR on RHEL 10 and Fedora.
+
+* Wed Apr 16 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-8PGDG
+- Rebuild against PROJ 9.6
+
 * Thu Sep 26 2024 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-7PGDG
 - Rebuild due to issues with PROJ and GeOS dependency on the build instances
 

@@ -4,9 +4,9 @@
 
 Summary:	Server side rollback at statement level for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.4
+Version:	1.5
 Release:	3PGDG%{?dist}
-License:	BSD
+License:	ISC
 Source0:	https://github.com/lzlabs/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/lzlabs/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
@@ -20,17 +20,21 @@ transaction with rollback at statement level like in Oracle or DB2.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_statement_rollback
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for pg_statement_rollback
+This package provides JIT support for pg_statement_rollback
 %endif
 
 %prep
@@ -59,6 +63,22 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 1.5-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Mon Sep 29 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-1PGDG
+- Update to 1.5 per changes described at:
+  https://github.com/lzlabs/pg_statement_rollback/releases/tag/v1.5
+
+* Mon Jan 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.4-4PGDG
+- Update LLVM dependencies and fix license.
+
 * Mon Jul 29 2024 Devrim Gündüz <devrim@gunduz.org> - 1.4-3PGDG
 - Update LLVM dependencies
 - Remove RHEL 7 support

@@ -6,8 +6,8 @@
 
 Summary:	Database Test 2 Differences from the TPC-C - Extensions
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	0.61.2
-Release:	1PGDG%{dist}
+Version:	0.61.7
+Release:	3PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -15,14 +15,16 @@ Patch0:		%{sname}-cmakelists-rpm.patch
 Requires:	%{sname}-common
 
 BuildRequires:	gcc-c++
-BuildRequires:	cmake => 3.2.0
+BuildRequires:	cmake >= 3.2.0
 
 BuildRequires:	libpq5-devel openssl-devel curl-devel
 
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1500
 BuildRequires:	libexpat-devel
+Requires:	libexpat1
 %else
-Requires:	expat-devel
+BuildRequires:	expat-devel
+Requires:	expat
 %endif
 
 %description
@@ -37,17 +39,21 @@ The database management systems that are currently supported are:
 %package llvmjit
 Summary:	Just-in-time compilation support for dbt2-extensions
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 13.0 clang-devel >= 13.0
-Requires:	llvm => 13.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
-This packages provides JIT support for dbt2-extensions
+This package provides JIT support for dbt2-extensions
 %endif
 
 %prep
@@ -60,11 +66,7 @@ CFLAGS="$CFLAGS -I%{pginstdir}/include/server -g -fPIE"; export CFLAGS
 export PATH=%{pginstdir}/bin/:$PATH
 %{__install} -d build
 pushd build
-%if 0%{?suse_version} >= 1315
-cmake ..
-%else
-%cmake3 ..
-%endif
+%cmake ..
 
 popd
 
@@ -95,11 +97,12 @@ popd
 %{__cp} storedproc/pgsql/c/%{sname}.so %{buildroot}/%{pginstdir}/lib
 %{__cp} storedproc/pgsql/c/%{sname}--0.45.0.sql %{buildroot}/%{pginstdir}/share/extension/%{sname}--%{version}.sql
 
-# Remove binaries, they are installed with the common package.
+# Remove files which are installed with the common package:
 %{__rm} -f %{buildroot}/%{_bindir}/*
-
-# Remove man files, they are installed with the common package.
 %{__rm} -f %{buildroot}/%{_mandir}/man1/dbt2*
+
+# Remove more files:
+%{__rm} -rf %{buildroot}/usr/src/%{sname}/storedproc/
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
@@ -124,6 +127,26 @@ popd
 %endif
 
 %changelog
+* Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 0.61.7-3PGDG
+- Add SLES 16 support
+
+* Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 0.61.7-2PGDG
+- Bump release number (missed in previous commit)
+
+* Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
+- Change => to >= in Requires and BuildRequires
+
+* Thu Jul 10 2025 Devrim Gunduz <devrim@gunduz.org> - 0.61.7-1PGDG
+- Update 0.61.7
+
+* Mon Apr 7 2025 Devrim Gunduz <devrim@gunduz.org> - 0.61.6-2PGDG
+- Spec file cleanup
+- Remove more files.
+
+* Fri Feb 21 2025 Devrim Gunduz <devrim@gunduz.org> - 0.61.6-1PGDG
+- Update 0.61.6
+- Update LLVM dependencies
+
 * Mon Jul 29 2024 Devrim Gunduz <devrim@gunduz.org> - 0.61.2-1PGDG
 - Update 0.61.2
 - Update LLVM dependencies
