@@ -4,7 +4,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.57.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -91,9 +91,9 @@ are required to perform a backup which increases security.
 if [ $1 -eq 1 ] ; then
    /usr/bin/systemctl daemon-reload >/dev/null 2>&1 || :
    %if 0%{?suse_version} >= 1500
-   %service_add_pre postgresql-%{pgpackageversion}.service
+   %service_add_pre %{name}.service
    %else
-   %systemd_post %{sname}-%{pgpackageversion}.service
+   %systemd_post %{name}.service
    %endif
 fi
 
@@ -126,6 +126,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Mon Nov 17 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-4PGDG
+- Fix unit file name in %%post scripts. Per report from Stefan Fercot.
+  Fixes https://github.com/pgdg-packaging/pgdg-rpms/issues/121
+
 * Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-3PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
