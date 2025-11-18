@@ -85,9 +85,9 @@ Version:	15.15
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -179,7 +179,7 @@ BuildRequires:	llvm17-devel clang17-devel
 %if 0%{?suse_version} == 1600
 BuildRequires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
@@ -1424,6 +1424,9 @@ fi
 %endif
 
 %changelog
+* Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 15.15-2PGDG
+- Fix builds on RHEL 7.
+
 * Tue Nov 11 2025 Devrim Gündüz <devrim@gunduz.org> - 15.15-1PGDG
 - Update to 15.15, per changes described at
   https://www.postgresql.org/docs/release/15.15/
