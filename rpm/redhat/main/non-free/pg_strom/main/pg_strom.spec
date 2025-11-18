@@ -1,24 +1,26 @@
 %global debug_package %{nil}
 %global	sname	pg_strom
-%global __cuda_major_version 12
-%global __cuda_minor_version 2
+%global __cuda_major_version 13
+%global __cuda_minor_version 0
 %global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
 
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	6.0
-Release:	2PGDG%{?dist}
+Version:	6.1
+Release:	1PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
 Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
+BuildRequires:	libarrow-devel parquet-libs-devel
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 BuildRequires:	nvidia-driver-cuda-libs
+Requires:	libarrow parquet-libs
 Requires:	nvidia-driver-cuda-libs
 Requires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 Requires:	postgresql%{pgmajorversion}-server
@@ -99,6 +101,10 @@ export CUDA_PATH=%{__cuda_path}
 %endif
 
 %changelog
+* Mon Nov 17 2025 Devrim Gündüz <devrim@gunduz.org> - 6.1-1PGDG
+- Update to 6.1 per changes described at:
+  https://heterodb.github.io/pg-strom/release_v6.1/
+
 * Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 6.0-2PGDG
 - Bump release number (missed in previous commit)
 
