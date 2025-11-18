@@ -424,7 +424,7 @@ Requires:	llvm17-devel clang17-devel
 %if 0%{?suse_version} == 1600
 Requires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
