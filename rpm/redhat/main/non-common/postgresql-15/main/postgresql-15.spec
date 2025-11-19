@@ -85,9 +85,9 @@ Version:	15.15
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420003PGDG%{?dist}
+Release:	420004PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1424,6 +1424,9 @@ fi
 %endif
 
 %changelog
+* Wed Nov 19 2025 Devrim Gündüz <devrim@gunduz.org> - 15.15-4PGDG
+- Rebuild on RHEL 7 because of package signing issue
+
 * Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 15.15-3PGDG
 - Fix installation of -devel subpackage on RHEL 7.
 
