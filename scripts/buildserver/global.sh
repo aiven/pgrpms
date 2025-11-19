@@ -21,13 +21,14 @@ green=`tput setaf 2`
 blue=`tput setaf 4`
 reset=`tput sgr0`
 
-export os=rhel-9		# rhel-9, sles-15, fedora-40
+export os=rhel-9		# rhel-9, sles-15, fedora-43
+export osminversion=7		# Will be used to support multiple OS minor versions like SLES 15.7, RHEL 10.1
 export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
-export git_os=EL-9		# EL-9, F-40, SLES-15
+export git_os=EL-9		# EL-9, F-43, SLES-15
 export osshort=rhel9		# Will be used for extras builds for now
-export ossysupdates=rocky9	# centos8 rocky9 . Used for the sysupdates repo.
-export extrasrepoenabled=1	# 1 or 0. Currently for RHEL 9, 8 and SLES 15
+export ossysupdates=rocky9	# centos8 rocky9 or rhel10 . Used for the sysupdates repo.
+export extrasrepoenabled=1	# 1 or 0. Currently for RHEL and SLES.
 
 export GPG_TTY=$(tty)
 export GPG_PASSWORD=foobar
@@ -37,8 +38,8 @@ export AWS_PAGER=""
 export CF_DEBUG_DISTRO_ID=XXXXXXXXXXXXXXXXXX
 export CF_SRPM_DISTRO_ID=XXXXXXXXXXXXXXXXXX
 
-declare -a pgStableBuilds=("17 16 15 14 13" )
-declare -a pgTestBuilds=("17 16 15 14 13" )
+declare -a pgStableBuilds=("18 17 16 15 14" )
+declare -a pgTestBuilds=("18 17 16 15 14" )
 declare -a pgBetaVersion=18
 declare -a pgAlphaVersion=19
 
