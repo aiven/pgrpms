@@ -2,9 +2,9 @@
 # Makefile for PostgreSQL 	#
 # Extras packaging	 	#
 # https://yum.postgresql.org	#
-#			   	#
-# Devrim Gunduz		   	#
-# devrim@gunduz.org	   	#
+#				#
+# Devrim Gunduz			#
+# devrim@gunduz.org		#
 #################################
 
 ## PostgreSQL extras build targets
@@ -13,8 +13,8 @@ extrasbfsrpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
-	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17"  --define "pgpackageversion 17" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 extrasbuild: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
@@ -24,49 +24,49 @@ extrasbuild: prep
 	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
 	--define "_rpmdir $(HOME)/pgdg$(DIST).extras/RPMS/" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 	make extrasbfsrpm
 
 extrasrpm: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 extrasnoprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(HOME)/pgdg$(DIST).extras/BUILD" \
+	--define "_builddir $(HOME)/pgdg$(DIST).extras/BUILD" \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
 	--define "_rpmdir $(HOME)/pgdg$(DIST).extras/RPMS/" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 extrasnopreprpm:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 extrasnoprepsrpm:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
