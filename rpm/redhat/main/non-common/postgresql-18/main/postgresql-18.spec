@@ -45,9 +45,9 @@ Version:	18.1
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	4200002PGDG%{?dist}
+Release:	4200003PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1331,6 +1331,9 @@ fi
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gunduz <devrim@gunduz.org> - 18.1-3PGDG
+- Bump up for RHEL 9.6 and 10.0 builds
+
 * Sat Nov 15 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-2PGDG
 - Rebuild on RHEL 9 - aarch64 to fix package signing issue
 
