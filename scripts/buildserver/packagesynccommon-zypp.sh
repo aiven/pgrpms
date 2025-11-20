@@ -43,7 +43,7 @@ echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --b
 echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $COMMON_DEBUG_RPM_DIR/repodata/repomd.xml
 
 # We currently pull packages from yonada, so skip the next line:
-rsync --checksum -ave ssh --delete $COMMON_RPM_DIR/ yumupload@yum.postgresql.org:zypp/zypp/common/$osdistro/$os-$osarch
+rsync --checksum -ave ssh --delete $COMMON_RPM_DIR/ yumupload@yum.postgresql.org:zypp/zypp/common/$osdistro/$os.$osminversion-$osarch
 
 # Sync SRPMs to S3 bucket:
 aws s3 sync $COMMON_SRPM_DIR s3://zypp-srpms.postgresql.org20250618120322107700000001/srpms/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
