@@ -67,12 +67,12 @@ do
 	# Sync SRPMs to S3 bucket:
 	aws s3 sync $SRPM_DIR s3://zypp-srpms.postgresql.org20250618120322107700000001/srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
 	aws s3 sync --delete $SRPM_DIR/repodata/ s3://zypp-srpms.postgresql.org20250618120322107700000001/srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
-	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 	# Sync debug* RPMs to S3 bucket:
 	aws s3 sync $DEBUG_RPM_DIR s3://zypp-debuginfo.postgresql.org20250312201116651400000002/debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
 	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ s3://zypp-debuginfo.postgresql.org20250312201116651400000002/debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
-	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 done
 
 exit 0
