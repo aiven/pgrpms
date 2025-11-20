@@ -18,12 +18,20 @@
 Summary:	PostgreSQL Audit Extension
 Name:		%{sname}%{pgauditversion}_%{pgmajorversion}
 Version:	%{pversion}
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://www.pgaudit.org
 BuildRequires:	postgresql%{pgmajorversion}-devel postgresql%{pgmajorversion}
-BuildRequires:	openssl-devel krb5-devel
+BuildRequires:	krb5-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -89,6 +97,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - %{pversion}-5PGDG
+- Modernise OpenSSL dependencies.
+
 * Thu Oct 30 2025 Devrim Gündüz <devrim@gunduz.org> - %{pversion}-4PGDG
 - Rebuild because of a package signing issue on Fedora 43
 

@@ -5,11 +5,19 @@
 Summary:	PostgreSQL extension to store authentication attempts
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.0
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/RafiaSabih/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/RafiaSabih/%{sname}/
-BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel openssl-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
@@ -75,6 +83,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 3.0-6PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.0-5PGDG
 - Add SLES 16 support
 

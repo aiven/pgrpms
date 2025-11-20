@@ -4,11 +4,11 @@
 Summary:	Automate pg_dump | pg_restore between two running Postgres servers
 Name:		%{sname}
 Version:	0.17
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/dimitri/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/dimitri/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel gc-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel gc-devel
 BuildRequires:	krb5-devel bison flex sqlite-devel
 # zstd dependency
 %if 0%{?suse_version} >= 1500
@@ -27,6 +27,15 @@ Requires:	liblz4-1
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
 Requires:	lz4-libs
+%endif
+# OpenSSL dependency
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
 %endif
 BuildRequires:	libxml2-devel libxslt-devel pam-devel
 BuildRequires:	readline-devel zlib-devel
@@ -60,6 +69,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %{pginstdir}/bin/pgcopydb
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 0.17-4PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 0.17-3PGDG
 - Add missing BRs
 

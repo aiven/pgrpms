@@ -4,14 +4,22 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.9
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 Summary:	PL/pgSQL debugger server-side code
 License:	Artistic 2.0
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
 Source1:	%{sname}.LICENSE
 
-BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel krb5-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -70,6 +78,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 1.9-4PGDG
+- Modernise OpenSSL dependencies.
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.9-3PGDG
 - Add SLES 16 support
 

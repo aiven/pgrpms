@@ -5,12 +5,20 @@
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.5
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	krb5-devel openssl-devel
+BuildRequires:	krb5-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-libs
 
 %description
@@ -68,6 +76,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-4PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-3PGDG
 - Add SLES 16 support
 

@@ -3,7 +3,7 @@
 Summary:	command line utility for exporting XML, JSON, BYTEA document from PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.1.4
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/okbob/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/okbob/%{sname}
@@ -33,7 +33,16 @@ Requires:	libzstd1 >= 1.4.0
 BuildRequires:	libzstd-devel >= 1.4.0
 Requires:	libzstd >= 1.4.0
 %endif
-BuildRequires:	libxml2-devel libxslt-devel openssl-devel pam-devel
+# OpenSSL dependency
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+BuildRequires:	libxml2-devel libxslt-devel pam-devel
 BuildRequires:	krb5-devel readline-devel zlib-devel
 
 Obsoletes:	%{sname}%{pgmajorversion} < 0.1.3-2
@@ -61,6 +70,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{buil
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-5PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> - 0.1.4-4PGDG
 - Add missing BRs
 

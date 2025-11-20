@@ -10,13 +10,12 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgbulkloadmajver}.%{pgbulkloadmidver}.%{pgbulkloadminver}
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
-BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:	libsepol-devel readline-devel krb5-devel zlib-devel
-
 # lz4 dependency
 %if 0%{?suse_version} >= 1500
 BuildRequires:	liblz4-devel
@@ -25,6 +24,16 @@ Requires:	liblz4-1
 %if 0%{?rhel} || 0%{?fedora}
 BuildRequires:	lz4-devel
 Requires:	lz4-libs
+%endif
+
+# OpenSSL dependency
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
 %endif
 
 # zstd dependency
@@ -115,6 +124,9 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-5PGDG
+- Modernise OpenSSL dependencies.
+
 * Sat Nov 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-4PGDG
 - Fix SLES support
 

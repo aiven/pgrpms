@@ -4,7 +4,7 @@
 Summary:	JDBC Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	0.5.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/pgspider/%{sname}
 Source0:	https://github.com/pgspider/%{sname}/archive/v%{version}.tar.gz
@@ -12,7 +12,15 @@ Patch0:		%{sname}-pgdg-rpm.patch
 
 BuildRequires:	java-devel
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	openssl-devel krb5-devel
+BuildRequires:	krb5-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
 Requires:	java
 Requires:	postgresql%{pgmajorversion}-server
@@ -79,6 +87,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gunduz <devrim@gunduz.org> - 0.5.0-4PGDG
+- Modernise OpenSSL dependencies
+
 * Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 0.5.0-3PGDG
 - Add SLES 16 support
 

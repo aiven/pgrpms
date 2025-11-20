@@ -6,12 +6,12 @@
 Summary:	PostgreSQL extension that transforms Postgres into a distributed database
 Name:		%{sname}_%{pgmajorversion}
 Version:	13.2.0
-Release:	3PGDG%{dist}
+Release:	4PGDG%{dist}
 License:	AGPLv3
 URL:		https://github.com/citusdata/%{sname}
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
-BuildRequires:	libxslt-devel openssl-devel pam-devel readline-devel
+BuildRequires:	libxslt-devel pam-devel readline-devel
 BuildRequires:	libcurl-devel libzstd-devel flex krb5-devel
 # lz4 dependency
 %if 0%{?suse_version} >= 1500
@@ -23,12 +23,21 @@ BuildRequires:	lz4-devel
 Requires:	lz4-libs
 %endif
 Requires:	postgresql%{pgmajorversion}-server
-
+# zstd dependency
 %if 0%{?suse_version} >= 1500
 Requires:	libzstd1
 %else
 Requires:	libzstd
 %endif
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+
 
 %description
 Citus horizontally scales PostgreSQL across commodity servers
@@ -119,6 +128,9 @@ make %{?_smp_mflags}
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gunduz <devrim@gunduz.org> - 13.2.0-4PGDG
+- Modernise OpenSSL dependencies
+
 * Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 13.2.0-3PGDG
 - Add SLES 16 support
 
