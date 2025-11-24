@@ -1,25 +1,16 @@
-%global __python %{_bindir}/python3
 %global sname powa
 
 # Powa archivist version
 %global powamajorversion 5
-%global powamidversion 0
-%global powaminorversion 3
-
-%global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%global powamidversion 1
+%global powaminorversion 0
 
 %{!?llvm:%global llvm 1}
 
 Summary:	PostgreSQL Workload Analyzer Archivist
 Name:		%{sname}-archivist_%{pgmajorversion}
 Version:	%{powamajorversion}.%{powamidversion}.%{powaminorversion}
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/powa-team/powa-archivist/archive/REL_%{powamajorversion}_%{powamidversion}_%{powaminorversion}.tar.gz
 URL:		https://powa.readthedocs.io/
@@ -88,6 +79,10 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDIR=%{buildro
 %endif
 
 %changelog
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> - 5.1.0-1PGDG
+- Update 5.1.0 per changes described at:
+  https://github.com/powa-team/powa-archivist/releases/tag/REL_5_1_0
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 5.0.3-4PGDG
 - Add SLES 16 support
 
