@@ -22,8 +22,8 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.2.12
-Release:	2PGDG%{?dist}
+Version:	3.2.13
+Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
@@ -145,6 +145,10 @@ fi
 %endif
 
 %changelog
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.13-1PGDG
+- Update to 3.2.13 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.13
+
 * Fri Nov 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.12-2PGDG
 - Add missing BRs. Spotted during mock builds.
 - Install __pycache__ also on SLES 16.
