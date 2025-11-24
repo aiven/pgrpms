@@ -5,36 +5,26 @@
 %global	powawebdir  %{_datadir}/%{name}
 
 %global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
+%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
 %endif
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
 
 Summary:	The user interface of PoWA
 Name:		%{sname}
-Version:	5.0.2
+Version:	5.1.0
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-web/archive/refs/tags/%{version}.tar.gz
 Source2:        %{sname}.service
 URL:		https://powa.readthedocs.io/
 Requires:	python3-tornado python3-sqlalchemy
-# We require this to be present for %%{_prefix}/lib/tmpfiles.d
+
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1315
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
-
-BuildRequires:	pgdg-srpm-macros
 
 BuildArch:	noarch
 
@@ -74,6 +64,10 @@ This is the user interface of POWA.
 %{_unitdir}/%{sname}.service
 
 %changelog
+* Mon Nov 24 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
+- Update to 5.1.0 for changes described at
+  https://github.com/powa-team/powa-web/releases/tag/5.1.0
+
 * Tue Jul 15 2025 Devrim Gunduz <devrim@gunduz.org> - 5.0.2-1PGDG
 - Update to 5.0.2 for changes described at
   https://github.com/powa-team/powa-web/releases/tag/5.0.2
