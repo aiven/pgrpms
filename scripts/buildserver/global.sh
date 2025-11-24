@@ -34,6 +34,8 @@ export GPG_TTY=$(tty)
 export GPG_PASSWORD=foobar
 
 export AWS_PAGER=""
+export awssrpmurl=s3://dnf-srpms.postgresql.org20250313103537584600000001		# s3://dnf-srpms.postgresql.org20250313103537584600000001 or s3://zypp-srpms.postgresql.org20250618120322107700000001
+export awsdebuginfourl=s3://dnf-debuginfo.postgresql.org20250312201116649700000001	# s3://dnf-debuginfo.postgresql.org20250312201116649700000001 or s3://zypp-debuginfo.postgresql.org20250312201116651400000002
 
 export CF_DEBUG_DISTRO_ID=XXXXXXXXXXXXXXXXXX
 export CF_SRPM_DISTRO_ID=XXXXXXXXXXXXXXXXXX
