@@ -1,11 +1,11 @@
 %global pgodbcmajver 17
 %global pgodbcmidver 00
-%global pgodbcminver 0006
+%global pgodbcminver 0007
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	%{pgodbcmajver}.%{pgodbcmidver}.%{pgodbcminver}
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -23,7 +23,7 @@ Requires:	krb5
 Requires:	krb5-libs
 %endif
 
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 BuildRequires:	zlib-ng-compat-devel
 Requires:	zlib-ng-compat
 %endif
@@ -96,6 +96,9 @@ popd
 %license license.txt
 
 %changelog
+* Tue Nov 25 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0007-1PGDG
+- Update to 17.00.0007
+
 * Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-4PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
