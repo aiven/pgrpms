@@ -20,7 +20,7 @@ do
 done
 	# Allpackages have been copied, so can be removed. No need to copy
 	# again and again:
-	rm -f  ~/rpmcommon/RPMS/x86_64/* ~/rpmcommon/RPMS/noarch/*
+	rm -f ~/rpmcommon/RPMS/x86_64/* ~/rpmcommon/RPMS/noarch/*
 
 # Figure out which major PostgreSQL version(s) will be used to sync:
 
@@ -78,15 +78,17 @@ do
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $SRPM_DIR/repodata/repomd.xml
 
 	# We currently pull packages from yonada, so skip the next line:
-	# rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
-	# rsync --checksum -ave ssh --delete $DEBUG_RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/non-free/debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
-	# rsync --checksum -ave ssh --delete $SRPM_DIR/ yumupload@yum.postgresql.org:yum/yum/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
+	rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
 
 	# Sync SRPMs to S3 bucket:
-	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html"
+	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 	# Sync debug* RPMs to S3 bucket:
-	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html"
+	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 done
 
 exit 0
