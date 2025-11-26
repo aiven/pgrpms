@@ -7,14 +7,14 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	3.2.9
+Version:	3.3.0
 Release:	1PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
 
 URL:		https://www.haproxy.org/
-Source0:	https://www.haproxy.org/download/3.2/src/%{name}-%{version}.tar.gz
+Source0:	https://www.haproxy.org/download/3.3/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
@@ -153,6 +153,10 @@ done
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed Nov 26 2025 Devrim Gündüz <devrim@gunduz.org> 3.3.0-1PGDG
+- Update to 3.3.0 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46300.html
+
 * Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.9-1PGDG
 - Update to 3.2.9 per changes described at:
   https://mail-archive.com/haproxy@formilux.org/msg46278.html
