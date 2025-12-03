@@ -2,12 +2,11 @@
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.6.3
-Release:	5PGDG%{?dist}
+Version:	4.6.4
+Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://pgpool.net
 Source0:	https://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Patch1:		%{sname}-gcc-15-c23.patch
 Requires:	postgresql%{pgmajorversion}-server %{sname}-pcp
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
@@ -38,7 +37,6 @@ PostgreSQL extensions, libraries and sql files for pgpool-II.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch -P 1 -p1
 
 %build
 # We need this flag on SLES so that pgpool can find libmemched.
@@ -98,6 +96,11 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/pgpool_recovery.control
 
 %changelog
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.4-1PGDG
+- Update to 4.6.4 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-6-4.html
+- Remove GCC 15 patch, now in upstream.
+
 * Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-5PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
