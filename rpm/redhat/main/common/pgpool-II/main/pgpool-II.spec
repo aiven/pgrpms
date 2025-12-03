@@ -4,8 +4,8 @@
 
 Summary:		Pgpool is a connection pooling/replication server for PostgreSQL
 Name:			%{sname}
-Version:		4.6.3
-Release:		4PGDG%{?dist}
+Version:		4.6.4
+Release:		1PGDG%{?dist}
 License:		BSD
 URL:			https://pgpool.net
 Source0:		https://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
@@ -14,7 +14,6 @@ Source2:		%{sname}.sysconfig
 Source6:		%{sname}-sysusers.conf
 Source7:		%{sname}-tmpfiles.d
 Patch1:			%{sname}-conf.sample.patch
-Patch2:			%{sname}-gcc-15-c23.patch
 
 BuildRequires:		postgresql%{pgmajorversion}-devel pam-devel
 BuildRequires:		libmemcached-devel
@@ -68,7 +67,6 @@ multiple Pgpool installations.
 %prep
 %setup -q -n %{sname}-%{version}
 %patch -P 1 -p0
-%patch -P 2 -p1
 
 %build
 
@@ -198,6 +196,10 @@ fi
 %{_libdir}/libpcp.so*
 
 %changelog
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.4-1PGDG
+- Update to 4.6.4 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-6-4.html
+
 * Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-4PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
