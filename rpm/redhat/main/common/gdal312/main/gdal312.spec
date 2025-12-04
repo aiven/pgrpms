@@ -43,7 +43,7 @@
 
 Name:		%{sname}312
 Version:	3.12.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -487,6 +487,9 @@ done
 %endif
 
 %changelog
+* Thu Dec 4 2025 Devrim Gunduz <devrim@gunduz.org> - 3.12.0-2PGDG
+- Rebuild on some platforms because of a missing signature
+
 * Sat Nov 8 2025 Devrim Gunduz <devrim@gunduz.org> - 3.12.0-1PGDG
 - Initial 3.12.0 packaging per changes described at:
   https://github.com/OSGeo/gdal/releases/tag/v3.12.0
