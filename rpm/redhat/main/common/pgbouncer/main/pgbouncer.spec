@@ -1,6 +1,6 @@
 Name:		pgbouncer
-Version:	1.25.0
-Release:	45PGDG%{?dist}
+Version:	1.25.1
+Release:	42PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -11,7 +11,6 @@ Source4:	%{name}.service
 Source5:	%{name}-sysusers.conf
 Source6:	%{name}-tmpfiles.d
 Patch0:		%{name}-ini.patch
-Patch1:		%{name}-1.25.0-addmissingtypedefs.patch
 
 Requires:	python3 python3-psycopg2
 
@@ -66,7 +65,6 @@ pgbouncer uses libevent for low-level socket handling.
 %prep
 %setup -q
 %patch -P 0 -p0
-%patch -P 1 -p1
 
 %build
 sed -i.fedora \
@@ -161,9 +159,15 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Thu Dec 4 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.1-42PGDG
+- Update to 1.25.1, per changes described at:
+  https://github.com/pgbouncer/pgbouncer/releases/tag/pgbouncer_1_25_1
+  Fixes CVE-2025-12819 .
+- Remove %%patch 1, already in upstream.
+
 * Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-45PGDG
 - Build with ldap support. Per report from Arthur Nascimento.
- 
+
 * Wed Nov 12 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-44PGDG
 - Re-add systemd and pam support that I broke in ec52b384. Fixes
   https://github.com/pgbouncer/pgbouncer/issues/1416
