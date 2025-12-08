@@ -14,7 +14,7 @@ URL:		https://proj.org
 Source0:	https://download.osgeo.org/%{sname}/%{sname}-%{version}.tar.gz
 Source2:	%{name}-pgdg-libs.conf
 
-BuildRequires:	sqlite-devel >= 3.7 libcurl-devel cmake sqlite
+BuildRequires:	sqlite-devel >= 3.7 libcurl-devel cmake >= 3.16 sqlite
 BuildRequires:	libtiff-devel pgdg-srpm-macros >= 1.0.52
 
 # Default GCC version on SLES 15 is not sufficient to build PROJ 9.7,
@@ -33,7 +33,6 @@ Requires:	sqlite3-devel >= 3.7
 # All other sane distributions have a separate -libs subpackage:
 Requires:	sqlite-libs >= 3.7
 %endif
-
 
 %package devel
 Summary:	Development files for PROJ
@@ -61,11 +60,7 @@ SHLIB_LINK="$SHLIB_LINK -Wl,-rpath,%{proj97instdir}/lib64" ; export SHLIB_LINK
 export CXX=/usr/bin/g++-12
 %endif
 
-%if 0%{?suse_version} >= 1500
 cmake ..\
-%else
-cmake3 .. \
-%endif
 	-DCMAKE_INSTALL_PREFIX:PATH=%{proj97instdir} \
 	-DCMAKE_C_FLAGS="${RPM_OPT_FLAGS}" \
 	-DCMAKE_CXX_FLAGS="${RPM_OPT_FLAGS}"
