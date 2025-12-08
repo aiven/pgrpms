@@ -19,12 +19,17 @@
 %global	projfullversion %proj96fullversion
 %global	projinstdir %proj96instdir
 %else
-%global	gdalfullversion %gdal311fullversion
-%global	gdalmajorversion %gdal311majorversion
-%global	gdalinstdir %gdal311instdir
+%global	gdalfullversion %gdal312fullversion
+%global	gdalmajorversion %gdal312majorversion
+%global	gdalinstdir %gdal312instdir
 %global	projmajorversion %proj97majorversion
 %global	projfullversion %proj97fullversion
 %global	projinstdir %proj97instdir
+%endif
+%if 0%{?suse_version} == 1500
+%global	gdalfullversion %gdal311fullversion
+%global	gdalmajorversion %gdal311majorversion
+%global	gdalinstdir %gdal311instdir
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -47,7 +52,7 @@
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
 Version:	%{postgismajorversion}.4
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -57,8 +62,8 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel libxml2 libxslt
-BuildRequires:	pgdg-srpm-macros >= 1.0.50 gmp-devel pcre2-devel
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
+BuildRequires:	pgdg-srpm-macros >= 1.0.52 gmp-devel pcre2-devel
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	pcre2
 %else
 Requires:	libpcre2-8-0
@@ -117,7 +122,7 @@ Requires:	libjson-c5
 Requires:	libxerces-c-3_3
 BuildRequires:	libxerces-c-devel
 %endif
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	json-c xerces-c
 BuildRequires:	xerces-c-devel
 %endif
@@ -384,6 +389,9 @@ fi
 %endif
 
 %changelog
+* Mon Dec 8 2025  Devrim Gunduz <devrim@gunduz.org> - 3.5.4-4PGDG
+- Build with GDAL 3.12 on all platforms except RHEL 8 and SLES 15.
+
 * Wed Nov 12 2025 Devrim Gunduz <devrim@gunduz.org> - 3.5.4-3PGDG
 - Fix pcre2 dependency on RHEL 8 and 9. Per report from Christopher Lorenz:
   https://www.postgresql.org/message-id/fc8e323142484d98b5d1720e0811ce9c%40ZIT-BB.Brandenburg.de
