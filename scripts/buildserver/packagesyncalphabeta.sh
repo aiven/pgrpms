@@ -78,12 +78,16 @@ echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --b
 echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_DEBUG_RPM_DIR/repodata/repomd.xml
 
 # We currently pull packages from yonada, so skip the next line:
-# rsync --checksum -ave ssh --delete $TESTING_RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/testing/$packageSyncVersion/$osdistro/$os-$osarch
+# rsync --checksum -ave ssh --delete $TESTING_RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
 
 # Sync SRPMs to S3 bucket:
-aws s3 sync $TESTING_SRPM_DIR $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os-$osarch --exclude "*.html"
+aws s3 sync $TESTING_SRPM_DIR $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
+aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 # Sync debug* RPMs to S3 bucket:
-aws s3 sync $TESTING_DEBUG_RPM_DIR $awsdebuginfourl/testing/debug/$packageSyncVersion/$osdistro/$os-$osarch/ --exclude "*.html"
+aws s3 sync $TESTING_DEBUG_RPM_DIR $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 exit 0
