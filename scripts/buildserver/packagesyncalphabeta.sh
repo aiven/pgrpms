@@ -82,12 +82,12 @@ echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --b
 
 # Sync SRPMs to S3 bucket:
 aws s3 sync $TESTING_SRPM_DIR $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
-aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+aws s3 sync --delete $TESTING_SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
 aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 # Sync debug* RPMs to S3 bucket:
 aws s3 sync $TESTING_DEBUG_RPM_DIR $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+aws s3 sync --delete $TESTING_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
 aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 exit 0
