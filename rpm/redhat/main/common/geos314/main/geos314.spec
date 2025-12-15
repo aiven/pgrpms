@@ -68,9 +68,6 @@ use GEOS
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/%{name}-pgdg-libs.conf
 
-%clean
-%{__rm} -rf %{buildroot}
-
 %post
 /sbin/ldconfig
 
