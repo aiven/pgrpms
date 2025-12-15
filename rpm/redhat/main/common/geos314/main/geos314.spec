@@ -7,19 +7,20 @@
 
 Name:		%{sname}%{_geosversion}
 Version:	3.14.1
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	GEOS is a C++ port of the Java Topology Suite
 
 License:	LGPLv2
 URL:		https://libgeos.org/
 Source0:	http://download.osgeo.org/geos/geos-%{version}.tar.bz2
 
-%if 0%{?suse_version}
 BuildRequires:	cmake >= 3.15
+%if 0%{?suse_version} >= 1500
+BuildRequires:	cmake-full
 %else
-BuildRequires:	cmake3 >= 3.15
+BuildRequires:	cmake-rpm-macros
 %endif
-BuildRequires:	libtool gcc-c++ pgdg-srpm-macros
+BuildRequires:	libtool gcc-c++ pgdg-srpm-macros >= 1.0.52
 Provides:	geos%{_geosversion}-python >= %{version}
 
 %description
@@ -49,13 +50,7 @@ use GEOS
 %setup -q -n %{sname}-%{version}
 
 %build
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1499
-cmake .. -DCMAKE_INSTALL_PREFIX:PATH=/usr \
-%endif
-%else
-%cmake3 .. \
-%endif
+%cmake .. \
 	-DCMAKE_INSTALL_PREFIX:PATH=%{geosinstdir} -DCMAKE_BUILD_TYPE=Release .. \
 	-D LIB_INSTALL_DIR=%{_lib} .
 
@@ -101,6 +96,9 @@ echo "%{geosinstdir}/%{_geoslibdir}/" > %{buildroot}%{_sysconfdir}/ld.so.conf.d/
 %{geosinstdir}/%{_geoslibdir}/pkgconfig/%{sname}.pc
 
 %changelog
+* Mon Dec 15 2025 Devrim Gunduz <devrim@gunduz.org> - 3.14.1-3PGDG
+- Simplify %%build section
+
 * Thu Oct 30 2025 Devrim Gunduz <devrim@gunduz.org> - 3.14.1-2PGDG
 - Rebuild on some OSes because of package signing issue
 
