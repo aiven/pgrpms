@@ -2,10 +2,10 @@
 %global sname powa-web
 %global swebname powa
 
-%global	powawebdir  %{_datadir}/%{name}
+%global	powawebdir	%{_datadir}/%{name}
 
 %global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -13,11 +13,11 @@
 
 Summary:	The user interface of PoWA
 Name:		%{sname}
-Version:	5.1.1
+Version:	5.1.2
 Release:	1PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/powa-team/powa-web/archive/refs/tags/%{version}.tar.gz
-Source2:        %{sname}.service
+Source2:	%{sname}.service
 URL:		https://powa.readthedocs.io/
 Requires:	python3-tornado python3-sqlalchemy
 
@@ -25,6 +25,14 @@ Requires:		systemd
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
+
+BuildRequires:		python3-devel
+
+%if 0%{?suse_version} >= 1500
+BuildRequires:	python-rpm-macros
+%else
+BuildRequires:	pyproject-rpm-macros
+%endif
 
 BuildArch:	noarch
 
@@ -40,11 +48,10 @@ This is the user interface of POWA.
 %setup -q -n %{sname}-%{version}
 
 %build
-%{__ospython} setup.py build
+%pyproject_wheel
 
 %install
-%{__rm} -rf %{buildroot}
-%{__ospython} setup.py install -O1 --skip-build --root %{buildroot}
+%pyproject_install
 
 # Install sample conf file
 %{__mkdir} -p %{buildroot}%{_sysconfdir}
@@ -59,11 +66,16 @@ This is the user interface of POWA.
 %{_bindir}/%{sname}
 %dir %{python_sitelib}/%{swebname}
 %{python_sitelib}/%{swebname}/*
-%{python_sitelib}/powa_web-%{version}-py%{pyver}.egg-info/*
+%{python_sitelib}/powa_web-%{version}.dist-info/*
 %{_sysconfdir}/powa-web.conf-dist
 %{_unitdir}/%{sname}.service
 
 %changelog
+* Mon Dec 15 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.2-1PGDG
+- Update to 5.1.2 for changes described at
+  https://github.com/powa-team/powa-web/releases/tag/5.1.2
+- Switch to pyproject builds
+
 * Tue Dec 2 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.1-1PGDG
 - Update to 5.1.1 for changes described at
   https://github.com/powa-team/powa-web/releases/tag/5.1.1
