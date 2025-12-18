@@ -836,7 +836,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %endif
 %find_lang postgres-%{pgmajorversion}
 %find_lang psql-%{pgmajorversion}
-%find_lang regress-%{pgmajorversion}
+%find_lang postgresql-regress-%{pgmajorversion}
 
 cat pg_amcheck-%{pgmajorversion}.lang > pg_contrib.lst
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
@@ -844,7 +844,7 @@ cat pg_config-%{pgmajorversion}.lang > pg_devel.lst
 cat ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > ecpg.lst
 cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang pg_combinebackup-%{pgmajorversion}.lang pg_walsummary-%{pgmajorversion}.lang > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_verifybackup-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang > pg_server.lst
-cat regress-%{pgmajorversion}.lang > pg_test.lst
+cat postgresql-regress-%{pgmajorversion}.lang > pg_test.lst
 %endif
 
 %pre server
