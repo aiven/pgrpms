@@ -42,8 +42,8 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
 Name:		%{sname}312
-Version:	3.12.0
-Release:	2PGDG%{?dist}
+Version:	3.12.1
+Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -70,7 +70,7 @@ BuildRequires:	lz4-devel bash-completion
 Requires:	lz4
 %endif
 
-BuildRequires:	ant cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.50
+BuildRequires:	ant cmake gcc-c++ bison pgdg-srpm-macros >= 1.0.52
 
 BuildRequires:	armadillo-devel
 BuildRequires:	cfitsio-devel
@@ -487,6 +487,10 @@ done
 %endif
 
 %changelog
+* Thu Dec 18 2025 Devrim Gunduz <devrim@gunduz.org> - 3.12.1-1PGDG
+- Update to 3.12.1 per changes described at:
+  https://github.com/OSGeo/gdal/releases/tag/v3.12.1
+
 * Thu Dec 4 2025 Devrim Gunduz <devrim@gunduz.org> - 3.12.0-2PGDG
 - Rebuild on some platforms because of a missing signature
 
