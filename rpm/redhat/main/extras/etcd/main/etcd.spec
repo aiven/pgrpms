@@ -13,7 +13,7 @@
 %endif
 
 Name:		etcd
-Version:	3.6.6
+Version:	3.6.7
 Release:	1PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
@@ -86,6 +86,10 @@ of a distributed system, with a focus on being:
 %{_unitdir}/%{name}.service
 
 %changelog
+* Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.7-1PGDG
+- Update to 3.6.7, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.7
+
 * Wed Nov 12 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.6-1PGDG
 - Update to 3.6.6, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.6.6
