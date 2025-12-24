@@ -7,7 +7,7 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	3.3.0
+Version:	3.3.1
 Release:	1PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
@@ -149,6 +149,12 @@ done
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.3.1-1PGDG
+- Update to 3.3.1 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46361.html
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Wed Nov 26 2025 Devrim Gündüz <devrim@gunduz.org> 3.3.0-1PGDG
 - Update to 3.3.0 per changes described at:
   https://mail-archive.com/haproxy@formilux.org/msg46300.html
