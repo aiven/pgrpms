@@ -23,6 +23,8 @@ Restart=on-failure
 RestartSec=60s
 PIDFile=/run/postgresql/pgcluu_collectd.pid
 
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 
