@@ -5,7 +5,7 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	5.5.0
-Release:	6PGDG%{?dist}
+Release:	7PGDG%{?dist}
 Summary:	Replication Manager for PostgreSQL Clusters
 License:	GPLv3
 URL:		https://github.com/enterpriseDB/%{sname}
@@ -182,6 +182,10 @@ fi
 %endif
 
 %changelog
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 5.5.0-7PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Wed Nov 5 2025 - Devrim Gündüz <devrim@gunduz.org> - 5.5.0-6PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
