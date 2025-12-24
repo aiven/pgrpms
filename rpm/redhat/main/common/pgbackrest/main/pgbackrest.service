@@ -25,5 +25,7 @@ ExecStartPost=/bin/sleep 3
 ExecStartPost=/bin/bash -c "[ ! -z $MAINPID ]"
 ExecReload=kill -HUP $MAINPID
 
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target

@@ -4,7 +4,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.57.0
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -126,6 +126,10 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-5PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Mon Nov 17 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-4PGDG
 - Fix unit file name in %%post scripts. Per report from Stefan Fercot.
   Fixes https://github.com/pgdg-packaging/pgdg-rpms/issues/121
