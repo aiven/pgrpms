@@ -3,8 +3,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2
-Release:	2PGDG%{?dist}
+Version:	4.3
+Release:	1PGDG%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
 URL:		https://github.com/MigOpsRepos/%{sname}
@@ -74,6 +74,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Dec 25 2025 Devrim Gunduz <devrim@gunduz.org> - 4.3-1PGDG
+- Update to 4.3 per changes described at
+  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.3
+
 * Wed Nov 5 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2-2PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
