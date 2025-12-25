@@ -21,13 +21,12 @@ green=`tput setaf 2`
 blue=`tput setaf 4`
 reset=`tput sgr0`
 
-export os=rhel-9		# rhel-9, sles-15, fedora-43
-export osminversion=7		# Will be used to support multiple OS minor versions like SLES 15.7, RHEL 10.1
+export os=rhel-10		# rhel-9, sles-15, fedora-43
+export osminversion=1		# Will be used to support multiple OS minor versions like SLES 15.7, RHEL 10.1
 export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
 export git_os=EL-9		# EL-9, F-43, SLES-15
 export osshort=rhel9		# Will be used for extras builds for now
-export ossysupdates=rocky9	# centos8 rocky9 or rhel10 . Used for the sysupdates repo.
 export extrasrepoenabled=1	# 1 or 0. Currently for RHEL and SLES.
 
 export GPG_TTY=$(tty)
@@ -50,10 +49,10 @@ sign_package(){
 	# Remove all files with .sig suffix. They are leftovers which appear
 	# when signing process is not completed. Signing will be broken when
 	# they exist.
-	find ~/rpm* pgdg* $ossysupdates -iname "*.sig" -print0 | xargs -0 /bin/rm -v -rf "{}"
+	find ~/rpm* pgdg* -iname "*.sig" -print0 | xargs -0 /bin/rm -v -rf "{}"
 
 	# Remove all buildreqs.nosrc packages:
-	find ~/rpm* pgdg* $ossysupdates -iname "*buildreqs.nosrc*" -print0 | xargs -0 /bin/rm -v -rf "{}"
+	find ~/rpm* pgdg* -iname "*buildreqs.nosrc*" -print0 | xargs -0 /bin/rm -v -rf "{}"
 
 	# Find the packages, and sign them. Using an expect script to automate signing process.
 	# The first parameter refers to the location of the RPMs:
