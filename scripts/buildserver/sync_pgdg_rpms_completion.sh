@@ -27,9 +27,9 @@ _sync_pgdg_rpms() {
 		;;
 	--ver)
 		if [[ "$os_choice" == "redhat" ]]; then
-			COMPREPLY=($(compgen -W "10 9 8 7" -- "$cur"))
+			COMPREPLY=($(compgen -W "10.1 10.0 9.7 9.6 8.10" -- "$cur"))
 		elif [[ "$os_choice" == "fedora" ]]; then
-			COMPREPLY=($(compgen -W "42 41" -- "$cur"))
+			COMPREPLY=($(compgen -W "43 42" -- "$cur"))
 		fi
 		return 0
 		;;

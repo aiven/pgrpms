@@ -10,8 +10,8 @@ VALID_OS=("redhat" "fedora")
 
 # OS-specific versions
 declare -A VALID_VER
-VALID_VER[redhat]="10 9 8"
-VALID_VER[fedora]="41 42"
+VALID_VER[redhat]="10.0 10.1 9.6 9.7 8.10"
+VALID_VER[fedora]="43 42"
 
 # OS-specific architectures
 declare -A VALID_ARCH

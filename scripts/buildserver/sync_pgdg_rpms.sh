@@ -12,7 +12,7 @@ DRY_RUN=false
 DEBUG=false
 BASE_DIR="/srv/yum/yum"
 PG_VERSIONS=()
-PG_TEST_VERSIONS=(18 17 16 15 14 13)
+PG_TEST_VERSIONS=(18 17 16 15 14)
 EXTRASREPOSENABLED=0
 SYSUPDATESREPOSENABLED=0
 SYNCTESTINGREPOS=0
@@ -21,8 +21,8 @@ SYNCTESTINGREPOS=0
 VALID_OS=("redhat" "fedora")
 VALID_ARCH_redhat=("aarch64" "ppc64le" "x86_64")
 VALID_ARCH_fedora=("x86_64")
-VALID_VER_redhat=("10" "9" "8")
-VALID_VER_fedora=("42" "41")
+VALID_VER_redhat=("10.1" "10.0" "9.7" "9.6" "8.10")
+VALID_VER_fedora=("43" "42")
 
 # Help
 usage() {
@@ -32,10 +32,10 @@ Usage: $0 --os <os> --arch <arch> --ver <version> [options]
 Required:
   --os           Operating system: redhat or fedora
   --arch         Architecture: aarch64, ppc64le, x86_64
-  --ver          OS version: redhat (10,9,8,7), fedora (42,41)
+  --ver          OS version: redhat (10.1, 10.0, 9.7, 9.6, 8.10), fedora (43,42)
 
 Optional:
-  --pg-versions  List of PostgreSQL versions to sync (e.g. 13 14 15)
+  --pg-versions  List of PostgreSQL versions to sync (e.g. 18 17 16)
   --base-dir     Base destination directory (default: /srv/yum/yum)
   --dry-run      Simulate the sync without transferring files
   --debug        Show detailed debug output
@@ -210,7 +210,7 @@ sleep 1
 echo "Syncing : $osname-$distrover"
 
 # Sync non-common repo
-for pgrelease in 13 14 15 16 17; do
+for pgrelease in 18 17 16 15 14; do
 	echo "Syncing : $osname-$distrover-PG$pgrelease"
 
 	RPM_DIR=/var/lib/pgsql/rpm$pgrelease/ALLRPMS
@@ -236,7 +236,7 @@ if [[ "$EXTRASREPOSENABLED" -eq 1 ]]; then
 	echo "Syncing : $osname-$distrover-extras repo"
 	EXTRAS_RPM_DIR=/var/lib/pgsql/pgdg.rhel$distrover.extras/ALLRPMS
 
-	if ! rsync -ave ssh --delete --delete-missing-args "$SOURCE_HOST":$EXTRAS_RPM_DIR/ /srv/yum/yum/common/pgdg-rhel$distrover-extras/$osdistro/$osname-$distrover-$osarch; then
+	if ! rsync -ave ssh --delete --delete-missing-args "$SOURCE_HOST":$EXTRAS_RPM_DIR/ /srv/yum/yum/extras/$osdistro/$osname-$distrover-$osarch; then
 		echo "[ERROR] Rsync failed for Extras repo ($osname-$distrover-$osarch)" >&2
 		sync_had_errors=1
 	fi
