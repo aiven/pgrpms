@@ -2,7 +2,7 @@
 
 #########################################################
 #							#
-# Devrim Gündüz <devrim@gunduz.org> - 2024		#
+# Devrim Gündüz <devrim@gunduz.org> - 2025		#
 #							#
 #########################################################
 
@@ -23,6 +23,7 @@ reset=`tput sgr0`
 
 export os=rhel-10		# rhel-9, sles-15, fedora-43
 export osminversion=1		# Will be used to support multiple OS minor versions like SLES 15.7, RHEL 10.1
+export osislatest=0		# Is this the latest minor version of the OS or not? 1 or 0
 export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
 export git_os=EL-9		# EL-9, F-43, SLES-15
