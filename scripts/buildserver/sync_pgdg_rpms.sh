@@ -14,7 +14,6 @@ BASE_DIR="/srv/yum/yum"
 PG_VERSIONS=()
 PG_TEST_VERSIONS=(18 17 16 15 14)
 EXTRASREPOSENABLED=0
-SYSUPDATESREPOSENABLED=0
 SYNCTESTINGREPOS=0
 
 # Valid values
@@ -94,18 +93,6 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-if [[ "$OS" == "redhat" ]]; then
-	if [[ "$VER" -eq "8" ]]; then
-		ossysupdates="centos8"
-	elif [[ "$VER" -eq "9" ]]; then
-		ossysupdates="rocky9"
-	elif [[ "$VER" -eq "10" ]]; then
-		ossysupdates="rhel10"
-	else
-		:
-	fi
-fi
-
 # Determine OS-specific prefix and extras repo availability
 case "$OS" in
 redhat)
@@ -114,7 +101,6 @@ redhat)
 	osname="rhel"
 	osdistro="redhat"
 	EXTRASREPOSENABLED=1
-	SYSUPDATESREPOSENABLED=1
 	SYNCTESTINGREPOS=1
 	;;
 fedora)
@@ -123,7 +109,6 @@ fedora)
 	osname="fedora"
 	osdistro="fedora"
 	EXTRASREPOSENABLED=0
-	SYSUPDATESREPOSENABLED=0
 	SYNCTESTINGREPOS=1
 	;;
 *)
@@ -180,7 +165,6 @@ if $DEBUG; then
 	echo "[DEBUG] osname: $osname"
 	echo "[DEBUG] osdistro: $osdistro"
 	echo "[DEBUG] EXTRASREPOSENABLED: $EXTRASREPOSENABLED"
-	echo "[DEBUG] SYSUPDATESREPOENABLED: $SYSUPDATESREPOENABLED"
 	echo "[DEBUG] Dry run:    $DRY_RUN"
 fi
 
@@ -238,19 +222,6 @@ if [[ "$EXTRASREPOSENABLED" -eq 1 ]]; then
 
 	if ! rsync -ave ssh --delete --delete-missing-args "$SOURCE_HOST":$EXTRAS_RPM_DIR/ /srv/yum/yum/extras/$osdistro/$osname-$distrover-$osarch; then
 		echo "[ERROR] Rsync failed for Extras repo ($osname-$distrover-$osarch)" >&2
-		sync_had_errors=1
-	fi
-fi
-
-if [[ "$SYSUPDATESREPOSENABLED" -eq 1 ]]; then
-	# Sync sysupdates repo
-	echo "Syncing : $osname-$distrover-sysupdates repo"
-
-	export BASE_DIR=/var/lib/pgsql/$ossysupdates-sysupdates
-	export SYSUPDATES_RPM_DIR=$BASE_DIR/ALLRPMS
-
-	if ! rsync -ave ssh --delete --delete-missing-args "$SOURCE_HOST":$SYSUPDATES_RPM_DIR/ /srv/yum/yum/common/pgdg-$ossysupdates-sysupdates/$osdistro/$osname-$distrover-$osarch; then
-		echo "[ERROR] Rsync failed for sysupdates repo ($osname-$distrover-$osarch)" >&2
 		sync_had_errors=1
 	fi
 fi
