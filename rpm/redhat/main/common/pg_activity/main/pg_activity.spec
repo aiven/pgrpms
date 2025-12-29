@@ -27,7 +27,7 @@
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	3.6.1
-Release:	43PGDG%{?dist}
+Release:	44PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
@@ -54,26 +54,15 @@ Requires:	python3.12-humanize >= 2.6.0
 Requires:	python3.12-wcwidth
 %endif
 
-%if 0%{?suse_version} == 1500
-BuildRequires:	python311-setuptools >= 67.7.2
-Requires:	python311-blessings
-Requires:	python311 >= 3.11 python311-attrs
-Requires:	python311-six python311-psutil
+%if 0%{?suse_version} >= 1500
+BuildRequires:	python%{python3_pkgversion}-setuptools >= 67.7.2
+Requires:	python%{python3_pkgversion}-blessings
+Requires:	python%{python3_pkgversion} python%{python3_pkgversion}-attrs
+Requires:	python%{python3_pkgversion}-six python%{python3_pkgversion}-psutil
 Requires:	python3-psycopg3 >= 3.1.8
-Requires:	python311-humanfriendly
-Requires:	python311-wcwidth
+Requires:	python%{python3_pkgversion}-humanfriendly
+Requires:	python%{python3_pkgversion}-wcwidth
 %endif
-
-%if 0%{?suse_version} == 1600
-BuildRequires:	python3-setuptools >= 67.7.2
-Requires:	python313-blessings
-Requires:	python3 >= 3.11 python313-attrs
-Requires:	python313-six python313-psutil
-Requires:	python3-psycopg3 >= 3.1.8
-Requires:	python313-humanfriendly
-Requires:	python311-wcwidth
-%endif
-
 
 %description
 top like application for PostgreSQL server activity monitoring.
@@ -104,6 +93,10 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Mon Dec 29 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-44PGDG
+- Fix SLES 16 dependencies and merge all SLES dependencies in spec
+  file.
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-43PGDG
 - Update RHEL 9 dependencies
 
