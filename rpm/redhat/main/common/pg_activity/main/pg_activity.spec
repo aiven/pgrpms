@@ -44,7 +44,7 @@ Requires:	python3.12-blessed
 Requires:	python3.12-wcwidth
 %endif
 
-%if 0%{?rhel} >= 9 || 0%{?fedora}
+%if 0%{?rhel} >= 9
 BuildRequires:	python3-setuptools >= 53.0
 Requires:	python3.12-blessed
 Requires:	python3.12 python3.12-attrs
@@ -52,6 +52,16 @@ Requires:	python3.12-six python3.12-psutil
 Requires:	python3.12-psycopg2 >= 2.9.10
 Requires:	python3.12-humanize >= 2.6.0
 Requires:	python3.12-wcwidth
+%endif
+
+%if 0%{?fedora}
+BuildRequires:	python3-setuptools >= 53.0
+Requires:	python3-blessed
+Requires:	python3 python3-attrs
+Requires:	python3-six python3-psutil
+Requires:	python3-psycopg2 >= 2.9.10
+Requires:	python3-humanize >= 2.6.0
+Requires:	python3-wcwidth
 %endif
 
 %if 0%{?suse_version} >= 1500
@@ -96,6 +106,7 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 * Mon Dec 29 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-44PGDG
 - Fix SLES 16 dependencies and merge all SLES dependencies in spec
   file.
+- Fix Fedora packaging
 
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-43PGDG
 - Update RHEL 9 dependencies
