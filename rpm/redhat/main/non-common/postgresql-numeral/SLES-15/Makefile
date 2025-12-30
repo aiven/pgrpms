@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles15"
 SPECFILE="postgresql-numeral.spec"
 
 # Now, include global Makefile

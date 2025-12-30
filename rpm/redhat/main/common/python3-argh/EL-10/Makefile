@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel10
 SPECFILE="python3-argh.spec"
 
 # Now, include global Makefile

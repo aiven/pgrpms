@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles16"
 SPECFILE="pgdg-python3-wcwidth.spec"
 
 # Now, include global Makefile

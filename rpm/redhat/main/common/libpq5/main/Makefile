@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f99
 SPECFILE="pgdg-libpq5.spec"
 
 # Now, include global Makefile

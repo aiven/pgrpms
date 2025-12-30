@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel10
 SPECFILE="bgw_replstatus.spec"
 
 # Now, include global Makefile

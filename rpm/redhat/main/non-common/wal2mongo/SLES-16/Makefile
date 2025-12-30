@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles16"
 SPECFILE="wal2mongo.spec"
 
 # Now, include global Makefile

@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f43
 SPECFILE="pgnodemx.spec"
 
 # Now, include global Makefile

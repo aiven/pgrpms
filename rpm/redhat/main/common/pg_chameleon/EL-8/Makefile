@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel8
 SPECFILE="pg_chameleon.spec"
 
 # Now, include global Makefile

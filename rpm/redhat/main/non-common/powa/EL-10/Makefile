@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel10
 SPECFILE="powa.spec"
 
 # Now, include global Makefile

@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel7
 SPECFILE="pgexportdoc.spec"
 
 # Now, include global Makefile

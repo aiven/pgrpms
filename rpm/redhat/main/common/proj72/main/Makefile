@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f99
 SPECFILE="proj72.spec"
 
 # Now, include global Makefile

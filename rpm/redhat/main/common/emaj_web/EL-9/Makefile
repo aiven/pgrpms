@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
 SPECFILE="emaj_web.spec"
 
 # Now, include global Makefile

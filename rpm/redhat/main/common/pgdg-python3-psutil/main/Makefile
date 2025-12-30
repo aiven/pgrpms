@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f99
 SPECFILE="pgdg-python3-psutil.spec"
 
 # Now, include global Makefile

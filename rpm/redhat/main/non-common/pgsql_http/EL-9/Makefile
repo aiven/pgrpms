@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
 SPECFILE="pgsql_http.spec"
 
 # Now, include global Makefile

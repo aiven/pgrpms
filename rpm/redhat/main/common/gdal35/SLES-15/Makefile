@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles15"
 SPECFILE="gdal35.spec"
 
 # Now, include global Makefile

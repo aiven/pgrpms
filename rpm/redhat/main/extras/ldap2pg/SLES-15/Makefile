@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles15"
 SPECFILE="ldap2pg.spec"
 
 # Now, include global Makefile

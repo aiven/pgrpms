@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles12"
 SPECFILE="pgquarrel.spec"
 
 # Now, include global Makefile

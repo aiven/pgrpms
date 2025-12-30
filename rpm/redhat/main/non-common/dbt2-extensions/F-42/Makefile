@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f42
 SPECFILE="dbt2-extensions.spec"
 
 # Now, include global Makefile

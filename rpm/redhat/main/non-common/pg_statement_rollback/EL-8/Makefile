@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel8
 SPECFILE="pg_statement_rollback.spec"
 
 # Now, include global Makefile

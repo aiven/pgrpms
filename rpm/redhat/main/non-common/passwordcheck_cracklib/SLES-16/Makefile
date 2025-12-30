@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles16"
 SPECFILE="passwordcheck_cracklib.spec"
 
 # Now, include global Makefile

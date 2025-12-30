@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f43
 SPECFILE="check_pgbackrest.spec"
 
 # Now, include global Makefile

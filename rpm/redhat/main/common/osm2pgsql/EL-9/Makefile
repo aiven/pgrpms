@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
 SPECFILE="osm2pgsql.spec"
 
 # Now, include global Makefile

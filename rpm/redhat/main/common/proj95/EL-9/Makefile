@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel9
 SPECFILE="proj95.spec"
 
 # Now, include global Makefile
