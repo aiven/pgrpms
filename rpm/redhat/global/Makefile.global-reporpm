@@ -9,6 +9,42 @@
 
 ## PostgreSQL repo rpm build targets
 
+repobfsrpm8: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" --load ~/.rpmmacros-8 \
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
+
+repobuild8: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" --load ~/.rpmmacros-8 \
+	--define "_builddir $(HOME)/rpmcommon/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	-bb $(SPECFILE)
+	make repobfsrpm8
+
+repobfsrpm8.10: prep
+	rpmbuild --define "_sourcedir ." --define "_specdir ." \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
+	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" --load ~/.rpmmacros-8.10 \
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
+
+repobuild8.10: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" --load ~/.rpmmacros-8.10 \
+	--define "_builddir $(HOME)/rpmcommon/BUILD" \
+	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
+	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	-bb $(SPECFILE)
+	make repobfsrpm8.10
+
 repobfsrpm9: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
