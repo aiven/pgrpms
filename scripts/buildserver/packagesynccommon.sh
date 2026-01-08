@@ -48,11 +48,26 @@ rsync --checksum -ave ssh --delete $COMMON_RPM_DIR/ yumupload@yum.postgresql.org
 # Sync SRPMs to S3 bucket:
 aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
 aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
-aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/*
 
 # Sync debug* RPMs to S3 bucket:
 aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
 aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+
+# Invalidate the caches:
+aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/*
 aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
+if [ "$osislatest" == 1 ]
+then
+	aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+	aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+	# Invalidate the caches:
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$os-$osarch/repodata/*
+fi
+
 
 exit 0
