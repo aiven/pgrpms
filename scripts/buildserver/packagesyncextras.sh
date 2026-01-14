@@ -15,7 +15,7 @@ then
 	exit 1
 fi
 
-export BASE_DIR=/var/lib/pgsql/pgdg.$osshort.extras
+export BASE_DIR=/var/lib/pgsql/pgdg.extras
 
 export EXTRAS_RPM_DIR=$BASE_DIR/ALLRPMS
 export EXTRAS_SRPM_DIR=$BASE_DIR/ALLSRPMS
