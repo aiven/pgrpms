@@ -11,18 +11,18 @@
 
 extrasbfsrpmtesting: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extrastesting/SRPMS" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg.extrastesting/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 extrasbuildtesting: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
-	--define "_builddir $(HOME)/pgdg$(DIST).extrastesting/BUILD" \
-	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extrastesting/SRPMS" \
-	--define "_rpmdir $(HOME)/pgdg$(DIST).extrastesting/RPMS/" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
+	--define "_builddir $(HOME)/pgdg.extrastesting/BUILD" \
+	--define "_srcrpmdir $(HOME)/pgdg.extrastesting/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg.extrastesting/RPMS/" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
 	-bb $(SPECFILE)
 	make extrasbfsrpm
@@ -31,7 +31,7 @@ extrasrpmtesting: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_builddir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
@@ -39,17 +39,17 @@ extrasrpmtesting: prep
 
 extrasnoprepbuildtesting:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extrastesting/SRPMS" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg.extrastesting/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define "_builddir $(HOME)/pgdg$(DIST).extrastesting/BUILD" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
-	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extrastesting/SRPMS" \
-	--define "_rpmdir $(HOME)/pgdg$(DIST).extrastesting/RPMS/" \
+	--define "_builddir $(HOME)/pgdg.extrastesting/BUILD" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/pgdg.extrastesting/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg.extrastesting/RPMS/" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
 	-bb $(SPECFILE)
 
@@ -57,7 +57,7 @@ extrasnopreprpmtesting:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_builddir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
@@ -66,7 +66,7 @@ extrasnopreprpmtesting:
 extrasnoprepsrpmtesting:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extrastesting/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extrastesting/BUILDROOT" \
 	--define "pgmajorversion 17" --define "pginstdir /usr/pgsql-17" --define "pgpackageversion 17" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 

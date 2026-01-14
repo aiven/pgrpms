@@ -11,18 +11,18 @@
 
 extrasbfsrpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg.extras/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 extrasbuild: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
-	--define "_builddir $(HOME)/pgdg$(DIST).extras/BUILD" \
-	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
-	--define "_rpmdir $(HOME)/pgdg$(DIST).extras/RPMS/" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
+	--define "_builddir $(HOME)/pgdg.extras/BUILD" \
+	--define "_srcrpmdir $(HOME)/pgdg.extras/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg.extras/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
 	-bb $(SPECFILE)
 	make extrasbfsrpm
@@ -31,7 +31,7 @@ extrasrpm: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_builddir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
@@ -39,17 +39,17 @@ extrasrpm: prep
 
 extrasnoprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
-	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
+	--define "_builddir ." --define "_srcrpmdir $(HOME)/pgdg.extras/SRPMS" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define "_builddir $(HOME)/pgdg$(DIST).extras/BUILD" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
-	--define "_srcrpmdir $(HOME)/pgdg$(DIST).extras/SRPMS" \
-	--define "_rpmdir $(HOME)/pgdg$(DIST).extras/RPMS/" \
+	--define "_builddir $(HOME)/pgdg.extras/BUILD" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
+	--define "_srcrpmdir $(HOME)/pgdg.extras/SRPMS" \
+	--define "_rpmdir $(HOME)/pgdg.extras/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
 	-bb $(SPECFILE)
 
@@ -57,7 +57,7 @@ extrasnopreprpm:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
 	--define "_builddir $(PWD)" \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
@@ -66,7 +66,7 @@ extrasnopreprpm:
 extrasnoprepsrpm:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
-	--define "_buildrootdir $(HOME)/pgdg$(DIST).extras/BUILDROOT" \
+	--define "_buildrootdir $(HOME)/pgdg.extras/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
 	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
