@@ -104,7 +104,7 @@ then
 # First make sure that extras repo is available for this platform:
 	if [ -x ~/git/pgrpms/rpm/redhat/main/extras/$packagename/$git_os ]
 	then
-		echo "Ok, building $packagename on $osshort testing repo:"
+		echo "Ok, building $packagename on $git_os testing repo:"
 		sleep 1
 		cd ~/git/pgrpms/rpm/redhat/main/extras/$packagename/$git_os
 		time make extrasbuildtesting

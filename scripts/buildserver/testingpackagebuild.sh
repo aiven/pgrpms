@@ -34,7 +34,7 @@ buildVersion=$3
 
 	if [ -x ~/git/pgrpms/rpm/redhat/$pgBetaVersion/$packagename/$git_os ]
 	then
-		echo "Ok, building $packagename on $osshort:"
+		echo "Ok, building $packagename on $git_os:"
 		sleep 1
 		cd ~/git/pgrpms/rpm/redhat/$pgBetaVersion/$packagename/$git_os
 		time make "build${pgBetaVersion}testing"

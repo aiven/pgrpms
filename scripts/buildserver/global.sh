@@ -27,7 +27,6 @@ export osislatest=0		# Is this the latest minor version of the OS or not? 1 or 0
 export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
 export git_os=EL-9		# EL-9, F-43, SLES-15
-export osshort=rhel9		# Will be used for extras builds for now
 export extrasrepoenabled=1	# 1 or 0. Currently for RHEL and SLES.
 
 export GPG_TTY=$(tty)
