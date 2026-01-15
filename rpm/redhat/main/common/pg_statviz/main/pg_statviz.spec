@@ -27,6 +27,8 @@ Version:	0.9
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
+# To be removed in next release:
+Patch0:		%{sname}-%{version}-pyproject-license.patch
 URL:		https://github.com/vyruss/%{sname}
 
 Requires:	python%{python3_pkgversion}-argh python%{python3_pkgversion}-kiwisolver
@@ -61,6 +63,7 @@ Best served with pg_statviz extensions package, which includes the extension fil
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch -P 0 -p0
 
 %build
 %pyproject_wheel
@@ -80,6 +83,7 @@ Best served with pg_statviz extensions package, which includes the extension fil
 - Update to 0.9 per changes described at:
   https://github.com/vyruss/pg_statviz/releases/tag/v0.9
   https://github.com/vyruss/pg_statviz/releases/tag/v0.8
+- Add a temp patch to fix builds with "older" setuptools.
 
 * Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7-1PGDG
 - Update to 0.7 per changes described at:
