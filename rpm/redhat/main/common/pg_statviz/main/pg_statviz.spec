@@ -31,6 +31,8 @@ Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-%{version}-pyproject-license.patch
 URL:		https://github.com/vyruss/%{sname}
 
+BuildRequires:	python%{python3_pkgversion}-devel python%{python3_pkgversion}-wheel python%{python3_pkgversion}-pip
+
 Requires:	python%{python3_pkgversion}-argh python%{python3_pkgversion}-kiwisolver
 Requires:	python%{python3_pkgversion}-matplotlib python%{python3_pkgversion}-numpy
 Requires:	python%{python3_pkgversion}-packaging python%{python3_pkgversion}-pandas
