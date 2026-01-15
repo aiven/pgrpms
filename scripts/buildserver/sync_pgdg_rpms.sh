@@ -218,7 +218,7 @@ fi
 if [[ "$EXTRASREPOSENABLED" -eq 1 ]]; then
 	# Sync extras repo
 	echo "Syncing : $osname-$distrover-extras repo"
-	EXTRAS_RPM_DIR=/var/lib/pgsql/pgdg.rhel$distrover.extras/ALLRPMS
+	EXTRAS_RPM_DIR=/var/lib/pgsql/pgdg.extras/ALLRPMS
 
 	if ! rsync -ave ssh --delete --delete-missing-args "$SOURCE_HOST":$EXTRAS_RPM_DIR/ /srv/yum/yum/extras/$osdistro/$osname-$distrover-$osarch; then
 		echo "[ERROR] Rsync failed for Extras repo ($osname-$distrover-$osarch)" >&2
