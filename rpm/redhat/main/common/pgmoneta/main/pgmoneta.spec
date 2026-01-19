@@ -9,6 +9,9 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 
 Patch0:		%{name}-conf-rpm.patch
+# To be removed in next version:
+Patch1:		%{name}-%{version}-cmake.patch
+
 BuildRequires:	gcc cmake make python3-docutils zlib-devel ncurses-devel
 BuildRequires:	libzstd-devel lz4-devel bzip2-devel
 BuildRequires:	libev-devel openssl-devel systemd-devel
@@ -36,6 +39,7 @@ pgmoneta is a backup / restore solution for PostgreSQL.
 %prep
 %setup -q -n %{name}-%{version}
 %patch -P 0 -p0
+%patch -P 1 -p1
 
 %build
 
@@ -114,6 +118,7 @@ fi
 - Update to 0.20.0 per changes described at:
   https://github.com/pgmoneta/pgmoneta/releases/tag/0.20.0
 - Remove patch 1. Already in upstream.
+- Add a patch from upstream to fix builds on RHEL 9.
 
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 0.19.0-2PGDG
 - Add Restart=on-failure to unit file. Per
