@@ -4,7 +4,7 @@
 Summary:	Reliable PostgreSQL Backup & Restore
 Name:		pgbackrest
 Version:	2.57.0
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	MIT
 Url:		http://www.pgbackrest.org/
 Source0:	https://github.com/pgbackrest/pgbackrest/archive/release/%{version}.tar.gz
@@ -126,6 +126,9 @@ fi
 %attr(-,postgres,postgres) /var/spool/%{name}
 
 %changelog
+* Tue Jan 20 2026 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-6PGDG
+- Rebuild the package because of a signing issue
+
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 2.57.0-5PGDG
 - Add Restart=on-failure to unit file. Per
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127
