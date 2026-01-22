@@ -8,8 +8,8 @@ Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel libargon2-devel
-Requires:	postgresql%{pgmajorversion}-server libxcrypt libargon2
+BuildRequires:	postgresql%{pgmajorversion}-devel libxcrypt-devel
+Requires:	postgresql%{pgmajorversion}-server libxcrypt
 %if 0%{?suse_version} >= 1500
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel
@@ -22,6 +22,13 @@ BuildRequires:	openssl-devel
 Requires:	libscrypt
 BuildRequires:	libscrypt-devel
 %endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	argon2-devel
+Requires:	libargon2-1
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+BuildRequires:	libargon2-devel
+RequiresÇ	libargon2
 
 %description
 pg_pwhash provides advanced password hashing methods based on adaptive
