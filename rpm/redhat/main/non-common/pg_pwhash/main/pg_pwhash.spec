@@ -22,8 +22,8 @@ Requires:	libscrypt
 BuildRequires:	libscrypt-devel
 %endif
 %if 0%{?suse_version} >= 1500
-BuildRequires:	argon2-devel
-Requires:	libargon2-1
+BuildRequires:	argon2-devel libscrypt-devel
+Requires:	libargon2-1 libscrypt0
 %endif
 %if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 BuildRequires:	libargon2-devel
