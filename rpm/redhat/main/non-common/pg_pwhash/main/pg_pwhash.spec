@@ -8,8 +8,8 @@ Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/cybertec-postgresql/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/cybertec-postgresql/%{sname}
-BuildRequires:	postgresql%{pgmajorversion}-devel libargon2-devel libscrypt-devel
-Requires:	postgresql%{pgmajorversion}-server libxcrypt libscrypt libargon2
+BuildRequires:	postgresql%{pgmajorversion}-devel libargon2-devel
+Requires:	postgresql%{pgmajorversion}-server libxcrypt libargon2
 %if 0%{?suse_version} >= 1500
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel
