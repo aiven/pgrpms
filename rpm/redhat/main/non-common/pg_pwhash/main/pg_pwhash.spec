@@ -1,4 +1,3 @@
-%global	debug_package %{nil}
 %global sname pg_pwhash
 
 Summary:	A PostgreSQL extension which provides advanced password hashing methods based on adaptive implementations.
@@ -28,7 +27,8 @@ Requires:	libargon2-1
 %endif
 %if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 BuildRequires:	libargon2-devel
-RequiresÇ	libargon2
+Requires:	libargon2
+%endif
 
 %description
 pg_pwhash provides advanced password hashing methods based on adaptive
@@ -66,4 +66,5 @@ export PATH=%{pginstdir}/bin:$PATH
 
 %changelog
 * Thu Jan 22 2026 Devrim Gündüz <devrim@gunduz.org> - 1.0-1PGDG
-- Initial RPM packaging for PostgreSQL RPM Repository
+- Initial RPM packaging for PostgreSQL RPM Repository per:
+  https://github.com/cybertec-postgresql/pg_pwhash/releases/tag/v1.0
