@@ -18,6 +18,10 @@ BuildRequires:	libopenssl-3-devel
 Requires:	openssl-libs >= 1.1.1k
 BuildRequires:	openssl-devel
 %endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} <= 9
+Requires:	libscrypt
+BuildRequires:	libscrypt-devel
+%endif
 
 %description
 pg_pwhash provides advanced password hashing methods based on adaptive
