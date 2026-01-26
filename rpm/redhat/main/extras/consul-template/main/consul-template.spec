@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.41.3
+%global		_verstr	0.41.4
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -84,6 +84,10 @@ unless the -once flag is specified.
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Mon Jan 26 2026 Devrim Gündüz <devrim@gunduz.org> 0.41.4-1PGDG
+- Update to 0.41.4 per changes described at
+  https://github.com/hashicorp/consul-template/releases/tag/v0.41.4
+
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 0.41.3-3PGDG
 - Add Restart=on-failure to unit file. Per
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127
