@@ -49,7 +49,7 @@ find -type f -exec chmod 644 {} +
 %files
 %license docs/copyright.rst
 %doc docs/*.rst
-%if 0%{?fedora} >= 43
+%if 0%{?fedora} >= 43 || 0%{?suse_version} >= 1600
 %{python3_sitearch}/%{lcname}-%{version}.dist-info/
 %else
 %{python3_sitearch}/%{name}-%{version}.dist-info/
