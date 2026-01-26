@@ -5,12 +5,17 @@
 Summary:	Nominatim Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.1.0
-Release:	1PGDG%{dist}
-Source0:	https://github.com/jimjonesbr/%{sname}/archive/refs/tags/%{version}.tar.gz
-URL:		https://github.com/jimjonesbr/%{sname}
+Release:	1PGDG%{?dist}
 License:	MIT
+URL:		https://github.com/jimjonesbr/%{sname}
+Source0:	https://github.com/jimjonesbr/%{sname}/archive/%{version}.tar.gz
+
 BuildRequires:	postgresql%{pgmajorversion}-devel libcurl-devel libxml2-devel
 Requires:	postgresql%{pgmajorversion}-server
+
+%description
+The nominatim_fdw is a PostgreSQL Foreign Data Wrapper to access data from
+Nominatim servers using simple function calls.
 
 %if %llvm
 %package llvmjit
@@ -33,27 +38,27 @@ Requires:	llvm >= 19.0
 This package provides JIT support for nominatim_fdw
 %endif
 
-%description
-The nominatim_fdw is a PostgreSQL Foreign Data Wrapper to access data from
-Nominatim servers using simple function calls.
-
 %prep
 %setup -q -n %{sname}-%{version}
 
 %build
-export PATH=%{pginstdir}/bin:$PATH
-USE_PGXS=1 %{__make} %{?_smp_mflags}
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-export PATH=%{pginstdir}/bin:$PATH
-USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
+
+%{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension/
+%{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
 
 %files
-%defattr(-, root, root)
+%defattr(644,root,root,755)
+%doc %{pginstdir}/doc/extension/README-%{sname}.md
+%license LICENSE
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/extension/%{sname}*.sql
+%{pginstdir}/share/extension/%{sname}--*.sql
 %{pginstdir}/share/extension/%{sname}.control
+
 %if %llvm
 %files llvmjit
    %{pginstdir}/lib/bitcode/%{sname}*.bc
@@ -62,4 +67,4 @@ USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 
 %changelog
 * Mon Jan 26 2026 Devrim Gunduz <devrim@gunduz.org> - 1.1.0-1PGDG
-- Initial packaging for the PostgreSQL RPM repository.
+- Initial packaging for the PostgreSQL RPM Repository.
