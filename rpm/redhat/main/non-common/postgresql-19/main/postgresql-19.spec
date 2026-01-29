@@ -16,12 +16,7 @@
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?libnuma:%global libnuma 1}
-# RHEL 8 does not have io_uring support:
-%if 0%{?rhel} == 8
-%{!?liburing:%global liburing 0}
-%else
 %{!?liburing:%global liburing 1}
-%endif
 %{!?llvm:%global llvm 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
