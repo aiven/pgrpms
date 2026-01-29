@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	1.6.0
+Version:	2.0.0
 Release:	1PGDG%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -7,9 +7,23 @@ URL:		https://github.com/agroal/%{name}
 Source0:	https://github.com/agroal/%{name}/archive/%{version}.tar.gz
 
 BuildRequires:	gcc cmake make python3-docutils
-BuildRequires:	libev libev-devel openssl openssl-devel
+BuildRequires:	libev libev-devel
 BuildRequires:	systemd systemd-devel chrpath libatomic
-Requires:	libev openssl systemd
+Requires:	libev systemd
+
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+%if 0%{?fedora} || 0%{?rhel}
+Requires:	liburing
+%else
+Requires:	liburing2
+%endif
 
 %description
 pgagroal is a high-performance connection pool for PostgreSQL.
@@ -21,7 +35,7 @@ pgagroal is a high-performance connection pool for PostgreSQL.
 
 %{__mkdir} build
 cd build
-cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake -DCMAKE_BUILD_TYPE=Release -DDOCS=OFF ..
 %{__make}
 
 %install
@@ -40,7 +54,7 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/LICENSE %{buildroot}%{_docdir}/%{name}/LICENSE
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/CODE_OF_CONDUCT.md %{buildroot}%{_docdir}/%{name}/CODE_OF_CONDUCT.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/README.md %{buildroot}%{_docdir}/%{name}/README.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/grafana/dashboard.json %{buildroot}%{_docdir}/%{name}/grafana/dashboard.json
+%{__cp} -r %{_builddir}/%{name}-%{version}/contrib/grafana/provisioning/ %{buildroot}%{_docdir}/%{name}/grafana/provisioning
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/grafana/README.md %{buildroot}%{_docdir}/%{name}/grafana/README.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/ARCHITECTURE.md %{buildroot}%{_docdir}/%{name}/ARCHITECTURE.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/CONFIGURATION.md %{buildroot}%{_docdir}/%{name}/CONFIGURATION.md
@@ -51,17 +65,13 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/PIPELINES.md %{buildroot}%{_docdir}/%{name}/PIPELINES.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/RPM.md %{buildroot}%{_docdir}/%{name}/RPM.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/SECURITY.md %{buildroot}%{_docdir}/%{name}/SECURITY.md
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/VAULT.md %{buildroot}%{_docdir}/%{name}/VAULT.md
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-extended.png %{buildroot}%{_docdir}/%{name}/images/perf-extended.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-prepared.png %{buildroot}%{_docdir}/%{name}/images/perf-prepared.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-readonly.png %{buildroot}%{_docdir}/%{name}/images/perf-readonly.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/images/perf-simple.png %{buildroot}%{_docdir}/%{name}/images/perf-simple.png
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgagroal_comp.bash %{buildroot}%{_docdir}/%{name}/shell_comp/pgagroal_comp.bash
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/contrib/shell_comp/pgagroal_comp.zsh %{buildroot}%{_docdir}/%{name}/shell_comp/pgagroal_comp.zsh
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/01_install.md %{buildroot}%{_docdir}/%{name}/tutorial/01_install.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/02_prefill.md %{buildroot}%{_docdir}/%{name}/tutorial/02_prefill.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/03_remote_management.md %{buildroot}%{_docdir}/%{name}/tutorial/03_remote_management.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/04_prometheus.md %{buildroot}%{_docdir}/%{name}/tutorial/04_prometheus.md
-%{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/tutorial/05_split_security.md %{buildroot}%{_docdir}/%{name}/tutorial/05_split_security.md
 
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}.conf
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/doc/etc/%{name}_hba.conf %{buildroot}%{_sysconfdir}/%{name}/%{name}_hba.conf
@@ -69,16 +79,18 @@ cmake -DCMAKE_BUILD_TYPE=Release ..
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.1 %{buildroot}%{_mandir}/man1/%{name}.1
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-admin.1 %{buildroot}%{_mandir}/man1/%{name}-admin.1
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}-cli.1 %{buildroot}%{_mandir}/man1/%{name}-cli.1
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal-vault.1 %{buildroot}%{_mandir}/man1/pgagroal-vault.1
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}.conf.5 %{buildroot}%{_mandir}/man5/%{name}.conf.5
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}_databases.conf.5 %{buildroot}%{_mandir}/man5/%{name}_databases.conf.5
 %{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/%{name}_hba.conf.5 %{buildroot}%{_mandir}/man5/%{name}_hba.conf.5
+%{__install} -m 644 %{_builddir}/%{name}-%{version}/build/doc/pgagroal_vault.conf.5 %{buildroot}%{_mandir}/man5/pgagroal_vault.conf.5
 
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name} %{buildroot}%{_bindir}/%{name}
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-cli %{buildroot}%{_bindir}/%{name}-cli
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/%{name}-admin %{buildroot}%{_bindir}/%{name}-admin
+%{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/pgagroal-vault %{buildroot}%{_bindir}/pgagroal-vault
 
 %{__install} -m 755 %{_builddir}/%{name}-%{version}/build/src/libpgagroal.so.%{version} %{buildroot}%{_libdir}/libpgagroal.so.%{version}
-
 
 # Install unit file
 %{__install} -d %{buildroot}%{_unitdir}
@@ -120,36 +132,35 @@ fi
 %files
 %license %{_docdir}/%{name}/LICENSE
 %{_docdir}/%{name}/*.md
-
 %{_docdir}/%{name}/images/*.png
-%{_docdir}/%{name}/grafana/dashboard.json
+%{_docdir}/%{name}/grafana/provisioning
 %{_docdir}/%{name}/grafana/README.md
 %{_docdir}/%{name}/shell_comp/pgagroal_comp.bash
 %{_docdir}/%{name}/shell_comp/pgagroal_comp.zsh
-%{_docdir}/%{name}/tutorial/01_install.md
-%{_docdir}/%{name}/tutorial/02_prefill.md
-%{_docdir}/%{name}/tutorial/03_remote_management.md
-%{_docdir}/%{name}/tutorial/04_prometheus.md
-%{_docdir}/%{name}/tutorial/05_split_security.md
 %{_mandir}/man1/%{name}.1*
 %{_mandir}/man1/%{name}-admin.1*
 %{_mandir}/man1/%{name}-cli.1*
+%{_mandir}/man1/%{name}-vault.1*
 %{_mandir}/man5/%{name}.conf.5*
 %{_mandir}/man5/%{name}_databases.conf.5*
 %{_mandir}/man5/%{name}_hba.conf.5*
+%{_mandir}/man5/%{name}_vault*5*
 %config %{_sysconfdir}/%{name}/%{name}.conf
 %config %{_sysconfdir}/%{name}/%{name}_hba.conf
 %{_bindir}/%{name}
 %{_bindir}/%{name}-cli
 %{_bindir}/%{name}-admin
-%{_libdir}/libpgagroal.so
-%{_libdir}/libpgagroal.so.1
-%{_libdir}/libpgagroal.so.%{version}
+%{_bindir}/%{name}-vault
+%{_libdir}/libpgagroal.so*
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{name}.service
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Thu Jan 29 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-1PGDG
+- Update to 2.0.0 per changes described at:
+  https://github.com/agroal/pgagroal/releases/tag/2.0.0
+
 * Fri Feb 23 2024 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-1PGDG
 - Update to 1.6.0 per changes described at:
   https://github.com/agroal/pgagroal/releases/tag/1.6.0
