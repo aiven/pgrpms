@@ -1,6 +1,6 @@
 Summary:	Automatic reindexing of PostgreSQL indexes (bloat cleanup)
 Name:		pg_auto_reindexer
-Version:	1.6
+Version:	1.7
 Release:	1PGDG%{dist}
 License:	MIT
 Source0:	https://github.com/vitabaks/%{name}/archive/refs/tags/v%{version}.tar.gz
@@ -28,6 +28,10 @@ echo "no build step needed"
 %{_bindir}/%{name}
 
 %changelog
+* Thu Jan 29 2026 Devrim Gunduz <devrim@gunduz.org> - 1.7-1PGDG
+- Update to 1.7 per changes described at:
+  https://github.com/vitabaks/pg_auto_reindexer/releases/tag/v1.7
+
 * Thu Jan 22 2026 Devrim Gunduz <devrim@gunduz.org> - 1.6-1PGDG
 - Update to 1.6 per changes described at:
   https://github.com/vitabaks/pg_auto_reindexer/releases/tag/v1.6
