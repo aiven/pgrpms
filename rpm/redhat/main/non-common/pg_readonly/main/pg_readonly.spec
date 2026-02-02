@@ -4,8 +4,8 @@
 
 Summary:	PostgreSQL extension which allows to set all cluster databases read only.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.0.3
-Release:	7PGDG%{?dist}
+Version:	1.0.4
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://api.pgxn.org/dist/%{sname}/%{version}/%{sname}-%{version}.zip
 URL:		https://github.com/pierreforstmann/%{sname}
@@ -74,6 +74,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-7PGDG
+- Update to 1.0.4 per changes described at:
+  https://github.com/pierreforstmann/pg_readonly/releases/tag/1.0.4
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.3-7PGDG
 - Add SLES 16 support
 
