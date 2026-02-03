@@ -9,12 +9,17 @@
 %global geosfullversion %geos314fullversion
 %global geosmajorversion %geos314majorversion
 %global geosinstdir %geos314instdir
-# Use GDAL 3.11 on all of the platforms except RHEL 8:
-%if 0%{?rhel} == 8
+# Use GDAL 3.12 on all of the platforms except RHEL 8:
+%if 0%{?rhel} && 0%{?rhel} == 8
 %global gdalfullversion %gdal38fullversion
 %global gdalmajorversion %gdal38majorversion
 %global gdalinstdir %gdal38instdir
 %else
+%global gdalfullversion %gdal312fullversion
+%global gdalmajorversion %gdal312majorversion
+%global gdalinstdir %gdal312instdir
+%endif
+%if 0%{?suse_version} == 1500
 %global gdalfullversion %gdal311fullversion
 %global gdalmajorversion %gdal311majorversion
 %global gdalinstdir %gdal311instdir
