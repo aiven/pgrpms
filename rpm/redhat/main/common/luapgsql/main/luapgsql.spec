@@ -1,3 +1,7 @@
+%if 0%{?fedora} || 0%{?rhel}
+%global debug_package %{nil}
+%endif
+
 %{!?luaver: %global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
 
 # for compiled modules
