@@ -1,8 +1,9 @@
---- GNUmakefile.old	2026-02-04 17:05:25.722893851 +0300
-+++ GNUmakefile	2026-02-04 17:06:58.280452248 +0300
-@@ -1,21 +1,25 @@
+--- GNUmakefile.old	2026-02-04 18:14:11.012501322 +0300
++++ GNUmakefile	2026-02-04 18:14:30.713186040 +0300
+@@ -1,21 +1,26 @@
++libdir.aarch64= /usr/lib64
++libdir.ppc64le= /usr/lib64
 +libdir.x86_64= /usr/lib64
-+libdir.i686=   /usr/lib
 +MACHINE :=     $(shell uname -m)
 +
  SRCS=		luapgsql.c
