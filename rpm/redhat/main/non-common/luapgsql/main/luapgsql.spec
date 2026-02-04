@@ -1,35 +1,32 @@
-%global sname luapgsql
-
 %{!?luaver: %global luaver %(lua -e "print(string.sub(_VERSION, 5))")}
+
 # for compiled modules
 %global lualibdir %{_libdir}/lua/%{luaver}
 # for arch-independent modules
 %global luapkgdir %{_datadir}/lua/%{luaver}
 
 Summary:	Lua binding for PostgreSQL
-Name:		%{sname}
+Name:		luapgsql
 Version:	1.6.7
-Release:	7PGDG%{?dist}
+Release:	8PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
-Patch0:		%{sname}-pg%{pgmajorversion}-makefile-pgxs.patch
+Patch0:		%{name}-rpm-makefile-pgxs.patch
 URL:		https://github.com/arcapos/%{name}/
-BuildRequires:	lua-devel
-BuildRequires:	postgresql%{pgmajorversion}-devel lua-devel
-Requires:	postgresql%{pgmajorversion}-server
+BuildRequires:	libpq5-devel lua-devel
+Requires:	libpq5
 %if 0%{?fedora} || 0%{?rhel} >= 8
 Requires:	lua(abi) = %{luaver}
 %else
 %global luanext 5.2
-Requires:	lua >= %{luaver}
-Requires:	lua < %{luanext}
+Requires:	libllua5_4 >= %{luaver}
 %endif
 
 %description
 A Lua Binding for PostgreSQL.
 
 %prep
-%setup -q -n %{sname}-pgsql-%{version}
+%setup -q -n %{name}-pgsql-%{version}
 %patch -P 0 -p0
 
 %build
@@ -44,6 +41,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Wed Feb 4 2026 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-8PGDG
+- Move package to common repo
+
 * Thu Jan 2 2025 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-7PGDG
 - Update license and remove RHEL 7 dependency
 
