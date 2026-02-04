@@ -7,26 +7,17 @@
 %global git_tag	REL%{plprofilermajver}_%{plprofilermidver}_%{plprofilerminver}
 %global ppmajorver %{plprofilermajver}.%{plprofilermidver}
 
-%global __ospython %{_bindir}/python3
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
-%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global pyver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%endif
-%global python3_sitelib %(%{__python3} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{ppmajorver}.5
-Release:	4PGDG%{dist}
+Release:	5PGDG%{dist}
 Summary:	PL/pgSQL profiler
 License:	Artistic-1.0, CDDL-1.0
 URL:		https://github.com/bigsql/%{sname}
 Source0:	https://github.com/bigsql/%{sname}/archive/refs/tags/%{git_tag}.tar.gz
 
 Requires:	%{name}-server = %{version}
-Requires:	%{name}-client
 
 %description
 PL/pgSQL profiler is an extension and command line tool to generate performance
@@ -40,18 +31,6 @@ BuildRequires:	postgresql%{pgmajorversion}-devel
 
 %description server
 PostgreSQL server side extension part of the PL/pgSQL profiler.
-
-%package client
-Provides:	%{name}%{version}-client%{?_isa} = %{version}-%{release}
-Summary:	Command Line Tool for the PL/pgSQL profiler
-Requires:	python3
-Requires:	python3-psycopg2
-BuildRequires:	python3-six >= 1.4
-BuildRequires:	python3-psycopg2
-BuildRequires:	python3-devel python3-setuptools
-
-%description client
-Command Line Tool for the PL/pgSQL profiler
 
 %if %llvm
 %package llvmjit
@@ -81,28 +60,17 @@ This package provides JIT support for plprofiler
 export USE_PGXS=1
 export PATH=%{pginstdir}/bin:${PATH}
 %make_build
-cd python-%{sname}
-%{__ospython} ./setup.py build
-cd ..
 
 %install
 export USE_PGXS=1
 export PATH=%{pginstdir}/bin:${PATH}
 %make_install
-cd python-%{sname}
-%{__ospython} ./setup.py install -O1 --skip-build --root %{buildroot}
-cd ..
 
 %files
 
 %files server
 %{pginstdir}/lib/%{sname}.so
 %{pginstdir}/share/extension/%{sname}*
-
-%files client
-%{_bindir}/%{sname}
-%{python3_sitelib}/%{sname}/*
-%{python3_sitelib}/%{sname}_client-%{ppmajorver}-*/*
 
 %if %llvm
 %files llvmjit
@@ -111,6 +79,10 @@ cd ..
 %endif
 
 %changelog
+* Wed Feb 4 2026 Devrim Gündüz <devrim@gunduz.org> - 4.2.5-5PGDG
+- Split -client subpackage into its own package. Fixes
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/152
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 4.2.5-4PGDG
 - Add SLES 16 support
 
