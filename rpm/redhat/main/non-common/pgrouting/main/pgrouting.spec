@@ -10,7 +10,10 @@ License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	cmake >= 3.12 boost-devel >= 1.56
-BuildRequires:	gcc-c++ gmp-devel perl-version
+BuildRequires:	gcc-c++ gmp-devel
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1500
+BuildRequires:	perl-version
+%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion} postgis
 
@@ -70,6 +73,7 @@ popd
 * Mon Feb 2 2026 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1 per changes described at:
   https://github.com/pgRouting/pgrouting/releases/tag/v4.0.1
+- Add SLES 16 support
 
 * Sat Nov 8 2025 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1PGDG
 - Update to 4.0.0 per changes described at:
