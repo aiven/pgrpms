@@ -29,6 +29,7 @@ ExecReload=/usr/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
 Restart=on-failure
+#LimitNOFILE=1024
 
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300

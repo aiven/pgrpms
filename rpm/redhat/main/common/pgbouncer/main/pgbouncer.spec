@@ -1,6 +1,6 @@
 Name:		pgbouncer
 Version:	1.25.1
-Release:	43PGDG%{?dist}
+Release:	44PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -159,6 +159,10 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Feb 4 2026 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-44PGDG
+- Add LimitNOFile to unit file. Fixes
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-43PGDG
 - Add Restart=on-failure to unit file. Per
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127 and
