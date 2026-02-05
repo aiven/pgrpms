@@ -4,8 +4,8 @@
 %{!?llvm:%global llvm 0}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.8.5
-Release:	2PGDG%{?dist}
+Version:	2.8.7
+Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
@@ -72,6 +72,11 @@ export PATH=%{pginstdir}/bin:$PATH
 %endif
 
 %changelog
+* Thu Feb 5 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.7-1PGDG
+- Update to 2.8.7 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.6
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.7
+
 * Mon Feb 2 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.5-2PGDG
 - Switch to meson build
 
