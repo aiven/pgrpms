@@ -4,51 +4,125 @@
 #							#
 # Devrim Gündüz <devrim@gunduz.org> - 2025		#
 #							#
+# Merged package sync script with configurable options	#
+#							#
 #########################################################
 
 # Include common values:
 source ~/bin/global.sh
 
-if [ "$1" == "" ]
-then
-	:
-else
-	if [[ "${pgStableBuilds[@]}" =~ "$1" ]]
-	then
-		declare -a pgStableBuilds=("$1")
-	else
-		echo "${red}ERROR:${reset} PostgreSQL version $1 is not supported."
-		exit 1
-		fi
-fi
+# Function to display usage
+usage() {
+	echo "Usage: $0 [--sync=<option> [option2 ...]]"
+	echo ""
+	echo "Options:"
+	echo "  --sync=all           Sync common RPMs and all PostgreSQL versions"
+	echo "  --sync=common        Sync only common RPMs"
+	echo "  --sync=pg            Sync all PostgreSQL versions (no common)"
+	echo "  --sync=<version>     Sync specific PostgreSQL version (e.g., --sync=18)"
+	echo "  --sync=\"ver1 ver2\"  Sync multiple specific versions/targets (space-separated)"
+	echo ""
+	echo "Multiple targets can be combined (space-separated):"
+	echo "  - Version numbers (e.g., 18, 17, 16)"
+	echo "  - 'common' keyword"
+	echo "  - 'pg' keyword (all versions)"
+	echo ""
+	echo "Examples:"
+	echo "  $0 --sync=all"
+	echo "  $0 --sync=common"
+	echo "  $0 --sync=pg"
+	echo "  $0 --sync=18"
+	echo "  $0 --sync=\"18 common\""
+	echo "  $0 --sync=\"18 17 common\""
+	echo "  $0 --sync=\"pg common\""
+	exit 1
+}
 
-for packageSyncVersion in ${pgStableBuilds[@]}
-do
+# Function to sync common RPMs
+sync_common() {
+	echo "${green}=== Syncing PostgreSQL common RPMs for $os - $osarch ===${reset}"
+
+	export COMMON_RPM_DIR=/var/lib/pgsql/rpmcommon/ALLRPMS
+	export COMMON_SRPM_DIR=/var/lib/pgsql/rpmcommon/ALLSRPMS
+	export COMMON_DEBUG_RPM_DIR=/var/lib/pgsql/rpmcommon/ALLDEBUGRPMS
+
+	# Create directories for binary and source RPMs
+	mkdir -p $COMMON_RPM_DIR
+	mkdir -p $COMMON_SRPM_DIR
+	mkdir -p $COMMON_DEBUG_RPM_DIR
+
+	# rsync binary and source RPMs to their own directories:
+	rsync --checksum -av --delete --stats /var/lib/pgsql/rpmcommon/RPMS/$osarch/ /var/lib/pgsql/rpmcommon/RPMS/noarch/ $COMMON_RPM_DIR
+	rsync --checksum -av --delete --stats /var/lib/pgsql/rpmcommon/SRPMS/ $COMMON_SRPM_DIR
+
+	# Move debuginfo and debugsource packages to a separate directory.
+	# First clean the old ones, and then copy existing ones:
+	rm -rf $COMMON_DEBUG_RPM_DIR/*
+	mv $COMMON_RPM_DIR/*debuginfo* $COMMON_RPM_DIR/*debugsource* $COMMON_DEBUG_RPM_DIR/ 2>/dev/null || true
+
+	# Now, create repo for RPMs and SRPMS:
+	createrepo --changelog-limit=3 --workers=4 -d --update $COMMON_RPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -d --update $COMMON_SRPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -d --update $COMMON_DEBUG_RPM_DIR
+
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $COMMON_RPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $COMMON_SRPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $COMMON_DEBUG_RPM_DIR/repodata/repomd.xml
+
+	# Sync SRPMs to S3 bucket:
+	aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+
+	# Sync debug* RPMs to S3 bucket:
+	aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+
+	# Invalidate the caches:
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+	# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
+	if [ "$osislatest" == 1 ]
+	then
+		aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+		# Invalidate the caches:
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$os-$osarch/repodata/*
+	fi
+
+	echo "${green}=== Common RPMs sync completed ===${reset}"
+}
+
+# Function to sync PostgreSQL version-specific RPMs
+sync_pg_version() {
+	local packageSyncVersion=$1
+
+	echo "${green}=== Syncing PostgreSQL $packageSyncVersion RPMs ===${reset}"
+
 	export BASE_DIR=/var/lib/pgsql/rpm${packageSyncVersion}
 
 	export RPM_DIR=$BASE_DIR/ALLRPMS
 	export DEBUG_RPM_DIR=$BASE_DIR/ALLDEBUGRPMS
 	export SRPM_DIR=$BASE_DIR/ALLSRPMS
 
-	# Create directories for binary and source RPMs. This directory will help us
-	# to create the repo files easily:
+	# Create directories for binary and source RPMs
 	mkdir -p $RPM_DIR
 	mkdir -p $SRPM_DIR
 	mkdir -p $DEBUG_RPM_DIR
 
 	# rsync binary and source RPMs to their own directories:
-	echo "${green}Syncing PostgreSQL $packageSyncVersion RPMs${reset}"
-
 	rsync --checksum -av --delete --stats $BASE_DIR/RPMS/$osarch/ $BASE_DIR/RPMS/noarch/ $RPM_DIR
 	rsync --checksum -av --delete --stats $BASE_DIR/SRPMS/ $SRPM_DIR
 
 	# Move debuginfo and debugsource packages to a separate directory.
 	# First clean the old ones, and then copy existing ones:
 	rm -rf $DEBUG_RPM_DIR/*
-	mv $RPM_DIR/*debuginfo* $RPM_DIR/*debugsource* $DEBUG_RPM_DIR/
+	mv $RPM_DIR/*debuginfo* $RPM_DIR/*debugsource* $DEBUG_RPM_DIR/ 2>/dev/null || true
 
 	# Now, create repo for RPMs and SRPMS:
-
 	createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $RPM_DIR
 	createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $DEBUG_RPM_DIR
 	createrepo --changelog-limit=3 --workers=4 -d --update $SRPM_DIR
@@ -56,9 +130,6 @@ do
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $RPM_DIR/repodata/repomd.xml
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $DEBUG_RPM_DIR/repodata/repomd.xml
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $SRPM_DIR/repodata/repomd.xml
-
-	# We currently pull packages from yonada, so skip the next line:
-	# rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch
 
 	# Sync SRPMs to S3 bucket:
 	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
@@ -85,6 +156,101 @@ do
 		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*
 	fi
 
+	echo "${green}=== PostgreSQL $packageSyncVersion RPMs sync completed ===${reset}"
+}
+
+# Parse command line arguments
+SYNC_TARGETS=""
+
+if [ $# -eq 0 ]; then
+	usage
+fi
+
+for arg in "$@"
+do
+	case $arg in
+		--sync=*)
+			SYNC_TARGETS="${arg#*=}"
+			shift
+			;;
+		*)
+			echo "${red}ERROR:${reset} Unknown argument: $arg"
+			usage
+			;;
+	esac
 done
 
+# Process sync targets
+declare -a sync_common_flag=0
+declare -a versions_to_sync=()
+
+# Handle special case: "all"
+if [ "$SYNC_TARGETS" == "all" ]; then
+	echo "${green}Starting sync: Common + All PostgreSQL versions${reset}"
+	sync_common
+	for version in ${pgStableBuilds[@]}
+	do
+		sync_pg_version $version
+	done
+else
+	# Parse multiple targets (space-separated)
+	for target in $SYNC_TARGETS
+	do
+		case $target in
+			common)
+				sync_common_flag=1
+				;;
+			pg)
+				# Add all PostgreSQL versions to the list
+				for version in ${pgStableBuilds[@]}
+				do
+					versions_to_sync+=($version)
+				done
+				;;
+			*)
+				# Check if it's a specific version number
+				if [[ "${pgStableBuilds[@]}" =~ (^|[[:space:]])"$target"($|[[:space:]]) ]]
+				then
+					versions_to_sync+=($target)
+				else
+					echo "${red}ERROR:${reset} Invalid sync option or unsupported PostgreSQL version: $target"
+					echo ""
+					echo "Supported PostgreSQL versions: ${pgStableBuilds[@]}"
+					usage
+				fi
+				;;
+		esac
+	done
+
+	# Execute syncs
+	if [ $sync_common_flag -eq 1 ]; then
+		sync_common
+	fi
+
+	# Remove duplicates from versions array and sync each version
+	if [ ${#versions_to_sync[@]} -gt 0 ]; then
+		# Remove duplicates while preserving order
+		declare -a unique_versions=()
+		for version in "${versions_to_sync[@]}"
+		do
+			if [[ ! " ${unique_versions[@]} " =~ " ${version} " ]]; then
+				unique_versions+=($version)
+			fi
+		done
+
+		echo "${green}Syncing PostgreSQL versions: ${unique_versions[@]}${reset}"
+		for version in "${unique_versions[@]}"
+		do
+			sync_pg_version $version
+		done
+	fi
+
+	# Check if nothing was synced
+	if [ $sync_common_flag -eq 0 ] && [ ${#versions_to_sync[@]} -eq 0 ]; then
+		echo "${red}ERROR:${reset} No valid sync targets specified"
+		usage
+	fi
+fi
+
+echo "${green}All sync operations completed successfully!${reset}"
 exit 0
