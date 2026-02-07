@@ -4,32 +4,26 @@ set -euo pipefail
 
 sync_had_errors=0
 
-# Defaults
+# Source central configuration
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/sync_pgdg_rpms_config.sh"
+
+if [[ ! -f "$CONFIG_FILE" ]]; then
+	echo "ERROR: Configuration file not found: $CONFIG_FILE" >&2
+	exit 1
+fi
+
+source "$CONFIG_FILE"
+
+# Runtime variables
 OS=""
 ARCH=""
 VER=""
 ARCH_LIST=()				# List of architectures to sync (populated based on --arch or all for OS)
 DRY_RUN=false
 DEBUG=false
-BASE_DIR_redhat="/srv/yum/yum"
-BASE_DIR_fedora="/srv/yum/yum"
-BASE_DIR_sles="/srv/zypp/zypp"
-PG_ALL_VERSIONS=(18 17 16 15 14)	# All supported stable versions
-PG_TEST_VERSIONS=(18 17 16 15 14)	# Versions available in testing repos
-EXTRASREPOSENABLED=0
-SYNCTESTINGREPOS=0
-SYNCNONFREEREPOS=0
-SYNC_ITEMS=()				# New: items to sync (common, extras, testing, non-free, or PG versions)
+SYNC_ITEMS=()				# Items to sync (common, extras, testing, non-free, or PG versions)
 SYNC_PG_VERSIONS=()			# PG versions to sync based on --sync option
-
-# Valid values
-VALID_OS=("redhat" "fedora" "sles")
-VALID_ARCH_redhat=("aarch64" "ppc64le" "x86_64")
-VALID_ARCH_fedora=("x86_64")
-VALID_ARCH_sles=("x86_64")
-VALID_VER_redhat=("10.1" "10.0" "9.7" "9.6" "8.10")
-VALID_VER_fedora=("43" "42")
-VALID_VER_sles=("15.6" "15.7" "16.0")
 
 # Help
 usage() {
@@ -37,8 +31,8 @@ usage() {
 Usage: $0 --os <os> --ver <version> [options]
 
 Required:
-  --os           Operating system: redhat, fedora or sles
-  --ver          OS version: redhat (10.1, 10.0, 9.7, 9.6, 8.10), fedora (43,42), sles (15.6, 15.7, 16.0)
+  --os           Operating system: ${VALID_OS[*]}
+  --ver          OS version: redhat (${VALID_VER_redhat[*]}), fedora (${VALID_VER_fedora[*]}), sles (${VALID_VER_sles[*]})
 
 Optional:
   --arch         Architecture: aarch64, ppc64le, x86_64
@@ -67,7 +61,6 @@ contains() {
 }
 
 # Parse arguments
-# Parse args
 while [[ $# -gt 0 ]]; do
 	case "$1" in
 	--os)
@@ -104,31 +97,34 @@ while [[ $# -gt 0 ]]; do
 	esac
 done
 
-# Determine OS-specific prefix and extras repo availability
+# Determine OS-specific settings
 case "$OS" in
 redhat)
 	VALID_ARCH=("${VALID_ARCH_redhat[@]}")
 	VALID_VER=("${VALID_VER_redhat[@]}")
-	osname="rhel"
-	osdistro="redhat"
-	EXTRASREPOSENABLED=1
-	SYNCTESTINGREPOS=1
+	osname="${OSNAME_redhat}"
+	osdistro="${OSDISTRO_redhat}"
+	EXTRASREPOSENABLED=${EXTRASREPOSENABLED_redhat}
+	SYNCTESTINGREPOS=${SYNCTESTINGREPOS_redhat}
+	SYNCNONFREEREPOS=${SYNCNONFREEREPOS_redhat}
 	;;
 fedora)
 	VALID_ARCH=("${VALID_ARCH_fedora[@]}")
 	VALID_VER=("${VALID_VER_fedora[@]}")
-	osname="fedora"
-	osdistro="fedora"
-	EXTRASREPOSENABLED=0
-	SYNCTESTINGREPOS=1
+	osname="${OSNAME_fedora}"
+	osdistro="${OSDISTRO_fedora}"
+	EXTRASREPOSENABLED=${EXTRASREPOSENABLED_fedora}
+	SYNCTESTINGREPOS=${SYNCTESTINGREPOS_fedora}
+	SYNCNONFREEREPOS=${SYNCNONFREEREPOS_fedora}
 	;;
 sles)
 	VALID_ARCH=("${VALID_ARCH_sles[@]}")
 	VALID_VER=("${VALID_VER_sles[@]}")
-	osname="sles"
-	osdistro="suse"
-	EXTRASREPOSENABLED=0
-	SYNCTESTINGREPOS=0
+	osname="${OSNAME_sles}"
+	osdistro="${OSDISTRO_sles}"
+	EXTRASREPOSENABLED=${EXTRASREPOSENABLED_sles}
+	SYNCTESTINGREPOS=${SYNCTESTINGREPOS_sles}
+	SYNCNONFREEREPOS=${SYNCNONFREEREPOS_sles}
 	;;
 *)
 	echo "Unsupported OS: $OS"

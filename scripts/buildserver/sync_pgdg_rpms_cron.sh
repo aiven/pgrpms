@@ -2,15 +2,25 @@
 
 set -euo pipefail
 
-# Location of sync script
-SYNC_SCRIPT="~/bin/sync_pgdg_rpms.sh"
+# Source central configuration
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+CONFIG_FILE="${SCRIPT_DIR}/sync_pgdg_rpms_config.sh"
 
-# Supported OSes and their versions
-# Note: The main script handles architecture iteration automatically when --arch is not specified
+if [[ ! -f "$CONFIG_FILE" ]]; then
+	echo "ERROR: Configuration file not found: $CONFIG_FILE" >&2
+	exit 1
+fi
+
+source "$CONFIG_FILE"
+
+# Location of sync script
+SYNC_SCRIPT="${SCRIPT_DIR}/sync_pgdg_rpms.sh"
+
+# Build OS_VERSIONS associative array from config
 declare -A OS_VERSIONS
-OS_VERSIONS[redhat]="10.1 10.0 9.7 9.6 8.10"
-OS_VERSIONS[fedora]="43 42"
-OS_VERSIONS[sles]="15.6 15.7 16.0"
+OS_VERSIONS[redhat]="${VALID_VER_redhat[*]}"
+OS_VERSIONS[fedora]="${VALID_VER_fedora[*]}"
+OS_VERSIONS[sles]="${VALID_VER_sles[*]}"
 
 # Flags
 DRY_RUN=false
