@@ -13,14 +13,13 @@ DEBUG=false
 BASE_DIR_redhat="/srv/yum/yum"
 BASE_DIR_fedora="/srv/yum/yum"
 BASE_DIR_sles="/srv/zypp/zypp"
-PG_VERSIONS=()
-PG_ALL_VERSIONS=(18 17 16 15 14)	# All supported stable versions
-PG_TEST_VERSIONS=(18 17 16 15 14)	# Versions available in testing repos
+PG_ALL_VERSIONS=(18 17 16 15 14)		# All supported stable versions
+PG_TEST_VERSIONS=(18 17 16 15 14)		# Versions available in testing repos
 EXTRASREPOSENABLED=0
 SYNCTESTINGREPOS=0
 SYNCNONFREEREPOS=0
-SYNC_ITEMS=()				# New: items to sync (common, extras, testing, non-free, or PG versions)
-SYNC_PG_VERSIONS=()			# PG versions to sync based on --sync option
+SYNC_ITEMS=()					# New: items to sync (common, extras, testing, non-free, or PG versions)
+SYNC_PG_VERSIONS=()				# PG versions to sync based on --sync option
 
 # Valid values
 VALID_OS=("redhat" "fedora" "sles")
@@ -42,7 +41,6 @@ Required:
   --ver          OS version: redhat (10.1, 10.0, 9.7, 9.6, 8.10), fedora (43,42), sles (15.6, 15.7, 16.0)
 
 Optional:
-  --pg-versions  List of PostgreSQL versions to sync (e.g. 18 17 16)
   --sync         Sync specific items: common, extras, testing, non-free, or PG version (e.g. 18)
                  Can specify multiple items (e.g. --sync common 18 17)
                  If not specified, syncs all available repos
@@ -81,13 +79,6 @@ while [[ $# -gt 0 ]]; do
 	--ver)
 		VER="$2"
 		shift 2
-		;;
-	--pg-versions)
-		shift
-		while [[ $# -gt 0 && ! "$1" =~ ^-- ]]; do
-			PG_VERSIONS+=("$1")
-			shift
-		done
 		;;
 	--sync)
 		shift
