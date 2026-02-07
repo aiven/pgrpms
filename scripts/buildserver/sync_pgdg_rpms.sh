@@ -257,7 +257,6 @@ for osarch in "${ARCH_LIST[@]}"; do
 		exit 1
 	fi
 
-	osdistro=$OS
 	distrover=$VER
 	tmp_var="BASE_DIR_${OS}"
 	BASE_DIR_OS="${!tmp_var}"
