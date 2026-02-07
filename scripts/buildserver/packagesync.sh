@@ -16,25 +16,28 @@ usage() {
 	echo "Usage: $0 [--sync=<option> [option2 ...]]"
 	echo ""
 	echo "Options:"
-	echo "  --sync=all           Sync common RPMs and all PostgreSQL versions"
+	echo "  --sync=all           Sync common, extras, and all PostgreSQL versions"
 	echo "  --sync=common        Sync only common RPMs"
-	echo "  --sync=pg            Sync all PostgreSQL versions (no common)"
+	echo "  --sync=extras        Sync only extras RPMs (if enabled)"
+	echo "  --sync=pg            Sync all PostgreSQL versions (no common/extras)"
 	echo "  --sync=<version>     Sync specific PostgreSQL version (e.g., --sync=18)"
 	echo "  --sync=\"ver1 ver2\"  Sync multiple specific versions/targets (space-separated)"
 	echo ""
 	echo "Multiple targets can be combined (space-separated):"
 	echo "  - Version numbers (e.g., 18, 17, 16)"
 	echo "  - 'common' keyword"
+	echo "  - 'extras' keyword (requires extrasrepoenabled=1 in global.sh)"
 	echo "  - 'pg' keyword (all versions)"
 	echo ""
 	echo "Examples:"
 	echo "  $0 --sync=all"
 	echo "  $0 --sync=common"
+	echo "  $0 --sync=extras"
 	echo "  $0 --sync=pg"
 	echo "  $0 --sync=18"
 	echo "  $0 --sync=\"18 common\""
-	echo "  $0 --sync=\"18 17 common\""
-	echo "  $0 --sync=\"pg common\""
+	echo "  $0 --sync=\"18 17 common extras\""
+	echo "  $0 --sync=\"pg common extras\""
 	exit 1
 }
 
@@ -94,6 +97,73 @@ sync_common() {
 	fi
 
 	echo "${green}=== Common RPMs sync completed ===${reset}"
+}
+
+# Function to sync extras RPMs
+sync_extras() {
+	# Check if extras repo is enabled
+	if [ "$extrasrepoenabled" != 1 ]
+	then
+		echo "${red}ERROR:${reset} Extras repo is not enabled on this platform"
+		echo "Set extrasrepoenabled=1 in global.sh to enable extras sync"
+		return 1
+	fi
+
+	echo "${green}=== Syncing PostgreSQL extras RPMs for $os - $osarch ===${reset}"
+
+	export BASE_DIR=/var/lib/pgsql/pgdg.extras
+
+	export EXTRAS_RPM_DIR=$BASE_DIR/ALLRPMS
+	export EXTRAS_SRPM_DIR=$BASE_DIR/ALLSRPMS
+	export EXTRAS_DEBUG_RPM_DIR=$BASE_DIR/ALLDEBUGRPMS
+
+	# Create directories for binary and source RPMs
+	mkdir -p $EXTRAS_RPM_DIR
+	mkdir -p $EXTRAS_SRPM_DIR
+	mkdir -p $EXTRAS_DEBUG_RPM_DIR
+
+	# rsync binary and source RPMs to their own directories:
+	rsync --checksum -av --delete --stats $BASE_DIR/RPMS/$osarch/ $BASE_DIR/RPMS/noarch/ $EXTRAS_RPM_DIR
+	rsync --checksum -av --delete --stats $BASE_DIR/SRPMS/ $EXTRAS_SRPM_DIR
+
+	# Move debuginfo and debugsource packages to a separate directory.
+	# First clean the old ones, and then copy existing ones:
+	rm -rf $EXTRAS_DEBUG_RPM_DIR/*
+	mv $EXTRAS_RPM_DIR/*debuginfo* $EXTRAS_RPM_DIR/*debugsource* $EXTRAS_DEBUG_RPM_DIR/ 2>/dev/null || true
+
+	# Now, create repo for RPMs and SRPMS:
+	createrepo --changelog-limit=3 --workers=4 -d --update $EXTRAS_RPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -d --update $EXTRAS_SRPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -d --update $EXTRAS_DEBUG_RPM_DIR
+
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $EXTRAS_RPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $EXTRAS_SRPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $EXTRAS_DEBUG_RPM_DIR/repodata/repomd.xml
+
+	# Sync SRPMs to S3 bucket:
+	aws s3 sync $EXTRAS_SRPM_DIR $awssrpmurl/srpms/extras/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $EXTRAS_SRPM_DIR/repodata/ $awssrpmurl/srpms/extras/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/extras/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+	# Sync debug* RPMs to S3 bucket:
+	aws s3 sync $EXTRAS_DEBUG_RPM_DIR $awsdebuginfourl/debug/extras/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $EXTRAS_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/extras/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/extras/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+	# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
+	if [ "$osislatest" == 1 ]
+	then
+		aws s3 sync $EXTRAS_SRPM_DIR $awssrpmurl/srpms/extras/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $EXTRAS_SRPM_DIR/repodata/ $awssrpmurl/srpms/extras/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+
+		aws s3 sync $EXTRAS_DEBUG_RPM_DIR $awsdebuginfourl/debug/extras/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $EXTRAS_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/extras/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+		# Invalidate the caches:
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/extras/$osdistro/$os-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/extras/$osdistro/$os-$osarch/repodata/*
+	fi
+
+	echo "${green}=== Extras RPMs sync completed ===${reset}"
 }
 
 # Function to sync PostgreSQL version-specific RPMs
@@ -182,12 +252,14 @@ done
 
 # Process sync targets
 declare -a sync_common_flag=0
+declare -a sync_extras_flag=0
 declare -a versions_to_sync=()
 
 # Handle special case: "all"
 if [ "$SYNC_TARGETS" == "all" ]; then
-	echo "${green}Starting sync: Common + All PostgreSQL versions${reset}"
+	echo "${green}Starting sync: Common + Extras + All PostgreSQL versions${reset}"
 	sync_common
+	sync_extras
 	for version in ${pgStableBuilds[@]}
 	do
 		sync_pg_version $version
@@ -199,6 +271,9 @@ else
 		case $target in
 			common)
 				sync_common_flag=1
+				;;
+			extras)
+				sync_extras_flag=1
 				;;
 			pg)
 				# Add all PostgreSQL versions to the list
@@ -227,6 +302,10 @@ else
 		sync_common
 	fi
 
+	if [ $sync_extras_flag -eq 1 ]; then
+		sync_extras
+	fi
+
 	# Remove duplicates from versions array and sync each version
 	if [ ${#versions_to_sync[@]} -gt 0 ]; then
 		# Remove duplicates while preserving order
@@ -246,7 +325,7 @@ else
 	fi
 
 	# Check if nothing was synced
-	if [ $sync_common_flag -eq 0 ] && [ ${#versions_to_sync[@]} -eq 0 ]; then
+	if [ $sync_common_flag -eq 0 ] && [ $sync_extras_flag -eq 0 ] && [ ${#versions_to_sync[@]} -eq 0 ]; then
 		echo "${red}ERROR:${reset} No valid sync targets specified"
 		usage
 	fi
