@@ -2,14 +2,14 @@
 
 #########################################################
 #							#
-# Devrim Gündüz <devrim@gunduz.org> - 2024		#
+# Devrim Gündüz <devrim@gunduz.org> - 2026		#
 #							#
 #########################################################
 
 # Include common values:
 source ~/bin/global.sh
 
-# Check eack PostgreSQL major release:
+# Check each PostgreSQL major release:
 
 for packageBuildVersion in ${pgStableBuilds[@]}
 do
