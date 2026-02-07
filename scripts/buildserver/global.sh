@@ -2,7 +2,7 @@
 
 #########################################################
 #							#
-# Devrim Gündüz <devrim@gunduz.org> - 2025		#
+# Devrim Gündüz <devrim@gunduz.org> - 2026		#
 #							#
 #########################################################
 
@@ -21,12 +21,13 @@ green=`tput setaf 2`
 blue=`tput setaf 4`
 reset=`tput sgr0`
 
-export os=rhel-10		# rhel-9, sles-15, fedora-43
+export osmajorversion=10	# Major version: 10, 9, 15, 43
+export os=rhel-${osmajorversion}		# rhel-9, sles-15, fedora-43
 export osminversion=1		# Will be used to support multiple OS minor versions like SLES 15.7, RHEL 10.1
 export osislatest=0		# Is this the latest minor version of the OS or not? 1 or 0
 export osarch=x86_64		# x86_64, aarch64, ppc64le
 export osdistro=redhat		# fedora, redhat, suse
-export git_os=EL-9		# EL-9, F-43, SLES-15
+export git_os=EL-${osmajorversion}		# EL-9, F-43, SLES-15
 export extrasrepoenabled=1	# 1 or 0. Currently for RHEL and SLES.
 
 export GPG_TTY=$(tty)
@@ -41,7 +42,7 @@ export CF_SRPM_DISTRO_ID=XXXXXXXXXXXXXXXXXX
 
 declare -a pgStableBuilds=("18 17 16 15 14" )
 declare -a pgTestBuilds=("18 17 16 15 14" )
-declare -a pgBetaVersion=18
+declare -a pgBetaVersion=
 declare -a pgAlphaVersion=19
 
 # Common function to sign the package.
