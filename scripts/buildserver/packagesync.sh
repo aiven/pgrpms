@@ -15,11 +15,13 @@ source ~/bin/global.sh
 usage() {
 	echo "Usage: $0 [--sync=<option> [option2 ...]]"
 	echo ""
-	echo "Options:"
+	echo "Sync Options:"
 	echo "  --sync=all           Sync common, extras, and all PostgreSQL versions"
 	echo "  --sync=common        Sync only common RPMs"
 	echo "  --sync=extras        Sync only extras RPMs (if enabled)"
 	echo "  --sync=pg            Sync all PostgreSQL versions (no common/extras)"
+	echo "  --sync=alpha         Sync alpha builds (PostgreSQL ${pgAlphaVersion})"
+	echo "  --sync=beta          Sync beta builds (PostgreSQL ${pgBetaVersion})"
 	echo "  --sync=<version>     Sync specific PostgreSQL version (e.g., --sync=18)"
 	echo "  --sync=\"ver1 ver2\"  Sync multiple specific versions/targets (space-separated)"
 	echo ""
@@ -27,6 +29,8 @@ usage() {
 	echo "  - Version numbers (e.g., 18, 17, 16)"
 	echo "  - 'common' keyword"
 	echo "  - 'extras' keyword (requires extrasrepoenabled=1 in global.sh)"
+	echo "  - 'alpha' keyword (PostgreSQL ${pgAlphaVersion} alpha builds)"
+	echo "  - 'beta' keyword (PostgreSQL ${pgBetaVersion} beta builds)"
 	echo "  - 'pg' keyword (all versions)"
 	echo ""
 	echo "Examples:"
@@ -35,8 +39,11 @@ usage() {
 	echo "  $0 --sync=extras"
 	echo "  $0 --sync=pg"
 	echo "  $0 --sync=18"
+	echo "  $0 --sync=alpha"
+	echo "  $0 --sync=beta"
 	echo "  $0 --sync=\"18 common\""
-	echo "  $0 --sync=\"18 17 common extras\""
+	echo "  $0 --sync=\"alpha common\""
+	echo "  $0 --sync=\"beta extras\""
 	echo "  $0 --sync=\"pg common extras\""
 	exit 1
 }
@@ -166,6 +173,69 @@ sync_extras() {
 	echo "${green}=== Extras RPMs sync completed ===${reset}"
 }
 
+# Function to sync alpha/beta RPMs
+sync_alpha_beta() {
+	local build_type="$1"
+
+	# Determine version based on build type
+	local packageSyncVersion
+	if [[ "$build_type" == "alpha" ]]; then
+		packageSyncVersion=$pgAlphaVersion
+	elif [[ "$build_type" == "beta" ]]; then
+		packageSyncVersion=$pgBetaVersion
+	else
+		echo "${red}ERROR:${reset} Invalid build type: $build_type"
+		return 1
+	fi
+
+	echo "${green}=== Syncing PostgreSQL $packageSyncVersion $build_type RPMs ===${reset}"
+
+	export TESTING_BASE_DIR=/var/lib/pgsql/rpm${packageSyncVersion}testing
+	export TESTING_RPM_DIR=$TESTING_BASE_DIR/ALLRPMS
+	export TESTING_SRPM_DIR=$TESTING_BASE_DIR/ALLSRPMS
+	export TESTING_DEBUG_RPM_DIR=$TESTING_BASE_DIR/ALLDEBUGRPMS
+
+	# Create directories for binary and source RPMs
+	mkdir -p $TESTING_RPM_DIR
+	mkdir -p $TESTING_SRPM_DIR
+	mkdir -p $TESTING_DEBUG_RPM_DIR
+
+	# Remove old packages (keep only 2 most recent)
+	echo "${green}Removing old packages (keeping 2 most recent)...${reset}"
+	rm $(repomanage --old --keep=2 $TESTING_RPM_DIR/) -f 2>/dev/null || true
+	rm $(repomanage --old --keep=2 $TESTING_SRPM_DIR/) -f 2>/dev/null || true
+
+	# rsync binary and source RPMs to their own directories:
+	rsync --checksum -av --delete --stats $TESTING_BASE_DIR/RPMS/$osarch/ $TESTING_BASE_DIR/RPMS/noarch/ $TESTING_RPM_DIR
+	rsync --checksum -av --delete --stats $TESTING_BASE_DIR/SRPMS/ $TESTING_SRPM_DIR
+
+	# Move debuginfo and debugsource packages to a separate directory.
+	# First clean the old ones, and then copy existing ones:
+	rm -rf $TESTING_DEBUG_RPM_DIR/*
+	mv $TESTING_RPM_DIR/*debuginfo* $TESTING_RPM_DIR/*debugsource* $TESTING_DEBUG_RPM_DIR/ 2>/dev/null || true
+
+	# Now, create repo for RPMs and SRPMS:
+	createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $TESTING_RPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -d --update $TESTING_SRPM_DIR
+	createrepo --changelog-limit=3 --workers=4 -g /usr/local/etc/postgresqldbserver-$packageSyncVersion.xml -d --update $TESTING_DEBUG_RPM_DIR
+
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_RPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_SRPM_DIR/repodata/repomd.xml
+	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $TESTING_DEBUG_RPM_DIR/repodata/repomd.xml
+
+	# Sync SRPMs to S3 bucket:
+	aws s3 sync $TESTING_SRPM_DIR $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $TESTING_SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+	# Sync debug* RPMs to S3 bucket:
+	aws s3 sync $TESTING_DEBUG_RPM_DIR $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $TESTING_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/testing/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
+
+	echo "${green}=== PostgreSQL $packageSyncVersion $build_type RPMs sync completed ===${reset}"
+}
+
 # Function to sync PostgreSQL version-specific RPMs
 sync_pg_version() {
 	local packageSyncVersion=$1
@@ -253,6 +323,8 @@ done
 # Process sync targets
 declare -a sync_common_flag=0
 declare -a sync_extras_flag=0
+declare -a sync_alpha_flag=0
+declare -a sync_beta_flag=0
 declare -a versions_to_sync=()
 
 # Handle special case: "all"
@@ -274,6 +346,12 @@ else
 				;;
 			extras)
 				sync_extras_flag=1
+				;;
+			alpha)
+				sync_alpha_flag=1
+				;;
+			beta)
+				sync_beta_flag=1
 				;;
 			pg)
 				# Add all PostgreSQL versions to the list
@@ -306,6 +384,14 @@ else
 		sync_extras
 	fi
 
+	if [ $sync_alpha_flag -eq 1 ]; then
+		sync_alpha_beta "alpha"
+	fi
+
+	if [ $sync_beta_flag -eq 1 ]; then
+		sync_alpha_beta "beta"
+	fi
+
 	# Remove duplicates from versions array and sync each version
 	if [ ${#versions_to_sync[@]} -gt 0 ]; then
 		# Remove duplicates while preserving order
@@ -325,7 +411,7 @@ else
 	fi
 
 	# Check if nothing was synced
-	if [ $sync_common_flag -eq 0 ] && [ $sync_extras_flag -eq 0 ] && [ ${#versions_to_sync[@]} -eq 0 ]; then
+	if [ $sync_common_flag -eq 0 ] && [ $sync_extras_flag -eq 0 ] && [ $sync_alpha_flag -eq 0 ] && [ $sync_beta_flag -eq 0 ] && [ ${#versions_to_sync[@]} -eq 0 ]; then
 		echo "${red}ERROR:${reset} No valid sync targets specified"
 		usage
 	fi
