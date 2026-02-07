@@ -2,7 +2,7 @@
 
 #########################################################
 #							#
-# Devrim Gündüz <devrim@gunduz.org> - 2025		#
+# Devrim Gündüz <devrim@gunduz.org> - 2026		#
 #							#
 # Merged package sync script with configurable options	#
 #							#
