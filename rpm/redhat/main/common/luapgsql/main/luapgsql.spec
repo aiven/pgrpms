@@ -12,7 +12,7 @@
 Summary:	Lua binding for PostgreSQL
 Name:		luapgsql
 Version:	1.6.7
-Release:	8PGDG%{?dist}
+Release:	9PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/arcapos/%{name}/archive/pgsql-%{version}.tar.gz
 Patch0:		%{name}-rpm-makefile-pgxs.patch
@@ -23,7 +23,7 @@ Requires:	libpq5
 Requires:	lua(abi) = %{luaver}
 %else
 %global luanext 5.2
-Requires:	libllua5_4 >= %{luaver}
+Requires:	liblua5_4-5 >= %{luaver}
 %endif
 
 %description
@@ -45,6 +45,9 @@ A Lua Binding for PostgreSQL.
 %{lualibdir}/pgsql.so
 
 %changelog
+* Sat Feb 7 2026 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-9PGDG
+- Fix SLES dependency
+
 * Wed Feb 4 2026 Devrim Gunduz <devrim@gunduz.org> - 1.6.7-8PGDG
 - Move package to common repo
 
