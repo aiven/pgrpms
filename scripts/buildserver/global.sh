@@ -33,7 +33,10 @@ export extrasrepoenabled=1			# 1 or 0. Currently for RHEL and SLES.
 
 # GPG Configuration
 export GPG_TTY=$(tty)
+# Note: GPG_PASSWORD is kept for backward compatibility with repomd.xml signing
+# For package signing, we now use gpg-agent with preset passphrase
 export GPG_PASSWORD=foobar
+export GPG_KEY_ID=""				# Set this to your signing key ID
 
 # AWS Configuration
 export AWS_PAGER=""
@@ -50,7 +53,7 @@ declare -a pgTestBuilds=("18 17 16 15 14")
 declare -a pgBetaVersion=()
 declare -a pgAlphaVersion=(19)
 
-# Common function to sign the package.
+# Common function to sign packages using GPG agent
 sign_package() {
 	# Remove all files with .sig suffix. They are leftovers which appear
 	# when signing process is not completed. Signing will be broken when
@@ -60,9 +63,55 @@ sign_package() {
 	# Remove all buildreqs.nosrc packages:
 	find ~/rpm* pgdg* -iname "*buildreqs.nosrc*" -print0 | xargs -0 /bin/rm -v -rf
 
-	# Find the packages, and sign them. Using an expect script to automate signing process.
+	# Find the packages and sign them using rpmsign with gpg-agent
 	# The first parameter refers to the location of the RPMs:
-	for signpackagelist in $(find ~/"$1"* -iname "*${signPackageName}*${packageVersion}*.rpm"); do
-		/usr/bin/expect ~/bin/signrpms.expect "$signpackagelist"
+	local rpm_location="$1"
+
+	# Check if GPG agent is running
+	if ! pgrep -x gpg-agent > /dev/null; then
+		echo "${red}ERROR:${reset} GPG agent is not running. Start it with: gpg-agent --daemon"
+		return 1
+	fi
+
+	echo "${green}Signing packages in ${rpm_location}...${reset}"
+
+	# Use rpmsign with gpg-agent (passphrase should be preset in agent cache)
+	for signpackagelist in $(find ~/"${rpm_location}"* -iname "*${signPackageName}*${packageVersion}*.rpm"); do
+		echo "Signing: $signpackagelist"
+		rpmsign --addsign "$signpackagelist"
+
+		if [ $? -ne 0 ]; then
+			echo "${red}ERROR:${reset} Failed to sign $signpackagelist"
+			return 1
+		fi
 	done
+
+	echo "${green}Package signing completed${reset}"
+	return 0
+}
+
+# Function to preset GPG passphrase in agent (call this once per session)
+preset_gpg_passphrase() {
+	local keygrip="$1"
+
+	if [ -z "$keygrip" ]; then
+		echo "${red}ERROR:${reset} Keygrip is required"
+		echo "Find your keygrip with: gpg --with-keygrip -K"
+		return 1
+	fi
+
+	if [ -z "$GPG_PASSWORD" ]; then
+		echo "${red}ERROR:${reset} GPG_PASSWORD is not set"
+		return 1
+	fi
+
+	echo "$GPG_PASSWORD" | /usr/libexec/gpg-preset-passphrase --preset "$keygrip"
+
+	if [ $? -eq 0 ]; then
+		echo "${green}GPG passphrase preset successfully${reset}"
+		return 0
+	else
+		echo "${red}ERROR:${reset} Failed to preset GPG passphrase"
+		return 1
+	fi
 }
