@@ -56,7 +56,7 @@ preset_passphrase() {
     echo "Presetting passphrase for keygrip: $GPG_KEY_GRIP"
 
     # Preset the passphrase (valid for the cache TTL period)
-    echo "$GPG_PASSWORD" | /usr/lib/gnupg/gpg-preset-passphrase --preset "$GPG_KEY_GRIP"
+    echo "$GPG_PASSWORD" | /usr/libexec/gpg-preset-passphrase --preset "$GPG_KEY_GRIP"
  
     if [ $? -eq 0 ]; then
         echo "Passphrase preset successfully"
