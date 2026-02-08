@@ -81,7 +81,7 @@ main() {
     echo "Setup complete!"
     echo ""
     echo "To preset your passphrase, run:"
-    echo "  /usr/lib/gnupg/gpg-preset-passphrase --preset <KEYGRIP>"
+    echo "  /usr/libexec/gpg-preset-passphrase --preset <KEYGRIP>"
     echo ""
     echo "Find your keygrip with:"
     echo "  gpg --with-keygrip -K"
