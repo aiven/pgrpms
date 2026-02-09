@@ -1,4 +1,4 @@
-%global _vpath_builddir .
+w%global _vpath_builddir .
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
@@ -28,7 +28,7 @@ Version:	2.2.0
 BuildRequires:	CGAL-devel >= 5.6
 %endif
 
-Release:	4PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	GLPLv2
 Source:		https://gitlab.com/sfcgal/SFCGAL/-/archive/v%{version}/SFCGAL-v%{version}.tar.gz
 
@@ -43,19 +43,19 @@ BuildRequires:	cmake pgdg-srpm-macros
 
 %if 0%{?suse_version} == 1500
 BuildRequires:	libboost_date_time1_66_0 libboost_thread1_66_0
-BuildRequires:	libboost_system1_66_0 libboost_serialization1_66_0
+BuildRequires:	libboost_serialization1_66_0
 BuildRequires:	libboost_serialization1_66_0-devel libboost_atomic1_66_0-devel
 %endif
 %if 0%{?suse_version} == 1600
 BuildRequires:	libboost_date_time1_86_0 libboost_thread1_86_0
-BuildRequires:	libboost_system1_86_0 libboost_serialization1_86_0
+BuildRequires:	libboost_serialization1_86_0
 BuildRequires:	libboost_serialization1_86_0-devel libboost_atomic1_86_0-devel
 %endif
 %if 0%{?rhel} || 0%{?fedora}
-BuildRequires:	boost-thread, boost-system, boost-date-time, boost-serialization
+BuildRequires:	boost-thread boost-date-time boost-serialization
 %endif
 
-BuildRequires:	mpfr-devel, gmp-devel, gcc-c++
+BuildRequires:	mpfr-devel gmp-devel gcc-c++
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %description
@@ -131,6 +131,10 @@ Development headers and libraries for SFCGAL.
 %{_libdir}/libSFCGAL.so*
 
 %changelog
+* Mon Feb 9 2026 Devrim Gunduz <devrim@gunduz.org> - 2.2.0-5PGDG
+- Remove obsolete boost-system BR. Noted while working on Fedora
+  44 packaging. Verified via mock build.
+
 * Fri Nov 7 2025 Devrim Gunduz <devrim@gunduz.org> - 2.2.0-4PGDG
 - Update dependency name on SLES 16
 
