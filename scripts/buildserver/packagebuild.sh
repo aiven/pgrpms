@@ -9,6 +9,41 @@
 # Include common values:
 source ~/bin/global.sh
 
+# Create logs directory if it doesn't exist
+mkdir -p ~/bin/logs
+
+# Function to log build failures
+log_build_failure() {
+	local package_name=$1
+	local pg_version=$2
+	local repo_type=$3
+	local timestamp=$(date '+%Y%m%d_%H%M%S')
+
+	# Construct log filename
+	if [ -z "$pg_version" ] || [ "$pg_version" == "common" ] || [ "$pg_version" == "extras" ]; then
+		log_file=~/bin/logs/${package_name}_${repo_type}_${timestamp}.log
+	else
+		log_file=~/bin/logs/${package_name}_pg${pg_version}_${timestamp}.log
+	fi
+
+	# Write failure information to log
+	{
+		echo "========================================="
+		echo "Build Failure Report"
+		echo "========================================="
+		echo "Timestamp: $(date '+%Y-%m-%d %H:%M:%S')"
+		echo "Package: $package_name"
+		echo "PostgreSQL Version: ${pg_version:-N/A}"
+		echo "Repository Type: $repo_type"
+		echo "OS: $git_os"
+		echo "Package Version: ${packageVersion:-Unable to determine}"
+		echo "========================================="
+		echo ""
+	} > "$log_file"
+
+	echo "${red}Build failed. Log written to: $log_file${reset}"
+}
+
 # Parse command line arguments
 beta_mode=0
 testing_mode=0
@@ -69,7 +104,12 @@ then
 		echo "${green}Ok, building $packagename on $git_os for PostgreSQL $pgBetaVersion beta:${reset}"
 		sleep 1
 		cd ~/git/pgrpms/rpm/redhat/$pgBetaVersion/$packagename/$git_os
-		time make "build${pgBetaVersion}testing"
+		if ! time make "build${pgBetaVersion}testing"; then
+			packageVersion=`rpmspec --define "pgmajorversion ${pgBetaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+			cd
+			log_build_failure "$packagename" "$pgBetaVersion" "beta_testing"
+			exit 1
+		fi
 		packageVersion=`rpmspec --define "pgmajorversion ${pgBetaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 		cd
 		sign_package "rpm${pgBetaVersion}testing"
@@ -95,12 +135,22 @@ then
 		echo "${green}Ok, this is a common package, and I am building $packagename for $git_os for common testing repo.${reset}"
 		sleep 1
 		cd ~/git/pgrpms/rpm/redhat/main/common/$packagename/$git_os
-		time make commonbuildtesting
+		if ! time make commonbuildtesting; then
+			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+			cd
+			log_build_failure "$packagename" "common" "common_testing"
+			exit 1
+		fi
 	else
 		echo "${green}Ok, this is a common package, and I am building $packagename for $git_os for common repo.${reset}"
 		sleep 1
 		cd ~/git/pgrpms/rpm/redhat/main/common/$packagename/$git_os
-		time make commonbuild
+		if ! time make commonbuild; then
+			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+			cd
+			log_build_failure "$packagename" "common" "common"
+			exit 1
+		fi
 	fi
 	# Get the package version after building the package so that we get the latest version:
 	packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
@@ -150,13 +200,23 @@ then
 				echo "${green}Ok, building $packagename on $git_os against PostgreSQL $packageBuildVersion testing${reset}"
 				sleep 1
 				cd ~/git/pgrpms/rpm/redhat/$packageBuildVersion/$packagename/$git_os
-				time make build${packageBuildVersion}testing
+				if ! time make build${packageBuildVersion}testing; then
+					packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+					cd
+					log_build_failure "$packagename" "$packageBuildVersion" "testing"
+					exit 1
+				fi
 			else
 				echo "${green}Ok, building $packagename on $git_os against PostgreSQL $packageBuildVersion${reset}"
 				sleep 1
 				cd ~/git/pgrpms/rpm/redhat/$packageBuildVersion/$packagename/$git_os
 				echo "time make build${packageBuildVersion}"
-				time make build${packageBuildVersion}
+				if ! time make build${packageBuildVersion}; then
+					packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+					cd
+					log_build_failure "$packagename" "$packageBuildVersion" "stable"
+					exit 1
+				fi
 			fi
 			# Get the package version after building the package so that we get the latest version:
 			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
@@ -182,12 +242,22 @@ then
 			echo "${green}Ok, building $packagename on $git_os testing repo:${reset}"
 			sleep 1
 			cd ~/git/pgrpms/rpm/redhat/main/extras/$packagename/$git_os
-			time make extrasbuildtesting
+			if ! time make extrasbuildtesting; then
+				packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+				cd
+				log_build_failure "$packagename" "extras" "extras_testing"
+				exit 1
+			fi
 		else
 			echo "${green}Ok, building $packagename on $git_os:${reset}"
 			sleep 1
 			cd ~/git/pgrpms/rpm/redhat/main/extras/$packagename/$git_os
-			time make extrasbuild
+			if ! time make extrasbuild; then
+				packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec 2>/dev/null |head -n 1 | awk -F ': ' '{print $2}'`
+				cd
+				log_build_failure "$packagename" "extras" "extras"
+				exit 1
+			fi
 		fi
 		packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 		cd
