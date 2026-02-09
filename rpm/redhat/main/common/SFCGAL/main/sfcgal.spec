@@ -1,4 +1,4 @@
-w%global _vpath_builddir .
+%global _vpath_builddir .
 
 Summary:	C++ wrapper library around CGAL for PostGIS
 Name:		SFCGAL
