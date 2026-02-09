@@ -49,7 +49,7 @@ export CF_SRPM_DISTRO_ID=XXXXXXXXXXXXXXXXXX
 
 # PostgreSQL Build Versions
 declare -a pgStableBuilds=("18 17 16 15 14")
-declare -a pgTestBuilds=("18 17 16 15 14")
+declare -a pgTestBuilds=("19 18 17 16 15 14")
 declare -a pgBetaVersion=()
 declare -a pgAlphaVersion=(19)
 
