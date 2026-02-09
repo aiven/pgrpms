@@ -119,21 +119,29 @@ fi
 
 if [ -x ~/git/pgrpms/rpm/redhat/main/non-common/$packagename/$git_os ]
 then
-	# Build package against all PostgreSQL versions is 4th parameter is not given:
+	# Select the appropriate build array based on testing mode
+	if [ $testing_mode -eq 1 ]
+	then
+		buildArray=("${pgTestBuilds[@]}")
+	else
+		buildArray=("${pgStableBuilds[@]}")
+	fi
+
+	# Build package against all PostgreSQL versions if 4th parameter is not given:
 	if [ "${buildVersion}" == "" ]
 	then
 		:
 	else
-		if [[ "${pgStableBuilds[@]}" =~ "${buildVersion}" ]]
+		if [[ "${buildArray[@]}" =~ "${buildVersion}" ]]
 		then
-			declare -a pgStableBuilds=("${buildVersion}")
+			declare -a buildArray=("${buildVersion}")
 		else
 			echo "${red}ERROR:${reset} PostgreSQL version ${buildVersion} is not supported."
 			exit 1
 		fi
 	fi
 
-	for packageBuildVersion in ${pgStableBuilds[@]}
+	for packageBuildVersion in ${buildArray[@]}
 	do
 		if [ -x ~/git/pgrpms/rpm/redhat/main/non-common/$packagename/$git_os ]
 		then
