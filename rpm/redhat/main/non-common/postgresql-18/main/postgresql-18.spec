@@ -41,13 +41,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	18.1
+Version:	18.2
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	4200005PGDG%{?dist}
+Release:	4200001PGDG%{?dist}
 %else
-Release:	5PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1331,6 +1331,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 18.2-1PGDG
+- Update to 18.2 per changes described at:
+  https://www.postgresql.org/docs/release/18.2/
+
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-5PGDG
 - Add Restart=on-failure to unit file. Per
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127
