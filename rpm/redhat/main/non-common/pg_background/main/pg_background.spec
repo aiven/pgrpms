@@ -4,8 +4,8 @@
 
 Summary:	PostgreSQL Background Worker
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.5
-Release:	4PGDG%{?dist}
+Version:	1.6
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/vibhorkum/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/vibhorkum/%{sname}
@@ -76,6 +76,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 1.6-1PGDG
+- Update to 1.6 per changes described at:
+  https://github.com/vibhorkum/pg_background/releases/tag/v1.6
+
 * Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 1.5-4PGDG
 - Modernise OpenSSL dependencies.
 
