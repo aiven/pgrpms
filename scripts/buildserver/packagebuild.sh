@@ -193,7 +193,7 @@ then
 
 	for packageBuildVersion in ${buildArray[@]}
 	do
-		if [ -x ~/git/pgrpms/rpm/redhat/main/non-common/$packagename/$git_os ]
+		if [ -x ~/git/pgrpms/rpm/redhat/$packageBuildVersion/$packagename/$git_os ]
 		then
 			if [ $testing_mode -eq 1 ]
 			then
@@ -221,7 +221,9 @@ then
 			# Get the package version after building the package so that we get the latest version:
 			packageVersion=`rpmspec --define "pgmajorversion ${pgAlphaVersion}" -q --qf "%{name}: %{Version}\n" *.spec |head -n 1 | awk -F ': ' '{print $2}'`
 			cd
-		sign_package rpm${packageBuildVersion}
+			sign_package rpm${packageBuildVersion}
+		else
+			echo "${yellow}Skipping PostgreSQL $packageBuildVersion - package not available for this version${reset}"
 		fi
 	done
 exit 0
