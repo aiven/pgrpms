@@ -42,7 +42,7 @@
 # https://bugzilla.redhat.com/show_bug.cgi?id=1490492
 
 Name:		%{sname}312
-Version:	3.12.1
+Version:	3.12.2
 Release:	1PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
@@ -487,6 +487,10 @@ done
 %endif
 
 %changelog
+* Tue Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.12.2-1PGDG
+- Update to 3.12.2 per changes described at:
+  https://github.com/OSGeo/gdal/releases/tag/v3.12.2
+
 * Thu Dec 18 2025 Devrim Gunduz <devrim@gunduz.org> - 3.12.1-1PGDG
 - Update to 3.12.1 per changes described at:
   https://github.com/OSGeo/gdal/releases/tag/v3.12.1
