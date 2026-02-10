@@ -64,8 +64,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.8
-Release:	15PGDG%{?dist}
+Version:	%{postgismajorversion}.9
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -403,6 +403,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.2.9-1PGDG
+- Update to 3.2.9, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.9/NEWS
+
 * Mon Dec 8 2025  Devrim Gunduz <devrim@gunduz.org> - 3.2.8-15PGDG
 - Build with GDAL 3.12 on all platforms except RHEL 8 and SLES 15.
 
