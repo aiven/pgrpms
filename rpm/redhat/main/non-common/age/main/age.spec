@@ -4,7 +4,7 @@
 
 Summary:	Graph database optimized for fast analysis and real-time data processing.
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.6.0
+Version:	1.7.0
 Release:	rc0_1PGDG%{?dist}
 License:	Apache 2.0
 URL:		https://github.com/apache/%{sname}/
@@ -73,5 +73,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Fri Feb 13 2026 Devrim Gündüz <devrim@gunduz.org> - 1.7.0-rc0-1PGDG
+- Update to 1.7.0-rc0 per changes described at:
+  PostgreSQL 18: https://github.com/apache/age/releases/tag/PG18%2Fv1.7.0-rc0
+  PostgreSQL 17: https://github.com/apache/age/releases/tag/PG17%2Fv1.7.0-rc0
+
 * Thu Jan 15 2026 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-rc0-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository.
