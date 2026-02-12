@@ -1,8 +1,8 @@
 
 Summary:	JDBC driver for PostgreSQL
 Name:		postgresql-jdbc
-Version:	42.7.9
-Release:	2PGDG%{?dist}
+Version:	42.7.10
+Release:	1PGDG%{?dist}
 # ASL 2.0 applies only to postgresql-jdbc.pom file, the rest is BSD
 License:	BSD and ASL 2.0
 URL:		https://jdbc.postgresql.org/
@@ -152,6 +152,10 @@ test $? -eq 0 && { cat test.log ; exit 1 ; }
 %doc %{_javadocdir}/%{name}
 
 %changelog
+* Thu Feb 12 2026 Devrim Gündüz <devrim@gunduz.org> - 42.7.10-1PGDG
+- Update to 42.7.10 per changes described at:
+  https://github.com/pgjdbc/pgjdbc/releases/tag/REL42.7.10
+
 * Tue Jan 20 2026 Devrim Gündüz <devrim@gunduz.org> - 42.7.9-2PGDG
 - Add SLES 16 support
 
