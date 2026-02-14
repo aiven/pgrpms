@@ -13,7 +13,7 @@
 %endif
 
 Name:		etcd
-Version:	3.6.7
+Version:	3.6.8
 Release:	1PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
@@ -75,7 +75,7 @@ of a distributed system, with a focus on being:
 %files
 %defattr(-,root,root,-)
 %doc README*
-%dir %attr(750, root, root) %{_sysconfdir}/%{name}
+%dir %attr(750, etcd, etcd) %{_sysconfdir}/%{name}
 %dir %attr(750, etcd, etcd) %{_var}/lib/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755, root, root) %{_bindir}/etcd
@@ -86,6 +86,12 @@ of a distributed system, with a focus on being:
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Feb 14 2026 Devrim Gündüz <devrim@gunduz.org> - 3.6.8-1PGDG
+- Update to 3.6.8, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.8
+- Change ownership of /etc/etcd to etcd user. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/147
+
 * Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.7-1PGDG
 - Update to 3.6.7, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.6.7
