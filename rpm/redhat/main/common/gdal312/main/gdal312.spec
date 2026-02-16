@@ -43,7 +43,7 @@
 
 Name:		%{sname}312
 Version:	3.12.2
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	GIS file format library
 License:	MIT
 URL:		https://www.gdal.org
@@ -291,7 +291,7 @@ The GDAL Python 3 modules provide support to handle multiple GIS file formats.
 
 %package python-tools
 Summary:	Python tools for the GDAL file format library
-Requires:	python3-gdal
+Requires:	%{name}-python3
 
 %description python-tools
 The GDAL Python package provides number of tools for programming and
@@ -487,6 +487,10 @@ done
 %endif
 
 %changelog
+* Mon Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.12.2-1PGDG
+- Fix dependency of python-tools subpackage. Per report from Peter Svensson:
+  https://www.postgresql.org/message-id/a085d1dd8ee548d2a1dd2a20216a563e%40smhi.se
+
 * Tue Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.12.2-1PGDG
 - Update to 3.12.2 per changes described at:
   https://github.com/OSGeo/gdal/releases/tag/v3.12.2
