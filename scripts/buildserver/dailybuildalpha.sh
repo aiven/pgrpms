@@ -157,7 +157,7 @@ clean_old_packages() {
 	while IFS= read -r file; do
 		if [ -f "$file" ]; then
 			rm -f "$file"
-			((deleted_count++))
+			deleted_count=$((deleted_count + 1))
 			[ "$VERBOSE" = true ] && log INFO "Deleted: $file"
 		fi
 	done < <(find "${RPM_BASE_DIR}"* -maxdepth 3 -mtime +1 -type f 2>/dev/null || true)
@@ -191,10 +191,10 @@ sign_rpm_packages() {
 			[ "$VERBOSE" = true ] && log INFO "Signing: $rpm_file"
 
 			if /usr/bin/expect ~/bin/signrpms.expect "$rpm_file"; then
-				((signed_count++))
+				signed_count=$((signed_count + 1))
 			else
 				log WARN "Failed to sign: $rpm_file"
-				((failed_count++))
+				failed_count=$((failed_count + 1))
 			fi
 		fi
 	done < <(find "${RPM_BASE_DIR}" -iname "*.rpm" 2>/dev/null || true)
