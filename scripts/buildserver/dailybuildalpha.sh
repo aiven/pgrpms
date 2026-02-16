@@ -94,12 +94,13 @@ check_prerequisites() {
 		error_exit "Git repository directory not found: $GIT_REPO_DIR"
 	fi
 
-	if [ ! -f ~/bin/signrpms.expect ]; then
-		error_exit "RPM signing script not found: ~/bin/signrpms.expect"
-	fi
-
 	if [ ! -f ~/bin/packagesync.sh ]; then
 		error_exit "Package sync script not found: ~/bin/packagesync.sh"
+	fi
+
+	# Check if GPG agent is running
+	if ! pgrep -x gpg-agent > /dev/null; then
+		error_exit "GPG agent is not running. Start it with: gpg-agent --daemon"
 	fi
 
 	log SUCCESS "Prerequisites check passed"
@@ -183,29 +184,19 @@ clean_old_packages() {
 sign_rpm_packages() {
 	log INFO "Signing RPM packages..."
 
-	local signed_count=0
-	local failed_count=0
+	# Extract the directory name from RPM_BASE_DIR (e.g., "rpm19testing")
+	local rpm_location=$(basename "${RPM_BASE_DIR}")
 
-	while IFS= read -r rpm_file; do
-		if [ -f "$rpm_file" ]; then
-			[ "$VERBOSE" = true ] && log INFO "Signing: $rpm_file"
+	# Set variables for sign_package function
+	# Use wildcards to sign all packages (not filtering by name/version)
+	export signPackageName=""
+	export packageVersion=""
 
-			if /usr/bin/expect ~/bin/signrpms.expect "$rpm_file"; then
-				signed_count=$((signed_count + 1))
-			else
-				log WARN "Failed to sign: $rpm_file"
-				failed_count=$((failed_count + 1))
-			fi
-		fi
-	done < <(find "${RPM_BASE_DIR}" -iname "*.rpm" 2>/dev/null || true)
-
-	log INFO "Signed $signed_count package(s)"
-
-	if [ $failed_count -gt 0 ]; then
-		log WARN "$failed_count package(s) failed to sign"
+	if sign_package "$rpm_location"; then
+		log SUCCESS "Package signing completed"
+	else
+		error_exit "Package signing failed"
 	fi
-
-	log SUCCESS "Package signing completed"
 }
 
 # Sync packages to repositories
