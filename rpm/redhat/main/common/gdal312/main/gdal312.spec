@@ -487,7 +487,7 @@ done
 %endif
 
 %changelog
-* Mon Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.12.2-1PGDG
+* Tue Feb 17 2026 Devrim Gunduz <devrim@gunduz.org> - 3.12.2-1PGDG
 - Fix dependency of python-tools subpackage. Per report from Peter Svensson:
   https://www.postgresql.org/message-id/a085d1dd8ee548d2a1dd2a20216a563e%40smhi.se
 
