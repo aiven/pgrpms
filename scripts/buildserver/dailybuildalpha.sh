@@ -171,7 +171,7 @@ clean_old_packages() {
 	while IFS= read -r sig_file; do
 		if [ -f "$sig_file" ]; then
 			rm -vf "$sig_file"
-			((sig_count++))
+			sig_count=$((sig_count + 1))
 		fi
 	done < <(find "${RPM_BASE_DIR}"* -iname "*.sig" 2>/dev/null || true)
 
