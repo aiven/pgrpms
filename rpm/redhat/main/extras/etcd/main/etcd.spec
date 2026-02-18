@@ -14,7 +14,7 @@
 
 Name:		etcd
 Version:	3.6.8
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
 URL:		https://github.com/%{name}-io/%{name}
@@ -28,6 +28,7 @@ BuildRequires:	python3-devel
 BuildRequires:	systemd-rpm-macros systemd
 Requires:	systemd
 
+Provides:       user(etcd) group(etcd)
 
 %description
 etcd is a distributed reliable key-value store for the most critical data
@@ -86,6 +87,9 @@ of a distributed system, with a focus on being:
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Feb 14 2026 Devrim Gündüz <devrim@gunduz.org> 3.6.8-2PGDG
+- Provide user and group etcd to fix SLES-16 installations
+
 * Sat Feb 14 2026 Devrim Gündüz <devrim@gunduz.org> - 3.6.8-1PGDG
 - Update to 3.6.8, per changes described at:
   https://github.com/etcd-io/etcd/releases/tag/v3.6.8
