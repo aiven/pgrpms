@@ -12,6 +12,16 @@
 # Include common values:
 source ~/bin/global.sh
 
+# Build the full OS version string used in S3/CloudFront paths.
+# Fedora only has a major version (e.g. "fedora-43"), while RHEL and SLES
+# also carry a minor version (e.g. "rhel-10.1"). When osminversion is set
+# and non-empty we append it; otherwise we use the major version alone.
+if [ -n "${osminversion}" ]; then
+	export osfullversion="${os}.${osminversion}"
+else
+	export osfullversion="${os}"
+fi
+
 # Global flag for testing mode
 TESTING_MODE=0
 
@@ -98,16 +108,16 @@ sync_common() {
 	if [ $TESTING_MODE -eq 1 ]; then
 		# Testing mode: sync to testing paths
 		# Sync SRPMs to S3 bucket:
-		aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/testing/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/testing/common/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/common/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Sync debug* RPMs to S3 bucket:
-		aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/testing/debug/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/testing/debug/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/testing/debug/common/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/testing/debug/common/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Invalidate the caches:
-		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/common/$osdistro/$os.$osminversion-$osarch/repodata/*
-		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /testing/debug/common/$osdistro/$os.$osminversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/common/$osdistro/$osfullversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /testing/debug/common/$osdistro/$osfullversion-$osarch/repodata/*
 
 		# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 		if [ "$osislatest" == 1 ]
@@ -123,16 +133,16 @@ sync_common() {
 	else
 		# Production mode: sync to production paths
 		# Sync SRPMs to S3 bucket:
-		aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $COMMON_SRPM_DIR $awssrpmurl/srpms/common/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_SRPM_DIR/repodata/ $awssrpmurl/srpms/common/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Sync debug* RPMs to S3 bucket:
-		aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $COMMON_DEBUG_RPM_DIR $awsdebuginfourl/debug/common/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $COMMON_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/common/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Invalidate the caches:
-		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$os.$osminversion-$osarch/repodata/*
-		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$os.$osminversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/common/$osdistro/$osfullversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/common/$osdistro/$osfullversion-$osarch/repodata/*
 
 		# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 		if [ "$osislatest" == 1 ]
@@ -197,14 +207,14 @@ sync_extras() {
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $EXTRAS_DEBUG_RPM_DIR/repodata/repomd.xml
 
 	# Sync SRPMs to S3 bucket:
-	aws s3 sync $EXTRAS_SRPM_DIR $awssrpmurl/srpms/extras/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $EXTRAS_SRPM_DIR/repodata/ $awssrpmurl/srpms/extras/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
-	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/extras/$osdistro/$os.$osminversion-$osarch/repodata/*
+	aws s3 sync $EXTRAS_SRPM_DIR $awssrpmurl/srpms/extras/$osdistro/$osfullversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $EXTRAS_SRPM_DIR/repodata/ $awssrpmurl/srpms/extras/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/extras/$osdistro/$osfullversion-$osarch/repodata/*
 
 	# Sync debug* RPMs to S3 bucket:
-	aws s3 sync $EXTRAS_DEBUG_RPM_DIR $awsdebuginfourl/debug/extras/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $EXTRAS_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/extras/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
-	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/extras/$osdistro/$os.$osminversion-$osarch/repodata/*
+	aws s3 sync $EXTRAS_DEBUG_RPM_DIR $awsdebuginfourl/debug/extras/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $EXTRAS_DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/extras/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/extras/$osdistro/$osfullversion-$osarch/repodata/*
 
 	# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 	if [ "$osislatest" == 1 ]
@@ -276,16 +286,16 @@ sync_alpha_beta() {
 	# Sync to $build_type directory instead of the version directory
 
 	# Sync SRPMs to S3 bucket:
-	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$build_type/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$build_type/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$build_type/$osdistro/$osfullversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$build_type/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 	# Sync debug* RPMs to S3 bucket:
-	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$build_type/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$build_type/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$build_type/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$build_type/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 	# Invalidate the caches:
-	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$build_type/$osdistro/$os.$osminversion-$osarch/repodata/*
-	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$build_type/$osdistro/$os.$osminversion-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$build_type/$osdistro/$osfullversion-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$build_type/$osdistro/$osfullversion-$osarch/repodata/*
 
 	# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 	if [ "$osislatest" == 1 ]
@@ -369,16 +379,16 @@ sync_pg_version() {
 	else
 		# Production mode: Use standard S3 sync with CloudFront invalidation
 		# Sync SRPMs to S3 bucket:
-		aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$packageSyncVersion/$osdistro/$osfullversion-$osarch --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Sync debug* RPMs to S3 bucket:
-		aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$packageSyncVersion/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 		# Invalidate the caches:
-		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
-		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/*
 
 		# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 		if [ "$osislatest" == 1 ]
