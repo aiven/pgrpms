@@ -254,7 +254,7 @@ sync_alpha_beta() {
 
 	echo "${green}=== Syncing PostgreSQL $packageSyncVersion $build_type RPMs ===${reset}"
 
-	export BASE_DIR=/var/lib/pgsql/rpm${packageSyncVersion}$build_type
+	export BASE_DIR=/var/lib/pgsql/rpm${packageSyncVersion}testing
 
 	export RPM_DIR=$BASE_DIR/ALLRPMS
 	export DEBUG_RPM_DIR=$BASE_DIR/ALLDEBUGRPMS
@@ -283,31 +283,31 @@ sync_alpha_beta() {
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $DEBUG_RPM_DIR/repodata/repomd.xml
 	echo $GPG_PASSWORD | /usr/bin/gpg2 -a --pinentry-mode loopback --detach-sign --batch --yes --passphrase-fd 0 $SRPM_DIR/repodata/repomd.xml
 
-	# Sync to $build_type directory instead of the version directory
+	# Sync to testing directory instead of the version directory
 
 	# Sync SRPMs to S3 bucket:
-	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$build_type/$osdistro/$osfullversion-$osarch --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$build_type/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
+	aws s3 sync $SRPM_DIR $awssrpmurl/srpms/testing/$osdistro/$osfullversion-$osarch --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 	# Sync debug* RPMs to S3 bucket:
-	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$build_type/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
-	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$build_type/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
+	aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/testing/$osdistro/$osfullversion-$osarch/ --exclude "*.html" --exclude "repodata"
+	aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$osdistro/$osfullversion-$osarch/repodata/ --exclude "*.html"
 
 	# Invalidate the caches:
-	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$build_type/$osdistro/$osfullversion-$osarch/repodata/*
-	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$build_type/$osdistro/$osfullversion-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/$osdistro/$osfullversion-$osarch/repodata/*
+	aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/testing/$osdistro/$osfullversion-$osarch/repodata/*
 
 	# S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
 	if [ "$osislatest" == 1 ]
 	then
-		aws s3 sync $SRPM_DIR $awssrpmurl/srpms/$build_type/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/$build_type/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
-		aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/$build_type/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
-		aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/$build_type/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $SRPM_DIR $awssrpmurl/srpms/testing/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $SRPM_DIR/repodata/ $awssrpmurl/srpms/testing/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
+		aws s3 sync $DEBUG_RPM_DIR $awsdebuginfourl/debug/testing/$osdistro/$os-$osarch/ --exclude "*.html" --exclude "repodata"
+		aws s3 sync --delete $DEBUG_RPM_DIR/repodata/ $awsdebuginfourl/debug/testing/$osdistro/$os-$osarch/repodata/ --exclude "*.html"
 
 		# Invalidate the caches:
-		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/$build_type/$osdistro/$os-$osarch/repodata/*
-		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/$build_type/$osdistro/$os-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_SRPM_DISTRO_ID --path /srpms/testing/$osdistro/$os-$osarch/repodata/*
+		aws cloudfront create-invalidation --distribution-id $CF_DEBUG_DISTRO_ID --path /debug/testing/$osdistro/$os-$osarch/repodata/*
 	fi
 
 	echo "${green}=== PostgreSQL $packageSyncVersion $build_type RPMs sync completed ===${reset}"
