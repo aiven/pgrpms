@@ -12,6 +12,14 @@
 # Include common values:
 source ~/bin/global.sh
 
+# Set the remote base path on yum.postgresql.org based on the distro.
+# SLES uses the zypp/zypp tree; all others (RHEL, Fedora) use yum/yum.
+if [ "$osdistro" == "suse" ]; then
+	export sync_base="zypp/zypp"
+else
+	export sync_base="yum/yum"
+fi
+
 # Build the full OS version string used in S3/CloudFront paths.
 # Fedora only has a major version (e.g. "fedora-43"), while RHEL and SLES
 # also carry a minor version (e.g. "rhel-10.1"). When osminversion is set
@@ -360,10 +368,10 @@ sync_pg_version() {
 	if [ $TESTING_MODE -eq 1 ]; then
 		# Testing mode: Use legacy rsync to yum.postgresql.org and S3 sync with testing paths
 		# Sync binary RPMs to yum.postgresql.org
-		rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:yum/yum/testing/$packageSyncVersion/$osdistro/$os-$osarch
+		# rsync --checksum -ave ssh --delete $RPM_DIR/ yumupload@yum.postgresql.org:$sync_base/testing/$packageSyncVersion/$osdistro/$os-$osarch
 
 		# Sync SRPMs to yum.postgresql.org
-		rsync --checksum -ave ssh --delete $SRPM_DIR/ yumupload@yum.postgresql.org:yum/yum/srpms/testing/$packageSyncVersion/$osdistro/$os-$osarch
+		# rsync --checksum -ave ssh --delete $SRPM_DIR/ yumupload@yum.postgresql.org:$sync_base/srpms/testing/$packageSyncVersion/$osdistro/$os-$osarch
 
 		# Sync SRPMs to S3 bucket:
 		aws s3 sync $SRPM_DIR $awssrpmurl/srpms/testing/$packageSyncVersion/$osdistro/$os-$osarch --exclude "*.html" --exclude "repodata"
