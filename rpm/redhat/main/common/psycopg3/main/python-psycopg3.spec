@@ -29,9 +29,11 @@ License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
 Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/%{version}.tar.gz
 Patch0:		psycopg-3.3.3-pyproject-license.patch
+Patch1:		psycopg-3.3.3-_c_pyproject-license.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel python3-wheel
-BuildRequires:	python3-devel python3-pip python3-setuptools
+BuildRequires:	python3-devel python3-pip python3-setuptools python3-cython
+
 %if 0%{?suse_version} >= 1500
 BuildRequires:	python-rpm-macros
 %else
@@ -71,9 +73,17 @@ Documentation and example files for the psycopg python PostgreSQL
 database adapter.
 %endif
 
+%package c
+Summary:	C extensions for Psycopg 3
+Requires:	libpq5
+
+%description c
+This package contains the C extensions for enhanced performance in Psycopg 3.
+
 %prep
 %setup -q -n psycopg-%{version}
 %patch -P 0 -p0
+%patch -P 1 -p0
 
 %build
 # Change Python path in the scripts:
@@ -81,6 +91,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/
 
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
+%pyproject_wheel
+popd
+pushd psycopg_c
 %pyproject_wheel
 popd
 
@@ -96,6 +109,9 @@ for i in `find doc -iname "*.css"`; do sed -i 's/\r//' $i; done
 %install
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
+%pyproject_install
+popd
+pushd psycopg_c
 %pyproject_install
 popd
 
@@ -146,12 +162,22 @@ fi
 %doc doc
 %endif
 
+%files c
+%{python3_sitelib}/psycopg_c-%{version}.dist-info/*
+%{python3_sitelib}/psycopg_c/*.py*
+%{python3_sitelib}/psycopg_c/__pycache__/*py*
+%{python3_sitelib}/psycopg_c/_psycopg/*
+%{python3_sitelib}/psycopg_c/pq.pxd
+%{python3_sitelib}/psycopg_c/pq/*
+%{python3_sitelib}/psycopg_c/py.typed
+
 %changelog
 * Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> - 3.3.3-1PGDG
 - Update to 3.3.3 per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.3.3
 - Add a patch that updates license field to compatible format for
   all supported Python versions.
+- Add new subpackage: Optimization module written in C/Cython
 
 * Sun Dec 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-1PGDG
 - Update to 3.3.2 per changes described at:
