@@ -6,7 +6,7 @@ PostgreSQL YUM repository:  Build Server Scripts
 This is the core configuration script. All variables are here. Self
 documented.
 
-## dailybuildalpha.sh: 
+## dailybuildalpha.sh 
 
 Add TERM=xterm to the top of the crontab until I add a guard the color definitions in global.sh.
 
@@ -25,7 +25,7 @@ else
 fi
 ```
 
-## packagebuild.sh:
+## packagebuild.sh
 
 This is used to build the packages except in non-free repos.
 This script must be run with at least two parameters:
@@ -45,13 +45,13 @@ Same for psycopg3.
 OS release (like new Fedora or RHEL or SLES release which we build before the
 final release.
 
-## gpg-setup-secure.sh: 
+## gpg-setup-secure.sh 
 
 Secure GPG agent setup for automated signing. Must be run `once` on each
 new build instance. Please follow the output of the script as if all goes well
 you'll need to run a command to grab keygrip.
 
-## gpg-bashrc.sh :
+## gpg-bashrc.sh
 
 Copy this to ~/.bashrc or ~/.pgsql_profile. Make sure you edit it and replace
 XXXX's with the actual keygrip.
@@ -75,7 +75,7 @@ sites, run on one RHEL/Fedora instance and another on one SLES instance.
 Requires Python >= 3.10, so RHEL 10 and SLES 16 is good there for now.
 
 
-## packagebuildnonfree.sh:
+## packagebuildnonfree.sh
 
 Same as `packagebuild.sh`, but only for non-free packages. The reason that
 I did not unify them is avoid accidentally trying to build non-free packages
