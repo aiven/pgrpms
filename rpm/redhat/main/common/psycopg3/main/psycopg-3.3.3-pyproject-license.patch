@@ -1,0 +1,12 @@
+--- psycopg/pyproject.toml.old	2026-02-19 07:00:56.075785813 +0000
++++ psycopg/pyproject.toml	2026-02-19 07:01:33.055464256 +0000
+@@ -15,8 +15,7 @@
+ #
+ # NOTE: you can use `tools/bump_version.py` to maintain versions.
+ 
+-license = "LGPL-3.0-only"
+-license-files = ["LICENSE.txt"]
++license = {text = "LGPL-3.0-only"}
+ classifiers = [
+     "Development Status :: 5 - Production/Stable",
+     "Intended Audience :: Developers",

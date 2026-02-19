@@ -14,7 +14,7 @@
 
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -28,6 +28,7 @@ Release:	1PGDG%{?dist}
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
 Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/%{version}.tar.gz
+Patch0:		%{sname}-3.3.3-pyproject-license.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel python3-wheel
 BuildRequires:	python3-devel python3-pip python3-setuptools
@@ -49,7 +50,7 @@ API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
 # Enable this package only on Fedora:
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
@@ -72,6 +73,7 @@ database adapter.
 
 %prep
 %setup -q -n psycopg-%{version}
+%patch -P 0 -p0
 
 %build
 # Change Python path in the scripts:
@@ -100,7 +102,7 @@ popd
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 
 #Only on Fedora:
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 # Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
@@ -125,7 +127,7 @@ fi
 %{python3_sitelib}/psycopg/types/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8 || 0%{?suse_version} == 1600
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8 || 0%{?suse_version} == 1600
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/crdb/__pycache__/*.py*
 %{python3_sitelib}/psycopg/pq/__pycache__/*.py*
@@ -133,7 +135,7 @@ fi
 %endif
 
 # Only on Fedora:
-%if 0%{?fedora} > 39
+%if 0%{?fedora} >= 42
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 %endif
@@ -148,6 +150,8 @@ fi
 * Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> - 3.3.3-1PGDG
 - Update to 3.3.3 per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.3.3
+- Add a patch that updates license field to compatible format for
+  all supported Python versions.
 
 * Sun Dec 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-1PGDG
 - Update to 3.3.2 per changes described at:
