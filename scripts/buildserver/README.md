@@ -45,25 +45,25 @@ Same for psycopg3.
 OS release (like new Fedora or RHEL or SLES release which we build before the
 final release.
 
-# gpg-setup-secure.sh: 
+## gpg-setup-secure.sh: 
 
 Secure GPG agent setup for automated signing. Must be run `once` on each
 new build instance. Please follow the output of the script as if all goes well
 you'll need to run a command to grab keygrip.
 
-# gpg-bashrc.sh :
+## gpg-bashrc.sh :
 
 Copy this to ~/.bashrc or ~/.pgsql_profile. Make sure you edit it and replace
 XXXX's with the actual keygrip.
 
 
-# cleanbuilddirs.sh
+## cleanbuilddirs.sh
 
 Cleans BUILD and BUILROOT directories. RPM build procedure cleans it under
 normal circumstances, but will fail to do so when builds fail. Run this when
 there is no build is being done to avoid distruption.
 
-# awsupdateindex.sh
+## awsupdateindex.sh
 
 This one utilises [s3indexbuilder.py](https://github.com/mhagander/s3indexbuilder)
 to update index.html files on {dnf,zypp}-debuginfo and {dnf-zypp}-srpms repos.
