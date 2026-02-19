@@ -32,7 +32,12 @@ Patch0:		psycopg-3.3.3-pyproject-license.patch
 Patch1:		psycopg-3.3.3-_c_pyproject-license.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel python3-wheel
-BuildRequires:	python3-devel python3-pip python3-setuptools python3-cython
+BuildRequires:	python3-devel python3-pip python3-setuptools
+%if 0%{?suse_version} == 1600
+BuildRequires:	python313-Cython
+%else
+BuildRequires:	python3-cython
+%endif
 
 %if 0%{?suse_version} >= 1500
 BuildRequires:	python-rpm-macros
