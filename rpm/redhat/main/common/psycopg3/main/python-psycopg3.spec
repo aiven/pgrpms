@@ -28,7 +28,7 @@ Release:	1PGDG%{?dist}
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
 Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/%{version}.tar.gz
-Patch0:		%{sname}-3.3.3-pyproject-license.patch
+Patch0:		psycopg-3.3.3-pyproject-license.patch
 
 BuildRequires:	postgresql%{pgmajorversion}-devel python3-wheel
 BuildRequires:	python3-devel python3-pip python3-setuptools
