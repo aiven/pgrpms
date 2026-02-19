@@ -70,7 +70,7 @@ to update index.html files on {dnf,zypp}-debuginfo and {dnf-zypp}-srpms repos.
 They are served via S3, which does not support indexes, but this script
 creates index.html to overcome that problem. Add to cron at 4am so that they
 are updated regularly. However my usual best practice is running it manually
-right after I finish running packagesync.sh. Since it updates dnf or zypp
+right after I finish running `packagesync.sh` . Since it updates dnf or zypp
 sites, run on one RHEL/Fedora instance and another on one SLES instance.
 Requires Python >= 3.10, so RHEL 10 and SLES 16 is good there for now.
 
@@ -91,4 +91,16 @@ packagesync.sh --sync="pg" # Sync only v18 repos.
 packagesync.sh --sync="all" # Sync all packages
 
 packagesync.sh --testing --sync="18" # Sync packages in testing repos.
+
+
+## packagesyncnonfree.sh
+
+Same with `packagesync.sh` but for non-free build instances.
+
+## postgresqldbserver-16.xml
+
+This is a template file used to create comps group files. Currently we put them
+under /usr/local/etc, but should eventually be in the same directory with the
+scripts. Need to have a copy for each major PostgreSQL version. Check
+`packagesync.sh` and `packagesyncnonfree.sh` for details.
 
