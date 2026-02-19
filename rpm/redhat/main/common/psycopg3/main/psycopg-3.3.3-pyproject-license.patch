@@ -1,5 +1,5 @@
---- psycopg/pyproject.toml.old	2026-02-19 07:00:56.075785813 +0000
-+++ psycopg/pyproject.toml	2026-02-19 07:01:33.055464256 +0000
+--- psycopg/pyproject.toml.old	2026-02-19 09:04:51.560890457 +0000
++++ psycopg/pyproject.toml	2026-02-19 09:05:09.690883476 +0000
 @@ -15,8 +15,7 @@
  #
  # NOTE: you can use `tools/bump_version.py` to maintain versions.
@@ -10,3 +10,12 @@
  classifiers = [
      "Development Status :: 5 - Production/Stable",
      "Intended Audience :: Developers",
+@@ -27,8 +26,6 @@
+     "Programming Language :: Python :: 3.10",
+     "Programming Language :: Python :: 3.11",
+     "Programming Language :: Python :: 3.12",
+-    "Programming Language :: Python :: 3.13",
+-    "Programming Language :: Python :: 3.14",
+     "Programming Language :: Python :: Implementation :: CPython",
+     "Programming Language :: Python :: Implementation :: PyPy",
+     "Topic :: Database",
