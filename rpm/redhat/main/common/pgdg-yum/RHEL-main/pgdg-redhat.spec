@@ -52,6 +52,7 @@ Rocky Linux, AlmaLinux and also the GPG key for PGDG RPMs.
 %changelog
 * Sun Feb 22 2026 Devrim Gündüz <devrim@gunduz.org> - 42.0-65PGDG
 - Enable gpgheck on all repos (in this case it is 19 testing repos)
+  Per https://redmine.postgresql.org/issues/7897 .
 
 * Thu Dec 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-64PGDG
 - Remove v13 repos
