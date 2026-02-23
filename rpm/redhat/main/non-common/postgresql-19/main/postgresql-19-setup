@@ -17,7 +17,18 @@ PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
 # PREVDATADIR is the directory containing the previous PostgreSQL version data
 PREVDATADIR=/var/lib/pgsql/$PREVMAJORVERSION/data
 
-# TODO: Provide a conf file that can override these settings
+# Source config file to allow overriding the above defaults.
+# Place overrides in /etc/sysconfig/postgresql-<major>-setup, e.g.:
+#   PREVMAJORVERSION=17
+# Dependent variables (PREVPGENGINE, PREVDATADIR) are re-derived below
+# if not explicitly set in the config file.
+SETUP_CONF="/etc/sysconfig/postgresql-${PGMAJORVERSION}-setup"
+[ -f "$SETUP_CONF" ] && . "$SETUP_CONF"
+
+# Re-derive dependent variables if PREVMAJORVERSION was overridden
+# in the config file but PREVPGENGINE/PREVDATADIR were not explicitly set.
+PREVPGENGINE=${PREVPGENGINE:-/usr/pgsql-$PREVMAJORVERSION/bin}
+PREVDATADIR=${PREVDATADIR:-/var/lib/pgsql/$PREVMAJORVERSION/data}
 
 # The second parameter is the new database version, i.e. $PGMAJORVERSION in this case.
 # Use  "postgresql-$PGMAJORVERSION" service, if not specified.
