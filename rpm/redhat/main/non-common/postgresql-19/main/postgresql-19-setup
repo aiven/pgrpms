@@ -10,10 +10,6 @@ PGENGINE=xxxx
 # PREVMAJORVERSION is the previous major version, e.g., 18, for upgrades.
 # You can override this by using the sysconfig feature described below:
 PREVMAJORVERSION=xxx
-# PREVPGENGINE is the directory containing the previous PostgreSQL version executable
-PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
-# PREVDATADIR is the directory containing the previous PostgreSQL version data
-PREVDATADIR=/var/lib/pgsql/$PREVMAJORVERSION/data
 
 # Source config file to allow overriding the above defaults.
 # Place overrides in /etc/sysconfig/postgresql-<major>-setup, e.g.:
