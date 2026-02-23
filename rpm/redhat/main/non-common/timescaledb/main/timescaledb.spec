@@ -31,7 +31,7 @@ on time-series and event data.
 %setup -q -n %{sname}-%{version}
 %if 0%{?rhel} == 8
 # To be removed in 2.25.2
-%patch -P 1 -p1
+%patch -P 0 -p1
 %endif
 # Build only the portions that have Apache Licence, and disable telemetry:
 export PATH=%{pginstdir}/bin:$PATH
