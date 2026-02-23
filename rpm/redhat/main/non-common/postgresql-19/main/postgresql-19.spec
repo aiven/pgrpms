@@ -695,7 +695,7 @@ esac
 
 # This is only for systemd supported distros:
 # prep the setup script, including insertion of some values it needs
-sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
+sed -e 's|^PGMAJORVERSION=.*$|PGMAJORVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
@@ -705,7 +705,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 %{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/
 
 # prep the startup check script, including insertion of some values it needs
-sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
+sed -e 's|^PGMAJORVERSION=.*$|PGMAJORVERSION=%{pgmajorversion}|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	-e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
 	<%{SOURCE10} >%{sname}-%{pgmajorversion}-check-db-dir

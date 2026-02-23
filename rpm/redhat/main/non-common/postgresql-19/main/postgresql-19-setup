@@ -2,15 +2,13 @@
 #
 # postgresql-setup	Initialization and upgrade operations for PostgreSQL
 
-# PGVERSION is the full package version, e.g., 19.0
-# Note: the specfile inserts the correct value during package build
-PGVERSION=xxx
 # PGMAJORVERSION is major version, e.g., 19 (this should match PG_VERSION)
-PGMAJORVERSION=`echo "$PGVERSION" | sed 's/^\([0-9]*\.[0-9]*\).*$/\1/'`
+PGMAJORVERSION=xxx
 # PGENGINE is the directory containing the postgres executable file.
 # Note: the specfile inserts the correct value during package build
 PGENGINE=xxxx
-# PREVMAJORVERSION is the previous major version, e.g., 15, for upgrades
+# PREVMAJORVERSION is the previous major version, e.g., 18, for upgrades.
+# You can override this by using the sysconfig feature described below:
 PREVMAJORVERSION=xxx
 # PREVPGENGINE is the directory containing the previous PostgreSQL version executable
 PREVPGENGINE=/usr/pgsql-$PREVMAJORVERSION/bin
@@ -80,7 +78,7 @@ Environment:
 # note that these options are useful at least for help2man processing
 case "$1" in
     --version)
-	echo "PostgreSQL setup script for version $PGVERSION"
+	echo "PostgreSQL setup script for version $PGMAJORVERSION"
         exit 0
         ;;
     --help|--usage)
@@ -207,7 +205,7 @@ check_upgrade(){
         echo $"Please initialize the new cluster before upgrading."
         echo $"You can run this script with the ''initdb'' parameter:"
 	echo $""
-	echo $"$PGENGINE/postgresql-$PGVERSION-setup initdb"
+	echo $"$PGENGINE/postgresql-$PGMAJORVERSION-setup initdb"
         echo
         script_result=1
         return
