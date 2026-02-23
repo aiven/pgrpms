@@ -50,8 +50,8 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
 %{__rm} -rf %{buildroot}
 USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
-%{__mv} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
-%{__rm} -f %{buildroot}%{pginstdir}/doc/extension/README.md
+%{__mv} q3c.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
+%{__rm} -f %{buildroot}%{pginstdir}/doc/extension/q3c.md
 
 %files
 %defattr(644,root,root,755)
