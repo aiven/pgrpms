@@ -62,11 +62,6 @@ socket 5432 only.  Edit /var/lib/pgsql/19/data/postgresql.conf and pg_hba.conf
 if you want to allow remote access -- see the section on Grand Unified 
 Configuration.
 
-The file /var/lib/pgsql/19/.bash_profile is packaged to help with the
-setting of environment variables. Users should not edit this file, because
-it may be overwritten during every new installation. However, you can create
-~/.pgsql_profile file, and add your customizations there.
-
 The user 'postgres' is created during installation of the server subpackage.
 This user by default is UID and GID 26. The user has the default shell set to
 bash, and the home directory set to /var/lib/pgsql.  This user also has no
@@ -129,14 +124,37 @@ there are three solutions:
   https://www.postgresql.org/docs/current/logical-replication-restrictions.html
 
 RPMs also support in-place upgrade from the immediately previous major release.
-Currently, you can upgrade in-place from 17.x to 19.x.  Just run:
+Currently, you can upgrade in-place from 18.x to 19.x.  Just run:
 
 $ /usr/pgsql-19/bin/postgresql-19-setup upgrade
 
-Please note that 17 and 19 contrib RPMs need to be installed for this feature
-to work. You can also upgrade from other major versions either by editing the
-setup script, or passing PostgreSQL major version as the 3rd argument to the
-setup script.
+Please note that 18 and 19 contrib RPMs need to be installed for this feature
+to work.
+
+If you are upgrading from a version other than the immediately previous major
+release, or if your previous cluster uses non-default paths, you can override
+the setup script defaults by creating a configuration file at:
+
+	/etc/sysconfig/postgresql-19-setup
+
+This file is sourced by the setup script at startup and can contain any of the
+following variable overrides:
+
+	PREVMAJORVERSION    The major version you are upgrading from (e.g. 17)
+	PREVPGENGINE        Path to the old version's bin directory
+	                    (default: /usr/pgsql-$PREVMAJORVERSION/bin)
+	PREVDATADIR         Path to the old version's data directory
+	                    (default: /var/lib/pgsql/$PREVMAJORVERSION/data)
+
+For example, to upgrade from PostgreSQL 17 with a non-default data directory:
+
+	# /etc/sysconfig/postgresql-19-setup
+	PREVMAJORVERSION=17
+	PREVDATADIR=/opt/pgsql/17/data
+
+Note that if you set only PREVMAJORVERSION, the PREVPGENGINE and PREVDATADIR
+paths are automatically derived from it, so you only need to set those
+explicitly when they differ from the standard PGDG layout.
 
 POSTGRESQL RPM PACKAGES AND RATIONALE.
 -----------------------------------------------------------------------------
