@@ -3,9 +3,13 @@
 Summary:	A time-series database for high-performance real-time analytics
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.25.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
+%if 0%{?rhel} == 8
+# To be removed in 2.25.2
+Patch0:		%{sname}-2.25.1-rhel8-openssl.patch
+%endif
 URL:		https://github.com/timescale/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	cmake >= 3.4
@@ -25,7 +29,10 @@ on time-series and event data.
 
 %prep
 %setup -q -n %{sname}-%{version}
-
+%if 0%{?rhel} == 8
+# To be removed in 2.25.2
+%patch -P 1 -p1
+%endif
 # Build only the portions that have Apache Licence, and disable telemetry:
 export PATH=%{pginstdir}/bin:$PATH
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
@@ -56,6 +63,10 @@ cd build; %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Mon Feb 23 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.1-2PGDG
+- Add a a patch from upstream to fix RHEL 8 issues. Per:
+  https://github.com/timescale/timescaledb/issues/9274
+
 * Tue Feb 17 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.1-1PGDG
 - Update to 2.25.1, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.25.1
