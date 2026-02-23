@@ -15,7 +15,8 @@ Contents:
  8.)	Logging set up
  9.)	Rebuilding from the source RPM
 10.)	Contrib files
-11.)	Further Information Resource
+11.)	Setup script environment variables
+12.)	Further Information Resource
 
 INTRODUCTION
 -----------------------------------------------------------------------------
@@ -123,22 +124,21 @@ there are three solutions:
   However please read the limitations here first:
   https://www.postgresql.org/docs/current/logical-replication-restrictions.html
 
-RPMs also support in-place upgrade from the immediately previous major release.
-Currently, you can upgrade in-place from 18.x to 19.x.  Just run:
+RPMs also support in-place upgrade using the postgresql-19-setup script, which
+wraps pg_upgrade for convenience.  By default, the script upgrades from the
+immediately previous major release (18.x).  Just run:
 
-$ /usr/pgsql-19/bin/postgresql-19-setup upgrade
+	$ /usr/pgsql-19/bin/postgresql-19-setup upgrade
 
-Please note that 18 and 19 contrib RPMs need to be installed for this feature
-to work.
+Please note that the contrib RPMs for both the old and new major versions must
+be installed for this feature to work.
 
-If you are upgrading from a version other than the immediately previous major
-release, or if your previous cluster uses non-default paths, you can override
-the setup script defaults by creating a configuration file at:
+To upgrade from a version other than the default, or when the previous cluster
+uses non-standard paths, create a configuration file at:
 
 	/etc/sysconfig/postgresql-19-setup
 
-This file is sourced by the setup script at startup and can contain any of the
-following variable overrides:
+and set any of the following variables before running the upgrade:
 
 	PREVMAJORVERSION    The major version you are upgrading from (e.g. 17)
 	PREVPGENGINE        Path to the old version's bin directory
@@ -152,9 +152,14 @@ For example, to upgrade from PostgreSQL 17 with a non-default data directory:
 	PREVMAJORVERSION=17
 	PREVDATADIR=/opt/pgsql/17/data
 
-Note that if you set only PREVMAJORVERSION, the PREVPGENGINE and PREVDATADIR
-paths are automatically derived from it, so you only need to set those
-explicitly when they differ from the standard PGDG layout.
+If only PREVMAJORVERSION is set, PREVPGENGINE and PREVDATADIR are derived
+from it automatically, so you only need to set those explicitly when they
+differ from the standard PGDG layout.
+
+You can also verify that the upgrade will succeed before committing to it by
+running the check first:
+
+	$ /usr/pgsql-19/bin/postgresql-19-setup check_upgrade
 
 POSTGRESQL RPM PACKAGES AND RATIONALE.
 -----------------------------------------------------------------------------
@@ -390,6 +395,40 @@ and are processed with make and make install. Most of the modules are in
 /usr/pgsql-19/bin.  In the future these files may be split out, 
 depending upon function and dependencies.
 
+
+SETUP SCRIPT ENVIRONMENT VARIABLES
+-------------------------------------------------------------------------------
+The postgresql-19-setup script honours several environment variables that allow
+you to customise its behaviour without modifying the script itself.
+
+  PGSETUP_INITDB_OPTIONS
+	Options passed directly to the initdb binary when initialising a new
+	cluster (the 'initdb' action) or when re-initialising the new cluster
+	during an upgrade (the 'upgrade' action).  Use this to control settings
+	such as the data checksum, locale, or encoding at cluster creation time.
+	For example, to enable data checksums and set the locale:
+
+		PGSETUP_INITDB_OPTIONS="--data-checksums --locale=en_US.UTF-8" \
+		    /usr/pgsql-19/bin/postgresql-19-setup initdb
+
+	See man initdb(1) for the full list of available options.
+
+  PGSETUP_PGUPGRADE_OPTIONS
+	Options passed directly to pg_upgrade when running the 'upgrade' or
+	'check_upgrade' actions.  Use this to pass flags such as --jobs to
+	parallelise the upgrade, or --link to use hard links instead of copying
+	data files.  For example:
+
+		PGSETUP_PGUPGRADE_OPTIONS="--jobs=4" \
+		    /usr/pgsql-19/bin/postgresql-19-setup upgrade
+
+	See man pg_upgrade(1) for the full list of available options.
+
+  PGSETUP_DEBUG
+	Set to '1' to enable debug output from the setup script, which can be
+	helpful when diagnosing initdb or upgrade failures.
+
+		PGSETUP_DEBUG=1 /usr/pgsql-19/bin/postgresql-19-setup initdb
 
 MORE INFORMATION
 -------------------------------------------------------------------------------
