@@ -77,7 +77,20 @@ Environment:
                              subsequent call of \`pg_upgrade\`.  For more info
                              about possible options please look at man
                              pg_upgrade(1).
-  PGSETUP_DEBUG              Set to '1' if you want to see debugging output."
+  PGSETUP_DEBUG              Set to '1' if you want to see debugging output.
+
+Configuration file:
+  /etc/sysconfig/postgresql-${PGMAJORVERSION}-setup
+                             Optional file sourced at startup to override
+                             default settings. Supported variables:
+    PREVMAJORVERSION         The major version to upgrade from.
+                             Defaults to the version set at package build time.
+    PREVPGENGINE             Path to the old version's bin directory.
+                             Defaults to /usr/pgsql-PREVMAJORVERSION/bin.
+    PREVDATADIR              Path to the old version's data directory.
+                             Defaults to /var/lib/pgsql/PREVMAJORVERSION/data.
+                             If only PREVMAJORVERSION is set, the other two
+                             are derived from it automatically."
 
 # note that these options are useful at least for help2man processing
 case "$1" in
