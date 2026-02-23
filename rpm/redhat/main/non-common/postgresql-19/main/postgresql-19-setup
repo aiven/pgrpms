@@ -44,6 +44,14 @@ then
     OLD_SERVICE_NAME=postgresql-$PREVMAJORVERSION
 fi
 
+# Warn if more than 3 parameters were passed
+if [ $# -gt 3 ]
+then
+    echo "Warning: too many arguments ($# given, 3 expected). Extra arguments will be ignored." >&2
+    echo "HINT: These will be discarded. Set PGSETUP_INITDB_OPTIONS in /etc/sysconfig/postgresql-${PGMAJORVERSION}-setup instead." > &2
+    echo "Usage: $0 {initdb|check_upgrade|upgrade} [SERVICE_NAME] [OLD_SERVICE_NAME]" >&2
+fi
+
 USAGE_STRING=$"
 Usage: $0 {initdb|check_upgrade|upgrade} [SERVICE_NAME]
 
