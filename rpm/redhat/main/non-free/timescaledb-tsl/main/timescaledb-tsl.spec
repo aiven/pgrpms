@@ -3,7 +3,7 @@
 Summary:	PostgreSQL based time-series database
 Name:		%{sname}-tsl_%{pgmajorversion}
 Version:	2.25.1
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} == 8
