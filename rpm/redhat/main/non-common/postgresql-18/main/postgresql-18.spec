@@ -41,7 +41,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	18.2
+Version:	18.3
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
@@ -1331,6 +1331,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 24 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-1PGDG
+- Update to 18.3 per changes described at:
+  https://www.postgresql.org/docs/release/18.3/
+
 * Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 18.2-1PGDG
 - Update to 18.2 per changes described at:
   https://www.postgresql.org/docs/release/18.2/
