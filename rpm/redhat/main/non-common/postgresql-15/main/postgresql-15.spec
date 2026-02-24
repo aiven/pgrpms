@@ -81,7 +81,7 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.16
+Version:	15.17
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
@@ -1424,6 +1424,10 @@ fi
 %endif
 
 %changelog
+* Tue Feb 24 2026 Devrim Gündüz <devrim@gunduz.org> - 15.17-1PGDG
+- Update to 15.17, per changes described at
+  https://www.postgresql.org/docs/release/15.17/
+
 * Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 15.16-1PGDG
 - Update to 15.16, per changes described at
   https://www.postgresql.org/docs/release/15.16/
