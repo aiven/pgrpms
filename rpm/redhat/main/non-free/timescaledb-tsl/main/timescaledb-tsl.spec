@@ -8,7 +8,7 @@ License:	Timescale
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} == 8
 # To be removed in 2.25.2
-Patch0:		%if 0%{?rhel} == 8
+Patch0:		%{sname}-2.25.1-rhel8-openssl.patch
 %endif
 URL:		https://github.com/timescale/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel cmake >= 3.4
