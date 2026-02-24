@@ -76,7 +76,7 @@ sign_package() {
 	echo "${green}Signing packages in ${rpm_location}...${reset}"
 
 	# Use rpmsign with gpg-agent (passphrase should be preset in agent cache)
-	for signpackagelist in $(find ~/"${rpm_location}"* -iname "*${signPackageName}*${packageVersion}*.rpm"); do
+	for signpackagelist in $(find ~/"${rpm_location}"* -iname "*${signPackageName}*${packageVersion}*.rpm" | grep -v ALL); do
 		echo "Signing: $signpackagelist"
 		rpmsign --addsign "$signpackagelist"
 
