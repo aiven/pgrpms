@@ -357,7 +357,7 @@ for VER in "${VER_LIST[@]}"; do
 				echo "  Syncing : $osname-$distrover-PG$pgnonfreerelease non-free repo"
 				NONFREE_RPM_DIR=/var/lib/pgsql/rpm${pgnonfreerelease}/ALLRPMS
 
-				if ! rsync -ave ssh --delete --delete-missing-args "$NONFREE_SOURCE_HOST":$NONFREE_RPM_DIR/ $BASE_DIR_OS/nonfree/$pgnonfreerelease/$osdistro/$osname-$distrover-$osarch; then
+				if ! rsync -ave ssh --delete --delete-missing-args "$NONFREE_SOURCE_HOST":$NONFREE_RPM_DIR/ $BASE_DIR_OS/non-free/$pgnonfreerelease/$osdistro/$osname-$distrover-$osarch; then
 					echo "  [ERROR] Rsync failed for PG $pgnonfreerelease non-free repo ($osname-$distrover-$osarch)" >&2
 					sync_had_errors=1
 				fi
