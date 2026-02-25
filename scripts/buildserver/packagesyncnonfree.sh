@@ -27,6 +27,16 @@ fi
 # Include common values:
 source ~/bin/global.sh
 
+# Build the full OS version string used in S3/CloudFront paths.
+# Fedora only has a major version (e.g. "fedora-43"), while RHEL and SLES
+# also carry a minor version (e.g. "rhel-10.1"). When osminversion is set
+# and non-empty we append it; otherwise we use the major version alone.
+if [ -n "${osminversion}" ]; then
+    export osfullversion="${os}.${osminversion}"
+else
+    export osfullversion="${os}"
+fi
+
 # Validate required variables from global.sh
 : "${pgStableBuilds:?pgStableBuilds is not set in global.sh}"
 : "${GPG_PASSWORD:?GPG_PASSWORD is not set in global.sh}"
@@ -204,7 +214,7 @@ do
     # Sync SRPMs to S3 bucket:
     log "Syncing SRPMs to S3..."
 
-    SRPM_S3_PATH="$awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch"
+    SRPM_S3_PATH="$awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$osfullversion-$osarch"
 
     if ! aws s3 sync "$SRPM_DIR" "$SRPM_S3_PATH" --exclude "*.html" --exclude "repodata"; then
         error "Failed to sync SRPMs to S3"
@@ -217,15 +227,29 @@ do
     fi
 
     log "Creating CloudFront invalidation for SRPMs..."
-    if ! aws cloudfront create-invalidation --distribution-id "$CF_SRPM_DISTRO_ID" --paths "/srpms/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*" > /dev/null; then
+    if ! aws cloudfront create-invalidation --distribution-id "$CF_SRPM_DISTRO_ID" --paths "/srpms/non-free/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/*" > /dev/null; then
         error "Failed to create CloudFront invalidation for SRPMs"
         # Don't exit, this is not critical
+    fi
+
+    # S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
+    if [ "$osislatest" == 1 ]; then
+        log "osislatest=1: syncing SRPMs to major-version path..."
+        if ! aws s3 sync "$SRPM_DIR" "$awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os-$osarch" --exclude "*.html" --exclude "repodata"; then
+            error "Failed to sync SRPMs to S3 (major-version path)"
+        fi
+        if ! aws s3 sync --delete "$SRPM_DIR/repodata/" "$awssrpmurl/srpms/non-free/$packageSyncVersion/$osdistro/$os-$osarch/repodata/" --exclude "*.html"; then
+            error "Failed to sync SRPM repodata to S3 (major-version path)"
+        fi
+        if ! aws cloudfront create-invalidation --distribution-id "$CF_SRPM_DISTRO_ID" --paths "/srpms/non-free/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*" > /dev/null; then
+            error "Failed to create CloudFront invalidation for SRPMs (major-version path)"
+        fi
     fi
 
     # Sync debug* RPMs to S3 bucket:
     log "Syncing debug RPMs to S3..."
 
-    DEBUG_S3_PATH="$awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch"
+    DEBUG_S3_PATH="$awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$osfullversion-$osarch"
 
     if ! aws s3 sync "$DEBUG_RPM_DIR" "$DEBUG_S3_PATH/" --exclude "*.html" --exclude "repodata"; then
         error "Failed to sync debug RPMs to S3"
@@ -238,9 +262,23 @@ do
     fi
 
     log "Creating CloudFront invalidation for debug RPMs..."
-    if ! aws cloudfront create-invalidation --distribution-id "$CF_DEBUG_DISTRO_ID" --paths "/debug/non-free/$packageSyncVersion/$osdistro/$os.$osminversion-$osarch/repodata/*" > /dev/null; then
+    if ! aws cloudfront create-invalidation --distribution-id "$CF_DEBUG_DISTRO_ID" --paths "/debug/non-free/$packageSyncVersion/$osdistro/$osfullversion-$osarch/repodata/*" > /dev/null; then
         error "Failed to create CloudFront invalidation for debug RPMs"
         # Don't exit, this is not critical
+    fi
+
+    # S3 does not allow symlinks, so we have to sync the packages once again to the OS major version directory if this is the latest version of the OS:
+    if [ "$osislatest" == 1 ]; then
+        log "osislatest=1: syncing debug RPMs to major-version path..."
+        if ! aws s3 sync "$DEBUG_RPM_DIR" "$awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os-$osarch/" --exclude "*.html" --exclude "repodata"; then
+            error "Failed to sync debug RPMs to S3 (major-version path)"
+        fi
+        if ! aws s3 sync --delete "$DEBUG_RPM_DIR/repodata/" "$awsdebuginfourl/debug/non-free/$packageSyncVersion/$osdistro/$os-$osarch/repodata/" --exclude "*.html"; then
+            error "Failed to sync debug RPM repodata to S3 (major-version path)"
+        fi
+        if ! aws cloudfront create-invalidation --distribution-id "$CF_DEBUG_DISTRO_ID" --paths "/debug/non-free/$packageSyncVersion/$osdistro/$os-$osarch/repodata/*" > /dev/null; then
+            error "Failed to create CloudFront invalidation for debug RPMs (major-version path)"
+        fi
     fi
 
     log "Successfully completed sync for PostgreSQL $packageSyncVersion"
