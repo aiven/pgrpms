@@ -5,7 +5,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgroutingmajorversion}.1
-Release:	1PGDG%{dist}
+Release:	2PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
@@ -40,7 +40,7 @@ pushd build
 %if 0%{?suse_version} >= 1500
 cmake .. \
 %else
-%cmake3 .. \
+%cmake .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPOSTGRESQL_BIN=%{pginstdir}/bin \
@@ -70,6 +70,10 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Feb 25 2026 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-2PGDG
+- Switch to using %%cmake macro instead of %%cmake3. This fixes
+  Fedora 44 build and also works on other RHEL/Fedora distros.
+
 * Mon Feb 2 2026 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
 - Update to 4.0.1 per changes described at:
   https://github.com/pgRouting/pgrouting/releases/tag/v4.0.1

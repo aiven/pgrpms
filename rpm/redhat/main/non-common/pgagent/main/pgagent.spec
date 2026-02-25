@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.3
-Release:	5PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -63,7 +63,7 @@ export CXXFLAGS
 cmake \
 %endif
 %else
-%cmake3 \
+%cmake \
 %endif
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
@@ -140,6 +140,10 @@ EOF
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Feb 25 2026 Devrim Gündüz <devrim@gunduz.org> - 4.2.3-6PGDG
+- Switch to using %%cmake macro instead of %%cmake3. This fixes
+  Fedora 44 build and also works on other RHEL/Fedora distros.
+
 * Sat Nov 1 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2.3-5PGDG
 - Fix name of the tmpfiles.d file
 
