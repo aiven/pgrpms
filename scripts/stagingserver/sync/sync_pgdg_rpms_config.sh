@@ -5,7 +5,7 @@
 
 # PostgreSQL versions
 PG_ALL_VERSIONS=(18 17 16 15 14)     # All supported stable versions
-PG_TEST_VERSIONS=(18 17 16 15 14)    # Versions available in testing repos
+PG_TEST_VERSIONS=(19 18 17 16 15 14)    # Versions available in testing repos
 
 # Valid operating systems
 VALID_OS=("redhat" "fedora" "sles")
