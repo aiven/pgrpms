@@ -19,7 +19,7 @@ usage() {
 Usage: $0 --os-name <fedora|redhat> [--arch <arch>] [--os-version <ver>] [--pg-version <pg>] [--dry-run] [--debug]
 
 Required:
-  --os-name        fedora or redhat
+  --os-name        fedora, redhat, or sles
 
 Optional:
   --arch           aarch64, ppc64le, x86_64 (default: all)
@@ -56,7 +56,7 @@ if [[ -z "$OS_NAME" ]]; then
   usage
 fi
 
-if [[ "$OS_NAME" != "fedora" && "$OS_NAME" != "redhat" ]]; then
+if [[ "$OS_NAME" != "fedora" && "$OS_NAME" != "redhat" && "$OS_NAME" != "sles" ]]; then
   echo "Invalid OS name: $OS_NAME"
   exit 1
 fi
@@ -66,6 +66,10 @@ if [[ "$OS_NAME" == "redhat" ]]; then
   osdistro="redhat"
   os="rhel"
   VALID_OS_VERSIONS=("${VALID_REDHAT_OS_VERSIONS[@]}")
+elif [[ "$OS_NAME" == "sles" ]]; then
+  osdistro="suse"
+  os="sles"
+  VALID_OS_VERSIONS=("${VALID_SLES_OS_VERSIONS[@]}")
 else
   osdistro="fedora"
   os="fedora"

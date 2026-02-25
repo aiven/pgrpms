@@ -14,7 +14,8 @@ extras=""
 dry_run=0
 debug=0
 
-BASE_DIR="/srv/yum/yum"
+BASE_DIR=""
+S3_BUCKET=""
 
 osdistro=""
 any_sync_done=0
@@ -24,7 +25,7 @@ usage() {
 Usage: $0 --os <os> --ver <version> [--arch <arch>] [--pg <pg_version>] [options]
 
 Required:
-  --os         OS name (rhel or fedora)
+  --os         OS name (rhel, fedora, or sles)
   --ver        OS version (e.g., 8, 9, 10, 41, 42, 43)
 
 Optional:
@@ -80,8 +81,20 @@ fi
 case "$os" in
   rhel) osdistro="redhat" ;;
   fedora) osdistro="fedora" ;;
+  sles) osdistro="suse" ;;
   *) echo "Unsupported OS: $os"; exit 1 ;;
 esac
+
+# Resolve base dir and S3 bucket from config
+BASE_DIR_var="BASE_DIR_${osdistro}"
+S3_BUCKET_var="S3_BUCKET_${osdistro}"
+BASE_DIR="${!BASE_DIR_var}"
+S3_BUCKET="${!S3_BUCKET_var}"
+
+if [[ -z "$BASE_DIR" || -z "$S3_BUCKET" ]]; then
+  echo "No BASE_DIR or S3_BUCKET configured for osdistro: $osdistro"
+  exit 1
+fi
 
 # Resolve arch list: single value or all
 archs=("$arch")
@@ -118,7 +131,7 @@ sync_common_repo() {
   local path="$BASE_DIR/common/$osdistro/$os-$ver-$a"
   if [[ -d "$path" ]]; then
     echo "Syncing common repo: $path"
-    run_sync_cmd "$path" "s3://yum-archive.postgresql.org/common/$osdistro/$os-$ver-$a"
+    run_sync_cmd "$path" "$S3_BUCKET/common/$osdistro/$os-$ver-$a"
   else
     echo "[Skip] Missing common repo dir: $path"
   fi
@@ -130,7 +143,7 @@ sync_pg_repo() {
   local path="$BASE_DIR/$pgver/$osdistro/$os-$ver-$a"
   if [[ -d "$path" ]]; then
     echo "Syncing PG $pgver repo: $path"
-    run_sync_cmd "$path" "s3://yum-archive.postgresql.org/$pgver/$osdistro/$os-$ver-$a/"
+    run_sync_cmd "$path" "$S3_BUCKET/$pgver/$osdistro/$os-$ver-$a/"
   else
     echo "[Skip] Missing PG $pgver repo dir: $path"
   fi
@@ -170,7 +183,7 @@ for a in "${archs[@]}"; do
 
   if [[ "$extras" == "1" ]]; then
     echo "Syncing extras repo for arch: $a"
-    run_sync_cmd "$BASE_DIR/extras/$osdistro/$a" "s3://yum-archive.postgresql.org/extras/$osdistro/$a"
+    run_sync_cmd "$BASE_DIR/extras/$osdistro/$a" "$S3_BUCKET/extras/$osdistro/$a"
   fi
 done
 
