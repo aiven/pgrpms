@@ -1,5 +1,5 @@
 Name:		pgagroal
-Version:	2.0.1
+Version:	2.0.2
 Release:	1PGDG%{dist}
 Summary:	High-performance connection pool for PostgreSQL
 License:	BSD
@@ -15,7 +15,7 @@ Requires:	libev systemd
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
 Requires:	openssl-libs >= 1.1.1k
 BuildRequires:	openssl-devel
 %endif
@@ -157,6 +157,11 @@ fi
 %{_unitdir}/%{name}.socket
 
 %changelog
+* Wed Feb 25 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.2-1PGDG
+- Update to 2.0.2 per changes described at:
+  https://github.com/agroal/pgagroal/releases/tag/2.0.2
+- Drop RHEL 8 support
+
 * Wed Feb 18 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.1-1PGDG
 - Update to 2.0.1 per changes described at:
   https://github.com/agroal/pgagroal/releases/tag/2.0.1
