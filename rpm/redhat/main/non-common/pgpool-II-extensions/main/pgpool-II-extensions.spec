@@ -77,7 +77,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 # nuke libtool archive and static lib
-%{__rm} -f %{buildroot}%{_libdir}/lib*pcp.{a,la}
+%{__rm} -f %{buildroot}%{_libdir}/libpgpoolpcp.{a,la}
 # Remove bitcode files
 %{__rm} -rf %{buildroot}%{pginstdir}/lib/bitcode/
 
