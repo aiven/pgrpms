@@ -121,7 +121,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{sname}.conf
 
 # nuke libtool archive and static lib
-%{__rm} -f %{buildroot}%{_libdir}/libpcp.{a,la}
+%{__rm} -f %{buildroot}%{_libdir}/libpgpoolpcp.{a,la}
 # Remove bitcode files
 %{__rm} -rf %{buildroot}%{pginstdir}/lib/bitcode/
 # Remove extension subpackage files from main package.
