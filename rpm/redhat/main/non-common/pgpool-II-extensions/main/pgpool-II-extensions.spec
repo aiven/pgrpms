@@ -1,8 +1,9 @@
+%global debug_package %{nil}
 %global sname pgpool-II
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.7.0
+Version:	4.7.1
 Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://pgpool.net
@@ -76,7 +77,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 # nuke libtool archive and static lib
-%{__rm} -f %{buildroot}%{_libdir}/libpcp.{a,la}
+%{__rm} -f %{buildroot}%{_libdir}/lib*pcp.{a,la}
 # Remove bitcode files
 %{__rm} -rf %{buildroot}%{pginstdir}/lib/bitcode/
 
@@ -96,6 +97,10 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/pgpool_recovery.control
 
 %changelog
+* Thu Feb 26 2026 Devrim Gündüz <devrim@gunduz.org> - 4.7.1-1PGDG
+- Update to 4.7.1 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-7-1.html
+
 * Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 4.7.0-1PGDG
 - Update to 4.7.0 per changes described at:
   https://www.pgpool.net/docs/latest/en/html/release-4-7-0.html
