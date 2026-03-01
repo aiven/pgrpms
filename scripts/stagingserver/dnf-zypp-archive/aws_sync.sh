@@ -11,6 +11,7 @@ arch=""
 ver=""
 pg=""
 extras=""
+non_free=0
 dry_run=0
 debug=0
 
@@ -34,6 +35,7 @@ Optional:
   --pg         PostgreSQL version ($(IFS="|"; echo "${VALID_PG_VERSIONS[*]}"))
                If omitted, only the common repo is synced.
   --extras=1   Sync extras (redhat only)
+  --non-free   Sync non-free repos for all PG versions (redhat only)
   --dry-run    Show commands without running
   --debug      Print debug output
   --help       Show this help
@@ -49,6 +51,7 @@ while [[ $# -gt 0 ]]; do
     --ver) ver="$2"; shift ;;
     --pg) pg="$2"; shift ;;
     --extras=*) extras="${1#*=}" ;;
+    --non-free) non_free=1 ;;
     --dry-run) dry_run=1 ;;
     --debug) debug=1 ;;
     --help) usage ;;
@@ -109,6 +112,7 @@ if [[ $debug -eq 1 ]]; then
   echo "  Version: $ver"
   echo "  PG Version: ${pg:-<not set, common repo only>}"
   echo "  Extras: $extras"
+  echo "  Non-free: $non_free"
   echo "  Dry Run: $dry_run"
   echo ""
 fi
@@ -149,7 +153,23 @@ sync_pg_repo() {
   fi
 }
 
-cleanup_testing_repos() {
+sync_non_free_repos() {
+  if [[ "$osdistro" != "redhat" ]]; then
+    echo "[Skip] Non-free repos are only supported for redhat."
+    return
+  fi
+  for pgver in "${VALID_PG_VERSIONS[@]}"; do
+    local path="$BASE_DIR_non_free/$pgver"
+    if [[ -d "$path" ]]; then
+      echo "Syncing non-free PG $pgver repo: $path"
+      run_sync_cmd "$path" "$S3_BUCKET/non-free/$pgver"
+    else
+      echo "[Skip] Missing non-free repo dir: $path"
+    fi
+  done
+}
+
+
   local a="$1"
   echo "Cleaning testing repos for arch: $a"
   for pgv in "${VALID_PG_VERSIONS[@]}"; do
@@ -186,6 +206,10 @@ for a in "${archs[@]}"; do
     run_sync_cmd "$BASE_DIR/extras/$osdistro/$a" "$S3_BUCKET/extras/$osdistro/$a"
   fi
 done
+
+if [[ $non_free -eq 1 ]]; then
+  sync_non_free_repos
+fi
 
 if [[ $any_sync_done -eq 0 ]]; then
   echo -e "\n[Info] No sync was performed. Skipping cleanup."

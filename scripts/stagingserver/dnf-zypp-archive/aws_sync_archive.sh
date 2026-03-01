@@ -13,6 +13,7 @@ PG_VERSION=""
 DEBUG=0
 DRY_RUN=0
 extras=""
+non_free=0
 
 usage() {
   cat <<EOF
@@ -30,6 +31,7 @@ Optional:
 
 Redhat only:
   --extras=1
+  --non-free
 EOF
   exit 1
 }
@@ -42,6 +44,7 @@ while [[ $# -gt 0 ]]; do
     --os-version) OS_VERSION="$2"; shift ;;
     --pg-version) PG_VERSION="$2"; shift ;;
     --extras=*) extras="${1#*=}" ;;
+    --non-free) non_free=1 ;;
     --dry-run) DRY_RUN=1 ;;
     --debug) DEBUG=1 ;;
     --help) usage ;;
@@ -90,6 +93,12 @@ if [[ -n "$PG_VERSION" ]] && ! is_valid "$PG_VERSION" "${VALID_PG_VERSIONS[@]}";
   exit 1
 fi
 
+# Validate non-free is only used with redhat
+if [[ $non_free -eq 1 && "$OS_NAME" != "redhat" ]]; then
+  echo "--non-free is only supported with --os-name redhat."
+  exit 1
+fi
+
 # Confirm before looping over multiple combinations
 if [[ -z "$PG_VERSION" || -z "$OS_VERSION" ]]; then
   echo "You're about to run sync for multiple combinations."
@@ -110,7 +119,8 @@ for pg in "${pg_versions[@]}"; do
   for osv in "${os_versions[@]}"; do
     cmd="$SCRIPT_DIR/aws_sync.sh --os $os --ver $osv --pg $pg"
     [[ -n "$ARCH"   ]] && cmd+=" --arch $ARCH"
-    [[ -n "$extras" ]] && cmd+=" --extras=$extras"
+    [[ -n "$extras"  ]] && cmd+=" --extras=$extras"
+    [[ $non_free -eq 1 ]] && cmd+=" --non-free"
     [[ $DRY_RUN -eq 1 ]] && cmd+=" --dry-run"
     [[ $DEBUG   -eq 1 ]] && cmd+=" --debug"
 

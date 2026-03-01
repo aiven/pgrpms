@@ -25,7 +25,7 @@ _aws_sync_archive_completions() {
     local sles_os_versions="${VALID_SLES_OS_VERSIONS[*]}"
     local pg_versions="${VALID_PG_VERSIONS[*]}"
 
-    opts="--os-name --arch --os-version --pg-version --extras --dry-run --debug --help"
+    opts="--os-name --arch --os-version --pg-version --extras --non-free --dry-run --debug --help"
 
     case "$prev" in
         --os-name)
