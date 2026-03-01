@@ -66,6 +66,12 @@ if [[ -z "$os" || -z "$ver" ]]; then
   usage
 fi
 
+# --non-free is mutually exclusive with --extras only
+if [[ $non_free -eq 1 && "$extras" == "1" ]]; then
+  echo "--non-free cannot be combined with --extras."
+  exit 1
+fi
+
 # Validate architecture if provided
 if [[ -n "$arch" ]] && ! is_valid "$arch" "${VALID_ARCH[@]}"; then
   echo "Invalid architecture: $arch"
@@ -110,7 +116,7 @@ if [[ $debug -eq 1 ]]; then
   echo "  OS Distro: $osdistro"
   echo "  Arch(es): ${archs[*]}"
   echo "  Version: $ver"
-  echo "  PG Version: ${pg:-<not set, common repo only>}"
+  echo "  PG Version: ${pg:-<not set>}"
   echo "  Extras: $extras"
   echo "  Non-free: $non_free"
   echo "  Dry Run: $dry_run"
@@ -154,11 +160,14 @@ sync_pg_repo() {
 }
 
 sync_non_free_repos() {
+  local pgver_filter="$1"  # if set, sync only this PG version; otherwise sync all
   if [[ "$osdistro" != "redhat" ]]; then
     echo "[Skip] Non-free repos are only supported for redhat."
     return
   fi
-  for pgver in "${VALID_PG_VERSIONS[@]}"; do
+  local versions=("${VALID_PG_VERSIONS[@]}")
+  [[ -n "$pgver_filter" ]] && versions=("$pgver_filter")
+  for pgver in "${versions[@]}"; do
     local path="$BASE_DIR_non_free/$pgver"
     if [[ -d "$path" ]]; then
       echo "Syncing non-free PG $pgver repo: $path"
@@ -186,29 +195,30 @@ cleanup_testing_repos() {
   done
 }
 
-# Main sync loop over all target architectures
-for a in "${archs[@]}"; do
-  echo "--- Arch: $a ---"
-
-  if [[ -z "$pg" ]]; then
-    sync_common_repo "$a"
-  else
-    sync_pg_repo "$pg" "$a"
-  fi
-
-  # Clean up testing repos only if something was synced for this arch
-  if [[ $any_sync_done -eq 1 ]]; then
-    cleanup_testing_repos "$a"
-  fi
-
-  if [[ "$extras" == "1" ]]; then
-    echo "Syncing extras repo for arch: $a"
-    run_sync_cmd "$BASE_DIR/extras/$osdistro/$a" "$S3_BUCKET/extras/$osdistro/$a"
-  fi
-done
-
+# non-free is fully independent of the normal arch-scoped sync path.
 if [[ $non_free -eq 1 ]]; then
-  sync_non_free_repos
+  sync_non_free_repos "$pg"
+else
+  # Main sync loop over all target architectures
+  for a in "${archs[@]}"; do
+    echo "--- Arch: $a ---"
+
+    if [[ -z "$pg" ]]; then
+      sync_common_repo "$a"
+    else
+      sync_pg_repo "$pg" "$a"
+    fi
+
+    # Clean up testing repos only if something was synced for this arch
+    if [[ $any_sync_done -eq 1 ]]; then
+      cleanup_testing_repos "$a"
+    fi
+
+    if [[ "$extras" == "1" ]]; then
+      echo "Syncing extras repo for arch: $a"
+      run_sync_cmd "$BASE_DIR/extras/$osdistro/$a" "$S3_BUCKET/extras/$osdistro/$a"
+    fi
+  done
 fi
 
 if [[ $any_sync_done -eq 0 ]]; then

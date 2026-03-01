@@ -99,6 +99,12 @@ if [[ $non_free -eq 1 && "$OS_NAME" != "redhat" ]]; then
   exit 1
 fi
 
+# --non-free is mutually exclusive with --extras only
+if [[ $non_free -eq 1 && -n "$extras" ]]; then
+  echo "--non-free cannot be combined with --extras."
+  exit 1
+fi
+
 # Confirm before looping over multiple combinations
 if [[ -z "$PG_VERSION" || -z "$OS_VERSION" ]]; then
   echo "You're about to run sync for multiple combinations."
