@@ -169,7 +169,7 @@ sync_non_free_repos() {
   done
 }
 
-
+cleanup_testing_repos() {
   local a="$1"
   echo "Cleaning testing repos for arch: $a"
   for pgv in "${VALID_PG_VERSIONS[@]}"; do
