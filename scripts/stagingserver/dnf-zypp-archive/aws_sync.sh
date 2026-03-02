@@ -168,13 +168,15 @@ sync_non_free_repos() {
   local versions=("${VALID_PG_VERSIONS[@]}")
   [[ -n "$pgver_filter" ]] && versions=("$pgver_filter")
   for pgver in "${versions[@]}"; do
-    local path="$BASE_DIR_non_free/$pgver"
-    if [[ -d "$path" ]]; then
-      echo "Syncing non-free PG $pgver repo: $path"
-      run_sync_cmd "$path" "$S3_BUCKET/non-free/$pgver"
-    else
-      echo "[Skip] Missing non-free repo dir: $path"
-    fi
+    for a in "${archs[@]}"; do
+      local path="$BASE_DIR_non_free/$pgver/$osdistro/$os-$ver-$a"
+      if [[ -d "$path" ]]; then
+        echo "Syncing non-free PG $pgver repo: $path"
+        run_sync_cmd "$path" "$S3_BUCKET/non-free/$pgver/$osdistro/$os-$ver-$a"
+      else
+        echo "[Skip] Missing non-free repo dir: $path"
+      fi
+    done
   done
 }
 
