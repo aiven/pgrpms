@@ -2,8 +2,8 @@
 
 Summary:	A time-series database for high-performance real-time analytics
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.25.1
-Release:	2PGDG%{?dist}
+Version:	2.25.2
+Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 %if 0%{?rhel} == 8
@@ -63,6 +63,10 @@ cd build; %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Mar 3 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.2-1PGDG
+- Update to 2.25.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.25.2
+
 * Mon Feb 23 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.1-2PGDG
 - Add a a patch from upstream to fix RHEL 8 issues. Per:
   https://github.com/timescale/timescaledb/issues/9274
