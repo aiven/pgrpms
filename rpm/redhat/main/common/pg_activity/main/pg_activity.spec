@@ -27,7 +27,7 @@
 Summary:	Top like application for PostgreSQL server activity monitoring
 Name:		pg_activity
 Version:	3.6.1
-Release:	44PGDG%{?dist}
+Release:	45PGDG%{?dist}
 License:	GPLv3
 Url:		https://github.com/dalibo/%{name}/
 Source0:	https://github.com/dalibo/%{name}/archive/v%{version}.tar.gz
@@ -38,7 +38,7 @@ BuildArch:	noarch
 BuildRequires:	python3-setuptools >= 39.2
 Requires:	python3.12 python3.12-attrs
 Requires:	python3.12-six python3.12-psutil
-Requires:	python3-psycopg2 >= 2.9.5
+Requires:	python3.12-psycopg2 >= 2.9.10
 Requires:	python3.12-humanize >= 3.13.1
 Requires:	python3.12-blessed
 Requires:	python3.12-wcwidth
@@ -103,6 +103,10 @@ find . -type f -exec sed -i 's/blessed/blessings/g' {} +
 %{python_sitelib}/pgactivity/queries/__pycache__/*.pyc
 
 %changelog
+* Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-45PGDG
+- Fix RHEL 8 dependency. Per report from Mensah David Assigbi:
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/163
+
 * Mon Dec 29 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.1-44PGDG
 - Fix SLES 16 dependencies and merge all SLES dependencies in spec
   file.
