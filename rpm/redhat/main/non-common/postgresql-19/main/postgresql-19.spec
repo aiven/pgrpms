@@ -1043,7 +1043,9 @@ fi
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
+%if %ssl
 %{pgbaseinstdir}/lib/pgcrypto.so
+%endif
 %{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
@@ -1114,7 +1116,9 @@ fi
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pg_walinspect*
+%if %ssl
 %{pgbaseinstdir}/share/extension/pgcrypto*
+%endif
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
 %{pgbaseinstdir}/share/extension/postgres_fdw*

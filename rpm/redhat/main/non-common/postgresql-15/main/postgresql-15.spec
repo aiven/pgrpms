@@ -85,9 +85,9 @@ Version:	15.17
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420001PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1179,7 +1179,9 @@ fi
 %{pgbaseinstdir}/lib/old_snapshot.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
+%if %ssl
 %{pgbaseinstdir}/lib/pgcrypto.so
+%endif
 %{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
@@ -1249,7 +1251,9 @@ fi
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pg_walinspect*
+%if %ssl
 %{pgbaseinstdir}/share/extension/pgcrypto*
+%endif
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
 %{pgbaseinstdir}/share/extension/postgres_fdw*
@@ -1424,6 +1428,10 @@ fi
 %endif
 
 %changelog
+* Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 15.17-2PGDG
+- Fix builds when ssl macro is disabled.
+  Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164
+
 * Tue Feb 24 2026 Devrim Gündüz <devrim@gunduz.org> - 15.17-1PGDG
 - Update to 15.17, per changes described at
   https://www.postgresql.org/docs/release/15.17/
