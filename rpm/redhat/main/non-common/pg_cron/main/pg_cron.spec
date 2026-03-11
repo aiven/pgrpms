@@ -5,8 +5,8 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.7
-Release:	4PGDG%{dist}
-License:	AGPLv3
+Release:	5PGDG%{dist}
+License:	PostgreSQL
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
@@ -78,6 +78,9 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Wed Mar 11 2026 John K. Harvey <john.harvey@snowflake.com> - 1.6.7-5PGDG
+- Adjust license type to match source code
+
 * Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-4PGDG
 - Rebuild against OpenSSL 3 on SLES 15
 
