@@ -2,14 +2,21 @@
 
 Summary:	A time-series database for high-performance real-time analytics
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.23.0
+Version:	2.25.2
 Release:	1PGDG%{?dist}
 License:	Apache
 Source0:	https://github.com/timescale/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/timescale/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	cmake >= 3.4 openssl-devel
-
+BuildRequires:	cmake >= 3.4
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server
 
 %description
@@ -18,7 +25,6 @@ on time-series and event data.
 
 %prep
 %setup -q -n %{sname}-%{version}
-
 # Build only the portions that have Apache Licence, and disable telemetry:
 export PATH=%{pginstdir}/bin:$PATH
 ./bootstrap -DAPACHE_ONLY=1 -DSEND_TELEMETRY_DEFAULT=NO \
@@ -49,6 +55,33 @@ cd build; %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Tue Mar 3 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.2-1PGDG
+- Update to 2.25.2, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.25.2
+
+* Mon Feb 23 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.1-2PGDG
+- Add a a patch from upstream to fix RHEL 8 issues. Per:
+  https://github.com/timescale/timescaledb/issues/9274
+
+* Tue Feb 17 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.1-1PGDG
+- Update to 2.25.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.25.1
+
+* Thu Jan 29 2026 Devrim Gündüz <devrim@gunduz.org> - 2.25.0-1PGDG
+- Update to 2.25.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.25.0
+
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 2.24.0-1PGDG
+- Update to 2.24.0, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.24.0
+
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 2.23.1-2PGDG
+- Modernise OpenSSL dependencies.
+
+* Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> - 2.23.1-1PGDG
+- Update to 2.23.1, per changes described at:
+  https://github.com/timescale/timescaledb/releases/tag/2.23.1
+
 * Wed Oct 29 2025 Devrim Gündüz <devrim@gunduz.org> - 2.23.0-1PGDG
 - Update to 2.23.0, per changes described at:
   https://github.com/timescale/timescaledb/releases/tag/2.23.0

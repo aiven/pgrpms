@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=".sles15"
 SPECFILE="pgdg-python3-kazoo.spec"
 
 # Now, include global Makefile

@@ -12,18 +12,20 @@
 %global	__ospython %{_bindir}/python3.12
 %global	python3_pkgversion 3.12
 %endif
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 %global	__ospython %{_bindir}/python3.11
 %global	python3_pkgversion 311
 %endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
 
-%{expand: %%global pybasever %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %global python3_sitelib %(%{__ospython} -Esc "import sysconfig; print(sysconfig.get_path('purelib', vars={'platbase': '/usr', 'base': '%{_prefix}'}))")
-
 
 Name:		python%{python3_pkgversion}-%{modname}
 Version:	0.2.13
-Release:	2PGDG%{dist}
+Release:	3PGDG%{dist}
 Summary:	Measures number of Terminal column cells of wide-character codes
 
 # part of the code is under HPND-Markus-Kuhn
@@ -33,6 +35,12 @@ Source:		https://files.pythonhosted.org/packages/source/w/%{modname}/%{modname}-
 BuildArch:	noarch
 
 Provides:	python%{python3_pkgversion}dist(wcwidth)
+
+%if 0%{?suse_version} >= 1500
+BuildRequires:	python-rpm-macros
+%else
+BuildRequires:	pyproject-rpm-macros
+%endif
 
 %description
 This API is mainly for Terminal Emulator implementors, or those writing programs
@@ -45,19 +53,23 @@ printable width of a string on a Terminal.
 sed -i -e 's|--cov[^[:space:]]*||g' tox.ini
 
 %build
-%{__ospython} setup.py build
+%pyproject_wheel
 
 %install
-%{__ospython} setup.py install --no-compile --root %{buildroot}
+%pyproject_install
 
 %files
 %doc README.rst
 %license LICENSE
-%{python3_sitelib}/%{modname}-%{version}-py%{pybasever}.egg-info/*
+%{python3_sitelib}/%{modname}-%{version}.dist-info/*
 %{python3_sitelib}/%{modname}/*.py*
 %{python3_sitelib}/%{modname}/__pycache__/*.py*
 
 %changelog
+* Mon Dec 29 2025 Devrim Gunduz <devrim@gunduz.org> - 0.2.13-3PGDG
+- Add SLES support
+- Switch to pyproject builds
+
 * Tue Oct 7 2025 Devrim Gunduz <devrim@gunduz.org> - 0.2.13-2PGDG
 - Provide dist(wcwidth). Needed at least on RHEL 9
 

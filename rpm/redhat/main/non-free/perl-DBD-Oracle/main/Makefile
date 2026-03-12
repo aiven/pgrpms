@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f99
 SPECFILE="perl-DBD-Oracle.spec"
 
 # Now, include global Makefile

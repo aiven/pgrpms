@@ -21,6 +21,8 @@ ExecStartPre=-/usr/bin/chown postgres:postgres $REPORTDIR
 ExecStartPre=-/usr/bin/chmod u=rwX,g=rsX,o= $REPORTDIR
 ExecStart=/usr/bin/pgcluu -o $REPORTDIR $STATDIR
 
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 

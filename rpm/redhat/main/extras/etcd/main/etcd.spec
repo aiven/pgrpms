@@ -13,7 +13,7 @@
 %endif
 
 Name:		etcd
-Version:	3.6.5
+Version:	3.6.8
 Release:	2PGDG%{?dist}
 Summary:	Distributed reliable key-value store
 License:	ASL 2.0
@@ -28,6 +28,7 @@ BuildRequires:	python3-devel
 BuildRequires:	systemd-rpm-macros systemd
 Requires:	systemd
 
+Provides:       user(etcd) group(etcd)
 
 %description
 etcd is a distributed reliable key-value store for the most critical data
@@ -75,7 +76,7 @@ of a distributed system, with a focus on being:
 %files
 %defattr(-,root,root,-)
 %doc README*
-%dir %attr(750, root, root) %{_sysconfdir}/%{name}
+%dir %attr(750, etcd, etcd) %{_sysconfdir}/%{name}
 %dir %attr(750, etcd, etcd) %{_var}/lib/%{name}
 %config(noreplace) %{_sysconfdir}/%{name}/%{name}.conf
 %attr(755, root, root) %{_bindir}/etcd
@@ -86,9 +87,30 @@ of a distributed system, with a focus on being:
 %{_unitdir}/%{name}.service
 
 %changelog
+* Sat Feb 14 2026 Devrim Gündüz <devrim@gunduz.org> 3.6.8-2PGDG
+- Provide user and group etcd to fix SLES-16 installations
+
+* Sat Feb 14 2026 Devrim Gündüz <devrim@gunduz.org> - 3.6.8-1PGDG
+- Update to 3.6.8, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.8
+- Change ownership of /etc/etcd to etcd user. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/147
+
+* Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.7-1PGDG
+- Update to 3.6.7, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.7
+
+* Wed Nov 12 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.6-1PGDG
+- Update to 3.6.6, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.6
+
 * Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> 3.6.5-2PGDG
 - Add sysusers.d and tmpfiles.d config file to allow rpm to create
   users/groups automatically.
+
+* Sun Sep 21 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-1PGDG
+- Update to 3.6.5, per changes described at:
+  https://github.com/etcd-io/etcd/releases/tag/v3.6.5
 
 * Sun Sep 21 2025 Devrim Gündüz <devrim@gunduz.org> - 3.6.5-1PGDG
 - Update to 3.6.5, per changes described at:

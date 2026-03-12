@@ -1,23 +1,30 @@
+%global debug_package %{nil}
 %global sname pgpool-II
 
 Summary:	PostgreSQL extensions for pgpool-II
 Name:		%{sname}-pg%{pgmajorversion}-extensions
-Version:	4.6.3
-Release:	2PGDG%{?dist}
+Version:	4.7.1
+Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://pgpool.net
 Source0:	https://www.pgpool.net/mediawiki/images/%{sname}-%{version}.tar.gz
-Patch1:		%{sname}-gcc-15-c23.patch
 Requires:	postgresql%{pgmajorversion}-server %{sname}-pcp
 
 BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
-BuildRequires:	libmemcached-devel openssl-devel
+BuildRequires:	libmemcached-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+
 %if 0%{?suse_version} >= 1500
 BuildRequires:	openldap2-devel
-Requires(post):	systemd-sysvinit
 %else
 BuildRequires:	openldap-devel
-Requires(post):	systemd-sysv
 Requires(post):	systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
@@ -31,7 +38,6 @@ PostgreSQL extensions, libraries and sql files for pgpool-II.
 
 %prep
 %setup -q -n %{sname}-%{version}
-%patch -P 1 -p1
 
 %build
 # We need this flag on SLES so that pgpool can find libmemched.
@@ -71,7 +77,7 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{__make} %{?_smp_mflags} DESTDIR=%{buildroot} install -C src/sql/pgpool-regclass
 
 # nuke libtool archive and static lib
-%{__rm} -f %{buildroot}%{_libdir}/libpcp.{a,la}
+%{__rm} -f %{buildroot}%{_libdir}/libpgpoolpcp.{a,la}
 # Remove bitcode files
 %{__rm} -rf %{buildroot}%{pginstdir}/lib/bitcode/
 
@@ -91,6 +97,33 @@ export PATH=%{pginstdir}/bin/:$PATH
 %{pginstdir}/share/extension/pgpool_recovery.control
 
 %changelog
+* Thu Feb 26 2026 Devrim Gündüz <devrim@gunduz.org> - 4.7.1-1PGDG
+- Update to 4.7.1 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-7-1.html
+
+* Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 4.7.0-1PGDG
+- Update to 4.7.0 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-7-0.html
+
+* Tue Dec 16 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.5-1PGDG
+- Update to 4.6.5 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-6-5.html
+
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.4-1PGDG
+- Update to 4.6.4 per changes described at:
+  https://www.pgpool.net/docs/latest/en/html/release-4-6-4.html
+- Remove GCC 15 patch, now in upstream.
+
+* Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-5PGDG
+- Rebuild against OpenSSL 3 on SLES 15
+
+* Sat Nov 1 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-4PGDG
+- Modernise openssl related dependencies.
+- Remove obsoleted dependencies
+
+* Thu Oct 30 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-3PGDG
+- Rebuild because of a package signing issue on Fedora 43
+
 * Tue Sep 2 2025 Devrim Gündüz <devrim@gunduz.org> - 4.6.3-2PGDG
 - Add a patch to fix compilation against GCC 15, per:
   https://github.com/pgpool/pgpool2/issues/124

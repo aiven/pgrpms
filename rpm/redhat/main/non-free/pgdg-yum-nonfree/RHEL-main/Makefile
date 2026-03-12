@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST="el"
 SPECFILE="pgdg-redhat-nonfree.spec"
 
 # Now, include global Makefile

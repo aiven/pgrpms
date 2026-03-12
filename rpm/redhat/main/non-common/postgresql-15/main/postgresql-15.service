@@ -44,6 +44,8 @@ ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
  
+Restart=on-failure
+
 # Do not set any timeout value, so that systemd will not kill postmaster
 # during crash recovery.
 TimeoutSec=0

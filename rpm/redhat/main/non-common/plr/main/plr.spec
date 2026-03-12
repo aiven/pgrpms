@@ -3,15 +3,16 @@
 %global plrmajver 8
 %global plrmidver 4
 %global plrminver 8
+%global plrfinver 2
 
 %{!?llvm:%global llvm 1}
 
 Summary:	Procedural language interface between PostgreSQL and R
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{plrmajver}.%{plrmidver}.%{plrminver}
-Release:	3PGDG%{?dist}
+Version:	%{plrmajver}.%{plrmidver}.%{plrminver}.%{plrfinver}
+Release:	1PGDG%{?dist}
 License:	GPLv2
-Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL%{plrmajver}_%{plrmidver}_%{plrminver}.tar.gz
+Source0:	https://github.com/postgres-%{sname}/%{sname}/archive/REL%{plrmajver}_%{plrmidver}_%{plrminver}_%{plrfinver}.tar.gz
 URL:		https://github.com/postgres-%{sname}/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel R-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -42,7 +43,7 @@ This package provides JIT support for plr
 %endif
 
 %prep
-%setup -q -n %{sname}-REL%{plrmajver}_%{plrmidver}_%{plrminver}
+%setup -q -n %{sname}-REL%{plrmajver}_%{plrmidver}_%{plrminver}_%{plrfinver}
 
 %build
 USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags}
@@ -72,6 +73,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 8.4.8.2-1PGDG
+- Update to 8.4.8.2
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 8.4.8-3PGDG
 - Add SLES 16 support
 

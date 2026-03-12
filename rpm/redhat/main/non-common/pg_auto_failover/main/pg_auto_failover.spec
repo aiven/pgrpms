@@ -5,7 +5,7 @@
 Summary:	Postgres extension and service for automated failover and high-availability
 Name:		%{sname}_%{pgmajorversion}
 Version:	2.2
-Release:	3PGDG%{dist}
+Release:	4PGDG%{dist}
 License:	Apache
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}/
@@ -26,9 +26,16 @@ Requires:	liblz4-1
 BuildRequires:	lz4-devel
 Requires:	lz4-libs
 %endif
-BuildRequires:	libxml2-devel libxslt-devel openssl-devel pam-devel
+BuildRequires:	libxml2-devel libxslt-devel pam-devel
 BuildRequires:	krb5-devel readline-devel zlib-devel
-
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}-server postgresql%{pgmajorversion}-contrib
 
 %description
@@ -94,6 +101,9 @@ PG_CONFIG=%{pginstdir}/bin/pg_config %make_install
 %endif
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2-4PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2-3PGDG
 - Add SLES 16 support
 

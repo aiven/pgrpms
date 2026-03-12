@@ -33,6 +33,8 @@ ExecStart=/usr/pgsql-17/bin/repmgrd -f ${REPMGRDCONF} -p ${PIDFILE} -d --verbose
 ExecStop=/usr/bin/kill -TERM $MAINPID
 ExecReload=/usr/bin/kill -HUP $MAINPID
 
+Restart=on-failure
+
 # Give a reasonable amount of time for the server to start up/shut down
 TimeoutSec=300
 

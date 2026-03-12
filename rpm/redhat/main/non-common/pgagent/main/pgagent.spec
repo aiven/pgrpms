@@ -4,7 +4,7 @@
 Summary:	Job scheduler for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	4.2.3
-Release:	4PGDG%{?dist}
+Release:	6PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgadmin-org/%{sname}/archive/refs/tags/%{sname}-%{version}.tar.gz
 Source2:	%{sname}-%{pgmajorversion}.service
@@ -63,7 +63,7 @@ export CXXFLAGS
 cmake \
 %endif
 %else
-%cmake3 \
+%cmake \
 %endif
 	-D CMAKE_INSTALL_PREFIX:PATH=/usr \
 	-D PG_CONFIG_PATH:FILEPATH=%{pginstdir}/bin/pg_config \
@@ -97,7 +97,7 @@ EOF
 %{__install} -m 0644 -D %{SOURCE6} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
 
 %{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
-%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{name}_%{pgmajorversion}.conf
+%{__install} -m 0644 %{SOURCE7} %{buildroot}/%{_tmpfilesdir}/%{sname}_%{pgmajorversion}.conf
 
 # Install logrotate file:
 %{__install} -p -d %{buildroot}%{_sysconfdir}/logrotate.d
@@ -132,7 +132,7 @@ EOF
 %{_datadir}/%{name}-%{version}/%{sname}*.sql
 %ghost %{_rundir}/%{sname}
 %{_sysusersdir}/%{name}-pgdg.conf
-%{_tmpfilesdir}/%{name}_%{pgmajorversion}.conf
+%{_tmpfilesdir}/%{sname}_%{pgmajorversion}.conf
 %{_unitdir}/%{sname}_%{pgmajorversion}.service
 %dir %{_sysconfdir}/%{sname}/
 %config(noreplace) %attr (644,root,root) %{_sysconfdir}/%{sname}/%{name}.conf
@@ -140,6 +140,13 @@ EOF
 %{pginstdir}/share/extension/%{sname}.control
 
 %changelog
+* Wed Feb 25 2026 Devrim Gündüz <devrim@gunduz.org> - 4.2.3-6PGDG
+- Switch to using %%cmake macro instead of %%cmake3. This fixes
+  Fedora 44 build and also works on other RHEL/Fedora distros.
+
+* Sat Nov 1 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2.3-5PGDG
+- Fix name of the tmpfiles.d file
+
 * Tue Oct 28 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2.3-4PGDG
 - Fix tmpfiles.d file
 

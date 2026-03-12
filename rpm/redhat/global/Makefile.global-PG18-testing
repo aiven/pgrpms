@@ -1,17 +1,17 @@
 #################################
 # Makefile for PostgreSQL 18	#
-# testing packaging	 	#
+# testing packaging		#
 # https://yum.postgresql.org	#
-#			   	#
-# Devrim Gunduz		   	#
-# devrim@gunduz.org	   	#
-#################################
-#			 	#
 #				#
-# build target is for      	#
-# RPM buildfarm		   	#
-#			   	#
-#			   	#
+# Devrim Gunduz			#
+# devrim@gunduz.org		#
+#################################
+#				#
+#				#
+# build target is for		#
+# RPM buildfarm			#
+#				#
+#				#
 #################################
 
 
@@ -25,56 +25,56 @@ build18testing: prep18
 	--define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm18testing/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 	make bfsrpm18testing
 
 srpm18testing: prep18
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
-	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 bfsrpm18testing: prep18
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
-	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 bfnoprepsrpm18testing:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
-	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 bfnosignsrpm18testing: prep18
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
-	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 rpm18testing: prep18
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 nosignbuild18testimg:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(HOME)/rpm18testing/BUILD" \
+	--define "_builddir $(HOME)/rpm18testing/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm18testing/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 	make bfnosignsrpm18testing
 
 noprepbuild18testing:
@@ -82,30 +82,30 @@ noprepbuild18testing:
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(HOME)/rpm18testing/BUILD" \
+	--define "_builddir $(HOME)/rpm18testing/BUILD" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpm18testing/SRPMS" \
 	--define "_rpmdir $(HOME)/rpm18testing/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 nopreprpm18testing:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 noprepsrpm18testing:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpm18testing/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)

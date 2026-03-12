@@ -12,5 +12,7 @@ ExecStart=/usr/bin/consul-template $CMD_OPTS
 ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target

@@ -4,8 +4,8 @@
 
 Summary:	A Postgres extension for exposing system metrics such as CPU, memory and disk information
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.2
-Release:	4PGDG%{dist}
+Version:	3.2.1
+Release:	1PGDG%{dist}
 License:	PostgreSQL
 URL:		https://github.com/EnterpriseDB/%{sname}
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/v%{version}.tar.gz
@@ -52,7 +52,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 # Install documentation with a better name:
 %{__mkdir} -p %{buildroot}%{pginstdir}/doc/extension
 %{__cp} README.md %{buildroot}%{pginstdir}/doc/extension/README-%{sname}.md
-%{__rm} -f %{buildroot}%{pginstdir}/include/server/extension/%{sname}/%{sname}.h
+%{__rm} -f %{buildroot}%{pginstdir}/include/server/extension/%{sname}/*.h
 
 %files
 %defattr(-,root,root,-)
@@ -70,6 +70,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Thu Feb 19 2026 Devrim Gunduz <devrim@gunduz.org> - 3.2.1-1PGDG
+- Update to 3.2.1 per changes described at:
+  https://github.com/EnterpriseDB/system_stats/releases/tag/v3.2.1
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2-45PGDG
 - Add SLES 16 support
 

@@ -7,7 +7,7 @@ BuildArch:	noarch
 %endif
 
 Name:		pgdg-srpm-macros
-Version:	1.0.51
+Version:	1.0.53
 Release:	1PGDG%{?dist}
 Summary:	SRPM macros for building PostgreSQL PGDG Packages
 
@@ -29,10 +29,22 @@ echo no build stage needed
 %{__install} -p -D -m 0644 macros.pgdg-postgresql %{buildroot}/%{macros_dir}/macros.pgdg-postgresql
 
 %files
+%doc README.md
 %license LICENSE.txt
 %{macros_dir}/macros.pgdg-postgresql
 
 %changelog
+* Tue Mar 10 2026 Devrim Gündüz <devrim@gunduz.org> - 1.0.53-1PGDG
+- Update to 1.0.53 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.53
+
+* Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.52-2PGDG
+- Rebuild because of package signing issue
+
+* Mon Nov 10 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.52-1PGDG
+- Update to 1.0.52 per changes described at:
+  https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.52
+
 * Thu Sep 18 2025 Devrim Gündüz <devrim@gunduz.org> - 1.0.51-1PGDG
 - Update to 1.0.51 per changes described at:
   https://github.com/pgdg-packaging/pgdg-srpm-macros/releases/tag/1.0.51

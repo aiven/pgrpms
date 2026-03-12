@@ -44,6 +44,8 @@ ExecReload=/bin/kill -HUP $MAINPID
 KillMode=mixed
 KillSignal=SIGINT
 
+Restart=on-failure
+
 # Do not set any timeout value, so that systemd will not kill postgres
 # main process during crash recovery.
 TimeoutSec=infinity

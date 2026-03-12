@@ -3,7 +3,7 @@
 %global __requires_exclude (%{_privatelibs})
 
 Name:		pgmodeler
-Version:	1.2.2
+Version:	1.2.3
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Database Modeler
 License:	GPLv3
@@ -92,6 +92,10 @@ appstream-util validate-relax --nonet %{buildroot}/%{_datadir}/appdata/%{name}.a
 %{_datadir}/appdata/%{name}.appdata.xml
 
 %changelog
+* Sat Feb 7 2026 Devrim Gündüz <devrim@gunduz.org> 1.2.3-1PGDG
+- Update to 1.2.3 per changes described at:
+  https://github.com/pgmodeler/pgmodeler/releases/tag/v1.2.3
+
 * Mon Oct 20 2025 Devrim Gündüz <devrim@gunduz.org> 1.2.2-1PGDG
 - Update to 1.2.2 per changes described at:
   https://github.com/pgmodeler/pgmodeler/releases/tag/v1.2.2

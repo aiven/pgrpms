@@ -1,11 +1,11 @@
 
 Summary:	C library for accessing the PostgreSQL parser outside of the server
 Name:		libpg_query
-Version:	6.1.0
+Version:	6.2.2
 Release:	1PGDG%{?dist}
 License:	BSD
 URL:		https://github.com/pganalyze/%{name}
-Source0:	https://github.com/pganalyze/libpg_query/archive/refs/tags/17-%{version}.tar.gz
+Source0:	https://github.com/pganalyze/%{name}/archive/refs/tags/17-%{version}.tar.gz
 Patch0:		libpg_query-makefile-rpm.patch
 
 %description
@@ -31,13 +31,19 @@ pg_query.go (Go), pgsql-parser (Node), psqlparse (Python) and pglast
 %defattr(-,root,root,-)
 %{_includedir}/pg_query.h
 %{_includedir}/pg_query/pg_query.proto
+%{_includedir}/postgres_deparse.h
 %{_libdir}/libpg_query.a
 %{_libdir}/libpg_query.so*
 
 %changelog
-* Thu Apr 3 2025 - Devrim Gündüz <devrim@gunduz.org> 6.1.0-1PGDG
-- Update to 6.1.0 per changes described at:
-  https://github.com/pganalyze/libpg_query/releases/tag/17-6.1.0
+* Tue Jan 27 2026 - Devrim Gündüz <devrim@gunduz.org> 6.2.2-1PGDG
+- Update to 6.2.2 per changes described at:
+  https://github.com/pganalyze/libpg_query/releases/tag/17-6.2.2
+
+* Fri Jan 23 2026 - Devrim Gündüz <devrim@gunduz.org> 6.2.1-1PGDG
+- Update to 6.2.1 per changes described at:
+  https://github.com/pganalyze/libpg_query/releases/tag/17-6.2.1
+  https://github.com/pganalyze/libpg_query/releases/tag/17-6.2.0
 
 * Fri Nov 1 2024 - Devrim Gündüz <devrim@gunduz.org> 6.0.0-1PGDG
 - Update to 6.0.0 per changes described at:

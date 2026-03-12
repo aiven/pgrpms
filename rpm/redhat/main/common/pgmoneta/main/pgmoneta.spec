@@ -1,5 +1,5 @@
 Name:		pgmoneta
-Version:	0.19.0
+Version:	0.20.0
 Release:	1PGDG%{dist}
 Summary:	Backup / restore for PostgreSQL
 License:	BSD
@@ -9,31 +9,29 @@ Source1:	%{name}.service
 Source2:	%{name}-tmpfiles.d
 
 Patch0:		%{name}-conf-rpm.patch
-Patch1:		%{name}-0.19.0-build-man-pages.patch
-BuildRequires:	gcc cmake make python3-docutils zlib-devel
+# To be removed in next version:
+Patch1:		%{name}-%{version}-cmake.patch
+
+BuildRequires:	gcc cmake make python3-docutils zlib-devel ncurses-devel
 BuildRequires:	libzstd-devel lz4-devel bzip2-devel
 BuildRequires:	libev-devel openssl-devel systemd-devel
 BuildRequires:	libssh-devel libarchive-devel cjson-devel libatomic
 Requires:	libev openssl systemd zlib libzstd lz4 bzip2 libssh
 Requires:	libarchive cjson
 
+%if 0%{?suse_version} >= 1500
+Requires:	libncurses6
+%else
+Requires:	ncurses-libs
+%endif
 
 # Systemd stuff
 BuildRequires:		systemd, systemd-devel
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1499
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
-
-Obsoletes:	%{name}_13 < 0.2.0-2
 
 %description
 pgmoneta is a backup / restore solution for PostgreSQL.
@@ -105,18 +103,27 @@ fi
 %{_bindir}/%{name}
 %{_bindir}/%{name}-admin
 %{_bindir}/%{name}-cli
+%{_bindir}/%{name}-walfilter
 %{_bindir}/%{name}-walinfo
 %config %{_sysconfdir}/%{name}/%{name}.conf
 %config %{_sysconfdir}/%{name}/%{name}_walinfo.conf
 %{_libdir}/libpgmoneta.so*
 %dir %{_docdir}/%{name}
 %{_docdir}/%{name}/*
-%{_mandir}/man1/%{name}*
-%{_mandir}/man5/%{name}*
 %{_tmpfilesdir}/%{name}.conf
 %{_unitdir}/%{name}.service
 
 %changelog
+* Mon Jan 19 2026 Devrim Gündüz <devrim@gunduz.org> 0.20.0-1PGDG
+- Update to 0.20.0 per changes described at:
+  https://github.com/pgmoneta/pgmoneta/releases/tag/0.20.0
+- Remove patch 1. Already in upstream.
+- Add a patch from upstream to fix builds on RHEL 9.
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 0.19.0-2PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Wed Aug 27 2025 Devrim Gündüz <devrim@gunduz.org> 0.19.0-1PGDG
 - Update to 0.19.0 per changes described at:
   https://github.com/pgmoneta/pgmoneta/releases/tag/0.19.0

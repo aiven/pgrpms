@@ -14,7 +14,7 @@
 
 %global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
 %else
 %{expand: %%global py3ver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
@@ -22,19 +22,27 @@
 
 Summary:	A PostgreSQL database adapter for Python 3
 Name:		python3-%{sname}
-Version:	3.2.12
+Version:	3.3.3
 Release:	1PGDG%{?dist}
 # The exceptions allow linking to OpenSSL and PostgreSQL's libpq
 License:	LGPLv3+ with exceptions
 Url:		https://psycopg.org
 Source0:	https://github.com/psycopg/psycopg/archive/refs/tags/%{version}.tar.gz
+Patch0:		psycopg-3.3.3-pyproject-license.patch
+Patch1:		psycopg-3.3.3-_c_pyproject-license.patch
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
-BuildRequires:	python3-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel python3-wheel
+BuildRequires:	python3-devel python3-pip python3-setuptools
+%if 0%{?suse_version} == 1600
+BuildRequires:	python313-Cython
+%else
+BuildRequires:	python3-cython
+%endif
+
 %if 0%{?suse_version} >= 1500
 BuildRequires:	python-rpm-macros
 %else
-BuildRequires:	pyproject-rpm-macros
+BuildRequires:	pyproject-rpm-macros pyproject-srpm-macros
 %endif
 
 Requires:	libpq5 >= 10.0
@@ -49,7 +57,7 @@ API 2.0 specifications. Several extensions allow access to many of the
 features offered by PostgreSQL.
 
 # Enable this package only on Fedora:
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 %package -n python3-%{sname}-tests
 Summary:	A testsuite for Python 3
 Requires:	python3-%sname = %version-%release
@@ -70,8 +78,17 @@ Documentation and example files for the psycopg python PostgreSQL
 database adapter.
 %endif
 
+%package c
+Summary:	C extensions for Psycopg 3
+Requires:	libpq5
+
+%description c
+This package contains the C extensions for enhanced performance in Psycopg 3.
+
 %prep
 %setup -q -n psycopg-%{version}
+%patch -P 0 -p0
+%patch -P 1 -p0
 
 %build
 # Change Python path in the scripts:
@@ -79,6 +96,9 @@ find . -iname "*.py" -exec sed -i "s/\/usr\/bin\/env python/\/usr\/bin\/python3/
 
 export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
+%pyproject_wheel
+popd
+pushd psycopg_c
 %pyproject_wheel
 popd
 
@@ -96,11 +116,14 @@ export PATH=%{pginstdir}/bin:$PATH
 pushd psycopg
 %pyproject_install
 popd
+pushd psycopg_c
+%pyproject_install
+popd
 
 %{__mkdir} -p %{buildroot}%{python3_sitearch}/%{sname}/
 
 #Only on Fedora:
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 # Copy tests directory:
 %{__cp} -rp tests %{buildroot}%{python3_sitearch}/%{sname}/tests
 # This test is skipped on 3.7 and has a syntax error so brp-python-bytecompile would choke on it
@@ -125,7 +148,7 @@ fi
 %{python3_sitelib}/psycopg/types/*.py*
 %{python3_sitelib}/psycopg/py.typed
 
-%if 0%{?fedora} >= 39 || 0%{?rhel} >= 7
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8 || 0%{?suse_version} == 1600
 %{python3_sitelib}/psycopg/__pycache__/*.pyc
 %{python3_sitelib}/psycopg/crdb/__pycache__/*.py*
 %{python3_sitelib}/psycopg/pq/__pycache__/*.py*
@@ -133,7 +156,7 @@ fi
 %endif
 
 # Only on Fedora:
-%if 0%{?fedora} > 39
+%if 0%{?fedora} >= 42
 %files -n python3-%{sname}-tests
 %{python3_sitearch}/%{sname}/tests
 %endif
@@ -144,7 +167,43 @@ fi
 %doc doc
 %endif
 
+%files c
+%{python3_sitelib}/psycopg_c-%{version}.dist-info/*
+%{python3_sitelib}/psycopg_c/*.py*
+%{python3_sitelib}/psycopg_c/__pycache__/*py*
+%{python3_sitelib}/psycopg_c/_psycopg/*
+%{python3_sitelib}/psycopg_c/pq.pxd
+%{python3_sitelib}/psycopg_c/pq/*
+%{python3_sitelib}/psycopg_c/py.typed
+
 %changelog
+* Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> - 3.3.3-1PGDG
+- Update to 3.3.3 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.3.3
+- Add a patch that updates license field to compatible format for
+  all supported Python versions.
+- Add new subpackage: Optimization module written in C/Cython
+
+* Sun Dec 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.2-1PGDG
+- Update to 3.3.2 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.3.2
+
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1PGDG
+- Update to 3.3.1 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.3.1
+
+* Tue Dec 2 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1PGDG
+- Update to 3.3.0 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.3.0
+
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.13-1PGDG
+- Update to 3.2.13 per changes described at:
+  https://github.com/psycopg/psycopg/releases/tag/3.2.13
+
+* Fri Nov 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.12-2PGDG
+- Add missing BRs. Spotted during mock builds.
+- Install __pycache__ also on SLES 16.
+
 * Mon Oct 27 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2.12-1PGDG
 - Update to 3.2.12 per changes described at:
   https://github.com/psycopg/psycopg/releases/tag/3.2.12

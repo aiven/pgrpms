@@ -1,56 +1,21 @@
 Name:		pgdg-redhat-repo
 Version:	42.0
-Release:	59PGDG
-Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky / AlmaLinux
+Release:	65.rhel%{dist}PGDG
+Summary:	PostgreSQL PGDG RPMs - Yum Repository Configuration for Red Hat / Rocky Linux / AlmaLinux
 License:	PostgreSQL
 URL:		https://yum.postgresql.org
 
-# RHEL 8
-%if 0%{?rhel} && 0%{?rhel} == 8
 %ifarch aarch64
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
-Source2:	pgdg-redhat-all-rhel8-aarch64.repo
+Source2:	pgdg-redhat-all-rhel%{dist}-aarch64.repo
 %endif
 %ifarch ppc64le
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel8-ppc64le.repo
+Source2:	pgdg-redhat-all-rhel%{dist}-ppc64le.repo
 %endif
 %ifarch x86_64
 Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel8.repo
-%endif
-%endif
-
-# RHEL 9
-%if 0%{?rhel} && 0%{?rhel} == 9
-%ifarch aarch64
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
-Source2:	pgdg-redhat-all-rhel9-aarch64.repo
-%endif
-%ifarch ppc64le
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel9-ppc64le.repo
-%endif
-%ifarch x86_64
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel9.repo
-%endif
-%endif
-
-# RHEL 10
-%if 0%{?rhel} && 0%{?rhel} == 10
-%ifarch aarch64
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-AARCH64-RHEL
-Source2:	pgdg-redhat-all-rhel10-aarch64.repo
-%endif
-%ifarch ppc64le
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel10-ppc64le.repo
-%endif
-%ifarch x86_64
-Source0:	https://yum.postgresql.org/keys/PGDG-RPM-GPG-KEY-RHEL
-Source2:	pgdg-redhat-all-rhel10.repo
-%endif
+Source2:	pgdg-redhat-all-rhel%{dist}.repo
 %endif
 
 BuildArch:	noarch
@@ -85,6 +50,32 @@ Rocky Linux, AlmaLinux and also the GPG key for PGDG RPMs.
 %{_sysconfdir}/pki/rpm-gpg/*
 
 %changelog
+* Sun Feb 22 2026 Devrim Gündüz <devrim@gunduz.org> - 42.0-65PGDG
+- Enable gpgheck on all repos (in this case it is 19 testing repos)
+  Per https://redmine.postgresql.org/issues/7897 .
+
+* Thu Dec 25 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-64PGDG
+- Remove v13 repos
+
+* Mon Dec 1 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-63PGDG
+- Apply infra changes to build/use separate repo files for RHEL, etc.
+  minor versions.
+
+* Thu Nov 27 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-62PGDG
+- Option to use separate repo files for RHEL, etc. minor versions
+- Remove sysupdates repo
+- Fix some of the extras repo links
+- Make sure to use dnf-srpms.pg.org for all srpms packages
+- Cosmetic cleanups / updates in the repo descriptions and comments in the repo files
+- Use all OS names correctly
+
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-61PGDG
+- Move extras repository to new location, per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/125
+
+* Sat Nov 15 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-60PGDG
+- Fix/update sysupdates URLs in RHEL 9 and 10 repo files.
+
 * Sat Sep 27 2025 Devrim Gündüz <devrim@gunduz.org> - 42.0-59PGDG
 - Add missing debuginfo/source repos.
 

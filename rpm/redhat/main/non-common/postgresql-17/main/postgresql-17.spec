@@ -44,13 +44,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	17.6
+Version:	17.9
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420005PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	5PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -79,9 +79,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-%if 0%{?fedora} == 43
-Patch7:		%{sname}-%{pgmajorversion}-llvm21.patch
-%endif
 
 BuildRequires:	perl glibc-devel bison >= 2.3 flex >= 2.5.35
 BuildRequires:	gcc-c++
@@ -185,11 +182,15 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 BuildRequires:	openssl-devel
 %endif
-
 %if 0%{?fedora} >= 41
 BuildRequires:	openssl-devel-engine
+%endif
 %endif
 
 %if %uuid
@@ -233,7 +234,7 @@ Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
@@ -317,13 +318,13 @@ Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
 %if %llvm
 %if 0%{?suse_version} == 1500
-BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?suse_version} == 1600
-BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19-devel clang19-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel}
-BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -448,9 +449,6 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
-%if 0%{?fedora} == 43
-%patch -P 7 -p1
-%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1017,7 +1015,9 @@ fi
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
+%if %ssl
 %{pgbaseinstdir}/lib/pgcrypto.so
+%endif
 %{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
@@ -1085,7 +1085,9 @@ fi
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pg_walinspect*
+%if %ssl
 %{pgbaseinstdir}/share/extension/pgcrypto*
+%endif
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
 %{pgbaseinstdir}/share/extension/postgres_fdw*
@@ -1256,6 +1258,35 @@ fi
 %endif
 
 %changelog
+* Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 17.9-2PGDG
+- Fix builds when ssl macro is disabled.
+  Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164
+
+* Tue Feb 24 2026 Devrim Gündüz <devrim@gunduz.org> - 17.9-1PGDG
+- Update to 17.9 per changes described at:
+  https://www.postgresql.org/docs/release/17.9/
+
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 17.8-1PGDG
+- Update to 17.8 per changes described at:
+  https://www.postgresql.org/docs/release/17.8/
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 17.7-4PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
+* Thu Nov 20 2025 Devrim Gunduz <devrim@gunduz.org> - 17.7-3PGDG
+- Bump up for RHEL 9.6 and 10.0 builds
+
+* Sat Nov 15 2025 Devrim Gündüz <devrim@gunduz.org> - 17.7-2PGDG
+- Rebuild on RHEL 9 - aarch64 to fix package signing issue
+
+* Tue Nov 11 2025 Devrim Gündüz <devrim@gunduz.org> - 17.7-1PGDG
+- Update to 17.7 per changes described at:
+  https://www.postgresql.org/docs/release/17.7/
+
+* Fri Nov 7 2025 Devrim Gunduz <devrim@gunduz.org> - 17.6-6PGDG
+- Build against OpenSSL 3 on SLES 15.
+
 * Sun Oct 5 2025 Devrim Gunduz <devrim@gunduz.org> - 17.6-5PGDG
 - Add SLES 16 support
 

@@ -2,7 +2,7 @@
 
 Summary:	PostgreSQL Workload Analyzer Meta Package
 Name:		%{sname}_%{pgmajorversion}
-Version:	5.0.1
+Version:	5.1.0
 Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://powa.readthedocs.io/
@@ -26,6 +26,9 @@ This is the meta package.
 %files
 
 %changelog
+* Mon Nov 24 2025 Devrim Gunduz <devrim@gunduz.org> - 5.1.0-1PGDG
+- Update to 5.1.0
+
 * Wed Dec 11 2024 Devrim Gunduz <devrim@gunduz.org> - 5.0.1-1PGDG
 - Update to 5.0.1
 

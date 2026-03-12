@@ -4,15 +4,13 @@
 
 Summary:	A semantic version data type for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.40.0
-Release:	3PGDG%{?dist}
+Version:	0.41.0
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/theory/pg-%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/theory/pg-%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
-
-Obsoletes:	%{sname}%{pgmajorversion} < 0.31.0-2
 
 %description
 This library contains a single PostgreSQL extension, a data type called "semver".
@@ -52,10 +50,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 
 %files
 %defattr(644,root,root,755)
-%doc %{pginstdir}/doc/%{sname}/%{sname}.mmd
+%doc %{pginstdir}/doc/extension/%{sname}.md
 %license LICENSE
 %{pginstdir}/lib/%{sname}.so
-%{pginstdir}/share/%{sname}/%{sname}*.sql
+%{pginstdir}/share/extension/%{sname}*.sql
 %{pginstdir}/share/extension/%{sname}.control
 
 %if %llvm
@@ -65,6 +63,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Thu Dec 25 2025 Devrim Gunduz <devrim@gunduz.org> - 0.41.0-1PGDG
+- Update to 0.41.0 per changes described at:
+  https://github.com/theory/pg-semver/releases/tag/v0.41.0
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.40.0-3PGDG
 - Add SLES 16 support
 
@@ -77,7 +79,7 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 * Wed Jan 29 2025 Devrim Gunduz <devrim@gunduz.org> - 0.40.0-1PGDG
 - Update to 0.40.0 per changes described at:
   https://github.com/theory/pg-semver/releases/tag/v0.40.0
-- Remove RHEL 7 and SLES 15 support
+- Remove RHEL 7 and SLES 12 support
 
 * Wed Aug 2 2023 Devrim Gunduz <devrim@gunduz.org> - 0.32.1-1PGDG
 - Update to 0.32.1

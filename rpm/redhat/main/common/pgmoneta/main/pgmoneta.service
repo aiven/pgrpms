@@ -22,6 +22,8 @@ ExecReload=/bin/kill -HUP $MAINPID
 KillSignal=SIGINT
 LimitNOFILE=1024
 
+Restart=on-failure
+
 [Install]
 WantedBy=multi-user.target
 

@@ -2,9 +2,9 @@
 # Makefile for PostgreSQL 	#
 # common packaging	 	#
 # https://yum.postgresql.org	#
-#			   	#
-# Devrim Gunduz		   	#
-# devrim@gunduz.org	   	#
+#				#
+# Devrim Gunduz			#
+# devrim@gunduz.org		#
 #################################
 
 ## PostgreSQL common build targets
@@ -13,8 +13,8 @@ commonbfsrpm: prep
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
-	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 commonbuild: prep
 	rpmbuild --define "_sourcedir $(PWD)" \
@@ -24,59 +24,59 @@ commonbuild: prep
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 	make commonbfsrpm
 
 commonsrpm: prep
 	rpmbuild --define "_sourcedir ." \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
-	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
-	--define "_srcrpmdir $(PWD)" \
-	--define "_rpmdir $(PWD)" \
-        --define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18"  --define "pgpackageversion 18" \
-        --define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
-
-commonrpm: prep
-	rpmbuild --define "_sourcedir $(PWD)" \
-	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
+
+commonrpm: prep
+	rpmbuild --define "_sourcedir $(PWD)" \
+	--define "_specdir $(PWD)" \
+	--define "_builddir $(PWD)" \
+	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
+	--define "_srcrpmdir $(PWD)" \
+	--define "_rpmdir $(PWD)" \
+	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
+	-bb $(SPECFILE)
 
 commonnoprepbuild:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(HOME)/rpmcommon/BUILD" \
+	--define "_builddir $(HOME)/rpmcommon/BUILD" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(HOME)/rpmcommon/SRPMS" \
 	--define "_rpmdir $(HOME)/rpmcommon/RPMS/" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 commonnopreprpm:
 	rpmbuild --define "_sourcedir $(PWD)" \
 	--define "_specdir $(PWD)" \
-	--define  "_builddir $(PWD)" \
+	--define "_builddir $(PWD)" \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "_srcrpmdir $(PWD)" \
 	--define "_rpmdir $(PWD)" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "dist $(DIST)" -bb $(SPECFILE)
+	-bb $(SPECFILE)
 
 commonnoprepsrpm:
 	rpmbuild --define "_sourcedir ." --define "_specdir ." \
 	--define "_builddir ." --define "_srcrpmdir ." \
 	--define "_buildrootdir $(HOME)/rpmcommon/BUILDROOT" \
 	--define "pgmajorversion 18" --define "pginstdir /usr/pgsql-18" --define "pgpackageversion 18" \
-	--define "_rpmdir ." --define "dist $(DIST)" --nodeps -bs $(SPECFILE)
+	--define "_rpmdir ." --nodeps -bs $(SPECFILE)
 

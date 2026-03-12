@@ -4,8 +4,8 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	0.8.1
-Release:	3PGDG%{?dist}
+Version:	0.8.2
+Release:	1PGDG%{?dist}
 Summary:	Open-source vector similarity search for Postgres
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}/
@@ -80,6 +80,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Feb 26 2026 Devrim Gündüz <devrim@gunduz.org> - 0.8.2-1PGDG
+- Update to 0.8.2
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 0.8.1-3PGDG
 - Add SLES 16 support
 

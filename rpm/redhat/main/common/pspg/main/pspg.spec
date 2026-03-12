@@ -1,6 +1,6 @@
 Summary:	a unix pager optimized for psql
 Name:		pspg
-Version:	5.8.12
+Version:	5.8.16
 Release:	42PGDG%{?dist}
 License:	BSD
 URL:		https://github.com/okbob/%{name}
@@ -35,6 +35,22 @@ CFLAGS="%{optflags} -I/usr/include/ncurses/"
 %{_bindir}/*
 
 %changelog
+* Wed Feb 18 2026 Devrim Gündüz <devrim@gunduz.org> - 5.8.16-42PGDG
+- Update to 5.8.16 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.16
+
+* Fri Jan 23 2026 Devrim Gündüz <devrim@gunduz.org> - 5.8.15-42PGDG
+- Update to 5.8.15 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.15
+
+* Tue Dec 23 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.14-42PGDG
+- Update to 5.8.14 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.14
+
+* Mon Dec 15 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.13-42PGDG
+- Update to 5.8.13 per changes described at:
+  https://github.com/okbob/pspg/releases/tag/5.8.13
+
 * Thu Jul 31 2025 Devrim Gündüz <devrim@gunduz.org> - 5.8.12-42PGDG
 - Update to 5.8.12 per changes described at:
   https://github.com/okbob/pspg/releases/tag/5.8.12

@@ -4,7 +4,7 @@
 %global sname orafce
 %global orafcemajver 4
 %global orafcemidver 16
-%global orafceminver 1
+%global orafceminver 5
 
 %{!?llvm:%global llvm 1}
 
@@ -16,8 +16,16 @@ License:	BSD
 Source0:	https://github.com/%{sname}/%{sname}/archive/refs/tags/VERSION_%{orafcemajver}_%{orafcemidver}_%{orafceminver}.tar.gz
 URL:		https://github.com/%{sname}/%{sname}
 
-BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	krb5-devel meson
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 Requires:	postgresql%{pgmajorversion}
 
 # llvmjit package is not built with meson:
@@ -60,6 +68,25 @@ export PATH=%{pginstdir}/bin:$PATH
 %{pginstdir}/share/extension/%{sname}--*.sql
 
 %changelog
+* Tue Mar 10 2026 Devrim Gündüz <devrim@gunduz.org> 4.16.5-1PGDG
+- Update to 4.16.5 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_5
+
+* Fri Mar 6 2026 Devrim Gündüz <devrim@gunduz.org> 4.16.4-1PGDG
+- Update to 4.16.4 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_4
+
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.3-1PGDG
+- Update to 4.16.3 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_3
+
+* Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.2-2PGDG
+- Modernise openssl dependencies
+
+* Sat Nov 8 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.2-1PGDG
+- Update to 4.16.2 per changes described at
+  https://github.com/orafce/orafce/releases/tag/VERSION_4_16_2
+
 * Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> 4.16.1-1PGDG
 - Update to 4.16.1 per changes described at
   https://github.com/orafce/orafce/releases/tag/VERSION_4_16_1

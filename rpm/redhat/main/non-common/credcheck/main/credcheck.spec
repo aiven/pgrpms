@@ -3,19 +3,15 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	4.2
+Version:	4.6
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL username/password checks
 License:	PostgreSQL
-URL:		https://github.com/MigOpsRepos/%{sname}
-Source0:	https://github.com/MigOpsRepos//%{sname}/archive/refs/tags/v%{version}.tar.gz
+URL:		https://github.com/HexaCluster/%{sname}
+Source0:	https://github.com/HexaCluster//%{sname}/archive/refs/tags/v%{version}.tar.gz
 
 BuildRequires:	postgresql%{pgmajorversion}-devel krb5-devel
-%if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
-BuildRequires:	libopenssl-1_1-devel
-%endif
-%if 0%{?suse_version} == 1600
+%if 0%{?suse_version} >= 1500
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel
 %endif
@@ -78,13 +74,32 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} install DESTDIR
 %endif
 
 %changelog
+* Thu Feb 19 2026 Devrim Gunduz <devrim@gunduz.org> - 4.6-1PGDG
+- Update to 4.6 per changes described at
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.6
+
+* Tue Jan 27 2026 Devrim Gunduz <devrim@gunduz.org> - 4.5-1PGDG
+- Update to 4.5 per changes described at
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.5
+
+* Wed Jan 14 2026 Devrim Gunduz <devrim@gunduz.org> - 4.4-1PGDG
+- Update to 4.4 per changes described at
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.4
+
+* Thu Dec 25 2025 Devrim Gunduz <devrim@gunduz.org> - 4.3-1PGDG
+- Update to 4.3 per changes described at
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.3
+
+* Wed Nov 5 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2-2PGDG
+- Rebuild against OpenSSL 3 on SLES 15
+
 * Fri Oct 24 2025 Devrim Gunduz <devrim@gunduz.org> - 4.2-1PGDG
 - Update to 4.2 per changes described at
-  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.2
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.2
 
 * Mon Oct 20 2025 Devrim Gunduz <devrim@gunduz.org> - 4.1-1PGDG
 - Update to 4.1 per changes described at
-  https://github.com/MigOpsRepos/credcheck/releases/tag/v4.1
+  https://github.com/HexaCluster/credcheck/releases/tag/v4.1
 - Update OpenSSL dependencies
 
 * Thu Oct 16 2025 Devrim Gunduz <devrim@gunduz.org> - 4.0-1PGDG

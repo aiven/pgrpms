@@ -5,8 +5,8 @@
 Summary:	Run periodic jobs in PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.7
-Release:	3PGDG%{dist}
-License:	AGPLv3
+Release:	5PGDG%{dist}
+License:	PostgreSQL
 Source0:	https://github.com/citusdata/%{sname}/archive/v%{version}.tar.gz
 URL:		https://github.com/citusdata/%{sname}
 BuildRequires:	postgresql%{pgmajorversion}-devel libxml2-devel
@@ -14,17 +14,13 @@ Requires:	postgresql%{pgmajorversion}-server
 Requires(post):	%{_sbindir}/update-alternatives
 Requires(postun):	%{_sbindir}/update-alternatives
 
-%if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
-BuildRequires:	libopenssl-devel openldap2-devel
-%endif
-%if 0%{?suse_version} == 1600
+%if 0%{?suse_version} >= 1500
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel openldap2-devel
 %endif
 %if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	openssl-libs >= 1.1.1k
-BuildRequires:	openldap-devel
+BuildRequires:	openssl-devel openldap-devel
 %endif
 
 %description
@@ -82,6 +78,12 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Wed Mar 11 2026 John K. Harvey <john.harvey@snowflake.com> - 1.6.7-5PGDG
+- Adjust license type to match source code
+
+* Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-4PGDG
+- Rebuild against OpenSSL 3 on SLES 15
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 1.6.7-3PGDG
 - Add SLES 16 support
 
