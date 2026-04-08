@@ -3,7 +3,7 @@
 Summary:	Tool for diagnosing PostgreSQL system catalog corruption
 Name:		%{sname}_%{pgmajorversion}
 Version:	1.6.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/EnterpriseDB/%{sname}/archive/%{version}.tar.gz
 URL:		https://github.com/EnterpriseDB/%{sname}
@@ -34,8 +34,16 @@ Requires:	libzstd1 >= 1.4.0
 BuildRequires:	libzstd-devel >= 1.4.0
 Requires:	libzstd >= 1.4.0
 %endif
-BuildRequires:	libxml2-devel libxslt-devel openssl-devel pam-devel
+BuildRequires:	libxml2-devel libxslt-devel pam-devel
 BuildRequires:	krb5-devel readline-devel zlib-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
 Obsoletes:	%{sname}%{pgmajorversion} < 1.2.0-2
 
@@ -74,6 +82,9 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %{pginstdir}/bin/%{sname}
 
 %changelog
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 1.6.0-4PGDG
+- Modernise OpenSSL dependencies.
+
 * Tue Feb 25 2025 Devrim Gündüz <devrim@gunduz.org> 1.6.0-3PGDG
 - Add missing BRs
 

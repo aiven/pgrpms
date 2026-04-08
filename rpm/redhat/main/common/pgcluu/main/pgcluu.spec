@@ -4,7 +4,7 @@
 Summary:	PostgreSQL performance monitoring and auditing tool
 Name:		pgcluu
 Version:	4.0
-Release:	1PGDG%{?dist}
+Release:	2PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/darold/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -73,6 +73,10 @@ of the PostgreSQL cluster and the system utilization
 %{_unitdir}/%{name}.timer
 
 %changelog
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 4.0-2PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Wed Mar 6 2024 Devrim Gündüz <devrim@gunduz.org> 4.0-1PGDG
 - Update to 4.0 per changes described at:
   https://github.com/darold/pgcluu/releases/tag/v4.0

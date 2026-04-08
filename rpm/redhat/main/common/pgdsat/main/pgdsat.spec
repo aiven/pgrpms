@@ -1,12 +1,12 @@
 Summary:	PostgreSQL Database Security Assessment Tool
 Name:		pgdsat
-Version:	1.1
+Version:	2.0
 Release:	1PGDG%{?dist}
 License:	GPLv3
 URL:		https://github.com/HexaCluster/%{name}/
 Source0:	https://github.com/HexaCluster/%{name}/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	perl(ExtUtils::MakeMaker) make
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 BuildRequires:	perl-macros
 %endif
 BuildArch:	noarch
@@ -45,5 +45,13 @@ find %{buildroot} -depth -type d -exec rmdir {} 2>/dev/null \;
 %{perl_vendorlib}/PGDSAT/*.pm
 
 %changelog
+* Sun Mar 1 2026 - Devrim Gündüz <devrim@gunduz.org> 2.0-1PGDG
+- Update to 2.0 per changes described at:
+  https://github.com/HexaCluster/pgdsat/releases/tag/v2.0
+
+* Mon Feb 16 2026 - Devrim Gündüz <devrim@gunduz.org> 1.2-1PGDG
+- Update to 1.2 per changes described at:
+  https://github.com/HexaCluster/pgdsat/releases/tag/v1.2
+
 * Mon Oct 20 2025 - Devrim Gündüz <devrim@gunduz.org> 1.1-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository

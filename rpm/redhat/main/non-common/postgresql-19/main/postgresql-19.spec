@@ -16,12 +16,7 @@
 %{!?kerberos:%global kerberos 1}
 %{!?ldap:%global ldap 1}
 %{!?libnuma:%global libnuma 1}
-# RHEL 8 does not have io_uring support:
-%if 0%{?rhel} == 8
-%{!?liburing:%global liburing 0}
-%else
 %{!?liburing:%global liburing 1}
-%endif
 %{!?llvm:%global llvm 1}
 %{!?nls:%global nls 1}
 %{!?pam:%global pam 1}
@@ -192,8 +187,13 @@ BuildRequires:	selinux-policy >= 3.4.3
 %endif
 
 %if %ssl
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
 BuildRequires:	openssl-devel
-%if 0%{?fedora} >= 41
+%endif
+%if 0%{?fedora} >= 42
 BuildRequires:	openssl-devel-engine
 %endif
 %endif
@@ -306,13 +306,13 @@ package also includes HTML version of the documentation.
 Summary:	Run-time libraries for ECPG programs
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
-Requires:	openssl-libs >= 1.1.1k
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+Requires:	openssl-libs >= 3.2.2
 %endif
 
 %description ecpg-libs
@@ -324,13 +324,13 @@ Summary:	Development files for ECPG (Embedded PostgreSQL for C)
 Requires:	%{name}-ecpg-libs%{?_isa} = %{version}-%{release}
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
-Requires:	openssl-libs >= 1.1.1k
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+Requires:	openssl-libs >= 3.2.2
 %endif
 
 %description ecpg-devel
@@ -343,13 +343,13 @@ Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
-Requires:	openssl-libs >= 1.1.1k
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+Requires:	openssl-libs >= 3.2.2
 %endif
 
 %description libs
@@ -695,7 +695,7 @@ esac
 
 # This is only for systemd supported distros:
 # prep the setup script, including insertion of some values it needs
-sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
+sed -e 's|^PGMAJORVERSION=.*$|PGMAJORVERSION=%{pgmajorversion}|' \
 	-e 's|^PGENGINE=.*$|PGENGINE=%{pgbaseinstdir}/bin|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	<%{SOURCE17} >postgresql-%{pgmajorversion}-setup
@@ -705,7 +705,7 @@ sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
 %{__ln_s} ../../../../../../../../../../../../../../%{pgbaseinstdir}/bin/postgresql-%{pgmajorversion}-setup %{buildroot}%{_bindir}/
 
 # prep the startup check script, including insertion of some values it needs
-sed -e 's|^PGVERSION=.*$|PGVERSION=%{pgmajorversion}|' \
+sed -e 's|^PGMAJORVERSION=.*$|PGMAJORVERSION=%{pgmajorversion}|' \
 	-e 's|^PREVMAJORVERSION=.*$|PREVMAJORVERSION=%{prevmajorversion}|' \
 	-e 's|^PGDOCDIR=.*$|PGDOCDIR=%{_pkgdocdir}|' \
 	<%{SOURCE10} >%{sname}-%{pgmajorversion}-check-db-dir
@@ -831,6 +831,7 @@ cat pltcl-%{pgmajorversion}.lang > pg_pltcl.lst
 %endif
 %find_lang postgres-%{pgmajorversion}
 %find_lang psql-%{pgmajorversion}
+%find_lang postgresql-regress-%{pgmajorversion}
 
 cat pg_amcheck-%{pgmajorversion}.lang > pg_contrib.lst
 cat libpq5-%{pgmajorversion}.lang > pg_libpq5.lst
@@ -838,6 +839,7 @@ cat pg_config-%{pgmajorversion}.lang > pg_devel.lst
 cat ecpg-%{pgmajorversion}.lang ecpglib6-%{pgmajorversion}.lang > ecpg.lst
 cat initdb-%{pgmajorversion}.lang pg_ctl-%{pgmajorversion}.lang psql-%{pgmajorversion}.lang pg_dump-%{pgmajorversion}.lang pg_basebackup-%{pgmajorversion}.lang pgscripts-%{pgmajorversion}.lang pg_combinebackup-%{pgmajorversion}.lang pg_walsummary-%{pgmajorversion}.lang > pg_main.lst
 cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checksums-%{pgmajorversion}.lang pg_verifybackup-%{pgmajorversion}.lang pg_controldata-%{pgmajorversion}.lang plpgsql-%{pgmajorversion}.lang pg_test_timing-%{pgmajorversion}.lang pg_test_fsync-%{pgmajorversion}.lang pg_archivecleanup-%{pgmajorversion}.lang pg_waldump-%{pgmajorversion}.lang pg_rewind-%{pgmajorversion}.lang pg_upgrade-%{pgmajorversion}.lang > pg_server.lst
+cat postgresql-regress-%{pgmajorversion}.lang > pg_test.lst
 %endif
 
 %pre server
@@ -853,19 +855,6 @@ if [ $1 -eq 1 ] ; then
    %systemd_post %{sname}-%{pgpackageversion}.service
    %endif
 fi
-
-# postgres' .bash_profile.
-# We now don't install .bash_profile as we used to in pre 9.0. Instead, use cat,
-# so that package manager will be happy during upgrade to new major version.
-echo "[ -f /etc/profile ] && source /etc/profile
-PGDATA=/var/lib/pgsql/%{pgmajorversion}/data
-export PGDATA
-# If you want to customize your settings,
-# Use the file below. This is not overridden
-# by the RPMS.
-[ -f /var/lib/pgsql/.pgsql_profile ] && source /var/lib/pgsql/.pgsql_profile" > /var/lib/pgsql/.bash_profile
-chown postgres: /var/lib/pgsql/.bash_profile
-chmod 700 /var/lib/pgsql/.bash_profile
 
 %preun server
 if [ $1 -eq 0 ] ; then
@@ -1054,7 +1043,9 @@ fi
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
+%if %ssl
 %{pgbaseinstdir}/lib/pgcrypto.so
+%endif
 %{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
@@ -1125,7 +1116,9 @@ fi
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pg_walinspect*
+%if %ssl
 %{pgbaseinstdir}/share/extension/pgcrypto*
+%endif
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
 %{pgbaseinstdir}/share/extension/postgres_fdw*
@@ -1316,7 +1309,7 @@ fi
 %{pgbaseinstdir}/share/sql_features.txt
 
 %if %test
-%files test
+%files test -f pg_test.lst
 %defattr(-,postgres,postgres)
 %attr(-,postgres,postgres) %{pgbaseinstdir}/lib/test/*
 %attr(-,postgres,postgres) %dir %{pgbaseinstdir}/lib/test

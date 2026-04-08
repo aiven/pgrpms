@@ -77,13 +77,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	13.22
+Version:	13.24
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420003PGDG%{?dist}
+Release:	420002PGDG%{?dist}
 %else
-Release:	5PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -115,9 +115,6 @@ Patch1:		%{sname}-%{pgmajorversion}-rpm-pgsql.patch
 Patch3:		%{sname}-%{pgmajorversion}-conf.patch
 Patch5:		%{sname}-%{pgmajorversion}-var-run-socket.patch
 Patch6:		%{sname}-%{pgmajorversion}-perl-rpath.patch
-%if 0%{?fedora} == 43
-Patch7:		%{sname}-%{pgmajorversion}-llvm21.patch
-%endif
 
 BuildRequires:	perl glibc-devel bison flex >= 2.5.31
 BuildRequires:	gcc-c++
@@ -154,7 +151,7 @@ BuildRequires:	llvm17-devel clang17-devel
 %if 0%{?suse_version} == 1600
 BuildRequires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
+%if 0%{?fedora} || 0%{?rhel} >= 8
 BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
@@ -218,15 +215,18 @@ BuildRequires:	selinux-policy >= 3.9.13
 %endif
 
 %if %ssl
-%if 0%{?suse_version} >= 1315
+%if 0%{?suse_version} >= 1315 && 0%{?suse_version} <= 1499
 BuildRequires:	libopenssl-devel
-%else
+%endif
+%if 0%{?suse_version} >= 1500
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 BuildRequires:	openssl-devel
 %endif
-%endif
-
 %if 0%{?fedora} >= 41
 BuildRequires:	openssl-devel-engine
+%endif
 %endif
 
 %if %uuid
@@ -286,7 +286,7 @@ Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 Requires:	libopenssl1_0_0
 %endif
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
@@ -390,13 +390,13 @@ Requires:	llvm5.0-devel >= 5.0 llvm-toolset-7-clang >= 4.0.1
 Requires:	llvm6-devel clang6-devel
 %endif
 %if 0%{?suse_version} == 1500
-BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?suse_version} == 1600
-BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
-BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+%if 0%{?fedora} || 0%{?rhel} >= 8
+Requires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -449,7 +449,7 @@ Requires:	llvm5.0 >= 5.0
 %if 0%{?suse_version} == 1315
 Requires:	llvm
 %endif
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libLLVM17
 %endif
 %if 0%{?suse_version} == 1600
@@ -573,9 +573,6 @@ benchmarks.
 %patch -P 3 -p0
 %patch -P 5 -p0
 %patch -P 6 -p0
-%if 0%{?fedora} == 43
-%patch -P 7 -p1
-%endif
 
 %{__cp} -p %{SOURCE12} .
 
@@ -1380,6 +1377,33 @@ fi
 %endif
 
 %changelog
+* Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 13.24-2PGDG
+- Fix builds when ssl macro is disabled.
+  Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164
+
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 13.24-1PGDG
+- Update to 13.24, per changes described at
+  https://www.postgresql.org/docs/release/13.24/
+
+* Wed Nov 19 2025 Devrim Gündüz <devrim@gunduz.org> - 13.23-4PGDG
+- Rebuild on RHEL 7 because of package signing issue
+
+* Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 13.23-3PGDG
+- Fix installation of -devel subpackage on RHEL 7.
+
+* Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 13.23-2PGDG
+- Fix builds on RHEL 7.
+
+* Tue Nov 11 2025 Devrim Gündüz <devrim@gunduz.org> - 13.23-1PGDG
+- Update to 13.23, per changes described at
+  https://www.postgresql.org/docs/release/13.23/
+
+* Fri Nov 7 2025 Devrim Gunduz <devrim@gunduz.org> - 13.22-7PGDG
+- Build against OpenSSL 3 on SLES 15.
+
+* Tue Nov 4 2025 Devrim Gunduz <devrim@gunduz.org> - 13.22-6PGDG
+- Fix typo in conditional. Per Christoph.
+
 * Tue Oct 14 2025 Devrim Gunduz <devrim@gunduz.org> - 13.22-5PGDG
 - Add SLES 15 support
 

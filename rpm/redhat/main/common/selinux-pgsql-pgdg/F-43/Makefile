@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.f43
 SPECFILE="selinux-pgsql-pgdg.spec"
 
 # Now, include global Makefile

@@ -1,28 +1,32 @@
 %global debug_package %{nil}
 %global	sname	pg_strom
-%global __cuda_major_version 12
-%global __cuda_minor_version 2
+%global __cuda_major_version 13
+%global __cuda_minor_version 1
 %global __cuda_path	/usr/local/cuda-%{__cuda_major_version}.%{__cuda_minor_version}
 %global __systemd_conf	%{_sysconfdir}/systemd/system/postgresql-%%{pgmajorversion}.service.d/%{sname}.conf
+%global arrowparquetrelver	2300
 
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	6.0
+Version:	6.1
 Release:	2PGDG%{?dist}
 Summary:	PG-Strom extension module for PostgreSQL
 License:	PostgreSQL
 URL:		https://github.com/heterodb/pg-strom
 Source0:	https://github.com/heterodb/pg-strom/archive/v%{version}.tar.gz
 Source1:	systemd-%{sname}.conf
+BuildRequires:	arrow-devel parquet-devel
 BuildRequires:	postgresql%{pgmajorversion}
 BuildRequires:	postgresql%{pgmajorversion}-devel
 BuildRequires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 BuildRequires:	nvidia-driver-cuda-libs
+Requires:	arrow%{arrowparquetrelver}-libs parquet%{arrowparquetrelver}-libs
 Requires:	nvidia-driver-cuda-libs
 Requires:	cuda >= %{__cuda_major_version}.%{__cuda_minor_version}
 Requires:	postgresql%{pgmajorversion}-server
 Requires:	/sbin/ldconfig
+Requires:	apache-arrow-release >= 23.0.0
 # for /sbin/ldconfig
 Requires(post):		glibc
 Requires(postun):	glibc
@@ -40,13 +44,17 @@ batch processing to big data set.
 %package llvmjit
 Summary:	Just-in-time compilation support for pg_strom
 Requires:	%{name}%{?_isa} = %{version}-%{release}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 BuildRequires:	llvm17-devel clang17-devel
 Requires:	llvm17
 %endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19
+%endif
 %if 0%{?fedora} || 0%{?rhel} >= 8
-BuildRequires:	llvm-devel >= 17.0 clang-devel >= 17.0
-Requires:	llvm >= 17.0
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
+Requires:	llvm >= 19.0
 %endif
 
 %description llvmjit
@@ -99,6 +107,14 @@ export CUDA_PATH=%{__cuda_path}
 %endif
 
 %changelog
+* Tue Jan 20 2026 Devrim Gündüz <devrim@gunduz.org> - 6.1-2PGDG
+- Depend on Apache Arrow's packages. Please refer to
+  https://yum.postgresql.org/extensions/pg_strom/ for details.
+
+* Mon Nov 17 2025 Devrim Gündüz <devrim@gunduz.org> - 6.1-1PGDG
+- Update to 6.1 per changes described at:
+  https://heterodb.github.io/pg-strom/release_v6.1/
+
 * Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 6.0-2PGDG
 - Bump release number (missed in previous commit)
 

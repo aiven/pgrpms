@@ -7,14 +7,14 @@
 %global _hardened_build 1
 
 Name:		haproxy
-Version:	3.2.6
+Version:	3.3.4
 Release:	1PGDG%{?dist}
 Summary:	HAProxy reverse proxy for high availability environments
 
 License:	GPLv2+
 
 URL:		https://www.haproxy.org/
-Source0:	https://www.haproxy.org/download/3.2/src/%{name}-%{version}.tar.gz
+Source0:	https://www.haproxy.org/download/3.3/src/%{name}-%{version}.tar.gz
 Source1:	%{name}.service
 Source2:	%{name}.cfg
 Source3:	%{name}.logrotate
@@ -24,7 +24,15 @@ Source6:	%{name}-sysusers.conf
 Source7:	%{name}-tmpfiles.d
 
 BuildRequires:	gcc lua-devel pcre2-devel make
-BuildRequires:	openssl-devel systemd-devel systemd
+BuildRequires:	systemd-devel systemd
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
 %{?systemd_requires}
 
@@ -141,6 +149,41 @@ done
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> 3.3.4-1PGDG
+- Update to 3.3.4 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46654.html
+
+* Mon Feb 16 2026 Devrim Gündüz <devrim@gunduz.org> 3.3.3-1PGDG
+- Update to 3.3.3 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46589.html
+
+* Thu Jan 29 2026 Devrim Gündüz <devrim@gunduz.org> 3.3.2-1PGDG
+- Update to 3.3.2 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46520.html
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.3.1-1PGDG
+- Update to 3.3.1 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46361.html
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
+* Wed Nov 26 2025 Devrim Gündüz <devrim@gunduz.org> 3.3.0-1PGDG
+- Update to 3.3.0 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46300.html
+
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.9-1PGDG
+- Update to 3.2.9 per changes described at:
+  https://mail-archive.com/haproxy@formilux.org/msg46278.html
+
+* Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.8-1PGDG
+- Update to 3.2.8 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg46250.html
+
+* Tue Nov 4 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.7-1PGDG
+- Update to 3.2.7 per changes described at:
+  https://www.mail-archive.com/haproxy@formilux.org/msg46228.html
+- Modernise SSL dependencies
+
 * Mon Oct 6 2025 Devrim Gündüz <devrim@gunduz.org> 3.2.6-1PGDG
 - Update to 3.2.6 per changes described at:
   https://www.mail-archive.com/haproxy@formilux.org/msg46185.html

@@ -1,7 +1,7 @@
 %global sname pg_rewrite
 
 %global pgrwmajver 2
-%global pgrwmidver 0
+%global pgrwmidver 1
 %global pgrwminver 0
 
 %{!?llvm:%global llvm 1}
@@ -9,7 +9,7 @@
 Summary:	PostgreSQL tool to rewrite a table
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgrwmajver}.%{pgrwmidver}.%{pgrwminver}
-Release:	3PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 URL:		https://github.com/%{sname}/%{sname}
 Source0:	https://github.com/cybertec-postgresql/pg_rewrite/archive/refs/tags/REL%{pgrwmajver}_%{pgrwmidver}_%{pgrwminver}.tar.gz
@@ -64,6 +64,10 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_m
 %endif
 
 %changelog
+* Mon Feb 16 2026 Devrim Gündüz <devrim@gunduz.org> - 2.1.0-1PGDG
+- Update to 2.1.0 per changes described at:
+  https://github.com/cybertec-postgresql/pg_rewrite/releases/tag/REL2_1_0
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 2.0.0-3PGDG
 - Add SLES 16 support
 

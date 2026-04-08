@@ -30,7 +30,7 @@
 %{!?runselftest:%global runselftest 0}
 %{!?sdt:%global sdt 1}
 %{!?selinux:%global selinux 1}
-%{!?ssl:%global ssl 1}
+%{!?ssl:%global ssl 0}
 %{!?test:%global test 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
@@ -41,13 +41,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	18.0
+Version:	18.3
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	4200003PGDG%{?dist}
+Release:	4200002PGDG%{?dist}
 %else
-Release:	3PGDG%{?dist}
+Release:	2PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -191,7 +191,14 @@ BuildRequires:	selinux-policy >= 3.4.3
 %endif
 
 %if %ssl
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
 BuildRequires:	openssl-devel
+%endif
 %if 0%{?fedora} >= 41
 BuildRequires:	openssl-devel-engine
 %endif
@@ -254,10 +261,10 @@ Requires:	libicu-devel
 %if %llvm
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 %if 0%{?suse_version} == 1500
-BuildRequires:	llvm17-devel clang17-devel
+Requires:	llvm17-devel clang17-devel
 %endif
 %if 0%{?suse_version} == 1600
-BuildRequires:	llvm19-devel clang19-devel
+Requires:	llvm19-devel clang19-devel
 %endif
 %if 0%{?fedora} || 0%{?rhel}
 Requires:	llvm-devel >= 17.0 clang-devel >= 17.0
@@ -305,7 +312,7 @@ package also includes HTML version of the documentation.
 Summary:	Run-time libraries for ECPG programs
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
@@ -323,7 +330,7 @@ Summary:	Development files for ECPG (Embedded PostgreSQL for C)
 Requires:	%{name}-ecpg-libs%{?_isa} = %{version}-%{release}
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
@@ -342,10 +349,10 @@ Summary:	The shared libraries required for any PostgreSQL clients
 Provides:	postgresql-libs = %{pgmajorversion} libpq5 >= 10.0
 
 %if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
+Requires:	libopenssl3
 %endif
 %if 0%{?suse_version} == 1600
-Requires:       libopenssl3
+Requires:	libopenssl3
 %endif
 %if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	openssl-libs >= 1.1.1k
@@ -1055,7 +1062,9 @@ fi
 %{pgbaseinstdir}/lib/moddatetime.so
 %{pgbaseinstdir}/lib/pageinspect.so
 %{pgbaseinstdir}/lib/passwordcheck.so
+%if %ssl
 %{pgbaseinstdir}/lib/pgcrypto.so
+%endif
 %{pgbaseinstdir}/lib/pgrowlocks.so
 %{pgbaseinstdir}/lib/pgstattuple.so
 %{pgbaseinstdir}/lib/pg_buffercache.so
@@ -1126,7 +1135,9 @@ fi
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
 %{pgbaseinstdir}/share/extension/pg_walinspect*
+%if %ssl
 %{pgbaseinstdir}/share/extension/pgcrypto*
+%endif
 %{pgbaseinstdir}/share/extension/pgrowlocks*
 %{pgbaseinstdir}/share/extension/pgstattuple*
 %{pgbaseinstdir}/share/extension/postgres_fdw*
@@ -1324,6 +1335,38 @@ fi
 %endif
 
 %changelog
+* Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-2PGDG
+- Fix builds when ssl macro is disabled.
+  Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164
+
+* Tue Feb 24 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-1PGDG
+- Update to 18.3 per changes described at:
+  https://www.postgresql.org/docs/release/18.3/
+
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 18.2-1PGDG
+- Update to 18.2 per changes described at:
+  https://www.postgresql.org/docs/release/18.2/
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-5PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
+* Wed Dec 3 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-4PGDG
+- Rebuild on RHEL 10 - ppc64le to fix package signing issue
+
+* Thu Nov 20 2025 Devrim Gunduz <devrim@gunduz.org> - 18.1-3PGDG
+- Bump up for RHEL 9.6 and 10.0 builds
+
+* Sat Nov 15 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-2PGDG
+- Rebuild on RHEL 9 - aarch64 to fix package signing issue
+
+* Tue Nov 11 2025 Devrim Gündüz <devrim@gunduz.org> - 18.1-1PGDG
+- Update to 18.1 per changes described at:
+  https://www.postgresql.org/docs/release/18.1/
+
+* Fri Nov 7 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0-4PGDG
+- Build against OpenSSL 3 on SLES 15.
+
 * Sat Oct 4 2025 Devrim Gunduz <devrim@gunduz.org> - 18.0-3PGDG
 - Add SLES 16 support
 

@@ -1,6 +1,6 @@
 Name:		pgbouncer
-Version:	1.24.1
-Release:	43PGDG%{?dist}
+Version:	1.25.1
+Release:	44PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -9,6 +9,7 @@ Source2:	%{name}.sysconfig
 Source3:	%{name}.logrotate
 Source4:	%{name}.service
 Source5:	%{name}-sysusers.conf
+Source6:	%{name}-tmpfiles.d
 Patch0:		%{name}-ini.patch
 
 Requires:	python3 python3-psycopg2
@@ -16,7 +17,15 @@ Requires:	python3 python3-psycopg2
 BuildRequires:	libevent-devel >= 2.0
 Requires:	libevent >= 2.0
 
-BuildRequires:	openssl-devel pam-devel
+BuildRequires:	pam-devel pandoc
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
 
 %if 0%{?fedora} >= 41 || 0%{?rhel} >= 9
 BuildRequires:	c-ares-devel >= 1.13
@@ -27,19 +36,27 @@ BuildRequires:	c-ares-devel >= 1.13
 Requires:	libcares2 >= 1.19
 %endif
 
+%if 0%{?suse_version} == 1500
+BuildRequires:	openldap2-devel
+Requires:	libldap-2_4-2
+%endif
+%if 0%{?suse_version} == 1600
+BuildRequires:	openldap2-devel
+Requires:	libldap-2
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 9
+BuildRequires:	openldap-devel
+Requires:	openldap
+%endif
+
 BuildRequires:		systemd
 # We require this to be present for %%{_prefix}/lib/tmpfiles.d
 Requires:		systemd
-%if 0%{?suse_version}
-%if 0%{?suse_version} >= 1500
-Requires(post):		systemd-sysvinit
-%endif
-%else
-Requires(post):		systemd-sysv
 Requires(post):		systemd
 Requires(preun):	systemd
 Requires(postun):	systemd
-%endif
+
+Provides:	group(pgbouncer) user(pgbouncer)
 
 %description
 pgbouncer is a lightweight connection pooler for PostgreSQL.
@@ -65,6 +82,9 @@ sed -i.fedora \
 %else
 	--with-cares --disable-evdns \
 %endif
+	--with-ldap \
+	--with-systemd \
+	--with-pam
 
 %{__make} %{?_smp_mflags} V=1
 
@@ -81,13 +101,8 @@ sed -i.fedora \
 %{__install} -d %{buildroot}%{_unitdir}
 %{__install} -m 644 %{SOURCE4} %{buildroot}%{_unitdir}/%{name}.service
 
-# ... and make a tmpfiles script to recreate it at reboot.
-%{__mkdir} -p %{buildroot}%{_tmpfilesdir}
-cat > %{buildroot}%{_tmpfilesdir}/%{name}.conf <<EOF
-d %{_rundir}/%{name} 0700 pgbouncer pgbouncer -
-d /home/%{name} 0700 pgbouncer pgbouncer -
-
-EOF
+%{__mkdir} -p %{buildroot}/%{_tmpfilesdir}
+%{__install} -m 0644 %{SOURCE6} %{buildroot}/%{_tmpfilesdir}/%{name}.conf
 
 # Install sysusers.d config file to allow rpm to create users/groups automatically.
 %{__install} -m 0644 -D %{SOURCE5} %{buildroot}%{_sysusersdir}/%{name}-pgdg.conf
@@ -115,9 +130,7 @@ fi
 %{__chown} -R pgbouncer:pgbouncer %{_rundir}/%{name} >/dev/null 2>&1 || :
 
 %pre
-groupadd -r pgbouncer >/dev/null 2>&1 || :
-useradd -m -g pgbouncer -r -s /bin/bash \
-	-c "PgBouncer Server" pgbouncer >/dev/null 2>&1 || :
+%sysusers_create_package %{name} %SOURCE5
 
 %preun
 %systemd_preun %{name}.service
@@ -146,6 +159,36 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Wed Feb 4 2026 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-44PGDG
+- Add LimitNOFile to unit file. Fixes
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-43PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127 and
+  https://github.com/pgbouncer/pgbouncer/commit/d8eee4be3cf43106dedf1e08d15cc4ca6a479efd
+
+* Thu Dec 4 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.1-42PGDG
+- Update to 1.25.1, per changes described at:
+  https://github.com/pgbouncer/pgbouncer/releases/tag/pgbouncer_1_25_1
+  Fixes CVE-2025-12819 .
+- Remove %%patch 1, already in upstream.
+
+* Thu Nov 13 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-45PGDG
+- Build with ldap support. Per report from Arthur Nascimento.
+
+* Wed Nov 12 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-44PGDG
+- Re-add systemd and pam support that I broke in ec52b384. Fixes
+  https://github.com/pgbouncer/pgbouncer/issues/1416
+
+* Mon Nov 10 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-43PGDG
+- Add a patch from upstream to fix ppc64le builds, per:
+  https://github.com/pgbouncer/pgbouncer/issues/1413
+
+* Mon Nov 10 2025 Devrim Gündüz <devrim@gunduz.org> - 1.25.0-42PGDG
+- Update to 1.25.0, per changes described at:
+  http://www.pgbouncer.org/changelog.html#pgbouncer-125x
+
 * Mon Sep 22 2025 Devrim Gündüz <devrim@gunduz.org> - 1.24.1-43PGDG
 - Add sysusers.d config file to allow rpm to create users/groups automatically.
 - Add c-ares support to SLES 15 as well.

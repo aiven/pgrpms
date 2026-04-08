@@ -1,16 +1,19 @@
 %global _vpath_builddir .
-%global pgroutingmajorversion 3.8
+%global pgroutingmajorversion 4.0
 %global sname	pgrouting
 
 Summary:	Routing functionality for PostGIS
 Name:		%{sname}_%{pgmajorversion}
-Version:	%{pgroutingmajorversion}.0
-Release:	1PGDG%{dist}
+Version:	%{pgroutingmajorversion}.1
+Release:	2PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/pgRouting/%{sname}/archive/v%{version}.tar.gz
 URL:		https://pgrouting.org/
 BuildRequires:	cmake >= 3.12 boost-devel >= 1.56
-BuildRequires:	gcc-c++ gmp-devel perl-version
+BuildRequires:	gcc-c++ gmp-devel
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8 || 0%{?suse_version} <= 1500
+BuildRequires:	perl-version
+%endif
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion} postgis
 
@@ -37,14 +40,13 @@ pushd build
 %if 0%{?suse_version} >= 1500
 cmake .. \
 %else
-%cmake3 .. \
+%cmake .. \
 %endif
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DPOSTGRESQL_BIN=%{pginstdir}/bin \
 	-DCMAKE_BUILD_TYPE=Release \
-%if "%{_lib}" == "lib64"
+	-DBUILD_HTML=OFF -DBUILD_DOXY=OFF \
 	-DLIB_SUFFIX=64
-%endif
 
 popd
 
@@ -68,6 +70,19 @@ popd
 %{pginstdir}/share/extension/%{sname}*
 
 %changelog
+* Wed Feb 25 2026 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-2PGDG
+- Switch to using %%cmake macro instead of %%cmake3. This fixes
+  Fedora 44 build and also works on other RHEL/Fedora distros.
+
+* Mon Feb 2 2026 Devrim Gündüz <devrim@gunduz.org> - 4.0.1-1PGDG
+- Update to 4.0.1 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v4.0.1
+- Add SLES 16 support
+
+* Sat Nov 8 2025 Devrim Gündüz <devrim@gunduz.org> - 4.0.0-1PGDG
+- Update to 4.0.0 per changes described at:
+  https://github.com/pgRouting/pgrouting/releases/tag/v4.0.0
+
 * Mon May 5 2025 Devrim Gündüz <devrim@gunduz.org> - 3.8.0-1PGDG
 - Update to 3.8.0 per changes described at:
   https://github.com/pgRouting/pgrouting/releases/tag/v3.8.0

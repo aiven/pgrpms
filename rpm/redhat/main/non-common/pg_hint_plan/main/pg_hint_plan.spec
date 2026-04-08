@@ -30,8 +30,8 @@
 Summary:	Tweak PostgreSQL execution plans using so-called "hints" in SQL comments
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pghintplanversion}
-Release:	3PGDG%{?dist}
-License:	MIT
+Release:	5PGDG%{?dist}
+License:	BSD
 Source0:	https://github.com/ossc-db/pg_hint_plan/archive/refs/tags/REL%{pgmajorversion}_%{git_tag}.tar.gz
 URL:		https://github.com/ossc-db/%{sname}/
 BuildRequires:	postgresql%{pgmajorversion}-devel flex
@@ -101,6 +101,12 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Wed Mar 11 2026 John K. Harvey <john.harvey@snowflake.com> - %{pghintplanversion}-5PGDG
+- Adjust license type to match source code
+
+* Thu Oct 30 2025 Devrim Gunduz <devrim@gunduz.org> - %{pghintplanversion}-4PGDG
+- Rebuild because of a package signing issue on Fedora 43
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - %{pghintplanversion}-3PGDG
 - Add SLES 16 support
 

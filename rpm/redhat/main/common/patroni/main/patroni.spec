@@ -23,7 +23,7 @@
 Summary:	A Template for PostgreSQL HA with ZooKeeper, etcd or Consul
 Name:		patroni
 Version:	4.1.0
-Release:	3PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	MIT
 Source0:	https://github.com/patroni/%{name}/archive/v%{version}.tar.gz
 Source1:	%{name}.service
@@ -238,6 +238,10 @@ fi
 %files -n %{name}-zookeeper
 
 %changelog
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-4PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
 * Tue Oct 28 2025 Devrim Gündüz <devrim@gunduz.org> - 4.1.0-3PGDG
 - Add Fedora 43 support
 

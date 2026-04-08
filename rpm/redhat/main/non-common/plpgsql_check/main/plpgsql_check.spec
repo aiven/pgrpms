@@ -1,18 +1,21 @@
 
 %global sname plpgsql_check
 
-%{!?llvm:%global llvm 1}
+%{!?llvm:%global llvm 0}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.8.3
+Version:	2.8.11
 Release:	1PGDG%{?dist}
 Summary:	Additional tools for PL/pgSQL functions validation
 License:	BSD
 URL:		https://github.com/okbob/%{sname}
 Source0:	https://github.com/okbob/%{sname}/archive/v%{version}.tar.gz
 
-BuildRequires:	postgresql%{pgmajorversion}-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel meson
 Requires:	postgresql%{pgmajorversion}
+
+# llvmjit package is not built with meson:
+Obsoletes:	%{sname}_%{pgmajorversion} < 2.8.5-2
 
 %description
 plpgsql_check is a PostgreSQL extension with functionality for direct
@@ -45,11 +48,14 @@ This package provides JIT support for plpgsql_check
 %setup -q -n %{sname}-%{version}
 
 %build
-USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags}
+export PATH=%{pginstdir}/bin:$PATH
+%{__install} -d build
+%meson
+%meson_build
 
 %install
-%{__rm} -rf %{buildroot}
-USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
+export PATH=%{pginstdir}/bin:$PATH
+%meson_install
 
 %files
 %defattr(644,root,root,755)
@@ -66,6 +72,35 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} DESTDIR=%{buildroot} install
 %endif
 
 %changelog
+* Wed Feb 18 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.11-1PGDG
+- Update to 2.8.11 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.11
+
+* Wed Feb 18 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.10-1PGDG
+- Update to 2.8.10 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.10
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.9
+
+* Sat Feb 7 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.8-1PGDG
+- Update to 2.8.8 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.8
+
+* Thu Feb 5 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.7-1PGDG
+- Update to 2.8.7 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.6
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.7
+
+* Mon Feb 2 2026 Devrim Gündüz <devrim@gunduz.org> 2.8.5-2PGDG
+- Switch to meson build
+
+* Tue Dec 2 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.5-1PGDG
+- Update to 2.8.5 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.5
+
+* Mon Nov 24 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.4-1PGDG
+- Update to 2.8.4 per changes described at:
+  https://github.com/okbob/plpgsql_check/releases/tag/v2.8.4
+
 * Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> 2.8.3-1PGDG
 - Update to 2.8.3 per changes described at:
   https://github.com/okbob/plpgsql_check/releases/tag/v2.8.3

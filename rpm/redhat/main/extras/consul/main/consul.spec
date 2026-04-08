@@ -14,7 +14,7 @@ ExcludeArch:	ppc64le
 %endif
 
 Name:		consul
-Version:	1.22.0
+Version:	1.22.5
 Release:	1PGDG%{?dist}
 Summary:	Consul is a tool for service discovery and configuration. Consul is distributed, highly available, and extremely scalable.
 
@@ -29,6 +29,8 @@ Source6:	%{name}-sysusers.conf
 Source7:	%{name}-tmpfiles.d
 
 Requires:	systemd
+
+Provides:	user(consul) group(consul)
 
 %description
 Consul is a tool for service discovery and configuration. Consul is
@@ -95,6 +97,29 @@ any number of regions without complex configuration.
 %doc
 
 %changelog
+* Sat Feb 28 2026 Devrim Gündüz <devrim@gunduz.org> 1.22.5-1PGDG
+- Update to 1.22.5 per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.22.5
+
+* Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> 1.22.4-1PGDG
+- Update to 1.22.4 per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.22.4
+
+* Fri Jan 23 2026 Devrim Gündüz <devrim@gunduz.org> 1.22.3-1PGDG
+- Update to 1.22.3 per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.22.3
+
+* Wed Dec 17 2025 Devrim Gündüz <devrim@gunduz.org> 1.22.2-1PGDG
+- Update to 1.22.2 per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.22.2
+
+* Wed Nov 26 2025 Devrim Gündüz <devrim@gunduz.org> 1.22.1-1PGDG
+- Update to 1.22.1 per changes described at:
+  https://github.com/hashicorp/consul/releases/tag/v1.22.1
+
+* Mon Nov 10 2025 Devrim Gündüz <devrim@gunduz.org> 1.22.0-2PGDG
+- Provide user and group consul to fix SLES-16 installations
+
 * Mon Oct 27 2025 Devrim Gündüz <devrim@gunduz.org> 1.22.0-1PGDG
 - Update to 1.22.0 per changes described at:
   https://github.com/hashicorp/consul/releases/tag/v1.22.0

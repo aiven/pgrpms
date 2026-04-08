@@ -19,12 +19,17 @@
 %global	projfullversion %proj96fullversion
 %global	projinstdir %proj96instdir
 %else
-%global	gdalfullversion %gdal311fullversion
-%global	gdalmajorversion %gdal311majorversion
-%global	gdalinstdir %gdal311instdir
+%global	gdalfullversion %gdal312fullversion
+%global	gdalmajorversion %gdal312majorversion
+%global	gdalinstdir %gdal312instdir
 %global	projmajorversion %proj97majorversion
 %global	projfullversion %proj97fullversion
 %global	projinstdir %proj97instdir
+%endif
+%if 0%{?suse_version} == 1500
+%global	gdalfullversion %gdal311fullversion
+%global	gdalmajorversion %gdal311majorversion
+%global	gdalinstdir %gdal311instdir
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -46,7 +51,7 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.4
+Version:	%{postgismajorversion}.5
 Release:	1PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
@@ -57,13 +62,11 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel libxml2 libxslt
-BuildRequires:	pgdg-srpm-macros >= 1.0.50 gmp-devel
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10 || 0%{?suse_version} == 1600
-BuildRequires:	pcre2-devel
+BuildRequires:	pgdg-srpm-macros >= 1.0.52 gmp-devel pcre2-devel
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	pcre2
 %else
-BuildRequires:	pcre-devel
-Requires:	pcre
+Requires:	libpcre2-8-0
 %endif
 %if 0%{?suse_version} >= 1500
 Requires:	libgmp10
@@ -109,11 +112,17 @@ Requires:	postgresql%{pgmajorversion}-contrib proj%{projmajorversion} >= %{projf
 Requires:	libgeotiff%{libgeotiffmajorversion}
 Requires:	hdf5
 Requires:	gdal%{gdalmajorversion}-libs >= %{gdalfullversion}
-%if 0%{?suse_version} >= 1500
+%if 0%{?suse_version} == 1500
 Requires:	libjson-c5
 Requires:	libxerces-c-3_2
 BuildRequires:	libxerces-c-devel
-%else
+%endif
+%if 0%{?suse_version} == 1600
+Requires:	libjson-c5
+Requires:	libxerces-c-3_3
+BuildRequires:	libxerces-c-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
 Requires:	json-c xerces-c
 BuildRequires:	xerces-c-devel
 %endif
@@ -380,6 +389,20 @@ fi
 %endif
 
 %changelog
+* Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 3.5.5-1PGDG
+- Update to 3.5.5 per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.5.5/NEWS
+
+* Mon Dec 8 2025  Devrim Gunduz <devrim@gunduz.org> - 3.5.4-4PGDG
+- Build with GDAL 3.12 on all platforms except RHEL 8 and SLES 15.
+
+* Wed Nov 12 2025 Devrim Gunduz <devrim@gunduz.org> - 3.5.4-3PGDG
+- Fix pcre2 dependency on RHEL 8 and 9. Per report from Christopher Lorenz:
+  https://www.postgresql.org/message-id/fc8e323142484d98b5d1720e0811ce9c%40ZIT-BB.Brandenburg.de
+
+* Mon Nov 10 2025 Devrim Gunduz <devrim@gunduz.org> - 3.5.4-2PGDG
+- Update pcre2 and libxerces dependencies on SLES.
+
 * Fri Oct 17 2025 Devrim Gündüz <devrim@gunduz.org> - 3.5.4-1PGDG
 - Update to 3.5.4 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.5.4/NEWS

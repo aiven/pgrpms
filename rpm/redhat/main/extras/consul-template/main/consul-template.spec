@@ -3,7 +3,7 @@
 %if 0%{?_version:1}
 %global		_verstr	%{_version}
 %else
-%global		_verstr	0.41.2
+%global		_verstr	0.41.4
 %endif
 
 # Consul does not provide tarballs for ppc64le:
@@ -18,7 +18,7 @@ ExcludeArch:	ppc64le
 
 Name:		consul-template
 Version:	%{_verstr}
-Release:	2PGDG%{?dist}
+Release:	3PGDG%{?dist}
 Summary:	consul-template watches a series of templates on the file system, writing new changes when Consul is updated. It runs until an interrupt is received unless the -once flag is specified.
 
 License:	MPLv2.0
@@ -84,6 +84,18 @@ unless the -once flag is specified.
 %{_tmpfilesdir}/%{name}.conf
 
 %changelog
+* Mon Jan 26 2026 Devrim Gündüz <devrim@gunduz.org> 0.41.4-1PGDG
+- Update to 0.41.4 per changes described at
+  https://github.com/hashicorp/consul-template/releases/tag/v0.41.4
+
+* Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 0.41.3-3PGDG
+- Add Restart=on-failure to unit file. Per
+  https://github.com/pgdg-packaging/pgdg-rpms/issues/127
+
+* Tue Nov 4 2025 Devrim Gündüz <devrim@gunduz.org> 0.41.3-1PGDG
+- Update to 0.41.3 per changes described at
+  https://github.com/hashicorp/consul-template/releases/tag/v0.41.3
+
 * Thu Sep 25 2025 Devrim Gündüz <devrim@gunduz.org> 0.41.2-2PGDG
 - Add sysusers.d and tmpfiles.d config file to allow rpm to create
   users/groups automatically.

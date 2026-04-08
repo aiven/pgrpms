@@ -1,29 +1,52 @@
 %global sname pg_statviz
 
-%global __ospython %{_bindir}/python3
-%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
-%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-%global python3_sitelib64 %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib(1))")
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
 
 Summary:	CLI tool for time series analysis and visualization of PostgreSQL internal statistics.
 Name:		%{sname}
-Version:	0.7
+Version:	0.9
 Release:	1PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/vyruss/%{sname}/archive/refs/tags/v%{version}.tar.gz
+# To be removed in next release:
+Patch0:		%{sname}-%{version}-pyproject-license.patch
 URL:		https://github.com/vyruss/%{sname}
 
-Requires:	python3-plac python3-numpy python3-psycopg3 >= 3.2.1
-Requires:	python3-six python3-matplotlib python3-kiwisolver
-Requires:	python3-packaging python3-argh
+BuildRequires:	python%{python3_pkgversion}-devel python%{python3_pkgversion}-wheel python%{python3_pkgversion}-pip
+
+Requires:	python%{python3_pkgversion}-argh python%{python3_pkgversion}-kiwisolver
+Requires:	python%{python3_pkgversion}-matplotlib python%{python3_pkgversion}-numpy
+Requires:	python%{python3_pkgversion}-packaging python%{python3_pkgversion}-pandas
+Requires:	python%{python3_pkgversion}-plac python3-psycopg3 >= 3.2.1
+Requires:	python%{python3_pkgversion}-pyparsing python%{python3_pkgversion}-six
 
 %if 0%{?fedora} >= 38 || 0%{?rhel} >= 8
-Requires:	python3-cycler python3-dateutils python3-pillow
+Requires:	python3-cycler python3-dateutil python3-pillow
 Requires:	python3-fonttools
 %endif
-%if 0%{?suse_version} >= 1315
-Requires:	python3-Cycler python3-python-dateutil python3-Pillow
-Requires:	python3-FontTools
+
+%if 0%{?suse_version} >= 1500
+Requires:	python%{python3_pkgversion}-Cycler python%{python3_pkgversion}-python-dateutil
+Requires:	python%{python3_pkgversion}-Pillow python%{python3_pkgversion}-FontTools
 %endif
 
 BuildArch:	noarch
@@ -42,23 +65,28 @@ Best served with pg_statviz extensions package, which includes the extension fil
 
 %prep
 %setup -q -n %{sname}-%{version}
+%patch -P 0 -p0
 
 %build
+%pyproject_wheel
 
 %install
-# Manual installation is needed:
-%{__install} -d %{buildroot}%{_bindir}
-%{__install} -d %{buildroot}%{python3_sitelib}
-%{__mv} src/run_%{sname} %{buildroot}%{_bindir}/%{sname}
-%{__mv} src/%{sname} %{buildroot}%{python3_sitelib}
+%pyproject_install
 
 %files
 %defattr(644,root,root,755)
 %license LICENSE
 %attr(0755,root,root) %{_bindir}/%{sname}
+%{python3_sitelib}/%{sname}-%{version}.dist-info/*
 %{python3_sitelib}/%{sname}
 
 %changelog
+* Thu Jan 15 2026 Devrim Gündüz <devrim@gunduz.org> - 0.9-1PGDG
+- Update to 0.9 per changes described at:
+  https://github.com/vyruss/pg_statviz/releases/tag/v0.9
+  https://github.com/vyruss/pg_statviz/releases/tag/v0.8
+- Add a temp patch to fix builds with "older" setuptools.
+
 * Mon Jul 22 2024 Devrim Gündüz <devrim@gunduz.org> - 0.7-1PGDG
 - Update to 0.7 per changes described at:
   https://github.com/vyruss/pg_statviz/releases/tag/v0.7

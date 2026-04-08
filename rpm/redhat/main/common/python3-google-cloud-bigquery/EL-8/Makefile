@@ -10,7 +10,6 @@
 
 ARCH=`rpm --eval "%{_arch}"`
 DIR=`pwd`
-DIST=.rhel8
 SPECFILE="python-google-cloud-bigquery.spec"
 
 # Now, include global Makefile

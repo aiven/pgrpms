@@ -1,11 +1,11 @@
 %global pgodbcmajver 17
 %global pgodbcmidver 00
-%global pgodbcminver 0006
+%global pgodbcminver 0008
 
 Name:		postgresql%{pgmajorversion}-odbc
 Summary:	PostgreSQL ODBC driver
 Version:	%{pgodbcmajver}.%{pgodbcmidver}.%{pgodbcminver}
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 License:	LGPLv2
 URL:		https://odbc.postgresql.org/
 
@@ -23,7 +23,7 @@ Requires:	krb5
 Requires:	krb5-libs
 %endif
 
-%if 0%{?fedora} >= 40
+%if 0%{?fedora} >= 42
 BuildRequires:	zlib-ng-compat-devel
 Requires:	zlib-ng-compat
 %endif
@@ -35,11 +35,7 @@ Requires:	zlib
 BuildRequires:	zlib-devel
 Requires:	libz1
 %endif
-%if 0%{?suse_version} == 1500
-Requires:	libopenssl1_1
-BuildRequires:	libopenssl-1_1-devel
-%endif
-%if 0%{?suse_version} == 1600
+%if 0%{?suse_version} >= 1500
 Requires:	libopenssl3
 BuildRequires:	libopenssl-3-devel
 %endif
@@ -100,6 +96,18 @@ popd
 %license license.txt
 
 %changelog
+* Tue Mar 10 2026 Devrim Gündüz <devrim@gunduz.org> - 17.00.0008-1PGDG
+- Update to 17.00.0008
+
+* Tue Nov 25 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0007-1PGDG
+- Update to 17.00.0007
+
+* Wed Nov 5 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-4PGDG
+- Rebuild against OpenSSL 3 on SLES 15
+
+* Thu Oct 30 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-3PGDG
+- Rebuild because of a package signing issue on Fedora 43
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 17.00.0006-2PGDG
 - Add/improve SLES 16 support
 

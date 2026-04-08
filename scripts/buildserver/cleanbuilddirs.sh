@@ -35,8 +35,8 @@ done
 # Clean up extras build directory:
 if [ $extrasrepoenabled = 1 ]
 then
-	rm -rf /var/lib/pgsql/pgdg.$osshort.extras/BUILD/*
-	rm -rf /var/lib/pgsql/pgdg.$osshort.extras/BUILDROOT/*
+	rm -rf /var/lib/pgsql/pgdg.extras/BUILD/*
+	rm -rf /var/lib/pgsql/pgdg.extras/BUILDROOT/*
 fi
 
 # Finally, delete stable dirs:

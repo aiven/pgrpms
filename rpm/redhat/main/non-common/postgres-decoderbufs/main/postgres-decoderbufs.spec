@@ -3,7 +3,7 @@
 %{!?llvm:%global llvm 1}
 
 Name:		%{sname}_%{pgmajorversion}
-Version:	3.3.0
+Version:	3.4.1
 Release:	1PGDG%{?dist}
 Summary:	PostgreSQL Protocol Buffers logical decoder plugin
 
@@ -69,6 +69,14 @@ PATH=%{pginstdir}/bin/:$PATH %make_install
 %endif
 
 %changelog
+* Thu Feb 19 2026 Devrim Gündüz <devrim@gunduz.org> - 3.4.1-1PGDG
+- Update to 3.4.1 per changes described at
+  https://github.com/debezium/postgres-decoderbufs/releases/tag/v3.4.1.Final
+
+* Mon Nov 3 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.1-1PGDG
+- Update to 3.3.1 per changes described at
+  https://github.com/debezium/postgres-decoderbufs/releases/tag/v3.3.1.Final
+
 * Sun Oct 5 2025 Devrim Gündüz <devrim@gunduz.org> - 3.3.0-1PGDG
 - Update to 3.3.0 per changes described at
   https://github.com/debezium/postgres-decoderbufs/releases/tag/v3.3.0.Final

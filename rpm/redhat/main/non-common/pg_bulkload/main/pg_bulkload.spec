@@ -2,7 +2,7 @@
 
 %global pgbulkloadmajver 3
 %global pgbulkloadmidver 1
-%global pgbulkloadminver 22
+%global pgbulkloadminver 23
 %global	pgbulkloadpackagever %{pgbulkloadmajver}_%{pgbulkloadmidver}_%{pgbulkloadminver}
 
 %{!?llvm:%global llvm 1}
@@ -10,12 +10,32 @@
 Summary:	High speed data loading utility for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
 Version:	%{pgbulkloadmajver}.%{pgbulkloadmidver}.%{pgbulkloadminver}
-Release:	4PGDG%{?dist}
+Release:	1PGDG%{?dist}
 URL:		https://github.com/ossc-db/%{sname}
 Source0:	https://github.com/ossc-db/%{sname}/archive/VERSION%{pgbulkloadpackagever}.tar.gz
 License:	BSD
-BuildRequires:	postgresql%{pgmajorversion}-devel openssl-devel pam-devel
-BuildRequires:	libsepol-devel readline-devel krb5-devel lz4-devel zlib-devel
+BuildRequires:	postgresql%{pgmajorversion}-devel pam-devel
+BuildRequires:	libsepol-devel readline-devel krb5-devel zlib-devel
+# lz4 dependency
+%if 0%{?suse_version} >= 1500
+BuildRequires:	liblz4-devel
+Requires:	liblz4-1
+%endif
+%if 0%{?rhel} || 0%{?fedora}
+BuildRequires:	lz4-devel
+Requires:	lz4-libs
+%endif
+
+# OpenSSL dependency
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
+BuildRequires:	openssl-devel
+%endif
+
 # zstd dependency
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libzstd-devel >= 1.4.0
@@ -104,6 +124,16 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Wed Jan 14 2026 Devrim Gunduz <devrim@gunduz.org> - 3.1.23-1PGDG
+- Update to 3.1.23 per changes described at:
+  https://github.com/ossc-db/pg_bulkload/releases/tag/VERSION3_1_23
+
+* Thu Nov 20 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-5PGDG
+- Modernise OpenSSL dependencies.
+
+* Sat Nov 8 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-4PGDG
+- Fix SLES support
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 3.1.22-3PGDG
 - Add SLES 16 support
 
@@ -113,10 +143,10 @@ PATH=%{pginstdir}/bin:$PATH %{__make} USE_PGXS=1 %{?_smp_mflags} DESTDIR=%{build
 * Tue Sep 30 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com>
 - Change => to >= in Requires and BuildRequires
 
-* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-2PGDG
+* Tue Feb 25 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.22-2PGDG
 - Add missing BRs
 
-* Mon Jan 27 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.21-1PGDG
+* Mon Jan 27 2025 Devrim Gunduz <devrim@gunduz.org> - 3.1.22-1PGDG
 - Update to 3.1.22 per changes described at:
   https://github.com/ossc-db/pg_bulkload/releases/tag/VERSION3_1_22
 
