@@ -3,6 +3,10 @@
 
 %{!?llvm:%global llvm 1}
 
+%if 0%{?fedora} && 0%{?fedora} == 44
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
+%endif
 %if 0%{?fedora} && 0%{?fedora} == 43
 %global __ospython %{_bindir}/python3.14
 %global python3_pkgversion 3.14
@@ -29,7 +33,7 @@
 Summary:	Multicorn Python bindings for Postgres FDW
 Name:		%{sname}_%{pgmajorversion}
 Version:	3.2
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/pgsql-io/%{sname}/archive/refs/tags/v%{version}.tar.gz
 Patch0:		%{sname}-Makefile-removepip.patch
@@ -104,6 +108,12 @@ PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot} %{?_smp_mflags} inst
 %endif
 
 %changelog
+* Tue Apr 28 2026 Devrim Gündüz <devrim@gunduz.org> - 3.2-3PGDG
+- Use Python 3.14 on Fedora 44, per #167
+
+* Thu Apr 2 2026 Devrim Gündüz <devrim@gunduz.org> - 3.2-2PGDG
+- Add Fedora 44 support
+
 * Mon Oct 13 2025 Devrim Gündüz <devrim@gunduz.org> - 3.2-1PGDG
 - Update to 3.2
 

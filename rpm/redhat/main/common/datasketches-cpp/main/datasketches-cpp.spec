@@ -4,7 +4,7 @@
 Summary:	Routing functionality for PostGIS
 Name:		datasketches-cpp
 Version:	5.2.0
-Release:	2PGDG%{dist}
+Release:	4PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/apache/%{name}/archive/refs/tags/%{version}.tar.gz
 Patch0:		%{name}-cmakelist-lib64.patch
@@ -33,25 +33,19 @@ create adaptors for target systems, such as PostgreSQL.
 %build
 %{__install} -d build
 pushd build
-%if 0%{?suse_version} >= 1500
-cmake .. \
-%else
-%cmake3 .. \
-%endif
+%cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DBUILD_TESTS=OFF \
 	-DLIB_INSTALL_DIR=%{_libdir}
-
+%cmake_build
 popd
 
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} build
 
 %install
 %{__rm} -rf %{buildroot}
 pushd build
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install \
-	DESTDIR=%{buildroot}
+%cmake_install
 popd
 
 %files
@@ -64,6 +58,12 @@ popd
 %{_libdir}/DataSketches/*
 
 %changelog
+* Tue Apr 28 2026 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-4PGDG
+- (Once again) fix builds against CMake 4. Per #167
+
+* Thu Mar 19 2026 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-3PGDG
+- Fix builds against CMake 4
+
 * Wed Oct 8 2025 Devrim Gündüz <devrim@gunduz.org> - 5.2.0-2PGDG
 - Fix SLES builds
 

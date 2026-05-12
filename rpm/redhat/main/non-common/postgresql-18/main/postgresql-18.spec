@@ -30,7 +30,7 @@
 %{!?runselftest:%global runselftest 0}
 %{!?sdt:%global sdt 1}
 %{!?selinux:%global selinux 1}
-%{!?ssl:%global ssl 0}
+%{!?ssl:%global ssl 1}
 %{!?test:%global test 1}
 %{!?uuid:%global uuid 1}
 %{!?xml:%global xml 1}
@@ -41,13 +41,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	18.3
+Version:	18.4
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	4200002PGDG%{?dist}
+Release:	4200001PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1335,6 +1335,19 @@ fi
 %endif
 
 %changelog
+* Tue May 12 2026 Devrim Gündüz <devrim@gunduz.org> - 18.4-1PGDG
+- Update to 18.4 per changes described at:
+  https://www.postgresql.org/docs/release/18.4/
+
+* Thu Apr 2 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-5PGDG
+- Add a temp patch to fix builds against LLVM 22 on Fedora 44.
+
+* Mon Mar 23 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-4PGDG
+- Re-enable ssl macro. I broke it in 22f04c393
+
+* Thu Mar 19 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-3PGDG
+- Add patches from -hackers to support LLVM 22.
+
 * Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 18.3-2PGDG
 - Fix builds when ssl macro is disabled.
   Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164

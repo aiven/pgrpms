@@ -4,8 +4,8 @@
 
 Summary:	Nominatim Foreign Data Wrapper for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	1.1.0
-Release:	1PGDG%{?dist}
+Version:	1.3
+Release:	2PGDG%{?dist}
 License:	MIT
 URL:		https://github.com/jimjonesbr/%{sname}
 Source0:	https://github.com/jimjonesbr/%{sname}/archive/%{version}.tar.gz
@@ -66,5 +66,16 @@ PATH=%{pginstdir}/bin:$PATH USE_PGXS=1 %{__make} %{?_smp_mflags} DESTDIR=%{build
 %endif
 
 %changelog
+* Tue Apr 14 2026 Devrim Gunduz <devrim@gunduz.org> - 1.3-2PGDG
+- Rebuild because of a package signing issue
+
+* Mon Apr 13 2026 Devrim Gunduz <devrim@gunduz.org> - 1.3-1PGDG
+- Update to 1.3 per changes described at:
+  https://github.com/jimjonesbr/nominatim_fdw/releases/tag/1.3
+
+* Mon Apr 6 2026 Devrim Gunduz <devrim@gunduz.org> - 1.2-1PGDG
+- Update to 1.2 per changes described at:
+  https://github.com/jimjonesbr/nominatim_fdw/releases/tag/1.2
+
 * Mon Jan 26 2026 Devrim Gunduz <devrim@gunduz.org> - 1.1.0-1PGDG
 - Initial packaging for the PostgreSQL RPM Repository.

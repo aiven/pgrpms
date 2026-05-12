@@ -81,13 +81,13 @@
 
 Summary:	PostgreSQL client programs and libraries
 Name:		%{sname}%{pgmajorversion}
-Version:	15.17
+Version:	15.18
 %if 0%{?suse_version} >= 1315
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	420002PGDG%{?dist}
+Release:	420001PGDG%{?dist}
 %else
-Release:	2PGDG%{?dist}
+Release:	1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -1428,6 +1428,13 @@ fi
 %endif
 
 %changelog
+* Tue May 12 2026 Devrim Gündüz <devrim@gunduz.org> - 15.18-1PGDG
+- Update to 15.18, per changes described at
+  https://www.postgresql.org/docs/release/15.18/
+
+* Thu Apr 2 2026 Devrim Gündüz <devrim@gunduz.org> - 15.17-3PGDG
+- Add a temp patch to fix builds against LLVM 22 on Fedora 44.
+
 * Thu Mar 5 2026 Devrim Gündüz <devrim@gunduz.org> - 15.17-2PGDG
 - Fix builds when ssl macro is disabled.
   Per https://github.com/pgdg-packaging/pgdg-rpms/issues/164

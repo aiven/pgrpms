@@ -1,6 +1,6 @@
 %if 0%{?fedora} && 0%{?fedora} == 44
-%global __ospython %{_bindir}/python3.15
-%global python3_pkgversion 3.15
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
 %endif
 %if 0%{?fedora} && 0%{?fedora} == 43
 %global __ospython %{_bindir}/python3.14
@@ -29,7 +29,7 @@
 
 Summary:	Backup and Recovery Manager for PostgreSQL
 Name:		barman
-Version:	3.17.0
+Version:	3.18.0
 Release:	43PGDG%{?dist}
 License:	GPLv3
 Url:		https://www.pgbarman.org/
@@ -145,17 +145,17 @@ touch %{buildroot}/var/log/barman/barman.log
 %files -n barman-cli
 %defattr(-,root,root)
 %doc RELNOTES.md README.rst
-%{_bindir}/barman-wal-archive
-%{_bindir}/barman-wal-restore
 %{_bindir}/barman-cloud-backup
 %{_bindir}/barman-cloud-backup-delete
 %{_bindir}/barman-cloud-backup-keep
+%{_bindir}/barman-cloud-backup-list
 %{_bindir}/barman-cloud-backup-show
 %{_bindir}/barman-cloud-check-wal-archive
-%{_bindir}/barman-cloud-wal-archive
-%{_bindir}/barman-cloud-backup-list
 %{_bindir}/barman-cloud-restore
+%{_bindir}/barman-cloud-wal-archive
 %{_bindir}/barman-cloud-wal-restore
+%{_bindir}/barman-wal-archive
+%{_bindir}/barman-wal-restore
 %doc %{_mandir}/man1/barman*
 
 %files -n python3-barman
@@ -165,6 +165,14 @@ touch %{buildroot}/var/log/barman/barman.log
 %{python_sitelib}/%{name}/
 
 %changelog
+* Tue Apr 28 2026 Devrim Gündüz <devrim@gunduz.org> - 3.18.0-43PGDG
+- Use Python 3.14 on Fedora 44. Many BRs and Requires are not ready
+  for 3.15.
+
+* Fri Mar 13 2026 Devrim Gündüz <devrim@gunduz.org> - 3.18.0-42PGDG
+- Update to 3.18.0, per changes described at:
+  https://github.com/EnterpriseDB/barman/releases/tag/release%2F3.18.0
+
 * Tue Feb 10 2026 Devrim Gündüz <devrim@gunduz.org> - 3.17.0-43PGDG
 - Add Fedora 44 support
 
