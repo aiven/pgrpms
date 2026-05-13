@@ -4,7 +4,7 @@
 Summary:	Database Test 2 Differences from the TPC-C - Common package
 Name:		%{sname}-common
 Version:	0.61.7
-Release:	1PGDG%{dist}
+Release:	3PGDG%{dist}
 License:	GPLv2+
 Source0:	https://github.com/osdldbt/%{sname}/archive/refs/tags/v%{version}.tar.gz
 URL:		https://github.com/osdldbt/%{sname}/
@@ -50,20 +50,14 @@ CFLAGS="$CFLAGS -I%{pginstdir}/include/server -g -fPIE"; export CFLAGS
 
 %{__install} -d build
 pushd build
-%if 0%{?suse_version} >= 1500
 %cmake -DCMAKE_INSTALL_PREFIX:PATH=/usr ..
-%else
-%cmake3 ..
-%endif
+%cmake_build
 popd
-
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} build
 
 %install
 %{__rm} -rf %{buildroot}
 pushd build
-%{__make} -C "%{_vpath_builddir}" %{?_smp_mflags} install \
-	DESTDIR=%{buildroot}
+%cmake_install
 popd
 
 # Remove some files, we'll ship them with -extensions subpackages.
@@ -82,6 +76,12 @@ popd
 %{_mandir}/man1/dbt2*
 
 %changelog
+* Tue Apr 28 2026 Devrim Gündüz <devrim@gunduz.org> - 0.61.7-3PGDG
+- (Once again) fix builds against CMake 4
+
+* Thu Mar 19 2026 Devrim Gündüz <devrim@gunduz.org> - 0.61.7-2PGDG
+- Fix builds against CMake 4
+
 * Thu Jul 10 2025 Devrim Gündüz <devrim@gunduz.org> - 0.61.7-1PGDG
 - Update to 0.61.7
 

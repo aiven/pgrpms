@@ -463,6 +463,16 @@ Requires(post):		glibc
 Requires(postun):	glibc
 # pre/post stuff needs systemd too
 
+%package static
+Summary:	Statically linked PostgreSQL libraries
+Requires:	%{name}-devel%{?_isa} = %{version}-%{release}
+Provides:	%{name}-static = %{version}-%{release}
+Provides:	%{name}-static%{?_isa} = %{version}-%{release}
+
+%description static
+Statically linked PostgreSQL libraries that do not have dynamically linked
+counterparts.
+
 %if 0%{?suse_version} >= 1500
 Requires(post):		systemd
 %else
@@ -759,6 +769,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
+	cp regress.so  %{buildroot}%{pgbaseinstdir}/lib/regress.so
 	popd
 	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
@@ -778,9 +789,6 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/man/
 %{__mv} doc/src/sgml/man1 doc/src/sgml/man3 doc/src/sgml/man7 %{buildroot}%{pgbaseinstdir}/share/man/
 %{__rm} -rf %{buildroot}%{_docdir}/pgsql
-
-# These file(s) should not be packaged:
-%{__rm} %{buildroot}%{pgbaseinstdir}/lib/libpgfeutils.a
 
 # Initialize file lists
 %{__cp} /dev/null main.lst
@@ -983,6 +991,7 @@ fi
 %{pgbaseinstdir}/bin/psql
 %{pgbaseinstdir}/bin/reindexdb
 %{pgbaseinstdir}/bin/vacuumdb
+%{pgbaseinstdir}/lib/pgrepack.so
 %{pgbaseinstdir}/share/errcodes.txt
 %{pgbaseinstdir}/share/man/man1/clusterdb.*
 %{pgbaseinstdir}/share/man/man1/createdb.*
@@ -1052,7 +1061,9 @@ fi
 %{pgbaseinstdir}/lib/pg_freespacemap.so
 %{pgbaseinstdir}/lib/pg_logicalinspect.so
 %{pgbaseinstdir}/lib/pg_overexplain.so
+%{pgbaseinstdir}/lib/pg_plan_advice.so
 %{pgbaseinstdir}/lib/pg_prewarm.so
+%{pgbaseinstdir}/lib/pg_stash_advice.so
 %{pgbaseinstdir}/lib/pg_stat_statements.so
 %{pgbaseinstdir}/lib/pg_surgery.so
 %{pgbaseinstdir}/lib/pg_trgm.so
@@ -1112,6 +1123,7 @@ fi
 %{pgbaseinstdir}/share/extension/pg_logicalinspect*
 %{pgbaseinstdir}/share/extension/pg_prewarm*
 %{pgbaseinstdir}/share/extension/pg_stat_statements*
+%{pgbaseinstdir}/share/extension/pg_stash_advice*
 %{pgbaseinstdir}/share/extension/pg_surgery*
 %{pgbaseinstdir}/share/extension/pg_trgm*
 %{pgbaseinstdir}/share/extension/pg_visibility*
@@ -1157,12 +1169,6 @@ fi
 %{pgbaseinstdir}/include/server/*
 
 %{pgbaseinstdir}/lib/libpq.so
-%{pgbaseinstdir}/lib/libpq.a
-%{pgbaseinstdir}/lib/libpq-oauth.a
-%{pgbaseinstdir}/lib/libpgcommon.a
-%{pgbaseinstdir}/lib/libpgcommon_shlib.a
-%{pgbaseinstdir}/lib/libpgport.a
-%{pgbaseinstdir}/lib/libpgport_shlib.a
 %{pgbaseinstdir}/lib/pgxs/*
 %{pgbaseinstdir}/lib/pkgconfig/libpq.pc
 
@@ -1203,7 +1209,7 @@ fi
 
 %files libs-oauth
 %defattr(-,root,root)
-%{pgbaseinstdir}/lib/libpq-oauth-%{pgmajorversion}.so
+%{pgbaseinstdir}/lib/libpq-oauth.so
 
 %if %llvm
 %files llvmjit
@@ -1286,6 +1292,7 @@ fi
 %{pgbaseinstdir}/share/tsearch_data/*.rules
 %{pgbaseinstdir}/share/tsearch_data/*.stop
 %{pgbaseinstdir}/share/tsearch_data/*.syn
+%{pgbaseinstdir}/lib/cyrillic.so
 %{pgbaseinstdir}/lib/dict_int.so
 %{pgbaseinstdir}/lib/dict_snowball.so
 %{pgbaseinstdir}/lib/dict_xsyn.so
@@ -1308,14 +1315,28 @@ fi
 %{pgbaseinstdir}/share/snowball_create.sql
 %{pgbaseinstdir}/share/sql_features.txt
 
+%files static
+%{pgbaseinstdir}/lib/libpq.a
+%{pgbaseinstdir}/lib/libpq-oauth.a
+%{pgbaseinstdir}/lib/libpgcommon.a
+%{pgbaseinstdir}/lib/libpgcommon_shlib.a
+%{pgbaseinstdir}/lib/libpgport.a
+%{pgbaseinstdir}/lib/libpgport_shlib.a
+%{pgbaseinstdir}/lib/libpgfeutils.a
+
 %if %test
 %files test -f pg_test.lst
 %defattr(-,postgres,postgres)
 %attr(-,postgres,postgres) %{pgbaseinstdir}/lib/test/*
 %attr(-,postgres,postgres) %dir %{pgbaseinstdir}/lib/test
+%{pgbaseinstdir}/lib/regress.so
 %endif
 
 %changelog
+* Sat Apr 11 2026 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 19-alpha_20260110_PGDG.1
+- Move static libs from libs rpm to static rpm
+- Add libpgfeutils.a to static rpm
+
 * Wed Oct 01 2025 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 19-alpha_20251001_PGDG.1
 - Bump release number (missed in previous commit)
 

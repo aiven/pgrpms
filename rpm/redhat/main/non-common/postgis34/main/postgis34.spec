@@ -22,14 +22,9 @@
 %global	gdalfullversion %gdal312fullversion
 %global	gdalmajorversion %gdal312majorversion
 %global	gdalinstdir %gdal312instdir
-%global	projmajorversion %proj97majorversion
-%global	projfullversion %proj97fullversion
-%global	projinstdir %proj97instdir
-%endif
-%if 0%{?suse_version} == 1500
-%global	gdalfullversion %gdal311fullversion
-%global	gdalmajorversion %gdal311majorversion
-%global	gdalinstdir %gdal311instdir
+%global	projmajorversion %proj98majorversion
+%global	projfullversion %proj98fullversion
+%global	projinstdir %proj98instdir
 %endif
 
 %{!?llvm:%global llvm 1}
@@ -38,7 +33,7 @@
 %{!?shp2pgsqlgui:%global	shp2pgsqlgui 1}
 %{!?raster:%global	raster 1}
 
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9 || 0%{?suse_version} >= 1500
 %{!?sfcgal:%global	sfcgal 1}
 %endif
 %if 0%{?rhel} == 8
@@ -51,8 +46,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.5
-Release:	1PGDG%{?dist}
+Version:	%{postgismajorversion}.6
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}-en.pdf
@@ -62,8 +57,8 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel libxml2 libxslt autoconf
-BuildRequires:	pgdg-srpm-macros >= 1.0.52 gmp-devel pcre2-devel
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+BuildRequires:	pgdg-srpm-macros >= 1.0.53 gmp-devel pcre2-devel
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 Requires:	pcre2
 %else
 Requires:	libpcre2-8-0
@@ -122,7 +117,7 @@ Requires:	libjson-c5
 Requires:	libxerces-c-3_3
 BuildRequires:	libxerces-c-devel
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 Requires:	json-c xerces-c
 BuildRequires:	xerces-c-devel
 %endif
@@ -254,6 +249,11 @@ autoconf
 	--enable-rpath --libdir=%{pginstdir}/lib \
 	--with-geosconfig=%{geosinstdir}/bin/geos-config \
 	--with-gdalconfig=%{gdalinstdir}/bin/gdal-config
+
+%if 0%{?rhel} && 0%{?rhel} == 8
+# Strip -flto from generated Makefiles (breaks RHEL 8 static archive linking)
+find . -name "Makefile" | xargs sed -i 's/-flto\b//g'
+%endif
 
 SHLIB_LINK="$SHLIB_LINK" %{__make} LPATH=`%{pginstdir}/bin/pg_config --pkglibdir` shlib="%{sname}-%{postgissomajorversion}.so"
 
@@ -387,6 +387,16 @@ fi
 %endif
 
 %changelog
+* Mon Apr 27 2026 Devrim Gunduz <devrim@gunduz.org> - 3.4.6-2PGDG
+- Update GDAL dependency for SLES 15.
+
+* Thu Apr 16 2026 Devrim Gunduz <devrim@gunduz.org> - 3.4.6-1PGDG
+- Update to 3.4.6 per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.6/NEWS
+- Build against PROJ 9.8 on all platforms except RHEL 8
+- Strip -flto from generated Makefiles on RHEL 8 (breaks RHEL 8 static
+  archive linking). Fixes https://github.com/pgdg-packaging/pgdg-rpms/issues/173
+
 * Tue Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.4.5-1PGDG
 - Update to 3.4.5 per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.4.5/NEWS

@@ -1,28 +1,54 @@
-%global __ospython3 %{_bindir}/python3
-
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 10
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
-%else
-%{expand: %%global py3ver %(echo `%{__python3} -c "import sys; sys.stdout.write(sys.version[:3])"`)}
+%if 0%{?fedora} && 0%{?fedora} == 44
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
 %endif
+%if 0%{?fedora} && 0%{?fedora} == 43
+%global __ospython %{_bindir}/python3.14
+%global python3_pkgversion 3.14
+%endif
+%if 0%{?fedora} && 0%{?fedora} <= 42
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 3.13
+%endif
+%if 0%{?rhel} && 0%{?rhel} <= 10
+%global	__ospython %{_bindir}/python3.12
+%global	python3_pkgversion 3.12
+%endif
+%if 0%{?suse_version} == 1500
+%global	__ospython %{_bindir}/python3.11
+%global	python3_pkgversion 311
+%endif
+%if 0%{?suse_version} == 1600
+%global	__ospython %{_bindir}/python3.13
+%global	python3_pkgversion 313
+%endif
+
+%{expand: %%global pyver %(echo `%{__ospython} -c "import sys; sys.stdout.write(sys.version[:4])"`)}
+%global python3_sitelib %(%{__ospython} -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 
 Summary:	MySQL to PostgreSQL replica system
 Name:		pg_chameleon
 Version:	2.0.21
-Release:	1PGDG%{?dist}
+Release:	5PGDG%{?dist}
 License:	BSD
 Source0:	https://github.com/the4thdoctor/%{name}/archive/v%{version}.tar.gz
 URL:		https://github.com/the4thdoctor/%{name}
 BuildArch:	noarch
 
-Requires:	python3-PyMySQL python3-psycopg2 python3-parsy python3-rollbar
-Requires:	python3-mysql-replication >= 0.31 python3-tabulate python3-daemonize
+BuildRequires:	python%{python3_pkgversion}-pip python%{python3_pkgversion}-wheel
 
-%if 0%{?fedora} >= 40 || 0%{?rhel} >= 8
-Requires:	python3-pyyaml
+
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
+Requires:	python3-pyyaml python3-parsy python3-daemonize
+Requires:	python3-tabulate python3-psycopg2 python3-rollbar
+Requires:	python3-PyMySQL python3-mysql-replication >= 0.31
 %endif
 %if 0%{?suse_version} >= 1500
-Requires:	python3-PyYAML
+Requires:	python3-PyYAML python%{python3_pkgversion}-parsy
+Requires:	python%{python3_pkgversion}-daemonize python%{python3_pkgversion}-tabulate
+Requires:	python%{python3_pkgversion}-psycopg2 python%{python3_pkgversion}-rollbar
+Requires:	python%{python3_pkgversion}-PyMySQL python%{python3_pkgversion}-mysql-replication >= 0.31
+
 %endif
 
 %description
@@ -35,11 +61,10 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %setup -q -n %{name}-%{version}
 
 %build
-%{__ospython3} setup.py build
+%pyproject_wheel
 
 %install
-%{__rm} -rf %{buildroot}
-%{__ospython3} setup.py install --root %{buildroot}
+%pyproject_install
 
 %files
 %defattr(-,root,root,755)
@@ -47,7 +72,7 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %license LICENSE.txt
 %{_bindir}/chameleon
 %{_bindir}/chameleon.py
-%{python3_sitelib}/%{name}-%{version}-py%{py3ver}.egg-info/*
+%{python3_sitelib}/%{name}-%{version}.dist-info/*
 %{python3_sitelib}/%{name}/*.py
 %{python3_sitelib}/%{name}/__pycache__/*.pyc
 %{python3_sitelib}/%{name}/configuration/config-example.yml
@@ -57,6 +82,19 @@ the jsonb values and replays the changes against the PostgreSQL database.
 %{python3_sitelib}/%{name}/sql/upgrade/*.sql
 
 %changelog
+* Thu May 7 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.21-5PGDG
+- Add missing BRs
+
+* Tue Apr 28 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.21-4PGDG
+- Switch to pyproject build.
+- Use Python 3.14 on Fedora 44.
+
+* Sat Mar 28 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.21-3PGDG
+- Fix SLES dependencies
+
+* Mon Mar 23 2026 Devrim Gündüz <devrim@gunduz.org> - 2.0.21-2PGDG
+- Add SLES 16 and Fedora 44 support
+
 * Wed Jan 22 2025 Devrim Gündüz <devrim@gunduz.org> - 2.0.21-1PGDG
 - Update to 2.0.21 per changes described at
   https://github.com/the4thdoctor/pg_chameleon/releases/tag/v2.0.21

@@ -3,7 +3,7 @@
 %global plrmajver 8
 %global plrmidver 4
 %global plrminver 8
-%global plrfinver 2
+%global plrfinver 6
 
 %{!?llvm:%global llvm 1}
 
@@ -73,6 +73,17 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} DESTDIR=%{buildroot}/ install
 %endif
 
 %changelog
+* Mon Apr 27 2026 Devrim Gündüz <devrim@gunduz.org> - 8.4.8.6-1PGDG
+- Update to 8.4.8.4 per changes described at:
+  https://github.com/postgres-plr/plr/releases/tag/REL8_4_8_6
+
+* Mon Apr 13 2026 Devrim Gündüz <devrim@gunduz.org> - 8.4.8.4-1PGDG
+- Update to 8.4.8.4 per changes described at:
+  https://github.com/postgres-plr/plr/releases/tag/REL8_4_8_4
+
+* Mon Mar 16 2026 Devrim Gündüz <devrim@gunduz.org> - 8.4.8.3-1PGDG
+- Update to 8.4.8.3
+
 * Tue Nov 18 2025 Devrim Gündüz <devrim@gunduz.org> - 8.4.8.2-1PGDG
 - Update to 8.4.8.2
 

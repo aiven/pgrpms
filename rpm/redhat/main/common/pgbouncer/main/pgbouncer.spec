@@ -1,6 +1,10 @@
+%if "%{dist}" == ".sles15.7"
+%global __tar %{_bindir}/tar --transform 's|/\\./|/|g'
+%endif
+
 Name:		pgbouncer
-Version:	1.25.1
-Release:	44PGDG%{?dist}
+Version:	1.25.2
+Release:	43PGDG%{?dist}
 Summary:	Lightweight connection pooler for PostgreSQL
 License:	MIT and BSD
 URL:		https://www.pgbouncer.org/
@@ -159,6 +163,15 @@ fi
 %attr(755,pgbouncer,pgbouncer) %dir /var/run/%{name}
 
 %changelog
+* Mon May 11 2026 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-43PGDG
+- Attempt to fix builds on SLES 15.7 by playing with tar command. There
+  is an issue around openat() somewhere on this platform.
+
+* Sat May 9 2026 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-42PGDG
+- Update to 1.25.2, per changes described at:
+  https://github.com/pgbouncer/pgbouncer/releases/tag/pgbouncer_1_25_2
+  Fixes: CVE-2026-6664, CVE-2026-6665, CVE-2026-6666, CVE-2026-6667
+
 * Wed Feb 4 2026 Devrim Gündüz <devrim@gunduz.org> - 1.25.2-44PGDG
 - Add LimitNOFile to unit file. Fixes
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127

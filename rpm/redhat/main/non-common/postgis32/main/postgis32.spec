@@ -22,14 +22,9 @@
 %global	gdalfullversion %gdal312fullversion
 %global	gdalmajorversion %gdal312majorversion
 %global	gdalinstdir %gdal312instdir
-%global	projmajorversion %proj97majorversion
-%global	projfullversion %proj97fullversion
-%global	projinstdir %proj97instdir
-%endif
-%if 0%{?suse_version} == 1500
-%global	gdalfullversion %gdal311fullversion
-%global	gdalmajorversion %gdal311majorversion
-%global	gdalinstdir %gdal311instdir
+%global	projmajorversion %proj98majorversion
+%global	projfullversion %proj98fullversion
+%global	projinstdir %proj98instdir
 %endif
 
 %global libgeotiffmajorversion 17
@@ -64,8 +59,8 @@
 
 Summary:	Geographic Information Systems Extensions to PostgreSQL
 Name:		%{sname}%{postgiscurrmajorversion}_%{pgmajorversion}
-Version:	%{postgismajorversion}.9
-Release:	1PGDG%{?dist}
+Version:	%{postgismajorversion}.10
+Release:	2PGDG%{?dist}
 License:	GPLv2+
 Source0:	https://download.osgeo.org/postgis/source/postgis-%{version}.tar.gz
 Source2:	https://download.osgeo.org/postgis/docs/postgis-%{version}.pdf
@@ -76,8 +71,8 @@ URL:		https://www.postgis.net/
 
 BuildRequires:	postgresql%{pgmajorversion}-devel geos%{geosmajorversion}-devel >= %{geosfullversion}
 BuildRequires:	libgeotiff%{libgeotiffmajorversion}-devel libxml2 libxslt autoconf
-BuildRequires:	pgdg-srpm-macros >= 1.0.52 gmp-devel pcre2-devel
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+BuildRequires:	pgdg-srpm-macros >= 1.0.53 gmp-devel pcre2-devel
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 Requires:	pcre2
 %else
 Requires:	libpcre2-8-0
@@ -99,7 +94,7 @@ BuildRequires:	libxml2-devel
 BuildRequires:	gtk2-devel > 2.8.0
 %endif
 %if %{sfcgal}
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
 BuildRequires:	SFCGAL SFCGAL-devel >= 2.0.0
 %endif
 %if 0%{?rhel} == 8 || 0%{?suse_version} >= 1500
@@ -138,7 +133,7 @@ Requires:	libjson-c5
 Requires:	libxerces-c-3_3
 BuildRequires:	libxerces-c-devel
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 Requires:	json-c xerces-c
 BuildRequires:	xerces-c-devel
 %endif
@@ -269,7 +264,7 @@ autoconf
 %if %{shp2pgsqlgui}
 	--with-gui \
 %endif
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8 || 0%{?suse_version} >= 1500
 	--with-protobuf \
 %else
 	--without-protobuf \
@@ -403,6 +398,14 @@ fi
 %endif
 
 %changelog
+* Mon Apr 27 2026 Devrim Gunduz <devrim@gunduz.org> - 3.2.10-2PGDG
+- Update GDAL dependency for SLES 15.
+
+* Thu Apr 16 2026 Devrim Gunduz <devrim@gunduz.org> - 3.2.10-1PGDG
+- Update to 3.2.10, per changes described at:
+  https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.10/NEWS
+- Build against PROJ 9.8 on all platforms except RHEL 8
+
 * Tue Feb 10 2026 Devrim Gunduz <devrim@gunduz.org> - 3.2.9-1PGDG
 - Update to 3.2.9, per changes described at:
   https://git.osgeo.org/gitea/postgis/postgis/raw/tag/3.2.9/NEWS

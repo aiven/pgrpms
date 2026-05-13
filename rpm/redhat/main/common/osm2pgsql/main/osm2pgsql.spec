@@ -1,3 +1,4 @@
+%global debug_package %{nil}
 %global _vpath_builddir .
 %global sname osm2pgsql
 
@@ -9,15 +10,15 @@
 %global	projfullversion %proj96fullversion
 %global	projinstdir %proj96instdir
 %else
-%global	projmajorversion %proj97majorversion
-%global	projfullversion %proj97fullversion
-%global	projinstdir %proj97instdir
+%global	projmajorversion %proj98majorversion
+%global	projfullversion %proj98fullversion
+%global	projinstdir %proj98instdir
 %endif
 
 Summary:	Import map data from OpenStreetMap to a PostgreSQL database
 Name:		%{sname}
 Version:	2.2.0
-Release:	2PGDG%{?dist}
+Release:	4PGDG%{?dist}
 License:	GPLv2
 Source0:	https://github.com/%{sname}-dev/%{sname}/archive/refs/tags/%{version}.tar.gz
 URL:		https://github.com/%{sname}-dev/%{sname}
@@ -30,7 +31,7 @@ BuildRequires:	zlib-devel
 # These packages are have been deprecated as of RHEL 8.7,
 # so enable these features on Fedora only:
 # https://docs.redhat.com/en/documentation/red_hat_enterprise_linux/8/html/8.7_release_notes/deprecated_functionality#deprecated-packages
-%if 0%{?fedora} >= 41
+%if 0%{?fedora} >= 42
 BuildRequires:	protozero-devel libosmium-devel
 %endif
 
@@ -48,7 +49,7 @@ BuildRequires:	libexpat-devel nlohmann_json-devel
 BuildRequires:	lua54-devel
 %endif
 
-%if 0%{?fedora} >= 41 || 0%{?rhel} >= 8
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
 BuildRequires:	boost-devel bzip2-devel catch2-devel
 BuildRequires:	clang-tools-extra expat-devel json-devel lua-devel
 %endif
@@ -66,7 +67,7 @@ geocoding with Nominatim, or general analysis.
 %build
 %{__install} -d build
 pushd build
-%cmake .. \
+cmake .. \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
 	-DCMAKE_BUILD_TYPE=Release \
 	-DPROJ_LIBRARY=%{projinstdir}/lib64/libproj.so \
@@ -83,14 +84,18 @@ pushd build
 	-DLIB_SUFFIX=64
 %endif
 
+%cmake_build
 popd
-
-%{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags}
 
 %install
 %{__rm} -rf %{buildroot}
-%{__make} -C "build/%{_vpath_builddir}" %{?_smp_mflags} install \
-	DESTDIR=%{buildroot}
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+pushd build
+%cmake_install
+popd
+%else
+%cmake_install
+%endif
 
 %post -p /sbin/ldconfig
 %postun -p /sbin/ldconfig
@@ -103,6 +108,12 @@ popd
 %{_datadir}/%{sname}/*.style
 
 %changelog
+* Thu Apr 16 2026 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-4PGDG
+- Rebuild against PROJ 9.8 on all platforms except RHEL 8.
+
+* Mon Mar 23 2026 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-3PGDG
+- Fix builds against CMake 4. Also fix SLES builds.
+
 * Tue Oct 7 2025 Devrim Gündüz <devrim@gunduz.org> - 2.2.0-2PGDG
 - Rebuild against PROJ 9.7 on all platforms except RHEL 8.
 - Add SLES 16 support
