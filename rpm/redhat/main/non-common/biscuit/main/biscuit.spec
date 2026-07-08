@@ -2,12 +2,12 @@
 
 %{!?llvm:%global llvm 1}
 
-Summary:	 High-Performance Pattern Matching Index for PostgreSQL
+Summary:	High-Performance Pattern Matching Index for PostgreSQL
 Name:		%{sname}_%{pgmajorversion}
-Version:	2.2.2
+Version:	2.4.1
 Release:	1PGDG%{?dist}
 License:	MIT
-URL:		https://github.com/crystallinecore//%{sname}/
+URL:		https://github.com/crystallinecore/%{sname}/
 Source0:	https://github.com/crystallinecore/%{sname}/archive/refs/tags/v%{version}.tar.gz
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -69,5 +69,23 @@ USE_PGXS=1 PATH=%{pginstdir}/bin:$PATH %{__make} %{?_smp_mflags} INSTALL_PREFIX=
 %endif
 
 %changelog
+* Tue Jun 30 2026 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1PGDG
+- Update to 2.4.1 per changes described at:
+  https://github.com/CrystallineCore/Biscuit/releases/tag/v2.4.1
+- Remove patch0, now in upstream.
+
+* Mon Jun 29 2026 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1PGDG
+- Update to 2.4.0 per changes described at:
+  https://github.com/CrystallineCore/Biscuit/releases/tag/v2.4.0
+- Add a (temp) patch per https://github.com/CrystallineCore/Biscuit/issues/14
+
+* Fri Jun 19 2026 Devrim Gündüz <devrim@gunduz.org> - 2.3.0-1PGDG
+- Update to 2.3.0 per changes described at:
+  https://github.com/CrystallineCore/Biscuit/releases/tag/v2.3.0
+
+* Mon Jun 15 2026 Devrim Gündüz <devrim@gunduz.org> - 2.2.3-1PGDG
+- Update to 2.2.3 per changes described at:
+  https://github.com/CrystallineCore/Biscuit/releases/tag/v2.2.3
+
 * Wed Jan 7 2026 Devrim Gündüz <devrim@gunduz.org> - 2.2.2-1PGDG
 - Initial RPM packaging for the PostgreSQL RPM Repository.

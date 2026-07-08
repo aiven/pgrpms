@@ -4,10 +4,11 @@
 
 Name:		%{sname}_%{pgmajorversion}
 Summary:	IPv4/v6 and IPv4/v6 range index type for PostgreSQL
-Version:	2.4.2
-Release:	5PGDG%{?dist}
+Version:	2.4.3
+Release:	1PGDG%{?dist}
 License:	PostgreSQL
 Source0:	https://github.com/RhodiumToad/%{sname}/archive/%{version}.tar.gz
+
 URL:		https://github.com/RhodiumToad/ip4r
 BuildRequires:	postgresql%{pgmajorversion}-devel
 Requires:	postgresql%{pgmajorversion}-server
@@ -67,6 +68,15 @@ USE_PGXS=1 PATH=%{pginstdir}/bin/:$PATH %{__make} %{?_smp_mflags} install DESTDI
 %endif
 
 %changelog
+* Fri Jun 5 2026 Devrim Gündüz <devrim@gunduz.org> - 2.4.3-1PGDG
+- Update to 2.4.3 per changes described at:
+  https://github.com/RhodiumToad/ip4r/releases/tag/2.4.3
+
+* Thu May 28 2026 Devrim Gunduz <devrim@gunduz.org> - 2.4.2-6PGDG
+- Apply patch from upstream to fix a security issue:
+  https://github.com/RhodiumToad/ip4r/commit/95928b865ee941bf5d71b0fb0dda68ae087821b5
+  https://github.com/RhodiumToad/ip4r/pull/28
+
 * Mon Oct 6 2025 Devrim Gunduz <devrim@gunduz.org> - 2.4.2-5PGDG
 - Add SLES 16 support
 

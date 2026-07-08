@@ -10,8 +10,8 @@
 
 Name:		keepalived
 Summary:	High Availability monitor built upon LVS, VRRP and service pollers
-Version:	2.3.4
-Release:	2PGDG%{?dist}
+Version:	2.4.1
+Release:	1PGDG%{?dist}
 License:	GPLv2+
 URL:		https://www.keepalived.org/
 Source0:	https://www.keepalived.org/software/keepalived-%{version}.tar.gz
@@ -33,7 +33,14 @@ BuildRequires:	iptables-devel
 %endif
 BuildRequires:	gcc
 BuildRequires:	systemd-devel
+%if 0%{?suse_version} >= 1500
+Requires:	libopenssl3
+BuildRequires:	libopenssl-3-devel
+%endif
+%if 0%{?fedora} >= 42 || 0%{?rhel} >= 8
+Requires:	openssl-libs >= 1.1.1k
 BuildRequires:	openssl-devel
+%endif
 BuildRequires:	libnl3-devel
 BuildRequires:	libnfnetlink-devel
 BuildRequires:	file-devel
@@ -115,6 +122,14 @@ touch aclocal.m4 Makefile.in lib/config.h.in configure
 %{_mandir}/man8/keepalived.8*
 
 %changelog
+* Tue Jun 30 2026 Devrim Gündüz <devrim@gunduz.org> - 2.4.1-1PGDG
+- Update to 2.4.1 per changes described at:
+  https://www.keepalived.org/release-notes/Release-2.4.1/
+
+* Mon Jun 22 2026 Devrim Gündüz <devrim@gunduz.org> - 2.4.0-1PGDG
+- Update to 2.4.0 per changes described at:
+  https://www.keepalived.org/release-notes/Release-2.4.0/
+
 * Wed Dec 24 2025 Devrim Gündüz <devrim@gunduz.org> - 2.3.4-2PGDG
 - Add Restart=on-failure to unit file. Per
   https://github.com/pgdg-packaging/pgdg-rpms/issues/127

@@ -45,9 +45,9 @@ Version:	18.4
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	4200001PGDG%{?dist}
+Release:	4200003PGDG%{?dist}
 %else
-Release:	1PGDG%{?dist}
+Release:	3PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
@@ -146,7 +146,9 @@ BuildRequires:	llvm17-devel clang17-devel
 %if 0%{?suse_version} == 1600
 BuildRequires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
+%if 0%{?amzn2023}
+BuildRequires:	llvm-devel >= 15.0 clang-devel >= 15.0
+%else
 BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
@@ -266,8 +268,10 @@ Requires:	llvm17-devel clang17-devel
 %if 0%{?suse_version} == 1600
 Requires:	llvm19-devel clang19-devel
 %endif
-%if 0%{?fedora} || 0%{?rhel}
-Requires:	llvm-devel >= 17.0 clang-devel >= 17.0
+%if 0%{?amzn2023}
+BuildRequires:	llvm-devel >= 15.0 clang-devel >= 15.0
+%else
+BuildRequires:	llvm-devel >= 19.0 clang-devel >= 19.0
 %endif
 %endif
 
@@ -679,7 +683,7 @@ run_testsuite()
 	popd
 %endif
 
-%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extension/
 %{__make} -C contrib DESTDIR=%{buildroot} install
 %if %uuid
 %{__make} -C contrib/uuid-ossp DESTDIR=%{buildroot} install
@@ -740,7 +744,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/backups
 
 # Create the multiple PostgreSQL version startup directory
-%{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/%{pgmajorversion}
+%{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/
 
 # Install linker conf file under postgresql installation directory.
 # We will install the latest version via alternatives.
@@ -855,11 +859,7 @@ cat postgres-%{pgmajorversion}.lang pg_resetwal-%{pgmajorversion}.lang pg_checks
 /sbin/ldconfig
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %if 0%{?suse_version} >= 1500
-   %service_add_pre postgresql-%{pgpackageversion}.service
-   %else
    %systemd_post %{sname}-%{pgpackageversion}.service
-   %endif
 fi
 
 # postgres' .bash_profile.
@@ -956,6 +956,7 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restore	%{pgbaseinstdir}/bin/pg_restore
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restoreman	%{pgbaseinstdir}/share/man/man1/pg_restore.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_walsummary	%{pgbaseinstdir}/bin/pg_walsummary
+	%{_sbindir}/update-alternatives --remove pgsql-pg_walsummaryman %{pgbaseinstdir}/share/man/man1/pg_walsummary.1
 	%{_sbindir}/update-alternatives --remove pgsql-psqlman		%{pgbaseinstdir}/share/man/man1/psql.1
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdb	%{pgbaseinstdir}/bin/reindexdb
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdbman	%{pgbaseinstdir}/share/man/man1/reindexdb.1
@@ -1016,7 +1017,9 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
+%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
+%{pgbaseinstdir}/share/man/man1/pg_waldump.*
 %{pgbaseinstdir}/share/man/man1/pg_walsummary.*
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
@@ -1250,6 +1253,7 @@ fi
 
 %if %plpython3
 %files plpython3 -f pg_plpython3.lst
+%defattr(-,root,root)
 %{pgbaseinstdir}/share/extension/plpython3*
 %{pgbaseinstdir}/lib/plpython3.so
 %{pgbaseinstdir}/share/extension/*_plpython3u*
@@ -1285,13 +1289,11 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
-%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_rewind.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
 %{pgbaseinstdir}/share/man/man1/pg_upgrade.1
 %{pgbaseinstdir}/share/man/man1/pg_verifybackup.*
-%{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/postgres.bki
 %{pgbaseinstdir}/share/system_constraints.sql
@@ -1335,6 +1337,17 @@ fi
 %endif
 
 %changelog
+* Mon Jun 2 2026 Devrim Gündüz <devrim@gunduz.org> - 18.4-3PGDG
+- Backport a few fixes from PostgreSQL 19:
+  Remove SUSE systemd scriptlet (%%service_add_post) as it can use
+  the RHEL one as well.
+  Correct update-alternatives removal for pg_walsummary man page
+  Fix share/extension typo
+  Tidy man-page subpackage placements (pg_waldump, pg_receivewal)
+
+* Sun May 17 2026 Devrim Gündüz <devrim@gunduz.org> - 18.4-2PGDG
+- Rebuild on RHEL 8 against new LLVM
+
 * Tue May 12 2026 Devrim Gündüz <devrim@gunduz.org> - 18.4-1PGDG
 - Update to 18.4 per changes described at:
   https://www.postgresql.org/docs/release/18.4/

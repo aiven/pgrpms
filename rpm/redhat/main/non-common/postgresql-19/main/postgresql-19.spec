@@ -7,7 +7,6 @@
 %global sname postgresql
 %global pgbaseinstdir	/usr/pgsql-%{pgmajorversion}
 
-%global	pgdg_build_timestamp %(date +"%Y%m%d")
 %global	beta 1
 %{?beta:%global __os_install_post /usr/lib/rpm/brp-compress}
 
@@ -41,13 +40,13 @@ Version:	19
 %if 0%{?suse_version} >= 1500
 # SuSE upstream packages have release numbers like 150200.5.19.1
 # which overrides our packages. Increase our release number on SuSE.
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	beta1_420001PGDG%{?dist}
 %else
-Release:	alpha_%{pgdg_build_timestamp}_PGDG%{?dist}
+Release:	beta1_1PGDG%{?dist}
 %endif
 License:	PostgreSQL
 Url:		https://www.postgresql.org/
-Source0:	https://download.postgresql.org/pub/snapshot/dev/postgresql-snapshot.tar.bz2
+Source0:	https://download.postgresql.org/pub/source/v%{version}beta1/postgresql-%{version}beta1.tar.bz2
 Source4:	%{sname}-%{pgmajorversion}-Makefile.regress
 Source5:	%{sname}-%{pgmajorversion}-pg_config.h
 Source6:	%{sname}-%{pgmajorversion}-README.rpm-dist
@@ -190,10 +189,10 @@ BuildRequires:	selinux-policy >= 3.4.3
 %if 0%{?suse_version} >= 1500
 BuildRequires:	libopenssl-3-devel
 %endif
-%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 43 || 0%{?rhel} >= 9
 BuildRequires:	openssl-devel
 %endif
-%if 0%{?fedora} >= 42
+%if 0%{?fedora} >= 43
 BuildRequires:	openssl-devel-engine
 %endif
 %endif
@@ -248,18 +247,8 @@ Summary:	PostgreSQL development header files and libraries
 Requires:	%{name}%{?_isa} = %{version}-%{release}
 Requires:	%{name}-libs%{?_isa} = %{version}-%{release}
 
-Provides:	postgresql-devel >= %{version}-%{release}
-Obsoletes:	libpq-devel <= 42.0
-
-%description devel
-The postgresql%{pgmajorversion}-devel package contains the header files and
-libraries needed to compile C or C++ applications which will directly interact
-with a PostgreSQL database management server. You need to install this package
-if you want to develop applications which will interact with a PostgreSQL
-server.
-
 %if %icu
-Requires:	libicu2-devel
+Requires:	libicu-devel
 %endif
 
 %if %llvm
@@ -284,6 +273,16 @@ Requires:	perl-IPC-Run
 BuildRequires:	perl-Time-HiRes
 %endif
 %endif
+
+Provides:	postgresql-devel >= %{version}-%{release}
+Obsoletes:	libpq-devel <= 42.0
+
+%description devel
+The postgresql%{pgmajorversion}-devel package contains the header files and
+libraries needed to compile C or C++ applications which will directly interact
+with a PostgreSQL database management server. You need to install this package
+if you want to develop applications which will interact with a PostgreSQL
+server.
 
 %package docs
 Summary:	Extra documentation for PostgreSQL
@@ -311,7 +310,7 @@ Requires:	libopenssl3
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 43 || 0%{?rhel} >= 9
 Requires:	openssl-libs >= 3.2.2
 %endif
 
@@ -329,7 +328,7 @@ Requires:	libopenssl3
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 43 || 0%{?rhel} >= 9
 Requires:	openssl-libs >= 3.2.2
 %endif
 
@@ -348,7 +347,7 @@ Requires:	libopenssl3
 %if 0%{?suse_version} == 1600
 Requires:	libopenssl3
 %endif
-%if 0%{?fedora} >= 42 || 0%{?rhel} >= 9
+%if 0%{?fedora} >= 43 || 0%{?rhel} >= 9
 Requires:	openssl-libs >= 3.2.2
 %endif
 
@@ -504,7 +503,7 @@ and benchmarks.
 %endif
 
 %prep
-%setup -q -n %{sname}-%{pgpackageversion}devel
+%setup -q -n %{sname}-%{pgpackageversion}beta1
 
 %patch -P 1 -p0
 %patch -P 3 -p0
@@ -682,7 +681,7 @@ run_testsuite()
 	popd
 %endif
 
-%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extensions/
+%{__mkdir} -p %{buildroot}%{pgbaseinstdir}/share/extension/
 %{__make} -C contrib DESTDIR=%{buildroot} install
 %if %uuid
 %{__make} -C contrib/uuid-ossp DESTDIR=%{buildroot} install
@@ -743,7 +742,7 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 %{__install} -d -m 700 %{buildroot}/var/lib/pgsql/%{pgmajorversion}/backups
 
 # Create the multiple PostgreSQL version startup directory
-%{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/%{pgmajorversion}
+%{__install} -d -m 700 %{buildroot}/etc/sysconfig/pgsql/
 
 # Install linker conf file under postgresql installation directory.
 # We will install the latest version via alternatives.
@@ -769,7 +768,8 @@ touch -r %{SOURCE10} %{sname}-%{pgmajorversion}-check-db-dir
 	strip *.so
 	%{__rm} -f GNUmakefile Makefile *.o
 	chmod 0755 pg_regress regress.so
-	cp regress.so  %{buildroot}%{pgbaseinstdir}/lib/regress.so
+	ln %{buildroot}%{pgbaseinstdir}/lib/test/regress/regress.so \
+		%{buildroot}%{pgbaseinstdir}/lib/regress.so
 	popd
 	%{__cp} %{SOURCE4} %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
 	chmod 0644 %{buildroot}%{pgbaseinstdir}/lib/test/regress/Makefile
@@ -857,11 +857,7 @@ cat postgresql-regress-%{pgmajorversion}.lang > pg_test.lst
 /sbin/ldconfig
 if [ $1 -eq 1 ] ; then
    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-   %if 0%{?suse_version} >= 1500
-   %service_add_pre postgresql-%{pgpackageversion}.service
-   %else
    %systemd_post %{sname}-%{pgpackageversion}.service
-   %endif
 fi
 
 %preun server
@@ -945,6 +941,7 @@ if [ "$1" -eq 0 ]
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restore	%{pgbaseinstdir}/bin/pg_restore
 	%{_sbindir}/update-alternatives --remove pgsql-pg_restoreman	%{pgbaseinstdir}/share/man/man1/pg_restore.1
 	%{_sbindir}/update-alternatives --remove pgsql-pg_walsummary	%{pgbaseinstdir}/bin/pg_walsummary
+	%{_sbindir}/update-alternatives --remove pgsql-pg_walsummaryman %{pgbaseinstdir}/share/man/man1/pg_walsummary.1
 	%{_sbindir}/update-alternatives --remove pgsql-psqlman		%{pgbaseinstdir}/share/man/man1/psql.1
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdb	%{pgbaseinstdir}/bin/reindexdb
 	%{_sbindir}/update-alternatives --remove pgsql-reindexdbman	%{pgbaseinstdir}/share/man/man1/reindexdb.1
@@ -1006,7 +1003,9 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_dump.*
 %{pgbaseinstdir}/share/man/man1/pg_dumpall.*
 %{pgbaseinstdir}/share/man/man1/pg_isready.*
+%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_restore.*
+%{pgbaseinstdir}/share/man/man1/pg_waldump.*
 %{pgbaseinstdir}/share/man/man1/pg_walsummary.*
 %{pgbaseinstdir}/share/man/man1/psql.*
 %{pgbaseinstdir}/share/man/man1/reindexdb.*
@@ -1237,6 +1236,7 @@ fi
 
 %if %plpython3
 %files plpython3 -f pg_plpython3.lst
+%defattr(-,root,root)
 %{pgbaseinstdir}/share/extension/plpython3*
 %{pgbaseinstdir}/lib/plpython3.so
 %{pgbaseinstdir}/share/extension/*_plpython3u*
@@ -1272,13 +1272,11 @@ fi
 %{pgbaseinstdir}/share/man/man1/pg_controldata.*
 %{pgbaseinstdir}/share/man/man1/pg_ctl.*
 %{pgbaseinstdir}/share/man/man1/pg_resetwal.*
-%{pgbaseinstdir}/share/man/man1/pg_receivewal.*
 %{pgbaseinstdir}/share/man/man1/pg_rewind.1
 %{pgbaseinstdir}/share/man/man1/pg_test_fsync.1
 %{pgbaseinstdir}/share/man/man1/pg_test_timing.1
 %{pgbaseinstdir}/share/man/man1/pg_upgrade.1
 %{pgbaseinstdir}/share/man/man1/pg_verifybackup.*
-%{pgbaseinstdir}/share/man/man1/pg_waldump.1
 %{pgbaseinstdir}/share/man/man1/postgres.*
 %{pgbaseinstdir}/share/postgres.bki
 %{pgbaseinstdir}/share/system_constraints.sql
@@ -1333,6 +1331,14 @@ fi
 %endif
 
 %changelog
+* Mon Jun 1 2026 Devrim Gunduz <devrim@gunduz.org> - 19.0beta1-1PGDG
+- Update to PostgreSQL 19 beta1!
+- Spec cleanup ahead of beta1: hardlink regress.so to avoid duplicate
+  build-id warning, fix SUSE systemd scriptlet (%%service_add_post),
+  correct update-alternatives removal for pg_walsummary man page,
+  fix share/extension typo, and tidy man-page subpackage placement
+  (pg_waldump, pg_receivewal)
+
 * Sat Apr 11 2026 Yogesh Sharma <yogesh.sharma@catprosystems.com> - 19-alpha_20260110_PGDG.1
 - Move static libs from libs rpm to static rpm
 - Add libpgfeutils.a to static rpm
